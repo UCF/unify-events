@@ -15,7 +15,6 @@ class Event(Base):
 	title       = models.CharField(max_length=64)
 	description = models.TextField(blank=True, null=True)
 	instances   = models.ManyToManyField('EventInstance')
-	
 
 
 class EventInstance(Base):
@@ -27,7 +26,7 @@ class EventInstance(Base):
 class Location(Base):
 	"""User inputted locations that specify where an event takes place"""
 	name        = models.CharField(max_length=128)
-	description = models.TextField(blank=True, null=True
+	description = models.TextField(blank=True, null=True)
 
 
 class Calendar(Base):
@@ -40,6 +39,29 @@ class Calendar(Base):
 	editors       = models.ManyToManyField('auth.User', related_name='calendars')
 	events        = models.ManyToManyField('Event', through='CalendarEventRel')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
+	
+	@property
+	def events_and_subs(self):
+		from django.db.models import Q
+		qs = Event.objects.filter(
+			Q(calendar=self) | Q(calendar__in=self.subscriptions.all())
+		)
+		return qs
+	
+	
+	def create_event(self, **kwargs):
+		"""Creates a new event using the keyword arguments provided and adds
+		to the current calendar
+		"""
+		event = Event.objects.create(**kwargs)
+		self.add_event(event)
+	
+	
+	def add_event(self, event):
+		"""Adds an existing event to the current calendar"""
+		rel = CalendarEventRel(calendar=self, event=event)
+		rel.save()
+	
 	
 	def is_creator(self, user):
 		"""Determine if user is creator of this calendar"""
@@ -92,5 +114,5 @@ class CalendarEventRel(Base):
 	
 	calendar = models.ForeignKey('Calendar')
 	event    = models.ForeignKey('Event')
-	state    = models.SmallIntegerField(choices=Status.choices)
+	state    = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
 	

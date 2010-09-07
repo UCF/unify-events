@@ -16,4 +16,12 @@ class SimpleTest(TestCase):
 		self.assertNotEqual(c1.slug, c3.slug)
 	
 	def test_calendar(self):
-		pass
+		c1 = Calendar.objects.create(name='Robot')
+		c2 = Calendar.objects.create(name='Moobot')
+		self.assertEqual(len(c1.events_and_subs), 0)
+		c1.create_event(title='Robot Attack')
+		c2.create_event(title='Cow Attack')
+		c1.subscriptions.add(c2)
+		self.assertEqual(len(c1.events_and_subs), 2)
+		c2.create_event(title='Another Cow Attack')
+		self.assertEqual(len(c1.events_and_subs), 3)
