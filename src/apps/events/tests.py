@@ -12,6 +12,8 @@ class SimpleTest(TestCase):
 	def test_unique_slug(self):
 		c1 = Calendar.objects.create(name="Spork's House")
 		c2 = Calendar.objects.create(name="Spork")
-		c3 = Calendar.objects.create(name="Spork's House")
-		
+		c3 = Calendar.objects.create(name="Spork's House")		
 		self.assertNotEqual(c1.slug, c3.slug)
+	
+	def test_calendar(self):
+		pass

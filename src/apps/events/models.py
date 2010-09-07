@@ -11,14 +11,23 @@ class Profile(Base): pass
 
 
 class Event(Base):
-	#calendars = ManyToMany relationship through CalendarEventRel w/Calendar
+	#calendars  = ManyToMany relationship through CalendarEventRel w/Calendar
 	title       = models.CharField(max_length=64)
 	description = models.TextField(blank=True, null=True)
+	instances   = models.ManyToManyField('EventInstance')
 	
-	pass
 
 
-class Location(Base): pass
+class EventInstance(Base):
+	#events   = ManyToMany relationship w/Event
+	start     = models.DateTimeField()
+	end       = models.DateTimeField()
+
+
+class Location(Base):
+	"""User inputted locations that specify where an event takes place"""
+	name        = models.CharField(max_length=128)
+	description = models.TextField(blank=True, null=True
 
 
 class Calendar(Base):
@@ -31,6 +40,20 @@ class Calendar(Base):
 	editors       = models.ManyToManyField('auth.User', related_name='calendars')
 	events        = models.ManyToManyField('Event', through='CalendarEventRel')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
+	
+	def is_creator(self, user):
+		"""Determine if user is creator of this calendar"""
+		return user == self.creator
+	
+	
+	def is_editor(self, user):
+		"""Determine if user is member of editor set"""
+		return user in self.editors
+	
+	
+	def can_edit(self, user):
+		"""Determine if user has permission to edit this calendar"""
+		return self.is_creator(user) or self.is_editor(user)
 	
 	
 	def save(self, *args, **kwargs):
@@ -60,6 +83,8 @@ class Calendar(Base):
 
 
 class CalendarEventRel(Base):
+	"""Defines the relations between calendars and events, as well as the event
+	status for that calendar"""
 	class Status:
 		pending = 0
 		posted  = 1
