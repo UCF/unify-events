@@ -11,11 +11,13 @@ from models import *
 class SimpleTest(TestCase):
 	def test_unique_slug(self):
 		c1 = Calendar.objects.create(name="Spork's House")
-		c2 = Calendar.objects.create(name="Spork")
-		c3 = Calendar.objects.create(name="Spork's House")		
-		self.assertNotEqual(c1.slug, c3.slug)
+		c2 = Calendar.objects.create(name="Spork's House")
+		c3 = Calendar.objects.create(name="Spork2Home")
+		c4 = Calendar.objects.create(name="Spork2Home")
+		self.assertNotEqual(c1.slug, c2.slug)
+		self.assertNotEqual(c3.slug, c4.slug)
 	
-	def test_calendar(self):
+	def test_calendar_subscriptions(self):
 		c1 = Calendar.objects.create(name='Robot')
 		c2 = Calendar.objects.create(name='Moobot')
 		self.assertEqual(len(c1.events_and_subs), 0)

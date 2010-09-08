@@ -42,6 +42,8 @@ class Calendar(Base):
 	
 	@property
 	def events_and_subs(self):
+		"""Returns a queryset that combines this calendars events with its 
+		subscribed events"""
 		from django.db.models import Q
 		qs = Event.objects.filter(
 			Q(calendar=self) | Q(calendar__in=self.subscriptions.all())
@@ -51,8 +53,7 @@ class Calendar(Base):
 	
 	def create_event(self, **kwargs):
 		"""Creates a new event using the keyword arguments provided and adds
-		to the current calendar
-		"""
+		to the current calendar"""
 		event = Event.objects.create(**kwargs)
 		self.add_event(event)
 	
@@ -88,19 +89,15 @@ class Calendar(Base):
 		is not already used by another calendar."""
 		import re
 		slug  = self.name.lower().replace(' ', '-')
-		slug  = re.sub("[^A-Za-z\s\-]", '', slug)
+		slug  = re.sub("[^A-Za-z1-9\s\-]", '', slug)
 		
-		valid = 1
+		count = 0
 		while True:
-			if valid > 1: s = slug + '-' + str(valid - 1)
-			else        : s = slug
-			
-			matches = Calendar.objects.filter(slug=s)
-			if not len(matches):
-				slug = s
+			if not Calendar.objects.filter(slug=slug).count():
 				break
 			else:
-				valid += 1
+				count += 1
+				slug   = slug + '-' + str(count)
 		self.slug = slug
 
 
