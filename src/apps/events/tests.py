@@ -17,6 +17,24 @@ class SimpleTest(TestCase):
 		self.assertNotEqual(c1.slug, c2.slug)
 		self.assertNotEqual(c3.slug, c4.slug)
 	
+	def test_event_recurrence(self):
+		from datetime import datetime
+		
+		e = Event.objects.create(
+			title='Glenn Beck Rally',
+			description='''Glenn Beck speaks some jibberish, Palin uses the 
+			words God, country, soldiers, armed forces, christian, freedom,
+			constitution, and hockey so much that semantic satiation kicks in.
+			'''
+		)
+		e.instances.create(
+			start=datetime.now(),
+			end=datetime.now(),
+			interval=EventInstance.Recurs.daily,
+			limit=70
+		)
+		self.assertEqual(e.instances.count(), 71)
+	
 	def test_calendar_subscriptions(self):
 		c1 = Calendar.objects.create(name='Robot')
 		c2 = Calendar.objects.create(name='Moobot')

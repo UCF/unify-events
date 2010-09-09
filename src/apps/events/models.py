@@ -11,20 +11,130 @@ class Profile(Base): pass
 
 
 class Event(Base):
+	"""This object provides the link between the time and places events are to
+	take place and the purpose and name of the event as well as the calendard to
+	which the events belong."""
 	#calendars  = ManyToMany relationship through CalendarEventRel w/Calendar
+	#instances  = One to Many relationship with EventInstance
 	title       = models.CharField(max_length=64)
 	description = models.TextField(blank=True, null=True)
-	instances   = models.ManyToManyField('EventInstance')
 
 
 class EventInstance(Base):
-	#events   = ManyToMany relationship w/Event
+	"""Object which describes the time and place that an event is occurring"""
+	class Recurs:
+		daily, weekly, biweekly, monthly, yearly = range(0,5)
+		choices = (
+			('daily'    , daily),
+			('weekly'   , weekly),
+			('biweekly' , biweekly),
+			('monthly'  , monthly),
+			('yearly'   , yearly),
+		)
+		
+		@classmethod
+		def next_monthly_date(cls, d):
+			"""Next date in recurring by month series from datetime d"""
+			from datetime import datetime
+			m = d.date().month
+			if m != 12: m += 1
+			else      : m  = 1
+			return d.replace(month=m)
+		
+		
+		@classmethod
+		def next_yearly_date(cls, d):
+			"""Next date in recurring by year series from datetime d"""
+			from datetime import datetime
+			y = d.date().year
+			return d.replace(year=y+1)
+			
+		
+		@classmethod
+		def next_arbitrary_date(cls, d, delta):
+			"""Next date in recurring by delta days from datetime d"""
+			from datetime import timedelta
+			delta = timedelta(days=delta)
+			return d + delta
+		
+		
+		@classmethod
+		def next_date(cls, d, i):
+			"""Given a datetime d, and Recurring interval i (Recurring.daily,
+			Recurring.weekly, etc), will return the next date in the series"""
+			next = {
+				cls.daily   : lambda: cls.next_arbitrary_date(d, 1),
+				cls.weekly  : lambda: cls.next_arbitrary_date(d, 7),
+				cls.biweekly: lambda: cls.next_arbitrary_date(d, 14),
+				cls.monthly : lambda: cls.next_monthly_date(d),
+				cls.yearly  : lambda: cls.next_yearly_date(d),
+			}.get(i, lambda: None)()
+			
+			if next is None:
+				raise ValueError('Invalid constant provided for interval type')
+			
+			return next
+	
+	#children = One To Many relationship with EventInstances
+	event     = models.ForeignKey('Event', related_name='instances')
+	location  = models.ForeignKey('Location', related_name='events', null=True, blank=True)
 	start     = models.DateTimeField()
 	end       = models.DateTimeField()
+	interval  = models.SmallIntegerField(null=True, blank=True, choices=Recurs.choices)
+	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
+	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
+	
+	def save(self, *args, **kwargs):
+		try:
+			#If we can find an object that matches this one, no update is needed
+			EventInstance.objects.get(
+				pk=self.pk,
+				start=self.start,
+				end=self.end,
+				location=self.location,
+				interval=self.interval,
+				limit=self.limit
+			)
+			update = False
+		except EventInstance.DoesNotExist:
+			#Otherwise it's the first save or something has changed, update
+			update = True
+		
+		super(EventInstance, self).save(*args, **kwargs)
+		if update:
+			self.update_children()
+	
+	
+	def update_children(self):
+		"""Will verify that all children of this event exist and are valid if
+		the instance is recurring."""
+		self.children.all().delete()
+		if self.limit is None or self.interval is None: return
+		
+		limit    = self.limit
+		instance = self
+		
+		while limit > 0:
+			delta    = instance.end - instance.start
+			nstart   = EventInstance.Recurs.next_date(instance.start, self.interval)
+			nend     = nstart + delta
+			instance = self.children.create(
+				event=instance.event,
+				start=nstart,
+				end=nend,
+				location=self.location
+			)
+			limit -= 1
+	
+	
+	def delete(self, *args, **kwargs):
+		self.children.all().delete()
+		super(EventInstance, self).delete(*args, **kwargs)
 
 
 class Location(Base):
 	"""User inputted locations that specify where an event takes place"""
+	#events     = One to Many relationship with EventInstance
 	name        = models.CharField(max_length=128)
 	description = models.TextField(blank=True, null=True)
 
