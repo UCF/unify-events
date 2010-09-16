@@ -152,13 +152,23 @@ class Calendar(Base):
 	
 	@property
 	def events_and_subs(self):
-		"""Returns a queryset that combines this calendars events with its 
-		subscribed events"""
+		"""Returns a queryset that combines this calendars event instances with
+		its subscribed event instances"""
 		from django.db.models import Q
-		qs = Event.objects.filter(
-			Q(calendar=self) | Q(calendar__in=self.subscriptions.all())
+		qs = EventInstance.objects.filter(
+			Q(event__calendar=self) | Q(event__calendar__in=self.subscriptions.all())
 		)
 		return qs
+	
+	
+	def subscribe(self, *args):
+		"""Subscribe to provided calendars"""
+		self.subscriptions.add(*args)
+	
+	
+	def unsubscribe(self, *args):
+		"""Unsubscribe from provided calendars"""
+		self.subscriptions.remove(*args)
 	
 	
 	def create_event(self, **kwargs):
@@ -166,6 +176,7 @@ class Calendar(Base):
 		to the current calendar"""
 		event = Event.objects.create(**kwargs)
 		self.add_event(event)
+		return event
 	
 	
 	def add_event(self, event):
