@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{%block head%}
+		<meta charset="utf-8">
+		<title>{%block title%}No Title{%endblock title%}</title>
+		<meta name="description" content="{%block meta-description%}No Description{%endblock%}">
+		{%block links%}
+		<link rel="stylesheet" href="{{MEDIA_URL}}-/css/boilerplate.css">
+		{%endblock links%}
+		{%endblock head%}
+	</head>
+	<!--[if IE 7 ]> <body class="ie7 ie"> <![endif]-->
+	<!--[if IE 8 ]> <body class="ie8 ie"> <![endif]-->
+	<!--[if IE 9 ]> <body class="ie9 ie"> <![endif]-->
+	<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
+	{%block body%}
+		<div id="container">
+		{%block container%}
+			<header>{%block header%}{%endblock header%}</header>
+			<div id="main">{%block main%}{%endblock main%}</div>
+			<footer>{%block footer%}{%endblock footer%}</footer>
+		{%endblock container%}
+		</div>
+		{%block scripts%}
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
+		{%endblock%}
+	{%endblock body%}
+	</body>
+</html>
