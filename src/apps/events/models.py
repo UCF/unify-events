@@ -161,6 +161,15 @@ class Calendar(Base):
 		return qs
 	
 	
+	def find_event_instances(self, start, end):
+		from django.db.models import Q
+		qs = self.events_and_subs.filter(
+			Q(end__gte=start) & Q(end__lte=end) |
+			Q(start__gte=start) & Q(start__lte=end)
+		)
+		return qs
+	
+	
 	def subscribe(self, *args):
 		"""Subscribe to provided calendars"""
 		self.subscriptions.add(*args)
