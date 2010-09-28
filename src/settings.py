@@ -16,9 +16,9 @@ TEMPLATE_DEBUG    = DEBUG
 PROJECT_FOLDER    = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER        = os.path.join(PROJECT_FOLDER, 'apps')
 INC_FOLDER        = os.path.join(PROJECT_FOLDER, 'third-party')
-TEMPL_FOLDER      = os.path.join(PROJECT_FOLDER, 'templates')
+TEMPL_FOLDER      = os.path.join(PROJECT_FOLDER, 'themes', THEME, 'templates')
 ROOT_URLCONF      = os.path.basename(PROJECT_FOLDER) + '.urls'
-MEDIA_ROOT        = os.path.join(PROJECT_FOLDER, 'static')
+MEDIA_ROOT        = os.path.join(PROJECT_FOLDER, 'themes', THEME, 'static')
 
 TIME_ZONE         = 'America/New_York'
 LANGUAGE_CODE     = 'en-us'
@@ -29,12 +29,8 @@ USE_I18N          = False
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/static/'
+MEDIA_URL = STATIC_URL
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -68,5 +64,3 @@ INSTALLED_APPS = (
 	'django.contrib.sites',
 	'events',
 )
-
-	
