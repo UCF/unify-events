@@ -4,7 +4,7 @@ import settings
 
 urlpatterns = patterns('',
 	(r'^$', direct_to_template, {'template':'base.html'}),
-	url(r'^(?P<calendar>[\w-]+)', include('events.urls')),
+	url(r'^calendar/', include('events.urls')),
 )
 
 handler500 = lambda r: direct_to_template(r, template='500.html')
