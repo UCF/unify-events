@@ -7,19 +7,19 @@ urlpatterns = patterns('events.views',
 	# http://events.ucf.edu/athletics/2010/01
 	# http://events.ucf.edu/athletics/2010/01/10
 	url(r'^(?P<calendar>[\w-]+)(\.(?P<format>[\w]+))?$',
-		view='event_list',
-		name="event-list"
+		view='auto_event_list',
+		name="today-event-list"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='event_list',
+		view='auto_event_list',
 		name="year-event-list"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='event_list',
+		view='auto_event_list',
 		name="month-event-list"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='event_list',
+		view='auto_event_list',
 		name="day-event-list"
 	),
 	

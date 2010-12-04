@@ -1,4 +1,5 @@
-from django.db import models
+from django.db      import models
+from django.contrib import auth
 
 # Create your models here.
 class Base(models.Model):
@@ -8,6 +9,9 @@ class Base(models.Model):
 
 
 class Profile(Base): pass
+
+
+class User(auth.models.User): pass
 
 
 class Event(Base):
@@ -145,8 +149,8 @@ class Calendar(Base):
 	events of other calendars."""
 	name          = models.CharField(max_length=64)
 	slug          = models.CharField(max_length=64, unique=True, blank=True)
-	creator       = models.ForeignKey('auth.User', related_name='owned_calendars', null=True)
-	editors       = models.ManyToManyField('auth.User', related_name='calendars')
+	creator       = models.ForeignKey('User', related_name='owned_calendars', null=True)
+	editors       = models.ManyToManyField('User', related_name='calendars')
 	events        = models.ManyToManyField('Event', through='CalendarEventRel')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
 	

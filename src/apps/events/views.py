@@ -1,6 +1,7 @@
 MODULE = __import__(__name__)
 
 from django.http                 import HttpResponseNotFound, HttpResponse
+from datetime                    import datetime, timedelta
 from django.shortcuts            import get_object_or_404
 from django.views.generic.simple import direct_to_template
 from models                      import *
@@ -13,15 +14,33 @@ from models                      import *
 # http://events.ucf.edu/athletics/2010/01/10.(rss|json|html|xml|etc)
 
 # Create your views here.
-def event_list(request, calendar, year=None, month=None, day=None, format="html"):
-	"""Outputs a listing of events defined by a calendar and type of
-	listing.  Different formats of event lists can be outputted by specifying
-	the optional format argument.
+def event_list(request, calendar, start, end, format="html"):
+	"""Outputs a listing of events defined by a calendar and a range of dates.
+	Format of this list is controlled by the optional format argument, ie. html,
+	rss, json, etc.
 	"""
-	from datetime import datetime, timedelta
+	calendar = get_object_or_404(Calendar, slug=calendar)
+	events   = calendar.find_event_instances(start, end)
+	
+	template = 'events/list.' + format
+	context  = {
+		'start'    : start,
+		'end'      : end,
+		'year'     : year,
+		'month'    : month,
+		'day'      : day,
+		'format'   : format,
+		'calendar' : calendar,
+		'events'   : events,
+	}
+	return direct_to_template(request, template, context)
+
+
+def auto_event_list(request, calendar, year=None, month=None, day=None, format=None):
+	"""Generates an event listing for the defined, year, month, day, or today."""
 	start, end = None, None
 	
-	# Default list if no date is defined
+	# Default if no date is defined
 	if year is month is day is None:
 		return today_event_list(request, calendar)
 	
@@ -42,21 +61,7 @@ def event_list(request, calendar, year=None, month=None, day=None, format="html"
 	except ValueError:
 		return HttpResponseNotFound()
 	
-	calendar = get_object_or_404(Calendar, slug=calendar)
-	events   = calendar.find_event_instances(start, end)
-	
-	template = 'events/list.' + format
-	context  = {
-		'start'    : start,
-		'end'      : end,
-		'year'     : year,
-		'month'    : month,
-		'day'      : day,
-		'format'   : format,
-		'calendar' : calendar,
-		'events'   : events,
-	}
-	return direct_to_template(request, template, context)
+	return event_list(request, calendar, start, end, format)
 
 
 from time import gmtime, time
@@ -71,6 +76,7 @@ def named_event_list(request, calendar, type, format=None):
 		'today'      : todays_event_list,
 		'tomorrow'   : tomorrows_event_list,
 		'this-month' : months_event_list,
+		'this-week'  : weeks_event_list,
 		'this-year'  : years_event_list,
 	}.get(type, None)
 	if f is not None:
@@ -82,26 +88,33 @@ def todays_event_list(request, calendar, format=None):
 	"""Generates event listing for the current day"""
 	now = gmtime()
 	year, month, day = now[YEAR], now[MONTH], now[DAY]
-	return event_list(request, calendar, year, month, day, format)
+	return auto_event_list(request, calendar, year, month, day, format)
 
 
 def tomorrows_event_list(request, calendar, format=None):
 	"""Generates event listing for the current day"""
 	now = gmtime(time() + ONE_DAY)
 	year, month, day = now[YEAR], now[MONTH], now[DAY]
-	return event_list(request, calendar, year, month, day, format)
+	return auto_event_list(request, calendar, year, month, day, format)
+
+
+def weeks_event_list(request, calendar, format=None):
+	"""Generates event listing for the current week"""
+	start = datetime.now()
+	end   = start + timedelta(weeks=1)
+	return event_list(request, calendar, start, end, format)
 
 
 def months_event_list(request, calendar, format=None):
 	"""Generates event listing for the current month"""
 	now = gmtime()
 	year, month, day = now[YEAR], now[MONTH], None
-	return event_list(request, calendar, year, month, day, format)
+	return auto_event_list(request, calendar, year, month, day, format)
 
 
 def years_event_list(request, calendar, format=None):
 	"""Generates event listing for the current year"""
 	now = gmtime()
 	year, month, day = now[YEAR], None, None
-	return event_list(request, calendar, year, month, day, format)
+	return auto_event_list(request, calendar, year, month, day, format)
 
