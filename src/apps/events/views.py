@@ -19,6 +19,8 @@ def event_list(request, calendar, start, end, format="html"):
 	Format of this list is controlled by the optional format argument, ie. html,
 	rss, json, etc.
 	"""
+	print calendar, start, end, format
+	return HttpResponseNotFound()
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	events   = calendar.find_event_instances(start, end)
 	
@@ -35,12 +37,18 @@ def event_list(request, calendar, start, end, format="html"):
 
 def auto_event_list(request, calendar, year=None, month=None, day=None, format=None):
 	"""Generates an event listing for the defined, year, month, day, or today."""
-	start, end = None, None
-	
 	# Default if no date is defined
 	if year is month is day is None:
-		return today_event_list(request, calendar)
+		return todays_event_list(request, calendar)
 	
+	try: # Convert applicable arguments to integer
+		year  = int(year) if year is not None else year
+		month = int(month) if month is not None else month
+		day   = int(day) if day is not None else day
+	except ValueError:
+		return HttpResponseNotFound()
+	
+	# Define start and end dates
 	try:
 		start = datetime(year, month or 1, day or 1)
 		
@@ -97,7 +105,8 @@ def tomorrows_event_list(request, calendar, format=None):
 
 def weeks_event_list(request, calendar, format=None):
 	"""Generates event listing for the current week"""
-	start = datetime.now()
+	today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+	start = today - timedelta(days=today.weekday())
 	end   = start + timedelta(weeks=1)
 	return event_list(request, calendar, start, end, format)
 

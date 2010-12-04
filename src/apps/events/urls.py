@@ -2,10 +2,10 @@ from django.conf.urls.defaults import *
 import settings
 
 urlpatterns = patterns('events.views',
-	# http://events.ucf.edu/athletics/
-	# http://events.ucf.edu/athletics/2010
-	# http://events.ucf.edu/athletics/2010/01
-	# http://events.ucf.edu/athletics/2010/01/10
+	# http://events.ucf.edu/calendar/athletics/
+	# http://events.ucf.edu/calendar/athletics/2010.json
+	# http://events.ucf.edu/calendar/athletics/2010/01
+	# http://events.ucf.edu/calendar/athletics/2010/01/10.rss
 	url(r'^(?P<calendar>[\w-]+)(\.(?P<format>[\w]+))?$',
 		view='auto_event_list',
 		name="today-event-list"
@@ -23,8 +23,8 @@ urlpatterns = patterns('events.views',
 		name="day-event-list"
 	),
 	
-	# http://events.ucf.edu/athletics/this-year
-	# http://events.ucf.edu/athletics/today
+	# http://events.ucf.edu/calendar/athletics/this-year
+	# http://events.ucf.edu/calendar/athletics/today
 	# etc.
 	url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)(\.(?P<format>[\w]+))?$',
 		view='named_event_list',
