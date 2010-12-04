@@ -26,9 +26,6 @@ def event_list(request, calendar, start, end, format="html"):
 	context  = {
 		'start'    : start,
 		'end'      : end,
-		'year'     : year,
-		'month'    : month,
-		'day'      : day,
 		'format'   : format,
 		'calendar' : calendar,
 		'events'   : events,
