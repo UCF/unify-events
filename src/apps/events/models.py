@@ -15,6 +15,17 @@ class Profile(Base): pass
 class User(auth.models.User):
 	#owned_calendars  = One to Many with Calendar
 	#edited_calendars = One to Many with Calendar
+	
+	def create_calendar(self, **kwargs):
+		calendar = Calendar.objects.create(**kwargs)
+		self.add_calendar(calendar)
+		return calendar
+	
+	
+	def add_calendar(self, calendar):
+		self.owned_calendars.add(calendar)
+	
+	
 	@property
 	def calendars(self):
 		return list(self.owned_calendars) + list(self.edited_calendars)
