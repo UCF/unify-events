@@ -7,9 +7,16 @@ Replace these with more appropriate tests for your application.
 
 from django.test import TestCase
 from models import *
+from fields import *
 
 class SimpleTest(TestCase):
 	fixtures = ['events.json',]
+	
+	def test_coordinates(self):
+		loc_1 = Location.objects.create(name="UCF", coordinates=(28.602006,-81.20038))
+		self.assertEqual(type(loc_1.coordinates[0]), float)
+		loc_2 = Location.objects.create(name="UCF", coordinates="28.602006,-81.20038")
+		self.assertEqual(loc_1.coordinates[0], loc_2.coordinates[0])
 	
 	def test_unique_slug(self):
 		calendar_orig = Calendar.objects.all()[0]

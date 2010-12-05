@@ -1,6 +1,7 @@
 from django.db      import models
 from django.contrib import auth
 from functions      import sluggify
+from fields         import *
 
 # Create your models here.
 class Base(models.Model):
@@ -70,7 +71,9 @@ class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
 	class Recurs:
 		daily, weekly, biweekly, monthly, yearly = range(0,5)
+		never   = None
 		choices = (
+			('never'    , never),
 			('daily'    , daily),
 			('weekly'   , weekly),
 			('biweekly' , biweekly),
@@ -127,7 +130,7 @@ class EventInstance(Base):
 	location  = models.ForeignKey('Location', related_name='events', null=True, blank=True)
 	start     = models.DateTimeField()
 	end       = models.DateTimeField()
-	interval  = models.SmallIntegerField(null=True, blank=True, choices=Recurs.choices)
+	interval  = models.SmallIntegerField(null=True, default=Recurs.never, choices=Recurs.choices)
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
 	
@@ -210,6 +213,7 @@ class Location(Base):
 	#events     = One to Many relationship with EventInstance
 	name        = models.CharField(max_length=128)
 	description = models.TextField(blank=True, null=True)
+	coordinates = CoordinatesField(blank=True, null=True)
 
 
 class Calendar(Base):
