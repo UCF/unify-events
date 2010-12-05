@@ -2,6 +2,13 @@ from django.conf.urls.defaults import *
 import settings
 
 urlpatterns = patterns('events.views',
+	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu
+	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu.rss
+	url(r'^(?P<calendar>[\w-]+)/event/(?P<instance_id>[\d]+)(/[\w-])?(\.(?P<format>[\w]+))?$',
+		view='event_instance',
+		name='event-instance'
+	),
+	
 	# http://events.ucf.edu/calendar/athletics/
 	# http://events.ucf.edu/calendar/athletics/2010.json
 	# http://events.ucf.edu/calendar/athletics/2010/01

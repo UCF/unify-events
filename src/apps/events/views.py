@@ -15,6 +15,25 @@ from models                      import *
 # http://events.ucf.edu/athletics/2010/01/10.(rss|json|html|xml|etc)
 
 # Create your views here.
+def event_instance(request, calendar, instance_id, format=None):
+	calendar = get_object_or_404(Calendar, slug=calendar)
+	try:
+		instance = calendar.events_and_subs.get(pk=instance_id)
+	except EventInstance.DoesNotExist:
+		raise Http404
+	
+	template = 'events/instance.' + (format or 'html')
+	context  = {
+		'calendar' : calendar,
+		'instance' : instance,
+	}
+	
+	try:
+		return direct_to_template(request, template, context)
+	except TemplateDoesNotExist:
+		raise Http404
+
+
 def event_list(request, calendar, start, end, format=None):
 	"""Outputs a listing of events defined by a calendar and a range of dates.
 	Format of this list is controlled by the optional format argument, ie. html,
