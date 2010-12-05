@@ -1,4 +1,4 @@
-THEME = 'blank' # blank, UNLish, UCF (one day)
+THEME = 'default'
 
 DEBUG          = True
 TEMPLATE_DEBUG = DEBUG
