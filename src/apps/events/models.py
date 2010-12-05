@@ -64,7 +64,7 @@ class Event(Base):
 	
 	
 	def __repr__(self):
-		return str(self.calendar) + '/' + self.title
+		return '<' + str(self.calendar) + '/' + self.title + '>'
 
 
 class EventInstance(Base):
@@ -205,7 +205,7 @@ class EventInstance(Base):
 	
 	
 	def __repr__(self):
-		return str(self.start)
+		return '<' + str(self.start) + '>'
 
 
 class Location(Base):
@@ -320,4 +320,4 @@ class Calendar(Base):
 	
 	def __repr__(self):
 		"""docstring for __repr__"""
-		return str(self.creator) + '/' + self.name
+		return '<' + str(self.creator) + '/' + self.name + '>'
