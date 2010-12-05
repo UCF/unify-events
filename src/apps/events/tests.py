@@ -9,26 +9,36 @@ from django.test import TestCase
 from models import *
 
 class SimpleTest(TestCase):
+	def setUp(self):
+		self.users = (
+			User.objects.create(username="user_1"),
+			User.objects.create(username="user_2"),
+			User.objects.create(username="user_3"),
+		)
+		self.calendars = (
+			Calendar.objects.create(name="calendar_1", creator=self.users[0]),
+			Calendar.objects.create(name="calendar_2", creator=self.users[1]),
+			Calendar.objects.create(name="calendar_3", creator=self.users[2]),
+		)
+		
+	
 	def test_unique_slug(self):
-		c1 = Calendar.objects.create(name="Spork's House")
-		c2 = Calendar.objects.create(name="Spork's House")
-		c3 = Calendar.objects.create(name="Spork2Home")
-		c4 = Calendar.objects.create(name="Spork2Home")
-		self.assertNotEqual(c1.slug, c2.slug)
-		self.assertNotEqual(c3.slug, c4.slug)
+		c0 = self.calendars[0]
+		c1 = Calendar.objects.create(name="calendar_1", creator=self.users[0])
+		self.assertNotEqual(c0.slug, c1.slug)
 	
 	def test_event_lookup(self):
 		from datetime import datetime, timedelta
-		c1 = Calendar.objects.create(name='Dog Balls')
-		c2 = Calendar.objects.create(name='Cat Balls')
 		
-		e1 = c1.create_event(
+		e1 = self.calendars[0].create_event(
 			title='Health Care Reform',
-			description='HA ' * 40
+			description='HA ' * 40,
+			state=Event.Status.pending
 		)
-		e2 = c2.create_event(
+		e2 = self.calendars[1].create_event(
 			title='Fiscal Responsibility',
-			description='@_@'
+			description='@_@',
+			state=Event.Status.pending
 		)
 		start = datetime.now()
 		end   = datetime.now() + timedelta(hours=1)
@@ -48,19 +58,20 @@ class SimpleTest(TestCase):
 		end = start + timedelta(days=7)
 		 
 		self.assertEqual(
-			len(c1.find_event_instances(start=start, end=end)),
+			len(self.calendars[0].find_event_instances(start=start, end=end)),
 			2
 		)
 	
 	def test_event_recurrence(self):
 		from datetime import datetime, timedelta
 		
-		e = Event.objects.create(
+		e = self.calendars[0].create_event(
 			title='Glenn Beck Rally',
 			description='''Glenn Beck speaks some jibberish, Palin uses the 
 			words God, country, soldiers, armed forces, christian, freedom,
 			constitution, and hockey so much that semantic satiation kicks in.
-			'''
+			''',
+			state=Event.Status.pending
 		)
 		limit = 70
 		start = datetime.now()
@@ -80,13 +91,13 @@ class SimpleTest(TestCase):
 		c1 = Calendar.objects.create(name='Robot')
 		c2 = Calendar.objects.create(name='Moobot')
 		self.assertEqual(len(c1.events_and_subs), 0)
-		e1 = c1.create_event(title='Robot Attack')
-		e2 = c2.create_event(title='Cow Attack')
+		e1 = c1.create_event(title='Robot Attack', state=Event.Status.pending)
+		e2 = c2.create_event(title='Cow Attack', state=Event.Status.pending)
 		e1.instances.create(start=datetime.now(), end=datetime.now())
 		e2.instances.create(start=datetime.now(), end=datetime.now())
 		c1.subscriptions.add(c2)
 		self.assertEqual(len(c1.events_and_subs), 2)
-		e3 = c2.create_event(title='Another Cow Attack')
+		e3 = c2.create_event(title='Another Cow Attack', state=Event.Status.pending)
 		e3.instances.create(start=datetime.now(), end=datetime.now())
 		self.assertEqual(len(c1.events_and_subs), 3)
 		self.assertEqual(len(c2.events_and_subs), 2)

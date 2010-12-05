@@ -1,5 +1,6 @@
 from django.db      import models
 from django.contrib import auth
+from functions      import sluggify
 
 # Create your models here.
 class Base(models.Model):
@@ -11,17 +12,32 @@ class Base(models.Model):
 class Profile(Base): pass
 
 
-class User(auth.models.User): pass
+class User(auth.models.User):
+	#owned_calendars  = One to Many with Calendar
+	#edited_calendars = One to Many with Calendar
+	@property
+	def calendars(self):
+		return list(self.owned_calendars) + list(self.edited_calendars)
 
 
 class Event(Base):
 	"""This object provides the link between the time and places events are to
 	take place and the purpose and name of the event as well as the calendard to
 	which the events belong."""
-	#calendars  = ManyToMany relationship through CalendarEventRel w/Calendar
+	class Status:
+		pending = 0
+		posted  = 1
+		choices = ((pending, 'pending'), (posted, 'posted'),)
+	
 	#instances  = One to Many relationship with EventInstance
+	calendar    = models.ForeignKey('Calendar', related_name='events')
+	state       = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
 	title       = models.CharField(max_length=64)
 	description = models.TextField(blank=True, null=True)
+	
+	@property
+	def slug(self):
+		return sluggify(self.title)
 
 
 class EventInstance(Base):
@@ -35,6 +51,7 @@ class EventInstance(Base):
 			('monthly'  , monthly),
 			('yearly'   , yearly),
 		)
+		
 		
 		@classmethod
 		def next_monthly_date(cls, d):
@@ -52,7 +69,7 @@ class EventInstance(Base):
 			from datetime import datetime
 			y = d.date().year
 			return d.replace(year=y+1)
-			
+		
 		
 		@classmethod
 		def next_arbitrary_date(cls, d, delta):
@@ -147,11 +164,11 @@ class Calendar(Base):
 	"""Calendar objects contain events that exist independent of the calendar,
 	they may also subscribe to calendars which combine their owned events with
 	events of other calendars."""
+	#events       = One to Many relationship with Event
 	name          = models.CharField(max_length=64)
 	slug          = models.CharField(max_length=64, unique=True, blank=True)
 	creator       = models.ForeignKey('User', related_name='owned_calendars', null=True)
-	editors       = models.ManyToManyField('User', related_name='calendars')
-	events        = models.ManyToManyField('Event', through='CalendarEventRel')
+	editors       = models.ManyToManyField('User', related_name='edited_calendars')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
 	
 	@property
@@ -187,15 +204,14 @@ class Calendar(Base):
 	def create_event(self, **kwargs):
 		"""Creates a new event using the keyword arguments provided and adds
 		to the current calendar"""
-		event = Event.objects.create(**kwargs)
+		event = Event.objects.create(calendar=self, **kwargs)
 		self.add_event(event)
 		return event
 	
 	
 	def add_event(self, event):
 		"""Adds an existing event to the current calendar"""
-		rel = CalendarEventRel(calendar=self, event=event)
-		rel.save()
+		self.events.add(event)
 	
 	
 	def is_creator(self, user):
@@ -221,10 +237,7 @@ class Calendar(Base):
 	def generate_slug(self):
 		"""Generates a slug from the calendar's name, ensuring that the slug
 		is not already used by another calendar."""
-		import re
-		slug  = self.name.lower().replace(' ', '-')
-		slug  = re.sub("[^A-Za-z1-9\s\-]", '', slug)
-		
+		slug  = sluggify(self.name)
 		count = 0
 		while True:
 			if not Calendar.objects.filter(slug=slug).count():
@@ -234,16 +247,3 @@ class Calendar(Base):
 				slug   = slug + '-' + str(count)
 		self.slug = slug
 
-
-class CalendarEventRel(Base):
-	"""Defines the relations between calendars and events, as well as the event
-	status for that calendar"""
-	class Status:
-		pending = 0
-		posted  = 1
-		choices = ((pending, 'pending'), (posted, 'posted'),)
-	
-	calendar = models.ForeignKey('Calendar')
-	event    = models.ForeignKey('Event')
-	state    = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-	
