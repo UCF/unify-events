@@ -1,5 +1,14 @@
 {%extends 'events/base.html'%}
 
 {%block content%}
-Robotss
+	<h1>Event List</h1>
+	{%if events|length%}
+	<ul>
+	{%for event in events%}
+	<li>{{event.title}}</li>
+	{%endfor%}
+	</ul>
+	{%else%}
+	<p>No events during this time.</p>
+	{%endif%}
 {%endblock%}
