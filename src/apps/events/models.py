@@ -146,7 +146,7 @@ class EventInstance(Base):
 		self.children.all().delete()
 		if self.limit is None or self.interval is None: return
 		
-		limit    = self.limit
+		limit    = self.limit - 1
 		instance = self
 		
 		while limit > 0:
@@ -193,6 +193,12 @@ class Calendar(Base):
 		qs = EventInstance.objects.filter(
 			Q(event__calendar=self) | Q(event__calendar__in=self.subscriptions.all())
 		)
+		return qs
+	
+	
+	@property
+	def event_instances(self):
+		qs = EventInstance.objects.filter(event__calendar=self)
 		return qs
 	
 	

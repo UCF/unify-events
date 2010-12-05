@@ -9,95 +9,34 @@ from django.test import TestCase
 from models import *
 
 class SimpleTest(TestCase):
-	def setUp(self):
-		self.users = (
-			User.objects.create(username="user_1"),
-			User.objects.create(username="user_2"),
-			User.objects.create(username="user_3"),
-		)
-		self.calendars = (
-			Calendar.objects.create(name="calendar_1", creator=self.users[0]),
-			Calendar.objects.create(name="calendar_2", creator=self.users[1]),
-			Calendar.objects.create(name="calendar_3", creator=self.users[2]),
-		)
-		
+	fixtures = ['events.json',]
 	
 	def test_unique_slug(self):
-		c0 = self.calendars[0]
-		c1 = Calendar.objects.create(name="calendar_1", creator=self.users[0])
-		self.assertNotEqual(c0.slug, c1.slug)
-	
-	def test_event_lookup(self):
-		from datetime import datetime, timedelta
-		
-		e1 = self.calendars[0].create_event(
-			title='Health Care Reform',
-			description='HA ' * 40,
-			state=Event.Status.pending
-		)
-		e2 = self.calendars[1].create_event(
-			title='Fiscal Responsibility',
-			description='@_@',
-			state=Event.Status.pending
-		)
-		start = datetime.now()
-		end   = datetime.now() + timedelta(hours=1)
-		e1.instances.create(
-			start=start,
-			end=end,
-			interval=EventInstance.Recurs.weekly,
-			limit=1
-		)
-		e2.instances.create(
-			start=start,
-			end=end,
-			interval=EventInstance.Recurs.daily,
-			limit=13
-		)
-		
-		end = start + timedelta(days=7)
-		 
-		self.assertEqual(
-			len(self.calendars[0].find_event_instances(start=start, end=end)),
-			2
-		)
+		calendar_orig = Calendar.objects.all()[0]
+		calendar_copy = Calendar.objects.create(name=calendar_orig.name)
+		self.assertNotEqual(calendar_orig.slug, calendar_copy.slug)
 	
 	def test_event_recurrence(self):
-		from datetime import datetime, timedelta
-		
-		e = self.calendars[0].create_event(
-			title='Glenn Beck Rally',
-			description='''Glenn Beck speaks some jibberish, Palin uses the 
-			words God, country, soldiers, armed forces, christian, freedom,
-			constitution, and hockey so much that semantic satiation kicks in.
-			''',
-			state=Event.Status.pending
-		)
-		limit = 70
-		start = datetime.now()
-		end   = start + timedelta(hours=1)
-		lend  = end + timedelta(days=limit)
-		e.instances.create(
-			start=start,
-			end=end,
+		from datetime import datetime
+		calendar = Calendar.objects.all()[0]
+		event    = calendar.events.create(title="Some Event", state=Event.Status.posted)
+		event.instances.create(
+			start=datetime(2011, 1, 1),
+			end=datetime(2011, 1, 1, 2, 0, 0),
 			interval=EventInstance.Recurs.daily,
-			limit=limit
+			limit=3
 		)
-		self.assertEqual(e.instances.all().order_by('-end')[0].end, lend)
-		self.assertEqual(e.instances.count(), limit + 1)
+		event.instances.create(
+			start=datetime(2011, 2, 1),
+			end=datetime(2011, 2, 1, 2, 0, 0),
+			interval=EventInstance.Recurs.weekly,
+			limit=4
+		)
+		self.assertEqual(event.instances.count(), 7)
 	
 	def test_calendar_subscriptions(self):
-		from datetime import datetime
-		c1 = Calendar.objects.create(name='Robot')
-		c2 = Calendar.objects.create(name='Moobot')
-		self.assertEqual(len(c1.events_and_subs), 0)
-		e1 = c1.create_event(title='Robot Attack', state=Event.Status.pending)
-		e2 = c2.create_event(title='Cow Attack', state=Event.Status.pending)
-		e1.instances.create(start=datetime.now(), end=datetime.now())
-		e2.instances.create(start=datetime.now(), end=datetime.now())
-		c1.subscriptions.add(c2)
-		self.assertEqual(len(c1.events_and_subs), 2)
-		e3 = c2.create_event(title='Another Cow Attack', state=Event.Status.pending)
-		e3.instances.create(start=datetime.now(), end=datetime.now())
-		self.assertEqual(len(c1.events_and_subs), 3)
-		self.assertEqual(len(c2.events_and_subs), 2)
+		calendar_one = Calendar.objects.all()[0]
+		calendar_two = Calendar.objects.all()[1]
+		one_cnt = calendar_one.event_instances.count()
+		two_cnt = calendar_two.event_instances.count()
+		self.assertEqual(calendar_one.events_and_subs.count(), one_cnt + two_cnt)
