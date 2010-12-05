@@ -1,6 +1,7 @@
 MODULE = __import__(__name__)
 
-from django.http                 import HttpResponseNotFound, HttpResponse
+from django.http                 import Http404, HttpResponse
+from django.template             import TemplateDoesNotExist
 from datetime                    import datetime, timedelta
 from django.shortcuts            import get_object_or_404
 from django.views.generic.simple import direct_to_template
@@ -19,10 +20,8 @@ def event_list(request, calendar, start, end, format=None):
 	Format of this list is controlled by the optional format argument, ie. html,
 	rss, json, etc.
 	"""
-	print [c.slug for c in Calendar.objects.all()]
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	events   = calendar.find_event_instances(start, end)
-	
 	template = 'events/list.' + (format or 'html')
 	context  = {
 		'start'    : start,
@@ -31,7 +30,10 @@ def event_list(request, calendar, start, end, format=None):
 		'calendar' : calendar,
 		'events'   : events,
 	}
-	return direct_to_template(request, template, context)
+	try:
+		return direct_to_template(request, template, context)
+	except TemplateDoesNotExist:
+		raise Http404
 
 
 def auto_event_list(request, calendar, year=None, month=None, day=None, format=None):
@@ -45,7 +47,7 @@ def auto_event_list(request, calendar, year=None, month=None, day=None, format=N
 		month = int(month) if month is not None else month
 		day   = int(day) if day is not None else day
 	except ValueError:
-		return HttpResponseNotFound()
+		raise Http404
 	
 	# Define start and end dates
 	try:
@@ -63,7 +65,7 @@ def auto_event_list(request, calendar, year=None, month=None, day=None, format=N
 		else:
 			end = start + timedelta(days=1)
 	except ValueError:
-		return HttpResponseNotFound()
+		raise Http404
 	
 	return event_list(request, calendar, start, end, format)
 
@@ -85,7 +87,7 @@ def named_event_list(request, calendar, type, format=None):
 	}.get(type, None)
 	if f is not None:
 		return f(request, calendar, format)
-	return HttpResponseNotFound()
+	raise Http404
 
 
 def todays_event_list(request, calendar, format=None):
