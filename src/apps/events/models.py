@@ -131,6 +131,28 @@ class EventInstance(Base):
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
 	
+	@property
+	def title(self):
+		return self.event.title
+	
+	
+	@title.setter
+	def title(self, value):
+		self.event.title = value
+		self.event.save()
+	
+	
+	@property
+	def description(self):
+		return self.event.description
+	
+	
+	@description.setter
+	def description(self, value):
+		self.event.description = value
+		self.event.save()
+	
+	
 	def save(self, *args, **kwargs):
 		try:
 			#If we can find an object that matches this one, no update is needed
