@@ -22,9 +22,11 @@ class CoordinatesField(models.Field):
 	def to_python(self, value):
 		if value is None:
 			return value
+		
 		if getattr(value, '__iter__', False):
 			return list(value)
 		
+		value = value.strip(' ][')
 		return [float(i) for i in value.split(',')]
 	
 	
@@ -32,5 +34,6 @@ class CoordinatesField(models.Field):
 		if value is None: value
 		
 		value = [str(i) for i in value]
+		
 		return ','.join(value)
 
