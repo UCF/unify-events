@@ -31,7 +31,7 @@ class User(auth.models.User):
 	
 	@property
 	def calendars(self):
-		return list(self.owned_calendars) + list(self.edited_calendars)
+		return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
 
 
 class Event(Base):
