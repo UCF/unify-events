@@ -257,13 +257,13 @@ class Calendar(Base):
 	def generate_slug(self):
 		"""Generates a slug from the calendar's name, ensuring that the slug
 		is not already used by another calendar."""
-		slug  = sluggify(self.name)
+		slug  = orig = sluggify(self.name)
 		count = 0
 		while True:
 			if not Calendar.objects.filter(slug=slug).count():
 				break
 			else:
 				count += 1
-				slug   = slug + '-' + str(count)
+				slug   = orig + '-' + str(count)
 		self.slug = slug
 
