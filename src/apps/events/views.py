@@ -14,17 +14,16 @@ from models                      import *
 # http://events.ucf.edu/athletics/2010/01/10.(rss|json|html|xml|etc)
 
 # Create your views here.
-def event_list(request, calendar, start, end, format="html"):
+def event_list(request, calendar, start, end, format=None):
 	"""Outputs a listing of events defined by a calendar and a range of dates.
 	Format of this list is controlled by the optional format argument, ie. html,
 	rss, json, etc.
 	"""
-	print calendar, start, end, format
-	return HttpResponseNotFound()
+	print [c.slug for c in Calendar.objects.all()]
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	events   = calendar.find_event_instances(start, end)
 	
-	template = 'events/list.' + format
+	template = 'events/list.' + (format or 'html')
 	context  = {
 		'start'    : start,
 		'end'      : end,
