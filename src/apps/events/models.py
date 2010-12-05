@@ -52,6 +52,18 @@ class Event(Base):
 	@property
 	def slug(self):
 		return sluggify(self.title)
+	
+	
+	def __str__(self):
+		return self.title
+	
+	
+	def __unicode__(self):
+		return unicode(self.title)
+	
+	
+	def __repr__(self):
+		return str(self.calendar) + '/' + self.title
 
 
 class EventInstance(Base):
@@ -165,6 +177,10 @@ class EventInstance(Base):
 	def delete(self, *args, **kwargs):
 		self.children.all().delete()
 		super(EventInstance, self).delete(*args, **kwargs)
+	
+	
+	def __repr__(self):
+		return str(self.start)
 
 
 class Location(Base):
@@ -266,4 +282,16 @@ class Calendar(Base):
 				count += 1
 				slug   = orig + '-' + str(count)
 		self.slug = slug
-
+	
+	
+	def __str__(self):
+		return self.name
+	
+	
+	def __unicode__(self):
+		return unicode(self.name)
+	
+	
+	def __repr__(self):
+		"""docstring for __repr__"""
+		return str(self.creator) + '/' + self.name
