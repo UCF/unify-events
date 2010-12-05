@@ -2,34 +2,30 @@
 <html lang="en">
 	<head>
 		{%block head%}
+		<title>{%block title%}Unify Events{%endblock%}</title>
+
+		{%block meta%}
 		<meta charset="utf-8">
-		<title>{%block title%}Unify Events{%endblock title%}</title>
 		<meta name="description" content="{%block meta-description%}Unify Events{%endblock%}">
+		{%endblock%}
+
 		{%block links%}
 		<link rel="stylesheet" href="{{MEDIA_URL}}-/css/boilerplate.css">
-		{%endblock links%}
-		<style>
-			body { padding:20px; }
-			h1 { font-size:120%; padding-bottom:15px; }
-		</style>
-		{%endblock head%}
+		{%endblock%}
+
+		{%block scripts%}{%endblock%}
+		{%endblock%}
 	</head>
 	<!--[if IE 7 ]> <body class="ie7 ie"> <![endif]-->
 	<!--[if IE 8 ]> <body class="ie8 ie"> <![endif]-->
 	<!--[if IE 9 ]> <body class="ie9 ie"> <![endif]-->
 	<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
-	{%block body%}
-		<div id="container">
-		{%block container%}
-			<header>{%block header%}<h1>Unify Events</h1>{%endblock header%}</header>
-			<div id="main">{%block main%}Blank Theme.{%endblock main%}</div>
-			<footer>{%block footer%}{%endblock footer%}</footer>
-		{%endblock container%}
-		</div>
-		{%block scripts%}
+		{%block body%}
+		{%block content%}{%endblock%}
+		{%block footer_scripts%}
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 		<script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
 		{%endblock%}
-	{%endblock body%}
+		{%endblock %}
 	</body>
 </html>
