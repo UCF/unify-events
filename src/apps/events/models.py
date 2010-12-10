@@ -156,6 +156,17 @@ class EventInstance(Base):
 		self.event.save()
 	
 	
+	def get_absolute_url(self):
+		"""Generate permalink for this object"""
+		from django.core.urlresolvers import reverse
+		
+		return reverse('event-instance', kwargs={
+			'calendar'    : self.event.calendar.slug,
+			'instance_id' : self.id,
+		}) + '/' + self.event.slug
+		return r
+	
+	
 	def save(self, *args, **kwargs):
 		try:
 			#If we can find an object that matches this one, no update is needed

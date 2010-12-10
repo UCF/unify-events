@@ -4,9 +4,9 @@
 	<h1>Event List</h1>
 	{%if events|length%}
 	<ul>
-	{%for event in events%}
-	<li>{{event.title}}</li>
-	{%endfor%}
+		{%for event in events%}
+		<li><a href="{{event.get_absolute_url}}">{{event.title}}</a></li>
+		{%endfor%}
 	</ul>
 	{%else%}
 	<p>No events during this time.</p>

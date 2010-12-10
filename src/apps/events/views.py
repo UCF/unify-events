@@ -41,6 +41,7 @@ def event_list(request, calendar, start, end, format=None):
 	"""
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	events   = calendar.find_event_instances(start, end)
+	events   = events.order_by('start')
 	template = 'events/list.' + (format or 'html')
 	context  = {
 		'start'    : start,
@@ -90,9 +91,6 @@ def auto_event_list(request, calendar, year=None, month=None, day=None, format=N
 
 
 from time import gmtime, time
-YEAR    = 0
-MONTH   = 1
-DAY     = 2
 ONE_DAY = 86400
 
 def named_event_list(request, calendar, type, format=None):
@@ -112,14 +110,14 @@ def named_event_list(request, calendar, type, format=None):
 def todays_event_list(request, calendar, format=None):
 	"""Generates event listing for the current day"""
 	now = gmtime()
-	year, month, day = now[YEAR], now[MONTH], now[DAY]
+	year, month, day = now.tm_year, now.tm_mon, now.tm_mday
 	return auto_event_list(request, calendar, year, month, day, format)
 
 
 def tomorrows_event_list(request, calendar, format=None):
 	"""Generates event listing for the current day"""
 	now = gmtime(time() + ONE_DAY)
-	year, month, day = now[YEAR], now[MONTH], now[DAY]
+	year, month, day = now.tm_year, now.tm_mon, now.tm_mday
 	return auto_event_list(request, calendar, year, month, day, format)
 
 
@@ -134,13 +132,13 @@ def weeks_event_list(request, calendar, format=None):
 def months_event_list(request, calendar, format=None):
 	"""Generates event listing for the current month"""
 	now = gmtime()
-	year, month, day = now[YEAR], now[MONTH], None
+	year, month, day = now.tm_year, now.tm_mon, None
 	return auto_event_list(request, calendar, year, month, day, format)
 
 
 def years_event_list(request, calendar, format=None):
 	"""Generates event listing for the current year"""
 	now = gmtime()
-	year, month, day = now[YEAR], None, None
+	year, month, day = now.tm_year, None, None
 	return auto_event_list(request, calendar, year, month, day, format)
 
