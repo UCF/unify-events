@@ -20,12 +20,6 @@ class User(auth.models.User):
 	#edited_calendars = One to Many with Calendar
 	profile = models.OneToOneField('Profile', related_name='user', null=True, blank=True)
 	
-	def create_calendar(self, **kwargs):
-		calendar = Calendar.objects.create(**kwargs)
-		self.owned_calendars.add(calendar)
-		return calendar
-	
-	
 	@property
 	def calendars(self):
 		return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
