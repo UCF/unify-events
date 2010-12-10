@@ -22,12 +22,8 @@ class User(auth.models.User):
 	
 	def create_calendar(self, **kwargs):
 		calendar = Calendar.objects.create(**kwargs)
-		self.add_calendar(calendar)
-		return calendar
-	
-	
-	def add_calendar(self, calendar):
 		self.owned_calendars.add(calendar)
+		return calendar
 	
 	
 	@property
