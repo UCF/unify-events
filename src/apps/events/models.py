@@ -289,13 +289,8 @@ class Calendar(Base):
 		"""Creates a new event using the keyword arguments provided and adds
 		to the current calendar"""
 		event = Event.objects.create(calendar=self, **kwargs)
-		self.add_event(event)
-		return event
-	
-	
-	def add_event(self, event):
-		"""Adds an existing event to the current calendar"""
 		self.events.add(event)
+		return event
 	
 	
 	def is_creator(self, user):
