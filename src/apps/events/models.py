@@ -281,14 +281,6 @@ class Calendar(Base):
 		self.subscriptions.remove(*args)
 	
 	
-	def create_event(self, **kwargs):
-		"""Creates a new event using the keyword arguments provided and adds
-		to the current calendar"""
-		event = Event.objects.create(calendar=self, **kwargs)
-		self.events.add(event)
-		return event
-	
-	
 	def is_creator(self, user):
 		"""Determine if user is creator of this calendar"""
 		return user == self.creator
