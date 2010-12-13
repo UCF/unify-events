@@ -129,21 +129,9 @@ class EventInstance(Base):
 		return self.event.title
 	
 	
-	@title.setter
-	def title(self, value):
-		self.event.title = value
-		self.event.save()
-	
-	
 	@property
 	def description(self):
 		return self.event.description
-	
-	
-	@description.setter
-	def description(self, value):
-		self.event.description = value
-		self.event.save()
 	
 	
 	def get_absolute_url(self):
