@@ -12,6 +12,27 @@ from fields import *
 class SimpleTest(TestCase):
 	fixtures = ['events.json',]
 	
+	def test_import(self):
+		calendar_one = Calendar.objects.all()[0]
+		calendar_two = Calendar.objects.all()[1]
+		
+		orig = calendar_one.events.all()[0]
+		copy = calendar_two.import_event(orig)
+		self.assertEqual(copy.calendar, calendar_two)
+		self.assertEqual(copy.title, orig.title)
+		self.assertEqual(copy.instances.count(), orig.instances.count())
+	
+	def test_settings_field(self):
+		events  = Event.objects.all()
+		event   = events[0]
+		test_id = event.pk
+		self.assertEqual(type(event.settings), dict)
+		event.settings['test_value'] = True
+		event.save()
+		
+		event = Event.objects.get(pk=test_id)
+		self.assertEqual(event.settings['test_value'], True)
+	
 	def test_coordinates(self):
 		loc_1 = Location.objects.create(name="UCF", coordinates=(28.602006,-81.20038))
 		self.assertEqual(type(loc_1.coordinates[0]), float)

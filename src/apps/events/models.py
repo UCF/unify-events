@@ -7,6 +7,7 @@ from fields         import *
 class Base(models.Model):
 	created  = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
+		
 	class Meta: abstract = True
 
 
@@ -18,7 +19,7 @@ class Profile(Base):
 class User(auth.models.User):
 	#owned_calendars  = One to Many with Calendar
 	#edited_calendars = One to Many with Calendar
-	profile = models.OneToOneField('Profile', related_name='user', null=True, blank=True)
+	profile  = models.OneToOneField('Profile', related_name='user', null=True, blank=True)
 	
 	@property
 	def calendars(self):
@@ -34,11 +35,41 @@ class Event(Base):
 		posted  = 1
 		choices = ((pending, 'pending'), (posted, 'posted'),)
 	
+	class Settings:
+		default = {
+			'receive_updates' : {
+				'name'  : 'Receive Updates',
+				'desc'  : 'Enable notification of updates to the event this was duplicated from.',
+				'value' : False,
+			},
+		}
+	
 	#instances  = One to Many relationship with EventInstance
-	calendar    = models.ForeignKey('Calendar', related_name='events')
-	state       = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-	title       = models.CharField(max_length=64)
-	description = models.TextField(blank=True, null=True)
+	calendar     = models.ForeignKey('Calendar', related_name='events')
+	created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
+	state        = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
+	title        = models.CharField(max_length=64)
+	description  = models.TextField(blank=True, null=True)
+	settings     = SettingsField(default=Settings.default, null=True, blank=True)
+	
+	
+	def copy(self, *args, **kwargs):
+		"""Duplicates this Event creating another Event without a calendar set, 
+		and a link back to the original event created.
+		
+		This allows Events to be imported to other calendars and updates can be
+		pushed back to the copied events."""
+		copy = Event(
+			created_from=self,
+			state=self.state,
+			title=self.title,
+			description=self.description,
+			*args,
+			**kwargs
+		)
+		copy.save()
+		copy.instances.add(*[i.copy(event=copy) for i in self.instances.filter(parent=None)])
+		return copy
 	
 	@property
 	def slug(self):
@@ -124,6 +155,21 @@ class EventInstance(Base):
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
 	
+	def copy(self, *args, **kwargs):
+		copy = EventInstance(
+			start    = self.start,
+			end      = self.end,
+			interval = self.interval,
+			limit    = self.limit,
+			location = self.location.copy(),
+			*args,
+			**kwargs
+		)
+		copy.save()
+		copy.children.add(*[i.copy(event=copy.event) for i in self.children.all()])
+		return copy
+	
+	
 	@property
 	def title(self):
 		return self.event.title
@@ -204,6 +250,14 @@ class Location(Base):
 	description = models.TextField(blank=True, null=True)
 	coordinates = CoordinatesField(blank=True, null=True)
 	
+	def copy(self, *args, **kwargs):
+		return Location.objects.create(
+			name=self.name,
+			description=self.description,
+			coordinates=self.coordinates
+		)
+	
+	
 	def __str__(self):
 		return str(self.name)
 	
@@ -242,6 +296,14 @@ class Calendar(Base):
 	def event_instances(self):
 		qs = EventInstance.objects.filter(event__calendar=self)
 		return qs
+	
+	
+	def import_event(self, event):
+		"""Given an event, will duplicate that event and import it into this 
+		calendar. Returns the newly created event."""
+		copy = event.copy(calendar=self)
+		copy.save()
+		return copy
 	
 	
 	def find_event_instances(self, start, end):

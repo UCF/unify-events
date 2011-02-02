@@ -1,6 +1,10 @@
 from django.db import models
 from decimal   import Decimal
 
+def error(m):
+	import logging
+	logging.info(m)
+
 class CoordinatesField(models.Field):
 	"""Stores coordinates of arbitrary number of dimensions."""
 	
@@ -37,3 +41,41 @@ class CoordinatesField(models.Field):
 		
 		return ','.join(value)
 
+
+class SettingsField(models.Field):
+	"""Stores arbitrary simple key-value pairings presented as a python 
+	dictionary."""
+	description   = "Settings Field"
+	__metaclass__ = models.SubfieldBase
+	
+	"""docstring for SettingsField"""
+	def __init__(self, *args, **kwargs):
+		super(SettingsField, self).__init__(*args, **kwargs)
+	
+	
+	def get_internal_type(self):
+		return 'TextField'
+	
+	
+	def to_python(self, value):
+		if isinstance(value, dict().__class__):
+			return value
+		
+		
+		if isinstance(value, str().__class__) or\
+			isinstance(value, unicode().__class__):
+			import json
+			try:
+				value = json.loads(value)
+			except ValueError:
+				error('Settings string could not be parsed as JSON')
+				value = {}
+			return value
+		
+		return {}
+	
+	
+	def get_prep_value(self, value):
+		import json
+		return json.dumps(value)
+		
