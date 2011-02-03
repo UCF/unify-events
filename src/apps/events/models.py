@@ -52,6 +52,23 @@ class Event(Base):
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
 	
+	def pull_updates(self):
+		"""Updates this Event with information from the event it was created 
+		from, if it exists."""
+		if self.created_from is None:
+			return
+		
+		self.instances.all().delete()
+		copy = self.created_from.copy(
+			id=self.id,
+			settings=self.settings,
+			created=self.created,
+			modified=self.modified,
+			calendar=self.calendar
+		)
+		return copy
+		
+	
 	
 	def copy(self, *args, **kwargs):
 		"""Duplicates this Event creating another Event without a calendar set, 
@@ -302,7 +319,6 @@ class Calendar(Base):
 		"""Given an event, will duplicate that event and import it into this 
 		calendar. Returns the newly created event."""
 		copy = event.copy(calendar=self)
-		copy.save()
 		return copy
 	
 	

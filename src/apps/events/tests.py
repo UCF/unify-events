@@ -12,7 +12,7 @@ from fields import *
 class SimpleTest(TestCase):
 	fixtures = ['events.json',]
 	
-	def test_import(self):
+	def test_import_and_updates(self):
 		calendar_one = Calendar.objects.all()[0]
 		calendar_two = Calendar.objects.all()[1]
 		
@@ -21,6 +21,11 @@ class SimpleTest(TestCase):
 		self.assertEqual(copy.calendar, calendar_two)
 		self.assertEqual(copy.title, orig.title)
 		self.assertEqual(copy.instances.count(), orig.instances.count())
+		
+		orig.title = 'Robots Attack at Midnight'
+		orig.save()
+		copy = copy.pull_updates()
+		self.assertEqual(copy.title, orig.title)
 	
 	def test_settings_field(self):
 		events  = Event.objects.all()
