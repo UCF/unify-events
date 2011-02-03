@@ -1,13 +1,14 @@
-from django.db      import models
-from django.contrib import auth
-from functions      import sluggify
-from fields         import *
+from django.db       import models
+from django.contrib  import auth
+from functions       import sluggify
+from fields          import *
+from messages        import models as messages
 
 # Create your models here.
 class Base(models.Model):
 	created  = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
-		
+	
 	class Meta: abstract = True
 
 
