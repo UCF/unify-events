@@ -292,6 +292,8 @@ class Calendar(Base):
 	they may also subscribe to calendars which combine their owned events with
 	events of other calendars."""
 	#events       = One to Many relationship with Event
+	#subscribers  = Many to Many with Calendar
+	featured      = models.ManyToManyField('Event', related_name='featured_on')
 	name          = models.CharField(max_length=64)
 	slug          = models.CharField(max_length=64, unique=True, blank=True)
 	creator       = models.ForeignKey('User', related_name='owned_calendars', null=True)
