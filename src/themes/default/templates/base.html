@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 	<head>
 		{%block head%}
 		<title>{%block title%}Unify Events{%endblock%}</title>
-
+		
 		{%block meta%}
 		<meta charset="utf-8">
 		<meta name="description" content="{%block meta-description%}Unify Events{%endblock%}">
 		{%endblock%}
+		
+		<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<style>article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}</style>
+		<link href="/-/css/blueprint-ie.css" rel="stylesheet" media="screen, projection">
+		<![endif]-->
 
 		{%block links%}
-		<link rel="stylesheet" href="{{MEDIA_URL}}-/css/boilerplate.css">
+		<link rel="shortcut icon" href="/-/img/favicon.ico">
+		<link href="/-/css/combined-screen.css" rel="stylesheet" media="screen, projection">
+		<link href="/-/css/blueprint-print.css" rel="stylesheet" media="print">
 		{%endblock%}
 
 		{%block scripts%}{%endblock%}
 		{%endblock%}
 	</head>
-	<!--[if IE 7 ]> <body class="ie7 ie"> <![endif]-->
-	<!--[if IE 8 ]> <body class="ie8 ie"> <![endif]-->
-	<!--[if IE 9 ]> <body class="ie9 ie"> <![endif]-->
-	<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
+	<!--[if IE 7 ]><body class="ie7 ie"><![endif]-->
+	<!--[if IE 8 ]><body class="ie8 ie"><![endif]-->
+	<!--[if IE 9 ]><body class="ie9 ie"><![endif]-->
+	<!--[if (gt IE 9)|!(IE)]><!--><body><!--<![endif]-->
+		
+		<!-- Content -->
+		
 		{%block body%}
 		{%block content%}{%endblock%}
 		{%block footer_scripts%}
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
+		<!-- Footer Scripts -->
+		<script src="/-/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/-/js/jquery-browser.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/-/js/jquery-uniform.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/-/js/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/-/js/script.js" type="text/javascript" charset="utf-8"></script>
 		{%endblock%}
 		{%endblock %}
 	</body>

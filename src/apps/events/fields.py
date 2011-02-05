@@ -5,6 +5,11 @@ def error(m):
 	import logging
 	logging.info(m)
 
+
+class ImageField(models.ImageField):
+	pass
+
+
 class CoordinatesField(models.Field):
 	"""Stores coordinates of arbitrary number of dimensions."""
 	
