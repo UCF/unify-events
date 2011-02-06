@@ -330,8 +330,8 @@ class Calendar(Base):
 		"""Generate permalink for this object"""
 		from django.core.urlresolvers import reverse
 		
-		return reverse('calendar-home', kwargs={
-			'calendar' : self.event.calendar.slug,
+		return reverse('calendar', kwargs={
+			'calendar' : self.slug,
 		})
 		return r
 	

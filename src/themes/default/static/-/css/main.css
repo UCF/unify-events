@@ -1,5 +1,13 @@
 /*/ Global Styles /*/
+.end{display: block; height: 0; clear: both;}
 .menu{padding: 0; margin: 0;}
+.formats{padding: 0 0 5px 0; margin: 0; text-align: right;}
+.formats li{padding: 0; margin: 0; display: inline-block; margin: 0 10px;}
+.formats li a{display: inline-block; text-indent: 1024px;}
+.formats .rss{background: transparent url('../img/rss.png') no-repeat; height: 32px; width: 32px;}
+.formats .ical{background: transparent url('../img/ical.png') no-repeat; height: 32px; width: 32px;}
+.formats .options{padding: 0; margin: 0; display: inline-block; background: transparent url('../img/options.png') no-repeat; height: 32px; width: 32px;}
+.formats .options li{display: none;}
 html{background-color: #ffffff; color: #000; padding-top: 125px;}
 body{background-color: #ebebeb; color: #000; padding-top: 15px; padding-bottom: 15px;}
 #events-base header{position: absolute; top: 40px;}
@@ -12,11 +20,15 @@ body{background-color: #ebebeb; color: #000; padding-top: 15px; padding-bottom: 
 /*/ Listing Styles /*/
 .listing{padding: 30px 20px 30px 20px; margin: 0; background-color: #222; color: #fff;}
 .listing li{margin-bottom: 30px;}
-.listing li .title{font-family: "Helvetica", "sans-serif"; font-size: 36px; text-decoration: none; color: #efefef;}
-.listing li .start{font-family: "Georgia", "serif"; font-weight: bold; font-size: 18px;}
+.listing li .title{font-family: "Helvetica", "sans-serif"; font-size: 36px; text-decoration: none; color: #efefef; line-height: 1em;}
+.listing li .start{font-family: "Georgia", "serif"; font-weight: bold; font-size: 18px; line-height: 1em; margin-bottom: 10px;}
 .listing li .end{display: none;}
 .listing li .location{display: none;}
-.listing li .description{font-family: "Helvetica", "sans-serif"; font-size: 14px; text-decoration: none; color: #efefef;}
+.listing li .description{font-family: "Helvetica", "sans-serif"; font-size: 14px; color: #efefef;}
 
 
 /*/ Calendar Styles /*/
+#calendar #today{margin-top: 20px;}
+#calendar #today h2{font-family: "Helvetica", "sans-serif"; font-size: 18px; color: #333333; padding: 0; margin: 0; position: relative; top: 10px;}
+#calendar #today .formats{}
+#calendar #today .formats{}
