@@ -1,9 +1,10 @@
+{%load humanize%}
 {%if events|length%}
 <ul class="listing {{class|default_if_none:"event-listing"}}">
 	{%for event in events%}
 	<li>
 		<a class="title" href="{{event.get_absolute_url}}">{{event.title}}</a>
-		<div class="start">{{event.start}}</div>
+		<div class="start">{{event.start|pretty_date}}</div>
 		<div class="end">{{event.end}}</div>
 		{%with location as event.location%}
 			{%include "events/location.html"%}

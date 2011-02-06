@@ -25,7 +25,7 @@ def calendar(request, calendar, format=None):
 	featured_events = calendar.find_event_instances(start, end + timedelta(weeks=4), calendar.featured_instances)
 	
 	todays_events   = todays_events.order_by('start', 'event__title')
-	featured_events = featured_events.order_by('start', 'event__title')
+	featured_events = featured_events.order_by('start', 'event__title')[:5]
 	
 	template = 'events/calendar.' + (format or 'html')
 	context  = {
