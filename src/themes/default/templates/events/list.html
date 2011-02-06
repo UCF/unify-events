@@ -1,5 +1,5 @@
 {%if events|length%}
-<ul class="{{class|default_if_none:"event-list"}}">
+<ul class="listing {{class|default_if_none:"event-listing"}}">
 	{%for event in events%}
 	<li>
 		<a class="title" href="{{event.get_absolute_url}}">{{event.title}}</a>
@@ -15,7 +15,7 @@
 	{%endfor%}
 </ul>
 {%else%}
-<p class="empty-{{class|default_if_none:"event-list"}}">
+<p class="empty-{{class|default_if_none:"event-listing"}}">
 	No events to display.
 </p>
 {%endif%}

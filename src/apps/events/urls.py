@@ -5,8 +5,8 @@ urlpatterns = patterns('events.views',
 	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu
 	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu.rss
 	url(r'^(?P<calendar>[\w-]+)/event/(?P<instance_id>[\d]+)(/[\w-]+)?(\.(?P<format>[\w]+))?$',
-		view='event_instance',
-		name='event-instance'
+		view='event',
+		name='event'
 	),
 	
 	# http://events.ucf.edu/calendar/athletics
@@ -18,22 +18,22 @@ urlpatterns = patterns('events.views',
 		name="calendar"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='auto_event_list',
-		name="year-event-list"
+		view='auto_listing',
+		name="year-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='auto_event_list',
-		name="month-event-list"
+		view='auto_listing',
+		name="month-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)(\.(?P<format>[\w]+))?$',
-		view='auto_event_list',
-		name="day-event-list"
+		view='auto_listing',
+		name="day-listing"
 	),
 	
 	# http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
 	url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)(\.(?P<format>[\w]+))?$',
-		view='range_event_list',
-		name="range-event-list"
+		view='range_listing',
+		name="range-listing"
 	),
 	
 	
@@ -41,7 +41,7 @@ urlpatterns = patterns('events.views',
 	# http://events.ucf.edu/calendar/athletics/today
 	# etc.
 	url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)(\.(?P<format>[\w]+))?$',
-		view='named_event_list',
-		name="named-event-list"
+		view='named_listing',
+		name="named-listing"
 	),
 )

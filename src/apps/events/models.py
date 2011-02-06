@@ -201,7 +201,7 @@ class EventInstance(Base):
 		"""Generate permalink for this object"""
 		from django.core.urlresolvers import reverse
 		
-		return reverse('event-instance', kwargs={
+		return reverse('event', kwargs={
 			'calendar'    : self.event.calendar.slug,
 			'instance_id' : self.id,
 		}) + '/' + self.event.slug

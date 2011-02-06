@@ -1,16 +1,32 @@
 {%extends 'events/base.html'%}
 
 {%block content_body%}
-
-{%with events as featured_events%}
-{%with  class as "featured-events"%}
+<div class="span-9 append-1">
+</div>
+<div id="features" class="span-14 last">
+{%with featured_events as events%}
+{%with "featured-events" as class%}
 	{%include "events/list.html"%}
 {%endwith%}
 {%endwith%}
+</div>
 
-{%with events as todays_events%}
-{%with class as "todays-events"%}
+<div id="today" class="span-24 last">
+	<h2>Today's Events</h2>
+	<ul class="formats">
+		<li><a class="ical" href="#">iCal</a></li>
+		<li><a class="rss" href="#">rss</a></li>
+		<li><ul class="options">
+			<li><a href="#">rss</a></li>
+			<li><a href="#">xml</a></li>
+			<li><a href="#">json</a></li>
+			<li><a href="#">iCal</a></li>
+		</ul></li>
+	</ul>
+{%with todays_events as events%}
+{%with "todays-events" as class%}
 	{%include "events/list.html"%}
 {%endwith%}
 {%endwith%}
+</div>
 {%endblock%}
