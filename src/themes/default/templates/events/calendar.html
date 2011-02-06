@@ -1,2 +1,16 @@
-{%extends 'base.html'%}
+{%extends 'events/base.html'%}
 
+{%block content_body%}
+
+{%with events as featured_events%}
+{%with  class as "featured-events"%}
+	{%include "events/list.html"%}
+{%endwith%}
+{%endwith%}
+
+{%with events as todays_events%}
+{%with class as "todays-events"%}
+	{%include "events/list.html"%}
+{%endwith%}
+{%endwith%}
+{%endblock%}

@@ -18,6 +18,7 @@ class SimpleTest(TestCase):
 		
 		orig = calendar_one.events.all()[0]
 		copy = calendar_two.import_event(orig)
+		
 		self.assertEqual(copy.calendar, calendar_two)
 		self.assertEqual(copy.title, orig.title)
 		self.assertEqual(copy.instances.count(), orig.instances.count())

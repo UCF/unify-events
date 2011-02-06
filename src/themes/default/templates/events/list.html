@@ -1,14 +1,21 @@
-{%extends 'events/base.html'%}
-
-{%block content%}
-	<h1>Event List</h1>
-	{%if events|length%}
-	<ul>
-		{%for event in events%}
-		<li><a href="{{event.get_absolute_url}}">{{event.title}}</a></li>
-		{%endfor%}
-	</ul>
-	{%else%}
-	<p>No events during this time.</p>
-	{%endif%}
-{%endblock%}
+{%if events|length%}
+<ul class="{{class|default_if_none:"event-list"}}">
+	{%for event in events%}
+	<li>
+		<a class="title" href="{{event.get_absolute_url}}">{{event.title}}</a>
+		<div class="start">{{event.start}}</div>
+		<div class="end">{{event.end}}</div>
+		{%with location as event.location%}
+			{%include "events/location.html"%}
+		{%endwith%}
+		<div class="description">
+			{{event.description}}
+		</div>
+	</li>
+	{%endfor%}
+</ul>
+{%else%}
+<p class="empty-{{class|default_if_none:"event-list"}}">
+	No events to display.
+</p>
+{%endif%}

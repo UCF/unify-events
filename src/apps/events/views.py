@@ -15,6 +15,28 @@ from models                      import *
 # http://events.ucf.edu/athletics/2010/01/10.(rss|json|html|xml|etc)
 
 # Create your views here.
+def calendar(request, calendar, format=None):
+	calendar   = get_object_or_404(Calendar, slug=calendar)
+	now        = gmtime()
+	start      = datetime(now.tm_year, now.tm_mon, now.tm_mday)
+	end        = start + timedelta(days=1)
+	
+	todays_events   = calendar.find_event_instances(start, end)
+	featured_events = calendar.find_event_instances(start, end + timedelta(weeks=52), calendar.featured_instances)
+	
+	
+	template = 'events/calendar.' + (format or 'html')
+	context  = {
+		'todays_events'   : todays_events,
+		'featured_events' : featured_events,
+	}
+	
+	try:
+		return direct_to_template(request, template, context)
+	except TemplateDoesNotExist:
+		raise Http404
+
+
 def event_instance(request, calendar, instance_id, format=None):
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	try:

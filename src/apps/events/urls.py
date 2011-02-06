@@ -14,8 +14,8 @@ urlpatterns = patterns('events.views',
 	# http://events.ucf.edu/calendar/athletics/2010/01
 	# http://events.ucf.edu/calendar/athletics/2010/01/10.rss
 	url(r'^(?P<calendar>[\w-]+)(\.(?P<format>[\w]+))?$',
-		view='auto_event_list',
-		name="today-event-list"
+		view='calendar',
+		name="calendar"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)(\.(?P<format>[\w]+))?$',
 		view='auto_event_list',

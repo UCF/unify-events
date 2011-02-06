@@ -63,8 +63,6 @@ class Event(Base):
 		copy = self.created_from.copy(
 			id=self.id,
 			settings=self.settings,
-			created=self.created,
-			modified=self.modified,
 			calendar=self.calendar
 		)
 		return copy
@@ -82,6 +80,8 @@ class Event(Base):
 			state=self.state,
 			title=self.title,
 			description=self.description,
+			created=self.created,
+			modified=self.modified,
 			*args,
 			**kwargs
 		)
@@ -179,12 +179,11 @@ class EventInstance(Base):
 			end      = self.end,
 			interval = self.interval,
 			limit    = self.limit,
-			location = self.location.copy(),
+			location = self.location.copy() if self.location else None,
 			*args,
 			**kwargs
 		)
 		copy.save()
-		copy.children.add(*[i.copy(event=copy.event) for i in self.children.all()])
 		return copy
 	
 	
@@ -318,6 +317,25 @@ class Calendar(Base):
 		return qs
 	
 	
+	@property
+	def featured_instances(self):
+		from django.db.models import Q
+		featured = [event.id for event in self.featured.all()]
+		return EventInstance.objects.filter(
+			Q(event__calendar=self) & Q(event__id__in=featured)
+		)
+	
+	
+	def get_absolute_url(self):
+		"""Generate permalink for this object"""
+		from django.core.urlresolvers import reverse
+		
+		return reverse('calendar-home', kwargs={
+			'calendar' : self.event.calendar.slug,
+		})
+		return r
+	
+	
 	def import_event(self, event):
 		"""Given an event, will duplicate that event and import it into this 
 		calendar. Returns the newly created event."""
@@ -325,12 +343,17 @@ class Calendar(Base):
 		return copy
 	
 	
-	def find_event_instances(self, start, end):
+	def find_event_instances(self, start, end, qs=None):
 		from django.db.models import Q
-		qs = self.events_and_subs.filter(
-			Q(end__gte=start) & Q(end__lte=end) |
-			Q(start__gte=start) & Q(start__lte=end)
-		)
+		during        = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end) & Q(end__lte=end)
+		starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
+		ends_after    = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
+		_filter       = during | starts_before | ends_after
+		
+		if qs is None:
+			qs = self.events_and_subs.filter(_filter)
+		else:
+			qs = qs.filter(_filter)
 		return qs
 	
 	
