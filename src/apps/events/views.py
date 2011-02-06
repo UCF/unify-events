@@ -27,6 +27,7 @@ def calendar(request, calendar, format=None):
 	
 	template = 'events/calendar.' + (format or 'html')
 	context  = {
+		'calendar'        : calendar,
 		'todays_events'   : todays_events,
 		'featured_events' : featured_events,
 	}
@@ -127,6 +128,14 @@ def named_event_list(request, calendar, type, format=None):
 	if f is not None:
 		return f(request, calendar, format)
 	raise Http404
+
+
+def range_event_list(request, calendar, start, end, format=None):
+	from datetime import datetime
+	date  = lambda d: datetime(*[int(i) for i in d.split('-')])
+	start = date(start)
+	end   = date(end)
+	return event_list(request, calendar, start, end, format)
 
 
 def todays_event_list(request, calendar, format=None):

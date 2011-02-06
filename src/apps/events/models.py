@@ -345,7 +345,7 @@ class Calendar(Base):
 	
 	def find_event_instances(self, start, end, qs=None):
 		from django.db.models import Q
-		during        = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end) & Q(end__lte=end)
+		during        = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
 		starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
 		ends_after    = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
 		_filter       = during | starts_before | ends_after

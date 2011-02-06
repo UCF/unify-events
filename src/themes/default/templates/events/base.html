@@ -6,8 +6,9 @@
 	<ul class="menu">
 		<li><a href="#">Upcoming</a></li>
 		<li><a href="#">Featured</a></li>
-		<li><a href="#">Today</a></li>
-		<li><a href="#">February</a></li>
+		<li><a href="{%url named-event-list calendar.slug "today"%}">Today</a></li>
+		<li><a href="{%url named-event-list calendar.slug "this-week"%}">This Week</a></li>
+		<li><a href="{%url named-event-list calendar.slug "this-month"%}">This Month</a></li>
 		<li><a href="#">About</a></li>
 	</ul>
 </header>

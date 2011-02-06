@@ -9,7 +9,7 @@ urlpatterns = patterns('events.views',
 		name='event-instance'
 	),
 	
-	# http://events.ucf.edu/calendar/athletics/
+	# http://events.ucf.edu/calendar/athletics
 	# http://events.ucf.edu/calendar/athletics/2010.json
 	# http://events.ucf.edu/calendar/athletics/2010/01
 	# http://events.ucf.edu/calendar/athletics/2010/01/10.rss
@@ -29,6 +29,13 @@ urlpatterns = patterns('events.views',
 		view='auto_event_list',
 		name="day-event-list"
 	),
+	
+	# http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
+	url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)(\.(?P<format>[\w]+))?$',
+		view='range_event_list',
+		name="range-event-list"
+	),
+	
 	
 	# http://events.ucf.edu/calendar/athletics/this-year
 	# http://events.ucf.edu/calendar/athletics/today
