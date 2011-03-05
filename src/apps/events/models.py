@@ -12,15 +12,10 @@ class Base(models.Model):
 	class Meta: abstract = True
 
 
-class Profile(Base):
-	#user = One to One with User
-	pass
-
-
 class User(auth.models.User):
 	#owned_calendars  = One to Many with Calendar
 	#edited_calendars = One to Many with Calendar
-	profile  = models.OneToOneField('Profile', related_name='user', null=True, blank=True)
+	objects = auth.models.UserManager()
 	
 	@property
 	def calendars(self):

@@ -1,8 +1,12 @@
 from django.views.generic.simple import direct_to_template
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults   import *
+from django.contrib              import admin
 import settings
 
+admin.autodiscover()
+
 urlpatterns = patterns('',
+	(r'^admin/', include(admin.site.urls)),
 	(r'^$', direct_to_template, {'template':'base.html'}),
 	url(r'^calendar/', include('events.urls')),
 )
