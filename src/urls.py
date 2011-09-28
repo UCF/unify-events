@@ -7,7 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	(r'^admin/', include(admin.site.urls)),
-	url(r'^calendar/', include('events.urls')),
+	url(r'^manager/', include('events.manager-urls')),
+	url(r'^calendar/', include('events.calendar-urls')),
 	url(r'^$', view='events.views.calendar', kwargs={'calendar':settings.DEFAULT_CALENDAR_SLUG}),
 )
 

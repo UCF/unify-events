@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 import settings
 
-urlpatterns = patterns('events.views',
+urlpatterns = patterns('events.calendar-views',
 	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu
 	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu.rss
 	url(r'^(?P<calendar>[\w-]+)/event/(?P<instance_id>[\d]+)(/[\w-]+)?(\.(?P<format>[\w]+))?$',
