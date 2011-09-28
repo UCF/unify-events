@@ -36,3 +36,6 @@ DATABASES = {
 		'PORT'    : '',
 	}
 }
+
+# This calendar will be displayed at the root
+DEFAULT_CALENDAR_SLUG = ''
