@@ -7,7 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	(r'^admin/', include(admin.site.urls)),
-	(r'^$', direct_to_template, {'template':'base.html'}),
 	url(r'^calendar/', include('events.urls')),
 )
 
