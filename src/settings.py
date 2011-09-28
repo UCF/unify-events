@@ -54,6 +54,10 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+	'events.auth.Backend',
+)
+
 TEMPLATE_DIRS = (TEMPL_FOLDER,)
 
 # Add local apps folder to python path
