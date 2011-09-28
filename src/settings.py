@@ -20,6 +20,9 @@ TEMPL_FOLDER      = os.path.join(PROJECT_FOLDER, 'themes', THEME, 'templates')
 ROOT_URLCONF      = os.path.basename(PROJECT_FOLDER) + '.urls'
 MEDIA_ROOT        = os.path.join(PROJECT_FOLDER, 'themes', THEME, 'static')
 
+LOGIN_URL         = 'login'
+LOGOUT_URL        = 'logout'
+
 TIME_ZONE         = 'America/New_York'
 LANGUAGE_CODE     = 'en-us'
 SITE_ID           = 1
@@ -34,12 +37,12 @@ MEDIA_URL = STATIC_URL
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-	'django.template.loaders.filesystem.load_template_source',
+	'django.template.loaders.filesystem.Loader',
 	'django.template.loaders.app_directories.load_template_source',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	"django.core.context_processors.auth",
+	"django.contrib.auth.context_processors.auth",
 	"django.core.context_processors.debug",
 	"django.core.context_processors.i18n",
 	"django.core.context_processors.media",
@@ -49,10 +52,6 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-)
-
-AUTHENTICATION_BACKENDS = (
-	'events.auth.Backend',
 )
 
 TEMPLATE_DIRS = (TEMPL_FOLDER,)
