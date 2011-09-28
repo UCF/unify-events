@@ -1,0 +1,29 @@
+{% extends 'events/manager/base.html' %}
+{% block content_body %}
+	<div class="span-8">
+		<h2>Login</h2>
+		{% if form.errors %}
+			{{form.errors}}
+		{% endif %}
+		<form action="{% url django.contrib.auth.views.login %}" method="post" id="manager-login-form">
+			<table>
+				<tbody>
+					<tr>
+						<th scope="row">{{form.username.label_tag}}</th>
+						<td>{{form.username}}</td>
+					</tr>
+					<tr>
+						<th scope="row">{{form.password.label_tag}}</th>
+						<td>{{form.password}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<input type="hidden" valuename="next" value="{{next}}" />
+			{% csrf_token %}
+			<input type="submit" value="Login" />
+		</form>
+	</div>
+	<div class="span-16 last">
+		Manger intro copy
+	</div>
+{% endblock %}
