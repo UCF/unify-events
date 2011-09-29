@@ -1,0 +1,54 @@
+#calendars {
+	margin:0;
+	padding:0;
+}
+	#calendars > li {
+		font-weight:normal;
+		list-style-type:none;
+		font-size:22px;
+		margin:0 0 10px 0;
+		padding:10px;
+		border-radius:2px;
+		border:1px solid #FFF;
+	}
+		#calendars > li.even {
+			background-color:#f3f3f3;
+			border:1px solid #e7e7e7;
+			cursor:pointer;
+		}
+		#calendars > li.div:first-child {
+			width:00px;
+		}
+	#calendars > li ul.actions {
+		margin:2px 0 0 0;
+		padding:0;
+		height:12px;
+	}
+		#calendars > li ul.actions > li {
+			font-size:11px;
+			float:left;
+			list-style-type:none;
+			margin:0;
+			padding:0 5px;
+			border-right: 1px solid #BBB;
+		}
+			#calendars > li  ul.actions > li:first-child {
+				padding-left:1px;
+			}
+			#calendars > li ul.actions > li.last {
+				border-right:none;
+			}
+		#calendars > li ul.actions > li > a {
+			color: #2F8DC3;
+			text-decoration:none;
+		}
+			#calendars > li ul.actions > li > a.hover {
+				text-decoration:underline;
+			}
+	#calendars > li .stats {
+	}
+		#calendars > li .stats > p {
+			font-size:10px;
+			margin:0;
+			padding:0;
+		}

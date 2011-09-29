@@ -1,9 +1,13 @@
 {%extends 'events/base.html'%}
+{% block links %}
+	{{block.super}}
+	<link href="{{MEDIA_URL}}-/css/manager.css" rel="stylesheet" media="all" />
+{% endblock %}
 {%block content%}
 <div id="manager-base" class="container">
 	{%block content_header%}
 	<header class="span-24 last">
-		<h1>Events Manager</h1>
+		<h1>UCF Events Manager</h1>
 	</header>
 	{%endblock%}
 	{%block content_body%}{%endblock%}

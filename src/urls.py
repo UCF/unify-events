@@ -7,9 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	(r'^admin/', include(admin.site.urls)),
-	url(r'^manager/', include('events.manager-urls')),
-	url(r'^calendar/', include('events.calendar-urls')),
-	url(r'^$', view='events.views.calendar', kwargs={'calendar':settings.DEFAULT_CALENDAR_SLUG}),
+	url(r'^manager/', include('events.urls.manager')),
+	url(r'^calendar/', include('events.urls.calendar'))
 )
 
 handler500 = lambda r: direct_to_template(r, template='500.html')

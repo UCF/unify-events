@@ -1,0 +1,11 @@
+{% extends 'events/manager/base.html' %}
+{% block content_body %}
+		<h2>Create a Calendar</h2>
+		<form action="{% url calendar-create %}" method="post">
+			{% if form.errors %}
+				<p>{{form.non_field_errors}}</p>
+			{% endif %}
+			{{form.as_p}}
+			<input type="submit" value="Create" />
+		</form>
+{% endblock %}

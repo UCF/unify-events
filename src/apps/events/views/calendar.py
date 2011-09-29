@@ -5,7 +5,7 @@ from django.template             import TemplateDoesNotExist
 from datetime                    import datetime, timedelta
 from django.shortcuts            import get_object_or_404
 from django.views.generic.simple import direct_to_template
-from models                      import *
+from events.models               import *
 
 # http://events.ucf.edu/athletics/today
 # http://events.ucf.edu/athletics/this-month
