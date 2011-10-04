@@ -62,6 +62,61 @@ INSTALLED_APPS = (
 	'messages',
 )
 
+LOGGING = {
+	'version':1,
+	'disable_existing_loggers':True,
+	'filters': {
+		'require_debug_true': {
+			'()': 'logs.RequiredDebugTrue',
+		},
+		'require_debug_false': {
+			'()': 'logs.RequiredDebugFalse',
+		}
+	},
+	'formatters': {
+		'talkative': {
+			'format':'%(levelname)s: %(asctime)s %(module)s %(funcName)s %(message)s'
+		},
+		'concise': {
+			'format':'%(levelname)s: %(message)s (%(asctime)s)'
+		}
+	},
+	'handlers': {
+		'discard': {
+			'level':'DEBUG',
+			'class':'django.utils.log.NullHandler'
+		},
+		'console': {
+			'level':'DEBUG',
+			'class':'logging.StreamHandler',
+			'formatter':'concise',
+			'filters': ['require_debug_true']
+		},
+		'file': {
+			'level': 'INFO',
+			'class':'logging.FileHandler',
+			'filename':'logs/application.log',
+			'formatter':'concise',
+			'filters': ['require_debug_false']
+		}
+	},
+	'loggers': {
+		'django': {
+			'handlers':['discard'],
+			'propogate': True,
+			'level':'INFO'
+		},
+		'campus.views': {
+			'handlers':['console', 'file'],
+			'level':'DEBUG'
+		},
+		'views': {
+			'handlers':['console', 'file'],
+			'level':'DEBUG'
+		}
+	}
+}
+
 try:
 	from settings_local import *
 except ImportError:
