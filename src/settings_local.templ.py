@@ -38,11 +38,10 @@ DATABASES = {
 }
 
 # NET Domain LDAP CONFIG
-LDAP_NET_HOST    = 'ldaps://net.ucf.edu'
-LDAP_NET_PORT    = 636
-LDAP_NET_VERSION = 2
-LDAP_NET_BASE_DN = 'ou=People,dc=net,dc=ucf,dc=edu'
-LDAP_NET_ATTR_MAP = { # LDAP Object -> User Object
+LDAP_NET_HOST        = 'ldaps://net.ucf.edu'
+LDAP_NET_BASE_DN     = 'ou=People,dc=net,dc=ucf,dc=edu'
+LDAP_NET_USER_SUFFIX = '@net.ucf.edu'
+LDAP_NET_ATTR_MAP    = { # LDAP Object -> User Object
   'givenName':'first_name',
   'sn'       :'sn',
   'mail'     :'email'
