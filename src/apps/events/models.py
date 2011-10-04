@@ -15,12 +15,12 @@ class Base(models.Model):
 class User(auth.models.User):
 	#owned_calendars  = One to Many with Calendar
 	#edited_calendars = One to Many with Calendar
-	objects = auth.models.UserManager()
+	ldap_guid = models.CharField(max_length = 100,null=True)
+	objects   = auth.models.UserManager()
 	
 	@property
 	def calendars(self):
 		return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
-
 
 class Event(Base):
 	"""This object provides the link between the time and places events are to

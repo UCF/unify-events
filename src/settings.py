@@ -120,7 +120,7 @@ LOGGING = {
 			'propogate': True,
 			'level':'INFO'
 		},
-		'campus.views': {
+		'events.auth': {
 			'handlers':['console', 'file'],
 			'level':'DEBUG'
 		},
