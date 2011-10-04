@@ -39,3 +39,9 @@ DATABASES = {
 
 # This calendar will be displayed at the root
 DEFAULT_CALENDAR_SLUG = ''
+
+# NET Domain LDAP CONFIG
+LDAP_NET_HOST    = 'net.ucf.edu'
+LDAP_NET_PORT    = 389 #636
+LDAP_NET_VERSION = 2
+LDAP_NET_BASE_DN = 'dc=net,dc=ucf,dc=edu'
