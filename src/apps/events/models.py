@@ -15,7 +15,7 @@ class Base(models.Model):
 class User(auth.models.User):
 	#owned_calendars  = One to Many with Calendar
 	#edited_calendars = One to Many with Calendar
-	ldap_guid = models.CharField(max_length = 100,null=True)
+	ldap_guid = models.CharField(max_length = 100,null=True,unique=True)
 	objects   = auth.models.UserManager()
 	
 	@property
