@@ -11,13 +11,13 @@ class Backend(ModelBackend):
   user_model = 'events.User'
   
   def authenticate(self, username=None, password=None):
+    
     # Bind to the NET DOMAIN with credentials
-    ldap_username = '@'.join([username,'net.ucf.edu'])
     try:
       ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
       ldap.set_option(ldap.OPT_REFERRALS, 0)
       ldap_obj = ldap.initialize(settings.LDAP_NET_HOST)
-      ldap_obj.simple_bind_s(ldap_username,password)
+      ldap_obj.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX,password)
     except ldap.INVALID_CREDENTIALS:
       log.info('Invalid credentials for `%s`' % username)
     except ldap.LDAPError, e:
@@ -43,27 +43,37 @@ class Backend(ModelBackend):
         elif len(ldap_result_set) > 1:
           log.error('LDAP Search returned more than 1 user')
         else:
+          # Extract the user object
           try:
             ldap_user = ldap_result_set[0][0][1]
           except ValueError:
             log.error('LDAP response in an unknown form')
           else:
+            # Extract the GUID
             try:
-              ldap_guid = ldap_user['objectGUID']
+              ldap_guid     = ldap_user['objectGUID']
+              ldap_username = ldap_user['sAMAccountName']
             except KeyError:
-              log.error('LDAP GUID not present for `%s`' % username)
+              log.error('LDAP GUID or sAMAccountName not present for `%s`' % username)
             else:
               try:
-                user = self.user_class.objects.get(ldap_guid=ldap_guid)
+                # User already exists
+                user = self.user_class.objects.get(ldap_guid=ldap_guid,username=ldap_username)
               except self.user_class.DoesNotExist:
-                user = self.user_class(ldap_guid = ldap_guid)
-              else:
+                # Create a new user
+                user = self.user_class(ldap_guid=ldap_guid,username=ldap_username)
+                # Try to extract some other details
                 for ldap_attr,user_attr in settings.LDAP_NET_ATTR_MAP.items():
                   try:
                     setattr(user, user_attr, ldap_user[ldap_attr])
                   except KeyError:
                     log.error('LDAP attribute `%s` not set for user `%s`' % (ldap_attr,username))
-                return user
+                try:
+                  user.save()
+                except Exception, e:
+                  log.error('Unable to save user: %s' + str(e))
+                else:
+                  return user
         return None
   def get_user(self, user_id):
     try:
