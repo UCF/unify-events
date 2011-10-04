@@ -2,16 +2,7 @@
 import os
 import sys
 
-try:
-	from settings_local import *
-except ImportError:
-	from django.core.exceptions import ImproperlyConfigured
-	raise ImproperlyConfigured(
-		'Local settings file was not found. ' +
-		'Ensure settings_local.py exists in project root.'
-	)
 
-MANAGERS          = ADMINS
 TEMPLATE_DEBUG    = DEBUG
 PROJECT_FOLDER    = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER        = os.path.join(PROJECT_FOLDER, 'apps')
@@ -72,3 +63,12 @@ INSTALLED_APPS = (
 	'events',
 	'messages',
 )
+
+try:
+	from settings_local import *
+except ImportError:
+	from django.core.exceptions import ImproperlyConfigured
+	raise ImproperlyConfigured(
+		'Local settings file was not found. ' +
+		'Ensure settings_local.py exists in project root.'
+	)
