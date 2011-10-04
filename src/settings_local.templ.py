@@ -1,11 +1,11 @@
 THEME = 'default'
 
 DEBUG          = True
-TEMPLATE_DEBUG = DEBUG
+
 ADMINS         = (
 	#('Your Name', 'your_email@domain.com'),
 )
-MANAGERS       = ADMINS
+
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -36,9 +36,6 @@ DATABASES = {
 		'PORT'    : '',
 	}
 }
-
-# This calendar will be displayed at the root
-DEFAULT_CALENDAR_SLUG = ''
 
 # NET Domain LDAP CONFIG
 LDAP_NET_HOST    = 'net.ucf.edu'

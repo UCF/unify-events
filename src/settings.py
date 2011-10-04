@@ -2,6 +2,20 @@
 import os
 import sys
 
+# This import is up here to allow THEME
+# to affect the template folder path
+try:
+	from settings_local import *
+except ImportError:
+	from django.core.exceptions import ImproperlyConfigured
+	raise ImproperlyConfigured(
+		'Local settings file was not found. ' +
+		'Ensure settings_local.py exists in project root.'
+	)
+
+MANAGERS       = ADMINS
+TEMPLATE_DEBUG = DEBUG
+
 PROJECT_FOLDER    = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER        = os.path.join(PROJECT_FOLDER, 'apps')
 INC_FOLDER        = os.path.join(PROJECT_FOLDER, 'third-party')
@@ -117,11 +131,3 @@ LOGGING = {
 	}
 }
 
-try:
-	from settings_local import *
-except ImportError:
-	from django.core.exceptions import ImproperlyConfigured
-	raise ImproperlyConfigured(
-		'Local settings file was not found. ' +
-		'Ensure settings_local.py exists in project root.'
-	)
