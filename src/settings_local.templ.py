@@ -1,8 +1,6 @@
-THEME = 'default'
-
-DEBUG          = True
-
-ADMINS         = (
+THEME  = 'default'
+DEBUG  = True
+ADMINS = (
 	#('Your Name', 'your_email@domain.com'),
 )
 
@@ -10,7 +8,7 @@ ADMINS         = (
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-STATIC_URL = '/static/'
+MEDIA_URL = '/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -25,7 +23,7 @@ DATABASES = {
 		# postgresql_psycopg2, postgresql, mysql, sqlite3, oracle
 		'ENGINE'  : 'django.db.backends.sqlite3',
 		# Or path to database file if using sqlite3.
-		'NAME'    : '',
+		'NAME'    : 'events.db',
 		# Not used with sqlite3.
 		'USER'    : '',
 		# Not used with sqlite3.

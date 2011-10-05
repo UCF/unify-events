@@ -16,7 +16,7 @@ handler404 = lambda r: direct_to_template(r, template='404.html')
 
 if settings.DEBUG:
 	urlpatterns += patterns('',
-		(r'^%s(?P<path>.*)$' % settings.STATIC_URL[1:],
+		(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
 			'django.views.static.serve',
 			{
 				'document_root': settings.MEDIA_ROOT,
