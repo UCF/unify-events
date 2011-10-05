@@ -2,7 +2,8 @@ from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import get_model
-import ldap
+from util import LDAPHelper
+
 import logging
 
 log = logging.getLogger(__name__)
@@ -12,69 +13,47 @@ class Backend(ModelBackend):
   
   def authenticate(self, username=None, password=None):
     
-    # Bind to the NET DOMAIN with credentials
     try:
-      ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
-      ldap.set_option(ldap.OPT_REFERRALS, 0)
-      ldap_obj = ldap.initialize(settings.LDAP_NET_HOST)
-      ldap_obj.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX,password)
-    except ldap.INVALID_CREDENTIALS:
-      log.info('Invalid credentials for `%s`' % username)
-    except ldap.LDAPError, e:
-      log.error('LDAP Error: %s' % str(e))
+      ldap_helper = LDAPHelper()
+      LDAPHelper.bind(ldap_helper.connection,username,password)
+      ldap_user = LDAPHelper.search_single(ldap_helper.connection,username)
+    except LDAPHelper.LDAPHelperException:
+      return None
     else:
-      # Search for the user
-      ldap_result_set = []
+      # Extract the GUID
       try:
+        guid = LDAPHelper.extract_guid(ldap_user)
+        user = self.user_class.objects.get(ldap_guid=guid)
         
-        result_id = ldap_obj.search(settings.LDAP_NET_BASE_DN,ldap.SCOPE_SUBTREE, 'cn=%s' % username,None)
-        while 1:
-          result_type, result_data = ldap_obj.result(result_id, 0)
-          if (result_data == []):
-            break
-          else:
-            if result_type == ldap.RES_SEARCH_ENTRY:
-              ldap_result_set.append(result_data)
-      except ldap.LDAPError, e:
-        log.error('LDAP Error: %s' % str(e))
-      else:
-        if len(ldap_result_set) == 0:
-          log.error('LDAP Search returned no users')
-        elif len(ldap_result_set) > 1:
-          log.error('LDAP Search returned more than 1 user')
-        else:
-          # Extract the user object
+        if user.username != username:
           try:
-            ldap_user = ldap_result_set[0][0][1]
-          except ValueError:
-            log.error('LDAP response in an unknown form')
-          else:
-            # Extract the GUID
-            try:
-              ldap_guid     = ldap_user['objectGUID']
-              ldap_username = ldap_user['sAMAccountName']
-            except KeyError:
-              log.error('LDAP GUID or sAMAccountName not present for `%s`' % username)
-            else:
-              try:
-                # User already exists
-                user = self.user_class.objects.get(ldap_guid=ldap_guid,username=ldap_username)
-              except self.user_class.DoesNotExist:
-                # Create a new user
-                user = self.user_class(ldap_guid=ldap_guid,username=ldap_username)
-                # Try to extract some other details
-                for ldap_attr,user_attr in settings.LDAP_NET_ATTR_MAP.items():
-                  try:
-                    setattr(user, user_attr, ldap_user[ldap_attr])
-                  except KeyError:
-                    log.error('LDAP attribute `%s` not set for user `%s`' % (ldap_attr,username))
-                try:
-                  user.save()
-                except Exception, e:
-                  log.error('Unable to save user: %s' + str(e))
-                else:
-                  return user
+            user.username = username
+            user.save()
+          except Exception, e:
+            log.error('Unable to save user `%s`: %s' % (username,str(e)))
+            return None
+        
+      except ValueError:
         return None
+      except self.user_class.DoesNotExist:
+        user = self.user_class(username=username,ldap_guid=guid)
+        
+        # Try to extract some other details
+        try:               user.first_name = LDAPHelper.extract_firstname(ldap_user)
+        except ValueError: pass
+        try:               user.last_name = LDAPHelper.extract_lastname(ldap_user)
+        except ValueError: pass
+        try:               user.email = LDAPHelper.extract_email(ldap_user)
+        except ValueError: pass
+        
+        try:
+          user.save()
+        except Exception, e:
+          log.error('Unable to save user `%s`: %s' % (username,str(e)))
+          return None
+          
+    return user
+    
   def get_user(self, user_id):
     try:
       return self.user_class.objects.get(pk=user_id)
