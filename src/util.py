@@ -35,6 +35,7 @@ class LDAPHelper(object):
   @classmethod
   def connect(cls):
     try:
+      # TODO - Figure out why we have to ignore the cert check here
       ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
       ldap.set_option(ldap.OPT_REFERRALS, 0)
       return ldap.initialize(settings.LDAP_NET_HOST)
