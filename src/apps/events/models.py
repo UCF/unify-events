@@ -2,7 +2,6 @@ from django.db       import models
 from django.contrib  import auth
 from functions       import sluggify
 from fields          import *
-from messages        import models as messages
 
 # Create your models here.
 class Base(models.Model):
