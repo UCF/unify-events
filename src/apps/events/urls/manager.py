@@ -23,5 +23,5 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
 	
 
-	url(r'^$', view='calendar.manage', name='calendar-manage'),
+	url(r'^$', view='manage', name='manager'),
 )
