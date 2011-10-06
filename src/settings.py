@@ -102,7 +102,7 @@ LOGGING = {
 			'handlers':['console', 'file'],
 			'level':'DEBUG'
 		},
-		'views': {
+		'util': {
 			'handlers':['console', 'file'],
 			'level':'DEBUG'
 		}
