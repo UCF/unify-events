@@ -3,5 +3,4 @@ from models import *
 
 
 admin.site.register(Calendar)
-admin.site.register(User)
 

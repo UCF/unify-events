@@ -1,7 +1,7 @@
-from django.db       import models
-from django.contrib  import auth
-from functions       import sluggify
-from fields          import *
+from django.contrib.auth.models  import User
+from django.db                   import models
+from functions                   import sluggify
+from fields                      import *
 
 # Create your models here.
 class Base(models.Model):
@@ -10,16 +10,26 @@ class Base(models.Model):
 	
 	class Meta: abstract = True
 
+class Profile(models.Model):
+	user         = models.OneToOneField(User, related_name='profile')
+	guid         = models.CharField(max_length = 100,null=True,unique=True)
+	display_name = models.CharField(max_length = 100,null=True,blank=True)
 
-class User(auth.models.User):
-	#owned_calendars  = One to Many with Calendar
-	#edited_calendars = One to Many with Calendar
-	ldap_guid = models.CharField(max_length = 100,null=True,unique=True)
-	objects   = auth.models.UserManager()
-	
-	@property
-	def calendars(self):
-		return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
+def create_profile(sender, instance, created, **kwargs):
+	if created:
+		Profile.objects.create(user=instance)
+models.signals.post_save.connect(create_profile, sender=User)
+
+def calendars(self):
+	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
+setattr(User,'calendars', property(calendars))
+
+def first_login(self):
+	delta = self.last_login - self.date_joined
+	if delta.seconds == 0 and delta.days == 0:
+		return True
+	return False
+setattr(User,'first_login', property(first_login))
 
 class Event(Base):
 	"""This object provides the link between the time and places events are to
@@ -290,8 +300,8 @@ class Calendar(Base):
 	featured      = models.ManyToManyField('Event', related_name='featured_on')
 	name          = models.CharField(max_length=64)
 	slug          = models.CharField(max_length=64, unique=True, blank=True)
-	creator       = models.ForeignKey('User', related_name='owned_calendars', null=True)
-	editors       = models.ManyToManyField('User', related_name='edited_calendars')
+	creator       = models.ForeignKey(User, related_name='owned_calendars', null=True)
+	editors       = models.ManyToManyField(User, related_name='edited_calendars')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
 	
 	@property

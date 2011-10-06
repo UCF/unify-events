@@ -1,0 +1,18 @@
+{% extends 'events/manager/base.html' %}
+{% block content_body %}
+	<h2>Edit Profile</h2>
+	<form action="{% url accounts-profile %}" method="post">
+		{% if forms.user.non_field_errors %}
+			<p>{{forms.user.non_field_errors}}</p>
+		{% endif %}
+		{% if forms.profile.non_field_errors %}
+			<p>{{forms.profile.non_field_errors}}</p>
+		{% endif %}		
+		{{forms.user.as_p}}
+		{{forms.profile.as_p}}
+		<input type="submit" value="Edit" />
+	</form>
+	{% if first_login %}
+		first login
+	{% endif %}
+{% endblock %}

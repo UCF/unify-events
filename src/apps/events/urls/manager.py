@@ -7,7 +7,13 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('events.views.manager',
+
 	url(r'^calendar/(?P<id>\d+)/editors', view='calendar.editors', name='calendar-editors'),
 	url(r'^calendar/create', view='calendar.create', name='calendar-create'),
+	
+	url(r'^accounts/profile/first_login', view='accounts.profile', kwargs={'first_login':True}, name='accounts-profile-first_login'),
+	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
+	
+
 	url(r'^$', view='calendar.manage', name='calendar-manage'),
 )
