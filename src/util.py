@@ -8,7 +8,7 @@ class LDAPHelper(object):
 	
 	class LDAPHelperException(Exception):
 		def __init__(self, error = 'No addtional information'):
-			LDAPHelper._log.error(': '.join([str(self.__doc__),str(self.error)]))
+			LDAPHelper._log.error(': '.join([str(self.__doc__),str(error)]))
 			
 	class UnableToConnect(LDAPHelperException):
 		'''Unable to Connect'''
