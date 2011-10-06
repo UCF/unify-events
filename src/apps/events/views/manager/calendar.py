@@ -12,7 +12,7 @@ def manage(request):
 	tmpl = ''
 	
 	if request.user.first_login:
-		return HttpResponseRedirect(reverse('accounts-profile-first_login'))
+		return HttpResponseRedirect(reverse('accounts-profile'))
 
 	if len(request.user.calendars) == 0:
 		tmpl = 'events/manager/splash.html'
