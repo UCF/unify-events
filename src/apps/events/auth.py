@@ -21,6 +21,7 @@ class Backend(ModelBackend):
 		else:
 			# Extract the GUID
 			try:
+
 				guid = LDAPHelper.extract_guid(ldap_user)
 				user = User.objects.get(profile__guid=guid)
 				
@@ -32,23 +33,24 @@ class Backend(ModelBackend):
 						log.error('Unable to save user `%s`: %s' % (username,str(e)))
 						return None
 				
-			except ValueError:
+			except LDAPHelper.MissingAttribute:
 				return None
 			except User.DoesNotExist:
+
 				user = User(username=username)
-				
 				# Try to extract some other details
+
 				try:
 					user.first_name = LDAPHelper.extract_firstname(ldap_user)
-				except ValueError:
+				except LDAPHelper.MissingAttribute:
 					pass
 				try:
 					user.last_name = LDAPHelper.extract_lastname(ldap_user)
-				except ValueError:
+				except LDAPHelper.MissingAttribute:
 					pass
 				try:
 					user.email = LDAPHelper.extract_email(ldap_user)
-				except ValueError:
+				except LDAPHelper.MissingAttribute:
 					pass
 				
 				try:
