@@ -11,8 +11,13 @@ class Base(models.Model):
 	class Meta: abstract = True
 
 class Profile(models.Model):
-	user = models.ForeignKey(User, related_name='profile')
+	user = models.OneToOneField(User, related_name='profile')
 	guid = models.CharField(max_length = 100,null=True,unique=True)
+
+def create_profile(sender, instance, created, **kwargs):
+	if craeted:
+		Profile.objects.create(user=instance)
+models.signals.post_save.connect(create_profile, sender=User)
 
 def calendars(self):
 	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
