@@ -11,6 +11,7 @@ class Base(models.Model):
 	class Meta: abstract = True
 
 class Profile(models.Model):
+	user = models.ForeignKey(User, related_name='profile')
 	guid = models.CharField(max_length = 100,null=True,unique=True)
 
 def calendars(self):
