@@ -117,7 +117,9 @@ class Event(Base):
 	
 	def __repr__(self):
 		return '<' + str(self.calendar) + '/' + self.title + '>'
-
+	
+	class Meta:
+		ordering = ['instances__start']
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
