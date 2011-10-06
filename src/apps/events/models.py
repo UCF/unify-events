@@ -11,8 +11,9 @@ class Base(models.Model):
 	class Meta: abstract = True
 
 class Profile(models.Model):
-	user = models.OneToOneField(User, related_name='profile')
-	guid = models.CharField(max_length = 100,null=True,unique=True)
+	user         = models.OneToOneField(User, related_name='profile')
+	guid         = models.CharField(max_length = 100,null=True,unique=True)
+	display_name = models.CharField(max_length = 100,null=True,blank=True)
 
 def create_profile(sender, instance, created, **kwargs):
 	if created:
