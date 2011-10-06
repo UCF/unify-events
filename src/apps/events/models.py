@@ -57,7 +57,8 @@ class Event(Base):
 	title        = models.CharField(max_length=64)
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
-	
+	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
+
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
 		from, if it exists."""
