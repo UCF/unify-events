@@ -15,7 +15,7 @@ class Profile(models.Model):
 	guid = models.CharField(max_length = 100,null=True,unique=True)
 
 def create_profile(sender, instance, created, **kwargs):
-	if craeted:
+	if created:
 		Profile.objects.create(user=instance)
 models.signals.post_save.connect(create_profile, sender=User)
 
