@@ -2,6 +2,7 @@ from django.contrib.auth.models  import User
 from django.db                   import models
 from functions                   import sluggify
 from fields                      import *
+from datetime                    import datetime
 
 # Create your models here.
 class Base(models.Model):
@@ -97,6 +98,9 @@ class Event(Base):
 	def slug(self):
 		return sluggify(self.title)
 	
+	@property
+	def upcoming_instances(self):
+		return self.instances.filter(start__gte = datetime.now())
 	
 	def __str__(self):
 		return self.title
@@ -199,7 +203,6 @@ class EventInstance(Base):
 	@property
 	def description(self):
 		return self.event.description
-	
 	
 	def get_absolute_url(self):
 		"""Generate permalink for this object"""
