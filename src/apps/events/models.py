@@ -99,6 +99,10 @@ class Event(Base):
 		return sluggify(self.title)
 	
 	@property
+	def were_previous_instances(self):
+		return True if self.instances.filter(start__lt = datetime.now()).count() > 0 else False
+
+	@property
 	def upcoming_instances(self):
 		return self.instances.filter(start__gte = datetime.now())
 	
