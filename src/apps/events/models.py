@@ -24,6 +24,13 @@ def calendars(self):
 	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
 setattr(User,'calendars', property(calendars))
 
+def first_login(self):
+	delta = self.last_login - self.date_joined
+	if delta.seconds == 0 and delta.days == 0:
+		return True
+	return False
+setattr(User,'first_login', property(first_login))
+
 class Event(Base):
 	"""This object provides the link between the time and places events are to
 	take place and the purpose and name of the event as well as the calendard to

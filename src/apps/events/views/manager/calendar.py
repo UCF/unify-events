@@ -1,14 +1,19 @@
-from django.contrib.auth.decorators import login_required
-from django.views.generic.simple import direct_to_template
-from django.http import HttpResponseNotFound, HttpResponseForbidden
-from ..events.models import Calendar
-from ..events.forms.manager import CalendarForm, CalendarEditorsForm
+from django.contrib.auth.decorators  import login_required
+from django.views.generic.simple     import direct_to_template
+from django.http                     import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
+from django.core.urlresolvers        import reverse
+from django.contrib                  import messages
+from ..events.models                 import Calendar
+from ..events.forms.manager          import CalendarForm, CalendarEditorsForm
 
 @login_required
 def manage(request):
 	ctx  = {}
 	tmpl = ''
 	
+	if request.user.first_login:
+		return HttpResponseRedirect(reverse('accounts-profile-first_login'))
+
 	if len(request.user.calendars) == 0:
 		tmpl = 'events/manager/splash.html'
 	else:
