@@ -1,6 +1,7 @@
 from django.conf import settings
 import logging
 import ldap
+import base64
 
 class LDAPHelper(object):
 	
@@ -28,7 +29,10 @@ class LDAPHelper(object):
 	class UnexceptedResultForm(LDAPHelperException):
 		'''Search result was in an unexpected'''
 		pass
-	
+	class MissingAttribute(LDAPHelperException):
+		'''A requested attribute is missing'''
+		pass
+
 	def __init__(self):
 		self.connection = LDAPHelper.connect()
 		
@@ -73,19 +77,28 @@ class LDAPHelper(object):
 					return results[0][0][1]
 				except ValueError:
 					raise LDAPHelper.UnexpectedResultForm(e)
-		
+	
+	@classmethod
+	def _extract_attribute(self,ldap_user,attribute):
+		try:
+			return ldap_user[attribute][0]
+		except KeyError, e:
+			raise LDAPHelper.MissingAttribute(e)
+		except ValueError, e:
+			raise LDAPHelper.MissingAttribute(e)
+
 	@classmethod
 	def extract_guid(self,ldap_user):
-		return ldap_user['objectGUID']
+		return base64.encodestring(LDAPHelper._extract_attribute(ldap_user,'objectGUID'))
 	
 	@classmethod
 	def extract_firstname(self,ldap_user):
-		return ldap_user['givenName']
+		return LDAPHelper._extract_attribute(ldap_user,'givenName')
 		
 	@classmethod
 	def extract_lastname(self,ldap_user):
-		return ldap_user['sn']
+		return LDAPHelper._extract_attribute(ldap_user,'sn')
 		
 	@classmethod
 	def extract_email(self,ldap_user):
-		return ldap_user['mail']
+		return LDAPHelper._extract_attribute(ldap_user,'mail')
