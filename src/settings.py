@@ -99,7 +99,7 @@ LOGGING = {
 			'propogate': True,
 			'level':'INFO'
 		},
-		'events.auth': {
+		'events': {
 			'handlers':['console', 'file'],
 			'level':'DEBUG'
 		},
