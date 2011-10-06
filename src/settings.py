@@ -109,6 +109,8 @@ LOGGING = {
 	}
 }
 
+AUTH_PROFILE_MODULE = 'events.Profile'
+
 try:
 	from settings_local import *
 except ImportError:
