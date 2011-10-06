@@ -110,6 +110,7 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'events.Profile'
+LOGIN_REDIRECT_URL  = '/manager/accounts/profile'
 
 try:
 	from settings_local import *
