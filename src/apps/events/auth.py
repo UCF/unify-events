@@ -60,7 +60,6 @@ class Backend(ModelBackend):
 				except Exception, e:
 					log.error('Unable to save user `%s`: %s' % (username,str(e)))
 					return None
-
 		return user
 		
 	def get_user(self, user_id):
