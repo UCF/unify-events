@@ -10,7 +10,11 @@
 		{% endif %}		
 		{{forms.user.as_p}}
 		{{forms.profile.as_p}}
-		<input type="submit" value="Edit" />
+		{% if first_login %}
+			<button type="submit">Confirm Profile Information</button>
+		{% else %}
+			<button type="submit"/>Save Profile</button>
+		{% endif %}
 	</form>
 	{% if first_login %}
 		first login

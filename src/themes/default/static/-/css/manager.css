@@ -1,3 +1,79 @@
+/*
+ * General Styles
+ */
+#manager-base header {margin-top:35px;}
+#manager-base h1 {font-size:225%;float:left;}
+#manager-base h1 > a {text-decoration:none;}
+#manager-base h2 {font-size:150%;font-weight:normal;}
+
+#manager-base label {font-size:17px;}
+#manager-base input[type="text"], #manager-base input[type="password"] {
+	font-size:18px;
+	margin:5px 5px 10px 5px;
+}
+#manager-base input[type="submit"] {
+	background-color:#555;
+	color:#FFF;
+	padding:5px 10px;
+}
+.box {background:none;}
+
+#nav {float:right;margin:25px;}
+	#nav > li {
+		display:inline;
+		font-size:120%;
+		border-left:1px solid #333;
+	}
+		#nav > li > a {
+			padding-left:7px;
+			text-decoration:none;
+		}
+		#nav > li > a:hover {
+			text-decoration:underline;
+		}
+	#nav > li:first-child {
+		border-left:none;
+	}
+/*
+ * Login Styles
+ */
+#login {
+	display:block;
+	border-radius:2px;
+	background: #FFF6D4;
+	border: 1px solid #DAD1AC;
+}
+	#login h2 {
+		margin-top:0;
+	}
+	#login #login-form table {
+		width:100%;
+	}
+	#login .error {
+	 	margin:10px 10px 0 10px;
+	 }
+	 	#login .error > li {
+	 		list-style-type:none;
+	 	}
+	 	#login .error > li:last-child {
+	 		margin-bottom:0;
+	 	}
+	#login td .error {
+	 	font-size:80%;
+	 	text-align:right;
+	 	background-color:inherit;
+	 	border:none;
+	 	font-style:italic;
+	 	margin:0;
+	 	padding:0 5px 0 0;
+	 }
+	 #login #login-message p {
+	 	font-size:115%;
+	 }
+
+/*
+ * Manage Styles
+ */
 #calendars {
 	margin:0;
 	padding:0;

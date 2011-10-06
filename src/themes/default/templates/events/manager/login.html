@@ -1,29 +1,72 @@
 {% extends 'events/manager/base.html' %}
 {% block content_body %}
-	<div class="span-8">
-		<h2>Login</h2>
-		{% if form.errors %}
-			{{form.errors}}
-		{% endif %}
-		<form action="{% url django.contrib.auth.views.login %}" method="post" id="manager-login-form">
-			<table>
-				<tbody>
-					<tr>
-						<th scope="row">{{form.username.label_tag}}</th>
-						<td>{{form.username}}</td>
-					</tr>
-					<tr>
-						<th scope="row">{{form.password.label_tag}}</th>
-						<td>{{form.password}}</td>
-					</tr>
-				</tbody>
-			</table>
-			<input type="hidden" name="next" value="{{next}}" />
-			{% csrf_token %}
-			<input type="submit" value="Login" />
-		</form>
-	</div>
-	<div class="span-16 last">
-		Manger intro copy
+	<div class="span-18 prepend-3">
+		<div id="login" class="clearfix">
+			{% if form.non_field_errors %}
+				<ul class="error">
+					{% for error in form.non_field_errors %}
+					<li>{{error}}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			<div class="span-8 prepend-1 box">
+				<h2>Login</h2>
+				<form action="{% url django.contrib.auth.views.login %}" method="post" id="login-form">
+					<table>
+						<tbody>
+							<tr>
+								<th scope="row">
+									<label for="id_username">NID:</label>
+								</th>
+								<td>
+									{{form.username}}
+									{% if form.username.errors %}
+									<ul class="error">
+										{% for error in form.username.errors %}
+										<li>{{error}}</li>
+										{% endfor %}
+									</ul>
+									{% endif %}
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">{{form.password.label_tag}}:</th>
+								<td>
+									{{form.password}}
+									{% if form.password.errors %}
+									<ul class="error">
+										{% for error in form.password.errors %}
+										<li>{{error}}</li>
+										{% endfor %}
+									</ul>
+									{% endif %}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<input type="hidden" name="next" value="{{next}}" />
+					{% csrf_token %}
+					<button type="submit">Log In</button>
+				</form>
+			</div>
+			<div class="span-8 append-1 box last" id="login-message">
+				<p>
+					Welcome to the UCF Event System management console. 
+					Please login with your Network ID (NID) and NID password.
+				</p>
+				<p>
+					If you are having trouble logging in, your NID password
+					may be expired. Try restting your password using the 
+					<a href="https://www.secure.net.ucf.edu/extranet/reset/validation.aspx?type=nid">
+						Password Reset Tool
+					</a>.
+				</p>
+				<p>
+					If you continue to have trouble logging in after you reset 
+					your password please contact us at 
+					<a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>
+				</p>
+			</div>
+		</div>
 	</div>
 {% endblock %}

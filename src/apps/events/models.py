@@ -2,6 +2,7 @@ from django.contrib.auth.models  import User
 from django.db                   import models
 from functions                   import sluggify
 from fields                      import *
+from datetime                    import datetime
 
 # Create your models here.
 class Base(models.Model):
@@ -56,7 +57,8 @@ class Event(Base):
 	title        = models.CharField(max_length=64)
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
-	
+	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
+
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
 		from, if it exists."""
@@ -97,6 +99,13 @@ class Event(Base):
 	def slug(self):
 		return sluggify(self.title)
 	
+	@property
+	def were_previous_instances(self):
+		return True if self.instances.filter(start__lt = datetime.now()).count() > 0 else False
+
+	@property
+	def upcoming_instances(self):
+		return self.instances.filter(start__gte = datetime.now())
 	
 	def __str__(self):
 		return self.title
@@ -108,7 +117,9 @@ class Event(Base):
 	
 	def __repr__(self):
 		return '<' + str(self.calendar) + '/' + self.title + '>'
-
+	
+	class Meta:
+		ordering = ['instances__start']
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
@@ -199,7 +210,6 @@ class EventInstance(Base):
 	@property
 	def description(self):
 		return self.event.description
-	
 	
 	def get_absolute_url(self):
 		"""Generate permalink for this object"""
