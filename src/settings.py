@@ -53,7 +53,6 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'events',
-	'messages',
 )
 
 LOGGING = {
