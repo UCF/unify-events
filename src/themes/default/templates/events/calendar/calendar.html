@@ -1,37 +1,15 @@
 {%extends 'events/calendar/base.html'%}
+{%load humanize%}
 
 {%block content_body%}
-<div id="calendar">
-	<div class="span-10 append-1">
-		<div class="slideshow">
-			<img src="{{MEDIA_URL}}-/img/snow.png" alt="image"><!--
-			--><img src="{{MEDIA_URL}}-/img/space.png" alt="image"><!--
-			--><img src="{{MEDIA_URL}}-/img/space.png" alt="image"><!--
-			--><img src="{{MEDIA_URL}}-/img/robot.png" alt="image"><!--
-			--><img src="{{MEDIA_URL}}-/img/shuttle.png" alt="image">
-		</div>
+<div id="caledar">
+	<div class="span-15 append-1">
+		{{events|format_event_list}}
 	</div>
-	<div id="featured" class="span-13 last">
-		{%with featured_events as events%}
-		{%with "featured-events" as class%}
-			{%include "events/list.html"%}
-		{%endwith%}
-		{%endwith%}
-		<a href="#" class="more">see more upcoming events</a>
-	</div>
-
-	<div id="today" class="span-24 last">
-		<h2 class="span-11 prepend-1">Today's Events</h2>
-		<ul class="span-12 last formats">
-			<li><a class="ical" href="{{calendar.get_absolute_url}}.ical"><span>iCal</span></a></li>
-			<li><a class="rss" href="{{calendar.get_absolute_url}}.rss"><span>rss</span></a></li>
-		</ul>
-		<div class="end"><!-- --></div>
-		{%with todays_events as events%}
-		{%with "todays-events" as class%}
-		{%include "events/list.html"%}
-		{%endwith%}
-		{%endwith%}
+	<div class="span-8 last">
+		calendar widget
+		search
+		subscribe
 	</div>
 </div>
 {%endblock%}

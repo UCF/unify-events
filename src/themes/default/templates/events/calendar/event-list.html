@@ -1,0 +1,16 @@
+{%if heading%}
+<{{heading_tag|default_if_none:"h2"}}>{{heading}}</{{heading_tag|default_if_none:"h2"}}>
+{%endif%}
+
+<ul>
+	{%for event in events%}
+	<li class="event">
+		<div class="title">{{event.title}}</div>
+		<div class="start">{{event.start|date:"P"}}</div>
+		<div class="description">{{event.description}}</div>
+		<div class="buttons">
+			<a class="button" href="#">Social Something</a>
+		</div>
+	</li>
+	{%endfor%}
+</ul>

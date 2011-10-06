@@ -1,6 +1,39 @@
-from django import template
+from django                  import template
+from django.template         import loader, Context
+from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+@register.filter('format_event_list')
+def format_event_list(events):
+	""" Return html with a list of events sectioned out by day they occurr."""
+	from datetime import datetime
+	
+	date_event_map = dict()
+	dates          = list()
+	
+	for event in events:
+		day = datetime(*(event.start.year, event.start.month, event.start.day))
+		
+		if day not in dates:
+			dates.append(day)
+			date_event_map[day] = list()
+		
+		date_event_map[day].append(event)
+	
+	lists = list()
+	for date in dates:
+		events   = date_event_map[date]
+		heading  = date.strftime('%A, %B ') + str(date.day)
+		template = loader.get_template('events/calendar/event-list.html')
+		lists.append(template.render(Context({
+			'events'      : events,
+			'heading'     : heading,
+			'heading_tag' : 'h3',
+		})))
+	
+	html = '\n'.join(lists)
+	return mark_safe(html)
 
 @register.filter('pretty_date')
 def pretty_date(d):

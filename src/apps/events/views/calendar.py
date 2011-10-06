@@ -16,21 +16,21 @@ from events.models               import *
 
 # Create your views here.
 def calendar(request, calendar, format=None):
-	calendar   = get_object_or_404(Calendar, slug=calendar)
-	now        = gmtime()
-	start      = datetime(now.tm_year, now.tm_mon, now.tm_mday)
-	end        = start + timedelta(days=1)
+	calendar = get_object_or_404(Calendar, slug=calendar)
+	now      = gmtime()
+	start    = datetime(now.tm_year, now.tm_mon, now.tm_mday)
+	end      = start + timedelta(days=5)
 	
 	todays_events   = calendar.find_event_instances(start, end)
-	featured_events = calendar.find_event_instances(start, end + timedelta(weeks=4), calendar.featured_instances)
+	featured_events = calendar.find_event_instances(start, start + timedelta(weeks=4), calendar.featured_instances)
 	
-	todays_events   = todays_events.order_by('start', 'event__title')
+	events          = todays_events.order_by('start', 'event__title')
 	featured_events = featured_events.order_by('start', 'event__title')[:5]
 	
-	template = 'events/calendar.' + (format or 'html')
+	template = 'events/calendar/calendar.' + (format or 'html')
 	context  = {
 		'calendar'        : calendar,
-		'todays_events'   : todays_events,
+		'events'          : events,
 		'featured_events' : featured_events,
 	}
 	
@@ -47,7 +47,7 @@ def event(request, calendar, instance_id, format=None):
 	except EventInstance.DoesNotExist:
 		raise Http404
 	
-	template = 'events/event.' + (format or 'html')
+	template = 'events/calendar/event.' + (format or 'html')
 	context  = {
 		'calendar' : calendar,
 		'event'    : event,
@@ -67,7 +67,7 @@ def listing(request, calendar, start, end, format=None):
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	events   = calendar.find_event_instances(start, end)
 	events   = events.order_by('start')
-	template = 'events/listing.' + (format or 'html')
+	template = 'events/calendar/listing.' + (format or 'html')
 	context  = {
 		'start'    : start,
 		'end'      : end,
