@@ -1,44 +1,49 @@
 {% extends 'events/manager/base.html' %}
 {% block content_body %}
-	<div class="span-8" id="sidebar">
-		
-		<ul id="calendars">
-			<li class="even">
-				Upcoming Events
-			</li>
-			{% for calendar in user.calendars %}
-			<li class="{% cycle 'even' 'odd' %} clearfix">
-				<div class="fleft">
-					{{calendar.name}}
-					<ul class="actions">
-						<li><a href="">View</a></li>
-						<li><a href="">Create Event</a></li>
-						<li class="last"><a href="">Edit Details</a></li>
-					</ul>
-				</div>
-				<div class="fright stats">
-					<p>10 Events</p>
-					<p>1,529 Views</p>
-				</div>
-			</li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="span-13 prepend-1 last">
+	<div class="span-24 last">
+		<a id="event_create" class="button">Create New Event</a>
+		<a id="other_actions" class="button">Other Actions &#9660;</a>
+		<form action="{% url manager %}" method="get" id="calendar_selector">
+			<p>Current Event View:</p>
+			<select>
+				<option>All Events I've Submitted</option>
+				<option>Official UCF Calendar</option>
+				<option>College of Medicine Calendar</option>
+				{% for calendar in user.calendars %}
+				<option value="{{calendar.pk}}">{{calendar.title}}</option>
+				{% endfor %}
+			</select>
+			<button type="submit">Change</button>
+		</form>
+		<div id="event_date">
+			{{dates.relative|date:"l, F j, Y"}}
+			<div id="event_date_nav">
+				<a id="prev_month" href="{% url manager _date=dates.prev_month %}">Last Month</a>
+				-
+				<a id="prev_day" href="{% url manager _date=dates.prev_day %}">Yesterday</a>
+				-
+				<a id="prev_day" href="{% url manager _date=dates.today %}">Today</a>
+				-
+				<a id="next_day" href="{% url manager _date=dates.next_day %}">Tomorrow</a>
+				-
+				<a id="next_month" href="{% url manager _date=dates.next_month %}">Next Month</a>
+			</div>
+		</div>
 		<table id="events">
 			<thead>
 				<tr>
-					<th scope="col"></th>
 					<th scope="col">Title</th>
 					<th scope="col">Dates &amp;Times</th>
+					<th scope="col">Description</th>
+					<th scope="col">Calendars</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for event in events %}
 				<tr>
-					<td><input type="checkbox" /></td>
-					<td>{{event.title}}</td>
-					<td>
+					<td class="title">{{event.title}}</td>
+					<td class="description">{{event.description|truncatewords:50}}</td>
+					<td class="instances">
 						{% if event.were_previous_instances %}<p>Previous instances...</p>{% endif %}
 						<ul>
 						{% for instance in event.upcoming_instances|slice:":3" %}
@@ -46,14 +51,18 @@
 						{% endfor %}
 						</ul>
 						{% if event.upcoming_instances|length > 3 %}<p>Future instances..</p>{% endif %}
-					</td>
+						</td>
+					<td>{% if event.calendar %}event.calendar.title{% endif %}</td>
 				</tr>
 				{% empty %}
 				<tr>
 					<td colspan="3">
-						There are no upcoming events
-						{% if calendar %}for this calendar{% endif %}.
-						
+						{% if calendar %}
+							There are no upcoming events for this calendar.
+						{% else %}
+							There are no upcoming events.
+						{% endif %}
+					</td>
 				</tr>
 				{% endfor %}
 			</tbody>
