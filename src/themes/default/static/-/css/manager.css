@@ -13,7 +13,7 @@
 }
 .box {background:none;}
 
-#nav {float:right;margin:25px;}
+#nav {float:right;}
 	#nav > li {
 		display:inline;
 		font-size:120%;
@@ -28,6 +28,7 @@
 		}
 	#nav > li:first-child {
 		border-left:none;
+		padding-right:5px;
 	}
 /*
  * Login Styles
@@ -72,37 +73,82 @@
 #event_create {
 	float:left;
 	position:relative;
+	z-index:2;
 	top:3px;
+	font-size:105%;
 }
 #other_actions {
 	float:left;
 	position:relative;
-	top:3px;
 	margin-left:5px;
+	z-index:2;
+	top:3px;
+	font-size:105%;
 }
 #event_date {
-	text-align:center;
-	font-size:150%;
+	text-align:right;
+	font-size:200%;
 	position:relative;
-	top:-4px;
+	top:-14px;
+	z-index:1;
 }
-#event_date_nav {
-	font-size:50%;
-}
-	#event_date_nav a {
-		color:#666;
-		text-decoration:none;
+	#event_date_nav {
+		font-size:43%;
 	}
-		#event_date_nav a:hover {
-			text-decoration:underline;
+		#event_date_nav a {
+			color:#666;
+			text-decoration:none;
 		}
-#events {margin-top:10px;}
+			#event_date_nav a:hover {
+				text-decoration:underline;
+			}
+#calendar_selector {
+	float:left;
+	position:relative;
+	top:-15px;
+	z-index:2;
+	margin-left:60px;
+}
+	#calendar_selector p {
+		margin:0;
+		padding:0;
+		font-size:90%;
+	}
+		#calendar_selector #default_view {
+			float:right;
+			font-style:italic;
+			text-decoration:none;
+			font-size:90%;
+			position:relative;
+			top:-2px;
+		}
+			#calendar_selector #default_view:hover {
+				text-decoration:underline;
+				cursor:pointer;
+			}
+	#calendar_selector select {
+		clear:left;
+		width:225px;
+		height:27px;
+	}
+#events {
+	position:relative;
+	top:-7px;
+}
 	#events th {
 		background-color:#3E83C9;
 		color:#FFF;
 		padding:5px;
 		font-weight:bold;
 	}
+		#events th:first-child {
+			border-top-left-radius:2px;
+			border-bottom-left-radius:2px;
+		}
+		#events th:last-child {
+			border-top-right-radius:2px;
+			border-bottom-right-radius:2px;
+		}
 	#events td {
 		vertical-align:top;
 		padding:5px;
@@ -120,21 +166,7 @@
 				margin:0;
 				padding:2px 0;
 			}
-#calendar_selector {
-	float:right;
-	position:relative;
-	top:-12px;
-}
-	#calendar_selector p {
-		margin:0;
-		padding:0;
-		font-style:italic;
-		font-size:90%;
-	}
-	#calendar_selector select {
-		width:225px;
-		height:27px;
-	}
+
 	
 
 #calendars {
