@@ -1,5 +1,26 @@
 {%extends 'events/calendar/base.html'%}
+{%load humanize%}
 
 {%block content_body%}
-{%include 'events/calendar/list.html'%}
+
+<div class="event-listing">
+	<div class="span-15 append-1">
+		{{events|format_event_list}}
+		<a class="button" href="#">Load more events</a>
+	</div>
+	<div class="span-8 last">
+		<div class="calendar-widget">
+			Calendar
+		</div>
+		
+		<div class="search-widget">
+			Search
+		</div>
+		
+		<div class="subscribe">
+			Subscribe
+		</div>
+	</div>
+</div>
+
 {%endblock%}
