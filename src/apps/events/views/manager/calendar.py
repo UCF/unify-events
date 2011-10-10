@@ -3,8 +3,8 @@ from django.views.generic.simple     import direct_to_template
 from django.http                     import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
 from django.core.urlresolvers        import reverse
 from django.contrib                  import messages
-from ..events.models                 import Calendar
-from ..events.forms.manager          import CalendarForm, CalendarEditorsForm
+from events.models                   import Calendar
+from events.forms.manager            import CalendarForm, CalendarEditorsForm
 
 @login_required
 def create(request):

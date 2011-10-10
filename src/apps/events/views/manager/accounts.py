@@ -1,5 +1,5 @@
 from django.views.generic.simple    import direct_to_template
-from ..events.forms.manager         import UserForm, ProfileForm
+from events.forms.manager           import UserForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib                 import messages
 from datetime                       import datetime

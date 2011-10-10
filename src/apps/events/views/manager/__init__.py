@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators  import login_required
 from django.views.generic.simple     import direct_to_template
 from datetime                        import datetime, timedelta, date
-from ..events.models                 import Event, Calendar
+from events.models                   import Event, Calendar
 from django.contrib                  import messages
 from django.http                     import HttpResponseRedirect
 from django.core.urlresolvers        import reverse

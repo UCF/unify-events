@@ -1,5 +1,5 @@
-from ..events.forms.manager      import EventForm,EventInstanceForm
-from ..events.models             import Event,EventInstance
+from events.forms.manager        import EventForm,EventInstanceForm
+from events.models               import Event,EventInstance
 from django.contrib              import messages
 from django.views.generic.simple import direct_to_template
 from django.forms.models         import modelformset_factory
