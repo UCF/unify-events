@@ -5,6 +5,9 @@ from events.models                   import Event, Calendar
 from django.contrib                  import messages
 from django.http                     import HttpResponseRedirect
 from django.core.urlresolvers        import reverse
+from events.forms.manager            import EventForm,EventInstanceForm
+from django.forms.models             import modelformset_factory
+from django.db.models                import Q
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -20,7 +23,9 @@ def manage(request, _date=None, calendar_id = None):
 			'next_day'  : None,
 			'next_month': None,
 			'realative' : None,
-		}
+		},
+		'event_form'   : None,
+		'event_formset': None,
 	}
 	tmpl = 'events/manager/manage.html'
 

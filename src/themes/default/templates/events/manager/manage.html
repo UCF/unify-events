@@ -1,20 +1,17 @@
 {% extends 'events/manager/base.html' %}
 {% block content_body %}
 	<div class="span-24 last">
-		<a id="event_create" class="button">Create New Event</a>
-		<a id="other_actions" class="button">Other Actions &#9660;</a>
-		<form action="{% url manager %}" method="get" id="calendar_selector">
-			<p>Current Event View:</p>
-			<select>
-				<option>All Events I've Submitted</option>
-				<option>Official UCF Calendar</option>
-				<option>College of Medicine Calendar</option>
-				{% for calendar in user.calendars %}
-				<option value="{{calendar.pk}}">{{calendar.title}}</option>
-				{% endfor %}
-			</select>
-			<button type="submit">Change</button>
-		</form>
+		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
+		<ul id="other_actions">
+			<li>
+				<a class="button">
+					Other Actions &#9660;
+				</a>
+			</li>
+			<li><a class="button" href="{% url calendar-create %}">Calendar Create</a></li>
+			<li><a class="button">Subcribe</a></li>
+			<li><a class="button">Import</a></li>
+		</ul>
 		<div id="event_date">
 			{{dates.relative|date:"l, F j, Y"}}
 			<div id="event_date_nav">
@@ -33,16 +30,16 @@
 			<thead>
 				<tr>
 					<th scope="col">Title</th>
-					<th scope="col">Dates &amp;Times</th>
 					<th scope="col">Description</th>
+					<th scope="col">Dates &amp;Times</th>
 					<th scope="col">Calendars</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for event in events %}
-				<tr>
+				<tr class="{% cycle 'even' 'odd' %}">
 					<td class="title">{{event.title}}</td>
-					<td class="description">{{event.description|truncatewords:50}}</td>
+					<td class="description">{{event.description|truncatewords:25}}</td>
 					<td class="instances">
 						{% if event.were_previous_instances %}<p>Previous instances...</p>{% endif %}
 						<ul>
@@ -52,7 +49,14 @@
 						</ul>
 						{% if event.upcoming_instances|length > 3 %}<p>Future instances..</p>{% endif %}
 						</td>
-					<td>{% if event.calendar %}event.calendar.title{% endif %}</td>
+					<td class="calendars">
+						{% if event.calendar %}{{event.calendar.name}}{% endif %}
+						<ul class="actions">
+							<li>Edit</li>
+							<li>Copy</li>
+							<li>Delete</li>
+						</ul>
+					</td>
 				</tr>
 				{% empty %}
 				<tr>

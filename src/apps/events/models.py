@@ -127,12 +127,12 @@ class EventInstance(Base):
 		daily, weekly, biweekly, monthly, yearly = range(0,5)
 		never   = None
 		choices = (
-			('never'    , never),
-			('daily'    , daily),
-			('weekly'   , weekly),
-			('biweekly' , biweekly),
-			('monthly'  , monthly),
-			('yearly'   , yearly),
+			(never    , 'Never'),
+			(daily    , 'Daily'),
+			(weekly   , 'Weekly'),
+			(biweekly , 'Biweekly'),
+			(monthly  , 'Monthly'),
+			(yearly   , 'Yearly'),
 		)
 		
 		
@@ -184,7 +184,7 @@ class EventInstance(Base):
 	location  = models.ForeignKey('Location', related_name='events', null=True, blank=True)
 	start     = models.DateTimeField()
 	end       = models.DateTimeField()
-	interval  = models.SmallIntegerField(null=True, default=Recurs.never, choices=Recurs.choices)
+	interval  = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
 	

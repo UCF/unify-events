@@ -1,17 +1,54 @@
 {% extends 'events/manager/base.html' %}
 {% block content_body %}
 	<h2>Create an Event</h2>
-	<form action="{% url event-create %}" method="post">
-		<h3>Event Details</h3>
-		{{form.as_table}}
-		<h3>Event Instances</h3>
-		{% for instance in formset %}
-			{{instance.as_table}}
-		{% endfor %}
-		<div>
-			{{formset.management_form}}
-			{% csrf_token %}
-			<input type="submit" value="Create Event" />
+	<div id="event" class="span-24">
+			{{event_form.non_field_errors}}
+			{{event_form.errors}}
+			{% for form in event_formset %}
+				{{form.non_field_errors}}
+				{{form.errors}}
+			{% endfor %}
+			<form action="{% url event-create %}" method="post">
+				<div id="details" class="span-8">
+					<p>{{event_form.title.label_tag}}</p>
+					{{event_form.title}}
+					<p>{{event_form.description.label_tag}}</p>
+					{{event_form.description}}
+					<p>{{event_form.calendar.label_tag}}</p>
+					<p>{{event_form.calendar}}</p>
+					{{event_formset.management_form}}
+					{% csrf_token %}
+					<button type="submit">Create Event</button>
+				</div>
+				<div class="span-15 prepend-1 last">
+					<label>Date, Time &amp; Location:</label>
+					<ul id="instances" class="span-16 last">
+						{% for form in event_formset %}
+							<li>
+								<div class="dates span-8">
+									<div class="start">
+										{{form.start.label_tag}}
+										{{form.start}} {{form.start_hour}}{{form.start_minute}}{{form.start_ampm}}
+									</div>
+									<div class="end">
+										{{form.end.label_tag}}
+										{{form.end}}{{form.end_hour}}{{form.end_minute}}{{form.end_ampm}}
+									</div>
+								</div>
+								<div class="span-7 last">
+									<div class="recur">
+										{{form.interval.label_tag}}
+										{{form.interval}} {{form.limit}}
+									</div>
+									<div class="location">
+										{{form.location.label_tag}}
+										{{form.location}}
+									</div>
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</form>
 		</div>
-	</form>
 {% endblock %}
