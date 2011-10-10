@@ -6,12 +6,14 @@ register = template.Library()
 
 @register.filter('format_event_list')
 def format_event_list(events):
-	""" Return html with a list of events sectioned out by day they occurr."""
+	""" Return html with a list of events sectioned out by day they occur."""
 	from datetime import datetime
+	from datetime import datetime, date, timedelta
 	
 	date_event_map = dict()
 	dates          = list()
 	
+	# Create date and event mapping
 	for event in events:
 		day = datetime(*(event.start.year, event.start.month, event.start.day))
 		
@@ -21,18 +23,28 @@ def format_event_list(events):
 		
 		date_event_map[day].append(event)
 	
-	lists = list()
+	# Initialize loop constants and containers
+	date_lists = list()
+	today      = date.today()
+	template   = loader.get_template('events/calendar/event-list.html')
+	prefix_gen = lambda d: {
+		timedelta(1) : 'Tomorrow: ',
+		timedelta(0) : 'Today: ',
+	}.get(d - today, '')
+	
+	# Render lists for each date
 	for date in dates:
+		prefix   = prefix_gen(date.date())
 		events   = date_event_map[date]
-		heading  = date.strftime('%A, %B ') + str(date.day)
-		template = loader.get_template('events/calendar/event-list.html')
-		lists.append(template.render(Context({
+		heading  = prefix + date.strftime('%A, %B ') + str(date.day)
+		date_lists.append(template.render(Context({
 			'events'      : events,
 			'heading'     : heading,
 			'heading_tag' : 'h3',
 		})))
 	
-	html = '\n'.join(lists)
+	# Combine lists and return joined list html
+	html = '\n'.join(date_lists)
 	return mark_safe(html)
 
 @register.filter('pretty_date')
