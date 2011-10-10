@@ -2,7 +2,11 @@ from django.core.management.base import BaseCommand
 from django.core.management      import call_command
 from events.models               import Calendar, Event, EventInstance
 from django.contrib.auth.models  import User
+from django.contrib.webdesign    import lorem_ipsum
 from datetime                    import datetime
+from random                      import randint
+
+lorem_ipsum.words_cust = lambda: lorem_ipsum.words(randint(3, 10), False).title()
 
 class Command(BaseCommand):
 	def handle(self, *args, **options):
@@ -23,8 +27,8 @@ class Command(BaseCommand):
 		print 'Creating events for new calendars...',
 		# Create events
 		obama_cal.events.create(
-			title="Curing Old Age",
-			description="So I created a \"panel\" for the care of the elderly...",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 1, 5, 0),
@@ -33,8 +37,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		obama_cal.events.create(
-			title="Winning a Nobel Peace Prize",
-			description="What do change, hope, and cruise missiles all have in common?  This guy!",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 2, 4, 0),
@@ -43,8 +47,18 @@ class Command(BaseCommand):
 			limit=52
 		)
 		obama_cal.events.create(
-			title="How to Escalate a Current War",
-			description="The key is in the rhetoric.",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
+			state=Event.Status.posted
+		).instances.create(
+			start=datetime(2011, 1, 2, 6, 0),
+			end=datetime(2011, 1, 2, 7, 0),
+			interval=EventInstance.Recurs.weekly,
+			limit=52
+		)
+		obama_cal.events.create(
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 3, 5, 0),
@@ -53,8 +67,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		obama_cal.events.create(
-			title="How to Begin Another War",
-			description="War Powers what?",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 4, 4, 25),
@@ -63,8 +77,18 @@ class Command(BaseCommand):
 			limit=52
 		)
 		obama_cal.events.create(
-			title="Closing Gitmo, Pros and Cons",
-			description="No comment.",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
+			state=Event.Status.posted
+		).instances.create(
+			start=datetime(2011, 1, 4, 6, 0),
+			end=datetime(2011, 1, 4, 7, 0),
+			interval=EventInstance.Recurs.weekly,
+			limit=52
+		)
+		obama_cal.events.create(
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 5, 12, 0),
@@ -74,8 +98,8 @@ class Command(BaseCommand):
 		)
 		
 		romney_cal.events.create(
-			title="Of Course Corporations are Llamas",
-			description="Corporations are comprised of people.  People eat food.  Llamas eat food.  Therefore...",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 1, 5, 0),
@@ -84,8 +108,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		romney_cal.events.create(
-			title="I Love Healthcare Reform",
-			description="It's so nice to be here in Massachusetts.",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 2, 5, 0),
@@ -94,8 +118,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		romney_cal.events.create(
-			title="I Hate Healthcare Reform",
-			description="It's so nice to be here in Iowa.",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 3, 5, 0),
@@ -104,8 +128,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		romney_cal.events.create(
-			title="The Solution is Lower Taxes",
-			description="The rich are job creators people, you can't tax them!  They'll never create jobs!",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 4, 5, 0),
@@ -114,8 +138,8 @@ class Command(BaseCommand):
 			limit=52
 		)
 		romney_cal.events.create(
-			title="The Solution is Always Lower Taxes",
-			description="The balanced approach is lower taxes!  Yay, no taxes for everybody.  Make it rain!",
+			title=lorem_ipsum.words_cust(),
+			description=lorem_ipsum.paragraph(),
 			state=Event.Status.posted
 		).instances.create(
 			start=datetime(2011, 1, 5, 5, 0),
