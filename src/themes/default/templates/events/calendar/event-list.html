@@ -4,18 +4,19 @@
 	{%endif%}
 	<ul>
 		{%for event in events%}
-		<li class="event{%if forloop.first%} first{%endif%}">
-			<div class="image"><img src="{{MEDIA_URL}}-/img/test-64x64.png"></div>
-			<div class="heading">
-				<div class="title">{{event.title}}</div>
-				<div class="start">{{event.start|date:"fA"|lower}}</div>
-				<div class="end"><!-- --></div>
+		<li class="event{%if forloop.first%} first{%endif%} span-15 last">
+			<div class="image span-2"><img src="{{MEDIA_URL}}-/img/test-64x64.png" /></div>
+			<div class="details span-13 last">
+				<div class="heading">
+					<div class="title span-10">{{event.title}}</div>
+					<div class="start span-3 last">{{event.start|date:"fA"|lower}}</div>
+				</div>
+				<div class="description span-13 last">{{event.description|truncatewords:16}}</div>
+				<div class="buttons span-13 last">
+					<a class="primary button" href="#">Social Something</a>
+					<a class="button" href="#">Button</a>
+				</div>
 			</div>
-			<div class="description">{{event.description|truncatewords:16}}</div>
-			<ul class="buttons">
-				<li><a class="primary button" href="#">Social Something</a></li>
-				<li><a class="button" href="#">Button</a></li>
-			</ul>
 		</li>
 		{%endfor%}
 	</ul>

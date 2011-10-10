@@ -2,7 +2,6 @@ h1 {color:#333;}
 
 .fleft {float:left;}
 .fright {float:right;}
-.end{clear: both;}
 
 .event-list{font-family: "Helvetica", "Arial", "sans-serif";}
 .event-list>.heading{font-size: 25px;}
@@ -10,10 +9,10 @@ h1 {color:#333;}
 .event-list ul li{list-style-type: none;}
 .event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc;}
 .event-list .event.first{border: none;}
-.event-list .event .image{float: left; width: 100px;}
-.event-list .event .heading{font-size: 14px; font-weight: bold; margin-left: 100px;}
-.event-list .event .heading .title{color: #a35e00; width: 80%; float: left;}
-.event-list .event .heading .start{margin-left: 80%; color: #999; text-align: right;}
-.event-list .event .description{color: #333; margin-left: 100px; margin-top: 1em;}
-.event-list .event .buttons{margin-left: 100px; padding: 0; margin: 20px 0 0 100px;  text-align: right;}
+.event-list .event .image img{border: 1px solid #ccc; padding: 2px;}
+.event-list .event .heading{font-size: 14px; font-weight: bold;}
+.event-list .event .heading .title{color: #a35e00;}
+.event-list .event .heading .start{color: #999; text-align: right;}
+.event-list .event .description{color: #333; margin-top: 1em;}
+.event-list .event .buttons{padding: 0; margin: 20px 0 0 0;  text-align: right;}
 .event-list .event .buttons li{list-style-type: none; display: inline;}

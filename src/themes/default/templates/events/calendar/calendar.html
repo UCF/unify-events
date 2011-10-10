@@ -4,7 +4,10 @@
 {%block content_body%}
 <div id="caledar">
 	<div class="span-15 append-1">
-		{{events|format_event_list}}
+		<a href="{%url named-listing calendar=calendar.slug type="today"%}">Today</a>
+		<a href="{%url named-listing calendar=calendar.slug type="this-week"%}">This Week</a>
+		<a href="{%url named-listing calendar=calendar.slug type="this-month"%}">This Month</a>
+		<a href="{%url named-listing calendar=calendar.slug type="this-year"%}">This Year</a>
 	</div>
 	<div class="span-8 last">
 		calendar widget
