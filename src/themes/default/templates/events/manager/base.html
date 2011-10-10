@@ -10,8 +10,8 @@
 			<h1><a href="{% url manager %}">Events | Manager</a></h1>
 			{% if user.is_authenticated %}
 				<ul id="nav">
-					<li><a href="{% url accounts-profile %}">Account</a></li>
-					<li><a href="{% url accounts-logout %}">Logout</a></li>
+					<li><a href="{% url accounts-profile %}">settings</a></li>
+					<li><a href="{% url accounts-logout %}">log out</a></li>
 				</ul>
 			{% endif %}
 		</header>

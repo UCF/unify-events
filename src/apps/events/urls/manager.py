@@ -22,6 +22,5 @@ urlpatterns += patterns('events.views.manager',
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
 	
-
-	url(r'^$', view='manage', name='manager'),
+	url(r'(?P<_date>[\w-]+)?/?(?P<calendar_id>\d+)?', view='manage', name='manager'),
 )
