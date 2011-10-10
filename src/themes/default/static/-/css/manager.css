@@ -9,7 +9,6 @@
 #manager-base label {font-size:17px;}
 #manager-base input[type="text"], #manager-base input[type="password"] {
 	font-size:18px;
-	margin:5px 5px 10px 5px;
 }
 .box {background:none;}
 
@@ -30,6 +29,11 @@
 		border-left:none;
 		padding-right:5px;
 	}
+.datepicker {
+	border-color:#FFF;
+	width:140px;
+	
+}
 /*
  * Login Styles
  */
@@ -83,17 +87,29 @@
 	margin-left:5px;
 	z-index:2;
 	top:3px;
+	left:5px;
 	font-size:105%;
+	margin:0;
+	padding:0;
 }
+	#other_actions li {
+		list-style-type:none;
+		margin:0;
+		padding:0;
+	}
+	#other_actions li a {
+		display:block;
+		width:110px;
+	}
 #event_date {
 	text-align:right;
-	font-size:200%;
+	font-size:190%;
 	position:relative;
-	top:-14px;
+	top:-10px;
 	z-index:1;
 }
 	#event_date_nav {
-		font-size:43%;
+		font-size:45%;
 	}
 		#event_date_nav a {
 			color:#666;
@@ -102,38 +118,49 @@
 			#event_date_nav a:hover {
 				text-decoration:underline;
 			}
-#calendar_selector {
-	float:left;
-	position:relative;
-	top:-15px;
-	z-index:2;
-	margin-left:60px;
+#event {
 }
-	#calendar_selector p {
+	#id_event-title {
+		width:100%;
+		margin:0;
+		margin-bottom:10px;
+	}
+	#id_event-description {
+		width:100%;
+		height:80px;
+		margin-bottom:15px;
+	}
+	#event #instances {
 		margin:0;
 		padding:0;
-		font-size:90%;
 	}
-		#calendar_selector #default_view {
-			float:right;
-			font-style:italic;
-			text-decoration:none;
-			font-size:90%;
-			position:relative;
-			top:-2px;
+		#event #instances > li {
+			list-style-type:none;
 		}
-			#calendar_selector #default_view:hover {
-				text-decoration:underline;
-				cursor:pointer;
+		#event #instances label {
+			display:block;
+			margin-top:10px;
+		}
+		#event #instances .recur input {
+			width:50px;
+		}
+		#event #instances .recur select {
+			width:205px;
+		}
+		#event #instances .location select {
+			width:270px;
+		}
+		#event #instances label {
+			font-weight:normal;
+		}
+		#event #instances .start label,
+			#event #instances .end label {
+				display:block;
 			}
-	#calendar_selector select {
-		clear:left;
-		width:225px;
-		height:27px;
-	}
+
 #events {
 	position:relative;
-	top:-7px;
+	top:-67px;
 }
 	#events th {
 		background-color:#3E83C9;
@@ -149,22 +176,53 @@
 			border-top-right-radius:2px;
 			border-bottom-right-radius:2px;
 		}
+	#events tr.even {
+		background-color:#fafafa;
+	}
+	#events tr.odd {
+	}
 	#events td {
 		vertical-align:top;
 		padding:5px;
 	}
-		#events td.instances p {
-			font-size:90%;
-			margin:0;
+		#events td.title {
+			width:20%;
 		}
-		#events td.instances ul {
-			margin:0;
-			padding:5px 0;
+		#events td.description {
+			width:40%;
 		}
-			#events td.instances ul > li {
+		#events td.instances {
+			width:25%;
+		}
+			#events td.instances p {
+				font-size:90%;
+				margin:0;
+			}
+			#events td.instances ul {
+				
+				margin:0;
+				padding:5px 0;
+			}
+				#events td.instances ul > li {
+					list-style-type:none;
+					margin:0;
+					padding:2px 0;
+				}
+		
+		#events td.calendars {
+			width:15%;
+			position:relative;
+		}
+			#events td.calendars .actions{
+				position:absolute;
+				top:0%;
+				left:102%;
+				margin:0 0 0 0;
+				padding:0;
+			}
+			#events td.calendars .actions > li {
 				list-style-type:none;
 				margin:0;
-				padding:2px 0;
 			}
 
 	
