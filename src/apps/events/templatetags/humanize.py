@@ -1,8 +1,10 @@
 from django                  import template
 from django.template         import loader, Context
 from django.utils.safestring import mark_safe
+from django.conf             import settings
 
 register = template.Library()
+
 
 @register.filter('format_event_list')
 def format_event_list(events):
@@ -38,6 +40,7 @@ def format_event_list(events):
 		events   = date_event_map[date]
 		heading  = prefix + date.strftime('%A, %B ') + str(date.day)
 		date_lists.append(template.render(Context({
+			'MEDIA_URL'   : settings.MEDIA_URL,
 			'events'      : events,
 			'heading'     : heading,
 			'heading_tag' : 'h3',
@@ -46,6 +49,7 @@ def format_event_list(events):
 	# Combine lists and return joined list html
 	html = '\n'.join(date_lists)
 	return mark_safe(html)
+
 
 @register.filter('pretty_date')
 def pretty_date(d):
