@@ -313,7 +313,8 @@ class Calendar(Base):
 	creator       = models.ForeignKey(User, related_name='owned_calendars', null=True)
 	editors       = models.ManyToManyField(User, related_name='edited_calendars')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
-	
+	public        = models.BooleanField(default=False)
+
 	@property
 	def events_and_subs(self):
 		"""Returns a queryset that combines this calendars event instances with
