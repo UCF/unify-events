@@ -54,7 +54,7 @@ class LDAPHelper(object):
 			raise LDAPHelper.UnableToBind(e)
 	
 	@classmethod
-	def search_single(*args, **kwargs):
+	def search_single(cls, *args, **kwargs):
 		results = LDAPHelper.search(*args, **kwargs)
 		if len(results) == 0:
 			raise LDAPHelper.NoUsersFound()
