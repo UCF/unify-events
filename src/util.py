@@ -61,20 +61,17 @@ class LDAPHelper(object):
 		elif len(results) > 1:
 			raise LDAPHelper.MultipleUsersFound(e)
 		else:
-			try:
-				return results[0][0][1]
-			except ValueError:
-				raise LDAPHelper.UnexpectedResultForm(e)
+			return results[0]
 
 	@classmethod
 	def search(cls,connection,filter_params,filter_string='cn=%s'):
-		results = []
 		try:
 			filter = filter_string % filter_params
 			result_id = connection.search(settings.LDAP_NET_BASE_DN,ldap.SCOPE_SUBTREE,filter,None)
 		except ldap.LDAPError, e:
 			raise LDAPHelper.UnableToSearch(e)
 		else:
+			results = []
 			while 1:
 				type, data = connection.result(result_id, 0)
 				if (data == []):
@@ -82,8 +79,11 @@ class LDAPHelper(object):
 				else:
 					if type == ldap.RES_SEARCH_ENTRY:
 						results.append(data)
-			return results
-	
+			try:
+				return list(o[0][1] for o in results)
+			except ValueError:
+				raise LDAPHelper.UnexpectedResultForm(e)
+
 	@classmethod
 	def _extract_attribute(cls,ldap_user,attribute):
 		try:
