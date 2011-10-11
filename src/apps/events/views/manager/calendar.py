@@ -7,18 +7,25 @@ from events.models                   import Calendar
 from events.forms.manager            import CalendarForm, CalendarEditorsForm
 
 @login_required
-def create(request):
-	ctx = {'form':None}
-	tmpl = 'events/manager/calendar/create.html'
+def create_update(request, id = None):
+	ctx = {'form':None,'mode':'create','calendar':None}
+	tmpl = 'events/manager/calendar/create_update.html'
 
+	if id is not None:
+		ctx['mode'] = 'update'
+		try:
+			ctx['calendar'] = Calendar.objects.get(pk = id)
+		except Calendar.DoesNotExist:
+			return HttpResponseNotFound('The calendar specified does not exist')
+	
 	if request.method == 'POST':
-		ctx['form'] = CalendarForm(request.POST)
+		ctx['form'] = CalendarForm(request.POST,instance=ctx['calendar'])
 		if ctx['form'].is_valid():
 			calendar = ctx['form'].save(commit=False)
 			calendar.creator = request.user
 			calendar.save()
 	else:
-		ctx['form'] = CalendarForm()
+		ctx['form'] = CalendarForm(instance=ctx['calendar'])
 	
 	return direct_to_template(request,tmpl,ctx)
 
