@@ -4,9 +4,12 @@ from django                     import forms
 from datetime                   import datetime,timedelta
 
 class CalendarForm(forms.ModelForm):
+
+	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(public=True))
+
 	class Meta:
 		model  = Calendar
-		fields = ('name', 'slug','public','editors')
+		fields = ('name', 'slug','public','editors', 'subscriptions')
 
 class UserForm(forms.ModelForm):
 	class Meta:
