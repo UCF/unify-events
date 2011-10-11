@@ -18,20 +18,18 @@ MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 def manage(request, _date=None, calendar_id = None):
 	ctx  = {
 		'events'  :None,
-		'calendar':None,
+		'current_calendar':None,
 		'dates':{
 			'prev_day'  : None,
 			'prev_month': None,
 			'today'     : None,
 			'next_day'  : None,
 			'next_month': None,
-			'realative' : None,
+			'relative' : None,
 		},
-		'event_form'   : None,
-		'event_formset': None,
 	}
 	tmpl = 'events/manager/manage.html'
-
+	messages.success(request, 'test')
 	# Make sure check their profile when they
 	# log in for the first time
 	if request.user.first_login:
@@ -53,11 +51,11 @@ def manage(request, _date=None, calendar_id = None):
 		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['today'])
 	else:
 		try:
-			ctx['calendar'] = Calendar.objects.get(pk = calendar_id)
+			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
 		else:
-			ctx['events'] = ctx['calendar'].events.all()
+			ctx['events'] = ctx['current_calendar'].events.all()
 
 	return direct_to_template(request,tmpl,ctx)
 
