@@ -2,16 +2,73 @@
 {% block content_body %}
 		{% if mode == 'create' %}
 			<h2>Create a Calendar</h2>
+			<form action="{% url calendar-create %}" method="post" id="calendar-create">
 		{% else %}
 			{% if mode == 'update' %}
 				<h2>Update {{calendar.name}} Calendar</h2>
+				<form action="{% url calendar-update id=calendar.id %}" method="post" id="calendar-create">
 			{% endif %}
 		{% endif %}
-		<form action="{% url calendar-create %}" method="post">
-			{% if form.errors %}
+			{% if form.non_field_errors %}
 				<p>{{form.non_field_errors}}</p>
 			{% endif %}
-			{{form.as_p}}
+			<table>
+				<tbody>
+					<tr>
+						<th scope="row">{{form.name.label_tag}}</th>
+						<td>
+							{{form.name}}
+							{% if form.name.errors %}
+								<ul>
+								{% for error in form.name.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+						
+					</tr>
+					<tr>
+						<th scope="row">{{form.slug.label_tag}}</th>
+						<td>
+							{{form.slug}}
+							{% if form.slug.errors %}
+								<ul>
+								{% for error in form.slug.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">{{form.public.label_tag}}</th>
+						<td>
+							{{form.public}}
+							{% if form.public.errors %}
+								<ul>
+								{% for error in form.public.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">{{form.editors.label_tag}}</th>
+						<td>
+							{{form.editors}}
+							{% if form.editors.errors %}
+								<ul>
+								{% for error in form.editors.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<input type="submit" value="Create" />
 		</form>
 {% endblock %}

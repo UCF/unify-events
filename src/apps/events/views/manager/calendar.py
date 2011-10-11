@@ -4,7 +4,7 @@ from django.http                     import HttpResponseNotFound, HttpResponseFo
 from django.core.urlresolvers        import reverse
 from django.contrib                  import messages
 from events.models                   import Calendar
-from events.forms.manager            import CalendarForm, CalendarEditorsForm
+from events.forms.manager            import CalendarForm
 
 @login_required
 def create_update(request, id = None):
@@ -28,24 +28,3 @@ def create_update(request, id = None):
 		ctx['form'] = CalendarForm(instance=ctx['calendar'])
 	
 	return direct_to_template(request,tmpl,ctx)
-
-@login_required
-def editors(request,id):
-	ctx  = {'form':None,'calendar':None}
-	tmpl = 'events/manager/calendar/editors.html'
-
-	try:
-		ctx['calendar'] = Calendar.objects.get(pk = id)
-	except Calendar.DoesNotExist:
-		return HttpResponseNotFound('The calendar specified does not exist')
-	else:
-		if ctx['calendar'] not in request.user.calendars:
-			return HttpResponseForbidden('You do not have access to that calendar')
-		else:
-			if request.method == 'POST':
-				ctx['form'] = CalendarEditorsForm(request.POST, instance=ctx['calendar'])
-				if ctx['form'].is_valid():
-					ctx['form'].save()
-			else:
-				ctx['form'] = CalendarEditorsForm(instance=ctx['calendar'])
-			return direct_to_template(request,tmpl,ctx)

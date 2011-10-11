@@ -6,12 +6,7 @@ from datetime                   import datetime,timedelta
 class CalendarForm(forms.ModelForm):
 	class Meta:
 		model  = Calendar
-		fields = ('name', 'slug')
-
-class CalendarEditorsForm(forms.ModelForm):
-	class Meta:
-		model  = Calendar
-		fields = ('editors',)
+		fields = ('name', 'slug','public','editors')
 
 class UserForm(forms.ModelForm):
 	class Meta:
