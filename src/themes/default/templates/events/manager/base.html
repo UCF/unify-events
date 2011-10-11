@@ -3,6 +3,12 @@
 	{{block.super}}
 	<link href="{{MEDIA_URL}}-/css/manager.css" rel="stylesheet" media="all" />
 {% endblock %}
+{% block scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		USER_SEARCH_URL = '{% url search-user %}';
+	</script>
+{% endblock %}
 {%block content%}
 <div id="manager-base" class="container">
 	{%block content_header%}
