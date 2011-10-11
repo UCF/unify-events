@@ -45,4 +45,4 @@ LDAP_NET_ATTR_MAP    = { # LDAP Object -> User Object
   'mail'     :'email'
 }
 LDAP_NET_SEARCH_USER  = ''
-LDAP_SEARCH_USER_PASS = ''
+LDAP_NET_SEARCH_PASS = ''
