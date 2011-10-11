@@ -54,10 +54,11 @@ class LDAPHelper(object):
 			raise LDAPHelper.UnableToBind(e)
 			
 	@classmethod
-	def search_single(cls,connection,username):
+	def search_single(cls,connection,fitler_params,filter_string = 'cn=%s'):
 		results = []
 		try:
-			result_id = connection.search(settings.LDAP_NET_BASE_DN,ldap.SCOPE_SUBTREE,'cn=%s' % username,None)
+			filter = filter_string % filter_params
+			result_id = connection.search(settings.LDAP_NET_BASE_DN,ldap.SCOPE_SUBTREE,filter,None)
 		except ldap.LDAPError, e:
 			raise LDAPHelper.UnableToSearch(e)
 		else:
