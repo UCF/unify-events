@@ -67,7 +67,7 @@ class LDAPHelper(object):
 				raise LDAPHelper.UnexpectedResultForm(e)
 
 	@classmethod
-	def search(cls,connection,fitler_params,filter_string='cn=%s'):
+	def search(cls,connection,filter_params,filter_string='cn=%s'):
 		results = []
 		try:
 			filter = filter_string % filter_params
