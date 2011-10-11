@@ -14,7 +14,7 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('events.views.manager',
 	
-	url(r'^search/user/(?P<lastname>\w+)/?(?P<firstname>\w+)?/?$', view='search_user', name='search-user'),
+	url(r'^search/user/(?P<lastname>\w+)?/?(?P<firstname>\w+)?/?$', view='search_user', name='search-user'),
 
 	url(r'^event/(?P<id>\d+)/update', view='event.create_update', name='event-update'),
 	url(r'^event/create', view='event.create_update', name='event-create'),
