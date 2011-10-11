@@ -29,7 +29,7 @@ def manage(request, _date=None, calendar_id = None):
 		},
 	}
 	tmpl = 'events/manager/manage.html'
-	messages.success(request, 'test')
+	
 	# Make sure check their profile when they
 	# log in for the first time
 	if request.user.first_login:
