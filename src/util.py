@@ -111,4 +111,4 @@ class LDAPHelper(object):
 	
 	@classmethod
 	def extract_username(cls,ldap_user):
-		return LDAPHelper._extract_attribute(ldap_user,'cn')	
+		return LDAPHelper._extract_attribute(ldap_user,'cn')
