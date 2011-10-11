@@ -108,3 +108,7 @@ class LDAPHelper(object):
 	@classmethod
 	def extract_email(self,ldap_user):
 		return LDAPHelper._extract_attribute(ldap_user,'mail')
+	
+	@classmethod
+	def extract_username(self,ldap_user):
+		return LDAPHelper._extract_attribute(ldap_user,'cn')	
