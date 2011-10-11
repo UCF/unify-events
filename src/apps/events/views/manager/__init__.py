@@ -25,11 +25,11 @@ def manage(request, _date=None, calendar_id = None):
 			'today'     : None,
 			'next_day'  : None,
 			'next_month': None,
-			'relative' : None,
+			'relative'  : None,
 		},
 	}
 	tmpl = 'events/manager/manage.html'
-	
+
 	# Make sure check their profile when they
 	# log in for the first time
 	if request.user.first_login:
@@ -48,14 +48,14 @@ def manage(request, _date=None, calendar_id = None):
 	ctx['dates']['next_month'] = str(ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month]))
 
 	if calendar_id is None: # Upcoming events
-		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['today'])
+		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['relative'])
 	else:
 		try:
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
 		else:
-			ctx['events'] = ctx['current_calendar'].events.all()
+			ctx['events'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 
 	return direct_to_template(request,tmpl,ctx)
 
