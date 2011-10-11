@@ -85,7 +85,7 @@ class LDAPHelper(object):
 			return results
 	
 	@classmethod
-	def _extract_attribute(self,ldap_user,attribute):
+	def _extract_attribute(cls,ldap_user,attribute):
 		try:
 			return ldap_user[attribute][0]
 		except KeyError, e:
@@ -94,21 +94,21 @@ class LDAPHelper(object):
 			raise LDAPHelper.MissingAttribute(e)
 
 	@classmethod
-	def extract_guid(self,ldap_user):
+	def extract_guid(cls,ldap_user):
 		return base64.encodestring(LDAPHelper._extract_attribute(ldap_user,'objectGUID'))
 	
 	@classmethod
-	def extract_firstname(self,ldap_user):
+	def extract_firstname(cls,ldap_user):
 		return LDAPHelper._extract_attribute(ldap_user,'givenName')
 		
 	@classmethod
-	def extract_lastname(self,ldap_user):
+	def extract_lastname(cls,ldap_user):
 		return LDAPHelper._extract_attribute(ldap_user,'sn')
 		
 	@classmethod
-	def extract_email(self,ldap_user):
+	def extract_email(cls,ldap_user):
 		return LDAPHelper._extract_attribute(ldap_user,'mail')
 	
 	@classmethod
-	def extract_username(self,ldap_user):
+	def extract_username(cls,ldap_user):
 		return LDAPHelper._extract_attribute(ldap_user,'cn')	
