@@ -52,9 +52,22 @@ class LDAPHelper(object):
 			connection.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX,password)
 		except ldap.LDAPError, e:
 			raise LDAPHelper.UnableToBind(e)
-			
+	
 	@classmethod
-	def search_single(cls,connection,fitler_params,filter_string = 'cn=%s'):
+	def search_single(*args, **kwargs):
+		results = LDAPHelper.search(*args, **kwargs)
+		if len(results) == 0:
+			raise LDAPHelper.NoUsersFound()
+		elif len(results) > 1:
+			raise LDAPHelper.MultipleUsersFound(e)
+		else:
+			try:
+				return results[0][0][1]
+			except ValueError:
+				raise LDAPHelper.UnexpectedResultForm(e)
+
+	@classmethod
+	def search(cls,connection,fitler_params,filter_string='cn=%s'):
 		results = []
 		try:
 			filter = filter_string % filter_params
@@ -69,15 +82,7 @@ class LDAPHelper(object):
 				else:
 					if type == ldap.RES_SEARCH_ENTRY:
 						results.append(data)
-			if len(results) == 0:
-				raise LDAPHelper.NoUsersFound()
-			elif len(results) > 1:
-				raise LDAPHelper.MultipleUsersFound(e)
-			else:
-				try:
-					return results[0][0][1]
-				except ValueError:
-					raise LDAPHelper.UnexpectedResultForm(e)
+			return results
 	
 	@classmethod
 	def _extract_attribute(self,ldap_user,attribute):
