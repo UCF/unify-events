@@ -1,3 +1,5 @@
+var sluggify = function(s) {return s.toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z-]/, '');}
+
 $().ready(function() {
 	
 	// EventInstance DatePickers
