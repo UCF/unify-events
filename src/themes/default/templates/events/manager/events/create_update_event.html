@@ -1,4 +1,29 @@
 {% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#event_instance_add')
+				.click(function() {
+					extend_formset('#instances > li:last', 'event_instance');
+					return false;
+				});
+			$('#instances > li')
+				.each(function(index, li) {
+					var li = $(li);
+					li.find('.event_instance_remove')
+						.click(function() {
+							if($('#instances > li').length == 1) {
+								alert('An event must have at least one date, time and location combination.')
+							} else {
+								retract_formset($(this).parents('li:eq(0)'), 'event_instance');
+							}
+							return false;
+						});
+				});
+		})
+	</script>
+{% endblock %}
 {% block content_body %}
 	<h2>Create an Event</h2>
 	<div id="event" class="span-24">
@@ -22,9 +47,9 @@
 				</div>
 				<div class="span-15 prepend-1 last">
 					<label>Date, Time &amp; Location:</label>
-					<ul id="instances" class="span-16 last">
+					<ul id="instances">
 						{% for form in event_formset %}
-							<li>
+							<li class="clearfix">
 								<div class="dates span-8">
 									<div class="start">
 										{{form.start.label_tag}}
@@ -44,10 +69,12 @@
 										{{form.location.label_tag}}
 										{{form.location}}
 									</div>
+									<button class="event_instance_remove">Remove Event Instance</button>
 								</div>
 							</li>
 						{% endfor %}
 					</ul>
+					<button id="event_instance_add" class="clear">Add Another Event Instance</button>
 				</div>
 			</form>
 		</div>
