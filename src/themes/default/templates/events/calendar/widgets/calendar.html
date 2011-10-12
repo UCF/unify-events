@@ -22,9 +22,7 @@
 				{% for week in weeks %}
 				<tr class="week">
 					{% for day, events, weight in week %}
-					<td class="day {%if weight%}{{weight}}{%endif%}
-						{%if today == day.date%}active{%endif%}
-						{%if day.month != this_month.month%}subtle{%endif%}"><a href="#">
+					<td class="day {%if weight%}{{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%}subtle{%endif%}"><a href="#">
 						{{day.day}}
 					</a></td>
 					{% endfor %}
