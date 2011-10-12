@@ -1,4 +1,16 @@
 {% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#calendar_selector select')	
+				.change(function() {
+					var selector = $(this);
+					window.location.href = selector.val();
+				});
+		});
+	</script>
+{% endblock %}
 {% block content_body %}
 	<div class="span-24 last">
 		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
@@ -24,7 +36,6 @@
 					{% endif %}>{{calendar.name}}</option>
 				{% endfor %}
 			</select>
-			<button type="submit">Change</button>
 		</form>
 		<div id="event_date">
 			{{dates.relative|date:"l, F j, Y"}}
