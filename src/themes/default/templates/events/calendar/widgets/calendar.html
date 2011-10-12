@@ -1,0 +1,35 @@
+<section class="calendar-widget" data-month="{{month}}" data-year="{{year}}">
+	<h1>{{this_month|date:"F Y"}}</h1>
+	<div class="table-wrap">
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">Su</th>
+					<th scope="col">M</th>
+					<th scope="col">T</th>
+					<th scope="col">W</th>
+					<th scope="col">Th</th>
+					<th scope="col">F</th>
+					<th scope="col">S</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for week in weeks %}
+				<tr class="week">
+					{% for day, events, weight in week %}
+					<td class="{{weight}} day{%if today == day%} today{%endif%}{%if day.month != this_month.month%} subtle{%endif%}"><a href="#">
+						{{day.day}}
+					</a></td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<ul class="month-controls">
+			<li class="back last-month"><a href="#">{{last_month|date:"F"}}</a></li>
+			<li class="now"><a href="#">Today</a></li>
+			<li class="forward next-month"><a href="#">{{next_month|date:"F"}}</a></li>
+		</ul>
+	</div>
+</section>
