@@ -27,7 +27,7 @@
 		<form action="{% url manager %}" method="get" id="calendar_selector">
 			<p>Current View: <a id="default_view">Make this View My Default</a></p>
 			<select>
-				<option value="">All Events I've Created</option>
+				<option value="{% url manager %}">All Events I've Created</option>
 				{% for calendar in user.calendars %}
 				<option 
 					value="{% url manager calendar_id=calendar.id %}"
