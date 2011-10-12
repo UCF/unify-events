@@ -35,7 +35,6 @@ def manage(request, _date=None, calendar_id = None):
 	if request.user.first_login:
 		return HttpResponseRedirect(reverse('accounts-profile'))
 	
-	
 	ctx['dates']['today'] = date.today()
 	if _date is not None:
 		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')])
@@ -50,8 +49,8 @@ def manage(request, _date=None, calendar_id = None):
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
 		else:
-			ctx['events'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
-	
+			ctx['events'] = list(i.event for i in ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative']))
+			
 	# Generate date navigation args
 	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)).date())
 	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])).date())

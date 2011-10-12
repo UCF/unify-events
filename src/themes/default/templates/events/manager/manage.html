@@ -87,7 +87,9 @@
 							<li>{{instance.start}}</li>
 						{% endfor %}
 						</ul>
-						{% if event.upcoming_instances|length > 3 %}<p>Future instances..</p>{% endif %}
+						{% if event.upcoming_instances and event.upcoming_instances|length > 3 %}
+						<p>Future instances..</p>
+						{% endif %}
 						</td>
 					<td class="calendars">
 						{% if event.calendar %}{{event.calendar.name}}{% endif %}
