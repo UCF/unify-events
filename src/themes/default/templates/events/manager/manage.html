@@ -55,7 +55,7 @@
 	<div class="span-17 last">
 		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
 		<div id="event_date">
-			Wednesday, September 30, 2011
+			{{dates.relative|date:"l, F j, Y"}}
 			<div id="event_date_nav">
 				<a id="prev_month" href="{% url manager _date=dates.prev_month %}">Last Month</a>
 				-

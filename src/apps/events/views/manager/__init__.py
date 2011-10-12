@@ -35,19 +35,14 @@ def manage(request, _date=None, calendar_id = None):
 	if request.user.first_login:
 		return HttpResponseRedirect(reverse('accounts-profile'))
 	
-	# Date navigation
+	
 	ctx['dates']['today'] = date.today()
 	if _date is not None:
 		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')])
 	else:
-		ctx['dates']['relative'] = ctx['dates']['today']
-
-	ctx['dates']['prev_day']   = str(ctx['dates']['relative'] - timedelta(days=1))
-	ctx['dates']['prev_month'] = str(ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month]))
-	ctx['dates']['next_day']   = str(ctx['dates']['relative'] + timedelta(days=1))
-	ctx['dates']['next_month'] = str(ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month]))
-
-	if calendar_id is None: # Upcoming events
+		ctx['dates']['relative'] = datetime.now()
+	
+	if calendar_id is None:
 		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['relative'])
 	else:
 		try:
@@ -56,7 +51,13 @@ def manage(request, _date=None, calendar_id = None):
 			messages.error('Calendar does not exist')
 		else:
 			ctx['events'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
-
+	
+	# Generate date navigation args
+	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)).date())
+	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
+	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)).date())
+	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
+		
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required
