@@ -9,21 +9,11 @@ register = template.Library()
 @register.filter('format_event_list')
 def format_event_list(events):
 	""" Return html with a list of events sectioned out by day they occur."""
-	from datetime import datetime
-	from datetime import datetime, date, timedelta
+	from datetime         import datetime
+	from datetime         import datetime, date, timedelta
+	from events.functions import get_date_event_map
 	
-	date_event_map = dict()
-	dates          = list()
-	
-	# Create date and event mapping
-	for event in events:
-		day = datetime(*(event.start.year, event.start.month, event.start.day))
-		
-		if day not in dates:
-			dates.append(day)
-			date_event_map[day] = list()
-		
-		date_event_map[day].append(event)
+	dates, date_event_map = get_date_event_map(events)
 	
 	# Initialize loop constants and containers
 	date_lists = list()
@@ -36,7 +26,7 @@ def format_event_list(events):
 	
 	# Render lists for each date
 	for date in dates:
-		prefix   = prefix_gen(date.date())
+		prefix   = prefix_gen(date)
 		events   = date_event_map[date]
 		heading  = prefix + date.strftime('%A, %B ') + str(date.day)
 		date_lists.append(template.render(Context({
