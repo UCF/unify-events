@@ -2,10 +2,12 @@ from django.contrib.auth.models import User
 from events.models              import Calendar, Profile, Event, EventInstance
 from django                     import forms
 from datetime                   import datetime,timedelta
+from django.contrib.auth.models import User
 
 class CalendarForm(forms.ModelForm):
 
-	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(public=True))
+	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(public=True),required=False)
+	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
 
 	class Meta:
 		model  = Calendar
