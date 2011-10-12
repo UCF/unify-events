@@ -21,12 +21,6 @@ function extend_formset(selector, type) {
     $('#id_' + type + '-TOTAL_FORMS').val(total);
     $(selector).after(newElement);
 }
-function retract_formset(selector, type) {
-    var total = $('#id_' + type + '-TOTAL_FORMS').val();
-    $(selector).remove();
-    $('#id_' + type + '-TOTAL_FORMS').val(total - 1);
-}
-
 $().ready(function() {
 	
 	// EventInstance DatePickers

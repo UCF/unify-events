@@ -8,24 +8,17 @@
 					extend_formset('#instances > li:last', 'event_instance');
 					return false;
 				});
-			$('#instances > li')
-				.each(function(index, li) {
-					var li = $(li);
-					li.find('.event_instance_remove')
-						.click(function() {
-							if($('#instances > li').length == 1) {
-								alert('An event must have at least one date, time and location combination.')
-							} else {
-								retract_formset($(this).parents('li:eq(0)'), 'event_instance');
-							}
-							return false;
-						});
-				});
 		})
 	</script>
 {% endblock %}
 {% block content_body %}
+	{% if mode == 'create' %}
 	<h2>Create an Event</h2>
+	{% else %}
+		{% if mode == 'update' %}
+		<h2>Update Event</h2>
+		{% endif %}
+	{% endif %}
 	<div id="event" class="span-24">
 			{{event_form.non_field_errors}}
 			{{event_form.errors}}
@@ -33,7 +26,14 @@
 				{{form.non_field_errors}}
 				{{form.errors}}
 			{% endfor %}
+			{% if mode == 'create' %}
 			<form action="{% url event-create %}" method="post">
+			{% else %}
+				{% if mode == 'update' %}
+				<form action="{% url event-update id=event.id %}" method="post">
+				{% endif %}
+			{% endif %}
+			
 				<div id="details" class="span-8">
 					<p>{{event_form.title.label_tag}}</p>
 					{{event_form.title}}
@@ -43,13 +43,21 @@
 					<p>{{event_form.calendar}}</p>
 					{{event_formset.management_form}}
 					{% csrf_token %}
+					{% if mode == 'create' %}
 					<button type="submit">Create Event</button>
+					{% else %}
+						{% if mode == 'update' %}
+						<button type="submit">Update Event</button>
+						{% endif %}
+					{% endif %}
+					
 				</div>
 				<div class="span-15 prepend-1 last">
 					<label>Date, Time &amp; Location:</label>
 					<ul id="instances">
 						{% for form in event_formset %}
 							<li class="clearfix">
+								{{form.id}}
 								<div class="dates span-8">
 									<div class="start">
 										{{form.start.label_tag}}
@@ -69,7 +77,7 @@
 										{{form.location.label_tag}}
 										{{form.location}}
 									</div>
-									<button class="event_instance_remove">Remove Event Instance</button>
+									<p>{{form.DELETE}} Delete this event instance</p>
 								</div>
 							</li>
 						{% endfor %}
