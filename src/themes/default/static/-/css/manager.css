@@ -126,7 +126,7 @@
 			}
 #events {
 	position:relative;
-	top:-67px;
+	top:-5px;
 }
 	#events th {
 		background-color:#3E83C9;
@@ -179,17 +179,25 @@
 			width:15%;
 			position:relative;
 		}
-			#events td.calendars .actions{
+			#events td.calendars .actions {
+				display:none;
 				position:absolute;
 				top:0%;
-				left:102%;
-				margin:0 0 0 0;
-				padding:0;
+				left:100%;
+				margin:1px 0 0 0;
+				padding:0 0 0 3px;
 			}
 			#events td.calendars .actions > li {
 				list-style-type:none;
 				margin:0;
+				padding:0;
+				line-height:.9em;
 			}
+				#events td.calendars .actions > li  a {
+					color: #2F8DC3;
+					font-size:80%;
+					text-decoration:none;
+				}
 #search {
 	margin-top:3px;
 }
@@ -264,7 +272,6 @@
 				border-right:none;
 			}
 		#views > li ul.actions > li > a {
-
 			font-size:11px;
 			color: #2F8DC3;
 			text-decoration:none;
