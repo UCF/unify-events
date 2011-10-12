@@ -24,7 +24,7 @@
 			<li><a class="button">Subcribe</a></li>
 			<li><a class="button">Import</a></li>
 		</ul>
-		<form action="{% url manager %}" method="get" id="calendar_selector">
+		<div id="calendar_selector">
 			<p>Current View: <a id="default_view">Make this View My Default</a></p>
 			<select>
 				<option value="{% url manager %}">All Events I've Created</option>
@@ -36,7 +36,7 @@
 					{% endif %}>{{calendar.name}}</option>
 				{% endfor %}
 			</select>
-		</form>
+		</div>
 		<div id="event_date">
 			{{dates.relative|date:"l, F j, Y"}}
 			<div id="event_date_nav">
