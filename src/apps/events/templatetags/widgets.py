@@ -46,7 +46,7 @@ def calendar_widget(calendar, year=None, month=None):
 	cal_start = start - timedelta(days=start_shift[start.weekday()])
 	cal_end   = end + timedelta(days=end_shift[end.weekday()])
 	
-	# Generate a list of 6 weeks and the days/events contained
+	# Generate a list of weeks and the days/events contained
 	diff = cal_end - cal_start + timedelta(days=1)
 	days = list()
 	for d in range(0, diff.days):
