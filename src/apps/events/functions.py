@@ -25,3 +25,12 @@ def get_date_event_map(events):
 		date_event_map[day].append(event)
 	
 	return (dates, date_event_map)
+
+
+def chunk(i, c_size):
+	"""Split an interable into even sized chunks defined by c_size.  If the
+	number of items in the iterable cannot be evenly divided by c_size, the
+	remainder will fall into the final element."""
+	import math
+	chunks = int(math.ceil(len(i) / float(c_size)))
+	return [i[c * c_size : c * c_size + c_size] for c in range(0, chunks)]
