@@ -1,6 +1,11 @@
 <section class="calendar-widget" data-month="{{month}}" data-year="{{year}}">
 	<h1>{{this_month|date:"F Y"}}</h1>
 	<div class="table-wrap">
+		<ul class="month-controls">
+			<li class="back last-month"><a href="{%url calendar-widget calendar.slug last_month.year last_month.month%}">{{last_month|date:"F"}}</a></li>
+			<li class="now"><a href="{%url calendar-widget calendar.slug today.year today.month%}">Today</a></li>
+			<li class="forward next-month"><a href="{%url calendar-widget calendar.slug next_month.year next_month.month%}">{{next_month|date:"F"}}</a></li>
+		</ul>
 		<table>
 			<thead>
 				<tr>
@@ -17,7 +22,9 @@
 				{% for week in weeks %}
 				<tr class="week">
 					{% for day, events, weight in week %}
-					<td class="{{weight}} day{%if today == day%} today{%endif%}{%if day.month != this_month.month%} subtle{%endif%}"><a href="#">
+					<td class="day {%if weight%}{{weight}}{%endif%}
+						{%if today == day.date%}active{%endif%}
+						{%if day.month != this_month.month%}subtle{%endif%}"><a href="#">
 						{{day.day}}
 					</a></td>
 					{% endfor %}
@@ -25,11 +32,5 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		
-		<ul class="month-controls">
-			<li class="back last-month"><a href="#">{{last_month|date:"F"}}</a></li>
-			<li class="now"><a href="#">Today</a></li>
-			<li class="forward next-month"><a href="#">{{next_month|date:"F"}}</a></li>
-		</ul>
 	</div>
 </section>

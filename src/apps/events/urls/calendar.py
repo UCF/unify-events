@@ -44,4 +44,10 @@ urlpatterns = patterns('events.views.calendar',
 		view='named_listing',
 		name="named-listing"
 	),
+	
+	# http://events.ucf.edu/calendar/athletics/2010/01/calendar-widget
+	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/calendar-widget$',
+		view='calendar_widget',
+		name="calendar-widget"
+	),
 )

@@ -6,9 +6,14 @@ from django.conf             import settings
 register = template.Library()
 
 @register.simple_tag
-def calendar_widget(calendar, year, month):
+def calendar_widget(calendar, year=None, month=None):
 	from datetime         import datetime, date, timedelta
 	from events.functions import get_date_event_map, chunk
+	
+	if year == None or month == None:
+		today = date.today()
+		year  = today.year
+		month = today.month
 	
 	# Find date range for the passed month, year combo.  End is defined by
 	# the start of next month minus 1 second.
@@ -62,6 +67,7 @@ def calendar_widget(calendar, year, month):
 	template = loader.get_template('events/calendar/widgets/calendar.html')
 	html     = template.render(Context({
 		'MEDIA_URL'      : settings.MEDIA_URL,
+		'calendar'       : calendar,
 		'this_month'     : date(*(this_month.year, this_month.month, 1)),
 		'next_month'     : date(*(next_month.year, next_month.month, 1)),
 		'last_month'     : date(*(last_month.year, last_month.month, 1)),

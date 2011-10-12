@@ -175,3 +175,17 @@ def years_listing(request, calendar, format=None):
 	year, month, day = now.tm_year, None, None
 	return auto_listing(request, calendar, year, month, day, format)
 
+
+def calendar_widget(request, calendar, year, month):
+	"""Outputs calendar widget html via http response"""
+	from events.templatetags import widgets
+	calendar = get_object_or_404(Calendar, slug=calendar)
+	
+	try: # Convert applicable arguments to integer
+		year  = int(year) if year is not None else year
+		month = int(month) if month is not None else month
+	except ValueError:
+		raise Http404
+	
+	html     = widgets.calendar_widget(calendar, year, month)
+	return HttpResponse(html)

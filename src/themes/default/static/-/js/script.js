@@ -1,6 +1,23 @@
 var sluggify = function(s) {return s.toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z-]/, '');}
 
-$().ready(function() {
+var Webcom = {};
+
+Webcom.calendarWidget = function($){
+	$('.calendar-widget .month-controls a').click(function(){
+ 		var url    = $(this).attr('href');
+		var parent = $(this).parents('.calendar-widget');
+		$.ajax(url, {
+			'success' : function(data){
+				parent.replaceWith($(data));
+				Webcom.calendarWidget($);
+			}
+		});
+		return false;
+	});
+};
+
+$().ready(function(){
+	Webcom.calendarWidget(jQuery);
 	
 	// EventInstance DatePickers
 	$('.datepicker').datepicker();
