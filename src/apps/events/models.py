@@ -315,6 +315,7 @@ class Calendar(Base):
 	editors       = models.ManyToManyField(User, related_name='edited_calendars')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
 	public        = models.BooleanField(default=False)
+	shared        = models.BooleanField(default=False)
 
 	@property
 	def events_and_subs(self):

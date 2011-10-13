@@ -11,7 +11,7 @@ class CalendarForm(forms.ModelForm):
 
 	class Meta:
 		model  = Calendar
-		fields = ('name', 'slug','public','editors', 'subscriptions')
+		fields = ('name', 'slug','public','shared','editors', 'subscriptions')
 
 class UserForm(forms.ModelForm):
 	class Meta:
