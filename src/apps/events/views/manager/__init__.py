@@ -15,7 +15,7 @@ from django.utils                    import simplejson
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 @login_required
-def manage(request, _date=None, calendar_id = None):
+def dashboard(request, _date=None, calendar_id = None):
 	ctx  = {
 		'events'  :None,
 		'current_calendar':None,
@@ -28,7 +28,7 @@ def manage(request, _date=None, calendar_id = None):
 			'relative'  : None,
 		},
 	}
-	tmpl = 'events/manager/manage.html'
+	tmpl = 'events/manager/dashboard.html'
 
 	# Make sure check their profile when they
 	# log in for the first time

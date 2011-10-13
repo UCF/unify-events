@@ -29,7 +29,7 @@ def create_update(request, id = None):
 				messages.error(request, 'Saving calendar failed')
 			else:
 				messages.success(request, 'Saving calendar was successful')
-		return HttpResponseRedirect(reverse('manager'))
+		return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		ctx['form'] = CalendarForm(instance=ctx['calendar'])
 	

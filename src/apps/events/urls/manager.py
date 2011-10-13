@@ -24,8 +24,8 @@ urlpatterns += patterns('events.views.manager',
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
 	
-	url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='manage', name='manager'),
-	url(r'^date/(?P<_date>[\w-]+)/?$', view='manage', name='manager'),
-	url(r'^calendar/(?P<calendar_id>\d+)/?$', view='manage', name='manager'),
-	url(r'^$', view='manage', name='manager'),
+	url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
+	url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),
+	url(r'^calendar/(?P<calendar_id>\d+)/?$', view='dashboard', name='dashboard'),
+	url(r'^$', view='dashboard', name='dashboard'),
 )
