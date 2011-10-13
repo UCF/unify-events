@@ -24,16 +24,19 @@
 					)
 				});
 			(function() {
-				var other_actions      = $('#other_actions'),
-					other_actions_list = $('#other_actions_list');
-				var offset = other_actions.offset(),
-					height = other_actions.height();
-				
-				other_actions_list.css('left', offset.left);
-				other_actions_list.css('top', offset.top + height + 52);
+				var other_actions = $('#other_actions');
 				other_actions
-					.click(function() {
-							other_actions_list.toggle();
+					.find('li:gt(0)')
+						.each(function(count, li) {
+							$(li).css('top', (count + 1) * 25);
+						})
+				other_actions
+					.hover(
+						function() {
+							other_actions.find('li:gt(0)').show();
+						},
+						function() {
+							other_actions.find('li:gt(0)').hide();	
 						})
 			})();
 			
@@ -43,10 +46,11 @@
 {% block content_body %}
 	<div class="span-24 last">
 		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
-		<button id="other_actions">Other Actions &#9660;</button>
-		<ul id="other_actions_list">
+		<ul id="other_actions">
+			<li><button>Other Actions &#9660;</button></li>
 			<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
-			<li><a class="button" href="www.google.com">Manage Calendars</a></li>
+			<li><a class="button" href="">Manage Calendars</a></li>
+			<li><a class="button" href="">Import/Export</a></li>
 		</ul>
 		<form id="search">
 			<input type="text" name="query" value="Search events..." class="prefill" />

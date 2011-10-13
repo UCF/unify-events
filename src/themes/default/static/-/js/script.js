@@ -45,19 +45,4 @@ Webcom.calendarWidget = function($){
 $().ready(function(){
 	Webcom.calendarWidget(jQuery);
 	
-	// EventInstance DatePickers
-	$('.datepicker').datepicker();
-
-	// Other Actions Nav Dropdown
-	$('#other_actions li:gt(0)')
-		.css('visibility','hidden')
-	$('#other_actions li')
-		.hover(
-			function() {
-				$('#other_actions li:gt(0)').css('visibility', 'visible')
-			},
-			function() {
-				$('#other_actions li:gt(0)').css('visibility', 'hidden')
-			}
-		);
 });

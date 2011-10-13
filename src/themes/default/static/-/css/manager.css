@@ -80,7 +80,7 @@
 /*
  * Manage Styles
  */
-#event_create, #other_actions {
+#event_create {
 	float:left;
 	position:relative;
 	z-index:2;
@@ -88,24 +88,28 @@
 	padding:6px;
 }
 #other_actions {
-	margin-left:5px;
-}
-#other_actions_list {
-	position:absolute;
+	float:left;
 	margin:0;
 	padding:0;
 	z-index:2;
-	display:none;
+	position:relative;
+	margin-left:5px;
 }
-	#other_actions_list > li {
-		margin:0;
-		padding:0;
-		list-style-type:none;
-	}
-	#other_actions_list > li > a{
+	#other_actions > li:first-child {
+		position:static;
 		display:block;
-		padding:6px;
+		width:auto;
 	}
+	#other_actions > li {
+		list-style-type:none;
+		position:absolute;
+		display:none;
+		width:125px;
+	}
+		#other_actions > li > a, #other_actions > li > button {
+			display:block;
+			padding:6px;
+		}
 #event_date {
 	text-align:right;
 	font-size:225%;
