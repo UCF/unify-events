@@ -6,8 +6,11 @@
 
 <div class="event-listing">
 	<div id="left-column" class="span-15 append-1">
+		{%if events|length%}
 		{{events|format_event_list}}
-		<a class="button" href="#">Load more events</a>
+		{%else%}
+		<p>No events found.</p>
+		{%endif%}
 	</div>
 	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar%}
