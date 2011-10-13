@@ -62,6 +62,7 @@
 		<table id="events">
 			<thead>
 				<tr>
+					<th></th>
 					<th scope="col">Title</th>
 					<th scope="col">Description</th>
 					<th scope="col">When &amp; Where</th>
@@ -71,6 +72,7 @@
 			<tbody>
 				{% for event in events %}
 				<tr class="{% cycle 'even' 'odd' %}">
+					<td class="image"><img src="{{event.image.url}}" /></td>
 					<td class="title">{{event.title}}</td>
 					<td class="description">{{event.description|truncatewords:25}}</td>
 					<td class="instances">
@@ -90,6 +92,10 @@
 						</td>
 					<td class="calendars">
 						{{event.calendar.name}} ({{event.get_state_display}})
+						<ul class="actions">
+							<li><a href="{% url event-update id=event.id %}">Update</a></li>
+							<li><a>Delete</a></li>
+						</ul>
 					</td>
 				</tr>
 				{% empty %}

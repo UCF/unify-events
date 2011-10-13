@@ -170,8 +170,11 @@
 		vertical-align:top;
 		padding:5px;
 	}
+		#events td.image {
+			width:5%;
+		}
 		#events td.title {
-			width:20%;
+			width:15%;
 		}
 		#events td.description {
 			width:20%;
@@ -209,11 +212,13 @@
 				list-style-type:none;
 				margin:0;
 				padding:0;
-				line-height:.9em;
 			}
+				#events td.calendars .actions > li:first-child {
+					margin-bottom:3px;
+				}
 				#events td.calendars .actions > li  a {
 					color: #2F8DC3;
-					font-size:80%;
+					font-size:100%;
 					text-decoration:none;
 				}
 
