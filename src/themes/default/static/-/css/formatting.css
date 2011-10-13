@@ -29,6 +29,9 @@ ol ol li{list-style: lower-roman; margin: .75em 0 0 0;}
 ol ol ol li{list-style: lower-alpha;}
 strong{font-weight: bold;}
 em{font-style: italic;}
+ol.inline,
+ul.inline{padding: 0; margin: 0;}
+.inline>li{list-style-type: none; display: inline-block; margin-right: 5px;}
 
 
 .default a {font-weight:bold;}
@@ -136,12 +139,18 @@ button:active{top: 1px;}
 /**
  * Sprites
  **/
+.gcal:before,
+.ical:before,
+.rss:before,
 .search:before,
 .back:before,
-.forward:after{background: url('../img/16x16/16x16-sprite.png'); line-height: 16px; padding: 0 8px; content: ''; display: inline;}
+.forward:after{background: url('../img/16x16/16x16-sprite.png'); padding: 0 8px 1px 8px; content: ''; display: inline; overflow: visible;}
 .back:before{background-position: 0 0; margin: 0 5px 0 0;}
 .forward:after{background-position: 0 -16px; margin: 0 0 0 5px;}
 .search:before{background-position: 0 -32px; margin: 0 5px 0 0;}
+.rss:before{background-position: 0 -64px; margin: 0 5px 0 0;}
+.ical:before{background-position: 0 -80px; margin: 0 5px 0 0;}
+.gcal:before{background-position: 16px 0px; margin: 0 5px 0 0;}
 
 
 /**
