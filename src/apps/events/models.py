@@ -59,7 +59,7 @@ class Event(Base):
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
 	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
-	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
+	image        = models.FileField(upload_to=lambda i,o: _settings.FILE_UPLOAD_PATH,null=True)
 
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 

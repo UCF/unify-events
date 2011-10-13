@@ -5,6 +5,8 @@ from django.contrib                  import messages
 from django.views.generic.simple     import direct_to_template
 from django.forms.models             import modelformset_factory
 from django.db.models                import Q
+from django.http                     import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
+from django.core.urlresolvers        import reverse
 
 @login_required
 def create_update(request, id=None):
@@ -21,8 +23,14 @@ def create_update(request, id=None):
 			formset_extra = 0
 			ctx['mode']   = 'update'
 		except Event.DoesNotExist:
-			message.error('Event does not exist.')
-	
+			return HttpResponseNotFound('The event specified does not exist.')
+		else:
+			# Is this an event you can edit?
+			if not request.user.is_superuser:
+				if ctx['event'].calendar not in request.user.calendars:
+					return HttpResponseForbidden('You cannot modify the specified event.')
+
+
 	## Can't use user.calendars here because ModelChoiceField expects a queryset
 	user_calendars = Calendar.objects.filter(Q(creator=request.user)|Q(editors=request.user))
 	EventInstanceFormSet = modelformset_factory(
@@ -37,11 +45,25 @@ def create_update(request, id=None):
 		if ctx['event_form'].is_valid() and ctx['event_formset'].is_valid():
 			event = ctx['event_form'].save(commit=False)
 			event.creator = request.user
-			event.save()
-			instances = ctx['event_formset'].save(commit=False)
-			for instance in instances:
-				instance.event = event
-				instance.save()
+			try:
+				event.save()
+			except:
+				messages.error(request,'Saving event failed.')
+			else:
+				instances = ctx['event_formset'].save(commit=False)
+				error = False
+				for instance in instances:
+					instance.event = event
+					try:
+						instance.save()
+					except:
+						messages.error(request,'Saving event instance failed.')
+						error = True
+						break
+				if not error:
+					messages.success(request, 'Event successfully saved')
+				
+			return HttpResponseRedirect(reverse('manage'))
 	else:
 		ctx['event_form']    = EventForm(prefix='event',instance=ctx['event'],user_calendars=user_calendars)
 		ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs,prefix='event_instance',)

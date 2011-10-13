@@ -31,6 +31,7 @@ class EventForm(forms.ModelForm):
 		self.fields['calendar'].queryset = user_calendars
 
 	calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+	image    = forms.FileField(required=False)
 
 	class Meta:
 		model  = Event
