@@ -8,8 +8,13 @@ Webcom.calendarWidget = function($){
 		var parent = $(this).parents('.calendar-widget');
 		$.ajax(url, {
 			'success' : function(data){
-				parent.replaceWith($(data));
-				Webcom.calendarWidget($);
+				parent.fadeOut(400, function(){
+					var replace = $(data);
+					replace.hide();
+					parent.replaceWith(replace);
+					replace.fadeIn(400);
+					Webcom.calendarWidget($);
+				});
 			}
 		});
 		return false;
