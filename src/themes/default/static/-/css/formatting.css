@@ -134,12 +134,14 @@ button:active{top: 1px;}
 .default a.external:after{background: url('../img/external.png'); margin: 0 0 0 5px; height: 16px; width: 16px; content: ''; display: inline-block; position: relative; top: 2px;}
 
 /**
- * Control icons
+ * Sprites
  **/
+.search:before,
 .back:before,
 .forward:after{background: url('../img/16x16/16x16-sprite.png'); line-height: 16px; padding: 0 8px; content: ''; display: inline;}
 .back:before{background-position: 0 0; margin: 0 5px 0 0;}
 .forward:after{background-position: 0 -16px; margin: 0 0 0 5px;}
+.search:before{background-position: 0 -32px; margin: 0 5px 0 0;}
 
 
 /**
