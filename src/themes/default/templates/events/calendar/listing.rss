@@ -5,7 +5,7 @@
 			<link>http://{{request.get_host}}{{calendar.get_absolute_url}}</link>
 			<description>{{calendar.name}} events</description>
 			<lastBuildDate>{%now "r"%}</lastBuildDate>
-			{%for event in events%}
+			{%for event in events reversed%}
 			<item>
 				<title>{{event.title}}</title>
 				<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
