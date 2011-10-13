@@ -5,18 +5,18 @@
 {%block content_body%}
 
 <div class="event-listing">
-	<div class="span-15 append-1">
+	<div id="left-column" class="span-15 append-1">
 		{{events|format_event_list}}
 		<a class="button" href="#">Load more events</a>
 	</div>
-	<div class="span-8 last">
+	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar%}
 		
 		{% include "events/calendar/widgets/search.html" %}
 		
-		<div class="subscribe">
-			Subscribe
-		</div>
+		<section class="subscribe-widget">
+			<h1>Subscribe</h1>
+		</section>
 	</div>
 </div>
 
