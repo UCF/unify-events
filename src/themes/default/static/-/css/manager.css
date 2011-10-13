@@ -110,6 +110,8 @@
 #search {
 	float:left;
 	margin: 0 5px;
+	position:relative;
+	z-index:2;
 }
 	#search input[type="text"] {
 		font-size:100%;
