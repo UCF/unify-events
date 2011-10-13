@@ -66,6 +66,19 @@
 						</td>
 					</tr>
 					<tr>
+						<th scope="row">{{form.shared.label_tag}}</th>
+						<td>
+							{{form.shared}}
+							{% if form.shared.errors %}
+								<ul>
+								{% for error in form.shared.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
 						<th scope="row">{{form.editors.label_tag}}</th>
 						<td>
 							{{form.editors}}

@@ -23,7 +23,13 @@ def create_update(request, id = None):
 		if ctx['form'].is_valid():
 			calendar = ctx['form'].save(commit=False)
 			calendar.creator = request.user
-			calendar.save()
+			try:
+				calendar.save()
+			except:
+				messages.error(request, 'Saving calendar failed')
+			else:
+				messages.success(request, 'Saving calendar was successful')
+		return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		ctx['form'] = CalendarForm(instance=ctx['calendar'])
 	

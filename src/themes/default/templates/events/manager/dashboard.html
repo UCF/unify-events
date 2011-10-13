@@ -1,0 +1,105 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#search > input[type="text"]')	
+				.focus(function() {
+					if($(this).val() == 'Search events...') {
+						$(this).val('');
+						$(this).removeClass('prefill');
+					}
+				});
+			$('#events > tbody > tr')
+				.each(function(index, row) {
+					var row = $(row);
+					row
+						.hover(
+							function() {
+								row.find('.calendars .actions').show();
+							},
+							function() {
+								row.find('.calendars .actions').hide();	
+							}
+					)
+				});
+			(function() {
+				var other_actions      = $('#other_actions'),
+					other_actions_list = $('#other_actions_list');
+				var offset = other_actions.offset(),
+					height = other_actions.height();
+				
+				other_actions_list.css('left', offset.left);
+				other_actions_list.css('top', offset.top + height + 52);
+				other_actions
+					.click(function() {
+							other_actions_list.toggle();
+						})
+			})();
+			
+		});
+	</script>
+{% endblock %}
+{% block content_body %}
+	<div class="span-24 last">
+		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
+		<button id="other_actions">Other Actions &#9660;</button>
+		<ul id="other_actions_list">
+			<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
+			<li><a class="button" href="www.google.com">Manage Calendars</a></li>
+		</ul>
+		<form id="search">
+			<input type="text" name="query" value="Search events..." class="prefill" />
+			<button type="submit">Search</button>
+		</form>
+		<div id="event_date">
+			{{dates.relative|date:"l, F j, Y"}}
+		</div>
+		<table id="events">
+			<thead>
+				<tr>
+					<th scope="col">Title</th>
+					<th scope="col">Description</th>
+					<th scope="col">When &amp; Where</th>
+					<th scope="col">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for event in events %}
+				<tr class="{% cycle 'even' 'odd' %}">
+					<td class="title">{{event.title}}</td>
+					<td class="description">{{event.description|truncatewords:25}}</td>
+					<td class="instances">
+						{% if event.were_previous_instances %}<p>Previous instances...</p>{% endif %}
+						<ul>
+						{% for instance in event.upcoming_instances|slice:":3" %}
+							<li>
+								{{instance.start}}
+								{% if instance.end %} - {{instance.end}}{% endif %}
+								{% if instance.location %}at {{instance.location.name}}{% endif %}
+							</li>
+						{% endfor %}
+						</ul>
+						{% if event.upcoming_instances and event.upcoming_instances|length > 3 %}
+						<p>Future instances..</p>
+						{% endif %}
+						</td>
+					<td class="calendars">
+						{{event.calendar.name}} ({{event.get_state_display}})
+					</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="3">
+						{% if calendar %}
+							There are no upcoming events for this calendar.
+						{% else %}
+							There are no upcoming events.
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

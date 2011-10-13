@@ -11,7 +11,7 @@ class CalendarForm(forms.ModelForm):
 
 	class Meta:
 		model  = Calendar
-		fields = ('name', 'slug','public','editors', 'subscriptions')
+		fields = ('name', 'slug','public','shared','editors', 'subscriptions')
 
 class UserForm(forms.ModelForm):
 	class Meta:
@@ -31,10 +31,11 @@ class EventForm(forms.ModelForm):
 		self.fields['calendar'].queryset = user_calendars
 
 	calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+	image    = forms.FileField(required=False)
 
 	class Meta:
 		model  = Event
-		fields = ('title', 'description','calendar')
+		fields = ('title', 'description','calendar','image')
 
 class EventInstanceForm(forms.ModelForm):
 

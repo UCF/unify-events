@@ -27,10 +27,10 @@
 				{{form.errors}}
 			{% endfor %}
 			{% if mode == 'create' %}
-			<form action="{% url event-create %}" method="post">
+			<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
 			{% else %}
 				{% if mode == 'update' %}
-				<form action="{% url event-update id=event.id %}" method="post">
+				<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
 				{% endif %}
 			{% endif %}
 			
@@ -39,6 +39,8 @@
 					{{event_form.title}}
 					<p>{{event_form.description.label_tag}}</p>
 					{{event_form.description}}
+					<p>{{event_form.image.label_tag}}</p>
+					<p>{{event_form.image}}</p>
 					<p>{{event_form.calendar.label_tag}}</p>
 					<p>{{event_form.calendar}}</p>
 					{{event_formset.management_form}}
