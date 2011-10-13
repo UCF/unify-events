@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 @login_required
 def create_update(request, id=None):
 	ctx  = {'event':None,'event_form':None,'event_formset':None,'mode':'create'}
-	tmpl = 'events/manager/events/create_update_event.html'
+	tmpl = 'events/manager/events/create_update.html'
 
 	# Event Forms
 	formset_qs    = EventInstance.objects.none()
