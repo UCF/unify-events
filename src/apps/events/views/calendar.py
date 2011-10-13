@@ -6,6 +6,7 @@ from datetime                    import datetime, timedelta
 from django.shortcuts            import get_object_or_404
 from django.views.generic.simple import direct_to_template
 from events.models               import *
+from events.functions            import format_to_mimetype
 
 # http://events.ucf.edu/athletics/today
 # http://events.ucf.edu/athletics/this-month
@@ -35,7 +36,7 @@ def calendar(request, calendar, format=None):
 	}
 	
 	try:
-		return direct_to_template(request, template, context)
+		return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
 	except TemplateDoesNotExist:
 		raise Http404
 
@@ -47,14 +48,15 @@ def event(request, calendar, instance_id, format=None):
 	except EventInstance.DoesNotExist:
 		raise Http404
 	
-	template = 'events/calendar/event.' + (format or 'html')
+	format   = format or 'html'
+	template = 'events/calendar/event.' + format
 	context  = {
 		'calendar' : calendar,
 		'event'    : event,
 	}
 	
 	try:
-		return direct_to_template(request, template, context)
+		return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
 	except TemplateDoesNotExist:
 		raise Http404
 
@@ -76,7 +78,7 @@ def listing(request, calendar, start, end, format=None):
 		'events'   : events,
 	}
 	try:
-		return direct_to_template(request, template, context)
+		return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
 	except TemplateDoesNotExist:
 		raise Http404
 
