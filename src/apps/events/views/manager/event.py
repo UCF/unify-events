@@ -31,7 +31,7 @@ def create_update(request, id=None):
 							extra=formset_extra,
 							can_delete=True)
 	if request.method == 'POST':
-		ctx['event_form']    = EventForm(request.POST,instance=ctx['event'],prefix='event',user_calendars=user_calendars)
+		ctx['event_form']    = EventForm(request.POST,request.FILES,instance=ctx['event'],prefix='event',user_calendars=user_calendars)
 		ctx['event_formset'] = EventInstanceFormSet(request.POST,prefix='event_instance',queryset=formset_qs)
 
 		if ctx['event_form'].is_valid() and ctx['event_formset'].is_valid():

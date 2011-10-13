@@ -3,6 +3,7 @@ from django.db                   import models
 from functions                   import sluggify
 from fields                      import *
 from datetime                    import datetime
+from django.conf                 import settings as _settings
 
 # Create your models here.
 class Base(models.Model):
@@ -58,6 +59,7 @@ class Event(Base):
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
 	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
+	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
@@ -124,8 +126,7 @@ class Event(Base):
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
 	class Recurs:
-		daily, weekly, biweekly, monthly, yearly = range(0,5)
-		never   = None
+		never, daily, weekly, biweekly, monthly, yearly = range(0,6)
 		choices = (
 			(never    , 'Never'),
 			(daily    , 'Daily'),
