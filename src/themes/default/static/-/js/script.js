@@ -34,16 +34,41 @@ Webcom.calendarWidget = function($){
 					replace.hide();
 					parent.replaceWith(replace);
 					replace.fadeIn(400);
-					Webcom.calendarWidget($);
+					bind_func($);
 				});
 			}
 		});
 		return false;
 	});
+	
+	$('.calendar-widget .day a').click(function(){
+		var elements_to_update = ['.subscribe-widget', '.event-list'];
+		var url = $(this).attr('href');
+		$.ajax(url, {
+			'success' : function (data){
+				var result = $(data);
+				$.each(elements_to_update, function(){
+					var find    = this.valueOf();
+					var element = result.find(find);
+					$(find).replaceWith(element);
+				});
+				
+				var title = '';
+				try{
+					title = data.match(/<title>([^<]*)<\/title>/)[1];
+				}catch(e){}
+				history.pushState({}, title, url);
+				bind_func($);
+			}
+		});
+		
+		return false;
+	});
 };
 
-$().ready(function(){
-	Webcom.calendarWidget(jQuery);
+var bind_func = function ($){
+	$('*').unbind();
+	Webcom.calendarWidget($);
 	
 	// EventInstance DatePickers
 	$('.datepicker').datepicker();
@@ -60,4 +85,8 @@ $().ready(function(){
 				$('#other_actions li:gt(0)').css('visibility', 'hidden')
 			}
 		);
+}
+
+$().ready(function(){
+	bind_func(jQuery);
 });
