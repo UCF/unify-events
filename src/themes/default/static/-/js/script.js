@@ -29,13 +29,9 @@ Webcom.calendarWidget = function($){
 		var parent = $(this).parents('.calendar-widget');
 		$.ajax(url, {
 			'success' : function(data){
-				parent.fadeOut(400, function(){
-					var replace = $(data);
-					replace.hide();
-					parent.replaceWith(replace);
-					replace.fadeIn(400);
-					bind_func($);
-				});
+				var replace = $(data);
+				parent.replaceWith(replace);
+				bind_func($);
 			}
 		});
 		return false;
