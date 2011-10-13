@@ -3,10 +3,12 @@
 	{{block.super}}
 	<script type="text/javascript">
 		$().ready(function() {
-			$('#calendar_selector select')	
-				.change(function() {
-					var selector = $(this);
-					window.location.href = selector.val();
+			$('#search > input[type="text"]')	
+				.focus(function() {
+					if($(this).val() == 'Events, calendars, people...') {
+						$(this).val('');
+						$(this).removeClass('prefill');
+					}
 				});
 			$('#events > tbody > tr')
 				.each(function(index, row) {
@@ -25,66 +27,39 @@
 	</script>
 {% endblock %}
 {% block content_body %}
-	<div class="span-7">
-		<ul id="views">
-			<li{% if not current_calendar %} class="selected"{% endif %}>
-				<a href="{% url manager %}">Events I've Created</a>
-			</li>
-			{% for calendar in user.calendars %}
-			<li{% if current_calendar == calendar%} class="selected"{% endif %}>
-				<a href="{% url manager calendar_id=calendar.id %}">
-					{{calendar.name}}
-				</a>
-				<span class="visiblity">
-					{% if calendar.public %}
-						Public
-					{% else %}
-						Private
-					{% endif %}
-				</span>
-				<ul class="actions">
-					<li><a href="{% url calendar-update id=calendar.id %}">Settings</a></li>
-					<li><a href="{% url calendar-update id=calendar.id %}">Editors</a></li>
-					<li><a href="{% url calendar-update id=calendar.id %}">Subscriptions</a></li>
-				</ul>
-			</li>
-			{% endfor %}
-		</ul>
-		<a href="{% url calendar-create %}" class="button" id="calendar_create">Create Calendar</a>
-	</div>
-	<div class="span-17 last">
+	<div class="span-24 last">
 		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
+		<button id="other_actions">Other Actions &#9660;</button>
+		<form id="search">
+			<input type="text" name="query" value="Search events..." class="prefill" />
+			<button type="submit">Search</button>
+		</form>
 		<div id="event_date">
 			{{dates.relative|date:"l, F j, Y"}}
-			<div id="event_date_nav">
-				<a id="prev_month" href="{% url manager _date=dates.prev_month %}">Last Month</a>
-				-
-				<a id="prev_day" href="{% url manager _date=dates.prev_day %}">Yesterday</a>
-				-
-				<a id="prev_day" href="{% url manager _date=dates.today %}">Today</a>
-				-
-				<a id="next_day" href="{% url manager _date=dates.next_day %}">Tomorrow</a>
-				-
-				<a id="next_month" href="{% url manager _date=dates.next_month %}">Next Month</a>
-			</div>
 		</div>
 		<table id="events">
 			<thead>
 				<tr>
 					<th scope="col">Title</th>
-					<th scope="col">Dates &amp;Times</th>
-					<th scope="col">Calendars (Status)</th>
+					<th scope="col">Description</th>
+					<th scope="col">When &amp; Where</th>
+					<th scope="col">Status</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for event in events %}
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td class="title">{{event.title}}</td>
+					<td class="description">{{event.description|truncatewords:25}}</td>
 					<td class="instances">
 						{% if event.were_previous_instances %}<p>Previous instances...</p>{% endif %}
 						<ul>
 						{% for instance in event.upcoming_instances|slice:":3" %}
-							<li>{{instance.start}}</li>
+							<li>
+								{{instance.start}}
+								{% if instance.end %} - {{instance.end}}{% endif %}
+								{% if instance.location %}at {{instance.location.name}}{% endif %}
+							</li>
 						{% endfor %}
 						</ul>
 						{% if event.upcoming_instances and event.upcoming_instances|length > 3 %}
@@ -92,12 +67,7 @@
 						{% endif %}
 						</td>
 					<td class="calendars">
-						{% if event.calendar %}{{event.calendar.name}}{% endif %}
-						<ul class="actions">
-							<li><a href="{% url event-update id=event.id %}">Update</a></li>
-							<li><a>Copy</a></li>
-							<li><a>Delete</a></li>
-						</ul>
+						{{event.calendar.name}} ({{event.get_state_display}})
 					</td>
 				</tr>
 				{% empty %}
