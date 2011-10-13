@@ -124,6 +124,46 @@
 			#event_date_nav a:hover {
 				text-decoration:underline;
 			}
+#views {
+	margin:0;
+	padding:0;
+}
+	#views > li {
+		list-style-type:none;
+		margin-bottom:20px;
+	}
+		#views > li.selected > a {
+			font-style:italic;
+		}
+		#views > li > a {
+			font-size:170%;
+			text-decoration:none;
+		}
+			#views > li > a:hover {
+				text-decoration:underline;
+			}
+		#views > li > span {
+			float:right;
+		}
+		#views > li .actions {
+			margin:0;
+			padding:0;
+		}
+			#views > li .actions li {
+				list-style-type:none;
+				display:inline;
+				border-left:1px solid #ccc;
+				padding-left:5px;
+			}
+				#views > li .actions li:first-child {
+					border:none;
+					padding-left:0;
+				}
+				#views > li .actions li a {
+					text-decoration:none;
+					font-size:90%;
+					color:#2F8DC3;
+				}
 #events {
 	position:relative;
 	top:-5px;
@@ -211,74 +251,6 @@
 	margin-top:10px;
 }
 
-#views {
-	margin:0;
-	padding:0 0 0px 0;
-	border-bottom: 1px solid #e7e7e7;
-}
-	#views > li {
-		font-weight:normal;
-		list-style-type:none;
-		font-size:100%;
-		margin:0 0 10px 0;
-		padding:10px;
-		border-radius:2px;
-		border:1px solid #f1f1f1;
-		background-color: #fcfcfc;
-
-	}
-		#views > li > a {
-			font-size:150%;
-			padding-right:20px;
-		}
-		#views > li span {
-			float:right;
-			position:relative;
-			top:-5px;
-			font-style:italic;
-		}
-		#views > li.div:first-child {
-			width:00px;
-		}
-		#views > li a {
-			text-decoration:none;
-		}
-			#views > li a:hover {
-				text-decoration:underline;
-			}
-	#views ul.actions {
-		margin:2px 0 0 0;
-		padding:0;
-		height:12px;
-	}
-		#views ul.actions > li {
-			float:left;
-			list-style-type:none;
-			margin:0;
-			padding:0 5px;
-			border-right: 1px solid #BBB;
-		}
-			#views > li  ul.actions > li:first-child {
-				padding-left:1px;
-			}
-			#views > li ul.actions > li:last-child {
-				border-right:none;
-			}
-		#views > li ul.actions > li > a {
-			font-size:11px;
-			color: #2F8DC3;
-			text-decoration:none;
-		}
-			#views > li ul.actions > li > a.hover {
-				text-decoration:underline;
-			}
-	#views > li .stats {
-	}
-		#views > li .stats > p {
-			font-size:10px;
-			margin:0;
-			padding:0;
-		}
 
 /*
  * Event Creation / Updating
