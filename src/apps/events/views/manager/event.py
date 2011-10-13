@@ -7,6 +7,10 @@ from django.forms.models             import modelformset_factory
 from django.db.models                import Q
 from django.http                     import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
 from django.core.urlresolvers        import reverse
+import logging
+
+log = logging.getLogger(__name__)
+
 
 @login_required
 def create_update(request, id=None):
@@ -21,6 +25,8 @@ def create_update(request, id=None):
 			ctx['event']  = Event.objects.get(pk=id)
 			formset_qs    = ctx['event'].instances.all()
 			formset_extra = 0
+			if ctx['event'].instances.count() == 0:
+				formset_extra = 1
 			ctx['mode']   = 'update'
 		except Event.DoesNotExist:
 			return HttpResponseNotFound('The event specified does not exist.')
@@ -47,7 +53,8 @@ def create_update(request, id=None):
 			event.creator = request.user
 			try:
 				event.save()
-			except:
+			except Exception,e:
+				log.error(str(e))
 				messages.error(request,'Saving event failed.')
 			else:
 				instances = ctx['event_formset'].save(commit=False)
@@ -56,14 +63,15 @@ def create_update(request, id=None):
 					instance.event = event
 					try:
 						instance.save()
-					except:
+					except Exception,e:
+						log.error(str(e))
 						messages.error(request,'Saving event instance failed.')
 						error = True
 						break
 				if not error:
 					messages.success(request, 'Event successfully saved')
 				
-			return HttpResponseRedirect(reverse('manage'))
+			return HttpResponseRedirect(reverse('manager'))
 	else:
 		ctx['event_form']    = EventForm(prefix='event',instance=ctx['event'],user_calendars=user_calendars)
 		ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs,prefix='event_instance',)
