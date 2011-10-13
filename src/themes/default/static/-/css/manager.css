@@ -90,6 +90,22 @@
 #other_actions {
 	margin-left:5px;
 }
+#other_actions_list {
+	position:absolute;
+	margin:0;
+	padding:0;
+	z-index:2;
+	display:none;
+}
+	#other_actions_list > li {
+		margin:0;
+		padding:0;
+		list-style-type:none;
+	}
+	#other_actions_list > li > a{
+		display:block;
+		padding:6px;
+	}
 #event_date {
 	text-align:right;
 	font-size:225%;
