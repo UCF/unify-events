@@ -2,6 +2,7 @@
 	{%if heading%}
 	<{{heading_tag|default_if_none:"h1"}} class="heading">{{heading}}</{{heading_tag|default_if_none:"h1"}}>
 	{%endif%}
+	{%if events|length%}
 	<ul>
 		{%for event in events%}
 		<li class="event{%if forloop.first%} first{%endif%} span-15 last">
@@ -20,4 +21,5 @@
 		</li>
 		{%endfor%}
 	</ul>
+	{%endif%}
 </section>

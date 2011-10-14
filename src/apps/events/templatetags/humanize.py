@@ -36,6 +36,16 @@ def format_event_list(events):
 			'heading_tag' : 'h3',
 		})))
 	
+	# No events were provided, so we output empty results
+	if not len(date_lists):
+		date_lists.append(template.render(Context({
+			'MEDIA_URL'   : settings.MEDIA_URL,
+			'events'      : None,
+			'heading'     : 'No events found',
+			'heading_tag' : 'p',
+		})))
+	
+	print date_lists
 	# Combine lists and return joined list html
 	html = '\n'.join(date_lists)
 	return mark_safe(html)
