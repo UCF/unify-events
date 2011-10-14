@@ -96,7 +96,7 @@ a.serious {
 	padding:0;
 	z-index:2;
 	position:relative;
-	margin-left:15px;
+	margin-left:5px;
 }
 	#other_actions > li:first-child {
 		position:static;
@@ -104,7 +104,7 @@ a.serious {
 		margin:0;
 	}
 		#other_actions > li:first-child button {
-			width:135px;
+			width:145px;
 			text-align:left;
 		}
 			#other_actions > li:first-child button span {
@@ -118,7 +118,7 @@ a.serious {
 		#other_actions > li > a {
 			display:block;
 			padding:6px;
-			width:121px;
+			width:131px;
 		}
 #calendars {
 	margin:0;

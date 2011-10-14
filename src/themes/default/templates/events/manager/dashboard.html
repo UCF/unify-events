@@ -55,13 +55,20 @@
 			</ul>
 			<ul id="calendars" class="clear">
 				<li{% if not current_calendar %} class="selected"{% endif %}>
-					<a href="{% url dashboard %}">Submissions to Other Calendars</a>
+					<a href="{% url dashboard %}">Everything Else</a>
+					<p>
+						Any events you have submitted to calendars that you cannot own or edit.
+					</p>
 				</li>
 				{% for calendar in user.calendars %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
 						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
 						<a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a>
 						<div class="details">
+							<span class="access">
+								{% if calendar.creator == user %}Owner{% else %}Editor{% endif %}
+							</span>
+							&mdash;
 							<span class="visibility">
 								{% if calendar.public %}Public{% else %}Private{% endif %}
 							</span>
