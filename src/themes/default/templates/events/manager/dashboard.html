@@ -128,7 +128,7 @@
 							</div>
 							<div class="actions">
 								{% if current_calendar and instance.event not in current_calendar.events.all %}
-										Result of subscription {{instance.event.calendar.name}}
+										Result of subscription to {{instance.event.calendar.name}}
 								{% else %}
 									<a href="{% url event-update id=instance.event.id %}">Update</a>
 									&ndash;
