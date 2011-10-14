@@ -5,6 +5,16 @@ from datetime                   import datetime,timedelta
 from django.contrib.auth.models import User
 
 class CalendarForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(CalendarForm,self).__init__(*args,**kwargs)
+		
+		# Exclude calendar being edited from subscription list
+		try:
+			kwargs['instance']
+		except KeyError:
+			pass
+		else:
+			self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
 
 	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
 	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
