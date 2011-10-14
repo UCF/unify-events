@@ -4,13 +4,10 @@
 
 {%block content_body%}
 
+{%if stage == "one"%}
 <div class="event-listing">
 	<div id="left-column" class="span-15 append-1">
-		{%if events|length%}
 		{{events|format_event_list}}
-		{%else%}
-		<p>No events found.</p>
-		{%endif%}
 	</div>
 	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar%}
@@ -27,5 +24,29 @@
 		</section>
 	</div>
 </div>
+{%endif%}
+
+{%if stage == "two"%}
+<div class="event-listing">
+	<div id="calendars">
+		{% calendar_widget calendar%}
+	</div>
+	<div id="left-column" class="span-15 append-1">
+		{{events|format_event_list}}
+	</div>
+	<div id="right-column" class="span-8 last">
+		{% include "events/calendar/widgets/search.html" %}
+		
+		<section class="subscribe-widget">
+			<h1>Subscribe</h1>
+			<ul class="inline">
+				<li class="rss"><a href="./.rss">RSS</a></li>
+				<li class="ical"><a href="#">iCal</a></li>
+				<li class="gcal"><a href="#">Google Calendar</a></li>
+			</ul>
+		</section>
+	</div>
+</div>
+{%endif%}
 
 {%endblock%}
