@@ -100,7 +100,7 @@ class Event(Base):
 	@property
 	def slug(self):
 		return sluggify(self.title)
-		
+
 	@property
 	def upcoming_instances(self):
 		return self.instances.filter(start__gte = datetime.now())
@@ -324,7 +324,8 @@ class Calendar(Base):
 		its subscribed event instances"""
 		from django.db.models import Q
 		qs = EventInstance.objects.filter(
-			Q(event__calendar=self) | Q(event__calendar__in=self.subscriptions.all())
+			Q(event__calendar=self) | 
+			Q(Q(event__calendar__in=self.subscriptions.all() & Q(event__state = Event.Status.posted)))
 		)
 		return qs
 	

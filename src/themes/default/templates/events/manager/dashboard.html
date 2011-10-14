@@ -127,19 +127,24 @@
 								{% endif %}
 							</div>
 							<div class="actions">
-								<a href="{% url event-update id=instance.event.id %}">Update</a>
-								&ndash;
-								{% if instance.event.get_state_display == 'pending' %}
-									<a href="{% url event-post id=instance.event.id %}">Mark as Posted</a>
+								{% if current_calendar and instance.event not in current_calendar.events.all %}
+										Result of subscription {{instance.event.calendar.name}}
 								{% else %}
-									{% if instance.event.get_state_display == 'posted' %}
-										<a href="{% url event-pend id=instance.event.id %}" class="serious">
-											Mark as Pending
-										</a>
+									<a href="{% url event-update id=instance.event.id %}">Update</a>
+									&ndash;
+									{% if instance.event.get_state_display == 'pending' %}
+										<a href="{% url event-post id=instance.event.id %}">Mark as Posted</a>
+									{% else %}
+										{% if instance.event.get_state_display == 'posted' %}
+											<a href="{% url event-pend id=instance.event.id %}" class="serious">
+												Mark as Pending
+											</a>
+										{% endif %}
 									{% endif %}
+									
+									&ndash;
+									<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
 								{% endif %}
-								&ndash;
-								<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
 							</div>
 						</div>
 					</div>

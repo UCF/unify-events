@@ -5,6 +5,10 @@ from django.core.urlresolvers        import reverse
 from django.contrib                  import messages
 from events.models                   import Calendar
 from events.forms.manager            import CalendarForm
+import logging
+
+log = logging.getLogger(__name__)
+
 
 @login_required
 def create_update(request, id = None):
@@ -16,19 +20,21 @@ def create_update(request, id = None):
 		try:
 			ctx['calendar'] = Calendar.objects.get(pk = id)
 		except Calendar.DoesNotExist:
-			return HttpResponseNotFound('The calendar specified does not exist')
+			return HttpResponseNotFound('The calendar specified does not exist.')
 	
 	if request.method == 'POST':
 		ctx['form'] = CalendarForm(request.POST,instance=ctx['calendar'])
 		if ctx['form'].is_valid():
-			calendar = ctx['form'].save(commit=False)
-			calendar.creator = request.user
 			try:
+				calendar = ctx['form'].save(commit=False)
+				calendar.creator = request.user
 				calendar.save()
-			except:
-				messages.error(request, 'Saving calendar failed')
+				ctx['form'].save_m2m()
+			except Exception, e:
+				log.error(str(e))
+				messages.error(request, 'Saving calendar failed.')
 			else:
-				messages.success(request, 'Saving calendar was successful')
+				messages.success(request, 'Calendar was successfully saved.')
 		return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		ctx['form'] = CalendarForm(instance=ctx['calendar'])
