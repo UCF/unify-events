@@ -2,9 +2,9 @@ from django.conf.urls.defaults import *
 import settings
 
 urlpatterns = patterns('events.views.calendar',
-	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu
-	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu.rss
-	url(r'^(?P<calendar>[\w-]+)/event/(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
+	# http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
+	# http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
+	url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
 		view='event',
 		name='event'
 	),
@@ -36,7 +36,6 @@ urlpatterns = patterns('events.views.calendar',
 		name="range-listing"
 	),
 	
-	
 	# http://events.ucf.edu/calendar/athletics/this-year
 	# http://events.ucf.edu/calendar/athletics/today
 	# etc.
@@ -46,7 +45,7 @@ urlpatterns = patterns('events.views.calendar',
 	),
 	
 	# http://events.ucf.edu/calendar/athletics/2010/01/calendar-widget
-	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/calendar-widget/$',
+	url(r'^(?P<calendar>[\w-]+)/widget/(?P<year>[\d]+)/(?P<month>[\d]+)/$',
 		view='calendar_widget',
 		name="calendar-widget"
 	),

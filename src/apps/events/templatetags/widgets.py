@@ -6,7 +6,7 @@ from django.conf             import settings
 register = template.Library()
 
 @register.simple_tag
-def calendar_widget(calendar, year=None, month=None):
+def calendar_widget(calendar, year=None, month=None, html_class='calendar-widget'):
 	from datetime         import datetime, date, timedelta
 	from events.functions import get_date_event_map, chunk
 	
@@ -73,6 +73,7 @@ def calendar_widget(calendar, year=None, month=None):
 		'last_month'     : date(*(last_month.year, last_month.month, 1)),
 		'today'          : date.today(),
 		'weeks'          : weeks,
+		'html_class'     : html_class,
 	}))
 	
 	return html

@@ -6,7 +6,7 @@
 	<div class="span-15 append-1">
 		<a href="{%url named-listing calendar=calendar.slug type="today"%}">Today</a>
 		<a href="{%url named-listing calendar=calendar.slug type="this-week"%}">This Week</a>
-		<a href="{%url named-listing calendar=calendar.slug type="this-month"%}">This Month</a>
+		<a href="{%url month-listing calendar.slug now.year now.month %}">Month View</a>
 		<a href="{%url named-listing calendar=calendar.slug type="this-year"%}">This Year</a>
 	</div>
 	<div class="span-8 last">
