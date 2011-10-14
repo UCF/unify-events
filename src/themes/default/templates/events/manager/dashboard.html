@@ -1,4 +1,5 @@
 {% extends 'events/manager/base.html' %}
+{% load humanize %}
 {% block footer_scripts %}
 	{{block.super}}
 	<script type="text/javascript">
@@ -45,56 +46,79 @@
 {% endblock %}
 {% block content_body %}
 	<div class="span-24 last">
-		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
-		<ul id="other_actions">
-			<li><button>Other Actions &#9660;</button></li>
-			<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
-			<li><a class="button" href="">Manage Calendars</a></li>
-			<li><a class="button" href="">Import/Export</a></li>
-		</ul>
-		<form id="search">
-			<input type="text" name="query" value="Search events..." class="prefill" />
-			<button type="submit">Search</button>
-		</form>
-		<div id="event_date">
-			{{dates.relative|date:"l, F j, Y"}}
+		<div class="span-7">
+			<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
+			<ul id="other_actions">
+				<li><button>Other Actions <span>&#9660;</span></button></li>
+				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
+				<li><a class="button" href="">Import/Export</a></li>
+			</ul>
+			<ul id="calendars" class="clear">
+				<li{% if not current_calendar %} class="selected"{% endif %}>
+					<a href="{% url dashboard %}">Submissions to Other Calendars</a>
+				</li>
+				{% for calendar in user.calendars %}
+					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
+						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
+						<a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a>
+						<div class="details">
+							<span class="visibility">
+								{% if calendar.public %}Public{% else %}Private{% endif %}
+							</span>
+							&mdash;
+							<span class="shared">
+								{% if calendar.shared %}Shared{% else %}Not Shared{% endif %}
+							</span>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+			<form id="search">
+				<input type="text" name="query" value="Search events..." class="prefill" />
+				<button type="submit">Search</button>
+			</form>
 		</div>
-		<ul id="events" class=" last">
-			{% for event in events %}
-			<li class="{% cycle 'even' 'odd' %} clear clearfix span-24">
-				<div>
-					<div class="image span-2">
-						<img src="{{event.image.url}}" />
+		<div class="span-17 last">
+			<div id="event_date">
+				{{dates.relative|date:"l, F j, Y"}}
+			</div>
+			<ul id="instances" class="span-17 last">
+				{% for instance in instances %}
+				<li class="{% cycle 'even' 'odd' %} clear clearfix">
+					<div>
+						<div class="image span-2">
+							<img src="{{instance.event.image.url}}" />
+						</div>
+						<div class="span-6">
+							<div class="title">{{instance.event.title}}</div>
+							<div class="description">{{instance.event.description|truncatewords:25}}</div>
+						</div>
+						<div class="span-9 last">
+							<div class="datetime">
+								{{instance.start|date:"g:m a"}}
+								{% if instance.end %} &ndash; {{instance.end|date:"g a"}}{% endif %}
+							</div>
+							<div class="location">
+								{% if instance.location %}{{instance.location.name}}{% endif %}
+							</div>
+						</div>
+						<div class="actions span-17 last">
+							<a href="{% url event-update id=instance.event.id %}">Update</a>
+							&ndash;
+							{% if instance.event.get_state_display == 'pending' %}
+								<a href="{% url event-update id=instance.event.id %}">Approve</a>
+							{% else %}
+								{% if instance.event.get_state_display == 'posted' %}
+									<a href="{% url event-update id=instance.event.id %}">Unapprove</a>
+								{% endif %}
+							{% endif %}
+							&ndash;
+							<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
+						</div>
 					</div>
-					<div class="span-8">
-						<div class="title">{{event.title}}</div>
-						<div class="description span-">{{event.description|truncatewords:25}}</div>
-					</div>
-					<div class="instances span-7">
-						<h3>Instances:</h3>
-						<ul>
-						{% for instance in event.upcoming_instances|slice:":3" %}
-							<li>
-								{{instance.start}}
-								{% if instance.end %} - {{instance.end}}{% endif %}
-								{% if instance.location %}at {{instance.location.name}}{% endif %}
-							</li>
-						{% endfor %}
-						</ul>
-						{% if event.upcoming_instances and event.upcoming_instances|length > 3 %}
-						<p>Future instances..</p>
-						{% endif %}
-					</div>
-					<div class="status span-7 last">
-						<h3>Management:</h3>
-						{{event.calendar.name}}
-						<span class="{{event.get_state_display|lower}}">
-							{{event.get_state_display}}
-						</span>
-					</div>
-				</div>
-			</li>
-			{% endfor %}
-		</ul>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}

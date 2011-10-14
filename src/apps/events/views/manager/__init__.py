@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators  import login_required
 from django.views.generic.simple     import direct_to_template
 from datetime                        import datetime, timedelta, date
-from events.models                   import Event, Calendar
+from events.models                   import Event, Calendar, EventInstance
 from django.contrib                  import messages
 from django.http                     import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers        import reverse
@@ -17,7 +17,7 @@ MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 @login_required
 def dashboard(request, _date=None, calendar_id = None):
 	ctx  = {
-		'events'  :None,
+		'instances'  :None,
 		'current_calendar':None,
 		'dates':{
 			'prev_day'  : None,
@@ -42,14 +42,19 @@ def dashboard(request, _date=None, calendar_id = None):
 		ctx['dates']['relative'] = datetime.now()
 	
 	if calendar_id is None:
-		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['relative']).order_by('title').distinct()
+		#
+		ctx['instances'] = EventInstance.objects.filter(
+								event__creator=request.user,
+								start__gte = ctx['dates']['relative']).exclude(
+										event__calendar__in=request.user.calendars
+									)
 	else:
 		try:
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
 		else:
-			ctx['events'] = list(i.event for i in ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative']))
+			ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 			
 	# Generate date navigation args
 	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)).date())

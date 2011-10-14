@@ -40,6 +40,9 @@
 	#messages li {
 		list-style-type:none;
 	}
+a.serious {
+	color:#CC0000 !important; 
+}
 /*
  * Login Styles
  */
@@ -93,24 +96,76 @@
 	padding:0;
 	z-index:2;
 	position:relative;
-	margin-left:5px;
+	margin-left:15px;
 }
 	#other_actions > li:first-child {
 		position:static;
 		display:block;
-		width:auto;
 		margin:0;
 	}
+		#other_actions > li:first-child button {
+			width:135px;
+			text-align:left;
+		}
+			#other_actions > li:first-child button span {
+				float:right;
+			}
 	#other_actions > li {
 		list-style-type:none;
 		position:absolute;
 		display:none;
-		width:125px;
 	}
-		#other_actions > li > a, #other_actions > li > button {
+		#other_actions > li > a {
 			display:block;
 			padding:6px;
+			width:121px;
 		}
+#calendars {
+	margin:0;
+	padding:10px 0 0 0;
+}
+	#calendars li {
+		list-style-type:none;
+		padding:5px;
+		border-radius:2px
+	}
+		#calendars li.selected {
+			background-color:#f7f7f7;
+		}
+		#calendars li > a {
+			font-size:160%;
+			text-decoration:none;
+		}
+			#calendars li > a:hover {
+				text-decoration:underline;
+			}
+		#calendars li .name {
+			display:block;
+			margin-bottom:2px;
+		}
+		#calendars li .details {
+			float:right;
+			font-size:80%;
+			margin-top:4px;
+
+		}
+		#calendars li .manage {
+			color:#4183C4;
+			font-size:85%;
+		}
+#search {
+	margin: 0 0;
+}
+	#search input[type="text"] {
+		font-size:100%;
+		height:17px;
+		width:200px;
+	}
+	#search input[type="text"].prefill {
+		color:#999;
+		font-style:italic;
+	}
+
 #event_date {
 	text-align:right;
 	font-size:225%;
@@ -128,56 +183,37 @@
 			#event_date_nav a:hover {
 				text-decoration:underline;
 			}
-#search {
-	float:left;
-	margin: 0 5px;
-	position:relative;
-	z-index:2;
-}
-	#search input[type="text"] {
-		font-size:100%;
-		height:17px;
-		width:170px;
-	}
-	#search input[type="text"].prefill {
-		color:#999;
-		font-style:italic;
-	}
-#events {
+
+#instances {
 	margin:10px 0 0 0;
 	padding:0;
+	border-top:2px solid #EEE;
 }
-	#events li {
+	#instances li {
 		list-style-type:none;
 		margin-bottom:10px;
-		padding:10px;
-		border-radius:2px;
+		padding:10px 0 5px 0;
+		border-bottom: 1px solid #f7f7f7;
 	}
-		#events li h3 {
-			margin-top:0;
+		#instances li .image {
 		}
-		#events li.even {
-			background-color:#f7f7f7;
-		}
-		#events li .image {
-		}
-		#events li .title {
-			font-size:110%;
+		#instances li .title {
+			font-size:130%;
 			color:#333;
 			font-weight:bold;
 			margin-bottom:3px;
 		}
-		#events li .instances ul {
-			margin:0;
-			padding:0;
+		#instances li .datetime {
+			text-align:right;
+			font-size:130%;
 		}
-		#events li .instances ul li {
-			padding:0;
+		#instances li .actions {
+			text-align:right;
 		}
-		#events li .status {
-		}
-			#events li .status .pending {
-				padding:5px;
+			#instances li .actions a {
+				color:#4183C4;
+				text-decoration:none;
+				font-size:90%;
 			}
 /*
  * Event Creation / Updating
