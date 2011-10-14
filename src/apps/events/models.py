@@ -325,7 +325,7 @@ class Calendar(Base):
 		from django.db.models import Q
 		qs = EventInstance.objects.filter(
 			Q(event__calendar=self) | 
-			Q(Q(event__calendar__in=self.subscriptions.all() & Q(event__state = Event.Status.posted)))
+			Q(Q(event__calendar__in=self.subscriptions.all()) & Q(event__state = Event.Status.posted))
 		)
 		return qs
 	
