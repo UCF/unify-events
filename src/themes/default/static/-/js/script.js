@@ -23,6 +23,11 @@ function extend_formset(selector, type) {
 	$(selector).after(newElement);
 }
 
+
+/**
+ * Handles various actions and behaviours for the variety of calendar widgets
+ * througout the application
+ **/
 Webcom.calendarWidget = function($){
 	$('.calendar-widget .month-controls a').click(function(){
  		var url    = $(this).attr('href');
@@ -62,6 +67,10 @@ Webcom.calendarWidget = function($){
 	});
 	
 	
+	/**
+	 * Inherits most functionality from calendar-widget, however removes certain
+	 * behaviours and adds history modifications to simulate page changes.
+	 **/
 	$('.full-calendar .day a').unbind('click');
 	$('.full-calendar .month-controls a').unbind('click');
 	$('.full-calendar .month-controls a').click(function(){

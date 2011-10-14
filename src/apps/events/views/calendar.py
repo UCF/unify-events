@@ -72,6 +72,7 @@ def calendar(request, calendar, format=None):
 	
 	template = 'events/calendar/calendar.' + (format or 'html')
 	context  = {
+		'now'             : date.today(),
 		'calendar'        : calendar,
 		'events'          : events,
 		'featured_events' : featured_events,
