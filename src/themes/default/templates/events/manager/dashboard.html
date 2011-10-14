@@ -1,4 +1,5 @@
 {% extends 'events/manager/base.html' %}
+{% load humanize %}
 {% block footer_scripts %}
 	{{block.super}}
 	<script type="text/javascript">
@@ -24,16 +25,19 @@
 					)
 				});
 			(function() {
-				var other_actions      = $('#other_actions'),
-					other_actions_list = $('#other_actions_list');
-				var offset = other_actions.offset(),
-					height = other_actions.height();
-				
-				other_actions_list.css('left', offset.left);
-				other_actions_list.css('top', offset.top + height + 52);
+				var other_actions = $('#other_actions');
 				other_actions
-					.click(function() {
-							other_actions_list.toggle();
+					.find('li:gt(0)')
+						.each(function(count, li) {
+							$(li).css('top', (count + 1) * 25);
+						})
+				other_actions
+					.hover(
+						function() {
+							other_actions.find('li:gt(0)').show();
+						},
+						function() {
+							other_actions.find('li:gt(0)').hide();	
 						})
 			})();
 			
@@ -42,64 +46,99 @@
 {% endblock %}
 {% block content_body %}
 	<div class="span-24 last">
-		<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
-		<button id="other_actions">Other Actions &#9660;</button>
-		<ul id="other_actions_list">
-			<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
-			<li><a class="button" href="www.google.com">Manage Calendars</a></li>
-		</ul>
-		<form id="search">
-			<input type="text" name="query" value="Search events..." class="prefill" />
-			<button type="submit">Search</button>
-		</form>
-		<div id="event_date">
-			{{dates.relative|date:"l, F j, Y"}}
-		</div>
-		<table id="events">
-			<thead>
-				<tr>
-					<th scope="col">Title</th>
-					<th scope="col">Description</th>
-					<th scope="col">When &amp; Where</th>
-					<th scope="col">Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for event in events %}
-				<tr class="{% cycle 'even' 'odd' %}">
-					<td class="title">{{event.title}}</td>
-					<td class="description">{{event.description|truncatewords:25}}</td>
-					<td class="instances">
-						{% if event.were_previous_instances %}<p>Previous instances...</p>{% endif %}
-						<ul>
-						{% for instance in event.upcoming_instances|slice:":3" %}
-							<li>
-								{{instance.start}}
-								{% if instance.end %} - {{instance.end}}{% endif %}
-								{% if instance.location %}at {{instance.location.name}}{% endif %}
-							</li>
-						{% endfor %}
-						</ul>
-						{% if event.upcoming_instances and event.upcoming_instances|length > 3 %}
-						<p>Future instances..</p>
-						{% endif %}
-						</td>
-					<td class="calendars">
-						{{event.calendar.name}} ({{event.get_state_display}})
-					</td>
-				</tr>
-				{% empty %}
-				<tr>
-					<td colspan="3">
-						{% if calendar %}
-							There are no upcoming events for this calendar.
-						{% else %}
-							There are no upcoming events.
-						{% endif %}
-					</td>
-				</tr>
+		<div class="span-7">
+			<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
+			<ul id="other_actions">
+				<li><button>Other Actions <span>&#9660;</span></button></li>
+				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
+				<li><a class="button" href="">Import/Export</a></li>
+			</ul>
+			<ul id="calendars" class="clear">
+				<li{% if not current_calendar %} class="selected"{% endif %}>
+					<a href="{% url dashboard %}">Submissions to Other Calendars</a>
+				</li>
+				{% for calendar in user.calendars %}
+					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
+						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
+						<a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a>
+						<div class="details">
+							<span class="visibility">
+								{% if calendar.public %}Public{% else %}Private{% endif %}
+							</span>
+							&mdash;
+							<span class="shared">
+								{% if calendar.shared %}Shared{% else %}Not Shared{% endif %}
+							</span>
+						</div>
+					</li>
 				{% endfor %}
-			</tbody>
-		</table>
+			</ul>
+			<form id="search">
+				<input type="text" name="query" value="Search events..." class="prefill" />
+				<button type="submit">Search</button>
+			</form>
+		</div>
+		<div class="span-17 last">
+			<div id="event_date">
+				{{dates.relative|date:"l, F j, Y"}}
+				<div id="event_date_nav">
+					<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">Last Month</a>
+					-
+					<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">Yesterday</a>
+					-
+					<a id="prev_day" href="{% url dashboard _date=dates.today %}">Today</a>
+					-
+					<a id="next_day" href="{% url dashboard _date=dates.next_day %}">Tomorrow</a>
+					-
+					<a id="next_month" href="{% url dashboard _date=dates.next_month %}">Next Month</a>
+				</div>
+			</div>
+			<ul id="instances" class="span-17 last">
+				{% for instance in instances %}
+				<li class="{% cycle 'even' 'odd' %} clear clearfix">
+					<div>
+						<div class="image span-2">
+							<img src="{{instance.event.image.url}}" />
+						</div>
+						<div class="span-6">
+							<div class="title">{{instance.event.title}}</div>
+							<div class="description">{{instance.event.description|truncatewords:25}}</div>
+						</div>
+						<div class="span-9 last">
+							<div class="datetime">
+								{{instance.start|date:"g:m a"}}
+								{% if instance.end %} &ndash; {{instance.end|date:"g a"}}{% endif %}
+							</div>
+							<div class="location">
+								{% if instance.location %}{{instance.location.name}}{% endif %}
+							</div>
+						</div>
+						<div class="span-17 admin">
+							<div class="num_instances">
+								{% if instance.event.instances.count > 1 %}
+									This is one of {{instance.event.instances.count|digit_to_word}} instances of this event.  
+								{% endif %}
+							</div>
+							<div class="actions">
+								<a href="{% url event-update id=instance.event.id %}">Update</a>
+								&ndash;
+								{% if instance.event.get_state_display == 'pending' %}
+									<a href="{% url event-post id=instance.event.id %}">Mark as Posted</a>
+								{% else %}
+									{% if instance.event.get_state_display == 'posted' %}
+										<a href="{% url event-pend id=instance.event.id %}" class="serious">
+											Mark as Pending
+										</a>
+									{% endif %}
+								{% endif %}
+								&ndash;
+								<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}

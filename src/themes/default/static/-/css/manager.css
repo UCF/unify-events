@@ -40,6 +40,9 @@
 	#messages li {
 		list-style-type:none;
 	}
+a.serious {
+	color:#CC0000 !important; 
+}
 /*
  * Login Styles
  */
@@ -80,7 +83,7 @@
 /*
  * Manage Styles
  */
-#event_create, #other_actions {
+#event_create {
 	float:left;
 	position:relative;
 	z-index:2;
@@ -88,24 +91,81 @@
 	padding:6px;
 }
 #other_actions {
-	margin-left:5px;
-}
-#other_actions_list {
-	position:absolute;
+	float:left;
 	margin:0;
 	padding:0;
 	z-index:2;
-	display:none;
+	position:relative;
+	margin-left:15px;
 }
-	#other_actions_list > li {
-		margin:0;
-		padding:0;
-		list-style-type:none;
-	}
-	#other_actions_list > li > a{
+	#other_actions > li:first-child {
+		position:static;
 		display:block;
-		padding:6px;
+		margin:0;
 	}
+		#other_actions > li:first-child button {
+			width:135px;
+			text-align:left;
+		}
+			#other_actions > li:first-child button span {
+				float:right;
+			}
+	#other_actions > li {
+		list-style-type:none;
+		position:absolute;
+		display:none;
+	}
+		#other_actions > li > a {
+			display:block;
+			padding:6px;
+			width:121px;
+		}
+#calendars {
+	margin:0;
+	padding:10px 0 0 0;
+}
+	#calendars li {
+		list-style-type:none;
+		padding:5px;
+		border-radius:2px
+	}
+		#calendars li.selected {
+			background-color:#f7f7f7;
+		}
+		#calendars li > a {
+			font-size:160%;
+			text-decoration:none;
+		}
+			#calendars li > a:hover {
+				text-decoration:underline;
+			}
+		#calendars li .name {
+			display:block;
+			margin-bottom:2px;
+		}
+		#calendars li .details {
+			float:right;
+			font-size:80%;
+			margin-top:4px;
+
+		}
+		#calendars li .manage {
+			color:#4183C4;
+			font-size:85%;
+		}
+#search {
+	margin: 0 0;
+}
+	#search input[type="text"] {
+		font-size:100%;
+		height:17px;
+		width:200px;
+	}
+	#search input[type="text"].prefill {
+		color:#999;
+		font-style:italic;
+	}
+
 #event_date {
 	text-align:right;
 	font-size:225%;
@@ -123,96 +183,53 @@
 			#event_date_nav a:hover {
 				text-decoration:underline;
 			}
-#search {
-	float:left;
-	margin: 0 5px;
-	position:relative;
-	z-index:2;
-}
-	#search input[type="text"] {
-		font-size:100%;
-		height:17px;
-		width:170px;
-	}
-	#search input[type="text"].prefill {
-		color:#999;
-		font-style:italic;
-	}
 
-#events {
-	position:relative;
-	margin-top:3px;
+#instances {
+	margin:0px 0 0 0;
+	padding:0;
+	border-top:2px solid #EEE;
 }
-	#events th {
-		background-color:#3E83C9;
-		color:#FFF;
-		padding:5px;
-		font-weight:bold;
+	#instances li {
+		list-style-type:none;
+		margin-bottom:5px;
+		padding:10px 0 3px 0;
+		border-bottom: 1px solid #f7f7f7;
 	}
-		#events th:first-child {
-			border-top-left-radius:2px;
-			border-bottom-left-radius:2px;
+		#instances li .image {
 		}
-		#events th:last-child {
-			border-top-right-radius:2px;
-			border-bottom-right-radius:2px;
+		#instances li .title {
+			font-size:130%;
+			color:#333;
+			font-weight:bold;
+			margin-bottom:3px;
 		}
-	#events tr.even {
-		background-color:#fafafa;
-	}
-	#events tr.odd {
-	}
-	#events td {
-		vertical-align:top;
-		padding:5px;
-	}
-		#events td.title {
-			width:20%;
+		#instances li .datetime {
+			text-align:right;
+			font-size:130%;
 		}
-		#events td.description {
-			width:20%;
+		#instances li .location {
+			text-align:right;
 		}
-		#events td.instances {
-			width:25%;
+		#instances li .admin {
+			margin-top:10px;
+			background-color:#f7f7f7;
+			padding:5px 0;
 		}
-			#events td.instances p {
+			#instances li .num_instances {
+				font-style:italic;
 				font-size:90%;
-				margin:0;
+				float:left;
+				margin-left:5px;
 			}
-			#events td.instances ul {
-				margin:0;
-				padding:0;
+			#instances li .actions {
+				float:right;
+				margin-right:5px;
 			}
-				#events td.instances ul > li {
-					list-style-type:none;
-					margin:0;
-					padding:2px 0;
-				}
-		
-		#events td.calendars {
-			width:15%;
-			position:relative;
-		}
-			#events td.calendars .actions {
-				display:none;
-				position:absolute;
-				top:0%;
-				left:100%;
-				margin:1px 0 0 0;
-				padding:0 0 0 3px;
-			}
-			#events td.calendars .actions > li {
-				list-style-type:none;
-				margin:0;
-				padding:0;
-				line-height:.9em;
-			}
-				#events td.calendars .actions > li  a {
-					color: #2F8DC3;
-					font-size:80%;
+				#instances li .actions a {
+					color:#4183C4;
 					text-decoration:none;
+					font-size:90%;
 				}
-
 /*
  * Event Creation / Updating
  */

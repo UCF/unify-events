@@ -100,15 +100,14 @@ class Event(Base):
 	@property
 	def slug(self):
 		return sluggify(self.title)
-	
-	@property
-	def were_previous_instances(self):
-		return True if self.instances.filter(start__lt = datetime.now()).count() > 0 else False
-
+		
 	@property
 	def upcoming_instances(self):
 		return self.instances.filter(start__gte = datetime.now())
 	
+	def on_owned_calendar(self,user):
+		return self.calendar in user.calendars
+
 	def __str__(self):
 		return self.title
 	
@@ -274,7 +273,9 @@ class EventInstance(Base):
 	def __repr__(self):
 		return '<' + str(self.start) + '>'
 
-
+	class Meta:
+		ordering = ['start']
+		
 class Location(Base):
 	"""User inputted locations that specify where an event takes place"""
 	#events     = One to Many relationship with EventInstance
