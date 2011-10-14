@@ -2,9 +2,9 @@ from django.conf.urls.defaults import *
 import settings
 
 urlpatterns = patterns('events.views.calendar',
-	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu
-	# http://events.ucf.edu/calendar/athletics/event/20404/football-ucf-at-fsu.rss
-	url(r'^(?P<calendar>[\w-]+)/event/(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
+	# http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
+	# http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
+	url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
 		view='event',
 		name='event'
 	),
@@ -22,7 +22,7 @@ urlpatterns = patterns('events.views.calendar',
 		name="year-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(\.(?P<format>[\w]+))?$',
-		view='month_listing',
+		view='auto_listing',
 		name="month-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',

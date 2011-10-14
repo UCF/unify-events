@@ -15,40 +15,14 @@ def calendar_widget(request, calendar, year, month):
 	from events.templatetags import widgets
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	
-	if 'html_class' in request.GET:
-		html_class = request.GET['html_class']
-	else:
-		html_class = None
-	
 	try: # Convert applicable arguments to integer
 		year  = int(year) if year is not None else year
 		month = int(month) if month is not None else month
 	except ValueError:
 		raise Http404
 	
-	html = widgets.calendar_widget(calendar, year, month, html_class)
+	html = widgets.calendar_widget(calendar, year, month)
 	return HttpResponse(html)
-
-
-def month_listing(request, calendar, year=None, month=None, format=None):
-	"""Output the month page view with the stupid calendar"""
-	from events.templatetags import widgets
-	calendar = get_object_or_404(Calendar, slug=calendar)
-	today    = date.today()
-	
-	try: # Convert applicable arguments to integer
-		year  = int(year) if year is not None else today.year
-		month = int(month) if month is not None else today.month
-	except ValueError:
-		raise Http404
-	
-	context = {
-		'year'     : year,
-		'month'    : month,
-		'calendar' : calendar,
-	}
-	
-	return direct_to_template(request, 'events/calendar/month-listing.html', context)
 
 
 def calendar(request, calendar, format=None):

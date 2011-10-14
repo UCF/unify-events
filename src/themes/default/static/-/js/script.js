@@ -65,36 +65,8 @@ Webcom.calendarWidget = function($){
 		
 		return false;
 	});
-	
-	
-	/**
-	 * Inherits most functionality from calendar-widget, however removes certain
-	 * behaviours and adds history modifications to simulate page changes.
-	 **/
-	$('.full-calendar .day a').unbind('click');
-	$('.full-calendar .month-controls a').unbind('click');
-	$('.full-calendar .month-controls a').click(function(){
- 		var url    = $(this).attr('href');
-		var parent = $(this).parents('.calendar-widget');
-		$.ajax(url, {
-			'success' : function(data){
-				var replace = $(data);
-				parent.replaceWith(replace);
-				
-				var title = '';
-				try{
-					title = data.match(/<title>([^<]*)<\/title>/)[1];
-				}catch(e){}
-				url = url.replace('widget/', '');
-				url = url.replace('?html_class=full-calendar', '');
-				
-				history.pushState({}, title, url);
-				bind_func($);
-			}
-		});
-		return false;
-	});
 };
+
 
 var bind_func = function ($){
 	$('*').unbind();
