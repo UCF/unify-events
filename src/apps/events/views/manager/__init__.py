@@ -42,7 +42,7 @@ def dashboard(request, _date=None, calendar_id = None):
 		ctx['dates']['relative'] = datetime.now()
 	
 	if calendar_id is None:
-		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['relative'])
+		ctx['events'] = request.user.owned_events.filter(instances__start__gte = ctx['dates']['relative']).order_by('title').distinct()
 	else:
 		try:
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)

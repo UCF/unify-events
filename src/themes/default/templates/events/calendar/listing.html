@@ -2,12 +2,16 @@
 {%load humanize%}
 {%load widgets%}
 
+{%debug%}
 {%block content_body%}
 
 <div class="event-listing">
 	<div id="left-column" class="span-15 append-1">
+		{%if events|length%}
 		{{events|format_event_list}}
-		<a class="button" href="#">Load more events</a>
+		{%else%}
+		<p>No events found.</p>
+		{%endif%}
 	</div>
 	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar%}
@@ -17,7 +21,7 @@
 		<section class="subscribe-widget">
 			<h1>Subscribe</h1>
 			<ul class="inline">
-				<li class="rss"><a href="#">RSS</a></li>
+				<li class="rss"><a href="./.rss">RSS</a></li>
 				<li class="ical"><a href="#">iCal</a></li>
 				<li class="gcal"><a href="#">Google Calendar</a></li>
 			</ul>

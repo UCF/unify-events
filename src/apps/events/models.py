@@ -274,7 +274,9 @@ class EventInstance(Base):
 	def __repr__(self):
 		return '<' + str(self.start) + '>'
 
-
+	class Meta:
+		ordering = ['start']
+		
 class Location(Base):
 	"""User inputted locations that specify where an event takes place"""
 	#events     = One to Many relationship with EventInstance

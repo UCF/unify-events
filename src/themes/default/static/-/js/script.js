@@ -29,20 +29,44 @@ Webcom.calendarWidget = function($){
 		var parent = $(this).parents('.calendar-widget');
 		$.ajax(url, {
 			'success' : function(data){
-				parent.fadeOut(400, function(){
-					var replace = $(data);
-					replace.hide();
-					parent.replaceWith(replace);
-					replace.fadeIn(400);
-					Webcom.calendarWidget($);
-				});
+				var replace = $(data);
+				parent.replaceWith(replace);
+				bind_func($);
 			}
 		});
 		return false;
 	});
+	
+	$('.calendar-widget .day a').click(function(){
+		var elements_to_update = ['.subscribe-widget', '#left-column'];
+		var url = $(this).attr('href');
+		$.ajax(url, {
+			'success' : function (data){
+				var result = $(data);
+				$.each(elements_to_update, function(){
+					var find    = this.valueOf();
+					var element = result.find(find);
+					$(find).replaceWith(element);
+				});
+				
+				var title = '';
+				try{
+					title = data.match(/<title>([^<]*)<\/title>/)[1];
+				}catch(e){}
+				history.pushState({}, title, url);
+				bind_func($);
+			}
+		});
+		
+		return false;
+	});
 };
 
+var bind_func = function ($){
+	$('*').unbind();
+	Webcom.calendarWidget($);
+}
+
 $().ready(function(){
-	Webcom.calendarWidget(jQuery);
-	
+	bind_func(jQuery);
 });

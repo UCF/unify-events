@@ -99,6 +99,7 @@
 		position:static;
 		display:block;
 		width:auto;
+		margin:0;
 	}
 	#other_actions > li {
 		list-style-type:none;
@@ -142,86 +143,42 @@
 		color:#999;
 		font-style:italic;
 	}
-
 #events {
-	position:relative;
-	margin-top:3px;
+	margin:10px 0 0 0;
+	padding:0;
 }
-	#events th {
-		background-color:#3E83C9;
-		color:#FFF;
-		padding:5px;
-		font-weight:bold;
+	#events li {
+		list-style-type:none;
+		margin-bottom:10px;
+		padding:10px;
+		border-radius:2px;
 	}
-		#events th:first-child {
-			border-top-left-radius:2px;
-			border-bottom-left-radius:2px;
+		#events li h3 {
+			margin-top:0;
 		}
-		#events th:last-child {
-			border-top-right-radius:2px;
-			border-bottom-right-radius:2px;
+		#events li.even {
+			background-color:#f7f7f7;
 		}
-	#events tr.even {
-		background-color:#fafafa;
-	}
-	#events tr.odd {
-	}
-	#events td {
-		vertical-align:top;
-		padding:5px;
-	}
-		#events td.image {
-			width:5%;
+		#events li .image {
 		}
-		#events td.title {
-			width:15%;
+		#events li .title {
+			font-size:110%;
+			color:#333;
+			font-weight:bold;
+			margin-bottom:3px;
 		}
-		#events td.description {
-			width:20%;
+		#events li .instances ul {
+			margin:0;
+			padding:0;
 		}
-		#events td.instances {
-			width:25%;
+		#events li .instances ul li {
+			padding:0;
 		}
-			#events td.instances p {
-				font-size:90%;
-				margin:0;
+		#events li .status {
+		}
+			#events li .status .pending {
+				padding:5px;
 			}
-			#events td.instances ul {
-				margin:0;
-				padding:0;
-			}
-				#events td.instances ul > li {
-					list-style-type:none;
-					margin:0;
-					padding:2px 0;
-				}
-		
-		#events td.calendars {
-			width:15%;
-			position:relative;
-		}
-			#events td.calendars .actions {
-				display:none;
-				position:absolute;
-				top:0%;
-				left:100%;
-				margin:1px 0 0 0;
-				padding:0 0 0 3px;
-			}
-			#events td.calendars .actions > li {
-				list-style-type:none;
-				margin:0;
-				padding:0;
-			}
-				#events td.calendars .actions > li:first-child {
-					margin-bottom:3px;
-				}
-				#events td.calendars .actions > li  a {
-					color: #2F8DC3;
-					font-size:100%;
-					text-decoration:none;
-				}
-
 /*
  * Event Creation / Updating
  */
