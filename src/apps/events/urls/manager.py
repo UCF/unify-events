@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from events.models             import Event
 import settings
 
 urlpatterns = patterns('',
@@ -17,8 +18,10 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^search/user/(?P<lastname>\w+)?/?(?P<firstname>\w+)?/?$', view='search_user', name='search-user'),
 
 	url(r'^event/(?P<id>\d+)/update', view='event.create_update', name='event-update'),
+	url(r'^event/(?P<id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':Event.Status.posted}),
+	url(r'^event/(?P<id>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':Event.Status.pending}),
 	url(r'^event/create', view='event.create_update', name='event-create'),
-	
+
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
 	url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
 

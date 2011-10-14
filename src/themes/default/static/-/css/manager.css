@@ -185,14 +185,14 @@ a.serious {
 			}
 
 #instances {
-	margin:10px 0 0 0;
+	margin:0px 0 0 0;
 	padding:0;
 	border-top:2px solid #EEE;
 }
 	#instances li {
 		list-style-type:none;
-		margin-bottom:10px;
-		padding:10px 0 5px 0;
+		margin-bottom:5px;
+		padding:10px 0 3px 0;
 		border-bottom: 1px solid #f7f7f7;
 	}
 		#instances li .image {
@@ -207,14 +207,29 @@ a.serious {
 			text-align:right;
 			font-size:130%;
 		}
-		#instances li .actions {
+		#instances li .location {
 			text-align:right;
 		}
-			#instances li .actions a {
-				color:#4183C4;
-				text-decoration:none;
+		#instances li .admin {
+			margin-top:10px;
+			background-color:#f7f7f7;
+			padding:5px 0;
+		}
+			#instances li .num_instances {
+				font-style:italic;
 				font-size:90%;
+				float:left;
+				margin-left:5px;
 			}
+			#instances li .actions {
+				float:right;
+				margin-right:5px;
+			}
+				#instances li .actions a {
+					color:#4183C4;
+					text-decoration:none;
+					font-size:90%;
+				}
 /*
  * Event Creation / Updating
  */

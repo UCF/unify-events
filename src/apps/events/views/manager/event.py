@@ -77,3 +77,27 @@ def create_update(request, id=None):
 		ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs,prefix='event_instance',)
 
 	return direct_to_template(request,tmpl,ctx)
+
+@login_required
+def update_state(request, id=None,state=None):
+	try:
+		event = Event.objects.get(pk=id)
+	except Event.DoesNotExist:
+		return HttpResponseNotFound('The event specified does not exist.')
+	else:
+		if not request.user.is_superuser:
+			if event.calendar not in request.user.calendars:
+				return HttpResponseForbidden('You cannot modify the specified event.')
+		event.state = state
+		try:
+			event.save()
+		except Exception, e:
+			log(str(e))
+			messages.error(request, 'Saving even failed.')
+		else:
+			messages.success(request, 'Event successfully updated.')
+			if event.on_owned_calendar(request.user):
+				return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id':event.calendar.id}))
+			else:
+				return HttpResponseRedirect(reverse('dashboard'))
+				

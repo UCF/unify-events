@@ -71,3 +71,13 @@ def pretty_date(d):
 		return "Tomorrow, " + date(d, "g a")
 	# diff is less than one day, starts at 2pm
 	return "starts at " + date(d, "g a")
+
+@register.filter('digit_to_word')
+def digit_to_word(d):
+	WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine']
+	try:
+		d = int(d)
+	except ValueError:
+		return 'unknown'
+	else:
+		return WORDS[d] if d < 10 else d

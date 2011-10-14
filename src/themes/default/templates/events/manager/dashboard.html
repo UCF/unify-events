@@ -81,6 +81,17 @@
 		<div class="span-17 last">
 			<div id="event_date">
 				{{dates.relative|date:"l, F j, Y"}}
+				<div id="event_date_nav">
+					<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">Last Month</a>
+					-
+					<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">Yesterday</a>
+					-
+					<a id="prev_day" href="{% url dashboard _date=dates.today %}">Today</a>
+					-
+					<a id="next_day" href="{% url dashboard _date=dates.next_day %}">Tomorrow</a>
+					-
+					<a id="next_month" href="{% url dashboard _date=dates.next_month %}">Next Month</a>
+				</div>
 			</div>
 			<ul id="instances" class="span-17 last">
 				{% for instance in instances %}
@@ -102,18 +113,27 @@
 								{% if instance.location %}{{instance.location.name}}{% endif %}
 							</div>
 						</div>
-						<div class="actions span-17 last">
-							<a href="{% url event-update id=instance.event.id %}">Update</a>
-							&ndash;
-							{% if instance.event.get_state_display == 'pending' %}
-								<a href="{% url event-update id=instance.event.id %}">Approve</a>
-							{% else %}
-								{% if instance.event.get_state_display == 'posted' %}
-									<a href="{% url event-update id=instance.event.id %}">Unapprove</a>
+						<div class="span-17 admin">
+							<div class="num_instances">
+								{% if instance.event.instances.count > 1 %}
+									This is one of {{instance.event.instances.count|digit_to_word}} instances of this event.  
 								{% endif %}
-							{% endif %}
-							&ndash;
-							<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
+							</div>
+							<div class="actions">
+								<a href="{% url event-update id=instance.event.id %}">Update</a>
+								&ndash;
+								{% if instance.event.get_state_display == 'pending' %}
+									<a href="{% url event-post id=instance.event.id %}">Mark as Posted</a>
+								{% else %}
+									{% if instance.event.get_state_display == 'posted' %}
+										<a href="{% url event-pend id=instance.event.id %}" class="serious">
+											Mark as Pending
+										</a>
+									{% endif %}
+								{% endif %}
+								&ndash;
+								<a href="{% url event-update id=instance.event.id %}" class="serious">Delete</a>
+							</div>
 						</div>
 					</div>
 				</li>

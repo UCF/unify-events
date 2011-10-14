@@ -100,11 +100,14 @@ class Event(Base):
 	@property
 	def slug(self):
 		return sluggify(self.title)
-	
+		
 	@property
 	def upcoming_instances(self):
 		return self.instances.filter(start__gte = datetime.now())
 	
+	def on_owned_calendar(self,user):
+		return self.calendar in user.calendars
+
 	def __str__(self):
 		return self.title
 	
