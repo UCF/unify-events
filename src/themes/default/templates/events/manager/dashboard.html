@@ -53,6 +53,10 @@
 				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
 				<li><a class="button" href="">Import/Export</a></li>
 			</ul>
+			<form id="search" class="clear">
+				<input type="text" name="query" value="Search events..." class="prefill" />
+				<button type="submit">Search</button>
+			</form>
 			<ul id="calendars" class="clear">
 				<li{% if not current_calendar %} class="selected"{% endif %}>
 					<a href="{% url dashboard %}">Everything Else</a>
@@ -63,6 +67,7 @@
 				{% for calendar in user.calendars %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
 						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
+
 						<a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a>
 						<div class="details">
 							<span class="access">
@@ -80,10 +85,6 @@
 					</li>
 				{% endfor %}
 			</ul>
-			<form id="search">
-				<input type="text" name="query" value="Search events..." class="prefill" />
-				<button type="submit">Search</button>
-			</form>
 		</div>
 		<div class="span-17 last">
 			<div id="event_date">
