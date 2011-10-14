@@ -89,15 +89,37 @@
 			<div id="event_date">
 				{{dates.relative|date:"l, F j, Y"}}
 				<div id="event_date_nav">
-					<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">Last Month</a>
-					-
-					<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">Yesterday</a>
-					-
-					<a id="prev_day" href="{% url dashboard _date=dates.today %}">Today</a>
-					-
-					<a id="next_day" href="{% url dashboard _date=dates.next_day %}">Tomorrow</a>
-					-
-					<a id="next_month" href="{% url dashboard _date=dates.next_month %}">Next Month</a>
+					{% if current_calendar %}
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}">
+							Last Month
+						</a>
+						-
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}">
+							Yesterday
+						</a>
+						-
+						<a id="prev_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}">
+							Today
+						</a>
+						-
+						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}">
+							Tomorrow
+						</a>
+						-
+						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}">
+							Next Month
+						</a>
+					{% else %}
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">Last Month</a>
+						-
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">Yesterday</a>
+						-
+						<a id="prev_day" href="{% url dashboard _date=dates.today %}">Today</a>
+						-
+						<a id="next_day" href="{% url dashboard _date=dates.next_day %}">Tomorrow</a>
+						-
+						<a id="next_month" href="{% url dashboard _date=dates.next_month %}">Next Month</a>
+					{% endif %}
 				</div>
 			</div>
 			<ul id="instances" class="span-17 last">
