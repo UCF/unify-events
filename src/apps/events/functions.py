@@ -1,5 +1,5 @@
 def sluggify(original):
-	"""docstring for sluggify"""
+	"""Apps sluggyify logic, to be used wherever slugs need to be generated."""
 	import re
 	slug  = original.lower().strip()
 	slug  = re.sub("[\s]+", '-', slug)
@@ -37,9 +37,12 @@ def chunk(i, c_size):
 
 
 def format_to_mimetype(format):
+	"""Provides a mapping between frontend document formats and mimetypes to be
+	returned with the resulting response.
+	"""
 	return {
 		'json' : 'application/json',
 		'rss'  : 'application/rss+xml',
 		'html' : 'text/html',
 		'xml'  : 'text/xml',
-	}.get(format, 'text/plain')
+	}.get(format, 'text/html')
