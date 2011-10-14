@@ -1,0 +1,12 @@
+{%extends 'events/calendar/base.html'%}
+{%load widgets%}
+
+{%block content_body%}
+
+<div class="month-listing">
+	<div class="span-24 last">
+	    {% calendar_widget calendar year month "full-calendar" %}
+	</div>
+</div>
+
+{%endblock%}
