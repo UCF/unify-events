@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class CalendarForm(forms.ModelForm):
 
-	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(public=True),required=False)
+	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
 	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
 
 	class Meta:
