@@ -1,4 +1,4 @@
-<section class="calendar-widget {{html_class}}" data-month="{{this_month.month}}" data-year="{{this_month.year}}">
+<section class="calendar-widget" data-month="{{this_month.month}}" data-year="{{this_month.year}}">
 	<h1>{{this_month|date:"F Y"}}</h1>
 	<div class="table-wrap">
 		<ul class="month-controls">
@@ -25,7 +25,10 @@
 					<td class="day {%if weight%}{{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%}subtle{%endif%}">
 						<ul class="events">
 							{%for event in events%}
-							<li><span>{{event.title}}</span></li>
+							<li>
+								<span class="title">{{event.title}}</span>
+								<span class="starts">{{event.start|date:"fA"|lower}}</span>
+							</li>
 							{%endfor%}
 						</ul>
 						<a href="{%url day-listing calendar.slug day.year day.month day.day%}">
