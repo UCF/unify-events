@@ -127,7 +127,11 @@
 				<li class="{% cycle 'even' 'odd' %} clear clearfix">
 					<div>
 						<div class="image span-2">
-							<img src="{{instance.event.image.url}}" />
+							{% if instance.event.image %}
+								<img src="{{instance.event.image.url}}" />
+							{% else %}
+								<img src="{{MEDIA_URL}}-/img/test-64x64.png" />
+							{% endif %}
 						</div>
 						<div class="span-6">
 							<div class="title">{{instance.event.title}}</div>
