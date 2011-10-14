@@ -42,7 +42,6 @@ def dashboard(request, _date=None, calendar_id = None):
 		ctx['dates']['relative'] = datetime.now()
 	
 	if calendar_id is None:
-		#
 		ctx['instances'] = EventInstance.objects.filter(
 								event__creator=request.user,
 								start__gte = ctx['dates']['relative']).exclude(
