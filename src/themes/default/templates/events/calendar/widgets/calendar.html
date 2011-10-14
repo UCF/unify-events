@@ -1,10 +1,10 @@
-<section class="calendar-widget" data-month="{{month}}" data-year="{{year}}">
+<section class="calendar-widget {{html_class}}" data-month="{{this_month.month}}" data-year="{{this_month.year}}">
 	<h1>{{this_month|date:"F Y"}}</h1>
 	<div class="table-wrap">
 		<ul class="month-controls">
-			<li class="back last-month"><a href="{%url calendar-widget calendar.slug last_month.year last_month.month%}">{{last_month|date:"F"}}</a></li>
-			<li class="now"><a href="{%url calendar-widget calendar.slug today.year today.month%}">Today</a></li>
-			<li class="forward next-month"><a href="{%url calendar-widget calendar.slug next_month.year next_month.month%}">{{next_month|date:"F"}}</a></li>
+			<li class="back last-month"><a href="{%url calendar-widget calendar.slug last_month.year last_month.month %}{%if html_class%}?html_class={{html_class|urlencode}}{%endif%}">{{last_month|date:"F"}}</a></li>
+			<li class="now"><a href="{%url calendar-widget calendar.slug today.year today.month %}{%if html_class%}?html_class={{html_class|urlencode}}{%endif%}">Today</a></li>
+			<li class="forward next-month"><a href="{%url calendar-widget calendar.slug next_month.year next_month.month %}{%if html_class%}?html_class={{html_class|urlencode}}{%endif%}">{{next_month|date:"F"}}</a></li>
 		</ul>
 		<table>
 			<thead>

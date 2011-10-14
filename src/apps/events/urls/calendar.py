@@ -22,7 +22,7 @@ urlpatterns = patterns('events.views.calendar',
 		name="year-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(\.(?P<format>[\w]+))?$',
-		view='auto_listing',
+		view='month_listing',
 		name="month-listing"
 	),
 	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
@@ -36,7 +36,6 @@ urlpatterns = patterns('events.views.calendar',
 		name="range-listing"
 	),
 	
-	
 	# http://events.ucf.edu/calendar/athletics/this-year
 	# http://events.ucf.edu/calendar/athletics/today
 	# etc.
@@ -46,7 +45,7 @@ urlpatterns = patterns('events.views.calendar',
 	),
 	
 	# http://events.ucf.edu/calendar/athletics/2010/01/calendar-widget
-	url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/calendar-widget/$',
+	url(r'^(?P<calendar>[\w-]+)/widget/(?P<year>[\d]+)/(?P<month>[\d]+)/$',
 		view='calendar_widget',
 		name="calendar-widget"
 	),
