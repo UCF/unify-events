@@ -88,6 +88,7 @@
 		</div>
 		<div class="span-17 last">
 			<div id="event_date">
+				<p>Upcoming Events Starting on:</p>
 				{{dates.relative|date:"l, F j, Y"}}
 				<div id="event_date_nav">
 					{% if current_calendar %}
@@ -172,6 +173,8 @@
 						</div>
 					</div>
 				</li>
+				{% empty %}
+				<li>No upcoming events</li>
 				{% endfor %}
 			</ul>
 		</div>

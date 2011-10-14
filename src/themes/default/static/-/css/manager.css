@@ -145,7 +145,7 @@ a.serious {
 		}
 		#calendars li .details {
 			float:right;
-			font-size:80%;
+			font-size:85%;
 			margin-top:4px;
 
 		}
@@ -170,12 +170,18 @@ a.serious {
 	}
 
 #event_date {
+	height:74px;
 	text-align:right;
 	font-size:225%;
 	position:relative;
-	margin-top:-5px;
+	top:-5px;
 	z-index:1;
 }
+	#event_date > p {
+		font-size:45%;
+		margin:0;
+	}
+
 	#event_date_nav {
 		font-size:45%;
 	}
@@ -188,7 +194,9 @@ a.serious {
 			}
 
 #instances {
-	margin:0px 0 0 0;
+	position:relative;
+	top:-5px;
+	margin:0;
 	padding:0;
 	border-top:2px solid #EEE;
 }
