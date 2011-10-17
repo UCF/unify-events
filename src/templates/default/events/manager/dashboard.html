@@ -71,7 +71,7 @@
 				<button type="submit">Search</button>
 			</form>
 			<ul id="calendars" class="clear">
-				{% if search_results %} 
+				{% if search_results != None %} 
 				<li class="selected">
 					<a href="{% url dashboard %}">Search Results</a>
 				</li>
@@ -167,7 +167,11 @@
 					</div>
 				</li>
 				{% empty %}
-				<li>No upcoming events</li>
+					{% if search_results != None %}
+						<li>No events found.</li>
+					{% else %}
+						<li>No upcoming events</li>
+					{% endif %}
 				{% endfor %}
 			</ul>
 		</div>
