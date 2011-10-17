@@ -21,7 +21,7 @@ class CoordinatesField(models.Field):
 		
 	
 	def db_type(self, connection):
-		return 'Coordinates'
+		return 'varchar(32)'
 	
 	
 	def get_internal_type(self):
