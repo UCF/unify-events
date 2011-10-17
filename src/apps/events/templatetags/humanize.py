@@ -17,7 +17,7 @@ def format_event_list(events, calendar):
 	# Initialize loop constants and containers
 	date_lists = list()
 	today      = date.today()
-	template   = loader.get_template('events/calendar/event-list.html')
+	template   = loader.get_template('events/calendar/parts/event-list.html')
 	prefix_gen = lambda d: {
 		timedelta(1) : 'Tomorrow: ',
 		timedelta(0) : 'Today: ',
