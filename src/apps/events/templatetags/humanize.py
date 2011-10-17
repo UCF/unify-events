@@ -52,7 +52,7 @@ def format_event_list(events, calendar):
 
 
 @register.filter('pretty_date')
-def pretty_date(d):
+def pretty_date(d, format = ''):
 	from django.template.defaultfilters import date
 	from datetime                       import datetime, timedelta
 	now  = datetime.now()
@@ -60,27 +60,48 @@ def pretty_date(d):
 	
 	# diff is negative and greater than two days, started February 1, 2010
 	if (diff < timedelta(0) and diff.days >= 2):
-		return "started " + date(d, "F j, Y")
+		if format == 'manager':
+			return date(d, "F j, Y g a")
+		else:
+			return "started " + date(d, "F j, Y")
 	# diff is negative and greater than one day, started yesterday
 	if (diff < timedelta(0) and diff.days >= 1):
-		return "started yesterday"
+		if format == 'manager':
+			return "Yesterday, " + date(d, "g a")
+		else:
+			return "started yesterday"
 	# diff is negative, started at 9am
 	if (diff < timedelta(0)):
-		return "started at " + date(d, "g a")
+		if format == 'manager':
+			return date(d, "g a")
+		else:
+			return "started at " + date(d, "g a")
 	# diff is greater than two weeks, February 14, 2010
 	if (diff.days >= 14):
-		return date(d, "F j, Y")
+		if format == 'manager':
+			return date(d, "F j, Y g a")
+		else:
+			return date(d, "F j, Y")
 	# diff is greater than one week, next week, February 7
 	if (diff.days >= 7):
-		return "next week, " + date(d, "F j")
+		if format == 'manager':
+			return "Next " + date(d, "l, g a")
+		else:
+			return "next week, " + date(d, "F j")
 	# diff is greater than two days, Friday, 2pm
 	if (diff.days >= 2):
-		return date(d, "l, g a")
+		if format == 'manager':
+			return date(d, "l, g a")
+		else:
+			return date(d, "l, g a")
 	# diff is greater than one day, Tomorrow, 2pm
 	if (diff.days >= 1):
 		return "Tomorrow, " + date(d, "g a")
 	# diff is less than one day, starts at 2pm
-	return "starts at " + date(d, "g a")
+	if format == 'manager':
+		return date(d, "g a")
+	else:
+		return "starts at " + date(d, "g a")
 
 
 @register.filter('digit_to_word')

@@ -133,7 +133,7 @@
 						</div>
 						<div class="span-9 last">
 							<div class="datetime">
-								{{instance.start|date:"g:m a"}}
+								{{instance.start|pretty_date:"manager"}}
 								{% if instance.end %} &ndash; {{instance.end|date:"g a"}}{% endif %}
 							</div>
 							<div class="location">
