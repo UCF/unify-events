@@ -5,9 +5,8 @@ from django.conf             import settings
 
 register = template.Library()
 
-
-@register.filter('format_event_list')
-def format_event_list(events):
+@register.simple_tag
+def format_event_list(events, calendar):
 	""" Return html with a list of events sectioned out by day they occur."""
 	from datetime         import datetime
 	from datetime         import datetime, date, timedelta
@@ -34,6 +33,7 @@ def format_event_list(events):
 			'events'      : events,
 			'heading'     : heading,
 			'heading_tag' : 'h3',
+			'calendar'    : calendar,
 		})))
 	
 	# No events were provided, so we output empty results
@@ -43,9 +43,9 @@ def format_event_list(events):
 			'events'      : None,
 			'heading'     : 'No events found',
 			'heading_tag' : 'p',
+			'calendar'    : calendar,
 		})))
 	
-	print date_lists
 	# Combine lists and return joined list html
 	html = '\n'.join(date_lists)
 	return mark_safe(html)
@@ -81,6 +81,7 @@ def pretty_date(d):
 		return "Tomorrow, " + date(d, "g a")
 	# diff is less than one day, starts at 2pm
 	return "starts at " + date(d, "g a")
+
 
 @register.filter('digit_to_word')
 def digit_to_word(d):
