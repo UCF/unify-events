@@ -4,6 +4,9 @@ ADMINS = (
 	#('Your Name', 'your_email@domain.com'),
 )
 
+LOGIN_URL           = '/manager/login'
+LOGOUT_URL          = '/manager/logout'
+LOGIN_REDIRECT_URL  = '/manager/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).

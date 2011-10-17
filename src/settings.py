@@ -112,9 +112,6 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'events.Profile'
-LOGIN_URL           = '/manager/login'
-LOGOUT_URL          = '/manager/logout'
-LOGIN_REDIRECT_URL  = '/manager/'
 FILE_UPLOAD_PATH    = 'uploads'
 
 try:
