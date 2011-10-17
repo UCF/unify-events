@@ -97,6 +97,7 @@
 			</ul>
 		</div>
 		<div class="span-17 last">
+			{% if search_results == None %}
 			<div id="event_date">
 				{% if current_calendar %}
 					<div class="prev">
@@ -126,6 +127,7 @@
 					</div>
 				{% endif %}
 			</div>
+			{% endif %}
 			<ul id="instances" class="span-17 last">
 				{% for instance in instances %}
 				<li class="{% cycle 'even' 'odd' %} clear clearfix" data-update-url="{% url event-update id=instance.event.id %}">
@@ -143,7 +145,7 @@
 						</div>
 						<div class="span-9 last">
 							<div class="datetime">
-								{% if dates.relative == dates.today %}
+								{% if dates.relative == dates.today and search_results == None %}
 									{{instance.start|pretty_date:"manager"}}
 								{% else %}
 									{{instance.start|date:"F j, Y g a"}}
