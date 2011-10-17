@@ -24,6 +24,11 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^event/(?P<id>\d+)/delete', view='event.delete', name='event-delete'),
 	url(r'^event/create', view='event.create_update', name='event-create'),
 
+	url(r'^tag/merge/from/(?P<from_id>\d+)/to/(?P<to_id>\d+)/?$', view='tag.create_update', name='tag-update'),
+	url(r'^tag/(?P<id>\d+)/update/?$', view='tag.create_update', name='tag-update'),
+	url(r'^tag/(?P<id>\d+)/delete/?$', view='tag.delete', name='tag-delete'),
+	url(r'^tag/create/?$', view='tag.create_update', name='tag-create'),
+
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
 	url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
 	url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),

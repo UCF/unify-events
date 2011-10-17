@@ -69,3 +69,15 @@ class EventInstanceForm(forms.ModelForm):
 			'start': forms.TextInput(attrs={'class':'datepicker'}),
 			'end'  : forms.TextInput(attrs={'class':'datepicker'})
 		}
+
+class TagForm(forms.ModelForm):
+
+	class Meta:
+		model  = Tag
+		fields = ('name',)
+
+class TagForm(forms.ModelForm):
+
+	class Meta:
+		model  = Category
+		fields = ('name',)
