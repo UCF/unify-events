@@ -15,18 +15,19 @@ from django.utils                    import simplejson
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 @login_required
-def dashboard(request, _date=None, calendar_id = None):
+def dashboard(request, _date=None, calendar_id = None, search_results = None):
 	ctx  = {
 		'instances'  :None,
 		'current_calendar':None,
 		'dates':{
-			'prev_day'  : None,
-			'prev_month': None,
-			'today'     : None,
-			'next_day'  : None,
-			'next_month': None,
-			'relative'  : None,
+			'prev_day'      : None,
+			'prev_month'    : None,
+			'today'         : None,
+			'next_day'      : None,
+			'next_month'    : None,
+			'relative'      : None
 		},
+		'search_results': search_results
 	}
 	tmpl = 'events/manager/dashboard.html'
 
@@ -37,30 +38,33 @@ def dashboard(request, _date=None, calendar_id = None):
 	
 	ctx['dates']['today'] = date.today()
 	if _date is not None:
-		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')])
+		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')]).date()
 	else:
-		ctx['dates']['relative'] = datetime.now()
+		ctx['dates']['relative'] = ctx['dates']['today']
 	
-	if calendar_id is None:
-		ctx['instances'] = EventInstance.objects.filter(
-								event__creator=request.user,
-								start__gte = ctx['dates']['relative']).exclude(
-										event__calendar__in=request.user.calendars
-									)
+	if search_results is not None:
+		ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
+	elif calendar_id is None:
+		user_calendars = request.user.calendars_include_submitted
+		if len(user_calendars) > 0:
+			ctx['current_calendar'] = user_calendars[0]
 	else:
 		try:
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
-		else:
-			ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
+	
+	if ctx['current_calendar'] is not None:
+		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 			
 	# Generate date navigation args
-	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)).date())
-	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
-	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)).date())
-	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
-		
+	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
+	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
+	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['today_str']  = str(ctx['dates']['today'])
+
+
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required
@@ -95,3 +99,12 @@ def search_user(request,lastname,firstname=None):
 		print str(e)
 		pass
 	return HttpResponse(simplejson.dumps(results),mimetype='application/json')
+
+@login_required
+def search_event(request):
+	query   = request.GET.get('query', '')
+	results = []
+	if query != '':
+		results = Event.objects.filter(Q(title__icontains=query)|Q(description__icontains=query))
+	
+	return dashboard(request, search_results=results)

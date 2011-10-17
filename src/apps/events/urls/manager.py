@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('events.views.manager',
 	
 	url(r'^search/user/(?P<lastname>\w+)?/?(?P<firstname>\w+)?/?$', view='search_user', name='search-user'),
+	url(r'^search/event/?', view='search_event', name='search-event'),
 
 	url(r'^event/(?P<id>\d+)/update', view='event.create_update', name='event-update'),
 	url(r'^event/(?P<id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':Event.Status.posted}),
@@ -24,6 +25,7 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^event/create', view='event.create_update', name='event-create'),
 
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
+	url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
 	url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),

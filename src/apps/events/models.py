@@ -29,6 +29,13 @@ def calendars(self):
 	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
 setattr(User,'calendars', property(calendars))
 
+def calendars_include_submitted(self):
+	return Calendar.objects.filter(
+		models.Q(creator=self)|
+		models.Q(editors=self)|
+		models.Q(events__creator=self)).order_by('name').distinct()
+setattr(User,'calendars_include_submitted', property(calendars_include_submitted))
+
 
 def first_login(self):
 	delta = self.last_login - self.date_joined
@@ -65,6 +72,8 @@ class Event(Base):
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
 	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
 	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
+	tags         = models.ManyToManyField('Tag', related_name='events')
+	categories   = models.ManyToManyField('Category', related_name='events')
 
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
@@ -127,6 +136,12 @@ class Event(Base):
 	class Meta:
 		ordering = ['instances__start']
 
+class Tag(Base):
+	name = models.CharField(max_length = 100)
+
+class Category(Base):
+	name   = models.CharField(max_length = 100)
+	parent = models.ForeignKey('EventInstance', related_name='subcategories', null=True, blank=True)
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""

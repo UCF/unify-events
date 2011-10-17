@@ -23,7 +23,7 @@ def create_update(request, id=None):
 	if id is not None:
 		try:
 			ctx['event']  = Event.objects.get(pk=id)
-			formset_qs    = ctx['event'].instances.all()
+			formset_qs    = ctx['event'].instances.filter(parent=None)
 			formset_extra = 0
 			if ctx['event'].instances.count() == 0:
 				formset_extra = 1

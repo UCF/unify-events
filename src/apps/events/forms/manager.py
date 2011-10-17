@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from events.models              import Calendar, Profile, Event, EventInstance
+from events.models              import Calendar, Profile, Event, EventInstance, Tag, Category
 from django                     import forms
 from datetime                   import datetime,timedelta
 from django.contrib.auth.models import User
@@ -14,7 +14,8 @@ class CalendarForm(forms.ModelForm):
 		except KeyError:
 			pass
 		else:
-			self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
+			if kwargs['instance'] is not None:
+				self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
 
 	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
 	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
@@ -40,12 +41,14 @@ class EventForm(forms.ModelForm):
 		super(EventForm, self).__init__(*args, **kwargs)
 		self.fields['calendar'].queryset = user_calendars
 
-	calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
-	image    = forms.FileField(required=False)
+	calendar   = forms.ModelChoiceField(queryset=Calendar.objects.none())
+	image      = forms.FileField(required=False)
+	tags       = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)
+	categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), required= False)
 
 	class Meta:
 		model  = Event
-		fields = ('title', 'description','calendar','image')
+		fields = ('title', 'description','calendar','image','tags','categories')
 
 class EventInstanceForm(forms.ModelForm):
 
