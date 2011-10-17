@@ -39,6 +39,10 @@
 					{{event_form.title}}
 					<p>{{event_form.description.label_tag}}</p>
 					{{event_form.description}}
+					<p>{{event_form.tags.label_tag}}</p>
+					<p>{{event_form.tags}}</p>
+					<p>{{event_form.categories.label_tag}}</p>
+					<p>{{event_form.categories}}</p>
 					<p>{{event_form.image.label_tag}}</p>
 					<p>{{event_form.image}}</p>
 					<p>{{event_form.calendar.label_tag}}</p>
@@ -52,7 +56,6 @@
 						<button type="submit">Update Event</button>
 						{% endif %}
 					{% endif %}
-					
 				</div>
 				<div class="span-15 prepend-1 last">
 					<label>Date, Time &amp; Location:</label>
