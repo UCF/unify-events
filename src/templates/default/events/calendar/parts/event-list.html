@@ -9,7 +9,7 @@
 			<div class="image span-2"><img src="{{MEDIA_URL}}-/img/test-64x64.png" /></div>
 			<div class="details span-13 last">
 				<div class="heading">
-					<a href="{%url event calendar.slug event.id %}" class="title span-10">{{event.title}}</a>
+					<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title span-10">{{event.title}}</a>
 					<div class="start span-3 last">{{event.start|date:"fA"|lower}}</div>
 				</div>
 				<div class="description span-13 last">{{event.description|truncatewords:16}}</div>
