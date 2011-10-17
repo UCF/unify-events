@@ -67,12 +67,24 @@ Webcom.calendarWidget = function($){
 	
 	var close_expanded_calendar = function(){
 		var widget = $('.expanded-calendar-container .calendar-widget');
-		$('.expanded-calendar-container').remove();
-		$('.expanded-calendar-placeholder').replaceWith(widget);
+		
+		var container = $('.expanded-calendar-container');
+		var placeholder = $('.expanded-calendar-placeholder');
+		
+		container.animate({
+			'top' : placeholder.offset().top,
+			'left' : placeholder.offset().left,
+			'width' : 0,
+			'height' : 0
+		}, 500, null, function(){
+			$('.expanded-calendar-container').remove();
+			$('.expanded-calendar-placeholder').replaceWith(widget);
+		});
 	};
 	
 	$('.calendar-widget .expand').live('click', function(){
-		var duration    = 1000;
+		var duration    = 500;
+		var expand      = $(this).offset();
 		var widget      = $(this).parents('.calendar-widget');
 		var cur_pos     = widget.offset();
 		var cur_height  = widget.height();
@@ -87,8 +99,8 @@ Webcom.calendarWidget = function($){
 		$('body').append(container);
 		
 		container.css({
-			'top'      : cur_pos.top - 100,
-			'left'     : cur_pos.left,
+			'top'      : expand.top - 50,
+			'left'     : expand.left + 200,
 			'position' : 'absolute',
 			'width'    : '0px',
 			'height'   : '0px',
@@ -96,9 +108,10 @@ Webcom.calendarWidget = function($){
 		container.animate({
 			'width' : '100%',
 			'height': '100%',
-			'left'  : 0
+			'left'  : 0,
+			'top'   : '-=50px'
 		}, duration, null, function(){
-			container.css({'position' : 'fixed'});
+			container.css({'position' : 'absolute'});
 		});
 		
 		$(document).keydown(function(e){
