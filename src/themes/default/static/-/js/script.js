@@ -72,24 +72,39 @@ Webcom.calendarWidget = function($){
 	};
 	
 	$('.calendar-widget .expand').live('click', function(){
-		var widget    = $(this).parents('.calendar-widget');
-		var container = $('<div class="expanded-calendar-container"></div>');
-		widget.replaceWith($('<div class="expanded-calendar-placeholder"></div>'));
+		var duration    = 1000;
+		var widget      = $(this).parents('.calendar-widget');
+		var cur_pos     = widget.offset();
+		var cur_height  = widget.height();
+		var container   = $('<div class="expanded-calendar-container"></div>');
+		var placeholder = $('<div class="expanded-calendar-placeholder"></div>');
+		
+		
+		placeholder.height(cur_height);
+		widget.replaceWith(placeholder);
+		widget.show();
 		container.append(widget);
 		$('body').append(container);
+		
+		container.css({
+			'top'      : cur_pos.top - 100,
+			'left'     : cur_pos.left,
+			'position' : 'absolute',
+			'width'    : '0px',
+			'height'   : '0px',
+		});
+		container.animate({
+			'width' : '100%',
+			'height': '100%',
+			'left'  : 0
+		}, duration, null, function(){
+			container.css({'position' : 'fixed'});
+		});
 		
 		$(document).keydown(function(e){
 			//Escape
 			if (e.keyCode == 27){
 				close_expanded_calendar();
-			}
-			//Left
-			if (e.keyCode == 37){
-				$('.calendar-widget .month-controls .last-month a').click();
-			}
-			//Right
-			if (e.keyCode == 39){
-				$('.calendar-widget .month-controls .next-month a').click();
 			}
 		});
 	});

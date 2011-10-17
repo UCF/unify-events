@@ -53,7 +53,7 @@ h1 a{color:#000; text-decoration: none;}
 .calendar-widget .month-controls a{font-size: 12px; text-decoration: none; color: #666;}
 .calendar-widget .month-controls a:hover{}
 
-.expanded-calendar-container{width: 100%; height: 100%; position: fixed; top: 0; left: 0;}
+.expanded-calendar-container{width: 100%; position: fixed; top: 0; left: 0;}
 .expanded-calendar-container h1{ margin: 0;}
 .expanded-calendar-container .expand{display: none;}
 .expanded-calendar-container .calendar-widget .table-wrap{background-color: #fff;}
