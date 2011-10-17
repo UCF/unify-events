@@ -90,7 +90,6 @@ def listing(request, calendar, start, end, format=None):
 	template = 'events/calendar/listing.' + (format or 'html')
 	
 	context  = {
-		'stage'    : request.GET.get('stage', 'one'),
 		'start'    : start,
 		'end'      : end,
 		'format'   : format,

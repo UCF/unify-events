@@ -4,19 +4,12 @@
 
 {%block content_body%}
 
-<div class="event-listing stage-{{stage}}">
-	{%if stage == "two"%}
-	<div id="calendars">
-		{% calendar_widget calendar%}
-	</div>
-	{%endif%}
+<div class="event-listing">
 	<div id="left-column" class="span-15 append-1">
 		{%format_event_list events calendar%}
 	</div>
 	<div id="right-column" class="span-8 last">
-		{%if stage == "one"%}
 		{% calendar_widget calendar%}
-		{%endif%}
 		
 		{% include "events/calendar/widgets/search.html" %}
 		
