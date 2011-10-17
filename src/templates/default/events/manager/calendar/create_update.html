@@ -111,6 +111,7 @@
 			{% else %}
 				{% if mode == 'update' %}
 					<button type="submit">Update</button>
+					<a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
 				{% endif %}
 			{% endif %}
 

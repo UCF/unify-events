@@ -25,6 +25,7 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^event/create', view='event.create_update', name='event-create'),
 
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
+	url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
 	url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),

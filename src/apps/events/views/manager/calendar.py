@@ -43,3 +43,21 @@ def create_update(request, id = None):
 		ctx['form'] = CalendarForm(instance=ctx['calendar'])
 	
 	return direct_to_template(request,tmpl,ctx)
+
+@login_required
+def delete(request, id=None):
+	try:
+		calendar = Calendar.objects.get(pk=id)
+	except Calendar.DoesNotExist:
+		return HttpResponseNotFound('The calendar specified does not exist')
+	else:
+		if not request.user.is_superuser and calendar not in request.user.calendars:
+			return HttpResponseForbidden('You cannot modify the specified calendar.')
+		try:
+			calendar.delete()
+		except Exception, e:
+			log.error(str(e))
+			messages.error(request, 'Deleting calendar failed.')
+		else:
+			messages.success(request, 'Calendar successfully deleted.')
+	return HttpResponseRedirect(reverse('dashboard'))
