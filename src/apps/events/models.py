@@ -26,7 +26,10 @@ models.signals.post_save.connect(create_profile, sender=User)
 
 
 def calendars(self):
-	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
+	return Calendar.objects.filter(
+		models.Q(creator=self)|
+		models.Q(editors=self)|
+		models.Q(events__creator=self)).order_by('name')
 setattr(User,'calendars', property(calendars))
 
 
