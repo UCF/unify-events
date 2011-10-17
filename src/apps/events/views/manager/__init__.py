@@ -37,9 +37,9 @@ def dashboard(request, _date=None, calendar_id = None):
 	
 	ctx['dates']['today'] = date.today()
 	if _date is not None:
-		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')])
+		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')]).date()
 	else:
-		ctx['dates']['relative'] = datetime.now()
+		ctx['dates']['relative'] = ctx['dates']['today']
 	
 	if calendar_id is None:
 		ctx['instances'] = EventInstance.objects.filter(
@@ -56,11 +56,13 @@ def dashboard(request, _date=None, calendar_id = None):
 			ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 			
 	# Generate date navigation args
-	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)).date())
-	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
-	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)).date())
-	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])).date())
-		
+	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
+	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
+	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['today_str']  = str(ctx['dates']['today']) 
+
+
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required

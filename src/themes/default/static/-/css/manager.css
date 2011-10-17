@@ -197,32 +197,19 @@ a.serious {
 #event_date {
 	text-align:center;
 	margin-bottom:10px;
-	font-size:140%;
+	font-size:150%;
 }
 	#event_date .prev {
-		float:left;
+		display:inline;
 	}
-		#event_date .prev a:first-child {
-			border-right:0;
-		}
-		#event_date .prev a:last-child {
-			border-left:0;
-		}
 	#event_date .next {
-		float:right;
+		display:inline;
 	}
-		#event_date .next a:first-child {
-			border-right:0;
-		}
-		#event_date .next a:last-child {
-			border-left:0;
-		}
 	#event_date a {
 		text-decoration:none;
-		font-size:80%;
-		border:1px solid #ccc;
-		background-color:#f7f7f7;
-		padding:5px;
+		font-size:65%;
+		position:relative;
+		top:-2px;
 	}
 
 #instances {
@@ -235,6 +222,9 @@ a.serious {
 		margin-bottom:5px;
 		padding:10px 0 3px 0;
 	}
+		#instances li:hover {
+			cursor:pointer;
+		}
 		#instances li .image {
 		}
 		#instances li .title {
