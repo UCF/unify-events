@@ -1,5 +1,5 @@
 <section class="calendar-widget" data-month="{{this_month.month}}" data-year="{{this_month.year}}">
-	<h1>{{this_month|date:"F Y"}}</h1>
+	<h1><a href="{%url month-listing calendar.slug this_month.year this_month.month%}">{{this_month|date:"F Y"}}</a></h1>
 	<div class="table-wrap">
 		<ul class="month-controls">
 			<li class="back last-month"><a href="{%url calendar-widget calendar.slug last_month.year last_month.month %}">{{last_month|date:"F"}}</a></li>
