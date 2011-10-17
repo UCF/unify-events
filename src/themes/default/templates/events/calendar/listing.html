@@ -9,7 +9,7 @@
 		{%format_event_list events calendar%}
 	</div>
 	<div id="right-column" class="span-8 last">
-		{% calendar_widget calendar%}
+		{% calendar_widget calendar start.year start.month%}
 		
 		{% include "events/calendar/widgets/search.html" %}
 		
