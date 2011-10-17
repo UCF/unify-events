@@ -222,9 +222,6 @@ a.serious {
 		margin-bottom:5px;
 		padding:10px 0 3px 0;
 	}
-		#instances li:hover {
-			cursor:pointer;
-		}
 		#instances li .image {
 		}
 		#instances li .title {

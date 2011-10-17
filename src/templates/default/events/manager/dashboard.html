@@ -40,7 +40,15 @@
 							other_actions.find('li:gt(0)').hide();	
 						})
 			})();
-			$('#instances li')
+			$('#instances li[data-update-url]')
+				.hover(
+					function() {
+						$(this).css('cursor','pointer');
+					},
+					function() {
+						$(this).css('cursor','none');	
+					}
+				)
 				.click(function() {
 					var update_url = $(this).attr('data-update-url');
 					window.location = update_url; 
