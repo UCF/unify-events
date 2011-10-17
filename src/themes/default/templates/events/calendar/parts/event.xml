@@ -1,0 +1,11 @@
+<Event>
+	<EventID>{{event.id}}</EventID>
+	<EventTitle>{{event.title}}</EventTitle>
+	<DateTime>
+		<StartDate>{{event.start|date:"Y-m-d"}}</StartDate>
+		<StartTime>{{event.start|date:"H:i:s\ZO"}}</StartTime>
+		<EndDate>{{event.end|date:"Y-m-d"}}</EndDate>
+		<EndTime>{{event.end|date:"H:i:s\ZO"}}</EndTime>
+	</DateTime>
+	<Description>{{event.description}}</Description>
+</Event>
