@@ -29,9 +29,9 @@ h1 a{color:#000; text-decoration: none;}
 
 .calendar-widget{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"; color: #666666;}
 .calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px;}
-.calendar-widget .heading .month{float: left;}
-.calendar-widget .heading .expand{display: block; text-align: right; margin-bottom: 1em; padding-top: .65em;}
-.calendar-widget table{background-color: #fff; border-collapse: separate;}
+.calendar-widget .heading .month{}
+.calendar-widget .heading .expand{cursor: pointer;}
+.calendar-widget table{background-color: #fff; border-collapse: separate; padding: 2px;}
 .calendar-widget table td,
 .calendar-widget table th{text-align: center;}
 .calendar-widget table th{padding: 10px 0 5px 0;}
@@ -39,7 +39,7 @@ h1 a{color:#000; text-decoration: none;}
 .calendar-widget table td .events{padding: 0; margin: 0; position: absolute;}
 .calendar-widget table td .events li{list-style-type: none; background-color: #17852a; height: 2px; width: 2px; margin: 1px 0 0 1px; padding: 0;}
 .calendar-widget table td .events li span{display: none;}
-.calendar-widget table td a{color: #333; text-decoration: none; display: block; padding: 8px 0; z-index: 1; position: relative;}
+.calendar-widget table td a{color: #333; text-decoration: none; display: block; padding: 25% 0; z-index: 1; position: relative;}
 .calendar-widget table td a:hover,
 .calendar-widget table td.subtle a:hover{background-color: #cd1111; color: #fff; opacity: .75;}
 .calendar-widget table td.subtle{background-color: #f5f5f5;}
@@ -53,11 +53,19 @@ h1 a{color:#000; text-decoration: none;}
 .calendar-widget .month-controls a{font-size: 12px; text-decoration: none; color: #666;}
 .calendar-widget .month-controls a:hover{}
 
-.stage-two .calendar-widget h1{font-family: "Helvetica", "Arial", "sans-serif"; font-size: 20px; font-weight: bold; color: #3a3838; margin: 1em 0 .25em 0; padding: 0 0 .25em 0 ; border-bottom: 1px solid #3a3838;}
-.stage-two .calendar-widget table td{font-size: 24px;}
-.stage-two .calendar-widget table td a{padding: 50px;}
-.stage-two .calendar-widget table td .events li{height: 4px; width: 4px; margin: 2px 0 0 2px;}
-.stage-two .calendar-widget .month-controls a{font-size: 24px; text-decoration: none; color: #666;}
+.expanded-calendar-container{width: 100%; height: 100%; position: fixed; top: 0; left: 0;}
+.expanded-calendar-container h1{ margin: 0;}
+.expanded-calendar-container .expand{display: none;}
+.expanded-calendar-container .calendar-widget .table-wrap{background-color: #fff;}
+.expanded-calendar-container .calendar-widget{width: 950px; margin: 50px auto; background: #fff; padding: 20px; border: 1px solid #ccc;
+	-moz-box-shadow: 5px 5px 5px #ccc;
+	-webkit-box-shadow: 5px 5px 5px #ccc;
+	box-shadow: 5px 5px 5px #ccc;
+}
+.expanded-calendar-container table td{font-size: 24px;}
+.expanded-calendar-container table td a{padding: 50px;}
+.expanded-calendar-container table td .events li{height: 4px; width: 4px; margin: 2px 0 0 2px;}
+.expanded-calendar-container .month-controls a{font-size: 24px; text-decoration: none; color: #666;}
 
 .subscribe-widget{}
 .subscribe-widget ul{margin-top: 1em;}

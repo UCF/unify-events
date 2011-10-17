@@ -29,20 +29,19 @@ function extend_formset(selector, type) {
  * througout the application
  **/
 Webcom.calendarWidget = function($){
-	$('.calendar-widget .month-controls a').click(function(){
+	$('.calendar-widget .month-controls a').live('click', function(){
  		var url    = $(this).attr('href');
 		var parent = $(this).parents('.calendar-widget');
 		$.ajax(url, {
 			'success' : function(data){
 				var replace = $(data);
 				parent.replaceWith(replace);
-				bind_func($);
 			}
 		});
 		return false;
 	});
 	
-	$('.calendar-widget .day a').click(function(){
+	$('.calendar-widget .day a').live('click', function(){
 		var elements_to_update = ['.subscribe-widget', '#left-column'];
 		var url = $(this).attr('href');
 		$.ajax(url, {
@@ -59,20 +58,48 @@ Webcom.calendarWidget = function($){
 					title = data.match(/<title>([^<]*)<\/title>/)[1];
 				}catch(e){}
 				history.pushState({}, title, url);
-				bind_func($);
 			}
 		});
 		
 		return false;
 	});
+	
+	
+	var close_expanded_calendar = function(){
+		var widget = $('.expanded-calendar-container .calendar-widget');
+		$('.expanded-calendar-container').remove();
+		$('.expanded-calendar-placeholder').replaceWith(widget);
+	};
+	
+	$('.calendar-widget .expand').live('click', function(){
+		var widget    = $(this).parents('.calendar-widget');
+		var container = $('<div class="expanded-calendar-container"></div>');
+		widget.replaceWith($('<div class="expanded-calendar-placeholder"></div>'));
+		container.append(widget);
+		$('body').append(container);
+		
+		$(document).keydown(function(e){
+			//Escape
+			if (e.keyCode == 27){
+				close_expanded_calendar();
+			}
+			//Left
+			if (e.keyCode == 37){
+				$('.calendar-widget .month-controls .last-month a').click();
+			}
+			//Right
+			if (e.keyCode == 39){
+				$('.calendar-widget .month-controls .next-month a').click();
+			}
+		});
+	});
+	
+	$('.expanded-calendar-container .calendar-widget .day a').live('click', function(){
+		close_expanded_calendar();
+	});
 };
 
 
-var bind_func = function ($){
-	$('*').unbind();
-	Webcom.calendarWidget($);
-}
-
 $().ready(function(){
-	bind_func(jQuery);
+	Webcom.calendarWidget($);
 });
