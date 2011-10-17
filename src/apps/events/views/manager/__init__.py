@@ -45,18 +45,17 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None):
 	if search_results is not None:
 		ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
 	elif calendar_id is None:
-		ctx['instances'] = EventInstance.objects.filter(
-								event__creator=request.user,
-								start__gte = ctx['dates']['relative']).exclude(
-										event__calendar__in=request.user.calendars
-									)
+		user_calendars = request.user.calendars
+		if len(user_calendars) > 0:
+			ctx['current_calendar'] = user_calendars[0]
 	else:
 		try:
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
-		else:
-			ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
+
+	if ctx['current_calendar'] is not None:
+		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 			
 	# Generate date navigation args
 	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
