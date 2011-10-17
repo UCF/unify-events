@@ -53,7 +53,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None):
 			ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
 		except Calendar.DoesNotExist:
 			messages.error('Calendar does not exist')
-
+	
 	if ctx['current_calendar'] is not None:
 		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
 			
