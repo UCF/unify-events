@@ -26,11 +26,15 @@ models.signals.post_save.connect(create_profile, sender=User)
 
 
 def calendars(self):
+	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
+setattr(User,'calendars', property(calendars))
+
+def calendars_include_submitted(self):
 	return Calendar.objects.filter(
 		models.Q(creator=self)|
 		models.Q(editors=self)|
 		models.Q(events__creator=self)).order_by('name')
-setattr(User,'calendars', property(calendars))
+setattr(User,'calendars_include_submitted', property(calendars_include_submitted))
 
 
 def first_login(self):

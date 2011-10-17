@@ -76,7 +76,7 @@
 					<a href="{% url dashboard %}">Search Results</a>
 				</li>
 				{% endif %}
-				{% for calendar in user.calendars %}
+				{% for calendar in user.calendars_include_submitted %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
 						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
 						<ul class="links span-3">

@@ -45,7 +45,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None):
 	if search_results is not None:
 		ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
 	elif calendar_id is None:
-		user_calendars = request.user.calendars
+		user_calendars = request.user.calendars_include_submitted
 		if len(user_calendars) > 0:
 			ctx['current_calendar'] = user_calendars[0]
 	else:
