@@ -14,7 +14,8 @@ class CalendarForm(forms.ModelForm):
 		except KeyError:
 			pass
 		else:
-			self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
+			if kwargs['instance'] is not None:
+				self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
 
 	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
 	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
