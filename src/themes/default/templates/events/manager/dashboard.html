@@ -47,6 +47,37 @@
 {% block content_body %}
 	<div class="span-24 last">
 		<div class="span-7">
+			<div id="event_date">
+				{% if current_calendar %}
+					<div class="prev">
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}">
+							&lt;&lt;
+						</a>
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}">
+							&lt;
+						</a>
+					</div>
+					{{dates.relative|date:"F j, Y"}}
+					<div class="next">
+						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}">
+							&gt;
+						</a>
+						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}">
+							&gt;&gt;
+						</a>
+					</div>
+				{% else %}
+					<div class="prev">
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">&lt;&lt;</a>
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">&lt;</a>
+					</div>
+					{{dates.relative|date:"F j, Y"}}
+					<div class="next">
+						<a id="next_day" href="{% url dashboard _date=dates.next_day %}">&gt;</a>
+						<a id="next_month" href="{% url dashboard _date=dates.next_month %}">&gt;&gt;</a>
+					</div>
+				{% endif %}
+			</div>
 			<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
 			<ul id="other_actions">
 				<li><button>Other Actions <span>&#9660;</span></button></li>
@@ -85,43 +116,6 @@
 			</ul>
 		</div>
 		<div class="span-17 last">
-			<div id="event_date">
-				<p>Upcoming Events Starting on:</p>
-				{{dates.relative|date:"l, F j, Y"}}
-				<div id="event_date_nav">
-					{% if current_calendar %}
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}">
-							Last Month
-						</a>
-						-
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}">
-							Yesterday
-						</a>
-						-
-						<a id="prev_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}">
-							Today
-						</a>
-						-
-						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}">
-							Tomorrow
-						</a>
-						-
-						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}">
-							Next Month
-						</a>
-					{% else %}
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}">Last Month</a>
-						-
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}">Yesterday</a>
-						-
-						<a id="prev_day" href="{% url dashboard _date=dates.today %}">Today</a>
-						-
-						<a id="next_day" href="{% url dashboard _date=dates.next_day %}">Tomorrow</a>
-						-
-						<a id="next_month" href="{% url dashboard _date=dates.next_month %}">Next Month</a>
-					{% endif %}
-				</div>
-			</div>
 			<ul id="instances" class="span-17 last">
 				{% for instance in instances %}
 				<li class="{% cycle 'even' 'odd' %} clear clearfix">
