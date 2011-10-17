@@ -58,17 +58,16 @@
 				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
 				<li><a class="button" href="">Import/Export</a></li>
 			</ul>
-			<form id="search" class="clear">
+			<form id="search" class="clear" action="{% url search-event %}" method="get">
 				<input type="text" name="query" value="Search events..." class="prefill" />
 				<button type="submit">Search</button>
 			</form>
 			<ul id="calendars" class="clear">
-				<li{% if not current_calendar %} class="selected"{% endif %}>
-					<a href="{% url dashboard %}">Everything Else</a>
-					<p>
-						Any events you have submitted to calendars that you cannot own or edit.
-					</p>
+				{% if search_results %} 
+				<li class="selected">
+					<a href="{% url dashboard %}">Search Results</a>
 				</li>
+				{% endif %}
 				{% for calendar in user.calendars %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
 						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
@@ -153,7 +152,8 @@
 									This is one of {{instance.event.instances.count|digit_to_word}} instances of this event.  
 								{% endif %}
 							</div>
-							<div class="actions">
+							<div class="state {{instance.event.get_state_display}}">
+								{{instance.event.get_state_display|capfirst}}
 							</div>
 						</div>
 					</div>

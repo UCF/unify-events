@@ -15,18 +15,19 @@ from django.utils                    import simplejson
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 @login_required
-def dashboard(request, _date=None, calendar_id = None):
+def dashboard(request, _date=None, calendar_id = None, search_results = None):
 	ctx  = {
 		'instances'  :None,
 		'current_calendar':None,
 		'dates':{
-			'prev_day'  : None,
-			'prev_month': None,
-			'today'     : None,
-			'next_day'  : None,
-			'next_month': None,
-			'relative'  : None,
+			'prev_day'      : None,
+			'prev_month'    : None,
+			'today'         : None,
+			'next_day'      : None,
+			'next_month'    : None,
+			'relative'      : None
 		},
+		'search_results': search_results
 	}
 	tmpl = 'events/manager/dashboard.html'
 
@@ -41,7 +42,9 @@ def dashboard(request, _date=None, calendar_id = None):
 	else:
 		ctx['dates']['relative'] = ctx['dates']['today']
 	
-	if calendar_id is None:
+	if search_results is not None:
+		ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
+	elif calendar_id is None:
 		ctx['instances'] = EventInstance.objects.filter(
 								event__creator=request.user,
 								start__gte = ctx['dates']['relative']).exclude(
@@ -60,7 +63,7 @@ def dashboard(request, _date=None, calendar_id = None):
 	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
 	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
 	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
-	ctx['dates']['today_str']  = str(ctx['dates']['today']) 
+	ctx['dates']['today_str']  = str(ctx['dates']['today'])
 
 
 	return direct_to_template(request,tmpl,ctx)
@@ -97,3 +100,12 @@ def search_user(request,lastname,firstname=None):
 		print str(e)
 		pass
 	return HttpResponse(simplejson.dumps(results),mimetype='application/json')
+
+@login_required
+def search_event(request):
+	query   = request.GET.get('query', '')
+	results = []
+	if query != '':
+		results = Event.objects.filter(Q(title__icontains=query)|Q(description__icontains=query))
+	
+	return dashboard(request, search_results=results)
