@@ -12,19 +12,23 @@ class Base(models.Model):
 	
 	class Meta: abstract = True
 
+
 class Profile(models.Model):
 	user         = models.OneToOneField(User, related_name='profile')
 	guid         = models.CharField(max_length = 100,null=True,unique=True)
 	display_name = models.CharField(max_length = 100,null=True,blank=True)
+
 
 def create_profile(sender, instance, created, **kwargs):
 	if created:
 		Profile.objects.create(user=instance)
 models.signals.post_save.connect(create_profile, sender=User)
 
+
 def calendars(self):
 	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
 setattr(User,'calendars', property(calendars))
+
 
 def first_login(self):
 	delta = self.last_login - self.date_joined
@@ -32,6 +36,7 @@ def first_login(self):
 		return True
 	return False
 setattr(User,'first_login', property(first_login))
+
 
 class Event(Base):
 	"""This object provides the link between the time and places events are to
@@ -121,6 +126,7 @@ class Event(Base):
 	
 	class Meta:
 		ordering = ['instances__start']
+
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
@@ -275,7 +281,8 @@ class EventInstance(Base):
 
 	class Meta:
 		ordering = ['start']
-		
+
+
 class Location(Base):
 	"""User inputted locations that specify where an event takes place"""
 	#events     = One to Many relationship with EventInstance
