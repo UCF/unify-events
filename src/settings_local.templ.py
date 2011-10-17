@@ -49,3 +49,6 @@ LDAP_NET_ATTR_MAP    = { # LDAP Object -> User Object
 }
 LDAP_NET_SEARCH_USER  = ''
 LDAP_NET_SEARCH_PASS = ''
+
+# Calendar Displayed on the Front Page
+FRONT_PAGE_CALENDAR_SLUG = ''
