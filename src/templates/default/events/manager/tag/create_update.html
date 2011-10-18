@@ -16,8 +16,8 @@
 			<form action="{% url tag-create %}" method="post" id="tag-create">
 		{% else %}
 			{% if mode == 'update' %}
-				<h2>Update {{calendar.name}} Tag</h2>
-				<form action="{% url tag-update id=calendar.id %}" method="post" id="tag-create">
+				<h2>Update {{tag.name}}</h2>
+				<form action="{% url tag-update id=tag.id %}" method="post" id="tag-create">
 			{% endif %}
 		{% endif %}
 				{% if form.non_field_errors %}
@@ -46,7 +46,7 @@
 			{% else %}
 				{% if mode == 'update' and user.is_superuser %}
 					<button type="submit">Update</button>
-					<a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Tag</a>
+					<a href="{% url tag-delete id=tag.id %}" class="button">Delete Tag</a>
 				{% endif %}
 			{% endif %}
 		</form>
