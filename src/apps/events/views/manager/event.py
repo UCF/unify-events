@@ -53,6 +53,7 @@ def create_update(request, id=None):
 			event.creator = request.user
 			try:
 				event.save()
+				ctx['event_form'].save_m2m()
 			except Exception,e:
 				log.error(str(e))
 				messages.error(request,'Saving event failed.')
