@@ -29,6 +29,7 @@ def calendars(self):
 	return list(self.owned_calendars.all()) + list(self.edited_calendars.all())
 setattr(User,'calendars', property(calendars))
 
+
 def calendars_include_submitted(self):
 	return Calendar.objects.filter(
 		models.Q(creator=self)|
@@ -161,7 +162,7 @@ class Category(Base):
 				real_name += '> %s ' % parent.name
 				parent = parent.parent
 			return unicode(real_name.strip() + ' > %s' % self.name)
-
+	
 	class Meta:
 		ordering = ['name']
 
