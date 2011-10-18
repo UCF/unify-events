@@ -6,31 +6,28 @@ h1 a{color:#000; text-decoration: none;}
 .fleft {float:left;}
 .fright {float:right;}
 
-.event-listing #left-column{}
-.event-listing #right-column{}
-.event-listing #right-column section h1{font-family: "Helvetica", "Arial", "sans-serif"; font-size: 20px; font-weight: bold; color: #3a3838; margin: 1em 0 .25em 0; padding: 0 0 .25em 0 ; border-bottom: 1px solid #3a3838;}
-.event-listing #right-column .calendar-widget h1{font-family: "Helvetica", "Arial", "sans-serif"; font-size: 25px; color: #3a3838; margin: 0 0 .5em 0; padding: 0; border: none;}
+.event-listing .left-column h2{font-size:25px; margin: 0 0 1em 0; padding: 0;}
+.event-listing .right-column section h1{font-family: "Helvetica", "Arial", "sans-serif"; font-size: 20px; font-weight: bold; color: #3a3838; margin: 1em 0 .25em 0; padding: 0 0 .25em 0 ; border-bottom: 1px solid #3a3838;}
+.event-listing .right-column .calendar-widget h1{font-family: "Helvetica", "Arial", "sans-serif"; font-size: 20px; color: #3a3838; margin: 0; padding: 0; border: none;}
 
 .event-list{font-family: "Helvetica", "Arial", "sans-serif";}
-.event-list>.heading{font-size: 25px;}
+.event-list>.heading{font-size: 20px;}
 .event-list ul{padding: 0; margin: 0;}
 .event-list ul li{list-style-type: none;}
 .event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc;}
 .event-list .event.first{border: none;}
 .event-list .event .image img{border: 1px solid #ccc; padding: 2px;}
-.event-list .event .heading{font-size: 14px; font-weight: bold;}
-.event-list .event .heading .title{color: #a35e00; text-decoration: none;}
+.event-list .event .heading .title{color: #a35e00; text-decoration: none; font-size: 18px; font-weight: bold;}
 .event-list .event .heading .title:hover{text-decoration: underline;}
-.event-list .event .heading .start{color: #999; text-align: right;}
+.event-list .event .start{color: #999; text-align: right; font-size: 18px; font-weight: bold;}
 .event-list .event .description{color: #333; margin-top: 1em;}
 .event-list .event .buttons{padding: 0; margin: 20px 0 0 0;  text-align: right;}
 .event-list .event .buttons li{list-style-type: none; display: inline;}
 
-
 .calendar-widget{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"; color: #666666;}
 .calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px;}
-.calendar-widget .heading .month{}
-.calendar-widget .heading .expand{cursor: pointer; text-align: right;}
+.calendar-widget .heading h1.month{text-align: right; margin: 0 0 .25em 0; padding: 0;}
+.calendar-widget .heading .expand{cursor: pointer; float: left;}
 .calendar-widget table{background-color: #fff; border-collapse: separate; padding: 2px;}
 .calendar-widget table td,
 .calendar-widget table th{text-align: center;}
@@ -67,11 +64,8 @@ h1 a{color:#000; text-decoration: none;}
 .expanded-calendar-container table td .events li{height: 4px; width: 4px; margin: 2px 0 0 2px;}
 .expanded-calendar-container .month-controls a{font-size: 24px; text-decoration: none; color: #666;}
 
-.subscribe-widget{}
 .subscribe-widget ul{margin-top: 1em;}
 .subscribe-widget ul li{margin-right: 15px;}
 .subscribe-widget li a{text-decoration: none;}
 
-
-.search-widget{}
 .search-widget input{border: 1px solid #e4e4e4; background-color: #f1f1f1; color: #8b8a8a; width: 200px; padding: 6px;}

@@ -54,6 +54,7 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'events',
+	'unlevents'
 )
 
 LOGGING = {
@@ -102,6 +103,7 @@ LOGGING = {
 		},
 		'events': {
 			'handlers':['console', 'file'],
+			'propogate': True,
 			'level':'DEBUG'
 		},
 		'util': {
@@ -113,6 +115,8 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'events.Profile'
 FILE_UPLOAD_PATH    = 'uploads'
+
+DATABASE_ROUTERS = ['unlevents.dbrouter.UNLEventsRouter']
 
 try:
 	from settings_local import *

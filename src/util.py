@@ -4,12 +4,10 @@ import ldap
 import base64
 
 class LDAPHelper(object):
-	
-	_log = logging.getLogger(__name__)
-	
+		
 	class LDAPHelperException(Exception):
 		def __init__(self, error = 'No addtional information'):
-			LDAPHelper._log.error(': '.join([str(self.__doc__),str(error)]))
+			logging.error(': '.join([str(self.__doc__),str(error)]))
 			
 	class UnableToConnect(LDAPHelperException):
 		'''Unable to Connect'''
@@ -59,7 +57,7 @@ class LDAPHelper(object):
 		if len(results) == 0:
 			raise LDAPHelper.NoUsersFound()
 		elif len(results) > 1:
-			raise LDAPHelper.MultipleUsersFound(e)
+			raise LDAPHelper.MultipleUsersFound()
 		else:
 			return results[0]
 

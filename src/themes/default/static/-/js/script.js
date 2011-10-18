@@ -42,7 +42,7 @@ Webcom.calendarWidget = function($){
 	});
 	
 	$('.calendar-widget .day a').live('click', function(){
-		var elements_to_update = ['.subscribe-widget', '#left-column'];
+		var elements_to_update = ['.subscribe-widget', '.left-column', '.browse-widget'];
 		var url = $(this).attr('href');
 		$.ajax(url, {
 			'success' : function (data){
