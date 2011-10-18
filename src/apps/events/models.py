@@ -67,7 +67,7 @@ class Event(Base):
 	calendar     = models.ForeignKey('Calendar', related_name='events')
 	created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
 	state        = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-	title        = models.CharField(max_length=64)
+	title        = models.CharField(max_length=128)
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
 	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
@@ -136,6 +136,7 @@ class Event(Base):
 	class Meta:
 		ordering = ['instances__start']
 
+
 class Tag(Base):
 	name = models.CharField(max_length = 100, unique=True)
 
@@ -144,6 +145,7 @@ class Tag(Base):
 	
 	class Meta:
 		ordering = ['name']
+
 
 class Category(Base):
 	name   = models.CharField(max_length = 100, unique=True)
@@ -162,6 +164,7 @@ class Category(Base):
 
 	class Meta:
 		ordering = ['name']
+
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
