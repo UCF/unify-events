@@ -35,18 +35,19 @@
 			{% endif %}
 			
 				<div id="details" class="span-8">
-					<p>{{event_form.title.label_tag}}</p>
+					{{event_form.title.label_tag}}
 					{{event_form.title}}
-					<p>{{event_form.description.label_tag}}</p>
+					{{event_form.description.label_tag}}
 					{{event_form.description}}
-					<p>{{event_form.tags.label_tag}} <a href="{% url tag-create %}" class="button">Create New Tag</a></p>
-					<p>{{event_form.tags}}</p>
-					<p>{{event_form.categories.label_tag}}</p>
-					<p>{{event_form.categories}}</p>
-					<p>{{event_form.image.label_tag}}</p>
-					<p>{{event_form.image}}</p>
-					<p>{{event_form.calendar.label_tag}}</p>
-					<p>{{event_form.calendar}}</p>
+					<a id="create_tag" href="{% url tag-create %}" class="button">Create New Tag</a>
+					{{event_form.tags.label_tag}}
+					{{event_form.tags}}
+					{{event_form.categories.label_tag}}
+					{{event_form.categories}}
+					{{event_form.image.label_tag}}
+					{{event_form.image}}
+					{{event_form.calendar.label_tag}}
+					{{event_form.calendar}}
 					{{event_formset.management_form}}
 					{% csrf_token %}
 					{% if mode == 'create' %}

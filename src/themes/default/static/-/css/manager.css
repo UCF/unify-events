@@ -260,16 +260,36 @@ a.serious {
  */
  #event {
 }
-	#id_event-title {
-		width:100%;
-		margin:0;
-		margin-bottom:10px;
+	#event #details {
+			
 	}
-	#id_event-description {
-		width:100%;
-		height:80px;
-		margin-bottom:15px;
-	}
+		#event #details label {
+			display:block;
+			margin:5px 0;
+		}
+		#event #details #create_tag {
+			float:right;
+			display:block;
+			margin-top:2px;
+		}
+		#event #details select {
+			width:100%;
+		}
+		#id_event-title {
+			width:97%;
+			margin:0;
+			margin-bottom:10px;
+		}
+		#id_event-description {
+			width:97%;
+			height:80px;
+			margin-bottom:15px;
+		}
+		#event #details button {
+			display:block;
+			width:100%;
+			margin-top:10px;
+		}
 	#event #instances {
 		margin:0;
 		padding:0;
