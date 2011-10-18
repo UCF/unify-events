@@ -11,6 +11,14 @@
 	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar start.year start.month%}
 		
+		<section class="browse-widget">
+			<h1>Browse</h1>
+			<ul>
+				<li><a href="#">By Week</a></li>
+				<li><a href="#">By Month</a></li>
+			</ul>
+		</section>
+		
 		{% include "events/calendar/widgets/search.html" %}
 		
 		<section class="subscribe-widget">
