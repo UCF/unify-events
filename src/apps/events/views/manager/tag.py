@@ -48,17 +48,18 @@ def delete(request, id):
 	except Tag.DoesNotExist:
 		return HttpResponseNotFound('Tag specified does not exist.')
 	else:
-		if notrequest.user.is_superuser:
+		if not request.user.is_superuser:
 			return HttpResponseForbidden('You cannot modify the specified tag.')
 		else:
 			try:
-				tag.events.tags.remove(tag)
+				for event in tag.events.all():
+					event.tags.remove(tag)
 				tag.delete()
 			except Exception, e:
 				log.error(str(e))
 				messages.error(request, 'Deleting tag failed.')
 			else:
-				message.success(request, 'Tag successfully deleted.')
+				messages.success(request, 'Tag successfully deleted.')
 			return HttpResponseRedirect(reverse('dashboard'))
 
 @login_required
@@ -69,12 +70,14 @@ def merge(request, from_id, to_id):
 	except Tag.DoesNotExist:
 		return HttpResponseNotFound('Tag specified does not exist')
 	else:
-		if notrequest.user.is_superuser:
+		if not request.user.is_superuser:
 			return HttpResponseForbidden('You cannot modify the specified tag.')
 		else:
 			try:
-				from_tag.events.tags.add(to_tag)
-				from_tag.events.tags.remove(from_tag)
+				for event in from_tag.events.all():
+					event.tags.add(to_tag)
+				for event in from_tag.events.all():
+					event.tags.remove(from_tag)
 				from_tag.delete()
 			except Exception, e:
 				log.error(str(e))
