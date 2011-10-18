@@ -59,7 +59,7 @@ class LDAPHelper(object):
 		if len(results) == 0:
 			raise LDAPHelper.NoUsersFound()
 		elif len(results) > 1:
-			raise LDAPHelper.MultipleUsersFound(e)
+			raise LDAPHelper.MultipleUsersFound()
 		else:
 			return results[0]
 
