@@ -1,5 +1,7 @@
 {%extends 'events/calendar/base.html'%}
 
 {%block content_body%}
-{{event.title}}
+<h1>{{event.title}}</h1>
+<div class="time">{{event.start}} - {{event.end}}</div>
+<div class="desc">{{event.description}}</div>
 {%endblock%}

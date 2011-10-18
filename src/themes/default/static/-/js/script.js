@@ -29,20 +29,19 @@ function extend_formset(selector, type) {
  * througout the application
  **/
 Webcom.calendarWidget = function($){
-	$('.calendar-widget .month-controls a').click(function(){
+	$('.calendar-widget .month-controls a').live('click', function(){
  		var url    = $(this).attr('href');
 		var parent = $(this).parents('.calendar-widget');
 		$.ajax(url, {
 			'success' : function(data){
 				var replace = $(data);
 				parent.replaceWith(replace);
-				bind_func($);
 			}
 		});
 		return false;
 	});
 	
-	$('.calendar-widget .day a').click(function(){
+	$('.calendar-widget .day a').live('click', function(){
 		var elements_to_update = ['.subscribe-widget', '#left-column'];
 		var url = $(this).attr('href');
 		$.ajax(url, {
@@ -59,20 +58,76 @@ Webcom.calendarWidget = function($){
 					title = data.match(/<title>([^<]*)<\/title>/)[1];
 				}catch(e){}
 				history.pushState({}, title, url);
-				bind_func($);
 			}
 		});
 		
 		return false;
 	});
+	
+	
+	var close_expanded_calendar = function(){
+		var widget = $('.expanded-calendar-container .calendar-widget');
+		
+		var container = $('.expanded-calendar-container');
+		var placeholder = $('.expanded-calendar-placeholder');
+		
+		container.animate({
+			'top' : placeholder.offset().top,
+			'left' : placeholder.offset().left,
+			'width' : 0,
+			'height' : 0
+		}, 500, null, function(){
+			$('.expanded-calendar-container').remove();
+			$('.expanded-calendar-placeholder').replaceWith(widget);
+		});
+	};
+	
+	$('.calendar-widget .expand').live('click', function(){
+		var duration    = 500;
+		var expand      = $(this).offset();
+		var widget      = $(this).parents('.calendar-widget');
+		var cur_pos     = widget.offset();
+		var cur_height  = widget.height();
+		var container   = $('<div class="expanded-calendar-container"></div>');
+		var placeholder = $('<div class="expanded-calendar-placeholder"></div>');
+		
+		
+		placeholder.height(cur_height);
+		widget.replaceWith(placeholder);
+		widget.show();
+		container.append(widget);
+		$('body').append(container);
+		
+		container.css({
+			'top'      : expand.top - 50,
+			'left'     : expand.left + 200,
+			'position' : 'absolute',
+			'width'    : '0px',
+			'height'   : '0px',
+		});
+		container.animate({
+			'width' : '100%',
+			'height': '100%',
+			'left'  : 0,
+			'top'   : '-=50px'
+		}, duration, null, function(){
+			container.css({'position' : 'absolute'});
+		});
+		
+		$(document).keydown(function(e){
+			//Escape
+			if (e.keyCode == 27){
+				close_expanded_calendar();
+			}
+		});
+	});
+	
+	$('.expanded-calendar-container .calendar-widget .day a').live('click', function(){
+		close_expanded_calendar();
+	});
 };
 
 
-var bind_func = function ($){
-	$('*').unbind();
-	Webcom.calendarWidget($);
-}
-
 $().ready(function(){
-	bind_func(jQuery);
+	Webcom.calendarWidget($);
 });
