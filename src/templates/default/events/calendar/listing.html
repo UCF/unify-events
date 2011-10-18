@@ -7,11 +7,11 @@
 {%block content_body%}
 
 <div class="event-listing">
-	<div id="left-column" class="span-15 append-1">
+	<div class="left-column span-15 append-1">
 	    {%if list_title%}<h2>{{list_title}}</h2>{%endif%}
 		{%format_event_list events calendar%}
 	</div>
-	<div id="right-column" class="span-8 last">
+	<div class="right-column span-8 last">
 		{% calendar_widget calendar start.year start.month%}
 		
 		<section class="browse-widget">

@@ -130,6 +130,11 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
 				month + 1 if not roll else 1,
 				1
 			)
+			if type(extra_context) is not dict:
+				extra_context = dict()
+			if 'list_title' not in extra_context:
+				extra_context['list_title'] = start.strftime("%B %Y")
+			
 		else:
 			end = start + timedelta(days=1)
 	except ValueError:
@@ -231,6 +236,6 @@ def years_listing(request, calendar, format=None):
 	now = gmtime()
 	year, month, day = now.tm_year, None, None
 	return auto_listing(request, calendar, year, month, day, format, {
-		'list_title' : 'This Year',
+		'list_title' : 'This Month',
 	})
 	
