@@ -1,22 +1,27 @@
 {% extends 'events/manager/base.html' %}
 {% block content_body %}
-	<h2>Edit Profile</h2>
+<h2>Edit Profile</h2>
+	{% if first_login %}
+		<p>
+			This is your first time logging in. Please review
+			your personal information and confirm that it is correct.
+		</p>
+	{% endif %}
 	<form action="{% url accounts-profile %}" method="post">
 		{% if forms.user.non_field_errors %}
 			<p>{{forms.user.non_field_errors}}</p>
 		{% endif %}
 		{% if forms.profile.non_field_errors %}
 			<p>{{forms.profile.non_field_errors}}</p>
-		{% endif %}		
-		{{forms.user.as_p}}
-		{{forms.profile.as_p}}
+		{% endif %}
+		<table>
+			{{forms.user.as_table}}
+			{{forms.profile.as_table}}
+		</table>
 		{% if first_login %}
 			<button type="submit">Confirm Profile Information</button>
 		{% else %}
 			<button type="submit"/>Save Profile</button>
 		{% endif %}
 	</form>
-	{% if first_login %}
-		first login
-	{% endif %}
 {% endblock %}

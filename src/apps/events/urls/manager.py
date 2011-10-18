@@ -30,12 +30,19 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^tag/create/?$', view='tag.create_update', name='tag-create'),
 	url(r'^tag/manage/?$', view='tag.manage', name='tag-manage'),
 
+	url(r'^category/merge/from/(?P<from_id>\d+)/to/(?P<to_id>\d+)/?$', view='category.create_update', name='category-update'),
+	url(r'^category/(?P<id>\d+)/update/?$', view='category.create_update', name='category-update'),
+	url(r'^category/(?P<id>\d+)/delete/?$', view='category.delete', name='category-delete'),
+	url(r'^category/create/?$', view='category.create_update', name='category-create'),
+	url(r'^category/manage/?$', view='category.manage', name='category-manage'),
+
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
 	url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
 	url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
 	
+	url(r'^category/(?P<category_name>.+)/?', view='dashboard', name='dashboard-category'),
 	url(r'^tag/(?P<tag_name>.+)/?', view='dashboard', name='dashboard-tag'),
 	url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
 	url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),

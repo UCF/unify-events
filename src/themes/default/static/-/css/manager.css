@@ -222,6 +222,9 @@ a.serious {
 		margin-bottom:5px;
 		padding:10px 0 3px 0;
 	}
+		#instances li.selected_instance {
+			border-right:5px solid #eee;
+		}
 		#instances li .image {
 		}
 		#instances li .title {
@@ -317,25 +320,25 @@ a.serious {
 			#event #instances .end label {
 				display:block;
 			}
-/* Tag Management */
-#manage-tags {
+/* Tag and Category Management */
+#manage-tags, #manage-categories {
 	margin-top:10px;
 }
-	#manage-tags th {
+	#manage-tags th, #manage-categories th {
 		background-color:#eee;
 		padding:5px;
 		font-weight:bold;
 	}
-	#manage-tags td {
+	#manage-tags td, #manage-categories td {
 		vertical-align:top;
 		padding:5px;
 	}
-	#manage-tags td.name {
+	#manage-tags td.name, #manage-categories td.name {
 		width:35%;
 	}
-	#manage-tags td.event_count {
+	#manage-tags td.event_count, #manage-categories td.event_count {
 		width:20%;
 	}
-	#manage-tags td.actions {
+	#manage-tags td.actions, #manage-categories td.actions {
 		width:35%;
 	}

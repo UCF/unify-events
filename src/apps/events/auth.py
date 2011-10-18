@@ -6,8 +6,6 @@ from util                         import LDAPHelper
 
 import logging
 
-log = logging.getLogger(__name__)
-
 class Backend(ModelBackend):
 	
 	def authenticate(self, username=None, password=None):
@@ -30,7 +28,7 @@ class Backend(ModelBackend):
 						user.username = username
 						user.save()
 					except Exception, e:
-						log.error('Unable to save user `%s`: %s' % (username,str(e)))
+						logging.error('Unable to save user `%s`: %s' % (username,str(e)))
 						return None
 				
 			except LDAPHelper.MissingAttribute:
@@ -58,7 +56,7 @@ class Backend(ModelBackend):
 					user.profile.guid = guid
 					user.profile.save()
 				except Exception, e:
-					log.error('Unable to save user `%s`: %s' % (username,str(e)))
+					logging.error('Unable to save user `%s`: %s' % (username,str(e)))
 					return None
 		return user
 		

@@ -4,12 +4,10 @@ import ldap
 import base64
 
 class LDAPHelper(object):
-	
-	_log = logging.getLogger(__name__)
-	
+		
 	class LDAPHelperException(Exception):
 		def __init__(self, error = 'No addtional information'):
-			LDAPHelper._log.error(': '.join([str(self.__doc__),str(error)]))
+			logging.error(': '.join([str(self.__doc__),str(error)]))
 			
 	class UnableToConnect(LDAPHelperException):
 		'''Unable to Connect'''
