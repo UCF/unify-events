@@ -180,7 +180,7 @@ def range_listing(request, calendar, start, end, format=None):
 	from datetime import datetime
 	date  = lambda d: datetime(*[int(i) for i in d.split('-')])
 	start = date(start)
-	end   = date(end)
+	end   = date(end) + timedelta(days=1) - timedelta(seconds=1)
 	return listing(request, calendar, start, end, format, {
 		'list_title' : '%s %s through %s %s' % (
 			start.strftime("%B"), start.day,
