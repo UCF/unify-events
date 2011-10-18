@@ -22,7 +22,7 @@ def create_update(request, id=None):
 			return HttpResponseNotFound('Tag specified does not exist.')
 		else:
 			ctx['mode'] = 'update'
-			if notrequest.user.is_superuser:
+			if not request.user.is_superuser:
 				return HttpResponseForbidden('You cannot modify the specified tag.')
 	
 	if request.method == 'POST':
