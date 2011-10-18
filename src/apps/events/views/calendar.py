@@ -181,21 +181,30 @@ def range_listing(request, calendar, start, end, format=None):
 	date  = lambda d: datetime(*[int(i) for i in d.split('-')])
 	start = date(start)
 	end   = date(end)
-	return listing(request, calendar, start, end, format)
+	return listing(request, calendar, start, end, format, {
+		'list_title' : '%s %s through %s %s' % (
+			start.strftime("%B"), start.day,
+			end.strftime("%B"), end.day,
+		),
+	})
 
 
 def todays_listing(request, calendar, format=None):
 	"""Generates event listing for the current day"""
 	now = gmtime()
 	year, month, day = now.tm_year, now.tm_mon, now.tm_mday
-	return auto_listing(request, calendar, year, month, day, format)
+	return auto_listing(request, calendar, year, month, day, format, {
+		'list_title' : 'Today',
+	})
 
 
 def tomorrows_listing(request, calendar, format=None):
 	"""Generates event listing for tomorrows events"""
 	now = gmtime(time() + 86400)
 	year, month, day = now.tm_year, now.tm_mon, now.tm_mday
-	return auto_listing(request, calendar, year, month, day, format)
+	return auto_listing(request, calendar, year, month, day, format, {
+		'list_title' : 'Tomorrow',
+	})
 
 
 def weeks_listing(request, calendar, format=None):
