@@ -137,10 +137,10 @@ class Event(Base):
 		ordering = ['instances__start']
 
 class Tag(Base):
-	name = models.CharField(max_length = 100)
+	name = models.CharField(max_length = 100, unique=True)
 
 class Category(Base):
-	name   = models.CharField(max_length = 100)
+	name   = models.CharField(max_length = 100, unique=True)
 	parent = models.ForeignKey('EventInstance', related_name='subcategories', null=True, blank=True)
 
 class EventInstance(Base):

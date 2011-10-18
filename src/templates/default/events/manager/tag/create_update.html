@@ -1,0 +1,53 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#id_name')
+				.keyup(function() {
+					$('#id_slug').val(sluggify($(this).val()));
+				})
+		});
+	</script>
+{% endblock %}
+{% block content_body %}
+		{% if mode == 'create' %}
+			<h2>Create a Tag</h2>
+			<form action="{% url tag-create %}" method="post" id="tag-create">
+		{% else %}
+			{% if mode == 'update' %}
+				<h2>Update {{calendar.name}} Tag</h2>
+				<form action="{% url tag-update id=calendar.id %}" method="post" id="tag-create">
+			{% endif %}
+		{% endif %}
+				{% if form.non_field_errors %}
+				<p>{{form.non_field_errors}}</p>
+			{% endif %}
+			<table>
+				<tbody>
+					<tr>
+						<th scope="row">{{form.name.label_tag}}</th>
+						<td>
+							{{form.name}}
+							{% if form.name.errors %}
+								<ul>
+								{% for error in form.name.errors %}
+								<li>{{error}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+			{% if mode == 'create' %}
+				<button type="submit">Create</button>
+			{% else %}
+				{% if mode == 'update' and user.is_superuser %}
+					<button type="submit">Update</button>
+					<a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Tag</a>
+				{% endif %}
+			{% endif %}
+		</form>
+{% endblock %}
