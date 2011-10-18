@@ -1,0 +1,31 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+{% endblock %}
+{% block content_body %}
+	<div class="span-12 prepend-6 last">
+		<a class="button" href="{% url category-create %}">Create New Category</a>
+		<table id="manage-categories">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Events Count</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+				<tr>
+					<td class="name">{{category.name}}</td>
+					<td class="event_count">{{category.events.all.count}}</td>
+					<td class="actions">
+						<a href="{% url dashboard-category category_name=tag.name %}">View Events</a>
+						<a href="{% url category-update id=tag.id %}">Update</a>
+						<a href="{% url category-delete id=tag.id %}">Delete</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

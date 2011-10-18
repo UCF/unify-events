@@ -92,6 +92,7 @@
 				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
 				<li><a class="button" href="">Import/Export</a></li>
 				{% if user.is_superuser %}
+				<li><a class="button" href="{% url category-manage %}">Manage Categories</a></li>
 				<li><a class="button" href="{% url tag-manage %}">Manage Tags</a></li>
 				{% endif %}
 			</ul>
