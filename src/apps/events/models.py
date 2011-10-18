@@ -139,9 +139,23 @@ class Event(Base):
 class Tag(Base):
 	name = models.CharField(max_length = 100, unique=True)
 
+	def __unicode__(self):
+		return unicode(self.name)
+
 class Category(Base):
 	name   = models.CharField(max_length = 100, unique=True)
 	parent = models.ForeignKey('EventInstance', related_name='subcategories', null=True, blank=True)
+
+	def __unicode__(self):
+		if self.parent is None:
+			return unicode(self.name)
+		else:
+			real_name = ''
+			parent = self.parent
+			while parent is not None:
+				real_name += '> %s ' % parent.name
+				parent = parent.parent
+			return unicode(real_name.strip() + ' > %s' % self.name)
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
