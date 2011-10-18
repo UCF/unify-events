@@ -76,7 +76,7 @@ class TagForm(forms.ModelForm):
 		model  = Tag
 		fields = ('name',)
 
-class TagForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
 
 	class Meta:
 		model  = Category
