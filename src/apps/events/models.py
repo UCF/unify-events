@@ -141,6 +141,9 @@ class Tag(Base):
 
 	def __unicode__(self):
 		return unicode(self.name)
+	
+	class Meta:
+		ordering = ['name']
 
 class Category(Base):
 	name   = models.CharField(max_length = 100, unique=True)
@@ -156,6 +159,9 @@ class Category(Base):
 				real_name += '> %s ' % parent.name
 				parent = parent.parent
 			return unicode(real_name.strip() + ' > %s' % self.name)
+
+	class Meta:
+		ordering = ['name']
 
 class EventInstance(Base):
 	"""Object which describes the time and place that an event is occurring"""
