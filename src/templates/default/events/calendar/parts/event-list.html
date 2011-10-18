@@ -6,14 +6,15 @@
 	<ul>
 		{%for event in events%}
 		<li class="event{%if forloop.first%} first{%endif%} span-15 last">
-			<div class="image span-2"><img src="{{MEDIA_URL}}-/img/test-64x64.png" /></div>
-			<div class="details span-13 last">
+			<div class="start span-2 append-1">
+					{{event.start|date:"fA"|lower}}
+			</div>
+			<div class="details span-12 last">
 				<div class="heading">
-					<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title span-10">{{event.title}}</a>
-					<div class="start span-3 last">{{event.start|date:"fA"|lower}}</div>
+					<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title">{{event.title}}</a>
 				</div>
-				<div class="description span-13 last">{{event.description|truncatewords:16}}</div>
-				<div class="buttons span-13 last">
+				<div class="description span-12 last">{{event.description|truncatewords:16}}</div>
+				<div class="buttons span-12 last">
 					<a class="primary button" href="#">Social Something</a>
 					<a class="button" href="#">Button</a>
 				</div>
