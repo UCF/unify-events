@@ -2,20 +2,26 @@
 {%load humanize%}
 {%load widgets%}
 
+{%block title%}{{block.super}}{%if list_title%} - {{list_title}}{%endif%}{%endblock%}
+
 {%block content_body%}
 
 <div class="event-listing">
 	<div id="left-column" class="span-15 append-1">
+	    {%if list_title%}<h2>{{list_title}}</h2>{%endif%}
 		{%format_event_list events calendar%}
 	</div>
 	<div id="right-column" class="span-8 last">
 		{% calendar_widget calendar start.year start.month%}
 		
 		<section class="browse-widget">
-			<h1>Browse</h1>
+			<h1>Event Listings</h1>
 			<ul>
-				<li><a href="#">By Week</a></li>
-				<li><a href="#">By Month</a></li>
+				<li><a href="{%url week-listing calendar.slug start.year start.month start.day%}">Weekly</a></li>
+				<li><a href="{%url month-listing calendar.slug start.year start.month%}">Monthly</a></li>
+				<li><a href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
+				<li><a href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
+				<li><a href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
 			</ul>
 		</section>
 		
