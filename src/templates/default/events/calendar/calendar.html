@@ -7,7 +7,15 @@
 {%block content_body%}
 <div id="calendar">
 	<div class="left-column span-15 append-1">
-		I'm a calendar WOW
+		{%if todays_events|length and tomorrows_events|length%}
+		<section class="todays-events">
+		</section>
+		<section class="tomorrows-events">
+		</section>
+		{%else%}
+		<section class="upcoming-events">
+		</section>
+		{%endif%}
 	</div>
 	<div class="right-column span-8 last">
 		{% calendar_widget calendar %}
