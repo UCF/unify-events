@@ -53,14 +53,14 @@ h1 a{color:#000; text-decoration: none;}
 .calendar-widget .month-controls a{font-size: 12px; text-decoration: none; color: #666;}
 .calendar-widget .month-controls a:hover{}
 
-.expanded-calendar-container{width: 100%; position: fixed; top: 0; left: 0;}
+.expanded-calendar-container{width: 100%; position: absolute; top: 0; left: 0;}
 .expanded-calendar-container h1{ margin: 0;}
 .expanded-calendar-container .expand{display: none;}
 .expanded-calendar-container .calendar-widget .table-wrap{background-color: #fff;}
-.expanded-calendar-container .calendar-widget{width: 950px; margin: 50px auto; background: #fff; padding: 20px; border: 1px solid #ccc;
-	-moz-box-shadow: 5px 5px 5px #ccc;
-	-webkit-box-shadow: 5px 5px 5px #ccc;
-	box-shadow: 5px 5px 5px #ccc;
+.expanded-calendar-container .calendar-widget{width: 950px; margin: 50px auto; background: #fff; padding: 20px; border: 1px solid #ddd;
+	-moz-box-shadow: 1px 1px 8px #eee;
+	-webkit-box-shadow: 1px 1px 8px #eee;
+	box-shadow: 1px 1px 8px #eee;
 }
 .expanded-calendar-container table td{font-size: 24px;}
 .expanded-calendar-container table td a{padding: 50px;}

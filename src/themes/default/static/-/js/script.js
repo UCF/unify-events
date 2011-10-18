@@ -66,17 +66,20 @@ Webcom.calendarWidget = function($){
 	
 	
 	var close_expanded_calendar = function(){
-		var widget = $('.expanded-calendar-container .calendar-widget');
-		
-		var container = $('.expanded-calendar-container');
+		var widget      = $('.expanded-calendar-container .calendar-widget');
+		var container   = $('.expanded-calendar-container');
 		var placeholder = $('.expanded-calendar-placeholder');
+		var clone       = widget.clone();
+		
+		placeholder.replaceWith(clone);
+		clone.addClass('.expanded-calendar-placeholder');
 		
 		container.animate({
-			'top' : placeholder.offset().top,
-			'left' : placeholder.offset().left,
-			'width' : 0,
+			'top'    : clone.offset().top,
+			'left'   : clone.offset().left,
+			'width'  : 0,
 			'height' : 0
-		}, 500, null, function(){
+		}, 500, 'linear', function(){
 			$('.expanded-calendar-container').remove();
 			$('.expanded-calendar-placeholder').replaceWith(widget);
 		});
@@ -89,10 +92,9 @@ Webcom.calendarWidget = function($){
 		var cur_pos     = widget.offset();
 		var cur_height  = widget.height();
 		var container   = $('<div class="expanded-calendar-container"></div>');
-		var placeholder = $('<div class="expanded-calendar-placeholder"></div>');
+		var placeholder = widget.clone();
 		
-		
-		placeholder.height(cur_height);
+		placeholder.addClass('expanded-calendar-placeholder');
 		widget.replaceWith(placeholder);
 		widget.show();
 		container.append(widget);
@@ -101,18 +103,16 @@ Webcom.calendarWidget = function($){
 		container.css({
 			'top'      : expand.top - 50,
 			'left'     : expand.left + 200,
-			'position' : 'absolute',
 			'width'    : '0px',
 			'height'   : '0px',
+			'z-index'  : 2
 		});
 		container.animate({
 			'width' : '100%',
 			'height': '100%',
 			'left'  : 0,
 			'top'   : '-=50px'
-		}, duration, null, function(){
-			container.css({'position' : 'absolute'});
-		});
+		}, duration, 'linear', function(){});
 		
 		$(document).keydown(function(e){
 			//Escape
