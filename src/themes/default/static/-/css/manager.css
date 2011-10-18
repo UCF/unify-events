@@ -297,3 +297,25 @@ a.serious {
 			#event #instances .end label {
 				display:block;
 			}
+/* Tag Management */
+#manage-tags {
+	margin-top:10px;
+}
+	#manage-tags th {
+		background-color:#eee;
+		padding:5px;
+		font-weight:bold;
+	}
+	#manage-tags td {
+		vertical-align:top;
+		padding:5px;
+	}
+	#manage-tags td.name {
+		width:35%;
+	}
+	#manage-tags td.event_count {
+		width:20%;
+	}
+	#manage-tags td.actions {
+		width:35%;
+	}

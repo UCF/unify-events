@@ -28,6 +28,7 @@ urlpatterns += patterns('events.views.manager',
 	url(r'^tag/(?P<id>\d+)/update/?$', view='tag.create_update', name='tag-update'),
 	url(r'^tag/(?P<id>\d+)/delete/?$', view='tag.delete', name='tag-delete'),
 	url(r'^tag/create/?$', view='tag.create_update', name='tag-create'),
+	url(r'^tag/manage/?$', view='tag.manage', name='tag-manage'),
 
 	url(r'^calendar/(?P<id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
 	url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
@@ -35,6 +36,7 @@ urlpatterns += patterns('events.views.manager',
 
 	url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
 	
+	url(r'^tag/(?P<tag_name>.+)/?', view='dashboard', name='dashboard-tag'),
 	url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
 	url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),
 	url(r'^calendar/(?P<calendar_id>\d+)/?$', view='dashboard', name='dashboard'),

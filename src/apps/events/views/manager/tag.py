@@ -82,3 +82,15 @@ def merge(request, from_id, to_id):
 			else:
 				messages.success(request, 'Tags successfully merged.')
 			return HttpResponseRedirect(reverse('dashboard'))
+
+@login_required
+def manage(request):
+	ctx  = {'tags':None}
+	tmpl = 'events/manager/tag/manage.html'
+
+	if not request.user.is_superuser:
+		return HttpResponseForbidden('You cannot manage tags.')
+
+	ctx['tags'] = Tag.objects.all()
+
+	return direct_to_template(request,tmpl,ctx)

@@ -1,0 +1,31 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+{% endblock %}
+{% block content_body %}
+	<div class="span-12 prepend-6 last">
+		<a class="button" href="{% url tag-create %}">Create New Tag</a>
+		<table id="manage-tags">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Events Count</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tag in tags %}
+				<tr>
+					<td class="name">{{tag.name}}</td>
+					<td class="event_count">{{tag.events.all.count}}</td>
+					<td class="actions">
+						<a href="{% url dashboard-tag tag_name=tag.name %}">View Events</a>
+						<a href="{% url tag-update id=tag.id %}">Update</a>
+						<a href="{% url tag-delete id=tag.id %}">Delete</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

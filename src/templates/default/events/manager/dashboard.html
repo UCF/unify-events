@@ -65,15 +65,23 @@
 				<li><button>Other Actions <span>&#9660;</span></button></li>
 				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
 				<li><a class="button" href="">Import/Export</a></li>
+				{% if user.is_superuser %}
+				<li><a class="button" href="{% url tag-manage %}">Manage Tags</a></li>
+				{% endif %}
 			</ul>
 			<form id="search" class="clear" action="{% url search-event %}" method="get">
 				<input type="text" name="query" value="Search events..." class="prefill" />
 				<button type="submit">Search</button>
 			</form>
 			<ul id="calendars" class="clear">
+				{% if tag != None %}
+				<li class="selected">
+					<a href="{% url dashboard %}">Events Tagged with<br /><strong>{{tag.name}}</strong></a>
+				</li>
+				{% endif %}
 				{% if search_results != None %} 
 				<li class="selected">
-					<a href="{% url dashboard %}">Search Results</a>
+					<a href="{% url dashboar %}">Search Results</a>
 				</li>
 				{% endif %}
 				{% for calendar in user.calendars_include_submitted %}
@@ -97,7 +105,7 @@
 			</ul>
 		</div>
 		<div class="span-17 last">
-			{% if search_results == None %}
+			{% if search_results == None and tag == None %}
 			<div id="event_date">
 				{% if current_calendar %}
 					<div class="prev">
