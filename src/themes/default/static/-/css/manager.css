@@ -138,7 +138,7 @@ a.serious {
 			margin:0;
 		}
 		#calendars li.selected {
-			background-color:#f7f7f7;
+			background-color:#eee;
 			border:none;
 		}
 		#calendars li > a {
