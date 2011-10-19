@@ -142,7 +142,7 @@ a.serious {
 			border:none;
 		}
 		#calendars li > a {
-			font-size:160%;
+			font-size:130%;
 			text-decoration:none;
 		}
 			#calendars li > a:hover {
@@ -228,14 +228,14 @@ a.serious {
 		#instances li .image {
 		}
 		#instances li .title {
-			font-size:130%;
+			font-size:110%;
 			color:#333;
 			font-weight:bold;
 			margin-bottom:3px;
 		}
 		#instances li .datetime {
 			text-align:right;
-			font-size:130%;
+			font-size:100%;
 		}
 		#instances li .location {
 			text-align:right;

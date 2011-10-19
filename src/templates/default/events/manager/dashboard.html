@@ -174,11 +174,11 @@
 								<img src="{{MEDIA_URL}}-/img/test-64x64.png" />
 							{% endif %}
 						</div>
-						<div class="span-8">
+						<div class="span-10">
 							<div class="title">{{instance.event.title}}</div>
 							<div class="description">{{instance.event.description|truncatewords:25}}</div>
 						</div>
-						<div class="span-7 last">
+						<div class="span-5 last">
 							<div class="datetime">
 								{% if dates.relative == dates.today and search_results == None %}
 									{{instance.start|pretty_date:"manager"}}
