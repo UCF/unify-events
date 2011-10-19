@@ -95,6 +95,6 @@ def manage(request):
 	if not request.user.is_superuser:
 		return HttpResponseForbidden('You cannot manage categorys.')
 
-	ctx['categorys'] = Category.objects.all()
+	ctx['categories'] = Category.objects.all()
 
 	return direct_to_template(request,tmpl,ctx)
