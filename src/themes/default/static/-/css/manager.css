@@ -134,6 +134,9 @@ a.serious {
 		#calendars > li:first-child {
 			border:none;
 		}
+			#calendars > li:first-child > a:first-child; {
+				padding-left:0;
+			}
 		#calendars li p {
 			margin:0;
 		}
@@ -144,6 +147,7 @@ a.serious {
 		#calendars li > a {
 			font-size:130%;
 			text-decoration:none;
+			padding-left:5px;
 		}
 			#calendars li > a:hover {
 				text-decoration:underline;
@@ -166,7 +170,7 @@ a.serious {
 				list-style-type:none;
 				margin:0 inherit;
 				padding:0 inherit;
-				border-left: 1px solid #c1c1c1;
+				border-left: 1px solid #d9d9d9;
 				padding-left:3px;
 				padding-right:3px;
 			}
@@ -197,13 +201,15 @@ a.serious {
 #event_date {
 	text-align:center;
 	margin-bottom:10px;
-	font-size:150%;
+	font-size:110%;
 }
 	#event_date .prev {
 		display:inline;
+		float:left;
 	}
 	#event_date .next {
 		display:inline;
+		float:right;
 	}
 	#event_date a {
 		text-decoration:none;
@@ -217,13 +223,14 @@ a.serious {
 	padding:0;
 	border-top:2px solid #EEE;
 }
-	#instances li {
+	#instances > li {
 		list-style-type:none;
 		margin-bottom:5px;
-		padding:10px 0 3px 0;
+		padding:10px 0 7px 0;
+		border-bottom:1px solid #eee;
 	}
-		#instances li.selected_instance {
-			border-right:5px solid #eee;
+		#instances > li > a {
+			text-decoration:none;
 		}
 		#instances li .image {
 		}
@@ -233,31 +240,34 @@ a.serious {
 			font-weight:bold;
 			margin-bottom:3px;
 		}
+		#instances li .tags, #instances li .categories {
+			margin:0;padding:0;
+		}
+			#instances li .tags > li, #instances li .categories > li {
+				list-style-type:none;
+				padding-left:3px;
+				font-style:italic;
+			}
+				#instances li .tags > li:first-child, #instances li .categories > li:first-child {
+					padding-left:0;
+				}
+
 		#instances li .datetime {
 			text-align:right;
-			font-size:100%;
+			font-size:115%;
 		}
 		#instances li .location {
 			text-align:right;
 		}
-		#instances li .admin {
-			margin-top:10px;
-			background-color:#f7f7f7;
+		#instances li .state {
+			text-align:right;
+			margin-top:.75em;
+			float:right;
 		}
-			#instances li .num_instances {
-				font-style:italic;
-				font-size:90%;
-				float:left;
-				margin-left:5px;
-				padding:5px 0;
+			#instances li .state > a {
+				font-size:80%;
+				font-weight:bold;
 			}
-			#instances li .state {
-				float:right;
-				border-left:3px solid #FFF;
-				padding:5px 5px 5px 5px;
-			}
-				#instances li .state.posted {
-				}
 /*
  * Event Creation / Updating
  */

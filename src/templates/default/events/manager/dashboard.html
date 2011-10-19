@@ -40,52 +40,44 @@
 						function() {
 							other_actions.find('li:gt(0)').hide();	
 						})
-				// Highlight Instance Groupings
-				var event_ids = [];
-				$('#instances li')
-					.each(function(index,li) {
-						var li = $(li);
-						var event_id = li.attr('data-event-id');
-						if(event_id != '') {
-							var found = false;
-							$.each(event_ids, function(_index, _event_id) {
-								if(event_id == _event_id) {
-									found = true;
-								}
-							});
-							if(!found) {
-								var instance_selector = '#instances li[data-event-id=' + event_id + ']';
-								$(instance_selector)
-									.hover(
-										function() {
-											$(instance_selector).addClass('selected_instance');
-										},
-										function() {
-											$(instance_selector).removeClass('selected_instance');	
-										});
-							}
-						}
-					})
 			})();
-			$('#instances li[data-update-url]')
-				.hover(
-					function() {
-						$(this).css('cursor','pointer');
-					},
-					function() {
-						$(this).css('cursor','none');	
-					}
-				)
-				.click(function() {
-					var update_url = $(this).attr('data-update-url');
-					window.location = update_url; 
-				})
 		});
 	</script>
 {% endblock %}
 {% block content_body %}
 	<div class="span-24 last">
-		<div class="span-7">
+		<div class="span-7 border">
+			{% if search_results == None and tag == None %}
+			<div id="event_date">
+				{% if current_calendar %}
+					<div class="prev">
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}" class="button">&lt;&lt;</a>
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}" class="button">&lt;</a>
+						{% if dates.today != dates.relative and dates.today < dates.relative %}
+						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
+						{% endif %}
+					</div>
+					{{dates.relative|date:"F j, Y"}}
+					<div class="next">
+						{% if dates.today != dates.relative and dates.today > dates.relative %}
+						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
+						{% endif %}
+						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}" class="button">&gt;</a>
+						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}" class="button">&gt;&gt;</a>
+					</div>
+				{% else %}
+					<div class="prev">
+						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}" class="button">&lt;&lt;</a>
+						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}" class="button">&lt;</a>
+					</div>
+					{{dates.relative|date:"F j, Y"}}
+					<div class="next">
+						<a id="next_day" href="{% url dashboard _date=dates.next_day %}" class="button">&gt;</a>
+						<a id="next_month" href="{% url dashboard _date=dates.next_month %}" class="button">&gt;&gt;</a>
+					</div>
+				{% endif %}
+			</div>
+			{% endif %}
 			<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
 			<ul id="other_actions">
 				<li><button>Other Actions <span>&#9660;</span></button></li>
@@ -132,41 +124,11 @@
 			</ul>
 		</div>
 		<div class="span-17 last">
-			{% if search_results == None and tag == None %}
-			<div id="event_date">
-				{% if current_calendar %}
-					<div class="prev">
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}" class="button">&lt;&lt;</a>
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}" class="button">&lt;</a>
-						{% if dates.today != dates.relative and dates.today < dates.relative %}
-						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
-						{% endif %}
-					</div>
-					{{dates.relative|date:"F j, Y"}}
-					<div class="next">
-						{% if dates.today != dates.relative and dates.today > dates.relative %}
-						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
-						{% endif %}
-						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}" class="button">&gt;</a>
-						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}" class="button">&gt;&gt;</a>
-					</div>
-				{% else %}
-					<div class="prev">
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}" class="button">&lt;&lt;</a>
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}" class="button">&lt;</a>
-					</div>
-					{{dates.relative|date:"F j, Y"}}
-					<div class="next">
-						<a id="next_day" href="{% url dashboard _date=dates.next_day %}" class="button">&gt;</a>
-						<a id="next_month" href="{% url dashboard _date=dates.next_month %}" class="button">&gt;&gt;</a>
-					</div>
-				{% endif %}
-			</div>
-			{% endif %}
+		
 			<ul id="instances" class="span-17 last">
 				{% for instance in instances %}
 				<li class="{% cycle 'even' 'odd' %} clear clearfix" data-update-url="{% url event-update id=instance.event.id %}" data-event-id="{{instance.event.id}}">
-					<div>
+					<a href="{% url event-update id=instance.event.id %}">
 						<div class="image span-2">
 							{% if instance.event.image %}
 								<img src="{{instance.event.image.url}}" />
@@ -185,13 +147,16 @@
 								{% else %}
 									{{instance.start|date:"F j, Y g a"}}
 								{% endif %}
-								{% if instance.end %} &ndash; {{instance.end|date:"g a"}}{% endif %}
 							</div>
 							<div class="location">
 								{% if instance.location %}{{instance.location.name}}{% endif %}
 							</div>
+						</div>
+					</a>
+					<div class="span-15 prepend-2">
+						<div class="span-10">
 							<ul class="categories">
-								{% for category in instance.event.category.all %}
+								{% for category in instance.event.categories.all %}
 									<li>{{category.name}}</li>
 								{% endfor %}
 							</ul>
@@ -201,15 +166,18 @@
 								{% endfor %}
 							</ul>
 						</div>
-						<div class="span-17 admin">
-							<div class="num_instances">
-								{% if instance.event.instances.count > 1 %}
-									This is one of {{instance.event.instances.count|digit_to_word}} instances of this event.  
+						<div class="span-5 last state">
+							{% if instance.event.get_state_display == 'pending' %}
+								<a class="button" href="{% url event-post id=instance.event.id %}">
+									Mark as Posted
+								</a>
+							{% else %}
+								{% if instance.event.get_state_display == 'posted' %}
+									<a class="button" href="{% url event-pend id=instance.event.id %}">
+										Mark as Pending
+									</a>
 								{% endif %}
-							</div>
-							<div class="state {{instance.event.get_state_display}}">
-								{{instance.event.get_state_display|capfirst}}
-							</div>
+							{% endif %}
 						</div>
 					</div>
 				</li>
