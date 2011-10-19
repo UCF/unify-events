@@ -257,6 +257,7 @@ a.serious {
 		#instances li .state {
 			text-align:right;
 			margin-top:.75em;
+			float:right;
 		}
 			#instances li .state > a {
 				font-size:80%;
