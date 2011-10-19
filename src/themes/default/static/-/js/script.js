@@ -66,6 +66,7 @@ Webcom.calendarWidget = function($){
 	
 	
 	var close_expanded_calendar = function(){
+		var duration    = 500;
 		var widget      = $('.expanded-calendar-container .calendar-widget');
 		var container   = $('.expanded-calendar-container');
 		var placeholder = $('.expanded-calendar-placeholder');
@@ -75,13 +76,18 @@ Webcom.calendarWidget = function($){
 		clone.addClass('.expanded-calendar-placeholder');
 		
 		container.animate({
+			'opacity' : 0.0,
 			'top'    : clone.offset().top,
 			'left'   : clone.offset().left,
 			'width'  : 0,
 			'height' : 0
-		}, 500, 'linear', function(){
-			$('.expanded-calendar-container').remove();
-			$('.expanded-calendar-placeholder').replaceWith(widget);
+		},  {
+			'duration' : duration,
+			'queue'    : true,
+			'complete' : function(){
+				$('.expanded-calendar-container').remove();
+				$('.expanded-calendar-placeholder').replaceWith(widget);
+			}
 		});
 	};
 	
@@ -112,7 +118,10 @@ Webcom.calendarWidget = function($){
 			'height': '100%',
 			'left'  : 0,
 			'top'   : '-=50px'
-		}, duration, 'linear', function(){});
+		}, {
+			'duration' : duration,
+			'queue'    : true
+		});
 		
 		$(document).keydown(function(e){
 			//Escape

@@ -24,7 +24,11 @@ h1 a{color:#000; text-decoration: none;}
 .event-list .event .buttons li{list-style-type: none; display: inline;}
 
 .calendar-widget{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"; color: #666666;}
-.calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px;}
+.calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px; border: 1px solid #eaeae7;
+	-moz-box-shadow: 1px 1px 8px #eee;
+	-webkit-box-shadow: 1px 1px 8px #eee;
+	box-shadow: 1px 1px 8px #eee;
+}
 .calendar-widget .heading h1.month{font-weight: bold; font-family: "Helvetica", "Arial", "sans-serif"; font-size: 20px; color: #3a3838; border: none; text-align: right; margin: 0 0 .25em 0; padding: 0;}
 .calendar-widget .heading .expand{cursor: pointer; float: left;}
 .calendar-widget table{background-color: #fff; border-collapse: separate; padding: 2px;}
@@ -52,12 +56,7 @@ h1 a{color:#000; text-decoration: none;}
 .expanded-calendar-container{width: 100%; position: absolute; top: 0; left: 0;}
 .expanded-calendar-container h1{ margin: 0;}
 .expanded-calendar-container .expand{display: none;}
-.expanded-calendar-container .calendar-widget .table-wrap{background-color: #fff;}
-.expanded-calendar-container .calendar-widget{width: 950px; margin: 50px auto; background: #fff; padding: 20px; border: 1px solid #ddd;
-	-moz-box-shadow: 1px 1px 8px #eee;
-	-webkit-box-shadow: 1px 1px 8px #eee;
-	box-shadow: 1px 1px 8px #eee;
-}
+.expanded-calendar-container .calendar-widget{width: 960px; margin: 50px auto; padding: 20px;}
 .expanded-calendar-container table td{font-size: 24px;}
 .expanded-calendar-container table td a{padding: 50px;}
 .expanded-calendar-container table td .events li{height: 4px; width: 4px; margin: 2px 0 0 2px;}
@@ -68,3 +67,16 @@ h1 a{color:#000; text-decoration: none;}
 .subscribe-widget li a{text-decoration: none;}
 
 .search-widget input{border: 1px solid #e4e4e4; background-color: #f1f1f1; color: #8b8a8a; width: 200px; padding: 6px;}
+
+#calendar-home h2{font-size: 32px; color: #333;}
+#calendar-home .event-list .event{background-color: #fcfcfc; padding: 20px 10px; border: 1px solid #ececec;
+	-moz-box-shadow: 2px 2px 5px #eee;
+	-webkit-box-shadow: 2px 2px 5px #eee;
+	box-shadow: 2px 2px 5px #eee;
+}
+#calendar-home .event-list .event .title{color: #333; font-size: 24px;}
+#calendar-home .event-list .event .description{color: #333; font-size: 14px; line-height: 1.5em; font-family: "Georgia", "serif";}
+#calendar-home .event-list .date{color: #333; font-size: 24px;}
+#calendar-home .event-list .event.odd{background-color: #fdedad; border: 1px solid #eddd9d;}
+#calendar-home .event-list .event.odd .date{}
+#calendar-home .event-list .event.odd .time{color: #ad9d5d;}

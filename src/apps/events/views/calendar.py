@@ -51,7 +51,7 @@ def calendar(request, calendar, format=None):
 	upcoming_events = calendar.find_event_instances(
 		today_start,
 		upcoming_start + timedelta(weeks=2)
-	).order_by('start', 'event__title')
+	).order_by('start', 'event__title')[:5]
 	
 	template = 'events/calendar/calendar.' + (format or 'html')
 	context  = {
