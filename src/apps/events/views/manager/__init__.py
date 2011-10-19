@@ -37,12 +37,19 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 	if request.user.first_login:
 		return HttpResponseRedirect(reverse('accounts-profile'))
 	
+	# Date navigation
 	ctx['dates']['today'] = date.today()
 	if _date is not None:
 		ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')]).date()
 	else:
 		ctx['dates']['relative'] = ctx['dates']['today']
 	
+	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
+	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
+	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
+	ctx['dates']['today_str']  = str(ctx['dates']['today'])
+
 	if tag_name is not None:
 		try:
 			ctx['tag'] = Tag.objects.get(name=tag_name)
@@ -63,15 +70,10 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 			messages.error('Calendar does not exist')
 	
 	if ctx['current_calendar'] is not None:
-		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte = ctx['dates']['relative'])
-			
-	# Generate date navigation args
-	ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
-	ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
-	ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
-	ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
-	ctx['dates']['today_str']  = str(ctx['dates']['today'])
-
+		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(
+								start__gte = ctx['dates']['relative'],
+								start__lte = ctx['dates']['next_day'])
+	
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required
