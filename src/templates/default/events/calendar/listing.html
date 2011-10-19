@@ -6,7 +6,7 @@
 
 {%block content_body%}
 
-<div class="event-listing">
+<div id="events-content" class="event-listing">
 	<div class="left-column span-15 append-1">
 	    {%if list_title%}<h2>{{list_title}}</h2>{%endif%}
 		{%format_event_list events calendar%}
@@ -17,11 +17,9 @@
 		<section class="browse-widget">
 			<h1>Event Listings</h1>
 			<ul>
-				<li><a href="{%url week-listing calendar.slug start.year start.month start.day%}">Weekly</a></li>
-				<li><a href="{%url month-listing calendar.slug start.year start.month%}">Monthly</a></li>
-				<li><a href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
-				<li><a href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
-				<li><a href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
 			</ul>
 		</section>
 		

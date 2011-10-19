@@ -5,7 +5,7 @@
 {%block title%}{{block.super}} - calendar.name{%endblock%}
 
 {%block content_body%}
-<div id="calendar-home">
+<div id="events-content" class="calendar-home">
 	<div class="left-column span-15 append-1">
 		{%if todays_events|length and tomorrows_events|length%}
 		<section class="todays-events event-list">
@@ -29,9 +29,9 @@
 		<section class="browse-widget">
 			<h1>Event Listings</h1>
 			<ul>
-				<li><a href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
-				<li><a href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
-				<li><a href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
 			</ul>
 		</section>
 		
