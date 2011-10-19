@@ -225,11 +225,13 @@ a.serious {
 		padding:10px 0 7px 0;
 		border-bottom:1px solid #eee;
 	}
+		#instances > li > a {
+			text-decoration:none;
+		}
 		#instances li .image {
 		}
 		#instances li .title {
 			font-size:110%;
-			color:#333;
 			font-weight:bold;
 			margin-bottom:3px;
 		}
@@ -252,24 +254,14 @@ a.serious {
 		#instances li .location {
 			text-align:right;
 		}
-		#instances li .admin {
-			margin-top:10px;
-			background-color:#f7f7f7;
+		#instances li .state {
+			text-align:right;
+			margin-top:.75em;
 		}
-			#instances li .num_instances {
-				font-style:italic;
-				font-size:90%;
-				float:left;
-				margin-left:5px;
-				padding:5px 0;
+			#instances li .state > a {
+				font-size:80%;
+				font-weight:bold;
 			}
-			#instances li .state {
-				float:right;
-				border-left:3px solid #FFF;
-				padding:5px 5px 5px 5px;
-			}
-				#instances li .state.posted {
-				}
 /*
  * Event Creation / Updating
  */
