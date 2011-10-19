@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators  import login_required
-from events.forms.manager            import EventForm,EventInstanceForm
+from events.forms.manager            import EventForm,EventInstanceForm,EventCopyForm
 from events.models                   import Event,EventInstance,Calendar
 from django.contrib                  import messages
 from django.views.generic.simple     import direct_to_template
@@ -116,3 +116,35 @@ def delete(request, id=None):
 		else:
 			messages.success(request, 'Event successfully deleted.')
 			return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id':event.calendar.id}))
+
+@login_required
+def copy(request, id):
+	ctx  = {'event':None,'form':None}
+	tmpl = 'events/manager/events/copy.html'
+
+	try:
+		ctx['event'] = Event.objects.get(pk=id)
+	except Event.DoesNotExist:
+		return HttpResponseNotFound('Event specified does not exist.')
+	else:
+		if not request.user.is_superuser and ctx['event'].calendar not in request.user.calendars:
+			return HttpResponseForbidden('You cannot copy the specified event.')
+		
+		user_calendars = request.user.calendars.exclude(pk=ctx['event'].calendar.id)
+
+		if request.method == 'POST':
+			ctx['form'] = EventCopyForm(request.POST, calendars=user_calendars)
+			if ctx['form'].is_valid():
+				error = False
+				for calendar in ctx['form'].cleaned_data['calendars']:
+					try:
+						ctx['event'].copy(calendar=calendar)
+					except Exception, e:
+						messages.error(request, 'Unable to copy even to %s' % calendar.name)
+						error = True
+				if not error:
+					messages.success(request, 'Event successfully copied.')
+				return HttpResponseRedirect(reverse('dashboard'))
+		else:
+			ctx['form'] = EventCopyForm(calendars=user_calendars)
+	return direct_to_template(request,tmpl,ctx)

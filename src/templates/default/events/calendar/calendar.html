@@ -1,18 +1,50 @@
 {%extends 'events/calendar/base.html'%}
 {%load humanize%}
+{%load widgets%}
+
+{%block title%}{{block.super}} - calendar.name{%endblock%}
 
 {%block content_body%}
-<div id="caledar">
-	<div class="span-15 append-1">
-		<a href="{%url named-listing calendar=calendar.slug type="today"%}">Today</a>
-		<a href="{%url named-listing calendar=calendar.slug type="this-week"%}">This Week</a>
-		<a href="{%url month-listing calendar.slug now.year now.month %}">Month View</a>
-		<a href="{%url named-listing calendar=calendar.slug type="this-year"%}">This Year</a>
+<div id="events-content" class="calendar-home">
+	<div class="left-column span-15 append-1">
+		{%if todays_events|length and tomorrows_events|length%}
+		<section class="todays-events event-list">
+			<h2>Todays's Events</h2>
+			{%include "events/calendar/parts/calendarpage-event-list.html" with events=todays_events%}
+		</section>
+		<section class="tomorrows-events event-list">
+			<h2>Tomorrow's Events</h2>
+			{%include "events/calendar/parts/calendarpage-event-list.html" with events=tomorrows_events%}
+		</section>
+		{%else%}
+		<section class="upcoming-events event-list">
+			<h2>Upcoming Events</h2>
+			{%include "events/calendar/parts/calendarpage-event-list.html" with events=upcoming_events%}
+		</section>
+		{%endif%}
 	</div>
-	<div class="span-8 last">
-		calendar widget
-		search
-		subscribe
+	<div class="right-column span-8 last">
+		{% calendar_widget calendar %}
+		
+		<section class="browse-widget">
+			<h1>Event Listings</h1>
+			<ul>
+				<li><a class="load" href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
+				<li><a class="load" href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
+			</ul>
+		</section>
+		
+		{% include "events/calendar/widgets/search.html" %}
+		
+		<section class="subscribe-widget">
+			<h1>Subscribe</h1>
+			<ul class="inline">
+				<li class="rss"><a href="./.rss">RSS</a></li>
+				<li class="ical"><a href="#">iCal</a></li>
+				<li class="gcal"><a href="#">Google Calendar</a></li>
+			</ul>
+		</section>
 	</div>
 </div>
 {%endblock%}

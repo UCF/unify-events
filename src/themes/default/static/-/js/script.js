@@ -24,6 +24,57 @@ function extend_formset(selector, type) {
 }
 
 
+Webcom.ajaxStuff = function($){
+	var elements_to_update = ['#events-content'];
+	
+	$('a.load').live('click', function(){
+		var url = $(this).attr('href');
+		$.ajax(url, {
+			'success' : function (data){
+				var result = $(data);
+				$.each(elements_to_update, function(){
+					var find    = this.valueOf();
+					var element = result.find(find);
+					$(find).replaceWith(element);
+				});
+				
+				var title = '';
+				try{
+					title = data.match(/<title>([^<]*)<\/title>/)[1];
+				}catch(e){}
+				var state = {
+					'data'  : data,
+					'title' : title,
+				}
+				history.pushState(state, title, url);
+			}
+		});
+		
+		return false;
+	});
+	
+	history.pushState({
+		'data'  : document.childNodes[1].innerHTML,
+		'title' : null
+	}, null);
+	
+	$(window).bind('popstate', function(e){
+		if (e.originalEvent.state != null){
+			var state = e.originalEvent.state;
+			if (state.data){
+				var data   = state.data;
+				var result = $(data);
+				$.each(elements_to_update, function(){
+					var find    = this.valueOf();
+					var element = result.find(find);
+					$(find).replaceWith(element);
+				});
+			}
+		}
+	});
+};
+
+
 /**
  * Handles various actions and behaviours for the variety of calendar widgets
  * througout the application
@@ -41,31 +92,8 @@ Webcom.calendarWidget = function($){
 		return false;
 	});
 	
-	$('.calendar-widget .day a').live('click', function(){
-		var elements_to_update = ['.subscribe-widget', '.left-column', '.browse-widget'];
-		var url = $(this).attr('href');
-		$.ajax(url, {
-			'success' : function (data){
-				var result = $(data);
-				$.each(elements_to_update, function(){
-					var find    = this.valueOf();
-					var element = result.find(find);
-					$(find).replaceWith(element);
-				});
-				
-				var title = '';
-				try{
-					title = data.match(/<title>([^<]*)<\/title>/)[1];
-				}catch(e){}
-				history.pushState({}, title, url);
-			}
-		});
-		
-		return false;
-	});
-	
-	
 	var close_expanded_calendar = function(){
+		var duration    = 500;
 		var widget      = $('.expanded-calendar-container .calendar-widget');
 		var container   = $('.expanded-calendar-container');
 		var placeholder = $('.expanded-calendar-placeholder');
@@ -75,13 +103,18 @@ Webcom.calendarWidget = function($){
 		clone.addClass('.expanded-calendar-placeholder');
 		
 		container.animate({
+			'opacity' : 0.0,
 			'top'    : clone.offset().top,
 			'left'   : clone.offset().left,
 			'width'  : 0,
 			'height' : 0
-		}, 500, 'linear', function(){
-			$('.expanded-calendar-container').remove();
-			$('.expanded-calendar-placeholder').replaceWith(widget);
+		},  {
+			'duration' : duration,
+			'queue'    : true,
+			'complete' : function(){
+				$('.expanded-calendar-container').remove();
+				$('.expanded-calendar-placeholder').replaceWith(widget);
+			}
 		});
 	};
 	
@@ -112,7 +145,10 @@ Webcom.calendarWidget = function($){
 			'height': '100%',
 			'left'  : 0,
 			'top'   : '-=50px'
-		}, duration, 'linear', function(){});
+		}, {
+			'duration' : duration,
+			'queue'    : true
+		});
 		
 		$(document).keydown(function(e){
 			//Escape
@@ -130,4 +166,5 @@ Webcom.calendarWidget = function($){
 
 $().ready(function(){
 	Webcom.calendarWidget($);
+	Webcom.ajaxStuff($);
 });

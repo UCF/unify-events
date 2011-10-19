@@ -1,0 +1,32 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#event_instance_add')
+				.click(function() {
+					extend_formset('#instances > li:last', 'event_instance');
+					return false;
+				});
+		})
+	</script>
+{% endblock %}
+{% block content_body %}
+	<h2>Copy {{event.title}}</h2>
+	<div id="event-copy" class="span-24">
+		{{event_form.non_field_errors}}
+		{{event_form.errors}}
+		{% for form in event_formset %}
+			{{form.non_field_errors}}
+			{{form.errors}}
+		{% endfor %}
+		<form action="{% url event-copy id=event.id %}" method="post">
+			<p>{{form.calendars.label_tag}}</p>
+			<p>{{form.calendars}}</p>
+			<p>
+				{% csrf_token %}
+				<button type="submit">Copy</button>
+			</p>
+		</form>
+	</div>
+{% endblock %}

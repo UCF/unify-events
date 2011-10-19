@@ -81,3 +81,12 @@ class CategoryForm(forms.ModelForm):
 	class Meta:
 		model  = Category
 		fields = ('name',)
+
+class EventCopyForm(forms.Form):
+
+	def __init__(self, *args, **kwargs):
+		calendars = kwargs.pop('calendars')
+		super(EventCopyForm, self).__init__(*args, **kwargs)
+		self.fields['calendars'].queryset = calendars
+
+	calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(),label='Calendars to copy to:')
