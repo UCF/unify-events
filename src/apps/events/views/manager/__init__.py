@@ -71,8 +71,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 	
 	if ctx['current_calendar'] is not None:
 		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(
-								start__gte = ctx['dates']['relative'],
-								start__lte = ctx['dates']['next_day'])
+								start__gte = ctx['dates']['relative'])
 	
 	return direct_to_template(request,tmpl,ctx)
 
