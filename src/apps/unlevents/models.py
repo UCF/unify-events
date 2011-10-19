@@ -90,223 +90,223 @@ class UNLCalendar(models.Model):
 
 class UNLCalendarHasEvent(models.Model):
     id = models.IntegerField(primary_key=True)
-    calendar_id = models.IntegerField()
-    event_id = models.IntegerField()
-    status = models.CharField(max_length=300, blank=True)
-    source = models.CharField(max_length=300, blank=True)
-    datecreated = models.DateTimeField(null=True, blank=True)
-    uidcreated = models.CharField(max_length=300, blank=True)
+    calendar_id     = models.IntegerField()
+    event_id        = models.IntegerField()
+    status          = models.CharField(max_length=300, blank=True)
+    source          = models.CharField(max_length=300, blank=True)
+    datecreated     = models.DateTimeField(null=True, blank=True)
+    uidcreated      = models.CharField(max_length=300, blank=True)
     datelastupdated = models.DateTimeField(null=True, blank=True)
-    uidlastupdated = models.CharField(max_length=300, blank=True)
+    uidlastupdated  = models.CharField(max_length=300, blank=True)
     class Meta:
         db_table = u'calendar_has_event'
 
 class UNLDocument(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
-    name = models.CharField(max_length=300, blank=True)
-    url = models.CharField(max_length=765, blank=True)
+    id        = models.IntegerField(primary_key=True)
+    event_id  = models.IntegerField()
+    name      = models.CharField(max_length=300, blank=True)
+    url       = models.CharField(max_length=765, blank=True)
     class Meta:
         db_table = u'document'
 
 class UNLEvent(models.Model):
-    id = models.IntegerField(primary_key=True)
-    title = models.CharField(max_length=300)
-    subtitle = models.CharField(max_length=300, blank=True)
-    othereventtype = models.CharField(max_length=765, blank=True)
-    description = models.TextField(blank=True)
-    shortdescription = models.CharField(max_length=765, blank=True)
-    refreshments = models.CharField(max_length=765, blank=True)
-    classification = models.CharField(max_length=300, blank=True)
+    id                     = models.IntegerField(primary_key=True)
+    title                  = models.CharField(max_length=300)
+    subtitle               = models.CharField(max_length=300, blank=True)
+    othereventtype         = models.CharField(max_length=765, blank=True)
+    description            = models.TextField(blank=True)
+    shortdescription       = models.CharField(max_length=765, blank=True)
+    refreshments           = models.CharField(max_length=765, blank=True)
+    classification         = models.CharField(max_length=300, blank=True)
     approvedforcirculation = models.IntegerField(null=True, blank=True)
-    transparency = models.CharField(max_length=765, blank=True)
-    status = models.CharField(max_length=300, blank=True)
-    privatecomment = models.TextField(blank=True)
-    otherkeywords = models.CharField(max_length=765, blank=True)
-    imagetitle = models.CharField(max_length=300, blank=True)
-    imageurl = models.TextField(blank=True)
-    webpageurl = models.TextField(blank=True)
-    listingcontactuid = models.CharField(max_length=765, blank=True)
-    listingcontactname = models.CharField(max_length=300, blank=True)
-    listingcontactphone = models.CharField(max_length=765, blank=True)
-    listingcontactemail = models.CharField(max_length=765, blank=True)
-    icalendar = models.TextField(blank=True)
-    imagedata = models.TextField(blank=True)
-    imagemime = models.CharField(max_length=765, blank=True)
-    datecreated = models.DateTimeField(null=True, blank=True)
-    uidcreated = models.CharField(max_length=300, blank=True)
-    datelastupdated = models.DateTimeField(null=True, blank=True)
-    uidlastupdated = models.CharField(max_length=300, blank=True)
+    transparency           = models.CharField(max_length=765, blank=True)
+    status                 = models.CharField(max_length=300, blank=True)
+    privatecomment         = models.TextField(blank=True)
+    otherkeywords          = models.CharField(max_length=765, blank=True)
+    imagetitle             = models.CharField(max_length=300, blank=True)
+    imageurl               = models.TextField(blank=True)
+    webpageurl             = models.TextField(blank=True)
+    listingcontactuid      = models.CharField(max_length=765, blank=True)
+    listingcontactname     = models.CharField(max_length=300, blank=True)
+    listingcontactphone    = models.CharField(max_length=765, blank=True)
+    listingcontactemail    = models.CharField(max_length=765, blank=True)
+    icalendar              = models.TextField(blank=True)
+    imagedata              = models.TextField(blank=True)
+    imagemime              = models.CharField(max_length=765, blank=True)
+    datecreated            = models.DateTimeField(null=True, blank=True)
+    uidcreated             = models.CharField(max_length=300, blank=True)
+    datelastupdated        = models.DateTimeField(null=True, blank=True)
+    uidlastupdated         = models.CharField(max_length=300, blank=True)
     class Meta:
         db_table = u'event'
 
 class UNLEventHasEventtype(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
+    id           = models.IntegerField(primary_key=True)
+    event_id     = models.IntegerField()
     eventtype_id = models.IntegerField()
     class Meta:
         db_table = u'event_has_eventtype'
 
 class UNLEventHasKeyword(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
+    id         = models.IntegerField(primary_key=True)
+    event_id   = models.IntegerField()
     keyword_id = models.IntegerField()
     class Meta:
         db_table = u'event_has_keyword'
 
 class UNLEventHasSponsor(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField(null=True, blank=True)
+    id         = models.IntegerField(primary_key=True)
+    event_id   = models.IntegerField(null=True, blank=True)
     sponsor_id = models.IntegerField(null=True, blank=True)
     class Meta:
         db_table = u'event_has_sponsor'
 
 class UNLEventIsopentoAudience(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
+    id          = models.IntegerField(primary_key=True)
+    event_id    = models.IntegerField()
     audience_id = models.IntegerField()
     class Meta:
         db_table = u'event_isopento_audience'
 
 class UNLEventTargetsAudience(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
+    id          = models.IntegerField(primary_key=True)
+    event_id    = models.IntegerField()
     audience_id = models.IntegerField()
     class Meta:
         db_table = u'event_targets_audience'
 
 class UNLEventdatetime(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
-    location_id = models.IntegerField()
-    starttime = models.DateTimeField(null=True, blank=True)
-    endtime = models.DateTimeField(null=True, blank=True)
-    room = models.CharField(max_length=765, blank=True)
-    hours = models.CharField(max_length=765, blank=True)
-    directions = models.TextField(blank=True)
+    id                   = models.IntegerField(primary_key=True)
+    event_id             = models.IntegerField()
+    location_id          = models.IntegerField()
+    starttime            = models.DateTimeField(null=True, blank=True)
+    endtime              = models.DateTimeField(null=True, blank=True)
+    room                 = models.CharField(max_length=765, blank=True)
+    hours                = models.CharField(max_length=765, blank=True)
+    directions           = models.TextField(blank=True)
     additionalpublicinfo = models.TextField(blank=True)
     class Meta:
         db_table = u'eventdatetime'
 
 class UNLEventtype(models.Model):
-    id = models.IntegerField(primary_key=True)
-    calendar_id = models.IntegerField()
-    name = models.CharField(max_length=300)
-    description = models.CharField(max_length=765, blank=True)
+    id             = models.IntegerField(primary_key=True)
+    calendar_id    = models.IntegerField()
+    name           = models.CharField(max_length=300)
+    description    = models.CharField(max_length=765, blank=True)
     eventtypegroup = models.CharField(max_length=24, blank=True)
-    standard = models.IntegerField(null=True, blank=True)
+    standard       = models.IntegerField(null=True, blank=True)
     class Meta:
         db_table = u'eventtype'
 
 class UNLKeyword(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id   = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=300)
     class Meta:
         db_table = u'keyword'
 
 class UNLLocation(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=300, blank=True)
-    streetaddress1 = models.CharField(max_length=765, blank=True)
-    streetaddress2 = models.CharField(max_length=765, blank=True)
-    room = models.CharField(max_length=300, blank=True)
-    city = models.CharField(max_length=300, blank=True)
-    state = models.CharField(max_length=6, blank=True)
-    zip = models.CharField(max_length=30, blank=True)
-    mapurl = models.TextField(blank=True)
-    webpageurl = models.TextField(blank=True)
-    hours = models.CharField(max_length=765, blank=True)
-    directions = models.TextField(blank=True)
+    id                   = models.IntegerField(primary_key=True)
+    name                 = models.CharField(max_length=300, blank=True)
+    streetaddress1       = models.CharField(max_length=765, blank=True)
+    streetaddress2       = models.CharField(max_length=765, blank=True)
+    room                 = models.CharField(max_length=300, blank=True)
+    city                 = models.CharField(max_length=300, blank=True)
+    state                = models.CharField(max_length=6, blank=True)
+    zip                  = models.CharField(max_length=30, blank=True)
+    mapurl               = models.TextField(blank=True)
+    webpageurl           = models.TextField(blank=True)
+    hours                = models.CharField(max_length=765, blank=True)
+    directions           = models.TextField(blank=True)
     additionalpublicinfo = models.CharField(max_length=765, blank=True)
-    type = models.CharField(max_length=300, blank=True)
-    phone = models.CharField(max_length=150, blank=True)
-    standard = models.IntegerField(null=True, blank=True)
+    type                 = models.CharField(max_length=300, blank=True)
+    phone                = models.CharField(max_length=150, blank=True)
+    standard             = models.IntegerField(null=True, blank=True)
     class Meta:
         db_table = u'location'
 
 class UNLPerformer(models.Model):
-    id = models.IntegerField(primary_key=True)
-    performer_id = models.IntegerField()
-    role_id = models.IntegerField()
-    event_id = models.IntegerField()
-    personalname = models.CharField(max_length=300, blank=True)
-    name = models.CharField(max_length=765, blank=True)
-    jobtitle = models.CharField(max_length=300, blank=True)
-    organizationname = models.CharField(max_length=300, blank=True)
-    personalwebpageurl = models.TextField(blank=True)
+    id                     = models.IntegerField(primary_key=True)
+    performer_id           = models.IntegerField()
+    role_id                = models.IntegerField()
+    event_id               = models.IntegerField()
+    personalname           = models.CharField(max_length=300, blank=True)
+    name                   = models.CharField(max_length=765, blank=True)
+    jobtitle               = models.CharField(max_length=300, blank=True)
+    organizationname       = models.CharField(max_length=300, blank=True)
+    personalwebpageurl     = models.TextField(blank=True)
     organizationwebpageurl = models.TextField(blank=True)
-    type = models.CharField(max_length=765, blank=True)
+    type                   = models.CharField(max_length=765, blank=True)
     class Meta:
         db_table = u'performer'
 
 class UNLPermission(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=300, blank=True)
+    id          = models.IntegerField(primary_key=True)
+    name        = models.CharField(max_length=300, blank=True)
     description = models.CharField(max_length=765, blank=True)
     class Meta:
         db_table = u'permission'
 
 class UNLPubliccontact(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
-    name = models.CharField(max_length=300, blank=True)
-    jobtitle = models.CharField(max_length=300, blank=True)
+    id           = models.IntegerField(primary_key=True)
+    event_id     = models.IntegerField()
+    name         = models.CharField(max_length=300, blank=True)
+    jobtitle     = models.CharField(max_length=300, blank=True)
     organization = models.CharField(max_length=300, blank=True)
     addressline1 = models.CharField(max_length=765, blank=True)
     addressline2 = models.CharField(max_length=765, blank=True)
-    room = models.CharField(max_length=765, blank=True)
-    city = models.CharField(max_length=300, blank=True)
-    state = models.CharField(max_length=6, blank=True)
-    zip = models.CharField(max_length=30, blank=True)
+    room         = models.CharField(max_length=765, blank=True)
+    city         = models.CharField(max_length=300, blank=True)
+    state        = models.CharField(max_length=6, blank=True)
+    zip          = models.CharField(max_length=30, blank=True)
     emailaddress = models.CharField(max_length=300, blank=True)
-    phone = models.CharField(max_length=150, blank=True)
-    fax = models.CharField(max_length=150, blank=True)
-    webpageurl = models.TextField(blank=True)
+    phone        = models.CharField(max_length=150, blank=True)
+    fax          = models.CharField(max_length=150, blank=True)
+    webpageurl   = models.TextField(blank=True)
     class Meta:
         db_table = u'publiccontact'
 
 class UNLRelatedevent(models.Model):
-    event_id = models.IntegerField()
+    event_id         = models.IntegerField()
     related_event_id = models.IntegerField()
-    relationtype = models.CharField(max_length=300)
+    relationtype     = models.CharField(max_length=300)
     class Meta:
         db_table = u'relatedevent'
 
 class UNLRole(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=765)
+    id       = models.IntegerField(primary_key=True)
+    name     = models.CharField(max_length=765)
     standard = models.IntegerField(null=True, blank=True)
     class Meta:
         db_table = u'role'
 
 class UNLSession(models.Model):
-    user_uid = models.CharField(max_length=255, primary_key=True)
+    user_uid   = models.CharField(max_length=255, primary_key=True)
     lastaction = models.DateTimeField()
-    data = models.TextField(blank=True)
+    data       = models.TextField(blank=True)
     class Meta:
         db_table = u'session'
 
 class UNLSponsor(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=765, blank=True)
-    standard = models.IntegerField(null=True, blank=True)
+    id          = models.IntegerField(primary_key=True)
+    name        = models.CharField(max_length=765, blank=True)
+    standard    = models.IntegerField(null=True, blank=True)
     sponsortype = models.CharField(max_length=765, blank=True)
-    webpageurl = models.TextField(blank=True)
+    webpageurl  = models.TextField(blank=True)
     class Meta:
         db_table = u'sponsor'
 
 class UNLSubscription(models.Model):
-    id = models.IntegerField(primary_key=True)
-    calendar_id = models.IntegerField()
-    name = models.CharField(max_length=300, blank=True)
+    id                = models.IntegerField(primary_key=True)
+    calendar_id       = models.IntegerField()
+    name              = models.CharField(max_length=300, blank=True)
     automaticapproval = models.IntegerField()
-    timeperiod = models.DateField(null=True, blank=True)
-    expirationdate = models.DateField(null=True, blank=True)
-    searchcriteria = models.TextField(blank=True)
-    datecreated = models.DateTimeField(null=True, blank=True)
-    uidcreated = models.CharField(max_length=300, blank=True)
-    datelastupdated = models.DateTimeField(null=True, blank=True)
-    uidlastupdated = models.CharField(max_length=300, blank=True)
+    timeperiod        = models.DateField(null=True, blank=True)
+    expirationdate    = models.DateField(null=True, blank=True)
+    searchcriteria    = models.TextField(blank=True)
+    datecreated       = models.DateTimeField(null=True, blank=True)
+    uidcreated        = models.CharField(max_length=300, blank=True)
+    datelastupdated   = models.DateTimeField(null=True, blank=True)
+    uidlastupdated    = models.CharField(max_length=300, blank=True)
     class Meta:
         db_table = u'subscription'
 
@@ -316,43 +316,42 @@ class UNLTestTable(models.Model):
         db_table = u'test_table'
 
 class UNLUser(models.Model):
-    uid = models.CharField(max_length=255, primary_key=True)
-    account_id = models.IntegerField()
-    calendar_id = models.IntegerField(null=True, blank=True)
-    accountstatus = models.CharField(max_length=300, blank=True)
-    datecreated = models.DateTimeField(null=True, blank=True)
-    uidcreated = models.CharField(max_length=300, blank=True)
+    uid             = models.CharField(max_length=255, primary_key=True)
+    account_id      = models.IntegerField()
+    calendar_id     = models.IntegerField(null=True, blank=True)
+    accountstatus   = models.CharField(max_length=300, blank=True)
+    datecreated     = models.DateTimeField(null=True, blank=True)
+    uidcreated      = models.CharField(max_length=300, blank=True)
     datelastupdated = models.DateTimeField(null=True, blank=True)
-    uidlastupdated = models.CharField(max_length=300, blank=True)
+    uidlastupdated  = models.CharField(max_length=300, blank=True)
     class Meta:
         db_table = u'user'
 
 class UNLUserHasPermission(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id            = models.IntegerField(primary_key=True)
     permission_id = models.IntegerField()
-    user_uid = models.CharField(max_length=300)
-    calendar_id = models.IntegerField()
+    user_uid      = models.CharField(max_length=300)
+    calendar_id   = models.IntegerField()
     class Meta:
         db_table = u'user_has_permission'
 
 class UNLWebcast(models.Model):
-    id = models.IntegerField(primary_key=True)
-    event_id = models.IntegerField()
-    title = models.CharField(max_length=300, blank=True)
-    status = models.CharField(max_length=300, blank=True)
-    dateavailable = models.DateTimeField(null=True, blank=True)
-    playertype = models.CharField(max_length=300, blank=True)
-    bandwidth = models.CharField(max_length=765, blank=True)
+    id             = models.IntegerField(primary_key=True)
+    event_id       = models.IntegerField()
+    title          = models.CharField(max_length=300, blank=True)
+    status         = models.CharField(max_length=300, blank=True)
+    dateavailable  = models.DateTimeField(null=True, blank=True)
+    playertype     = models.CharField(max_length=300, blank=True)
+    bandwidth      = models.CharField(max_length=765, blank=True)
     additionalinfo = models.TextField(blank=True)
     class Meta:
         db_table = u'webcast'
 
 class UNLWebcastlink(models.Model):
-    id = models.IntegerField(primary_key=True)
-    webcast_id = models.IntegerField()
-    url = models.TextField(blank=True)
+    id             = models.IntegerField(primary_key=True)
+    webcast_id     = models.IntegerField()
+    url            = models.TextField(blank=True)
     sequencenumber = models.IntegerField(null=True, blank=True)
     related = models.CharField(max_length=3, blank=True)
     class Meta:
         db_table = u'webcastlink'
-
