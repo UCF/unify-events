@@ -52,3 +52,6 @@ LDAP_NET_SEARCH_PASS = ''
 
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_SLUG = ''
+
+# Minify JS and CSS. Requires some Apache config modifications
+USE_MINIFY = True
