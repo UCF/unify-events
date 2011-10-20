@@ -14,10 +14,6 @@ LDAPHelper.bind(ldap.connection,settings.LDAP_NET_SEARCH_USER,settings.LDAP_NET_
 
 MISSING_USERNAMES = []
 
-# Assign any objects whose creator can't be found
-# to this user
-ORPHAN_USER = User.objects.get(username='conover')
-
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
@@ -67,29 +63,29 @@ class Command(BaseCommand):
 						if event_creator is not None:
 							new_event.creator = event_creator
 						
-						try:
-							new_event.save()
-						except Exception, e:
-							logging.error('Unable to save new event `%s`: %s' % (new_event.title,str(e)))
-							continue
-						else:
-							# Event Type -> Category
-							category = self.get_event_category(old_event)
-							if category is not None:
-								new_event.categories.add(category)
-							
-							# Old instances
-							for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
-								new_instance       = EventInstance(event=new_event)
-								new_instance.start = old_instance.starttime
-								new_instance.end   = old_instance.endtime
-
-								# TODO - Location
+							try:
+								new_event.save()
+							except Exception, e:
+								logging.error('Unable to save new event `%s`: %s' % (new_event.title,str(e)))
+								continue
+							else:
+								# Event Type -> Category
+								category = self.get_event_category(old_event)
+								if category is not None:
+									new_event.categories.add(category)
 								
-								try:
-									new_instance.save()
-								except Exception, e:
-									logging.error('Unable to save event instance for event `%s`: %s' % (new_event.title,str(e)))
+								# Old instances
+								for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
+									new_instance       = EventInstance(event=new_event)
+									new_instance.start = old_instance.starttime
+									new_instance.end   = old_instance.endtime
+
+									# TODO - Location
+									
+									try:
+										new_instance.save()
+									except Exception, e:
+										logging.error('Unable to save event instance for event `%s`: %s' % (new_event.title,str(e)))
 
 	def get_event_category(self,old_event):
 		try:
@@ -115,7 +111,7 @@ class Command(BaseCommand):
 
 	def get_create_user(self,username):
 
-		if username in MISSING_USERNAMES: return ORPHAN_USER
+		if username in MISSING_USERNAMES: return None
 		
 		try:
 			user = User.objects.get(username=username)
