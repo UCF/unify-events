@@ -7,6 +7,7 @@ class Minifier:
 	def __init__(self):
 		settings.ORIGINAL_MEDIA_ROOT = settings.MEDIA_ROOT
 		if settings.USE_MINIFY:
-			settings.MEDIA_ROOT = settings.MEDIA_ROOT + '-min'
 			call_command('generate-minified-assets')
+			settings.MEDIA_ROOT = settings.MEDIA_ROOT + '/min'
+			settings.MEDIA_URL  = settings.MEDIA_URL + 'min/'
 		raise MiddlewareNotUsed
