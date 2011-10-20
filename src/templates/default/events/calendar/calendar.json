@@ -1,0 +1,10 @@
+{
+	'calendar' : {
+		'name'    : '{{calendar.name}}',
+		'slug'    : '{{calendar.slug}}',
+		'creator' : '{{calendar.creator.username}}',
+		'public'  : {{calendar.public|lower}},
+		'shared'  : {{calendar.shared|lower}},
+		'url'     : 'http://{{request.get_host}}{{calendar.get_absolute_url}}'
+	}
+}
