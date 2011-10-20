@@ -12,15 +12,14 @@
 		<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<style>article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}</style>
-		<link href="/-/css/blueprint-ie.css" rel="stylesheet" media="screen, projection">
+		<link href="{{MEDIA_URL}}/-/css/blueprint-ie.css" rel="stylesheet" media="screen, projection">
 		<![endif]-->
 		
 		{%block links%}
 		<link rel="shortcut icon" href="{{MEDIA_URL}}-/img/favicon.ico" />
 		<link href="{{MEDIA_URL}}-/css/jquery.css" rel="stylesheet" media="all" />
 		<link href="{{MEDIA_URL}}-/css/jquery-ui/ui-lightness/lightness.css" rel="stylesheet" media="all" />
-		<link href="{{MEDIA_URL}}-/css/blueprint-print.css" rel="stylesheet" media="print" />
-		<link href="{{MEDIA_URL}}-/css/blueprint-screen.css" rel="stylesheet" media="screen,projection" />
+		<link href="{{MEDIA_URL}}-/css/blueprint.css" rel="stylesheet" media="all" />
 		<link href="{{MEDIA_URL}}-/css/yahoo.css" rel="stylesheet" media="all" />
 		<link href="{{MEDIA_URL}}-/css/webcom-base.css" rel="stylesheet" media="all" />
 		<link href="{{MEDIA_URL}}-/css/main.css" rel="stylesheet" media="all" />
@@ -38,9 +37,6 @@
 		{%block footer_scripts%}
 		<!-- Footer Scripts -->
 		<script src="{{MEDIA_URL}}-/js/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{MEDIA_URL}}-/js/jquery-browser.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{MEDIA_URL}}-/js/jquery-uniform.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{MEDIA_URL}}-/js/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{MEDIA_URL}}-/js/script.js" type="text/javascript" charset="utf-8"></script>
 		{%endblock%}
 		{%endblock %}
