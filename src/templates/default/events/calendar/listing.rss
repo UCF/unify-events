@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-	<rss version="2.0">
-		<channel>
-			<title>{{calendar.name}}</title>
-			<link>http://{{request.get_host}}{{calendar.get_absolute_url}}</link>
-			<description>{{calendar.name}} events</description>
-			<lastBuildDate>{%now "r"%}</lastBuildDate>
-			{%for event in events reversed%}
-			<item>
-				<title>{{event.title}}</title>
-				<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
-				<description>{{event.description}}</description>
-				<pubDate>{{event.start|date:"r"}}</pubDate>
-				<guid>http://{{request.get_host}}{{event.get_absolute_url}}</guid>
-			</item>
-			{%endfor%}
+<rss version="2.0">
+	<channel>
+		<title>{{calendar.name}}</title>
+		<link>http://{{request.get_host}}{{calendar.get_absolute_url}}</link>
+		<description>{{calendar.name}}{%if list_title%} - {{list_title}}{%endif%}'s Events</description>
+		<lastBuildDate>{%now "r"%}</lastBuildDate>
+		{%for event in events reversed%}
+		<item>
+			<title>{{event.title}}</title>
+			<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
+			<description>{{event.description}}</description>
+			<pubDate>{{event.start|date:"r"}}</pubDate>
+			<guid>http://{{request.get_host}}{{event.get_absolute_url}}</guid>
+		</item>
+		{%endfor%}
 	</channel>
 </rss>
