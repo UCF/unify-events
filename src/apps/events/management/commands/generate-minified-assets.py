@@ -1,8 +1,10 @@
 import os
 
+from threading                   import Thread
 from django.core.management.base import BaseCommand
 from django.core.management      import call_command
 from django.conf                 import settings
+from shutil                      import rmtree, copytree
 
 def listdir_recursive(d):
 	files = os.listdir(d)
@@ -23,13 +25,11 @@ def minified(f):
 
 
 def minify(f, func):
-	extension = os.path.basename(f).split('.')[-1]
-	min_f     = f.replace('.' + extension, '.min.' + extension)
+	with open(f, 'r') as read_handle:
+		contents = read_handle.read()
+		minified = func(contents)
 	
-	with open(min_f, 'w') as write_handle:
-		with open(f) as read_handle:
-			contents = read_handle.read()
-			minified = func(contents)
+	with open(f, 'w') as write_handle:
 		write_handle.write(minified)
 	return
 
@@ -49,18 +49,40 @@ class Command(BaseCommand):
 			print '\t`easy_install jsmin`'
 			return
 		
-		start_folder = settings.MEDIA_ROOT
-		files = listdir_recursive(start_folder)
+		from_folder = os.path.abspath(settings.ORIGINAL_MEDIA_ROOT)
+		to_folder   = from_folder + '-min'
 		
-		css = filter(lambda f: extension_is(f, 'css') and not minified(f), files)
-		js  = filter(lambda f: extension_is(f, 'js') and not minified(f), files)
+		if os.path.isdir(to_folder):
+			try:
+				rmtree(to_folder)
+			except Exception as e:
+				print 'Unable to remove previously existing minified folder, reason:\n\t', e
+				return
 		
-		print 'Minifying css...',
-		for f in css: minify(f, cssmin)
+		try:
+			copytree(from_folder, to_folder)
+		except Exception as e:
+			print 'Unable to create minified assets folder, reason:\n\t', e
+			return
+		
+		files = listdir_recursive(to_folder)
+		
+		css = set(filter(lambda f: extension_is(f, 'css') and not minified(f), files))
+		js  = set(filter(lambda f: extension_is(f, 'js') and not minified(f), files))
+		
+		print 'Minifying css and js...',
+		def css_min():
+			for f in css:
+				minify(f, cssmin)
+		css_thread = Thread(target=css_min)
+		css_thread.start()
+		
+		def js_min():
+			for f in js:
+				minify(f, jsmin)
+		js_thread = Thread(target=js_min)
+		js_thread.start()
+		
+		css_thread.join()
+		js_thread.join()
 		print 'done'
-		
-		print 'Minifying js...',
-		for f in js: minify(f, jsmin)
-		print 'done'
-		
-		print 'Those files done got minifed...'
