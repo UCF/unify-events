@@ -71,10 +71,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 			messages.error('Calendar does not exist')
 	
 	if ctx['current_calendar'] is not None:
-		instance_kwargs = {'start__gte':ctx['dates']['relative']}
-		if ctx['current_calendar'] not in request.user.calendars:
-			instance_kwargs['event__creator'] = request.user
-		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(**instance_kwargs)
+		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte=ctx['dates']['relative'])
 	
 	return direct_to_template(request,tmpl,ctx)
 
