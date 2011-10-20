@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from unlevents.models            import UNLCalendar, UNLEvent, UNLEventdatetime, \
 									UNLLocation, UNLUserHasPermission,UNLCalendarHasEvent, \
-									UNLEventHasEventtype, UNLEventtype
+									UNLEventHasEventtype, UNLEventtype, UNLUserHasPermission
 from django.contrib.auth.models  import User
 from util                        import LDAPHelper
 from django.conf                 import settings
@@ -24,15 +24,23 @@ class Command(BaseCommand):
 
 			# Check if the old calendar creator exists in our DB
 			calendar_creator = self.get_create_user(str(old_calendar.uidcreated))
-			if calendar_creator is not None: 
-				# Create the new calendar
+			if calendar_creator is not None:
 				new_calendar = Calendar(name=old_calendar.name,creator=calendar_creator)
 				try:
 					new_calendar.save()
 				except Exception, e:
 					logging.error('Unable to save calendar `%s`: %s' % (old_calendar.name, str(e)))
 				else:
-					# Old events
+
+					# Editors
+					# Assume if they had any permissions at all, they are an editor
+					for uid in UNLUserHasPermission.objects.filter(calendar_id=old_calendar.id).values_list('user_uid').distinct():
+						uid = uid[0]
+						editor = self.get_create_user(str(uid))
+						if editor is not None:
+							new_calendar.editors.add(editor)
+
+					# Events
 					for old_calendar_event in UNLCalendarHasEvent.objects.filter(calendar_id = old_calendar.id):
 						try:
 							old_event = UNLEvent.objects.get(id=old_calendar_event.event_id)
@@ -49,7 +57,7 @@ class Command(BaseCommand):
 						
 						# TODO - images
 
-						# Old statuses: pending, posted, archived
+						# Statuses: pending, posted, archived
 						state = None
 						if old_calendar_event.status == 'pending':
 							new_event.state = Event.Status.pending
@@ -74,7 +82,7 @@ class Command(BaseCommand):
 								if category is not None:
 									new_event.categories.add(category)
 								
-								# Old instances
+								# Instances
 								for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
 									new_instance       = EventInstance(event=new_event)
 									new_instance.start = old_instance.starttime
