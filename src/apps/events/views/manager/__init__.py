@@ -61,7 +61,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 	elif search_results is not None:
 		ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
 	elif calendar_id is None:
-		user_calendars = request.user.calendars_include_submitted
+		user_calendars = request.user.calendars
 		if len(user_calendars) > 0:
 			ctx['current_calendar'] = user_calendars[0]
 	else:
@@ -71,8 +71,10 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 			messages.error('Calendar does not exist')
 	
 	if ctx['current_calendar'] is not None:
-		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(
-								start__gte = ctx['dates']['relative'])
+		instance_kwargs = {'start__gte':ctx['dates']['relative']}
+		if ctx['current_calendar'] not in request.user.calendars:
+			instance_kwargs['event__creator'] = request.user
+		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(**instance_kwargs)
 	
 	return direct_to_template(request,tmpl,ctx)
 
