@@ -11,6 +11,7 @@ from django.db.models                import Q
 from util                            import LDAPHelper
 from django.conf                     import settings
 from django.utils                    import simplejson
+from django.core.paginator           import Paginator, EmptyPage, PageNotAnInteger
 import logging
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -73,6 +74,16 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 	if ctx['current_calendar'] is not None:
 		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte=ctx['dates']['relative'])
 	
+	# Pagination
+	paginator = Paginator(ctx['instances'], 10)
+	page = request.GET.get('page', 1)
+	try:
+		ctx['instances'] = paginator.page(page)
+	except PageNotAnInteger:
+		ctx['instances'] = paginator.page(1)
+	except EmptyPage:
+		ctx['instances'] = paginator.page(paginator.num_pages)
+
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required
