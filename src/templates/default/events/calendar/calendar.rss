@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+	<channel>
+		<title>{{calendar.name}}</title>
+		<link>http://{{request.get_host}}{{calendar.get_absolute_url}}</link>
+		<description>{{calendar.name}} events</description>
+		<lastBuildDate>{%now "r"%}</lastBuildDate>
+		{%if todays_events|length and tomorrows_events|length%}
+		{%for event in todays_events reversed%}
+		<item>
+			<title>{{event.title}}</title>
+			<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
+			<description>{{event.description}}</description>
+			<pubDate>{{event.start|date:"r"}}</pubDate>
+			<guid>http://{{request.get_host}}{{event.get_absolute_url}}</guid>
+		</item>
+		{%endfor%}
+		{%for event in tomorrows_events reversed%}
+		<item>
+			<title>{{event.title}}</title>
+			<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
+			<description>{{event.description}}</description>
+			<pubDate>{{event.start|date:"r"}}</pubDate>
+			<guid>http://{{request.get_host}}{{event.get_absolute_url}}</guid>
+		</item>
+		{%endfor%}
+		{%else%}
+		{%for event in upcoming_events|slice:":10" reversed%}
+		<item>
+			<title>{{event.title}}</title>
+			<link>http://{{request.get_host}}{{event.get_absolute_url}}</link>
+			<description>{{event.description}}</description>
+			<pubDate>{{event.start|date:"r"}}</pubDate>
+			<guid>http://{{request.get_host}}{{event.get_absolute_url}}</guid>
+		</item>
+		{%endfor%}
+		{%endif%}
+	</channel>
+</rss>

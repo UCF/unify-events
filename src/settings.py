@@ -6,6 +6,7 @@ PROJECT_FOLDER    = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER        = os.path.join(PROJECT_FOLDER, 'apps')
 INC_FOLDER        = os.path.join(PROJECT_FOLDER, 'third-party')
 ROOT_URLCONF      = os.path.basename(PROJECT_FOLDER) + '.urls'
+USE_MINIFY        = False
 
 LOGIN_URL         = 'login'
 LOGOUT_URL        = 'logout'
@@ -36,6 +37,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+	'events.middleware.Minifier',
 )
 
 AUTHENTICATION_BACKENDS = (
