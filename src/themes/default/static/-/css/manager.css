@@ -43,6 +43,33 @@
 a.serious {
 	color:#CC0000 !important; 
 }
+
+.inlineldapsearch {
+	margin:5px 0;
+}
+	.inlineldapsearch .input {
+		clear:both;
+	}
+	.inlineldapsearch .query {
+		width:240px;
+	}
+	.inlineldapsearch .choices,
+		 .inlineldapsearch .selections {
+		display:block;
+		width:130px;
+		float:left;
+		height:100px;
+		margin-top:5px;
+	}
+	.inlineldapsearch .actions {
+		margin:10px;
+		padding:0;
+		float:left;
+		text-align:center;
+	}
+		.inlineldapsearch .actions li {
+			list-style-type:none;
+		}
 /*
  * Login Styles
  */

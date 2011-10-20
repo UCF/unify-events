@@ -3,6 +3,7 @@ from events.models              import Calendar, Profile, Event, EventInstance, 
 from django                     import forms
 from datetime                   import datetime,timedelta
 from django.contrib.auth.models import User
+from events.forms.fields        import InlineLDAPSearchField
 
 class CalendarForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -18,7 +19,8 @@ class CalendarForm(forms.ModelForm):
 				self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
 
 	subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
-	editors       = forms.ModelMultipleChoiceField(queryset=User.objects.none(),required=False)
+	#editors = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+	editors       = InlineLDAPSearchField(queryset=User.objects.none(),required=False)
 
 	class Meta:
 		model  = Calendar
