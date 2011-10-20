@@ -70,7 +70,7 @@ LOGGING = {
 	},
 	'formatters': {
 		'talkative': {
-			'format':'%(levelname)s: %(asctime)s %(module)s %(funcName)s %(message)s'
+			'format':'[%(asctime)s] %(levelname)s:%(module)s %(funcName)s %(lineno)d %(message)s'
 		},
 		'concise': {
 			'format':'%(levelname)s: %(message)s (%(asctime)s)'
@@ -84,7 +84,7 @@ LOGGING = {
 		'console': {
 			'level':'DEBUG',
 			'class':'logging.StreamHandler',
-			'formatter':'concise',
+			'formatter':'talkative',
 			'filters': ['require_debug_true']
 		},
 		'file': {
