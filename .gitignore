@@ -1,5 +1,4 @@
-*.min.css
-*.min.js
+static-min/
 *.pyc
 *.sqlite3
 settings_local.py
