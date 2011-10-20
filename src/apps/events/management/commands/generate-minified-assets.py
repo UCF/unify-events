@@ -6,9 +6,9 @@ from django.core.management      import call_command
 from django.conf                 import settings
 from shutil                      import rmtree, copytree
 
-def listdir_recursive(d, ignore=()):
+def listdir_recursive(d):
 	files = os.listdir(d)
-	files = [(os.path.join(d, f)) for f in files if f not in ignore]
+	files = [(os.path.join(d, f)) for f in files]
 	
 	for f in files:
 		if os.path.isdir(f):
@@ -49,8 +49,8 @@ class Command(BaseCommand):
 			print '\t`easy_install jsmin`'
 			return
 		
-		from_folder = os.path.abspath(settings.MEDIA_ROOT)
-		to_folder   = os.path.join(from_folder, 'min')
+		from_folder = os.path.abspath(settings.ORIGINAL_MEDIA_ROOT)
+		to_folder   = from_folder + '-min'
 		
 		if os.path.isdir(to_folder):
 			try:
