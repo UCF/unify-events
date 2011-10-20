@@ -263,7 +263,7 @@ class EventInstance(Base):
 		return reverse('event', kwargs={
 			'calendar'    : self.event.calendar.slug,
 			'instance_id' : self.id,
-		}) + '/' + self.event.slug
+		}) + self.event.slug + '/'
 		return r
 	
 	
