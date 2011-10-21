@@ -126,7 +126,7 @@
 		<div class="span-17 last">
 		
 			<ul id="instances" class="span-17 last">
-				{% for instance in instances %}
+				{% for instance in instances.object_list %}
 				<li class="{% cycle 'even' 'odd' %} clear clearfix" data-update-url="{% url event-update id=instance.event.id %}" data-event-id="{{instance.event.id}}">
 					<a href="{% url event-update id=instance.event.id %}">
 						<div class="image span-2">
@@ -188,6 +188,19 @@
 						<li>No upcoming events</li>
 					{% endif %}
 				{% endfor %}
+				{% if instances.object_list %}
+				<div class="pagination">
+					{% if instances.has_previous %}
+						<a class="button" href="?page={{ instances.previous_page_number }}">previous</a>
+					{% endif %}
+					<span class="current">
+						Page {{ instances.number }} of {{ instances.paginator.num_pages }}.
+					</span>
+					{% if instances.has_next %}
+						<a class="button" href="?page={{ instances.next_page_number }}">next</a>
+					{% endif %}
+				</div>
+				{% endif %}
 			</ul>
 		</div>
 	</div>
