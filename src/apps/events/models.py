@@ -233,6 +233,7 @@ class EventInstance(Base):
 	interval  = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
+	room      = models.CharField(max_length=64, blank=True, null=True)
 	
 	def copy(self, *args, **kwargs):
 		copy = EventInstance(
