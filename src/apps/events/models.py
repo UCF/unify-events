@@ -334,7 +334,7 @@ class Location(Base):
 	#events     = One to Many relationship with EventInstance
 	name        = models.CharField(max_length=128)
 	description = models.TextField(blank=True, null=True)
-	coordinates = CoordinatesField(blank=True, null=True)
+	url         = models.URLField(blank=True, null=True,max_length=1000)
 	
 	def copy(self, *args, **kwargs):
 		return Location.objects.create(
