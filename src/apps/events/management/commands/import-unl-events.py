@@ -18,6 +18,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 
 		self.create_categories()
+		self.create_locations()
 
 		old_calendars = UNLCalendar.objects.all()
 		for old_calendar in old_calendars:
@@ -88,7 +89,18 @@ class Command(BaseCommand):
 									new_instance.start = old_instance.starttime
 									new_instance.end   = old_instance.endtime
 
-									# TODO - Location
+									if old_instance.location_id is not None:
+										# Location
+										try:
+											old_location = UNLLocation.objects.get(id=old_instance.location_id)
+										except UNLLocation.DoesNotExist:
+											logging.info('UNL event instance location not in UNL Location table: %d' % old_instance.location_id)
+										else:
+											if old_location.name is not None:
+												try:
+													new_instance.location = Location.objects.get(name__iexact=old_location.name)
+												except Location.DoesNotExist:
+													logging.error('No Location for UNL Location %s' % old_location.name)
 									
 									try:
 										new_instance.save()
@@ -116,6 +128,17 @@ class Command(BaseCommand):
 	def create_categories(self):
 		for event_type in UNLEventtype.objects.all():
 			created, category = Category.objects.get_or_create(name=event_type.name)
+	
+	def create_locations(self):
+		LOCATION_NAMES = []
+		for name,mapurl in UNLLocation.objects.values_list('name','mapurl'):
+			if name is not None and name.lower() not in LOCATION_NAMES:
+				LOCATION_NAMES.append(name.lower())
+				new_location = Location(name=name, url=mapurl)
+				try:
+					new_location.save()
+				except Exception, e:
+					logging.error('Unable to save location: %s' % str(e))
 
 	def get_create_user(self,username):
 
