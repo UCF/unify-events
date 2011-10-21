@@ -249,6 +249,11 @@ class EventInstance(Base):
 	
 	
 	@property
+	def is_ongoing(self):
+		return self.start <= datetime.now() <= self.end
+	
+	
+	@property
 	def title(self):
 		return self.event.title
 	
