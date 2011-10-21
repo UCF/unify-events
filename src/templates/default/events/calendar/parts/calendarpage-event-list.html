@@ -3,7 +3,7 @@
 	<li class="event{%if forloop.first%} first{%endif%} {%cycle 'even' 'odd'%} span-15 last">
 		<div class="start span-4 append-1">
 			<div class="date">{{event.start|date:"F d"}}</div>
-			<div class="time">{{event.start|date:"fA"|lower}}</div>
+			<div class="time">{%if event.is_ongoing%}started{%else%}starts{%endif%} {{event.start|date:"fA"|lower}}</div>
 		</div>
 		<div class="details span-10 last">
 			<div class="heading">
@@ -11,6 +11,7 @@
 			</div>
 			<div class="description span-10 last">{{event.description|truncatewords:"32"}}</div>
 		</div>
+		{%if event.is_ongoing%}<div class="ongoing">ongoing</div>{%endif%}
 	</li>
 	{%endfor%}
 </ul>
