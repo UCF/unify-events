@@ -75,7 +75,7 @@ class Event(Base):
 	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 	tags         = models.ManyToManyField('Tag', related_name='events')
 	categories   = models.ManyToManyField('Category', related_name='events')
-	contact_info = models.TextField()
+	additional   = models.TextField(blank=True, null=True)
 	
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
