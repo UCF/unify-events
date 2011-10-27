@@ -55,61 +55,70 @@ def format_event_list(events, calendar):
 def pretty_date(d, format = ''):
 	from django.template.defaultfilters import date
 	from datetime                       import datetime, timedelta
+	
 	now  = datetime.now()
 	diff = d - now
 	
-	# diff is negative and greater than two days, started February 1, 2010
-	if (diff < timedelta(0) and diff.days >= 2):
-		if format == 'manager':
-			return date(d, "F j, Y g a")
-		else:
-			return "started " + date(d, "F j, Y")
-	# diff is negative and greater than one day, started yesterday
-	if (diff < timedelta(0) and diff.days >= 1):
-		if format == 'manager':
-			return "Yesterday, " + date(d, "g a")
-		else:
-			return "started yesterday"
-	# diff is negative, started at 9am
-	if (diff < timedelta(0)):
-		if format == 'manager':
-			return date(d, "g a")
-		else:
-			return "started at " + date(d, "g a")
-	# diff is greater than two weeks, February 14, 2010
-	if (diff.days >= 14):
-		if format == 'manager':
-			return date(d, "F j, Y g a")
-		else:
-			return date(d, "F j, Y")
-	# diff is greater than one week, next week, February 7
-	if (diff.days >= 7):
-		if format == 'manager':
-			return "Next " + date(d, "l, g a")
-		else:
-			return "next week, " + date(d, "F j")
-	# diff is greater than two days, Friday, 2pm
-	if (diff.days >= 2):
-		if format == 'manager':
-			return date(d, "l, g a")
-		else:
-			return date(d, "l, g a")
-	# diff is greater than one day, Tomorrow, 2pm
-	if (diff.days >= 1):
-		return "Tomorrow, " + date(d, "g a")
-	# diff is less than one day, starts at 2pm
-	if format == 'manager':
-		return date(d, "g a")
-	else:
-		return "starts at " + date(d, "g a")
+	past_two_days    = lambda: diff < timedelta(0) and diff.days >= 2
+	past_one_day     = lambda: diff < timedelta(0) and diff.days >= 1
+	past_today       = lambda: diff < timedelta(0) and diff.days < 1
+	future_two_weeks = lambda: diff.days >= 14
+	future_one_week  = lambda: diff.days >= 7
+	future_two_days  = lambda: diff.days >= 2
+	future_one_day   = lambda: diff.days >= 1
+	
+	tests = (
+		past_two_days,
+		past_one_day,
+		past_today,
+		future_two_weeks,
+		future_one_week,
+		future_two_days,
+		future_one_day,
+	)
+	
+	formats = {
+		'frontend' : {
+			'default'        : lambda: "starts at " + date(d, "ga"),
+			past_two_days    : lambda: "started " + date(d, "F j, Y"),
+			past_one_day     : lambda: "started yesterday",
+			past_today       : lambda: "started at " + date(d, "ga"),
+			future_two_weeks : lambda: date(d, "F j, Y"),
+			future_one_week  : lambda: "next week, " + date(d, "F j"),
+			future_two_days  : lambda: date(d, "l, ga"),
+			future_one_day   : lambda: "Tomorrow, " + date(d, "ga"),
+		},
+		'manager' : {
+			'default'        : lambda: date(d, "g a"),
+			past_two_days    : lambda: date(d, "F j, Y g a"),
+			past_one_day     : lambda: "Yesterday, " + date(d, "g a"),
+			past_today       : lambda: date(d, "g a"),
+			future_two_weeks : lambda: date(d, "F j, Y g a"),
+			future_one_week  : lambda: "Next " + date(d, "l, g a"),
+			future_two_days  : lambda: date(d, "l, g a"),
+			future_one_day   : lambda: "Tomorrow, " + date(d, "g a"),
+		},
+	}
+	
+	r      = None
+	format = formats.get(format, formats['frontend'])
+	for test in tests:
+		if test():
+			r = format.get(test, format['default']())()
+			break
+	
+	if not r:
+		r = format['default']()
+	
+	return r.replace('.', '')
 
 
 @register.filter('digit_to_word')
 def digit_to_word(d):
-	WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine']
+	words = ['zero','one','two','three','four','five','six','seven','eight','nine']
 	try:
 		d = int(d)
 	except ValueError:
 		return 'unknown'
 	else:
-		return WORDS[d] if d < 10 else d
+		return words[d] if d < 10 else d
