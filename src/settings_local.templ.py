@@ -19,7 +19,8 @@ MEDIA_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'whatisthisnonsense?'
+# http://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = '**************************************************'
 
 DATABASES = {
 	'default': {
@@ -43,11 +44,11 @@ LDAP_NET_HOST        = 'ldaps://net.ucf.edu'
 LDAP_NET_BASE_DN     = 'ou=People,dc=net,dc=ucf,dc=edu'
 LDAP_NET_USER_SUFFIX = '@net.ucf.edu'
 LDAP_NET_ATTR_MAP    = { # LDAP Object -> User Object
-  'givenName':'first_name',
-  'sn'       :'sn',
-  'mail'     :'email'
+	'givenName' : 'first_name',
+	'sn'        : 'sn',
+	'mail'      : 'email'
 }
-LDAP_NET_SEARCH_USER  = ''
+LDAP_NET_SEARCH_USER = ''
 LDAP_NET_SEARCH_PASS = ''
 
 # Calendar Displayed on the Front Page
