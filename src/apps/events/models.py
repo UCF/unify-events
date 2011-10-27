@@ -65,7 +65,7 @@ class Event(Base):
 		}
 	
 	#instances  = One to Many relationship with EventInstance
-	calendar     = models.ForeignKey('Calendar', related_name='events')
+	calendar     = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
 	created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
 	state        = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
 	title        = models.CharField(max_length=128)
