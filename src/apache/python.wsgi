@@ -12,6 +12,7 @@ def main(project, path_to_parent, settings="settings"):
 	return django.core.handlers.wsgi.WSGIHandler()
 
 
+sys.stdout     = sys.stderr
 parent         = lambda f: os.path.dirname(f)
 appname        = os.path.basename(parent(parent(__file__)))
 path_to_parent = parent(parent(parent(__file__)))
