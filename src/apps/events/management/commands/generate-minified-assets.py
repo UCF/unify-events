@@ -49,8 +49,15 @@ class Command(BaseCommand):
 			print '\t`easy_install jsmin`'
 			return
 		
-		from_folder = os.path.abspath(settings.ORIGINAL_MEDIA_ROOT)
-		to_folder   = from_folder + '-min'
+		try:
+			from_folder = os.path.abspath(
+				getattr(settings, 'MEDIA_ROOT')
+			)
+		except AttributeError:
+			print 'MEDIA_ROOT not set in settings, needs to point to static assets'
+			return
+		
+		to_folder = os.path.join(from_folder, 'min')
 		
 		if os.path.isdir(to_folder):
 			try:
