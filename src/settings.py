@@ -138,7 +138,7 @@ except ImportError:
 
 
 TEMPLATE_DEBUG = DEBUG
-TEMPL_FOLDER   = os.path.join(PROJECT_FOLDER, 'templates', THEME)
-MEDIA_ROOT     = os.path.join(PROJECT_FOLDER, 'themes', THEME, 'static')
+TEMPL_FOLDER   = os.path.join(PROJECT_FOLDER, 'templates')
+MEDIA_ROOT     = os.path.join(PROJECT_FOLDER, 'static')
 TEMPLATE_DIRS  = (TEMPL_FOLDER,)
 
