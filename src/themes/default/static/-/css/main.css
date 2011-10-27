@@ -39,12 +39,18 @@ h1 a{color:#333; text-decoration: none;}
 .calendar-widget table td .events{padding: 0; margin: 0; position: absolute;}
 .calendar-widget table td .events li{list-style-type: none; background-color: #17852a; height: 2px; width: 2px; margin: 1px 0 0 1px; padding: 0;}
 .calendar-widget table td .events li span{display: none;}
-.calendar-widget table td a{color: #333; text-decoration: none; display: block; padding: 25% 0; z-index: 1; position: relative;}
+.calendar-widget table td a{color: #333; text-decoration: none; display: block; padding: 26% 0; z-index: 1; position: relative;}
 .calendar-widget table td a:hover,
 .calendar-widget table td.subtle a:hover{background-color: #cd1111; color: #fff; opacity: .75;}
 .calendar-widget table td.subtle{background-color: #f5f5f5;}
 .calendar-widget table td.subtle a{color: #aaa;}
 .calendar-widget table td.active{background-color: #d9ecfd;}
+.calendar-widget table td.light{background-color: #e9e9e9;}
+.calendar-widget table td.medium{background-color: #e2e2e2;}
+.calendar-widget table td.heavy{background-color: #dadada;}
+.calendar-widget table td.light a,
+.calendar-widget table td.medium a,
+.calendar-widget table td.heavy a{}
 .calendar-widget .month-controls{padding: 0; margin: 0; display: block; height: 1em;}
 .calendar-widget .month-controls li{list-style: none; float: left; width: 33%;}
 .calendar-widget .month-controls .next-month{text-align: right;}

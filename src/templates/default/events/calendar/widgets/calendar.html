@@ -26,14 +26,6 @@
 				<tr class="week">
 					{% for day, events, weight in week %}
 					<td class="day {%if weight%}{{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%}subtle{%endif%}">
-						<ul class="events">
-							{%for event in events%}
-							<li>
-								<span class="title">{{event.title}}</span>
-								<span class="starts">{{event.start|date:"fA"|lower}}</span>
-							</li>
-							{%endfor%}
-						</ul>
 						<a class="load" href="{%url day-listing calendar.slug day.year day.month day.day%}">
 						{{day.day}}
 						</a>
