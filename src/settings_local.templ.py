@@ -4,6 +4,9 @@ ADMINS = (
 	#('Your Name', 'your_email@domain.com'),
 )
 
+# Minify JS and CSS.  Modifies MEDIA_URL and generates a minified assets folder
+MINIFY = False
+
 LOGIN_URL           = '/manager/login'
 LOGOUT_URL          = '/manager/logout'
 LOGIN_REDIRECT_URL  = '/manager/'
@@ -52,6 +55,3 @@ LDAP_NET_SEARCH_PASS = ''
 
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_SLUG = ''
-
-# Minify JS and CSS. Requires some Apache config modifications
-USE_MINIFY = True
