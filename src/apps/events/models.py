@@ -75,7 +75,8 @@ class Event(Base):
 	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 	tags         = models.ManyToManyField('Tag', related_name='events')
 	categories   = models.ManyToManyField('Category', related_name='events')
-
+	additional   = models.TextField(blank=True, null=True)
+	
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
 		from, if it exists."""
@@ -232,6 +233,7 @@ class EventInstance(Base):
 	interval  = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
 	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
+	room      = models.CharField(max_length=64, blank=True, null=True)
 	
 	def copy(self, *args, **kwargs):
 		copy = EventInstance(
@@ -332,7 +334,7 @@ class Location(Base):
 	#events     = One to Many relationship with EventInstance
 	name        = models.CharField(max_length=128)
 	description = models.TextField(blank=True, null=True)
-	coordinates = CoordinatesField(blank=True, null=True)
+	url         = models.URLField(blank=True, null=True,max_length=1000)
 	
 	def copy(self, *args, **kwargs):
 		return Location.objects.create(
