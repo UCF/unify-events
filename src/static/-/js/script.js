@@ -53,7 +53,7 @@ Webcom.ajaxStuff = function($){
 		return false;
 	});
 	
-	if ($.browser.name == 'firefox'){
+	if ($.browser.name != 'chrome'){
 		history.pushState({
 			'data'  : document.childNodes[1].innerHTML,
 			'title' : null

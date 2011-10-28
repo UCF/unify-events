@@ -38,7 +38,7 @@ def create_update(request, id=None):
 
 
 	## Can't use user.calendars here because ModelChoiceField expects a queryset
-	user_calendars = Calendar.objects.filter(Q(creator=request.user)|Q(editors=request.user))
+	user_calendars = Calendar.objects.filter(Q(owner=request.user)|Q(editors=request.user))
 	EventInstanceFormSet = modelformset_factory(
 							EventInstance,
 							form=EventInstanceForm,
@@ -50,7 +50,7 @@ def create_update(request, id=None):
 
 		if ctx['event_form'].is_valid() and ctx['event_formset'].is_valid():
 			event = ctx['event_form'].save(commit=False)
-			event.creator = request.user
+			event.owner = request.user
 			try:
 				event.save()
 				ctx['event_form'].save_m2m()
