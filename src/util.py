@@ -93,7 +93,7 @@ class LDAPHelper(object):
 
 	@classmethod
 	def extract_guid(cls,ldap_user):
-		return base64.encodestring(LDAPHelper._extract_attribute(ldap_user,'objectGUID'))
+		return base64.b64encode(LDAPHelper._extract_attribute(ldap_user,'objectGUID'))
 	
 	@classmethod
 	def extract_firstname(cls,ldap_user):
