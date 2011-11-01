@@ -32,9 +32,9 @@ setattr(User,'calendars', property(calendars))
 
 def calendars_include_submitted(self):
 	return Calendar.objects.filter(
-		models.Q(creator=self)|
+		models.Q(owner=self)|
 		models.Q(editors=self)|
-		models.Q(events__creator=self)).order_by('name').distinct()
+		models.Q(events__owner=self)).order_by('name').distinct()
 setattr(User,'calendars_include_submitted', property(calendars_include_submitted))
 
 
@@ -71,7 +71,7 @@ class Event(Base):
 	title        = models.CharField(max_length=128)
 	description  = models.TextField(blank=True, null=True)
 	settings     = SettingsField(default=Settings.default, null=True, blank=True)
-	creator      = models.ForeignKey(User, related_name='owned_events', null=True)
+	owner        = models.ForeignKey(User, related_name='owned_events', null=True)
 	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 	tags         = models.ManyToManyField('Tag', related_name='events')
 	categories   = models.ManyToManyField('Category', related_name='events')
@@ -127,10 +127,8 @@ class Event(Base):
 	def __str__(self):
 		return self.title
 	
-	
 	def __unicode__(self):
 		return unicode(self.title)
-	
 	
 	def __repr__(self):
 		return '<' + str(self.calendar) + '/' + self.title + '>'
@@ -365,7 +363,7 @@ class Calendar(Base):
 	featured      = models.ManyToManyField('Event', related_name='featured_on')
 	name          = models.CharField(max_length=64)
 	slug          = models.CharField(max_length=64, unique=True, blank=True)
-	creator       = models.ForeignKey(User, related_name='owned_calendars', null=True)
+	owner         = models.ForeignKey(User, related_name='owned_calendars', null=True)
 	editors       = models.ManyToManyField(User, related_name='edited_calendars')
 	subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
 	public        = models.BooleanField(default=False)
@@ -441,7 +439,7 @@ class Calendar(Base):
 	
 	def is_creator(self, user):
 		"""Determine if user is creator of this calendar"""
-		return user == self.creator
+		return user == self.owner
 	
 	
 	def is_editor(self, user):
@@ -483,4 +481,4 @@ class Calendar(Base):
 	
 	def __repr__(self):
 		"""docstring for __repr__"""
-		return '<' + str(self.creator) + '/' + self.name + '>'
+		return '<' + str(self.owner) + '/' + self.name + '>'

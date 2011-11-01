@@ -30,7 +30,7 @@ def create_update(request, id = None):
 		if ctx['form'].is_valid():
 			try:
 				calendar = ctx['form'].save(commit=False)
-				calendar.creator = request.user
+				calendar.owner = request.user
 				calendar.save()
 				ctx['form'].save_m2m()
 			except Exception, e:

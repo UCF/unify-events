@@ -53,10 +53,12 @@ Webcom.ajaxStuff = function($){
 		return false;
 	});
 	
-	history.pushState({
-		'data'  : document.childNodes[1].innerHTML,
-		'title' : null
-	}, null);
+	if ($.browser.name != 'chrome'){
+		history.pushState({
+			'data'  : document.childNodes[1].innerHTML,
+			'title' : null
+		}, null);
+	}
 	
 	$(window).bind('popstate', function(e){
 		if (e.originalEvent.state != null){

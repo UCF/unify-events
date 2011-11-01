@@ -45,4 +45,5 @@ def format_to_mimetype(format):
 		'rss'  : 'application/rss+xml',
 		'html' : 'text/html',
 		'xml'  : 'text/xml',
+		'ics'  : 'text/calendar',
 	}.get(format, 'text/html')

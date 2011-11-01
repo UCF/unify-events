@@ -26,7 +26,7 @@ class Command(BaseCommand):
 			# Check if the old calendar creator exists in our DB
 			calendar_creator = self.get_create_user(str(old_calendar.uidcreated))
 			if calendar_creator is not None:
-				new_calendar = Calendar(name=old_calendar.name,creator=calendar_creator)
+				new_calendar = Calendar(name=old_calendar.name,owner=calendar_creator)
 				try:
 					new_calendar.save()
 				except Exception, e:
@@ -70,7 +70,7 @@ class Command(BaseCommand):
 						
 						event_creator = self.get_create_user(str(old_event.uidcreated))
 						if event_creator is not None:
-							new_event.creator = event_creator
+							new_event.owner = event_creator
 						
 							try:
 								new_event.save()
