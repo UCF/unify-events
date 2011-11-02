@@ -251,6 +251,12 @@ class EventInstance(Base):
 	def description(self):
 		return self.event.description
 	
+	
+	@property
+	def tags(self):
+		return self.event.tags
+	
+	
 	def get_absolute_url(self):
 		"""Generate permalink for this object"""
 		from django.core.urlresolvers import reverse
