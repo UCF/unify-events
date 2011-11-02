@@ -13,17 +13,17 @@
 		<section class="upcoming-events event-list">
 			<h2>Upcoming Events</h2>
 			<ul>
-				{%for event in events%}
+				{%for event in events|slice:"5"%}
 				<li class="event{%if forloop.first%} first{%endif%} {%cycle 'even' 'odd'%} span-15 last">
-					<div class="start span-4 append-1">
+					<div class="start span-5 append-1">
 						<div class="date">{{event.start|date:"F j"}}</div>
-						<div class="time">{{event.start|pretty_date}}</div>
+						<div class="time">{{event.start|pretty_date:"calendar"}}</div>
 					</div>
-					<div class="details span-10 last">
+					<div class="details span-9 last">
 						<div class="heading">
 							<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title">{{event.title}}</a>
 						</div>
-						<div class="description span-10 last">{{event.description|truncatewords:"32"}}</div>
+						<div class="description">{{event.description|truncatewords:"32"}}</div>
 					</div>
 					{%if event.is_ongoing%}<div class="ongoing">ongoing</div>{%endif%}
 				</li>

@@ -56,16 +56,21 @@ def pretty_date(d, format = ''):
 	from django.template.defaultfilters import date
 	from datetime                       import datetime, timedelta
 	
-	now  = datetime.now()
-	diff = d - now
+	now    = datetime.now()
+	today  = now.date()
+	tomorrow = today + timedelta(days=1)
+	diff   = d - now
+	d_date = d.date()
 	
-	past_two_days    = lambda: diff < timedelta(0) and diff.days >= 2
-	past_one_day     = lambda: diff < timedelta(0) and diff.days >= 1
-	past_today       = lambda: diff < timedelta(0) and diff.days < 1
-	future_two_weeks = lambda: diff.days >= 14
-	future_one_week  = lambda: diff.days >= 7
-	future_two_days  = lambda: diff.days >= 2
-	future_one_day   = lambda: diff.days >= 1
+	past_two_days    = lambda: d < now and diff.days >= 2
+	past_one_day     = lambda: d < now and d_date == today - timedelta(days=1)
+	past_today       = lambda: d < now and d_date == today
+	future_two_weeks = lambda: d > now and diff.days >= 14
+	future_one_week  = lambda: d > now and diff.days >= 7
+	future_two_days  = lambda: d > now and diff.days >= 2
+	future_one_day   = lambda: d > now and d_date == today + timedelta(days=1)
+	future_today     = lambda: d > now and d_date == today
+	
 	
 	tests = (
 		past_two_days,
@@ -75,6 +80,7 @@ def pretty_date(d, format = ''):
 		future_one_week,
 		future_two_days,
 		future_one_day,
+		future_today,
 	)
 	
 	formats = {
@@ -98,13 +104,23 @@ def pretty_date(d, format = ''):
 			future_two_days  : lambda: date(d, "l, g a"),
 			future_one_day   : lambda: "Tomorrow, " + date(d, "g a"),
 		},
+		'calendar' : {
+			'default'        : lambda: "Starts " + date(d, "F j, Y"),
+			past_two_days    : lambda: "Started " + date(d, "F j, Y"),
+			past_one_day     : lambda: "Started yesterday",
+			past_today       : lambda: "Started at " + date(d, "ga"),
+			future_one_week  : lambda: "Next " + date(d, "l, ga"),
+			future_two_days  : lambda: date(d, "l, ga"),
+			future_one_day   : lambda: "Starts tomorrow at " + date(d, "ga"),
+			future_today     : lambda: "Starts at " + date(d, 'ga'),
+		},
 	}
 	
-	r      = None
+	r = None
 	format = formats.get(format, formats['frontend'])
 	for test in tests:
 		if test():
-			r = format.get(test, format['default']())()
+			r = format.get(test, format['default'])()
 			break
 	
 	if not r:
