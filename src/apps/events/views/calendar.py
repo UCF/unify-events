@@ -146,7 +146,7 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
 				extra_context['list_title'] = start.strftime("%B %Y")
 			
 		else:
-			end = start + timedelta(days=1)
+			end = start + timedelta(days=1) - timedelta(seconds=1)
 	except ValueError:
 		raise Http404
 	
@@ -246,6 +246,6 @@ def years_listing(request, calendar, format=None):
 	now = gmtime()
 	year, month, day = now.tm_year, None, None
 	return auto_listing(request, calendar, year, month, day, format, {
-		'list_title' : 'This Month',
+		'list_title' : 'This Year',
 	})
-	
+

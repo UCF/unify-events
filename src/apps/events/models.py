@@ -74,7 +74,6 @@ class Event(Base):
 	owner        = models.ForeignKey(User, related_name='owned_events', null=True)
 	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 	tags         = models.ManyToManyField('Tag', related_name='events')
-	categories   = models.ManyToManyField('Category', related_name='events')
 	additional   = models.TextField(blank=True, null=True)
 	
 	def pull_updates(self):
@@ -138,32 +137,24 @@ class Event(Base):
 
 
 class Tag(Base):
-	name = models.CharField(max_length = 100, unique=True)
+	name = models.CharField(max_length=64, unique=True)
 
 	def __unicode__(self):
 		return unicode(self.name)
 	
 	class Meta:
-		ordering = ['name']
+		ordering = ['name',]
 
 
-class Category(Base):
-	name   = models.CharField(max_length = 100, unique=True)
-	parent = models.ForeignKey('EventInstance', related_name='subcategories', null=True, blank=True)
-
-	def __unicode__(self):
-		if self.parent is None:
-			return unicode(self.name)
-		else:
-			real_name = ''
-			parent = self.parent
-			while parent is not None:
-				real_name += '> %s ' % parent.name
-				parent = parent.parent
-			return unicode(real_name.strip() + ' > %s' % self.name)
+class TagGroup(Base):
+	name = models.CharField(max_length=128, unique=True)
+	tags = models.ManyToManyField('Tag', related_name='tag_groups')
 	
-	class Meta:
-		ordering = ['name']
+	def __str__(self):
+		return str(self.name)
+	
+	def __unicode__(self):
+		return unicode(self.name)
 
 
 class EventInstance(Base):
