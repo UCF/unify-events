@@ -12,7 +12,23 @@
 	<div class="left-column span-15 append-1">
 		<section class="upcoming-events event-list">
 			<h2>Upcoming Events</h2>
-			{%include "events/calendar/parts/calendarpage-event-list.html" with events=events|slice:":5"%}
+			<ul>
+				{%for event in events%}
+				<li class="event{%if forloop.first%} first{%endif%} {%cycle 'even' 'odd'%} span-15 last">
+					<div class="start span-4 append-1">
+						<div class="date">{{event.start|date:"F j"}}</div>
+						<div class="time">{{event.start|pretty_date}}</div>
+					</div>
+					<div class="details span-10 last">
+						<div class="heading">
+							<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title">{{event.title}}</a>
+						</div>
+						<div class="description span-10 last">{{event.description|truncatewords:"32"}}</div>
+					</div>
+					{%if event.is_ongoing%}<div class="ongoing">ongoing</div>{%endif%}
+				</li>
+				{%endfor%}
+			</ul>
 		</section>
 	</div>
 	<div class="right-column span-8 last">
