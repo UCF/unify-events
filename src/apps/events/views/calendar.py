@@ -31,13 +31,11 @@ def calendar(request, calendar, format=None):
 	"""
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	now      = gmtime()
-	start    = datetime(now.tm_year, now.tm_mon, now.tm_mday)
-	end      = start + timedelta(days=5)
-	
-	today_start = datetime(now.tm_year, now.tm_mon, now.tm_mday)
-	events      = calendar.find_event_instances(
-		today_start,
-		today_start + timedelta(weeks=2)
+	start    = datetime.now()
+	end      = start + timedelta(weeks=2)
+	events   = calendar.find_event_instances(
+		start,
+		end
 	).order_by('start', 'event__title')
 	
 	template = 'events/calendar/calendar.' + (format or 'html')

@@ -51,9 +51,14 @@ class Event(Base):
 	take place and the purpose and name of the event as well as the calendard to
 	which the events belong."""
 	class Status:
-		pending = 0
-		posted  = 1
-		choices = ((pending, 'pending'), (posted, 'posted'),)
+		pending  = 0
+		posted   = 1
+		canceled = 2
+		choices  = (
+			(pending  , 'pending'),
+			(posted   , 'posted'),
+			(canceled , 'canceled'),
+		)
 	
 	class Settings:
 		default = {
