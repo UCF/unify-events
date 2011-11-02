@@ -29,8 +29,6 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
 			else:
 				if isinstance(guids_usernames, basestring):
 					guids_usernames = (guids_usernames,)
-				print type(guids_usernames)
-				#print [gu.split('|') for gu in guids_usernames]
 				for guid,username in (tuple(gu.split('|')) for gu in guids_usernames):
 					try:
 						user = User.objects.get(profile__guid=guid)
