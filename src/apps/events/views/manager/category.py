@@ -1,5 +1,5 @@
-from events.forms.manager           import CategoryForm
-from events.models                  import Category
+from events.forms.manager           import TagForm
+from events.models                  import Tag
 from django.contrib                 import messages
 from django.http                    import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
 from django.core.urlresolvers       import reverse
