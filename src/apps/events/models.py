@@ -138,7 +138,11 @@ class Event(Base):
 
 class Tag(Base):
 	name = models.CharField(max_length=64, unique=True)
-
+	
+	def save(self, *args, **kwargs):
+		self.name = self.name.lower()
+		super(Tag, self).save(*args, **kwargs)
+	
 	def __unicode__(self):
 		return unicode(self.name)
 	
@@ -411,6 +415,11 @@ class Calendar(Base):
 	
 	
 	def find_event_instances(self, start, end, qs=None):
+		"""Given a range of datetimes defined by start and end, will return a
+		queryset which should return all events for the current calendar in the
+		range provided.  An optional queryset argument can be passed to append
+		the resulting filtered queryset to.
+		"""
 		from django.db.models import Q
 		during        = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
 		starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
