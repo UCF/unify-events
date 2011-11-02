@@ -3,7 +3,7 @@
 	{%for event in events%}
 	<li class="event{%if forloop.first%} first{%endif%} {%cycle 'even' 'odd'%} span-15 last">
 		<div class="start span-4 append-1">
-			<div class="date">{{event.start|date:"F d"}}</div>
+			<div class="date">{{event.start|date:"F j"}}</div>
 			<div class="time">{{event.start|pretty_date}}</div>
 		</div>
 		<div class="details span-10 last">
