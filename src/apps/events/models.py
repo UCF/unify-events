@@ -224,15 +224,16 @@ class EventInstance(Base):
 	start     = models.DateTimeField()
 	end       = models.DateTimeField()
 	interval  = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
-	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
+	until     = models.DateTimeField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
+	
 	
 	def copy(self, *args, **kwargs):
 		copy = EventInstance(
 			start    = self.start,
 			end      = self.end,
 			interval = self.interval,
-			limit    = self.limit,
+			until    = self.until,
 			location = self.location.copy() if self.location else None,
 			*args,
 			**kwargs
@@ -281,7 +282,7 @@ class EventInstance(Base):
 				end=self.end,
 				location=self.location,
 				interval=self.interval,
-				limit=self.limit
+				until=self.until
 			)
 			update = False
 		except EventInstance.DoesNotExist:
@@ -297,22 +298,21 @@ class EventInstance(Base):
 		"""Will verify that all children of this event exist and are valid if
 		the instance is recurring."""
 		self.children.all().delete()
-		if self.limit is None or self.interval is None: return
+		if self.until is None or self.interval is None: return
 		
-		limit    = self.limit - 1
 		instance = self
+		start    = instance.start
 		
-		while limit > 0:
+		while start <= self.until:
 			delta    = instance.end - instance.start
-			nstart   = EventInstance.Recurs.next_date(instance.start, self.interval)
-			nend     = nstart + delta
+			start    = EventInstance.Recurs.next_date(instance.start, self.interval)
+			end      = start + delta
 			instance = self.children.create(
 				event=instance.event,
-				start=nstart,
-				end=nend,
+				start=start,
+				end=end,
 				location=self.location
 			)
-			limit -= 1
 	
 	
 	def delete(self, *args, **kwargs):

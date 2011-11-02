@@ -3,7 +3,7 @@ from django.core.management      import call_command
 from events.models               import Calendar, Event, EventInstance, Tag
 from django.contrib.auth.models  import User
 from django.contrib.webdesign    import lorem_ipsum
-from datetime                    import datetime
+from datetime                    import datetime, timedelta
 from random                      import randint, choice
 
 lorem_ipsum.words_cust = lambda: lorem_ipsum.words(randint(3, 10), False).title()
@@ -48,6 +48,6 @@ class Command(BaseCommand):
 				start=datetime(datetime.now().year, 1, i, hour_start, minutes),
 				end=datetime(datetime.now().year, 1, i, hour_end, minutes),
 				interval=EventInstance.Recurs.weekly,
-				limit=52
+				until=datetime(datetime.now().year + 1, 1, 1)
 			)
 		print 'done'

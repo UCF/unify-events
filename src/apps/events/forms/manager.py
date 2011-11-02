@@ -65,7 +65,7 @@ class EventInstanceForm(forms.ModelForm):
 
 	class Meta:
 		model  = EventInstance
-		fields = ('location', 'start', 'end', 'interval', 'limit')
+		fields = ('location', 'start', 'end', 'interval', 'until')
 		widgets = {
 			'start': forms.TextInput(attrs={'class':'datepicker'}),
 			'end'  : forms.TextInput(attrs={'class':'datepicker'})

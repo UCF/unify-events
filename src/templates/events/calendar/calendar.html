@@ -10,21 +10,10 @@
 {%block content_body%}
 <div id="events-content" class="calendar-home">
 	<div class="left-column span-15 append-1">
-		{%if todays_events|length and tomorrows_events|length%}
-		<section class="todays-events event-list">
-			<h2>Todays's Events</h2>
-			{%include "events/calendar/parts/calendarpage-event-list.html" with events=todays_events%}
-		</section>
-		<section class="tomorrows-events event-list">
-			<h2>Tomorrow's Events</h2>
-			{%include "events/calendar/parts/calendarpage-event-list.html" with events=tomorrows_events%}
-		</section>
-		{%else%}
 		<section class="upcoming-events event-list">
 			<h2>Upcoming Events</h2>
-			{%include "events/calendar/parts/calendarpage-event-list.html" with events=upcoming_events|slice:":5"%}
+			{%include "events/calendar/parts/calendarpage-event-list.html" with events=events|slice:":5"%}
 		</section>
-		{%endif%}
 	</div>
 	<div class="right-column span-8 last">
 		{% calendar_widget calendar %}
