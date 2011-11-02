@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from events.models              import Calendar, Profile, Event, EventInstance, Tag, Category
+from events.models              import Calendar, Profile, Event, EventInstance, Tag
 from django                     import forms
 from datetime                   import datetime,timedelta
 from django.contrib.auth.models import User
@@ -46,11 +46,10 @@ class EventForm(forms.ModelForm):
 	calendar   = forms.ModelChoiceField(queryset=Calendar.objects.none())
 	image      = forms.FileField(required=False)
 	tags       = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)
-	categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), required= False)
 
 	class Meta:
 		model  = Event
-		fields = ('title', 'description','calendar','image','tags','categories')
+		fields = ('title', 'description','calendar','image','tags',)
 
 class EventInstanceForm(forms.ModelForm):
 
@@ -76,12 +75,6 @@ class TagForm(forms.ModelForm):
 
 	class Meta:
 		model  = Tag
-		fields = ('name',)
-
-class CategoryForm(forms.ModelForm):
-
-	class Meta:
-		model  = Category
 		fields = ('name',)
 
 class EventCopyForm(forms.Form):

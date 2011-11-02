@@ -5,7 +5,7 @@ from unlevents.models            import UNLCalendar, UNLEvent, UNLEventdatetime,
 from django.contrib.auth.models  import User
 from util                        import LDAPHelper
 from django.conf                 import settings
-from events.models               import Calendar,Event,EventInstance,Location,Category
+from events.models               import Calendar,Event,EventInstance,Location,Tag
 import logging
 
 # Connect to LDAP and bind for searching later
@@ -17,7 +17,7 @@ MISSING_USERNAMES = []
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
-		self.create_categories()
+		self.create_tags()
 		self.create_locations()
 
 		old_calendars = UNLCalendar.objects.all()
@@ -79,9 +79,9 @@ class Command(BaseCommand):
 								continue
 							else:
 								# Event Type -> Category
-								category = self.get_event_category(old_event)
-								if category is not None:
-									new_event.categories.add(category)
+								tag = self.get_event_category(old_event)
+								if tag is not None:
+									new_event.tags.add(tag)
 								
 								# Instances
 								for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
@@ -119,15 +119,15 @@ class Command(BaseCommand):
 				pass
 			else:
 				try:
-					category = Category.objects.get(name=event_type.name)
-				except Category.DoesNotExist:
-					logging.error('Category for event_type_id `%d` does not exist.' % event_event_type.eventtype_id)
+					tag = Tag.objects.get(name=event_type.name)
+				except Tag.DoesNotExist:
+					logging.error('Tag for event_type_id `%d` does not exist.' % event_event_type.eventtype_id)
 				else:
-					return category
+					return tag
 
-	def create_categories(self):
+	def create_tags(self):
 		for event_type in UNLEventtype.objects.all():
-			created, category = Category.objects.get_or_create(name=event_type.name)
+			created, tag = Tag.objects.get_or_create(name=event_type.name)
 	
 	def create_locations(self):
 		LOCATION_NAMES = []
