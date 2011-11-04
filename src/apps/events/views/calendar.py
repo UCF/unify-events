@@ -31,35 +31,18 @@ def calendar(request, calendar, format=None):
 	"""
 	calendar = get_object_or_404(Calendar, slug=calendar)
 	now      = gmtime()
-	start    = datetime(now.tm_year, now.tm_mon, now.tm_mday)
-	end      = start + timedelta(days=5)
-	
-	today_start    = datetime(now.tm_year, now.tm_mon, now.tm_mday)
-	tomorrow_start = today_start + timedelta(days=1)
-	upcoming_start = tomorrow_start + timedelta(days=1)
-	
-	todays_events = calendar.find_event_instances(
-		today_start,
-		tomorrow_start
-	).order_by('start', 'event__title')
-	
-	tomorrows_events = calendar.find_event_instances(
-		tomorrow_start,
-		upcoming_start
-	).order_by('start', 'event__title')
-	
-	upcoming_events = calendar.find_event_instances(
-		today_start,
-		upcoming_start + timedelta(weeks=2)
+	start    = datetime.now()
+	end      = start + timedelta(weeks=2)
+	events   = calendar.find_event_instances(
+		start,
+		end
 	).order_by('start', 'event__title')
 	
 	template = 'events/calendar/calendar.' + (format or 'html')
 	context  = {
-		'now'              : date.today(),
-		'calendar'         : calendar,
-		'upcoming_events'  : upcoming_events,
-		'todays_events'    : todays_events,
-		'tomorrows_events' : tomorrows_events,
+		'now'      : date.today(),
+		'calendar' : calendar,
+		'events'   : events,
 	}
 	
 	try:

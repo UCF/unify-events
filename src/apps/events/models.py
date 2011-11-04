@@ -51,9 +51,14 @@ class Event(Base):
 	take place and the purpose and name of the event as well as the calendard to
 	which the events belong."""
 	class Status:
-		pending = 0
-		posted  = 1
-		choices = ((pending, 'pending'), (posted, 'posted'),)
+		pending  = 0
+		posted   = 1
+		canceled = 2
+		choices  = (
+			(pending  , 'pending'),
+			(posted   , 'posted'),
+			(canceled , 'canceled'),
+		)
 	
 	class Settings:
 		default = {
@@ -138,7 +143,11 @@ class Event(Base):
 
 class Tag(Base):
 	name = models.CharField(max_length=64, unique=True)
-
+	
+	def save(self, *args, **kwargs):
+		self.name = self.name.lower()
+		super(Tag, self).save(*args, **kwargs)
+	
 	def __unicode__(self):
 		return unicode(self.name)
 	
@@ -220,15 +229,16 @@ class EventInstance(Base):
 	start     = models.DateTimeField()
 	end       = models.DateTimeField()
 	interval  = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
-	limit     = models.PositiveSmallIntegerField(null=True, blank=True)
+	until     = models.DateTimeField(null=True, blank=True)
 	parent    = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
+	
 	
 	def copy(self, *args, **kwargs):
 		copy = EventInstance(
 			start    = self.start,
 			end      = self.end,
 			interval = self.interval,
-			limit    = self.limit,
+			until    = self.until,
 			location = self.location.copy() if self.location else None,
 			*args,
 			**kwargs
@@ -251,6 +261,12 @@ class EventInstance(Base):
 	def description(self):
 		return self.event.description
 	
+	
+	@property
+	def tags(self):
+		return self.event.tags
+	
+	
 	def get_absolute_url(self):
 		"""Generate permalink for this object"""
 		from django.core.urlresolvers import reverse
@@ -271,7 +287,7 @@ class EventInstance(Base):
 				end=self.end,
 				location=self.location,
 				interval=self.interval,
-				limit=self.limit
+				until=self.until
 			)
 			update = False
 		except EventInstance.DoesNotExist:
@@ -287,22 +303,21 @@ class EventInstance(Base):
 		"""Will verify that all children of this event exist and are valid if
 		the instance is recurring."""
 		self.children.all().delete()
-		if self.limit is None or self.interval is None: return
+		if self.until is None or self.interval is None: return
 		
-		limit    = self.limit - 1
 		instance = self
+		start    = instance.start
 		
-		while limit > 0:
+		while start <= self.until:
 			delta    = instance.end - instance.start
-			nstart   = EventInstance.Recurs.next_date(instance.start, self.interval)
-			nend     = nstart + delta
+			start    = EventInstance.Recurs.next_date(instance.start, self.interval)
+			end      = start + delta
 			instance = self.children.create(
 				event=instance.event,
-				start=nstart,
-				end=nend,
+				start=start,
+				end=end,
 				location=self.location
 			)
-			limit -= 1
 	
 	
 	def delete(self, *args, **kwargs):
@@ -405,6 +420,11 @@ class Calendar(Base):
 	
 	
 	def find_event_instances(self, start, end, qs=None):
+		"""Given a range of datetimes defined by start and end, will return a
+		queryset which should return all events for the current calendar in the
+		range provided.  An optional queryset argument can be passed to append
+		the resulting filtered queryset to.
+		"""
 		from django.db.models import Q
 		during        = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
 		starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
