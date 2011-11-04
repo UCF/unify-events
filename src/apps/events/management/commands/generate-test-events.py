@@ -23,15 +23,15 @@ class Command(BaseCommand):
 		print 'done'
 		
 		print 'Creating events for new calendars...',
-		minutes_choices = [15, 30, 45, 0, 0, 0]
 		tag_choices     = map(
 			lambda t: Tag.objects.create(name=t),
 			set(lorem_ipsum.words(20, False).lower().split())
 		)
-		for i in range(1, 7):
-			hour_start = randint(8,20)
-			hour_end   = hour_start + randint(1,3)
-			minutes    = choice(minutes_choices)
+		for i in range(1, 8):
+			hour       = randint(8, 20)
+			minutes    = choice([15, 30, 45, 0, 0, 0])
+			start      = datetime(datetime.now().year, 1, i, hour, minutes)
+			end        = start + timedelta(hours=choice([1, 2, 3, 24, 25, 26, 48, 49, 50]))
 			
 			tags = list()
 			for j in range(0, randint(1, 5)):
@@ -45,8 +45,8 @@ class Command(BaseCommand):
 			event.tags.add(*tags)
 			
 			instance = event.instances.create(
-				start=datetime(datetime.now().year, 1, i, hour_start, minutes),
-				end=datetime(datetime.now().year, 1, i, hour_end, minutes),
+				start=start,
+				end=end,
 				interval=EventInstance.Recurs.weekly,
 				until=datetime(datetime.now().year + 1, 1, 1)
 			)
