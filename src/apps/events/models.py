@@ -74,6 +74,14 @@ class Event(Base):
 			},
 		}
 	
+	class Contact:
+		internal, directory, freeform = range(0, 3)
+		choices = (
+			(internal , 'internal'),
+			(directory, 'directory'),
+			(freeform , 'freeform'),
+		)
+	
 	#instances    = One to Many relationship with EventInstance
 	calendar      = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
 	created_from  = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
@@ -84,6 +92,10 @@ class Event(Base):
 	owner         = models.ForeignKey(User, related_name='owned_events', null=True)
 	image         = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
 	tags          = models.ManyToManyField('Tag', related_name='events')
+	contact_use   = models.SmallIntegerField(choices=Contact.choices, default=Contact.directory)
+	# TODO
+	#contact_freeform
+	#contact_directory
 	contact_name  = models.CharField(max_length=64, blank=True, null=True)
 	contact_email = models.EmailField(max_length=128, blank=True, null=True)
 	contact_phone = models.CharField(max_length=64, blank=True, null=True)
@@ -295,6 +307,11 @@ class EventInstance(Base):
 			'phone' : self.event.contact_phone,
 			'email' : self.event.contact_email,
 		}
+	
+	
+	@property
+	def sibling_upcoming(self):
+		return self.event.upcoming_instances.exclude(pk=self.pk)
 	
 	
 	def get_absolute_url(self):
