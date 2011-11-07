@@ -60,10 +60,17 @@ def calendar_widget(calendar, year=None, month=None):
 			weight = 'medium'
 		else:
 			weight = 'heavy'
-		days.append((d, events, weight))
+		
+		# Filter out dates not in this month.  Ongoing events will cause the
+		# calendar widget to display improperly by including any days that occur
+		# for that event before the start of the month.  Adding an empty weight
+		# fixes this.
+		if d.date().month != month:
+			days.append((d, events, ''))
+		else:
+			days.append((d, events, weight))
 	
-	weeks = chunk(days, 7)
-	
+	weeks    = chunk(days, 7)
 	template = loader.get_template('events/calendar/widgets/calendar.html')
 	html     = template.render(Context({
 		'MEDIA_URL'      : settings.MEDIA_URL,
