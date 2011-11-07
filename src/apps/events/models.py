@@ -38,6 +38,11 @@ def calendars_include_submitted(self):
 setattr(User,'calendars_include_submitted', property(calendars_include_submitted))
 
 
+def full_name(self):
+	return self.first_name + ' ' + self.last_name
+setattr(User, 'full_name', property(full_name))
+
+
 def first_login(self):
 	delta = self.last_login - self.date_joined
 	if delta.seconds == 0 and delta.days == 0:
@@ -250,6 +255,11 @@ class EventInstance(Base):
 	@property
 	def is_ongoing(self):
 		return self.start <= datetime.now() <= self.end
+	
+	
+	@property
+	def owner(self):
+		return self.event.owner
 	
 	
 	@property

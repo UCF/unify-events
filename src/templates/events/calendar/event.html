@@ -1,7 +1,88 @@
 {%extends 'events/calendar/base.html'%}
 
 {%block content_body%}
-<h1>{{event.title}}</h1>
-<div class="time">{{event.start}} - {{event.end}}</div>
-<div class="desc">{{event.description}}</div>
+<div class="event-page">
+	<section class="event" id="event-{{event.id}}">
+		<div class="span-7 append-1">
+			<div class="when">
+				<div class="weekday">{{event.start|date:"l"}}</div>
+				<div class="date">
+				{%if event.start.day == event.end.day%}
+				{{event.start|date:"F j"}}
+				{%else%}
+				{{event.start|date:"M\. j"}} through {{event.end|date:"M\. j"}}
+				{%endif%}
+				</div>
+				<div class="time">{{event.start|date:"g:i a"}}</div>
+			</div>
+			<div class="social">
+				<img src="{{MEDIA_URL}}-/img/test-social.png" height="97" width="299" />
+			</div>
+			<div class="where">
+				<div class="name">Visual Arts Building</div>
+				<img src="{{MEDIA_URL}}-/img/test-map.png" height="266" width="266" />
+			</div>
+			<div class="questions">
+				{{event.additional}}
+			</div>
+			<div class="other">
+			</div>
+		</div>
+		
+		<div class="span-16 last">
+			<h1 class="title">{{event.title}}</h1>
+			
+			<div class="image">
+				<img class="snazzy" src="{{MEDIA_URL}}-/img/test-image.jpg" height="397" width="631" />
+			</div>
+		
+			<div class="description">{{event.description}}</div>
+		
+			<div class="meta">
+				<table class="tag-breakdown">
+					<thead>
+						<tr>
+							<th>Tag Type</th>
+							<th>Tags</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="tag-type">Category</td>
+							<td class="tags">
+								<ul class="inline">
+									<li><a class="tag" href="#">Student Life</a></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td class="tag-type">Event Type</td>
+							<td class="tags">
+								<ul class="inline">
+									<li><a class="tag" href="#">Gallery</a>,</li>
+									<li><a class="tag" href="#">Speaker</a></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td class="tag-type">Tags</td>
+							<td class="tags">
+								<ul class="inline">
+									{%for tag in event.tags.all%}
+									<li><a class="tag" href="#">{{tag.name}}</a>{%if not forloop.last%},{%endif%}</li>
+									{%endfor%}
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<ul class="nobullet">
+					<li>Event Posted By: {{event.owner.full_name}}</li>
+					<li>Event Posted Date: {{event.created|date:"F, jS Y"}}</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</div>
 {%endblock%}

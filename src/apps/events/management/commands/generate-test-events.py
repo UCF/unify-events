@@ -14,7 +14,7 @@ class Command(BaseCommand):
 		
 		print 'Creating test users...',
 		# Create users
-		test_user = User.objects.create(username="test", password="test")
+		test_user = User.objects.create(username="test", password="test", first_name="Patrick", last_name="Burt")
 		print 'done'
 		
 		print 'Creating calendars for test users...',
@@ -40,7 +40,8 @@ class Command(BaseCommand):
 			event = cal.events.create(
 				title=lorem_ipsum.words_cust(),
 				description=lorem_ipsum.paragraph(),
-				state=Event.Status.posted
+				state=Event.Status.posted,
+				owner=test_user
 			)
 			event.tags.add(*tags)
 			
