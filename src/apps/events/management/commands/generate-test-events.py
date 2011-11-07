@@ -14,7 +14,7 @@ class Command(BaseCommand):
 		
 		print 'Creating test users...',
 		# Create users
-		test_user = User.objects.create(username="test", password="test")
+		test_user = User.objects.create(username="test", password="test", first_name="Patrick", last_name="Burt")
 		print 'done'
 		
 		print 'Creating calendars for test users...',
@@ -23,15 +23,18 @@ class Command(BaseCommand):
 		print 'done'
 		
 		print 'Creating events for new calendars...',
-		minutes_choices = [15, 30, 45, 0, 0, 0]
-		tag_choices     = map(
+		tag_choices = map(
 			lambda t: Tag.objects.create(name=t),
 			set(lorem_ipsum.words(20, False).lower().split())
 		)
-		for i in range(1, 7):
-			hour_start = randint(8,20)
-			hour_end   = hour_start + randint(1,3)
-			minutes    = choice(minutes_choices)
+		contact_name_choices  = (None, 'Spork Belvadere', 'Captain ImABadGuy', 'Bill Paxton', 'Admiral Evildude')
+		contact_phone_choices = (None, '407-123-3215', '563-456-4123', '123-456-4448')
+		contact_email_choices = (None, 'john@doe.com', 'anon@ymous.com', 'event@contact.com')
+		for i in range(1, 8):
+			hour       = randint(8, 20)
+			minutes    = choice([15, 30, 45, 0, 0, 0])
+			start      = datetime(datetime.now().year, 1, i, hour, minutes)
+			end        = start + timedelta(hours=choice([1, 2, 3, 24, 25, 26, 48, 49, 50]))
 			
 			tags = list()
 			for j in range(0, randint(1, 5)):
@@ -40,13 +43,17 @@ class Command(BaseCommand):
 			event = cal.events.create(
 				title=lorem_ipsum.words_cust(),
 				description=lorem_ipsum.paragraph(),
-				state=Event.Status.posted
+				state=Event.Status.posted,
+				owner=test_user,
+				contact_name=choice(contact_name_choices),
+				contact_phone=choice(contact_phone_choices),
+				contact_email=choice(contact_email_choices)
 			)
 			event.tags.add(*tags)
 			
 			instance = event.instances.create(
-				start=datetime(datetime.now().year, 1, i, hour_start, minutes),
-				end=datetime(datetime.now().year, 1, i, hour_end, minutes),
+				start=start,
+				end=end,
 				interval=EventInstance.Recurs.weekly,
 				until=datetime(datetime.now().year + 1, 1, 1)
 			)

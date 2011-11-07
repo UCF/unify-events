@@ -143,6 +143,7 @@ button:active{top: 1px;}
 /**
  * Sprites
  **/
+.mail:before,
 .gcal:before,
 .ical:before,
 .rss:before,
@@ -155,6 +156,7 @@ button:active{top: 1px;}
 .rss:before{background-position: 0 -64px; margin: 0 5px 0 0;}
 .ical:before{background-position: 0 -80px; margin: 0 5px 0 0;}
 .gcal:before{background-position: 16px 0px; margin: 0 5px 0 0;}
+.mail:before{background-position: 16px -16px; margin: 0 5px 0 0; top: 2px; position: relative;}
 
 
 /**
