@@ -74,17 +74,19 @@ class Event(Base):
 			},
 		}
 	
-	#instances  = One to Many relationship with EventInstance
-	calendar     = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
-	created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
-	state        = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-	title        = models.CharField(max_length=128)
-	description  = models.TextField(blank=True, null=True)
-	settings     = SettingsField(default=Settings.default, null=True, blank=True)
-	owner        = models.ForeignKey(User, related_name='owned_events', null=True)
-	image        = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
-	tags         = models.ManyToManyField('Tag', related_name='events')
-	additional   = models.TextField(blank=True, null=True)
+	#instances    = One to Many relationship with EventInstance
+	calendar      = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
+	created_from  = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
+	state         = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
+	title         = models.CharField(max_length=256)
+	description   = models.TextField(blank=True, null=True)
+	settings      = SettingsField(default=Settings.default, null=True, blank=True)
+	owner         = models.ForeignKey(User, related_name='owned_events', null=True)
+	image         = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
+	tags          = models.ManyToManyField('Tag', related_name='events')
+	contact_name  = models.CharField(max_length=64, blank=True, null=True)
+	contact_email = models.EmailField(max_length=128, blank=True, null=True)
+	contact_phone = models.CharField(max_length=64, blank=True, null=True)
 	
 	def pull_updates(self):
 		"""Updates this Event with information from the event it was created 
@@ -129,6 +131,10 @@ class Event(Base):
 	@property
 	def upcoming_instances(self):
 		return self.instances.filter(start__gte = datetime.now())
+	
+	@property
+	def has_contact(self):
+		return bool(self.contact_phone or self.contact_email)
 	
 	def on_owned_calendar(self,user):
 		return self.calendar in user.calendars
@@ -275,6 +281,20 @@ class EventInstance(Base):
 	@property
 	def tags(self):
 		return self.event.tags
+	
+	
+	@property
+	def has_contact(self):
+		return self.event.has_contact
+	
+	
+	@property
+	def contact(self):
+		return {
+			'name'  : self.event.contact_name,
+			'phone' : self.event.contact_phone,
+			'email' : self.event.contact_email,
+		}
 	
 	
 	def get_absolute_url(self):

@@ -103,7 +103,8 @@ h1 a{color:#333; text-decoration: none;}
 .event-page .event{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";}
 .event-page .when:before,
 .event-page .where:before,
-.event-page .title:before{display: block; color: #888; font-size: 23px; font-weight: bold; margin: 0 0 5px 0; text-transform: uppercase;}
+.event-page .contact:before,
+.event-page .title:before{display: block; color: #888; font-size: 20px; font-weight: bold; margin: 0 0 5px 0; text-transform: uppercase;}
 .event-page .event .image{margin-bottom: 2em; padding: 0;}
 .event-page .event .when{padding: 0; margin: 0 0 20px 0;}
 .event-page .event .when:before{content: "when";}
@@ -114,6 +115,10 @@ h1 a{color:#333; text-decoration: none;}
 .event-page .event .where{margin: 0 0 20px 0;}
 .event-page .event .where:before{content: "where"; }
 .event-page .event .where .name{font-size: 18px; font-weight: bold;}
+.event-page .contact:before{content: 'questions';}
+.event-page .event .contact{font-size: 16px; font-weight: bold;}
+.event-page .event .contact li{margin: 0 0 5px 0;}
+.event-page .event .contact a{ font-weight: bold; text-decoration: none;}
 .event-page .event .title{color: #000; font-size: 42px; font-weight: bold; margin: 0 0 20px 0; padding: 0;}
 .event-page .event .title:before{content: "what";}
 .event-page .event .description{color: #000; font-size: 14px; margin: 0 0 20px 0;}

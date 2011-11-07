@@ -22,9 +22,19 @@
 				<div class="name">Visual Arts Building</div>
 				<img src="{{MEDIA_URL}}-/img/test-map.png" height="266" width="266" />
 			</div>
-			<div class="questions">
-				{{event.additional}}
-			</div>
+			{%if event.has_contact%}
+			<ul class="contact nobullet">
+				{%if event.contact.name%}
+				<li class="name">{{event.contact.name}}</li>
+				{%endif%}
+				{%if event.contact.phone%}
+				<li class="phone">{{event.contact.phone}}</li>
+				{%endif%}
+				{%if event.contact.email%}
+				<li class="email mail"><a href="{{event.contact.email}}">{{event.contact.email}}</a></li>
+				{%endif%}
+			</ul>
+			{%endif%}
 			<div class="other">
 			</div>
 		</div>

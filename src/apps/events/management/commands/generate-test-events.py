@@ -23,10 +23,13 @@ class Command(BaseCommand):
 		print 'done'
 		
 		print 'Creating events for new calendars...',
-		tag_choices     = map(
+		tag_choices = map(
 			lambda t: Tag.objects.create(name=t),
 			set(lorem_ipsum.words(20, False).lower().split())
 		)
+		contact_name_choices  = (None, 'Spork Belvadere', 'Captain ImABadGuy', 'Bill Paxton', 'Admiral Evildude')
+		contact_phone_choices = (None, '407-123-3215', '563-456-4123', '123-456-4448')
+		contact_email_choices = (None, 'john@doe.com', 'anon@ymous.com', 'event@contact.com')
 		for i in range(1, 8):
 			hour       = randint(8, 20)
 			minutes    = choice([15, 30, 45, 0, 0, 0])
@@ -41,7 +44,10 @@ class Command(BaseCommand):
 				title=lorem_ipsum.words_cust(),
 				description=lorem_ipsum.paragraph(),
 				state=Event.Status.posted,
-				owner=test_user
+				owner=test_user,
+				contact_name=choice(contact_name_choices),
+				contact_phone=choice(contact_phone_choices),
+				contact_email=choice(contact_email_choices)
 			)
 			event.tags.add(*tags)
 			
