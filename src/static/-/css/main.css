@@ -23,7 +23,7 @@ h1 a{color:#333; text-decoration: none;}
 .event-list>.heading{font-size: 20px;}
 .event-list ul{padding: 0; margin: 0;}
 .event-list ul li{list-style-type: none;}
-.event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc;}
+.event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc; position: relative;}
 .event-list .event.first{border: none;}
 .event-list .event .image img{border: 1px solid #ccc; padding: 2px;}
 .event-list .event .heading .title{color: #a35e00; text-decoration: none; font-size: 18px; font-weight: bold;}
@@ -32,6 +32,7 @@ h1 a{color:#333; text-decoration: none;}
 .event-list .event .description{color: #333; margin-top: 1em;}
 .event-list .event .buttons{padding: 0; margin: 20px 0 0 0;  text-align: right;}
 .event-list .event .buttons li{list-style-type: none; display: inline;}
+.event-list .event .ongoing{display: inline; color: #999; font-size: 18px; font-weight: bold;}
 
 .calendar-widget{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"; color: #666666;}
 .calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px; border: 1px solid #eaeae7;

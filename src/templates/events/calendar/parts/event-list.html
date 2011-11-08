@@ -6,15 +6,16 @@
 	<ul>
 		{%for event in events%}
 		<li class="event{%if forloop.first%} first{%endif%} span-15 last">
-			<div class="start span-2 append-1">
+			<div class="start span-4 append-1">
+					{%if event.is_ongoing%}<div class="ongoing">ongoing since</div>{%endif%}
 					{{event.start|date:"fA"|lower}}
 			</div>
-			<div class="details span-12 last">
+			<div class="details span-10 last">
 				<div class="heading">
 					<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title">{{event.title}}</a>
 				</div>
-				<div class="description span-12 last">{{event.description|truncatewords:16}}</div>
-				<div class="buttons span-12 last">
+				<div class="description">{{event.description|truncatewords:16}}</div>
+				<div class="buttons">
 					<a class="primary button" href="#">Social Something</a>
 					<a class="button" href="#">Button</a>
 				</div>

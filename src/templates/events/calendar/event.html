@@ -35,6 +35,7 @@
 				{%endif%}
 			</ul>
 			{%endif%}
+			{%if event.sibling_upcoming.count%}
 			<div class="other">
 				<p>This event has multiple times and locations</p>
 				<ul class="nobullet">
@@ -43,6 +44,7 @@
 				{%endfor%}
 				</ul>
 			</div>
+			{%endif%}
 		</div>
 		
 		<div class="span-16 last">
