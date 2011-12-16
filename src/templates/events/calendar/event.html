@@ -20,7 +20,7 @@
 			</div>
 			<div class="where">
 				<div class="name">Visual Arts Building</div>
-				<img src="{{MEDIA_URL}}-/img/test-map.png" height="266" width="266" />
+				<img class="snazzy" src="{{MEDIA_URL}}-/img/test-map.png" height="266" width="266" />
 			</div>
 			{%if event.has_contact%}
 			<ul class="contact nobullet">
@@ -31,12 +31,20 @@
 				<li class="phone">{{event.contact.phone}}</li>
 				{%endif%}
 				{%if event.contact.email%}
-				<li class="email mail"><a href="{{event.contact.email}}">{{event.contact.email}}</a></li>
+				<li class="email mail"><a href="mailto:{{event.contact.email}}">{{event.contact.email}}</a></li>
 				{%endif%}
 			</ul>
 			{%endif%}
+			{%if event.sibling_upcoming.count%}
 			<div class="other">
+				<p>This event has multiple times and locations</p>
+				<ul class="nobullet">
+				{%for event in event.sibling_upcoming%}
+					<li><a href="{%url event calendar=calendar.slug instance_id=event.id%}">{{event.start|date:"M\. jS"}} at {{event.location}}</a></li>
+				{%endfor%}
+				</ul>
 			</div>
+			{%endif%}
 		</div>
 		
 		<div class="span-16 last">

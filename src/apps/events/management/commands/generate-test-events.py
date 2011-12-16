@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.core.management      import call_command
-from events.models               import Calendar, Event, EventInstance, Tag
+from events.models               import Calendar, Event, EventInstance, Tag, Location
 from django.contrib.auth.models  import User
 from django.contrib.webdesign    import lorem_ipsum
 from datetime                    import datetime, timedelta
@@ -30,11 +30,18 @@ class Command(BaseCommand):
 		contact_name_choices  = (None, 'Spork Belvadere', 'Captain ImABadGuy', 'Bill Paxton', 'Admiral Evildude')
 		contact_phone_choices = (None, '407-123-3215', '563-456-4123', '123-456-4448')
 		contact_email_choices = (None, 'john@doe.com', 'anon@ymous.com', 'event@contact.com')
+		location_choices = (
+			Location.objects.create(name="Student Union"),
+			Location.objects.create(name="Library"),
+			Location.objects.create(name="Arena"),
+			Location.objects.create(name="Visual Arts Building"),
+			Location.objects.create(name="Patrick's House"),
+		)
 		for i in range(1, 8):
-			hour       = randint(8, 20)
-			minutes    = choice([15, 30, 45, 0, 0, 0])
-			start      = datetime(datetime.now().year, 1, i, hour, minutes)
-			end        = start + timedelta(hours=choice([1, 2, 3, 24, 25, 26, 48, 49, 50]))
+			hour    = randint(8, 20)
+			minutes = choice([15, 30, 45, 0, 0, 0])
+			start   = datetime(datetime.now().year, 1, i, hour, minutes)
+			end     = start + timedelta(hours=choice([1, 2, 3, 24, 25, 26, 48, 49, 50]))
 			
 			tags = list()
 			for j in range(0, randint(1, 5)):
@@ -52,6 +59,7 @@ class Command(BaseCommand):
 			event.tags.add(*tags)
 			
 			instance = event.instances.create(
+				location=choice(location_choices),
 				start=start,
 				end=end,
 				interval=EventInstance.Recurs.weekly,

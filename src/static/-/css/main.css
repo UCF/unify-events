@@ -4,7 +4,7 @@ h1 {font-family: "Helvetica", "Arial", "sans-serif"; font-size: 35px; font-weigh
 h1 a{color:#333; text-decoration: none;}
 
 .snazzy{
-	border: 4px solid #fafafa;
+	border: 3px solid #fafafa;
 	-moz-box-shadow: 2px 2px 8px #aaa;
 	-webkit-box-shadow: 2px 2px 8px #aaa;
 	box-shadow: 2px 2px 8px #aaa;
@@ -23,7 +23,7 @@ h1 a{color:#333; text-decoration: none;}
 .event-list>.heading{font-size: 20px;}
 .event-list ul{padding: 0; margin: 0;}
 .event-list ul li{list-style-type: none;}
-.event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc;}
+.event-list .event{margin: 0 0 1.5em 0; padding: 1.5em 0 0 0; border-top: 1px solid #ccc; position: relative;}
 .event-list .event.first{border: none;}
 .event-list .event .image img{border: 1px solid #ccc; padding: 2px;}
 .event-list .event .heading .title{color: #a35e00; text-decoration: none; font-size: 18px; font-weight: bold;}
@@ -32,6 +32,7 @@ h1 a{color:#333; text-decoration: none;}
 .event-list .event .description{color: #333; margin-top: 1em;}
 .event-list .event .buttons{padding: 0; margin: 20px 0 0 0;  text-align: right;}
 .event-list .event .buttons li{list-style-type: none; display: inline;}
+.event-list .event .ongoing{display: inline; color: #999; font-size: 18px; font-weight: bold;}
 
 .calendar-widget{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"; color: #666666;}
 .calendar-widget .table-wrap{background-color: #fafaf7; padding: 10px; border: 1px solid #eaeae7;
@@ -101,6 +102,7 @@ h1 a{color:#333; text-decoration: none;}
 
 
 .event-page .event{font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";}
+.event-page .other:before,
 .event-page .when:before,
 .event-page .where:before,
 .event-page .contact:before,
@@ -108,21 +110,23 @@ h1 a{color:#333; text-decoration: none;}
 .event-page .event .image{margin-bottom: 2em; padding: 0;}
 .event-page .event .when{padding: 0; margin: 0 0 20px 0;}
 .event-page .event .when:before{content: "when";}
-.event-page .event .when .weekday{font-size: 42px; font-weight: bold; color: #000; margin: 0 0 0 0;}
+.event-page .event .when .weekday{font-size: 32px; font-weight: bold; color: #000; margin: 0 0 0 0;}
 .event-page .event .when .date{font-size: 18px; font-weight: bold; margin: 0 0 5px 0;}
 .event-page .event .when .time{font-size: 26px; font-weight: bold; margin: 0 0 0 0;}
 .event-page .event .social{margin: 0 0 20px 0;}
 .event-page .event .where{margin: 0 0 20px 0;}
-.event-page .event .where:before{content: "where"; }
-.event-page .event .where .name{font-size: 18px; font-weight: bold;}
-.event-page .contact:before{content: 'questions';}
+.event-page .event .where:before{content: "where";}
+.event-page .event .where .name{font-size: 18px; font-weight: bold; margin: 0 0 10px 0;}
+.event-page .event .contact:before{content: 'questions';}
 .event-page .event .contact{font-size: 16px; font-weight: bold;}
 .event-page .event .contact li{margin: 0 0 5px 0;}
 .event-page .event .contact a{ font-weight: bold; text-decoration: none;}
-.event-page .event .title{color: #000; font-size: 42px; font-weight: bold; margin: 0 0 20px 0; padding: 0;}
+.event-page .event .other:before{content: "Come Again";}
+.event-page .event .other p{font-weight: bold; margin: 5px 0;}
+.event-page .event .other ul{margin: 5px 0; font-size: 12px; padding: 0 0 0 15px;}
+.event-page .event .title{color: #000; font-size: 32px; font-weight: bold; margin: 0 0 20px 0; padding: 0;}
 .event-page .event .title:before{content: "what";}
 .event-page .event .description{color: #000; font-size: 14px; margin: 0 0 20px 0;}
-.event-page .event .meta{}
 .event-page .event .meta .tag-breakdown{border-collapse: collapse; padding: 0; margin: 0;}
 .event-page .event .meta .tag-breakdown thead{display: none;}
 .event-page .event .meta .tag-breakdown td{padding: 3px 0;}

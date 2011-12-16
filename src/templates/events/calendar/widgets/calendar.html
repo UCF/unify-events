@@ -25,7 +25,7 @@
 				{% for week in weeks %}
 				<tr class="week">
 					{% for day, events, weight in week %}
-					<td class="day {%if weight%}{{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%}subtle{%endif%}">
+					<td class="day{%if weight%} {{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%} subtle{%endif%}">
 						<a class="load" href="{%url day-listing calendar.slug day.year day.month day.day%}">
 						{{day.day}}
 						</a>
