@@ -56,3 +56,6 @@ LDAP_NET_SEARCH_PASS = ''
 
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_SLUG = ''
+
+# Disable Cache
+#CACHES = { 'default': { 'BACKEND': 'django.core.cache.backends.dummy.DummyCache', } }

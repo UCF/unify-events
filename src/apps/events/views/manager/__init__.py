@@ -75,15 +75,16 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
 		ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte=ctx['dates']['relative'])
 	
 	# Pagination
-	paginator = Paginator(ctx['instances'], 10)
-	page = request.GET.get('page', 1)
-	try:
-		ctx['instances'] = paginator.page(page)
-	except PageNotAnInteger:
-		ctx['instances'] = paginator.page(1)
-	except EmptyPage:
-		ctx['instances'] = paginator.page(paginator.num_pages)
-
+	if ctx['instances'] != None:
+		paginator = Paginator(ctx['instances'], 10)
+		page = request.GET.get('page', 1)
+		try:
+			ctx['instances'] = paginator.page(page)
+		except PageNotAnInteger:
+			ctx['instances'] = paginator.page(1)
+		except EmptyPage:
+			ctx['instances'] = paginator.page(paginator.num_pages)
+	
 	return direct_to_template(request,tmpl,ctx)
 
 @login_required

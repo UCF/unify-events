@@ -5,376 +5,107 @@
 #manager-base h1 {font-size:225%;float:left;margin-bottom:10px;}
 #manager-base h1 > a {text-decoration:none;}
 #manager-base h2 {font-size:150%;font-weight:normal;}
-
 #manager-base label {font-size:17px;}
-#manager-base input[type="text"], #manager-base input[type="password"] {
-	font-size:18px;
-}
+#manager-base input[type="text"], #manager-base input[type="password"] { font-size:18px; }
 .box {background:none;}
-
 #nav {float:right;}
-	#nav > li {
-		display:inline;
-		font-size:120%;
-		border-left:1px solid #333;
-	}
-		#nav > li > a {
-			padding-left:7px;
-			text-decoration:none;
-		}
-		#nav > li > a:hover {
-			text-decoration:underline;
-		}
-	#nav > li:first-child {
-		border-left:none;
-		padding-right:5px;
-	}
-.datepicker {
-	border-color:#FFF;
-	width:140px;
-}
-#messages {
-	margin:0 0 30px 0;
-	padding:0;
-}
-	#messages li {
-		list-style-type:none;
-	}
-a.serious {
-	color:#CC0000 !important; 
-}
-
-.inlineldapsearch {
-	margin:5px 0;
-}
-	.inlineldapsearch .input {
-		clear:both;
-	}
-	.inlineldapsearch .query {
-		width:240px;
-	}
-	.inlineldapsearch .choices,
-		 .inlineldapsearch .selections {
-		display:block;
-		width:130px;
-		float:left;
-		height:100px;
-		margin-top:5px;
-	}
-	.inlineldapsearch .actions {
-		margin:10px;
-		padding:0;
-		float:left;
-		text-align:center;
-	}
-		.inlineldapsearch .actions li {
-			list-style-type:none;
-		}
-/*
- * Login Styles
- */
-#login {
-	display:block;
-	border-radius:2px;
-	background: #FFF6D4;
-	border: 1px solid #DAD1AC;
-}
-	#login h2 {
-		margin-top:0;
-	}
-	#login #login-form table {
-		width:100%;
-	}
-	#login .error {
-	 	margin:10px 10px 0 10px;
-	 }
-	 	#login .error > li {
-	 		list-style-type:none;
-	 	}
-	 	#login .error > li:last-child {
-	 		margin-bottom:0;
-	 	}
-	#login td .error {
-	 	font-size:80%;
-	 	text-align:right;
-	 	background-color:inherit;
-	 	border:none;
-	 	font-style:italic;
-	 	margin:0;
-	 	padding:0 5px 0 0;
-	 }
-	 #login #login-message p {
-	 	font-size:115%;
-	 }
+#nav > li { display:inline; font-size:120%; border-left:1px solid #333; }
+#nav > li > a { padding-left:7px; text-decoration:none; }
+#nav > li > a:hover { text-decoration:underline; }
+#nav > li:first-child { border-left:none; padding-right:5px; }
+.datepicker { border-color:#FFF; width:140px; }
+#messages { margin:0 0 30px 0; padding:0; }
+#messages li { list-style-type:none; }
+a.serious { color:#CC0000 !important; }
+.inlineldapsearch { margin:5px 0; }
+.inlineldapsearch .input { clear:both; }
+.inlineldapsearch .query { width:240px; }
+.inlineldapsearch .choices, .inlineldapsearch .selections { display:block; width:130px; float:left; height:100px; margin-top:5px; }
+.inlineldapsearch .actions { margin:10px; padding:0; float:left; text-align:center; }
+.inlineldapsearch .actions li { list-style-type:none; }
 
 /*
- * Manage Styles
+ * Login Styles 
  */
-#event_create {
-	float:left;
-	position:relative;
-	z-index:2;
-	font-size:100%;
-	padding:6px;
-}
-#other_actions {
-	float:left;
-	margin:0;
-	padding:0;
-	z-index:2;
-	position:relative;
-	margin-left:5px;
-}
-	#other_actions > li:first-child {
-		position:static;
-		display:block;
-		margin:0;
-	}
-		#other_actions > li:first-child button {
-			width:145px;
-			text-align:left;
-		}
-			#other_actions > li:first-child button span {
-				margin-left:35px;
-			}
-	#other_actions > li {
-		list-style-type:none;
-		position:absolute;
-		display:none;
-	}
-		#other_actions > li > a {
-			display:block;
-			padding:6px;
-			width:131px;
-		}
-#calendars {
-	margin:0;
-	padding:5px 0 0 0;
-}
-	#calendars > li {
-		list-style-type:none;
-		padding:5px;
-		border-radius:2px;
-		border-top:1px solid #f7f7f7;
-		margin:5px 0;
-	}
-		#calendars > li:first-child {
-			border:none;
-		}
-			#calendars > li:first-child > a:first-child; {
-				padding-left:0;
-			}
-		#calendars li p {
-			margin:0;
-		}
-		#calendars li.selected {
-			background-color:#eee;
-			border:none;
-		}
-		#calendars li > a {
-			font-size:130%;
-			text-decoration:none;
-			padding-left:5px;
-		}
-			#calendars li > a:hover {
-				text-decoration:underline;
-			}
-		#calendars li .name {
-			display:block;
-			margin-bottom:10px;
-		}
-		#calendars li .details {
-			text-align:right;
-			font-size:85%;
-			margin-top:2px;
-		}
-		#calendars li .links {
-			margin:0;
-			padding:0;
-		}
-			#calendars li .links li {
-				display:inline;
-				list-style-type:none;
-				margin:0 inherit;
-				padding:0 inherit;
-				border-left: 1px solid #d9d9d9;
-				padding-left:3px;
-				padding-right:3px;
-			}
-				#calendars li .links li:first-child {
-					border:none;
-					padding-left:0;
-				}
-				#calendars li .links li > a{
-					color:#4183C4;
-					font-size:85%;
-				}
-#search {
-	display:block;
-	padding-top:10px;
-	padding-bottom:5px;
-	border-bottom: 2px solid #eee;
-}
-	#search input[type="text"] {
-		font-size:100%;
-		height:17px;
-		width:201px;
-	}
-	#search input[type="text"].prefill {
-		color:#999;
-		font-style:italic;
-	}
+#login { display:block; border-radius:2px; background: #FFF6D4; border: 1px solid #DAD1AC; }
+#login h2 { margin-top:0; }
+#login #login-form table { width:100%; }
+#login .error { margin:10px 10px 0 10px; }
+#login .error > li { list-style-type:none; }
+#login .error > li:last-child { margin-bottom:0; }
+#login td .error { font-size:80%; text-align:right; background-color:inherit; border:none; font-style:italic; margin:0; padding:0 5px 0 0; }
+#login #login-message p { font-size:115%; }
 
-#event_date {
-	text-align:center;
-	margin-bottom:10px;
-	font-size:110%;
-}
-	#event_date .prev {
-		display:inline;
-		float:left;
-	}
-	#event_date .next {
-		display:inline;
-		float:right;
-	}
-	#event_date a {
-		text-decoration:none;
-		font-size:65%;
-		position:relative;
-		top:-2px;
-	}
-
-#instances {
-	margin:0;
-	padding:0;
-	border-top:2px solid #EEE;
-}
-	#instances > li {
-		list-style-type:none;
-		margin-bottom:5px;
-		padding:10px 0 7px 0;
-		border-bottom:1px solid #eee;
-	}
-		#instances > li > a {
-			text-decoration:none;
-		}
-		#instances li .image {
-		}
-		#instances li .title {
-			font-size:120%;
-			font-weight:bold;
-			margin-bottom:3px;
-		}
-		#instances li .tags, #instances li .categories {
-			margin:0;padding:0;
-		}
-			#instances li .tags > li, #instances li .categories > li {
-				list-style-type:none;
-				padding-left:3px;
-				font-style:italic;
-			}
-				#instances li .tags > li:first-child, #instances li .categories > li:first-child {
-					padding-left:0;
-				}
-
-		#instances li .datetime {
-			text-align:right;
-			font-size:115%;
-		}
-		#instances li .location {
-			text-align:right;
-		}
-		#instances li .state {
-			text-align:right;
-			margin-top:.75em;
-			float:right;
-		}
-			#instances li .state > a {
-				font-size:80%;
-				font-weight:bold;
-			}
 /*
- * Event Creation / Updating
+ * Manage Styles 
  */
- #event {
-}
-	#event #details {
-			
-	}
-		#event #details label {
-			display:block;
-			margin:5px 0;
-		}
-		#event #details #create_tag {
-			float:right;
-			display:block;
-			margin-top:2px;
-		}
-		#event #details select {
-			width:100%;
-		}
-		#id_event-title {
-			width:97%;
-			margin:0;
-			margin-bottom:10px;
-		}
-		#id_event-description {
-			width:97%;
-			height:80px;
-			margin-bottom:15px;
-		}
-		#event #details button {
-			display:block;
-			width:100%;
-			margin-top:10px;
-		}
-	#event #instances {
-		margin:0;
-		padding:0;
-	}
-		#event #instances > li {
-			list-style-type:none;
-		}
-		#event #instances label {
-			display:block;
-			margin-top:10px;
-		}
-		#event #instances .recur input {
-			width:50px;
-		}
-		#event #instances .recur select {
-			width:205px;
-		}
-		#event #instances .location select {
-			width:270px;
-		}
-		#event #instances label {
-			font-weight:normal;
-		}
-		#event #instances .start label,
-			#event #instances .end label {
-				display:block;
-			}
-/* Tag and Category Management */
-#manage-tags, #manage-categories {
-	margin-top:10px;
-}
-	#manage-tags th, #manage-categories th {
-		background-color:#eee;
-		padding:5px;
-		font-weight:bold;
-	}
-	#manage-tags td, #manage-categories td {
-		vertical-align:top;
-		padding:5px;
-	}
-	#manage-tags td.name, #manage-categories td.name {
-		width:35%;
-	}
-	#manage-tags td.event_count, #manage-categories td.event_count {
-		width:20%;
-	}
-	#manage-tags td.actions, #manage-categories td.actions {
-		width:35%;
-	}
+#event_create { float:left; position:relative; z-index:2; font-size:100%; padding:6px; }
+#other_actions { float:left; margin:0; padding:0; z-index:2; position:relative; margin-left:5px; }
+#other_actions > li:first-child { position:static; display:block; margin:0; }
+#other_actions > li:first-child button { width:145px; text-align:left; }
+#other_actions > li:first-child button span { margin-left:35px; }
+#other_actions > li { list-style-type:none; position:absolute; display:none; }
+#other_actions > li > a { display:block; padding:6px; width:131px; }
+#calendars { margin:0; padding:5px 0 0 0; }
+#calendars > li { list-style-type:none; padding:5px; border-radius:2px; border-top:1px solid #f7f7f7; margin:5px 0; }
+#calendars > li:first-child { border:none; }
+#calendars > li:first-child > a:first-child; { padding-left:0; }
+#calendars li p { margin:0; }
+#calendars li.selected { background-color:#eee; border:none; }
+#calendars li > a { font-size:130%; text-decoration:none; padding-left:5px; }
+#calendars li > a:hover { text-decoration:underline; }
+#calendars li .name { display:block; margin-bottom:10px; }
+#calendars li .details { text-align:right; font-size:85%; margin-top:2px; }
+#calendars li .links { margin:0; padding:0; }
+#calendars li .links li { display:inline; list-style-type:none; margin:0 inherit; padding:0 inherit; border-left: 1px solid #d9d9d9; padding-left:3px; padding-right:3px; }
+#calendars li .links li:first-child { border:none; padding-left:0; }
+#calendars li .links li > a{ color:#4183C4; font-size:85%; }
+#search { display:block; padding-top:10px; padding-bottom:5px; border-bottom: 2px solid #eee; }
+#search input[type="text"] { font-size:100%; height:17px; width:201px; }
+#search input[type="text"].prefill { color:#999; font-style:italic; }
+#event_date { text-align:center; margin-bottom:10px; font-size:110%; }
+#event_date .prev { display:inline; float:left; }
+#event_date .next { display:inline; float:right; }
+#event_date a { text-decoration:none; font-size:65%; position:relative; top:-2px; }
+#instances { margin:0; padding:0; border-top:2px solid #EEE; }
+#instances > li { list-style-type:none; margin-bottom:5px; padding:10px 0 7px 0; border-bottom:1px solid #eee; }
+#instances > li > a { text-decoration:none; }
+#instances li .image { }
+#instances li .title { font-size:120%; font-weight:bold; margin-bottom:3px; }
+#instances li .tags, #instances li .categories { margin:0;padding:0; }
+#instances li .tags > li, #instances li .categories > li { list-style-type:none; padding-left:3px; font-style:italic; }
+#instances li .tags > li:first-child, #instances li .categories > li:first-child { padding-left:0; }
+#instances li .datetime { text-align:right; font-size:115%; }
+#instances li .location { text-align:right; }
+#instances li .state { text-align:right; margin-top:.75em; float:right; }
+#instances li .state > a { font-size:80%; font-weight:bold; }
+
+/*
+ * Event Creation / Updating 
+ */
+#event { }
+#event #details { }
+#event #details label { display:block; margin:5px 0; }
+#event #details #create_tag { float:right; display:block; margin-top:2px; }
+#event #details select { width:100%; }
+#id_event-title { width:97%; margin:0; margin-bottom:10px; }
+#id_event-description { width:97%; height:80px; margin-bottom:15px; }
+#event #details button { display:block; width:100%; margin-top:10px; }
+#event #instances { margin:0; padding:0; }
+#event #instances > li { list-style-type:none; }
+#event #instances label { display:block; margin-top:10px; }
+#event #instances .recur input { width:50px; }
+#event #instances .recur select { width:205px; }
+#event #instances .location select { width:270px; }
+#event #instances label { font-weight:normal; }
+#event #instances .start label, #event #instances .end label { display:block; }
+
+/* 
+ * Tag and Category Management 
+ */
+#manage-tags, #manage-categories { margin-top:10px; }
+#manage-tags th, #manage-categories th { background-color:#eee; padding:5px; font-weight:bold; }
+#manage-tags td, #manage-categories td { vertical-align:top; padding:5px; }
+#manage-tags td.name, #manage-categories td.name { width:35%; }
+#manage-tags td.event_count, #manage-categories td.event_count { width:20%; }
+#manage-tags td.actions, #manage-categories td.actions { width:35%; }
