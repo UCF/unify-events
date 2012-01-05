@@ -27,6 +27,8 @@ function extend_formset(selector, type) {
 Webcom.ajaxStuff = function($){
 	var elements_to_update = ['#events-content'];
 	
+	if($.browser.name=='msie') return;
+	
 	$('a.load').live('click', function(){
 		var url = $(this).attr('href');
 		$.ajax(url, {
@@ -42,10 +44,12 @@ Webcom.ajaxStuff = function($){
 				try{
 					title = data.match(/<title>([^<]*)<\/title>/)[1];
 				}catch(e){}
+				
 				var state = {
 					'data'  : data,
-					'title' : title,
-				}
+					'title' : title
+				};
+				
 				history.pushState(state, title, url);
 			}
 		});
