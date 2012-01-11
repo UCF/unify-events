@@ -8,88 +8,137 @@
 					extend_formset('#instances > li:last', 'event_instance');
 					return false;
 				});
-		})
+		});
 	</script>
 {% endblock %}
+
 {% block content_body %}
+<div id="event">
+	
+	{% if mode == 'create' %}<h2>Create an Event</h2>{% endif %}
+	{% if mode == 'update' %}<h2>Update Event</h2>{% endif %}
+		
+	<div class="span-16 append-1 col1">
+		<input placeholder="Event Title">
+	</div>
+	<div class="span-7 last col2">
+		<h3>Event Title <span>required</span></h3>
+		<p><em>Be Brief.  Be Bright. Be Done.</em></p>
+	</div>
+	
+	
+	<div class="span-16 append-1 col1">
+		
+		<div class="when-where">
+			<label>When</label>
+			<input>
+			<select><option>Hello This</option></select>
+			<a class="end">add end time</a>
+			
+			<label>Where</label>
+			<input>
+			<a class="end">add street address</a>
+			
+			<label>Recurring? <input type="checkbox"></label>
+		</div>
+		
+	</div>
+	<div class="span-7 last col2">
+		<h3>When &amp; Where <span>required</span></h3>
+		<p>Events can happen in more than one location.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="clear"></div>
+	
+	
+	
+	
+	
+	
+
+</div><!-- /event -->
+
+
+	
+	
+			
+			
+<div id="event-old">
+	{{event_form.non_field_errors}}
+	{{event_form.errors}}
+	{% for form in event_formset %}
+		{{form.non_field_errors}}
+		{{form.errors}}
+	{% endfor %}
 	{% if mode == 'create' %}
-	<h2>Create an Event</h2>
+	<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
 	{% else %}
 		{% if mode == 'update' %}
-		<h2>Update Event</h2>
+		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
 		{% endif %}
 	{% endif %}
-	<div id="event" class="span-24">
-			{{event_form.non_field_errors}}
-			{{event_form.errors}}
-			{% for form in event_formset %}
-				{{form.non_field_errors}}
-				{{form.errors}}
-			{% endfor %}
+	
+		<div id="details" class="span-8">
+			{{event_form.title.label_tag}}
+			{{event_form.title}}
+			{{event_form.description.label_tag}}
+			{{event_form.description}}
+			<a id="create_tag" href="{% url tag-create %}" class="button">Create New Tag</a>
+			{{event_form.tags.label_tag}}
+			{{event_form.tags}}
+			{{event_form.categories.label_tag}}
+			{{event_form.categories}}
+			{{event_form.image.label_tag}}
+			{{event_form.image}}
+			{{event_form.calendar.label_tag}}
+			{{event_form.calendar}}
+			{{event_formset.management_form}}
+			{% csrf_token %}
 			{% if mode == 'create' %}
-			<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
+			<button type="submit">Create Event</button>
 			{% else %}
 				{% if mode == 'update' %}
-				<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
+				<button type="submit">Update Event</button>
 				{% endif %}
 			{% endif %}
-			
-				<div id="details" class="span-8">
-					{{event_form.title.label_tag}}
-					{{event_form.title}}
-					{{event_form.description.label_tag}}
-					{{event_form.description}}
-					<a id="create_tag" href="{% url tag-create %}" class="button">Create New Tag</a>
-					{{event_form.tags.label_tag}}
-					{{event_form.tags}}
-					{{event_form.categories.label_tag}}
-					{{event_form.categories}}
-					{{event_form.image.label_tag}}
-					{{event_form.image}}
-					{{event_form.calendar.label_tag}}
-					{{event_form.calendar}}
-					{{event_formset.management_form}}
-					{% csrf_token %}
-					{% if mode == 'create' %}
-					<button type="submit">Create Event</button>
-					{% else %}
-						{% if mode == 'update' %}
-						<button type="submit">Update Event</button>
-						{% endif %}
-					{% endif %}
-				</div>
-				<div class="span-15 prepend-1 last">
-					<label>Date, Time &amp; Location:</label>
-					<ul id="instances">
-						{% for form in event_formset %}
-							<li class="clearfix">
-								{{form.id}}
-								<div class="dates span-8">
-									<div class="start">
-										{{form.start.label_tag}}
-										{{form.start}}
-									</div>
-									<div class="end">
-										{{form.end.label_tag}}
-										{{form.end}}
-									</div>
-								</div>
-								<div class="span-7 last">
-									<div class="recur">
-										{{form.interval.label_tag}}
-										{{form.interval}} {{form.until}}
-									</div>
-									<div class="location">
-										{{form.location.label_tag}}
-										{{form.location}}
-									</div>
-									<p>{{form.DELETE}} Delete this event instance</p>
-								</div>
-							</li>
-						{% endfor %}
-					</ul>
-					<button id="event_instance_add" class="clear">Add Another Event Instance</button>
-				</div>
-			</form>
 		</div>
+		<div class="span-15 prepend-1 last">
+			<label>Date, Time &amp; Location:</label>
+			<ul id="instances">
+				{% for form in event_formset %}
+					<li class="clearfix">
+						{{form.id}}
+						<div class="dates span-8">
+							<div class="start">
+								{{form.start.label_tag}}
+								{{form.start}}
+							</div>
+							<div class="end">
+								{{form.end.label_tag}}
+								{{form.end}}
+							</div>
+						</div>
+						<div class="span-7 last">
+							<div class="recur">
+								{{form.interval.label_tag}}
+								{{form.interval}} {{form.until}}
+							</div>
+							<div class="location">
+								{{form.location.label_tag}}
+								{{form.location}}
+							</div>
+							<p>{{form.DELETE}} Delete this event instance</p>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+			<button id="event_instance_add" class="clear">Add Another Event Instance</button>
+		</div>
+	</form>
+</div>
+
 {% endblock %}

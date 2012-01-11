@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
+		
+		{# TODO: make this happen in debug only need the context #}
+		<!--[if lte IE 7]>
+		<script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+		<![endif]-->
+		
 		{%block head%}
 		<title>{%block title%}Unify Events{%endblock%}</title>
 		
@@ -8,6 +14,10 @@
 		<meta charset="utf-8">
 		<meta name="description" content="{%block meta-description%}Unify Events{%endblock%}">
 		{%endblock%}
+		
+		<script>
+			var Unify = {};
+		</script>
 		
 		<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -30,15 +40,18 @@
 		{%endblock%}
 	</head>
 	<body>
-		<!-- Content -->
 		
+		<!-- Content -->
 		{%block body%}
 		{%block content%}{%endblock%}
 		{%block footer_scripts%}
 		<!-- Footer Scripts -->
 		<script src="{{MEDIA_URL}}-/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<!--[if (gte IE 6)&(lte IE 8)]>
+		<script type="text/javascript" src="{{MEDIA_URL}}-/js/selectivizr-min.js"></script>
+		<![endif]-->
 		<script src="{{MEDIA_URL}}-/js/script.js" type="text/javascript" charset="utf-8"></script>
 		{%endblock%}
-		{%endblock %}
+		{%endblock%}
 	</body>
 </html>

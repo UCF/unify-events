@@ -83,22 +83,51 @@ a.serious { color:#CC0000 !important; }
 /*
  * Event Creation / Updating 
  */
-#event { }
-#event #details { }
-#event #details label { display:block; margin:5px 0; }
-#event #details #create_tag { float:right; display:block; margin-top:2px; }
-#event #details select { width:100%; }
+#event input { border:1px dotted #DEDEDE; font-size:42px; font-weight:bold; padding:0 3px; outline:0; color:black; }
+#event .col1 > input { width:100%; margin-bottom:25px; }
+.msie #event input { height:48px; font-size:42px; }
+
+#event .hasPlaceholder { color:#A2A2A2; }
+#event input:placeholder { color:#A2A2A2; }
+#event input:-moz-placeholder { color:#A2A2A2; }
+#event input::-webkit-input-placeholder { color:#A2A2A2; }
+#event input:hover { border:1px solid #b4b4b4; box-shadow: inset 5px 5px 5px -1px rgba(0, 0, 0, .15), inset -2px -2px 2px 0px rgba(0, 0, 0, .05); }
+#event input:focus { border:1px solid #466bc9; box-shadow: inset 5px 5px 5px -1px rgba(70, 107, 201, .25), inset -2px -2px 2px 0px rgba(70, 107, 201, .08); }
+.msie #event input { background:url('../img/ie-input-bg.png') -500px -500px no-repeat; }
+.msie #event input:hover {  background-position:0 -100px; }
+.msie #event input:focus {  background-position:0 0; }
+
+#event input.error { border-color:#cc484a; box-shadow: inset 5px 5px 5px -1px rgba(204, 72, 74, .2), inset -2px -2px 2px 0px rgba(204, 72, 74, .05); background:white; color:black; }
+#event input.error::-webkit-input-placeholder { color:black; }
+
+#event .col2 { font-size:13px; color:#787878; }
+#event .col2 h3 { font-size:15px; font-weight:100; color:#567190; position:relative; margin:0; padding:5px 0; }
+#event .col2 h3 span { position:absolute; right:0; font-family:arial; font-size:12px; position:absolute; }
+#event .col2 h3 span:before { content:"*"; color:#718CAF; font-size:30px; display:block; height:3px; width:4px; position:absolute; top:-2px;; left:-14px;; }
+
+
+
+
+
+
+
+
+#event-old { padding-top:30px; border-top:1px dotted #666; margin-top:50px; }
+#event-old #details { }
+#event-old #details label { display:block; margin:5px 0; }
+#event-old #details #create_tag { float:right; display:block; margin-top:2px; }
+#event-old #details select { width:100%; }
 #id_event-title { width:97%; margin:0; margin-bottom:10px; }
 #id_event-description { width:97%; height:80px; margin-bottom:15px; }
-#event #details button { display:block; width:100%; margin-top:10px; }
-#event #instances { margin:0; padding:0; }
-#event #instances > li { list-style-type:none; }
-#event #instances label { display:block; margin-top:10px; }
-#event #instances .recur input { width:50px; }
-#event #instances .recur select { width:205px; }
-#event #instances .location select { width:270px; }
-#event #instances label { font-weight:normal; }
-#event #instances .start label, #event #instances .end label { display:block; }
+#event-old #details button { display:block; width:100%; margin-top:10px; }
+#event-old #instances { margin:0; padding:0; }
+#event-old #instances > li { list-style-type:none; }
+#event-old #instances label { display:block; margin-top:10px; }
+#event-old #instances .recur input { width:50px; }
+#event-old #instances .recur select { width:205px; }
+#event-old #instances .location select { width:270px; }
+#event-old #instances label { font-weight:normal; }
+#event-old #instances .start label, #event #instances .end label { display:block; }
 
 /* 
  * Tag and Category Management 
