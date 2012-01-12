@@ -1,34 +1,29 @@
 {% extends 'events/manager/base.html' %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#event_instance_add')
-				.click(function() {
-					extend_formset('#instances > li:last', 'event_instance');
-					return false;
-				});
-		});
-	</script>
-{% endblock %}
 
 {% block content_body %}
 <div id="event">
 	
 	{% if mode == 'create' %}<h2>Create an Event</h2>{% endif %}
 	{% if mode == 'update' %}<h2>Update Event</h2>{% endif %}
-		
-	<div class="span-16 append-1 col1">
-		<input placeholder="Event Title">
-	</div>
-	<div class="span-7 last col2">
-		<h3>Event Title <span>required</span></h3>
-		<p><em>Be Brief.  Be Bright. Be Done.</em></p>
+	
+	<div id="title">
+		<div class="span-16 append-1 col1">
+			<input placeholder="Event Title">
+		</div>
+		<div class="span-7 last col2">
+			<div class="label">
+				<h3>Event Title <span>required</span></h3>
+				<p><em>Be Brief.  Be Bright. Be Done.</em></p>
+			</div>
+			<div class="error" style="display:none;">
+				<h4><strong>Title Too Long</strong><br>(64 Characters Max)</h4>
+				<p>Notice this error message is exactly sixty-four characters long.</p>
+			</div>
+		</div>
 	</div>
 	
 	
 	<div class="span-16 append-1 col1">
-		
 		<div class="when-where">
 			<label>When</label>
 			<input>
@@ -42,22 +37,14 @@
 			<label>Recurring? <input type="checkbox"></label>
 		</div>
 		
+		
 	</div>
 	<div class="span-7 last col2">
 		<h3>When &amp; Where <span>required</span></h3>
 		<p>Events can happen in more than one location.</p>
 	</div>
 	
-	
-	
-	
-	
 	<div class="clear"></div>
-	
-	
-	
-	
-	
 	
 
 </div><!-- /event -->

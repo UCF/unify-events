@@ -5,6 +5,7 @@
 {% endblock %}
 {% block footer_scripts %}
 	{{block.super}}
+	<script src="{{MEDIA_URL}}-/js/manager.js"></script>
 	<script type="text/javascript">
 		var USER_SEARCH_URL = '{% url search-user %}';
 		$().ready(function() {
