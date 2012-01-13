@@ -1,7 +1,7 @@
 {% extends 'events/manager/base.html' %}
 
 {% block content_body %}
-<div id="event">
+<div class="event">
 	
 	{% if mode == 'create' %}<h2>Create an Event</h2>{% endif %}
 	{% if mode == 'update' %}<h2>Update Event</h2>{% endif %}
@@ -25,16 +25,81 @@
 	
 	<div class="span-16 append-1 col1">
 		<div class="when-where">
-			<label>When</label>
-			<input>
-			<select><option>Hello This</option></select>
-			<a class="end">add end time</a>
-			
-			<label>Where</label>
-			<input>
-			<a class="end">add street address</a>
-			
-			<label>Recurring? <input type="checkbox"></label>
+			<label class="when">When</label>
+			<input class="date" value="{% now "m/d/y" %}">
+			<select class="time">
+				<script>
+				Unify.hour = new Date();
+				Unify.hour = Unify.hour.getHours();
+				for(var i=0; i<24; i++){
+					document.write('<option ');
+					if(i==Unify.hour) document.write('selected="selected"');
+					document.write('>'+i+':00</option>');
+					document.write('<option>'+i+':15</option>');
+					document.write('<option>'+i+':30</option>');
+					document.write('<option>'+i+':45</option>');
+				}
+				</script>
+			</select>
+			<span class="end">
+				<input class="date" value="{% now "d/m/y" %}">
+				<select class="time">
+					<script>
+					Unify.hour = new Date();
+					Unify.hour = Unify.hour.getHours();
+					for(var i=0; i<24; i++){
+						document.write('<option ');
+						if(i==Unify.hour) document.write('selected="selected"');
+						document.write('>'+i+':00</option>');
+						document.write('<option>'+i+':15</option>');
+						document.write('<option>'+i+':30</option>');
+						document.write('<option>'+i+':45</option>');
+					}
+					</script>
+				</select>
+				<a class="remove rm-time"></a>
+			</span>
+			<a class="add end-time">add an end time</a>
+			<br>
+			<label class="where">Where</label>
+			<input class="place">
+			<div class="street">
+				<input>
+				<input>
+				<a class="remove rm-addr"></a>
+			</div>
+			<a class="add address">switch to street address</a>
+			<br>
+			<label class="rec">Recurring? <input type="checkbox"></label>
+		</div>
+		<div id="when-where-add"><a>add another time/location</a></div>
+		
+		<div id="repeat-dialog" title="Repeat">
+			<p>Events can only repeat for one year</p>
+			<table>
+			<tr>
+				<th>Repeats:</th><td><select><option>Weekly</option></select></td>
+			</tr><tr>
+				<th>Repeats every:</th><td><select><option>1</option></select>weeks</td>
+			</tr><tr>
+				<th>Repeat on:</th><td>
+					<lable><input type="radio" name="day">S</lable>
+					<lable><input type="radio" name="day">M</lable>
+					<lable><input type="radio" name="day">T</lable>
+					<lable><input type="radio" name="day">W</lable>
+					<lable><input type="radio" name="day">T</lable>
+					<lable><input type="radio" name="day">F</lable>
+					<lable><input type="radio" name="day">S</lable>
+				</td>
+			</tr><tr>
+				<th>Ends:</th><td>
+					<label><input type="radio" name="ends"> Never</label>
+					<label><input type="radio" name="ends"> After</label><input> occurrences
+					<label><input type="radio" name="ends"> On</label><input>
+				</td>
+			</tr><tr>
+				<th>Summary:</th><td>recurrence is hard</td>
+			</tr></table>
 		</div>
 		
 		

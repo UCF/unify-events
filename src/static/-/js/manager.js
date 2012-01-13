@@ -21,6 +21,42 @@ $('#title input')
 	});
 
 
+$('.when-where').each(function(){
+	//date
+	$(this).find('.date').datepicker();
+
+	//time
+	var end = $(this).find('.end');
+	var add = $(this).find('.add.end-time').click(function(){
+		$(this).hide();
+		end.show();
+	});
+	$(this).find('.remove.rm-time').click(function(){
+		add.show()
+		end.hide();
+	});
+
+	//location
+	var st = $(this).find('.street');
+	var pl = $(this).find('.place');
+	var swap = $(this).find('.add.address,.remove.rm-addr');
+	swap.click(function(){
+		pl.toggle();
+		st.toggle();
+		swap.show();
+		$(this).hide();
+	});
+
+	//recurrence
+	$(this).find('.rec').click(function(){
+		$('#repeat-dialog').dialog({modal:true});
+	});
+
+
+});
+
+
+
 
 
 
