@@ -8,7 +8,7 @@
 	
 	<div id="title">
 		<div class="span-16 append-1 col1">
-			<input placeholder="Event Title">
+			<input type="text" placeholder="Event Title">
 		</div>
 		<div class="span-7 last col2">
 			<div class="label">
@@ -83,13 +83,16 @@
 				<th>Repeats every:</th><td><select><option>1</option></select>weeks</td>
 			</tr><tr>
 				<th>Repeat on:</th><td>
-					<lable><input type="radio" name="day">S</lable>
-					<lable><input type="radio" name="day">M</lable>
-					<lable><input type="radio" name="day">T</lable>
-					<lable><input type="radio" name="day">W</lable>
-					<lable><input type="radio" name="day">T</lable>
-					<lable><input type="radio" name="day">F</lable>
-					<lable><input type="radio" name="day">S</lable>
+
+					<div class="buttons">
+						<input type="checkbox" id="repeat-sunday" /><label for="repeat-sunday">S</label>
+						<input type="checkbox" id="repeat-monday" /><label for="repeat-monday">M</label>
+						<input type="checkbox" id="repeat-tuesday" /><label for="repeat-tuesday">T</label>
+						<input type="checkbox" id="repeat-wednesday" /><label for="repeat-wednesday">W</label>
+						<input type="checkbox" id="repeat-thursday" /><label for="repeat-thursday">T</label>
+						<input type="checkbox" id="repeat-friday" /><label for="repeat-friday">F</label>
+						<input type="checkbox" id="repeat-saturday" /><label for="repeat-saturday">S</label>
+					</div>
 				</td>
 			</tr><tr>
 				<th>Ends:</th><td>

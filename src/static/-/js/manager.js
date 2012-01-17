@@ -21,6 +21,10 @@ $('#title input')
 	});
 
 
+//$('#repeat-dialog').dialog({ modal  : true });
+$('.buttons').buttonset();
+
+
 $('.when-where').each(function(){
 	//date
 	$(this).find('.date').datepicker();
@@ -49,11 +53,10 @@ $('.when-where').each(function(){
 
 	//recurrence
 	$(this).find('.rec').click(function(){
-		$('#repeat-dialog').dialog({modal:true});
+		return;
 	});
-
-
 });
+
 
 
 

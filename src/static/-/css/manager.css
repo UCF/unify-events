@@ -22,6 +22,7 @@ a.serious { color:#CC0000 !important; }
 .inlineldapsearch .actions { margin:10px; padding:0; float:left; text-align:center; }
 .inlineldapsearch .actions li { list-style-type:none; }
 
+
 /*
  * Login Styles 
  */
@@ -91,7 +92,7 @@ a.serious { color:#CC0000 !important; }
 .event select { outline:none;}
 .event select option { outline:none; border:0; }
 .event select:focus option { outline:none; border:0; }
-.event .col1 > input { width:624px; margin-bottom:25px; }
+.event .col1 > input[type=text] { width:624px; margin-bottom:25px; }
 .msie .event input { height:48px; font-size:42px; }
 
 .event .hasPlaceholder { color:#A2A2A2; }
@@ -148,8 +149,10 @@ a.serious { color:#CC0000 !important; }
 .msie7 .when-where label { font-weight:bold; }
 #when-where-add { text-align:right; padding:10px; }
 #when-where-add a {  text-decoration:none; color:#1846bc; font-weight:bold; }
-#repeat-dialog { display:none; }
-
+#repeat-dialog { width:450px; border:1px solid red; padding:15px; }
+#repeat-dialog td { padding-bottom:10px;}
+#repeat-dialog th { vertical-align:top; width:100px; text-align:right; padding-right:15px; font-weight:bold; }
+#repeat-dialog td input { width:10px;}
 
 
 
