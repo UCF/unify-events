@@ -36,6 +36,7 @@
 		{%endblock%}
 		
 		{%block scripts%}{%endblock%}
+		<link href="http://universityheader.ucf.edu/bar/css/bar.css" rel="stylesheet">
 		<script type="text/javascript" src="http://universityheader.ucf.edu/bar/js/university-header.js"></script>
 		{%endblock%}
 	</head>
@@ -46,6 +47,7 @@
 		{%block content%}{%endblock%}
 		{%block footer_scripts%}
 		<!-- Footer Scripts -->
+		<script src="{{MEDIA_URL}}-/js/json2.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{MEDIA_URL}}-/js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<!--[if (gte IE 6)&(lte IE 8)]>
 		<script type="text/javascript" src="{{MEDIA_URL}}-/js/selectivizr-min.js"></script>

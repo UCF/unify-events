@@ -70,38 +70,50 @@
 			</div>
 			<a class="add address">switch to street address</a>
 			<br>
-			<label class="rec">Recurring? <input type="checkbox"></label>
+			<label class="rec">
+				Recurring? <input type="checkbox">
+				<input id="recurrence" type="hidden" value="false">
+			</label>
 		</div>
 		<div id="when-where-add"><a>add another time/location</a></div>
 		
 		<div id="repeat-dialog" title="Repeat">
-			<p>Events can only repeat for one year</p>
 			<table>
 			<tr>
-				<th>Repeats:</th><td><select><option>Weekly</option></select></td>
-			</tr><tr>
-				<th>Repeats every:</th><td><select><option>1</option></select>weeks</td>
-			</tr><tr>
-				<th>Repeat on:</th><td>
-
+				<th>Repeats:</th><td>
 					<div class="buttons">
-						<input type="checkbox" id="repeat-sunday" /><label for="repeat-sunday">S</label>
-						<input type="checkbox" id="repeat-monday" /><label for="repeat-monday">M</label>
-						<input type="checkbox" id="repeat-tuesday" /><label for="repeat-tuesday">T</label>
-						<input type="checkbox" id="repeat-wednesday" /><label for="repeat-wednesday">W</label>
-						<input type="checkbox" id="repeat-thursday" /><label for="repeat-thursday">T</label>
-						<input type="checkbox" id="repeat-friday" /><label for="repeat-friday">F</label>
-						<input type="checkbox" id="repeat-saturday" /><label for="repeat-saturday">S</label>
+						<input type="radio" id="radioweek"  name="repeats" value="week" ><label class="repeats" for="radioweek"  >Weekly</label>
+						<input type="radio" id="radiomonth" name="repeats" value="month"><label class="repeats" for="radiomonth" >Monthly</label>
 					</div>
 				</td>
-			</tr><tr>
+			</tr>
+			<tr id="repeats-week">
+				<th>Repeat on:</th><td>
+					<div class="buttons" id="week-days">
+						<input value="Sun" type="checkbox" id="repeat-sunday"    class="Sun"><label class="Sun" for="repeat-sunday">Sun</label>
+						<input value="Mon" type="checkbox" id="repeat-monday"    class="Mon"><label class="Mon" for="repeat-monday">Mon</label>
+						<input value="Tue" type="checkbox" id="repeat-tuesday"   class="Tue"><label class="Tue" for="repeat-tuesday">Tue</label>
+						<input value="Wed" type="checkbox" id="repeat-wednesday" class="Wed"><label class="Wed" for="repeat-wednesday">Wed</label>
+						<input value="Thu" type="checkbox" id="repeat-thursday"  class="Thu"><label class="Thu" for="repeat-thursday">Thu</label>
+						<input value="Fri" type="checkbox" id="repeat-friday"    class="Fri"><label class="Fri" for="repeat-friday">Fri</label>
+						<input value="Sat" type="checkbox" id="repeat-saturday"  class="Sat"><label class="Sat" for="repeat-saturday">Sat</label>
+					</div>
+				</td>
+			</tr>
+			<tr id="repeats-month">
+				<th>Repeat on:</th><td>
+					<div class="buttons">
+						<input type="radio" id="interval-dayofweek" name="dayof" checked="checked" class="dayofweek"><label class="dayofweek" for="interval-dayofweek" >day of the week</label>
+						<input type="radio" id="interval-dayofmonth" name="dayof" class="dayofmonth"><label for="interval-dayofmonth" >day of the month</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<th>Ends:</th><td>
-					<label><input type="radio" name="ends"> Never</label>
-					<label><input type="radio" name="ends"> After</label><input> occurrences
-					<label><input type="radio" name="ends"> On</label><input>
+					<input type="text" id="dialog-date">
 				</td>
 			</tr><tr>
-				<th>Summary:</th><td>recurrence is hard</td>
+				<th>Summary:</th><td><div id="repeat-summary">Recurrence is hard.</div></td>
 			</tr></table>
 		</div>
 		
