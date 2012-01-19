@@ -119,7 +119,8 @@ Unify.recurrence = function(){
 
 	// for montly, select type
 	$('#dayof' + repeats).attr('checked', 'checked');
-	$('label[for=dayof' + repeats).addClass('ui-state-active');
+	console.log('#dayof' + repeats);
+	$('label[for=dayof' + repeats + ']').addClass('ui-state-active');
 	
 	// until date and summary
 	$('#dialog-date').val(until);
@@ -161,8 +162,8 @@ Unify.recurrence = function(){
 			'every'   : { 'week' : days, 'month': dayof },
 			'until'   : until
 		};
-		toggle_repeats(ww);
-		update_summary(ww);
+		toggle_repeats();
+		update_summary();
 		return;
 	};
 	$('#repeat-dialog').click(function(){
@@ -191,6 +192,7 @@ Unify.recurrence = function(){
 	var ok = {
 		text : 'Ok',
 		click : function(){
+			var ww = Unify.recur_focus;
 			// this is where more validation should happen
 			if($('#repeat-dialog .error').length > 0){
 				alert('Please correct errors or cancel repeat.');
@@ -214,8 +216,9 @@ Unify.recurrence = function(){
 	};
 	var clear = {
 		text : 'Clear',
-		class : 'clear-all',
+		className : 'clear-all',
 		click : function(){
+			var ww = Unify.recur_focus;
 			var sure = confirm('are you sure you want to clear all recurrance?');
 			if(sure){
 				$('#repeat-dialog .error').remove();

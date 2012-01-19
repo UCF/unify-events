@@ -161,6 +161,7 @@ a.serious { color:#CC0000 !important; }
 #repeat-dialog td { padding-bottom:10px;}
 #repeat-dialog th { vertical-align:top; padding:6px 15px 0 0; width:80px; text-align:right; font-weight:bold; }
 #repeat-dialog td input { width:150px; height:28px; padding:3px 10px 0; margin:0; font-size:15px; font-weight:bold; }
+.msie #repeat-dialog td input { height:24px; padding-top:6px; }
 .ui-dialog .ui-dialog-buttonpane button.clear-all {float:left; margin-right:190px;}
 #week-days { padding:3px 0 2px; }
 #week-days .ui-button { font-size:12px; }
