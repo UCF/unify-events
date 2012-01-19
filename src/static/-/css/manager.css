@@ -123,7 +123,7 @@ a.serious { color:#CC0000 !important; }
 .event .col2 h3 span:before { content:"*"; color:#718CAF; font-size:30px; display:block; height:3px; width:4px; position:absolute; top:-2px;; left:-14px;; }
 .event .col2 h3 span.check { overflow:hidden; text-indent:-5000px; background:url('../img/green-check.png') top right no-repeat; padding:0 10px 10px; }
 
-.when-where { position:relative; background:#fcfcfc; border:1px solid #e8e8e8; border-radius: 3px; padding:15px 0 10px 110px; }
+.when-where { position:relative; background:#fcfcfc; border:1px solid #e8e8e8; border-radius: 3px; padding:15px 0 10px 110px; margin-bottom:10px; }
 .when-where label { font-weight:600; text-transform:uppercase; font-size:22px; color:#888;  }
 .when-where input { height:36px; margin-bottom:6px; font-size:19px; font-weight:normal; border:1px solid #b4b4b4; }
 .when-where select { border:1px solid #b4b4b4; border-radius:2px; }
@@ -141,6 +141,8 @@ a.serious { color:#CC0000 !important; }
 .when-where .street { display:none; height:73px; margin:0; padding:0;  }
 .when-where .street input { width:492px; }
 .when-where .rm-addr { display:none; top:94px; }
+.when-where .summary { display:none; }
+.when-where .delete { display:none; position:absolute; top:-8px; right:-8px; height:26px; width:25px; background:url('../img/red-x-round.png'); text-indent:-5000px; overflow:hidden; }
 .firefox .when-where .rec input { top:1.5px;  }
 .webkit .when-where .rec input { top:4px; }
 .msie .when-where input { color:black; font-size:19px; padding:8px 0 0 0; padding-left:5px; height:28px; }
@@ -152,17 +154,17 @@ a.serious { color:#CC0000 !important; }
 .msie7 .when-where .rec { vertical-align:top; font-weight:normal; }
 .msie7 .when-where .rec input { font-size:2px; }
 .msie7 .when-where label { font-weight:bold; }
-#when-where-add { text-align:right; padding:10px; }
+#when-where-add { text-align:right; padding:0 10px 10px; }
 #when-where-add a {  text-decoration:none; color:#1846bc; font-weight:bold; }
 #repeat-dialog { width:475px; padding:15px 15px 0; display:none; }
 #repeat-dialog table { margin:0; }
 #repeat-dialog td { padding-bottom:10px;}
 #repeat-dialog th { vertical-align:top; padding:6px 15px 0 0; width:80px; text-align:right; font-weight:bold; }
 #repeat-dialog td input { width:150px; height:28px; padding:3px 10px 0; margin:0; font-size:15px; font-weight:bold; }
+.ui-dialog .ui-dialog-buttonpane button.clear-all {float:left; margin-right:190px;}
+#week-days { padding:3px 0 2px; }
 #week-days .ui-button { font-size:12px; }
 #repeat-summary { height:20px; padding:4px 0; font-size:16px;}
-
-
 
 
 

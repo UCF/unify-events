@@ -24,57 +24,14 @@
 	
 	
 	<div class="span-16 append-1 col1">
-		<div class="when-where">
-			<label class="when">When</label>
-			<input class="date" value="{% now "m/d/y" %}">
-			<select class="time">
-				<script>
-				Unify.hour = new Date();
-				Unify.hour = Unify.hour.getHours();
-				for(var i=0; i<24; i++){
-					document.write('<option ');
-					if(i==Unify.hour) document.write('selected="selected"');
-					document.write('>'+i+':00</option>');
-					document.write('<option>'+i+':15</option>');
-					document.write('<option>'+i+':30</option>');
-					document.write('<option>'+i+':45</option>');
-				}
-				</script>
-			</select>
-			<span class="end">
-				<input class="date" value="{% now "d/m/y" %}">
-				<select class="time">
-					<script>
-					Unify.hour = new Date();
-					Unify.hour = Unify.hour.getHours();
-					for(var i=0; i<24; i++){
-						document.write('<option ');
-						if(i==Unify.hour) document.write('selected="selected"');
-						document.write('>'+i+':00</option>');
-						document.write('<option>'+i+':15</option>');
-						document.write('<option>'+i+':30</option>');
-						document.write('<option>'+i+':45</option>');
-					}
-					</script>
-				</select>
-				<a class="remove rm-time"></a>
-			</span>
-			<a class="add end-time">add an end time</a>
-			<br>
-			<label class="where">Where</label>
-			<input class="place">
-			<div class="street">
-				<input>
-				<input>
-				<a class="remove rm-addr"></a>
-			</div>
-			<a class="add address">switch to street address</a>
-			<br>
-			<label class="rec">
-				Recurring? <input type="checkbox">
-				<input id="recurrence" type="hidden" value="false">
-			</label>
+		{# this may have to be done via ajax to ensure clean form IDs #}
+		{%include 'events/manager/events/when-where.html' %}
+		<div id="when-where-template" style="display:none;">
+		{%include 'events/manager/events/when-where.html' %}
 		</div>
+
+
+
 		<div id="when-where-add"><a>add another time/location</a></div>
 		
 		<div id="repeat-dialog" title="Repeat">
@@ -103,8 +60,8 @@
 			<tr id="repeats-month">
 				<th>Repeat on:</th><td>
 					<div class="buttons">
-						<input type="radio" id="interval-dayofweek" name="dayof" checked="checked" class="dayofweek"><label class="dayofweek" for="interval-dayofweek" >day of the week</label>
-						<input type="radio" id="interval-dayofmonth" name="dayof" class="dayofmonth"><label for="interval-dayofmonth" >day of the month</label>
+						<input type="radio" id="dayofweek"  name="dayof" value="dayofweek"><label for="dayofweek" >day of the week</label>
+						<input type="radio" id="dayofmonth" name="dayof" value="dayofmonth"><label for="dayofmonth" >day of the month</label>
 					</div>
 				</td>
 			</tr>
