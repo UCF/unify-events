@@ -81,7 +81,70 @@
 		<p>Events can happen in more than one location.</p>
 	</div>
 	
+
 	<div class="clear"></div>
+	<div class="span-16 append-1 col1">
+		<div id="tags">		
+			
+			<div id="tag-test">hello</div>
+			{# category tags #}
+			<div class="span-4">
+				<h3>Category <span>choose one</span></h3>
+			</div>
+			<div class="span-12 last">
+				<ul>
+					<li><label><input type="radio" name="category">Student Life </label></li>
+					<li><label><input type="radio" name="category" checked="checked">Arts</label></li>
+					<li><label><input type="radio" name="category">Athletics</label></li>
+					<li><label><input type="radio" name="category">Careers / Advising / Tutoring</label></li>
+					<li><label><input type="radio" name="category">Classes</label></li>
+					<li><label><input type="radio" name="category">Humanities</label></li>
+					<li><label><input type="radio" name="category">International</label></li>
+					<li><label><input type="radio" name="category">Music</label></li>
+					<li><label><input type="radio" name="category">Recreation</label></li>
+					<li><label><input type="radio" name="category">Science</label></li>
+					<li><label><input type="radio" name="category">Volunteerism</label></li>
+					<li><a>Add</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+
+			{# event type tags #}
+			<div class="span-4">
+				<h3>Event Type <span>choose many</span></h3>
+			</div>
+			<div class="span-12 last">
+				<ul>
+					<li><label><input type="checkbox" checked="checked">Lecture / Reading / Talk </label></li>
+					<li><label><input type="checkbox">Conference / Symposium</label></li>
+					<li><label><input type="checkbox">Performance</label></li>
+					<li><label><input type="checkbox" checked="checked">Exhibition</label></li>
+					<li><label><input type="checkbox">Classs</label></li>
+					<li><label><input type="checkbox">Meeting</label></li>
+					<li><a>Add</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+
+			{# user tags #}
+			<div class="span-4">
+				<h3>Tags <span>choose many</span></h3>
+			</div>
+			<div class="span-12 last">
+				<ul>
+					<li><p>Tags of events on the same day</p></li>
+					<li><a>Add</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		
+		</div><!-- /tags -->
+	</div>
+	
+	<div class="span-7 last col2">
+		<h3>Event Tags <span>required</span></h3>
+		<p>Help others discover your event by taggaing and associating it with others.</p>
+	</div>
 	
 
 </div><!-- /event -->
@@ -89,8 +152,7 @@
 
 	
 	
-			
-			
+<div class="clear"></div>
 <div id="event-old">
 	{{event_form.non_field_errors}}
 	{{event_form.errors}}

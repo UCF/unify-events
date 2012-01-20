@@ -24,11 +24,6 @@ a.serious { color:#CC0000 !important; }
 
 
 /*
- * jQuery UI overrides
- */
-
-
-/*
  * Login Styles 
  */
 #login { display:block; border-radius:2px; background: #FFF6D4; border: 1px solid #DAD1AC; }
@@ -39,6 +34,7 @@ a.serious { color:#CC0000 !important; }
 #login .error > li:last-child { margin-bottom:0; }
 #login td .error { font-size:80%; text-align:right; background-color:inherit; border:none; font-style:italic; margin:0; padding:0 5px 0 0; }
 #login #login-message p { font-size:115%; }
+
 
 /*
  * Manage Styles 
@@ -84,10 +80,10 @@ a.serious { color:#CC0000 !important; }
 #instances li .state { text-align:right; margin-top:.75em; float:right; }
 #instances li .state > a { font-size:80%; font-weight:bold; }
 
+
 /*
  * Event Creation / Updating 
  */
-
 .event .error { background:none; border:0; color:black; margin:0; padding:0 0 10px; }
 .event .error p { font-size:12px; color:black; }
 .event .error h4 { color:#a31218; font-weight:bold; margin:0; padding:0 0 4px 38px; background:url('../img/red-x.png') 0 6px no-repeat; line-height:14px; font-size:14px; }
@@ -99,7 +95,7 @@ a.serious { color:#CC0000 !important; }
 .event select:focus option { outline:none; border:0; }
 .event .col1 > input[type=text] { width:624px; margin-bottom:25px; }
 .msie .event input { height:48px; font-size:42px; }
-
+.clear { clear:both; }
 .event .hasPlaceholder { color:#A2A2A2; }
 .event input:placeholder { color:#A2A2A2; }
 .event input:-moz-placeholder { color:#A2A2A2; }
@@ -154,7 +150,7 @@ a.serious { color:#CC0000 !important; }
 .msie7 .when-where .rec { vertical-align:top; font-weight:normal; }
 .msie7 .when-where .rec input { font-size:2px; }
 .msie7 .when-where label { font-weight:bold; }
-#when-where-add { text-align:right; padding:0 10px 10px; }
+#when-where-add { text-align:right; padding:0 10px 40px; }
 #when-where-add a {  text-decoration:none; color:#1846bc; font-weight:bold; }
 #repeat-dialog { width:475px; padding:15px 15px 0; display:none; }
 #repeat-dialog table { margin:0; }
@@ -167,7 +163,24 @@ a.serious { color:#CC0000 !important; }
 #week-days .ui-button { font-size:12px; }
 #repeat-summary { height:20px; padding:4px 0; font-size:16px;}
 
-
+#tags ul { margin:0; padding:0; }
+#tags li { list-style:none; margin:0; padding:0; display:block; float:left; }
+#tags li > a { display:inline-block; font-size:18px; margin:3px; text-decoration:none; background:url('../img/blue-plus.png') left 11px no-repeat; color:#51638c; padding:8px 8px 8px 19px; }
+#tags .last { margin-bottom:35px;}
+#tags input { display:none; }
+#tags label { color:#575757; display:inline-block; font-size:18px;  margin:3px; padding:8px; font-weight:normal; }
+#tags label.selected { color:black; background:#ffc907; border-radius:4px; }
+#tags label:hover { cursor:pointer;}
+#tags h3 { font-family: 'f4', helvetica, sans-serif; font-weight:400; font-size:23px; color:#7d7d7d; text-align:right; margin:0; padding:10px 0 0; letter-spacing:-1px; }
+#tags h3 span { display:block; font-size:13px; color:#e3a334; padding-top:3px; letter-spacing:0;}
+#tags p { padding:12px; }
+#tags .new { display:inline-block; }
+#tags .new input { overflow:visible; box-shadow:none; display:block; width:50px; margin:0; padding:0; background:none; border:0; border-radius:0; font-size:18px; padding:0; font-weight:normal; }
+#tags .new label { position:relative; padding:8px; margin:3px 12px 3px 3px; background:#ffc907; border-radius:4px; }
+#tags .new label a { position:absolute; top:-4px; right:-4px; padding:3px; border-radius:3px; background:url('../img/small-black-x.png') center no-repeat #ffc907; width:8px; height:8px; text-indent:-500px; overflow:hidden; }
+#tag-test { font-size:18px; display:inline; position:absolute; top:0; left:-50000px; border:0; outline:0;}
+#tags label.error { background:#ff6161; }
+#tags label.error a { background-color:#ff6161; }
 
 #event-old { padding-top:30px; border-top:1px dotted #666; margin-top:50px; }
 #event-old #details { }
@@ -185,6 +198,7 @@ a.serious { color:#CC0000 !important; }
 #event-old #instances .location select { width:270px; }
 #event-old #instances label { font-weight:normal; }
 #event-old #instances .start label, #event-old #instances .end label { display:block; }
+
 
 /* 
  * Tag and Category Management 

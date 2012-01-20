@@ -314,11 +314,60 @@ $('#when-where-add').click(function(){
 	Unify.wwi += 1;
 });
 
+/******************************************************************************\
+  Tags
+\******************************************************************************/
+$.fn.toggleAttr = function(att){
+	return this.each(function(){
+		var el = $(this);
+		if(el.attr(att)) el.removeAttr(att);
+		else el.attr(att,att);
+		console.log('toggle yo', el.attr(att), att, el);
+	});
+};
 
-
-
-
-
+Unify.tags = function(tag){
+	var selector = tag || '#tags label';
+	$(selector).each(function(){
+		var update = function(){
+			// update all label classes, works for radios and checkboxes
+			$(this).parents('ul').find('label').each(function(){
+				var on = ($(this).find('input:checked').length > 0);
+				if(on) $(this).addClass('selected');
+				else $(this).removeClass('selected');
+			})
+		}
+		$(this).click(update);
+		$(this).each(update);
+	});
+}
+Unify.tags();
+$('#tags li > a').click(function(){
+	// create a new tag
+	var new_tag = $('<li class="new"><label><input type="text"><a>close</a></label></li>');
+	new_tag.find('a').click(function(){
+		$(this).parents('li').remove();
+	});
+	$(this).parent().before(new_tag);
+	var update_width = function(){
+		var txt = $(this).val();
+		var width = $('#tag-test').html(txt).width();
+		width += 5;
+		if(txt.length>35) $(this).parent().addClass('error');
+		else $(this).parent().removeClass('error');
+		if(width<50) width = 50;
+		if(width>450) width = 450;
+		$(this).width(width);	
+	};
+	new_tag.find('input')
+		.focus()
+		.keydown(update_width)
+		.keyup(update_width)
+		.blur(function(){
+			if($(this).val().length<2) $(this).parent().addClass('error');
+			else if($(this).val().length<=35) $(this).parent().removeClass('error');
+		});
+});
 
 /* for the old form, can be removed later */
 $().ready(function() {
