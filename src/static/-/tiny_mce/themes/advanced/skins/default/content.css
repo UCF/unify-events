@@ -21,6 +21,9 @@ cite {border-bottom:1px dashed blue}
 acronym {border-bottom:1px dotted #CCC; cursor:help}
 abbr {border-bottom:1px dashed #CCC; cursor:help}
 
+html:hover { border:1px solid #b4b4b4; box-shadow: inset 5px 5px 5px -1px rgba(0, 0, 0, .15), inset -2px -2px 2px 0px rgba(0, 0, 0, .05); }
+html:focus { border:1px solid #466bc9; box-shadow: inset 5px 5px 5px -1px rgba(70, 107, 201, .25), inset -2px -2px 2px 0px rgba(70, 107, 201, .08); outline:none; }
+
 /* IE */
 * html body {
 scrollbar-3dlight-color:#F0F0EE;
