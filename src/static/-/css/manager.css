@@ -182,23 +182,6 @@ a.serious { color:#CC0000 !important; }
 #tags label.error { background:#ff6161; }
 #tags label.error a { background-color:#ff6161; }
 
-#event-old { padding-top:30px; border-top:1px dotted #666; margin-top:50px; }
-#event-old #details { }
-#event-old #details label { display:block; margin:5px 0; }
-#event-old #details #create_tag { float:right; display:block; margin-top:2px; }
-#event-old #details select { width:100%; }
-#id_event-title { width:97%; margin:0; margin-bottom:10px; }
-#id_event-description { width:97%; height:80px; margin-bottom:15px; }
-#event-old #details button { display:block; width:100%; margin-top:10px; }
-#event-old #instances { margin:0; padding:0; }
-#event-old #instances > li { list-style-type:none; }
-#event-old #instances label { display:block; margin-top:10px; }
-#event-old #instances .recur input { width:50px; }
-#event-old #instances .recur select { width:205px; }
-#event-old #instances .location select { width:270px; }
-#event-old #instances label { font-weight:normal; }
-#event-old #instances .start label, #event-old #instances .end label { display:block; }
-
 
 /* 
  * Tag and Category Management 

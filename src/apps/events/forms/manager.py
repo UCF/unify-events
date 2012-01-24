@@ -42,10 +42,11 @@ class EventForm(forms.ModelForm):
 		user_calendars = kwargs.pop('user_calendars')
 		super(EventForm, self).__init__(*args, **kwargs)
 		self.fields['calendar'].queryset = user_calendars
-
-	calendar   = forms.ModelChoiceField(queryset=Calendar.objects.none())
-	image      = forms.FileField(required=False)
-	tags       = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)
+	
+	title    = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Event Title'})) 
+	calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+	image    = forms.FileField(required=False)
+	tags     = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)
 
 	class Meta:
 		model  = Event

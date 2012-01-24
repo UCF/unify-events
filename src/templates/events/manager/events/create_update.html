@@ -2,13 +2,18 @@
 
 {% block content_body %}
 <div class="event">
-	
-	{% if mode == 'create' %}<h2>Create an Event</h2>{% endif %}
-	{% if mode == 'update' %}<h2>Update Event</h2>{% endif %}
+	{% if mode == 'create' %}
+		<h2>Create an Event</h2>
+		<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
+	{% endif %}
+	{% if mode == 'update' %}
+		<h2>Update Event</h2>
+		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
+	{% endif %}
 	
 	<div id="title">
 		<div class="span-16 append-1 col1">
-			<input type="text" placeholder="Event Title">
+			{{event_form.title}}
 		</div>
 		<div class="span-7 last col2">
 			<div class="label">
@@ -145,86 +150,7 @@
 		<h3>Event Tags <span>required</span></h3>
 		<p>Help others discover your event by taggaing and associating it with others.</p>
 	</div>
-	
+	</form>
 
 </div><!-- /event -->
-
-
-	
-	
-<div class="clear"></div>
-<div id="event-old">
-	{{event_form.non_field_errors}}
-	{{event_form.errors}}
-	{% for form in event_formset %}
-		{{form.non_field_errors}}
-		{{form.errors}}
-	{% endfor %}
-	{% if mode == 'create' %}
-	<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
-	{% else %}
-		{% if mode == 'update' %}
-		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
-		{% endif %}
-	{% endif %}
-	
-		<div id="details" class="span-8">
-			{{event_form.title.label_tag}}
-			{{event_form.title}}
-			{{event_form.description.label_tag}}
-			{{event_form.description}}
-			<a id="create_tag" href="{% url tag-create %}" class="button">Create New Tag</a>
-			{{event_form.tags.label_tag}}
-			{{event_form.tags}}
-			{{event_form.categories.label_tag}}
-			{{event_form.categories}}
-			{{event_form.image.label_tag}}
-			{{event_form.image}}
-			{{event_form.calendar.label_tag}}
-			{{event_form.calendar}}
-			{{event_formset.management_form}}
-			{% csrf_token %}
-			{% if mode == 'create' %}
-			<button type="submit">Create Event</button>
-			{% else %}
-				{% if mode == 'update' %}
-				<button type="submit">Update Event</button>
-				{% endif %}
-			{% endif %}
-		</div>
-		<div class="span-15 prepend-1 last">
-			<label>Date, Time &amp; Location:</label>
-			<ul id="instances">
-				{% for form in event_formset %}
-					<li class="clearfix">
-						{{form.id}}
-						<div class="dates span-8">
-							<div class="start">
-								{{form.start.label_tag}}
-								{{form.start}}
-							</div>
-							<div class="end">
-								{{form.end.label_tag}}
-								{{form.end}}
-							</div>
-						</div>
-						<div class="span-7 last">
-							<div class="recur">
-								{{form.interval.label_tag}}
-								{{form.interval}} {{form.until}}
-							</div>
-							<div class="location">
-								{{form.location.label_tag}}
-								{{form.location}}
-							</div>
-							<p>{{form.DELETE}} Delete this event instance</p>
-						</div>
-					</li>
-				{% endfor %}
-			</ul>
-			<button id="event_instance_add" class="clear">Add Another Event Instance</button>
-		</div>
-	</form>
-</div>
-
 {% endblock %}
