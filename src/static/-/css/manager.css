@@ -166,7 +166,7 @@ a.serious { color:#CC0000 !important; }
 .event #excerpt,
 	.event #contact {margin-top:40px;font-size:18px;}
 .event #excerpt textarea,
-	 .event #contact textarea {height:120px;}
+	 .event #contact textarea {height:120px;margin-bottom:0;}
 .event #contact textarea {font-weight:bold;}
 
 
