@@ -5,6 +5,8 @@
 {% endblock %}
 {% block footer_scripts %}
 	{{block.super}}
+	<script src="{{MEDIA_URL}}-/tiny_mce/tiny_mce.js"></script>
+	<script src="{{MEDIA_URL}}-/tiny_mce/jquery.tinymce.js"></script>
 	<script src="{{MEDIA_URL}}-/js/manager.js"></script>
 	<script type="text/javascript">
 		var USER_SEARCH_URL = '{% url search-user %}';

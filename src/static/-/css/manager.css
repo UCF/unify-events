@@ -93,7 +93,7 @@ a.serious { color:#CC0000 !important; }
 .event select { outline:none;}
 .event select option { outline:none; border:0; }
 .event select:focus option { outline:none; border:0; }
-.event .col1 > input[type=text] { width:624px; margin-bottom:25px; }
+.event .col1 > input[type=text], .event .col1 > textarea { width:624px; margin-bottom:25px; }
 .msie .event input { height:48px; font-size:42px; }
 .clear { clear:both; }
 .event .hasPlaceholder { color:#A2A2A2; }
