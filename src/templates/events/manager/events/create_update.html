@@ -99,15 +99,38 @@
 		<h3>When &amp; Where <span>required</span></h3>
 		<p>Events can happen in more than one location.</p>
 	</div>
-	
+
 	<div class="span-16 append-1 col1">
 		{{event_form.description}}		
 	</div>
 	<div class="span-7 last col2">
 		<h3>Description <span>required</span></h3>
 	</div>
-	
 
+	<div class="span-24" id="excerpt">
+		<div class="span-16 append-1 col1">
+			{{event_form.excerpt}}		
+		</div>
+		<div class="span-7 last col2">
+			<h3>Excerpt</h3>
+			<p>
+				Used on featured calendars. If left blank, the excerpt will be extracted from the description.
+			</p>
+		</div>
+	</div>
+	
+	<div class="span-24" id="contact">
+		<div class="span-16 append-1 col1">
+			{{event_form.contact}}		
+		</div>
+		<div class="span-7 last col2">
+			<h3>Contact Information <span>required</span></h3>
+			<p>
+				Who should someone contact if they have a question about this event?
+			</p>
+		</div>
+	</div>
+	
 	<div class="span-16 append-1 col1">
 		<div id="tags">		
 			
@@ -136,7 +159,7 @@
 
 			{# event type tags #}
 			<div class="span-4">
-				<h3>Event Type <span>choose many</span></h3>
+				<h3>Event Type <span>choose at least one</span></h3>
 			</div>
 			<div class="span-12 last">
 				<ul>
@@ -153,7 +176,7 @@
 
 			{# user tags #}
 			<div class="span-4">
-				<h3>Tags <span>choose many</span></h3>
+				<h3>Tags <span>choose all that apply</span></h3>
 			</div>
 			<div class="span-12 last">
 				<ul>

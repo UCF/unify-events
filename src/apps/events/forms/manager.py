@@ -45,6 +45,8 @@ class EventForm(forms.ModelForm):
 	
 	title       = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Event Title'}))
 	description = forms.CharField(widget=forms.Textarea(attrs={'class':'tinymce'}))
+	excerpt     = forms.CharField(widget=forms.Textarea())
+	contact     = forms.CharField(widget=forms.Textarea())
 	calendar    = forms.ModelChoiceField(queryset=Calendar.objects.none())
 	image       = forms.FileField(required=False)
 	tags        = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)

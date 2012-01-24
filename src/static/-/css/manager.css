@@ -161,7 +161,14 @@ a.serious { color:#CC0000 !important; }
 .ui-dialog .ui-dialog-buttonpane button.clear-all {float:left; margin-right:190px;}
 #week-days { padding:3px 0 2px; }
 #week-days .ui-button { font-size:12px; }
-#repeat-summary { height:20px; padding:4px 0; font-size:16px;}
+#repeat-summary { height:20px; padding:4px 0; font-size:18px;}
+
+.event #excerpt,
+	.event #contact {margin-top:40px;font-size:18px;}
+.event #excerpt textarea,
+	 .event #contact textarea {height:120px;}
+.event #contact textarea {font-weight:bold;}
+
 
 #tags ul { margin:0; padding:0; }
 #tags li { list-style:none; margin:0; padding:0; display:block; float:left; }
