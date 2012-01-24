@@ -87,7 +87,7 @@
 <div id="manager-base" class="container">
 	{%block content_header%}
 		<header class="span-24 last">
-			<h1><a href="{% url dashboard %}">Events</a></h1>
+			<h1>{% block page_header %}<a href="{% url dashboard %}">Events</a>{% endblock %}</h1>
 			{% if user.is_authenticated %}
 				<ul id="nav">
 					<li><a href="{% url accounts-profile %}">settings</a></li>
@@ -103,6 +103,11 @@
 			{% endif %}
 		</header>
 	{%endblock%}
+	<div class="span-24 last" id="bar">
+		<div class="span-15" id="greeting">
+			Hi, {{user.first_name}}
+		</div>
+	</div>
 	{%block content_body%}{%endblock%}
 	{%block content_footer%}{%endblock%}
 </div>

@@ -22,6 +22,8 @@ a.serious { color:#CC0000 !important; }
 .inlineldapsearch .actions { margin:10px; padding:0; float:left; text-align:center; }
 .inlineldapsearch .actions li { list-style-type:none; }
 
+#bar {padding:10px 0 10px 5px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;margin:0 0 30px 0;}
+#bar #greeting {font-size:18px;color:#4a4a4a;}
 
 /*
  * Login Styles 
@@ -101,9 +103,11 @@ a.serious { color:#CC0000 !important; }
 .event input:-moz-placeholder { color:#A2A2A2; }
 .event input::-webkit-input-placeholder { color:#A2A2A2; }
 .event input:hover, 
-.event select:hover { border:1px solid #b4b4b4; box-shadow: inset 5px 5px 5px -1px rgba(0, 0, 0, .15), inset -2px -2px 2px 0px rgba(0, 0, 0, .05); }
+	.event select:hover,
+		.event textarea:hover { border:1px solid #b4b4b4; box-shadow: inset 5px 5px 5px -1px rgba(0, 0, 0, .15), inset -2px -2px 2px 0px rgba(0, 0, 0, .05); }
 .event input:focus, 
-.event select:focus { border:1px solid #466bc9; box-shadow: inset 5px 5px 5px -1px rgba(70, 107, 201, .25), inset -2px -2px 2px 0px rgba(70, 107, 201, .08); outline:none; }
+	.event select:focus,
+		.event textarea:focus { border:1px solid #466bc9; box-shadow: inset 5px 5px 5px -1px rgba(70, 107, 201, .25), inset -2px -2px 2px 0px rgba(70, 107, 201, .08); outline:none; }
 .msie .event input, .msie .event select { background:url('../img/ie-input-bg.png') -500px -500px no-repeat; }
 .msie .event input:hover, 
 .msie .event select:hover {  background-position:0 -100px; }

@@ -14,14 +14,25 @@
 		});
 	</script>
 {% endblock %}
+{% block page_header %}
+	{% spaceless %}
+	{{block.super}}
+	|
+	{% if mode == 'create' %}
+		Create Event
+	{% else %}
+		{% if mode == 'update' %}
+			Update Event
+		{% endif %}
+	{% endif %}
+	{% endspaceless %}
+{% endblock %}
 {% block content_body %}
 <div class="event">
 	{% if mode == 'create' %}
-		<h2>Create an Event</h2>
 		<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
 	{% endif %}
 	{% if mode == 'update' %}
-		<h2>Update Event</h2>
 		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
 	
