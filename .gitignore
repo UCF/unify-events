@@ -5,3 +5,9 @@ settings_local.py
 ._*
 Thumbs.db
 .DS_Store
+
+events.db
+*.log
+
+# IDEs
+.idea
