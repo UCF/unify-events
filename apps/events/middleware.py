@@ -9,8 +9,8 @@ class Minifier:
 	def __init__(self):
 		if settings.MINIFY and not Minifier.active:
 			call_command('generate-minified-assets')
-			Minifier.active     = True
-			settings.MEDIA_URL  = settings.MEDIA_URL + 'min/'
+			Minifier.active = True
+			settings.MEDIA_URL = settings.MEDIA_URL + 'min/'
 			settings.MEDIA_ROOT = settings.MEDIA_ROOT + '/min'
 			
 		raise MiddlewareNotUsed

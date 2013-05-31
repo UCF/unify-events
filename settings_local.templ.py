@@ -1,15 +1,15 @@
-THEME  = 'default'
-DEBUG  = True
+THEME = 'default'
+DEBUG = True
 ADMINS = (
-	#('Your Name', 'your_email@domain.com'),
+    #('Your Name', 'your_email@domain.com'),
 )
 
 # Minify JS and CSS.  Modifies MEDIA_URL and generates a minified assets folder
 MINIFY = False
 
-LOGIN_URL           = '/manager/login'
-LOGOUT_URL          = '/manager/logout'
-LOGIN_REDIRECT_URL  = '/manager/'
+LOGIN_URL = '/manager/login'
+LOGOUT_URL = '/manager/logout'
+LOGIN_REDIRECT_URL = '/manager/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -26,30 +26,30 @@ ADMIN_MEDIA_PREFIX = '/media/'
 SECRET_KEY = '**************************************************'
 
 DATABASES = {
-	'default': {
-		# postgresql_psycopg2, postgresql, mysql, sqlite3, oracle
-		'ENGINE'  : 'django.db.backends.sqlite3',
-		# Or path to database file if using sqlite3.
-		'NAME'    : 'events.db',
-		# Not used with sqlite3.
-		'USER'    : '',
-		# Not used with sqlite3.
-		'PASSWORD': '',
-		# Set to empty string for localhost. Not used with sqlite3.
-		'HOST'    : '',
-		# Set to empty string for default. Not used with sqlite3.
-		'PORT'    : '',
-	}
+    'default': {
+        # postgresql_psycopg2, postgresql, mysql, sqlite3, oracle
+        'ENGINE': 'django.db.backends.sqlite3',
+        # Or path to database file if using sqlite3.
+        'NAME': 'events.db',
+        # Not used with sqlite3.
+        'USER': '',
+        # Not used with sqlite3.
+        'PASSWORD': '',
+        # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': '',
+        # Set to empty string for default. Not used with sqlite3.
+        'PORT': '',
+    }
 }
 
 # NET Domain LDAP CONFIG
-LDAP_NET_HOST        = 'ldaps://net.ucf.edu'
-LDAP_NET_BASE_DN     = 'ou=People,dc=net,dc=ucf,dc=edu'
+LDAP_NET_HOST = 'ldaps://net.ucf.edu'
+LDAP_NET_BASE_DN = 'ou=People,dc=net,dc=ucf,dc=edu'
 LDAP_NET_USER_SUFFIX = '@net.ucf.edu'
-LDAP_NET_ATTR_MAP    = { # LDAP Object -> User Object
-	'givenName' : 'first_name',
-	'sn'        : 'sn',
-	'mail'      : 'email'
+LDAP_NET_ATTR_MAP = { # LDAP Object -> User Object
+    'givenName': 'first_name',
+    'sn': 'sn',
+    'mail': 'email'
 }
 LDAP_NET_SEARCH_USER = ''
 LDAP_NET_SEARCH_PASS = ''

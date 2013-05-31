@@ -9,5 +9,6 @@ from django.test import TestCase
 from models import *
 from fields import *
 
+
 class SimpleTest(TestCase):
-	pass
+    pass
