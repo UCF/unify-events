@@ -24,7 +24,7 @@ def get_date_event_map(events):
 
         date_event_map[day].append(event)
 
-    return (dates, date_event_map)
+    return dates, date_event_map
 
 
 def chunk(i, c_size):

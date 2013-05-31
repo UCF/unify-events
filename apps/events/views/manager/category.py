@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 @login_required
 def create_update(request, id=None):
-    ctx = {'category':None,'form':None,'mode':'create'}
+    ctx = {'category': None, 'form': None, 'mode': 'create'}
     tmpl = 'events/manager/category/create_update.html'
 
     if not request.user.is_superuser:
@@ -89,7 +89,7 @@ def merge(request, from_id, to_id):
 
 @login_required
 def manage(request):
-    ctx = {'categorys':None}
+    ctx = {'categorys': None}
     tmpl = 'events/manager/category/manage.html'
 
     if not request.user.is_superuser:

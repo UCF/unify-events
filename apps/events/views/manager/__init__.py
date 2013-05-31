@@ -17,19 +17,19 @@ import logging
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 @login_required
-def dashboard(request, _date=None, calendar_id = None, search_results = None, tag_name = None):
-    ctx  = {
-        'instances'  :None,
-        'current_calendar':None,
-        'dates':{
-            'prev_day'      : None,
-            'prev_month'    : None,
-            'today'         : None,
-            'next_day'      : None,
-            'next_month'    : None,
-            'relative'      : None,
+def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_name=None):
+    ctx = {
+        'instances': None,
+        'current_calendar': None,
+        'dates': {
+            'prev_day': None,
+            'prev_month': None,
+            'today': None,
+            'next_day': None,
+            'next_month': None,
+            'relative': None,
         },
-        'tag'           : None,
+        'tag': None,
         'search_results': search_results
     }
     tmpl = 'events/manager/dashboard.html'
@@ -75,7 +75,7 @@ def dashboard(request, _date=None, calendar_id = None, search_results = None, ta
         ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte=ctx['dates']['relative'])
 
     # Pagination
-    if ctx['instances'] != None:
+    if ctx['instances'] is not None:
         paginator = Paginator(ctx['instances'], 10)
         page = request.GET.get('page', 1)
         try:

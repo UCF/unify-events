@@ -7,8 +7,8 @@ import base64
 class LDAPHelper(object):
 
     class LDAPHelperException(Exception):
-        def __init__(self, error = 'No addtional information'):
-            logging.error(': '.join([str(self.__doc__),str(error)]))
+        def __init__(self, error='No addtional information'):
+            logging.error(': '.join([str(self.__doc__), str(error)]))
 
     class UnableToConnect(LDAPHelperException):
         """
@@ -71,20 +71,20 @@ class LDAPHelper(object):
             return results[0]
 
     @classmethod
-    def search(cls,connection,filter_params,filter_string='cn=%s'):
+    def search(cls, connection, filter_params, filter_string='cn=%s'):
         try:
-            filter = filter_string % filter_params
-            result_id = connection.search(settings.LDAP_NET_BASE_DN,ldap.SCOPE_SUBTREE,filter,None)
+            ldap_filter = filter_string % filter_params
+            result_id = connection.search(settings.LDAP_NET_BASE_DN, ldap.SCOPE_SUBTREE, ldap_filter, None)
         except ldap.LDAPError, e:
             raise LDAPHelper.UnableToSearch(e)
         else:
             results = []
             while 1:
-                type, data = connection.result(result_id, 0)
-                if data == []:
+                ldap_type, data = connection.result(result_id, 0)
+                if not data:
                     break
                 else:
-                    if type == ldap.RES_SEARCH_ENTRY:
+                    if ldap_type == ldap.RES_SEARCH_ENTRY:
                         results.append(data)
             try:
                 return list(o[0][1] for o in results)
@@ -101,21 +101,21 @@ class LDAPHelper(object):
             raise LDAPHelper.MissingAttribute(e)
 
     @classmethod
-    def extract_guid(cls,ldap_user):
+    def extract_guid(cls, ldap_user):
         return base64.b64encode(LDAPHelper._extract_attribute(ldap_user, 'objectGUID'))
 
     @classmethod
-    def extract_firstname(cls,ldap_user):
+    def extract_firstname(cls, ldap_user):
         return LDAPHelper._extract_attribute(ldap_user, 'givenName')
 
     @classmethod
-    def extract_lastname(cls,ldap_user):
+    def extract_lastname(cls, ldap_user):
         return LDAPHelper._extract_attribute(ldap_user, 'sn')
 
     @classmethod
-    def extract_email(cls,ldap_user):
+    def extract_email(cls, ldap_user):
         return LDAPHelper._extract_attribute(ldap_user, 'mail')
 
     @classmethod
-    def extract_username(cls,ldap_user):
+    def extract_username(cls, ldap_user):
         return LDAPHelper._extract_attribute(ldap_user, 'cn')

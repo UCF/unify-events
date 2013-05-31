@@ -153,7 +153,7 @@ def week_listing(request, calendar, year, month, day, format=None):
     start = day - timedelta(days=day.weekday())
     end = start + timedelta(weeks=1)
     return listing(request, calendar, start, end, format, {
-        'list_title' : 'Week of %s %s' % (start.strftime("%B"), start.day),
+        'list_title': 'Week of %s %s' % (start.strftime("%B"), start.day),
     })
 
 
@@ -180,7 +180,7 @@ def range_listing(request, calendar, start, end, format=None):
     start = date(start)
     end = date(end) + timedelta(days=1) - timedelta(seconds=1)
     return listing(request, calendar, start, end, format, {
-        'list_title' : '%s %s through %s %s' % (
+        'list_title': '%s %s through %s %s' % (
             start.strftime("%B"), start.day,
             end.strftime("%B"), end.day,
         ),
@@ -192,7 +192,7 @@ def todays_listing(request, calendar, format=None):
     now = gmtime()
     year, month, day = now.tm_year, now.tm_mon, now.tm_mday
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title' : 'Today',
+        'list_title': 'Today',
     })
 
 
@@ -201,7 +201,7 @@ def tomorrows_listing(request, calendar, format=None):
     now = gmtime(time() + 86400)
     year, month, day = now.tm_year, now.tm_mon, now.tm_mday
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title' : 'Tomorrow',
+        'list_title': 'Tomorrow',
     })
 
 
@@ -211,7 +211,7 @@ def weeks_listing(request, calendar, format=None):
     start = today - timedelta(days=today.weekday())
     end = start + timedelta(weeks=1)
     return listing(request, calendar, start, end, format, {
-        'list_title' : 'This Week',
+        'list_title': 'This Week',
     })
 
 
@@ -220,7 +220,7 @@ def months_listing(request, calendar, format=None):
     now = gmtime()
     year, month, day = now.tm_year, now.tm_mon, None
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title' : 'This Month',
+        'list_title': 'This Month',
     })
 
 
@@ -229,5 +229,5 @@ def years_listing(request, calendar, format=None):
     now = gmtime()
     year, month, day = now.tm_year, None, None
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title' : 'This Year',
+        'list_title': 'This Year',
     })

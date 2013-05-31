@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 @login_required
 def profile(request):
-    ctx  = {'forms':{'user':None,'profile':None},'first_login':request.user.first_login}
+    ctx = {'forms': {'user': None, 'profile': None}, 'first_login': request.user.first_login}
     tmpl = 'events/manager/accounts/profile.html'
 
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def profile(request):
                 if ctx['first_login']:
                     request.user.last_login = datetime.now()
                     request.user.save()
-            except Exception,e:
+            except Exception, e:
                 log.error('Saving failed: %s ' + str(e))
                 messages.error(request, 'Saving user profile failed.')
             else:

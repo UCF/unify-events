@@ -88,7 +88,7 @@ def merge(request, from_id, to_id):
 
 @login_required
 def manage(request):
-    ctx = {'tags':None}
+    ctx = {'tags': None}
     tmpl = 'events/manager/tag/manage.html'
 
     if not request.user.is_superuser:

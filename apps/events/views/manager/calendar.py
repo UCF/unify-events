@@ -11,14 +11,14 @@ log = logging.getLogger(__name__)
 
 
 @login_required
-def create_update(request, id = None):
-    ctx = {'form':None,'mode':'create','calendar':None}
+def create_update(request, id=None):
+    ctx = {'form': None, 'mode': 'create', 'calendar': None}
     tmpl = 'events/manager/calendar/create_update.html'
 
     if id is not None:
         ctx['mode'] = 'update'
         try:
-            ctx['calendar'] = Calendar.objects.get(pk = id)
+            ctx['calendar'] = Calendar.objects.get(pk=id)
         except Calendar.DoesNotExist:
             return HttpResponseNotFound('The calendar specified does not exist.')
         else:
@@ -26,7 +26,7 @@ def create_update(request, id = None):
                 return HttpResponseForbidden('You cannot modify the specified calendar.')
 
     if request.method == 'POST':
-        ctx['form'] = CalendarForm(request.POST,instance=ctx['calendar'])
+        ctx['form'] = CalendarForm(request.POST, instance=ctx['calendar'])
         if ctx['form'].is_valid():
             try:
                 calendar = ctx['form'].save(commit=False)
@@ -42,7 +42,7 @@ def create_update(request, id = None):
     else:
         ctx['form'] = CalendarForm(instance=ctx['calendar'])
 
-    return direct_to_template(request,tmpl,ctx)
+    return direct_to_template(request, tmpl, ctx)
 
 @login_required
 def delete(request, id=None):

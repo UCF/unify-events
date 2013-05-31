@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 @login_required
 def create_update(request, id=None):
-    ctx = {'event':None,'event_form':None,'event_formset':None,'mode':'create'}
+    ctx = {'event': None, 'event_form': None, 'event_formset': None, 'mode': 'create'}
     tmpl = 'events/manager/events/create_update.html'
 
     # Event Forms
@@ -38,7 +38,7 @@ def create_update(request, id=None):
 
 
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
-    user_calendars = Calendar.objects.filter(Q(owner=request.user)|Q(editors=request.user))
+    user_calendars = Calendar.objects.filter(Q(owner=request.user) | Q(editors=request.user))
     EventInstanceFormSet = modelformset_factory(EventInstance,
                                                 form=EventInstanceForm,
                                                 extra=formset_extra,
@@ -73,10 +73,10 @@ def create_update(request, id=None):
 
             return HttpResponseRedirect(reverse('dashboard'))
     else:
-        ctx['event_form']    = EventForm(prefix='event',instance=ctx['event'],user_calendars=user_calendars)
-        ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs,prefix='event_instance',)
+        ctx['event_form'] = EventForm(prefix='event',instance=ctx['event'], user_calendars=user_calendars)
+        ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance',)
 
-    return direct_to_template(request,tmpl,ctx)
+    return direct_to_template(request, tmpl, ctx)
 
 @login_required
 def update_state(request, id=None, state=None):
@@ -95,7 +95,7 @@ def update_state(request, id=None, state=None):
             messages.error(request, 'Saving event failed.')
         else:
             messages.success(request, 'Event successfully updated.')
-            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id':event.calendar.id}))
+            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 @login_required
 def delete(request, id=None):
@@ -118,7 +118,7 @@ def delete(request, id=None):
 
 @login_required
 def copy(request, id):
-    ctx  = {'event':None,'form':None}
+    ctx = {'event': None, 'form': None}
     tmpl = 'events/manager/events/copy.html'
 
     try:
