@@ -1,4 +1,4 @@
-# Unified Events
+# Unify Events
 
 ## Setup
 1. Create virtual environment
