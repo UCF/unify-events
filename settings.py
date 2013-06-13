@@ -37,7 +37,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'events.middleware.Minifier',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -63,8 +62,8 @@ INSTALLED_APPS = (
 )
 
 LOGGING = {
-    'version':1,
-    'disable_existing_loggers':True,
+    'version': 1,
+    'disable_existing_loggers': True,
     'filters': {
         'require_debug_true': {
             '()': 'logs.RequiredDebugTrue',
@@ -75,45 +74,45 @@ LOGGING = {
     },
     'formatters': {
         'talkative': {
-            'format':'[%(asctime)s] %(levelname)s:%(module)s %(funcName)s %(lineno)d %(message)s'
+            'format': '[%(asctime)s] %(levelname)s:%(module)s %(funcName)s %(lineno)d %(message)s'
         },
         'concise': {
-            'format':'%(levelname)s: %(message)s (%(asctime)s)'
+            'format': '%(levelname)s: %(message)s (%(asctime)s)'
         }
     },
     'handlers': {
         'discard': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler'
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler'
         },
         'console': {
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-            'formatter':'talkative',
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'talkative',
             'filters': ['require_debug_true']
         },
         'file': {
             'level': 'INFO',
-            'class':'logging.FileHandler',
+            'class': 'logging.FileHandler',
             'filename': os.path.join(PROJECT_FOLDER,'logs', 'application.log'),
-            'formatter':'concise',
+            'formatter': 'concise',
             'filters': ['require_debug_false']
         }
     },
     'loggers': {
         'django': {
-            'handlers':['discard'],
+            'handlers': ['discard'],
             'propogate': True,
-            'level':'INFO'
+            'level': 'INFO'
         },
         'events': {
-            'handlers':['console', 'file'],
+            'handlers': ['console', 'file'],
             'propogate': True,
-            'level':'DEBUG'
+            'level': 'DEBUG'
         },
         'util': {
-            'handlers':['console', 'file'],
-            'level':'DEBUG'
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG'
         }
     }
 }
@@ -143,5 +142,4 @@ except ImportError:
 TEMPLATE_DEBUG = DEBUG
 TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
 MEDIA_ROOT = os.path.join(PROJECT_FOLDER, 'static')
-TEMPLATE_DIRS = (TEMPL_FOLDER,)
-
+TEMPLATE_DIRS = (TEMPL_FOLDER, )

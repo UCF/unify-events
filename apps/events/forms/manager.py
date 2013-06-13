@@ -46,17 +46,17 @@ class EventForm(forms.ModelForm):
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
 
-    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Event Title'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'class':'tinymce'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'tinymce'}))
     excerpt = forms.CharField(widget=forms.Textarea())
     contact = forms.CharField(widget=forms.Textarea())
-    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+    calendar = forms.ModelChoiceField(queryset=Calendar.objects.all())
     image = forms.FileField(required=False)
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False)
 
     class Meta:
         model = Event
-        fields = ('title', 'description','calendar','image','tags',)
+        fields = ('title', 'description', 'calendar', 'image', 'tags', )
 
 
 class EventInstanceForm(forms.ModelForm):
@@ -67,16 +67,16 @@ class EventInstanceForm(forms.ModelForm):
     )
 
     start = forms.SplitDateTimeField()
-    end   = forms.SplitDateTimeField()
+    end = forms.SplitDateTimeField()
 
-    interval = forms.ChoiceField(choices=EventInstance.Recurs.choices,label='Recurrence')
+    interval = forms.ChoiceField(choices=EventInstance.Recurs.choices, label='Recurrence')
 
     class Meta:
-        model  = EventInstance
+        model = EventInstance
         fields = ('location', 'start', 'end', 'interval', 'until')
         widgets = {
-            'start': forms.TextInput(attrs={'class':'datepicker'}),
-            'end': forms.TextInput(attrs={'class':'datepicker'})
+            'start': forms.TextInput(attrs={'class': 'datepicker'}),
+            'end': forms.TextInput(attrs={'class': 'datepicker'})
         }
 
 
@@ -84,7 +84,7 @@ class TagForm(forms.ModelForm):
 
     class Meta:
         model = Tag
-        fields = ('name',)
+        fields = ('name', )
 
 
 class EventCopyForm(forms.Form):

@@ -51,6 +51,22 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="calendar">
+		<div class="span-16 append-1 col1">
+			{{event_form.calendar}}
+		</div>
+		<div class="span-7 last col2">
+			<div class="label">
+				<h3>Calendar <span>required</span></h3>
+				<p><em>Be Brief.  Be Bright. Be Done.</em></p>
+			</div>
+			<div class="error" style="display:none;">
+				<h4><strong>Title Too Long</strong><br>(64 Characters Max)</h4>
+				<p>Notice this error message is exactly sixty-four characters long.</p>
+			</div>
+		</div>
+	</div>
 	
 	
 	<div class="span-16 append-1 col1">
@@ -204,6 +220,21 @@
 		<h3>Event Tags <span>required</span></h3>
 		<p>Help others discover your event by taggaing and associating it with others.</p>
 	</div>
+
+<input type="hidden" name="event_instance-INITIAL_FORMS" value="0" />
+<input type="hidden" name="event_instance-TOTAL_FORMS" value="1" />
+<input type="hidden" name="event_instance-MAX_NUM_FORMS" value="" />
+
+    <div>
+    {% if mode == 'create' %}
+        <button type="submit">Create</button>
+    {% else %}
+        {% if mode == 'update' %}
+            <button type="submit">Update</button>
+            <a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
+        {% endif %}
+    {% endif %}
+    </div>
 	</form>
 
 </div><!-- /event -->

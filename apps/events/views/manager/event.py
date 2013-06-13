@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from events.forms.manager import EventForm, EventInstanceForm,EventCopyForm
 from events.models import Event, EventInstance, Calendar
-from django.contrib import messages
-from django.views.generic.simple import direct_to_template
-from django.forms.models import modelformset_factory
 from django.db.models import Q
-from django.http import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.forms.models import modelformset_factory
+from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
+from django.views.generic.simple import direct_to_template
+
 import logging
 
 log = logging.getLogger(__name__)
@@ -43,8 +44,13 @@ def create_update(request, id=None):
                                                 form=EventInstanceForm,
                                                 extra=formset_extra,
                                                 can_delete=True)
+    # TODO: add event instance formset
     if request.method == 'POST':
-        ctx['event_form'] = EventForm(request.POST, request.FILES, instance=ctx['event'], prefix='event', user_calendars=user_calendars)
+        ctx['event_form'] = EventForm(request.POST,
+                                      request.FILES,
+                                      instance=ctx['event'],
+                                      prefix='event',
+                                      user_calendars=user_calendars)
         ctx['event_formset'] = EventInstanceFormSet(request.POST, prefix='event_instance', queryset=formset_qs)
 
         if ctx['event_form'].is_valid() and ctx['event_formset'].is_valid():
@@ -53,9 +59,9 @@ def create_update(request, id=None):
             try:
                 event.save()
                 ctx['event_form'].save_m2m()
-            except Exception,e:
+            except Exception, e:
                 log.error(str(e))
-                messages.error(request,'Saving event failed.')
+                messages.error(request, 'Saving event failed.')
             else:
                 instances = ctx['event_formset'].save(commit=False)
                 error = False
@@ -63,9 +69,9 @@ def create_update(request, id=None):
                     instance.event = event
                     try:
                         instance.save()
-                    except Exception,e:
+                    except Exception, e:
                         log.error(str(e))
-                        messages.error(request,'Saving event instance failed.')
+                        messages.error(request, 'Saving event instance failed.')
                         error = True
                         break
                 if not error:
@@ -73,10 +79,11 @@ def create_update(request, id=None):
 
             return HttpResponseRedirect(reverse('dashboard'))
     else:
-        ctx['event_form'] = EventForm(prefix='event',instance=ctx['event'], user_calendars=user_calendars)
+        ctx['event_form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
         ctx['event_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance',)
 
     return direct_to_template(request, tmpl, ctx)
+
 
 @login_required
 def update_state(request, id=None, state=None):
@@ -97,6 +104,7 @@ def update_state(request, id=None, state=None):
             messages.success(request, 'Event successfully updated.')
             return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
+
 @login_required
 def delete(request, id=None):
     try:
@@ -115,6 +123,7 @@ def delete(request, id=None):
         else:
             messages.success(request, 'Event successfully deleted.')
             return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id':event.calendar.id}))
+
 
 @login_required
 def copy(request, id):

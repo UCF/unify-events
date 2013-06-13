@@ -1,31 +1,5 @@
 <div class="when-where">
 	<label class="when">When</label>
-	<input class="date" value="{% now "m/d/y" %}">
-	<select class="time">
-		{% include 'events/manager/events/when-where-time.html' %}
-	</select>
-	<span class="end">
-		<input class="date" value="{% now "d/m/y" %}">
-		<select class="time">
-			{% include 'events/manager/events/when-where-time.html' %}
-		</select>
-		<a class="remove rm-time"></a>
-	</span>
-	<a class="add end-time">add an end time</a>
-	<br>
-	<label class="where">Where</label>
-	<input class="place">
-	<div class="street">
-		<input>
-		<input>
-		<a class="remove rm-addr"></a>
-	</div>
-	<a class="add address">switch to street address</a>
-	<br>
-	<label class="rec">
-		Recurring? <input type="checkbox">
-		<input class="recurrence" type="hidden" value="false">
-	</label>
-	<div class="summary"><span></span> <a>edit</a></div>
+    {{ event_formset }}
 	<a class="delete">delete instance</a>
 </div>
