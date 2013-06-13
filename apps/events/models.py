@@ -1,30 +1,10 @@
-from django.contrib.auth.models  import User
-from django.db                   import models
-from functions                   import sluggify
-from fields                      import *
-from datetime                    import datetime
-from django.conf                 import settings as _settings
-
-
-# Create your models here.
-class Base(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile')
-    guid = models.CharField(max_length = 100,null=True,unique=True)
-    display_name = models.CharField(max_length = 100,null=True,blank=True)
-
-
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-models.signals.post_save.connect(create_profile, sender=User)
+from core.models import TimeCreatedModified, ContentTypeMixin
+from django.contrib.auth.models import User
+from django.db import models
+from functions import sluggify
+from fields import *
+from datetime import datetime
+from django.conf import settings as _settings
 
 
 def calendars(self):
@@ -53,7 +33,7 @@ def first_login(self):
 setattr(User, 'first_login', property(first_login))
 
 
-class Event(Base):
+class Event(TimeCreatedModified):
     """This object provides the link between the time and places events are to
     take place and the purpose and name of the event as well as the calendard to
     which the events belong."""
@@ -92,7 +72,7 @@ class Event(Base):
     description = models.TextField(blank=True, null=True)
     settings = SettingsField(default=Settings.default, null=True, blank=True)
     owner = models.ForeignKey(User, related_name='owned_events', null=True)
-    image = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH,null=True)
+    image = models.FileField(upload_to=_settings.FILE_UPLOAD_PATH, null=True)
     tags = models.ManyToManyField('Tag', related_name='events')
     contact_use = models.SmallIntegerField(choices=Contact.choices, default=Contact.directory)
     # TODO
@@ -164,7 +144,7 @@ class Event(Base):
         ordering = ['instances__start']
 
 
-class Tag(Base):
+class Tag(TimeCreatedModified):
     name = models.CharField(max_length=64, unique=True)
 
     def save(self, *args, **kwargs):
@@ -178,7 +158,7 @@ class Tag(Base):
         ordering = ['name',]
 
 
-class TagGroup(Base):
+class TagGroup(TimeCreatedModified):
     name = models.CharField(max_length=128, unique=True)
     tags = models.ManyToManyField('Tag', related_name='tag_groups')
 
@@ -189,7 +169,7 @@ class TagGroup(Base):
         return unicode(self.name)
 
 
-class EventInstance(Base):
+class EventInstance(TimeCreatedModified):
     """Object which describes the time and place that an event is occurring"""
     class Recurs:
         never, daily, weekly, biweekly, monthly, yearly = range(0,6)
@@ -248,7 +228,6 @@ class EventInstance(Base):
 
             return next
 
-    #children = One To Many relationship with EventInstances
     event = models.ForeignKey('Event', related_name='instances')
     location = models.ForeignKey('Location', related_name='events', null=True, blank=True)
     start = models.DateTimeField()
@@ -367,7 +346,7 @@ class EventInstance(Base):
         ordering = ['start']
 
 
-class Location(Base):
+class Location(TimeCreatedModified):
     """User inputted locations that specify where an event takes place"""
     #events     = One to Many relationship with EventInstance
     name = models.CharField(max_length=128)
@@ -392,17 +371,16 @@ class Location(Base):
         return '<' + self.__str__() + '>'
 
 
-class Calendar(Base):
+class Calendar(TimeCreatedModified):
     """Calendar objects contain events that exist independent of the calendar,
     they may also subscribe to calendars which combine their owned events with
     events of other calendars."""
-    #events       = One to Many relationship with Event
-    #subscribers  = Many to Many with Calendar
+    #events = One to Many relationship with Event
     featured = models.ManyToManyField('Event', related_name='featured_on')
     name = models.CharField(max_length=64)
     slug = models.CharField(max_length=64, unique=True, blank=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
-    editors = models.ManyToManyField(User, related_name='edited_calendars')
+    editors = models.ManyToManyField(User, related_name='editor_calendars')
     subscriptions = models.ManyToManyField('Calendar', symmetrical=False, related_name="subscribers")
     public = models.BooleanField(default=False)
     shared = models.BooleanField(default=False)

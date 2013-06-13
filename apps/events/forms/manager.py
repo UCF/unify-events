@@ -1,14 +1,13 @@
-from django.contrib.auth.models import User
-from events.models import Calendar, Profile, Event, EventInstance, Tag
 from django import forms
-from datetime import datetime,timedelta
 from django.contrib.auth.models import User
 from events.forms.fields import InlineLDAPSearchField
+from events.models import Calendar, Event, EventInstance, Tag
+from profiles.models import Profile
 
 
 class CalendarForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(CalendarForm,self).__init__(*args,**kwargs)
+        super(CalendarForm, self).__init__(*args,**kwargs)
 
         # Exclude calendar being edited from subscription list
         try:
@@ -20,12 +19,12 @@ class CalendarForm(forms.ModelForm):
                 self.fields['subscriptions'].queryset = self.fields['subscriptions'].queryset.exclude(pk=kwargs['instance'].pk)
 
     subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
-    #editors = forms.ModelMultipleChoiceField(queryset=User.objects.all())
-    editors = InlineLDAPSearchField(queryset=User.objects.none(),required=False)
+    # editors = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+    editors = InlineLDAPSearchField(queryset=User.objects.all(), required=False)
 
     class Meta:
         model = Calendar
-        fields = ('name', 'slug','public','shared','editors', 'subscriptions')
+        fields = ('name', 'slug', 'public', 'shared', 'editors', 'subscriptions')
 
 
 class UserForm(forms.ModelForm):

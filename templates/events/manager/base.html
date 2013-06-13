@@ -90,7 +90,7 @@
 			<h1>{% block page_header %}<a href="{% url dashboard %}">Events</a>{% endblock %}</h1>
 			{% if user.is_authenticated %}
 				<ul id="nav">
-					<li><a href="{% url accounts-profile %}">settings</a></li>
+					<li><a href="{% url profile-settings %}">settings</a></li>
 					<li><a href="{% url accounts-logout %}">log out</a></li>
 				</ul>
 			{% endif %}

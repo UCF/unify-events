@@ -41,7 +41,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^calendar/(?P<id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
     url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
 
-    url(r'^accounts/profile', view='accounts.profile', name='accounts-profile'),
+    url(r'^profiles/', include('profiles.urls')),
 
     url(r'^category/(?P<category_name>.+)/?', view='dashboard', name='dashboard-category'),
     url(r'^tag/(?P<tag_name>.+)/?', view='dashboard', name='dashboard-tag'),

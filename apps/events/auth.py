@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
-from django.core.exceptions import ImproperlyConfigured
 from util import LDAPHelper
 
 import logging
@@ -13,8 +11,8 @@ class Backend(ModelBackend):
 
         try:
             ldap_helper = LDAPHelper()
-            LDAPHelper.bind(ldap_helper.connection,username,password)
-            ldap_user = LDAPHelper.search_single(ldap_helper.connection,username)
+            LDAPHelper.bind(ldap_helper.connection, username, password)
+            ldap_user = LDAPHelper.search_single(ldap_helper.connection, username)
         except LDAPHelper.LDAPHelperException:
             return None
         else:

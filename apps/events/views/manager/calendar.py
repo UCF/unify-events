@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from events.models import Calendar
 from events.forms.manager import CalendarForm
+
 import logging
 
 log = logging.getLogger(__name__)

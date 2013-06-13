@@ -42,6 +42,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'events.auth.Backend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 
@@ -55,6 +56,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'core',
+    'profiles',
     'events',
     'unlevents'
 )

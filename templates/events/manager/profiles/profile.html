@@ -7,7 +7,7 @@
 			your personal information and confirm that it is correct.
 		</p>
 	{% endif %}
-	<form action="{% url accounts-profile %}" method="post">
+	<form action="{% url profile-settings %}" method="post">
 		{% if forms.user.non_field_errors %}
 			<p>{{forms.user.non_field_errors}}</p>
 		{% endif %}

@@ -37,7 +37,7 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
     # Make sure check their profile when they
     # log in for the first time
     if request.user.first_login:
-        return HttpResponseRedirect(reverse('accounts-profile'))
+        return HttpResponseRedirect(reverse('profile-settings'))
 
     # Date navigation
     ctx['dates']['today'] = date.today()
@@ -46,11 +46,11 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
     else:
         ctx['dates']['relative'] = ctx['dates']['today']
 
-    ctx['dates']['prev_day']   = str((ctx['dates']['relative'] - timedelta(days=1)))
+    ctx['dates']['prev_day'] = str((ctx['dates']['relative'] - timedelta(days=1)))
     ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
-    ctx['dates']['next_day']   = str((ctx['dates']['relative'] + timedelta(days=1)))
+    ctx['dates']['next_day'] = str((ctx['dates']['relative'] + timedelta(days=1)))
     ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
-    ctx['dates']['today_str']  = str(ctx['dates']['today'])
+    ctx['dates']['today_str'] = str(ctx['dates']['today'])
 
     if tag_name is not None:
         try:
@@ -85,7 +85,7 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
         except EmptyPage:
             ctx['instances'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request,tmpl,ctx)
+    return direct_to_template(request, tmpl, ctx)
 
 @login_required
 def search_user(request, lastname, firstname=None):

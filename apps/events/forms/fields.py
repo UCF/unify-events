@@ -1,12 +1,15 @@
 from django import forms
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from events.forms.widgets import InlineLDAPSearch
 from util import LDAPHelper
-from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
+
 import logging
 
+
 class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
+
     def __init__(self, *args, **kwargs):
         kwargs['widget'] = InlineLDAPSearch()
         super(InlineLDAPSearchField, self).__init__(*args, **kwargs)
@@ -15,14 +18,14 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
         """
             The users submitted by this field my not be users
             in our system yet. Check to see if they exist. If
-            they don't, creat them. Pass all the PKs to the
+            they don't, create them. Pass all the PKs to the
             super.
         """
         users = []
         if guids_usernames is not None and len(guids_usernames) > 0:
             try:
                 ldap = LDAPHelper()
-                LDAPHelper.bind(ldap.connection,settings.LDAP_NET_SEARCH_USER,settings.LDAP_NET_SEARCH_PASS)
+                LDAPHelper.bind(ldap.connection, settings.LDAP_NET_SEARCH_USER,settings.LDAP_NET_SEARCH_PASS)
             except Exception, e:
                 logging.error(str(e))
                 raise ValidationError('Unable to connect to LDAP')
@@ -64,4 +67,4 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
                     users.append(user)
 
         self.queryset = User.objects.all()
-        return super(InlineLDAPSearchField,self).clean([u.pk for u in users])
+        return super(InlineLDAPSearchField, self).clean([u.pk for u in users])
