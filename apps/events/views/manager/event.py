@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from events.forms.manager import EventForm, EventInstanceForm,EventCopyForm
+from events.forms.manager import EventCopyForm
 from events.models import Event, EventInstance, Calendar
 from django.db.models import Q
 from django.forms.models import modelformset_factory

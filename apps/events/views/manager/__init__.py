@@ -3,10 +3,8 @@ from django.views.generic.simple import direct_to_template
 from datetime import datetime, timedelta, date
 from events.models import Event, Calendar, EventInstance, Tag
 from django.contrib import messages
-from django.http import HttpResponseRedirect,HttpResponse,HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.core.urlresolvers import reverse
-from events.forms.manager import EventForm,EventInstanceForm
-from django.forms.models import modelformset_factory
 from django.db.models import Q
 from util import LDAPHelper
 from django.conf import settings
@@ -70,9 +68,6 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
             ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
         except Calendar.DoesNotExist:
             messages.error('Calendar does not exist')
-
-    if ctx['current_calendar'] is not None:
-        ctx['instances'] = ctx['current_calendar'].events_and_subs.filter(start__gte=ctx['dates']['relative'])
 
     # Pagination
     if ctx['instances'] is not None:

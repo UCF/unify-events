@@ -1,12 +1,3 @@
-def sluggify(original):
-    """Apps sluggyify logic, to be used wherever slugs need to be generated."""
-    import re
-    slug  = original.lower().strip()
-    slug  = re.sub("[\s]+", '-', slug)
-    slug  = re.sub("[^a-z1-9\s\-]", '', slug)
-    return slug
-
-
 def get_date_event_map(events):
     """Get a tuple containing a list of dates and a mapping between those dates
     and the events that occur on them."""

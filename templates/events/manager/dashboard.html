@@ -1,111 +1,23 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#search > input[type="text"]')	
-				.focus(function() {
-					if($(this).val() == 'Search events...') {
-						$(this).val('');
-						$(this).removeClass('prefill');
-					}
-				});
-			$('#events > tbody > tr')
-				.each(function(index, row) {
-					var row = $(row);
-					row
-						.hover(
-							function() {
-								row.find('.calendars .actions').show();
-							},
-							function() {
-								row.find('.calendars .actions').hide();	
-							}
-					)
-				});
-			(function() {
-				// Other Actions Dropdown
-				var other_actions = $('#other_actions');
-				other_actions
-					.find('li:gt(0)')
-						.each(function(count, li) {
-							$(li).css('top', (count + 1) * 25);
-						})
-				other_actions
-					.hover(
-						function() {
-							other_actions.find('li:gt(0)').show();
-						},
-						function() {
-							other_actions.find('li:gt(0)').hide();	
-						})
-			})();
-		});
-	</script>
-{% endblock %}
 {% block content_body %}
-	<div class="span-24 last">
-		<div class="span-7 border">
-			{% if search_results == None and tag == None %}
-			<div id="event_date">
-				{% if current_calendar %}
-					<div class="prev">
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month calendar_id=current_calendar.id %}" class="button">&lt;&lt;</a>
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day calendar_id=current_calendar.id %}" class="button">&lt;</a>
-						{% if dates.today != dates.relative and dates.today < dates.relative %}
-						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
-						{% endif %}
-					</div>
-					{{dates.relative|date:"F j, Y"}}
-					<div class="next">
-						{% if dates.today != dates.relative and dates.today > dates.relative %}
-						<a id="next_day" href="{% url dashboard _date=dates.today calendar_id=current_calendar.id %}" class="button">Today</a>
-						{% endif %}
-						<a id="next_day" href="{% url dashboard _date=dates.next_day calendar_id=current_calendar.id %}" class="button">&gt;</a>
-						<a id="next_month" href="{% url dashboard _date=dates.next_month calendar_id=current_calendar.id %}" class="button">&gt;&gt;</a>
-					</div>
-				{% else %}
-					<div class="prev">
-						<a id="prev_month" href="{% url dashboard _date=dates.prev_month %}" class="button">&lt;&lt;</a>
-						<a id="prev_day" href="{% url dashboard _date=dates.prev_day %}" class="button">&lt;</a>
-					</div>
-					{{dates.relative|date:"F j, Y"}}
-					<div class="next">
-						<a id="next_day" href="{% url dashboard _date=dates.next_day %}" class="button">&gt;</a>
-						<a id="next_month" href="{% url dashboard _date=dates.next_month %}" class="button">&gt;&gt;</a>
-					</div>
-				{% endif %}
-			</div>
-			{% endif %}
-			<a id="event_create" href="{% url event-create %}" class="button">Create New Event</a>
-			<ul id="other_actions">
-				<li><button>Other Actions <span>&#9660;</span></button></li>
-				<li><a class="button" href="{% url calendar-create %}">Create Calendar</a></li>
-				<li><a class="button" href="">Import/Export</a></li>
-				{% if user.is_superuser %}
-				<li><a class="button" href="{% url category-manage %}">Manage Categories</a></li>
-				<li><a class="button" href="{% url tag-manage %}">Manage Tags</a></li>
-				{% endif %}
-			</ul>
-			<form id="search" class="clear" action="{% url search-event %}" method="get">
-				<input type="text" name="query" value="Search events..." class="prefill" />
-				<button type="submit">Search</button>
-			</form>
+    <div class="row">
+        <div class="span3">
 			<ul id="calendars" class="clear">
 				{% if tag != None %}
 				<li class="selected">
-					<a href="{% url dashboard %}">Events Tagged with<br /><strong>{{tag.name}}</strong></a>
+					<a href="{% url dashboard %}">Events Tagged with<br /><strong>{{ tag.name }}</strong></a>
 				</li>
 				{% endif %}
-				{% if search_results != None %} 
+				{% if search_results != None %}
 				<li class="selected">
-					<a href="{% url dashboar %}">Search Results</a>
+					<a href="{% url dashboard %}">Search Results</a>
 				</li>
 				{% endif %}
+                <a href="{% url calendar-create %}">Create Calendar</a>
 				{% for calendar in user.calendars %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
-						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{calendar.name}}</a>
+						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{ calendar.name }}</a>
 						<ul class="links span-3">
 							<li><a href="{% url calendar calendar.slug %}" class="view">View</a></li>
 							<li><a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a></li>
@@ -122,86 +34,9 @@
 					</li>
 				{% endfor %}
 			</ul>
-		</div>
-		<div class="span-17 last">
-		
-			<ul id="instances" class="span-17 last">
-				{% for instance in instances.object_list %}
-				<li class="{% cycle 'even' 'odd' %} clear clearfix" data-update-url="{% url event-update id=instance.event.id %}" data-event-id="{{instance.event.id}}">
-					<a href="{% url event-update id=instance.event.id %}">
-						<div class="image span-2">
-							{% if instance.event.image %}
-								<img src="{{instance.event.image.url}}" />
-							{% else %}
-								<img src="{{MEDIA_URL}}-/img/test-64x64.png" />
-							{% endif %}
-						</div>
-						<div class="span-10">
-							<div class="title">{{instance.event.title}}</div>
-							<div class="description">{{instance.event.description|truncatewords:25}}</div>
-						</div>
-						<div class="span-5 last">
-							<div class="datetime">
-								{% if dates.relative == dates.today and search_results == None %}
-									{{instance.start|pretty_date:"manager"}}
-								{% else %}
-									{{instance.start|date:"F j, Y g a"}}
-								{% endif %}
-							</div>
-							<div class="location">
-								{% if instance.location %}{{instance.location.name}}{% endif %}
-							</div>
-						</div>
-					</a>
-					<div class="span-15 prepend-2">
-						<div class="span-10">
-							<ul class="categories">
-								{% for category in instance.event.categories.all %}
-									<li>{{category.name}}</li>
-								{% endfor %}
-							</ul>
-							<ul class="tags">
-								{% for tag in instance.event.tags.all %}
-									<li>{{tag.name}}</li>
-								{% endfor %}
-							</ul>
-						</div>
-						<div class="span-5 last state">
-							{% if instance.event.get_state_display == 'pending' %}
-								<a class="button" href="{% url event-post id=instance.event.id %}">
-									Mark as Posted
-								</a>
-							{% else %}
-								{% if instance.event.get_state_display == 'posted' %}
-									<a class="button" href="{% url event-pend id=instance.event.id %}">
-										Mark as Pending
-									</a>
-								{% endif %}
-							{% endif %}
-						</div>
-					</div>
-				</li>
-				{% empty %}
-					{% if search_results != None %}
-						<li>No events found.</li>
-					{% else %}
-						<li>No upcoming events</li>
-					{% endif %}
-				{% endfor %}
-				{% if instances.object_list %}
-				<div class="pagination">
-					{% if instances.has_previous %}
-						<a class="button" href="?page={{ instances.previous_page_number }}">previous</a>
-					{% endif %}
-					<span class="current">
-						Page {{ instances.number }} of {{ instances.paginator.num_pages }}.
-					</span>
-					{% if instances.has_next %}
-						<a class="button" href="?page={{ instances.next_page_number }}">next</a>
-					{% endif %}
-				</div>
-				{% endif %}
-			</ul>
-		</div>
-	</div>
+        </div>
+        <div class="span9">
+
+        </div>
+    </div>
 {% endblock %}

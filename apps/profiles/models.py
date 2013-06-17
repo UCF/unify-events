@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     """
-        A User Profile
+    A User Profile
     """
     user = models.OneToOneField(User, related_name='profile')
     guid = models.CharField(max_length=100, null=True, unique=True)
@@ -16,12 +16,7 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     """
-        Create a profile for every users
-
-        :param sender: Sender of event
-        :param instance: Class instance
-        :param created: Whether instance was created
-        :param **kwargs: The rest of the args
+    Create a profile for every users
     """
 
     if created:

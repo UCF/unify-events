@@ -1,88 +1,4 @@
 {%extends 'events/base.html'%}
-{% block links %}
-	{{block.super}}
-	<link href="{{MEDIA_URL}}-/css/manager.css" rel="stylesheet" media="all" />
-{% endblock %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script src="{{MEDIA_URL}}-/tiny_mce/tiny_mce.js"></script>
-	<script src="{{MEDIA_URL}}-/tiny_mce/jquery.tinymce.js"></script>
-	<script src="{{MEDIA_URL}}-/js/manager.js"></script>
-	<script type="text/javascript">
-		var USER_SEARCH_URL = '{% url search-user %}';
-		$().ready(function() {
-			
-			$('.inlineldapsearch')
-				.each(function(count, wrapper) {
-					var wrapper = $(wrapper);
-					wrapper
-						.parents('form')
-							.submit(function() {
-								wrapper.find('.selections option').attr('selected','selected');
-							})
-						.find('.search')
-							.click(function() {
-								var query     = wrapper.find('.query').val(),
-									choices   = wrapper.find('.choices'),
-									parts     = query.split(' '),
-									lastname  = '',
-									firstname = '';
-								
-								if(parts.length > 1) {
-									firstname = parts[0];
-									lastname  = parts[1];
-								} else {
-									lastname = parts[0];
-								}
-								if(lastname.length > 3) {
-									$.getJSON(
-											USER_SEARCH_URL + lastname + '/' + firstname,
-											{},
-											function(data, text_status, jq_xhr) {
-												choices.empty();
-												$.each(data, function(index, user) {
-													choices.append('<option value="' + user.guid + '|' + user.username + '">' + user.firstname + ' ' + user.lastname + ' (' + user.username + ')</option>');
-												});										
-											});
-								}
-								
-								return false;
-							})
-						.end()
-						.find('.add')
-							.click(function() {
-								var selected   = wrapper.find('.choices option:selected'),
-									selections = wrapper.find('.selections');
-								
-								if(selected.length > 0) {
-									if(selections.find('option').length == 0) {
-										selections.append(selected.clone())
-									} else {
-										$.each(selected, function(index, selected_user) {
-											var found = false;
-											$.each(selections.find('option'), function(_index, selection_user) {
-												if($(selected_user).val() == $(selection_user).val()) {
-													found = true;
-												}
-											})
-											if(!found) {
-												selections.append($(selected_user).clone());
-											}
-										});
-									}
-								}
-
-
-							})
-						.end()
-						.find('.remove')
-							.click(function() {
-								wrapper.find('.selections option:selected').remove();
-							});
-				});
-		});
-	</script>
-{% endblock %}
 {%block content%}
 <div id="manager-base" class="container">
 	{%block content_header%}
@@ -108,7 +24,7 @@
 			Hi, {{user.first_name}}
 		</div>
 	</div>
-	{%block content_body%}{%endblock%}
-	{%block content_footer%}{%endblock%}
+	{% block content_body %}{% endblock %}
+	{% block content_footer%}{% endblock %}
 </div>
 {%endblock%}

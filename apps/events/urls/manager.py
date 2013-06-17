@@ -1,15 +1,15 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import include, patterns, url
+
 from events.models import Event
-import settings
 
 urlpatterns = patterns('',
                        url(r'^login/$',
                            view='django.contrib.auth.views.login',
-                           kwargs={'template_name':'events/manager/login.html'},
+                           kwargs={'template_name': 'events/manager/login.html'},
                            name='accounts-login'),
                        url(r'^logout/$',
                            view='django.contrib.auth.views.logout',
-                           kwargs={'template_name':'events/manager/logout.html'},
+                           kwargs={'template_name': 'events/manager/logout.html'},
                            name='accounts-logout')
 )
 
