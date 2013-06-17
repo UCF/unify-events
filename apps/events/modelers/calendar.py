@@ -7,14 +7,18 @@ from django.template.defaultfilters import slugify
 
 
 def calendars(self):
+    """
+    Add and attribute to the User model to retrieve
+    the calendars associated to them
+    """
     return Calendar.objects.filter(owner=self)
 setattr(User, 'calendars', property(calendars))
 
 
 def calendars_include_submitted(self):
     return Calendar.objects.filter(
-        models.Q(owner=self)|
-        models.Q(editors=self)|
+        models.Q(owner=self) |
+        models.Q(editors=self) |
         models.Q(events__owner=self)).order_by('name').distinct()
 setattr(User, 'calendars_include_submitted', property(calendars_include_submitted))
 

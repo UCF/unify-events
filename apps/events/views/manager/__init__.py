@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
 from datetime import datetime, timedelta, date
-from events.models import Event, Calendar, EventInstance, Tag
+from events.models import Event, Calendar, EventInstance
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.core.urlresolvers import reverse
@@ -15,7 +15,7 @@ import logging
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 @login_required
-def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_name=None):
+def dashboard(request, _date=None, calendar_id=None, search_results=None):
     ctx = {
         'instances': None,
         'current_calendar': None,
@@ -27,7 +27,6 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
             'next_month': None,
             'relative': None,
         },
-        'tag': None,
         'search_results': search_results
     }
     tmpl = 'events/manager/dashboard.html'
@@ -49,25 +48,6 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None, tag_na
     ctx['dates']['next_day'] = str((ctx['dates']['relative'] + timedelta(days=1)))
     ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
     ctx['dates']['today_str'] = str(ctx['dates']['today'])
-
-    if tag_name is not None:
-        try:
-            ctx['tag'] = Tag.objects.get(name=tag_name)
-        except Tag.DoesNotExist:
-            return HttpResponseNotFound('Tag specified does not exist.')
-        else:
-            ctx['instances'] = EventInstance.objects.filter(event__in = ctx['tag'].events.all())
-    elif search_results is not None:
-        ctx['instances'] = EventInstance.objects.filter(event__in = search_results)
-    elif calendar_id is None:
-        user_calendars = request.user.calendars
-        if len(user_calendars) > 0:
-            ctx['current_calendar'] = user_calendars[0]
-    else:
-        try:
-            ctx['current_calendar'] = Calendar.objects.get(pk = calendar_id)
-        except Calendar.DoesNotExist:
-            messages.error('Calendar does not exist')
 
     # Pagination
     if ctx['instances'] is not None:

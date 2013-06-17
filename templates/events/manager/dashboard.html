@@ -18,7 +18,7 @@
 				{% for calendar in user.calendars %}
 					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
 						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{ calendar.name }}</a>
-						<ul class="links span-3">
+						<ul class="links">
 							<li><a href="{% url calendar calendar.slug %}" class="view">View</a></li>
 							<li><a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a></li>
 						</ul>

@@ -1,2 +1,2 @@
 from calendar import *
-from models import *
+from events import *

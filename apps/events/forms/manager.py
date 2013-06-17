@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from events.forms.fields import InlineLDAPSearchField
-from events.modelers import Calendar, Tag
+from events.modelers import Calendar
 from profiles.models import Profile
 
 
@@ -35,13 +35,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('display_name', )
-
-
-class TagForm(forms.ModelForm):
-
-    class Meta:
-        model = Tag
-        fields = ('name', )
 
 
 class EventCopyForm(forms.Form):
