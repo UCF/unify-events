@@ -1,6 +1,18 @@
 {% extends 'events/manager/base.html' %}
+{% block content_header %}{% endblock %}
 {% block content_body %}
-	<div class="span-18 prepend-3">
-		<p>You are now logged out.</p>
-	</div>
+
+    <div class="row">
+        <div class="span8 offset2">
+            <div class="popout">
+                <h2>Log Out</h2>
+                <p>You have logged out of the UCF Events system.</p>
+                <p>
+                    <br/>
+                    <a href="{% url accounts-login %}" class="btn btn-primary">Sign Back In</a>
+                    <a href="/" class="btn">UCF Events Home</a>
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

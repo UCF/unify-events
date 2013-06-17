@@ -1,36 +1,19 @@
-{%extends 'events/base.html'%}
-{%block content%}
-<div id="manager-base" class="container">
-	{%block content_header%}
-		<header>
-            <div class="row">
-                <div class="span6">
-                    <h1>{% block page_header %}<a href="{% url dashboard %}">Events</a>{% endblock %}</h1>
-                    {% if user.is_authenticated %}
-                    <ul id="nav">
-                        <li><a href="{% url profile-settings %}">settings</a></li>
-                        <li><a href="{% url accounts-logout %}">log out</a></li>
-                    </ul>
-                    {% endif %}
-                </div>
-                <div class="span6">
-                    {% if messages %}
-                    <ul id="messages" class="clear">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
+{% extends 'events/base.html' %}
+{% block content %}
+<section id="manager-base" class="container">
+	{% block content_header %}
+		<div class="row">
+            <div class="span12" id="page-title-wrap">
+                {% block content_title_icon %}
+                <i class="icon-calendar" id="page-title-icon"></i>
+                {% endblock %}
+                
+                {% block content_title %}{% endblock %}
             </div>
-		</header>
-	{%endblock%}
-    <div class="row">
-        <div class="span12">
-            Hi, {{user.first_name}}
         </div>
-    </div>
+	{% endblock %}
+	{% block content_tabs %}{% endblock %}
 	{% block content_body %}{% endblock %}
-	{% block content_footer%}{% endblock %}
-</div>
-{%endblock%}
+	{% block content_footer %}{% endblock %}
+</section>
+{% endblock %}

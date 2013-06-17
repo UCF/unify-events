@@ -1,42 +1,47 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+{% block content_title %}
+    <h2>
+        My Calendars 
+        {% if current_calendar %}
+        <span class="alt">{{ current_calendar.name }}</span>
+        {% endif %}
+    </h2>
+    {% if current_calendar %}
+    <ul id="calendar-edit-options">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li>
+                    <a href="#">Users &amp; Permissions</a>
+                </li>
+                <li>
+                    <a href="#">Calendar Info</a>
+                </li>
+                <li>
+                    <a href="#">Subscriptions</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">Delete Calendar</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Live View</a>
+        </li>
+    </ul>
+    {% endif %}
+{% endblock %}
 {% block content_body %}
-    <div class="row">
-        <div class="span3">
-			<ul id="calendars" class="clear">
-				{% if tag != None %}
-				<li class="selected">
-					<a href="{% url dashboard %}">Events Tagged with<br /><strong>{{ tag.name }}</strong></a>
-				</li>
-				{% endif %}
-				{% if search_results != None %}
-				<li class="selected">
-					<a href="{% url dashboard %}">Search Results</a>
-				</li>
-				{% endif %}
-                <a href="{% url calendar-create %}">Create Calendar</a>
-				{% for calendar in user.calendars %}
-					<li class="clearfix{% if current_calendar == calendar %} selected{% endif %}">
-						<a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{ calendar.name }}</a>
-						<ul class="links">
-							<li><a href="{% url calendar calendar.slug %}" class="view">View</a></li>
-							<li><a class="manage" href="{% url calendar-update id=calendar.id %}">Manage</a></li>
-						</ul>
-						<div class="details span-4 last">
-							<span class="visibility">
-								{% if calendar.public %}Public{% else %}Private{% endif %}
-							</span>
-							&mdash;
-							<span class="shared">
-								{% if not calendar.shared %}Not {% else %}{% endif %}Shared
-							</span>
-						</div>
-					</li>
-				{% endfor %}
-			</ul>
-        </div>
-        <div class="span9">
 
-        </div>
-    </div>
+{% if messages %}
+<ul id="messages" class="clear">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+my calendars page
 {% endblock %}
