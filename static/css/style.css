@@ -1,0 +1,135 @@
+/**
+ * University Header Overrides
+ **/
+#UCFHBSearch_ucf fieldset #q {
+	line-height: 11px;
+	color: #000000;
+	padding: 2px!important;
+	font-size: 11px;
+	font-family: 'Lucida Grande',sans-serif;
+	height: 13px;
+	border-radius: 0;
+	webkit-border-radius: 0;
+	moz-border-radius: 0;
+	margin-bottom: 0;
+	margin-top: 1px;
+}
+select#UCFHBHeaderLinks {
+	height: 18px;
+	font-size: 11px;
+	color: #000000;
+	font-family: 'Lucida Grande', sans-serif;
+	border-radius: 0;
+	webkit-border-radius: 0;
+	moz-border-radius: 0;
+	margin-bottom: 0;
+	margin-top: 1px;
+	padding: 0;
+	line-height: 15px;
+}
+#UCFHBHeader { position: relative; z-index: 999; }
+@media (max-width: 979px) {
+	#UCFHBSearch_and_links { display: none; }
+	#UCFHBHeader div.UCFHBWrapper { width: 100%; }
+}
+@media (max-width: 767px) {
+	#UCFHBHeader { margin-left: -20px; width: 100%; padding-right: 40px; }
+}
+
+
+/**
+ * Universal Styles
+ **/
+body { background: url('../img/gradient.png') top left repeat-x; }
+h1 .alt,
+h2 .alt,
+h3 .alt,
+h4 .alt,
+h5 .alt,
+h6 .alt { font-weight: 300; }
+
+
+/**
+ * Utility
+ **/
+.fullwidth { width: 100%; }
+
+
+/**
+ * Header
+ **/
+header { padding-top: 10px; }
+header form.form-search { padding-top: 19px; float: right; }
+
+
+/**
+ * Main Navigation (subheader)
+ **/
+#navwrap { background: #f1f1f1; }
+#navinner { padding: 10px 0; }
+nav .user { float: left; padding-right: 30px; padding-top: 5px; padding-bottom: 5px; }
+nav #actions-primary,
+nav #actions-secondary { list-style-type: none; margin: 0; }
+nav #actions-primary { float: left; }
+nav #actions-primary > li,
+nav #actions-secondary > li { float: left; padding-left: 15px; padding-top: 5px; padding-bottom: 5px; }
+nav #actions-secondary { float: right; }
+nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
+
+
+/**
+ * Page Titles
+ **/
+#page-title-wrap { position: relative; } 
+#page-title-wrap #page-title-icon { position: absolute; top: 10px; left: -48px; font-size: 36px; color: #a8a8a8; }
+#page-title-wrap h2 { display: block; float: left; }
+
+
+/**
+ * Login/Initial Setup
+ **/
+.popout { 
+	padding: 10px 20px 20px 20px; 
+	margin-top: 30px; 
+	border: 1px solid rgba(0, 0, 0, 0.3); 
+	border-radius: 6px;  
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+
+/**
+ * Sidebars
+ **/
+#sidebar-minicals {  }
+#sidebar-minicals .pager { margin: 0; position: relative; z-index: 2; }
+#sidebar-minicals .pager li { position: absolute; top: 15px; }
+#sidebar-minicals .pager li.previous { left: 0; }
+#sidebar-minicals .pager li.next { right: 0; }
+#sidebar-minicals .pager li .carousel-control { 
+	font-size: 14px; 
+	padding: 0; 
+	position: static; 
+	height: auto; 
+	opacity: 1;
+	margin: 0;
+	float: none;
+}
+#sidebar-minicals .carousel-inner { position: relative; z-index: 1; }
+#sidebar-minicals .carousel-inner .item h3 { text-align: center; }
+
+
+/**
+ * My Calendars
+ **/
+
+/** Title **/
+#calendar-edit-options { list-style-type: none; float: left; margin-top: 15px; margin-left: 10px; }
+#calendar-edit-options > li { float: left; margin-left: 10px; }
+
+/** Event List **/ 
+label[for="bulk-select"],
+th#thead-recommend,
+td.field-bulk-select label,
+td.field-recommended > span { display: block; text-indent: -9999px; line-height: 1px; margin: 0; }
+td.field-bulk-select input { margin-top: 0; }
+td.field-recommended { text-align: center; }
