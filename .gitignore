@@ -11,3 +11,5 @@ events.db
 
 # IDEs
 .idea
+.project
+.pydevproject
