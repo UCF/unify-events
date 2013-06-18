@@ -1,9 +1,9 @@
-from core.models import TimeCreatedModified
-
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
+
+from core.models import TimeCreatedModified
 
 
 def calendars(self):
