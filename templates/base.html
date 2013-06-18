@@ -55,12 +55,14 @@
                         <div class="user">
                             <i class="icon-user"></i> 
                             {% if user.is_authenticated %}
-                            Hi, <strong>{{user.first_name}}</strong> <!-- TODO: Use display name instead -->
+                            Hi, <strong>{{user.first_name}}</strong>
                             {% else %}
                             Hi, <strong>Guest</strong>
                             {% endif %}
                         </div>
                         {% if user.is_authenticated %}
+                            {% if first_login %}
+                            {% else %}
                         <!-- Primary actions go here - actions that should grab the user's attention. -->
                         <ul id="actions-primary">
                             <li class="dropdown">
@@ -94,13 +96,16 @@
                                     Messages
                                 </a>
                             </li>
+                            {% if user.calendars %}
                             <li id="create-event">
                                 <i class="icon-pencil"></i>
                                 <a href="#">
                                     Create Event
                                 </a>
                             </li>
+                            {% endif %}
                         </ul>
+                            {% endif %}
                         {% endif %}
                         <!-- Secondary actions that require less attention go here. -->
                         <ul id="actions-secondary">
