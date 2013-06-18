@@ -1,0 +1,39 @@
+{% extends 'events/manager/base.html' %}
+{% block content_title_icon %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block content_tabs %}{% endblock %}
+
+{% block content_body %}
+<div class="row">
+    <div class="span8 offset2">
+        <div class="popout">
+            <h2><span class="alt">Step 1:</span> My Profile</h2>
+            <div class="progress">
+                <div class="bar" style="width: 33%;"></div>
+            </div>
+            <p class="progress-desc">Step 1 of 2</p>
+            <p>
+                Welcome to the UCF Events system! It looks like this is your 
+                first time logging in.
+                <br/>
+                <strong>Please review your personal information and 
+                confirm that it is correct.</strong>
+            </p>
+            <form action="{% url profile-settings %}" method="post" class="form-horizontal">
+                {% if forms.user.non_field_errors %}
+                    <p>{{forms.user.non_field_errors}}</p>
+                {% endif %}
+                {% if forms.profile.non_field_errors %}
+                    <p>{{forms.profile.non_field_errors}}</p>
+                {% endif %}
+                <!-- TODO: edit default output of these forms to be more bootstrap-y -->
+                <div class="control-group">
+                    {{forms.user.as_table}}
+                    {{forms.profile.as_table}}
+                </div>
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

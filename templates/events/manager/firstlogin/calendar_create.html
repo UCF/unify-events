@@ -1,0 +1,96 @@
+{% extends 'events/manager/base.html' %}
+{% block footer_scripts %}
+	{{block.super}}
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#id_name')
+				.keyup(function() {
+					$('#id_slug').val(sluggify($(this).val()));
+				})
+		});
+	</script>
+{% endblock %}
+{% block content_body %}
+	<div id="calendar-create-update">
+		<h2>Create a Calendar</h2>
+		<form action="{% url calendar-create %}" method="post" id="calendar-create">
+    		{% if form.non_field_errors %}
+    		  <p>{{form.non_field_errors}}</p>
+    		{% endif %}
+    		<table>
+    			<tbody>
+    				<tr>
+    					<th scope="row">{{form.name.label_tag}}</th>
+    					<td>
+    						{{form.name}}
+    						{% if form.name.errors %}
+    							<ul>
+    							{% for error in form.name.errors %}
+    							<li>{{error}}</li>
+    							{% endfor %}
+    							</ul>
+    						{% endif %}
+    					</td>
+    					
+    				</tr>
+    				<tr>
+    					<th scope="row">{{form.public.label_tag}}</th>
+    					<td>
+    						{{form.public}}
+    						{% if form.public.errors %}
+    							<ul>
+    							{% for error in form.public.errors %}
+    							<li>{{error}}</li>
+    							{% endfor %}
+    							</ul>
+    						{% endif %}
+    					</td>
+    				</tr>
+    				<tr>
+    					<th scope="row">{{form.shared.label_tag}}</th>
+    					<td>
+    						{{form.shared}}
+    						{% if form.shared.errors %}
+    							<ul>
+    							{% for error in form.shared.errors %}
+    							<li>{{error}}</li>
+    							{% endfor %}
+    							</ul>
+    						{% endif %}
+    					</td>
+    				</tr>
+    				<tr>
+    					<th scope="row">{{form.editors.label_tag}}</th>
+    					<td>
+    						{{form.editors}}
+    						{% if form.editors.errors %}
+    							<ul>
+    							{% for error in form.editors.errors %}
+    							<li>{{error}}</li>
+    							{% endfor %}
+    							</ul>
+    						{% endif %}
+    					</td>
+    				</tr>
+    				<tr>
+    					<th scope="row">{{form.subscriptions.label_tag}}</th>
+    					<td>
+    						{{form.subscriptions}}
+    						{% if form.subscriptions.errors %}
+    							<ul>
+    							{% for error in form.subscriptions.errors %}
+    							<li>{{error}}</li>
+    							{% endfor %}
+    							</ul>
+    						{% endif %}
+    					</td>
+    				</tr>
+    			</tbody>
+    		</table>
+			{% for field in form.hidden_fields %}
+				{{field}}
+			{% endfor %}
+			<button type="submit">Create</button>
+		</form>
+	</div>
+{% endblock %}

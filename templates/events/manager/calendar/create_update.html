@@ -11,6 +11,27 @@
 	</script>
 {% endblock %}
 {% block content_body %}
+    {% if first_login %}
+    <div class="row">
+        <div class="span8 offset2">
+            <div class="popout">
+                <h2><span class="alt">Step 2:</span> Create a Calendar</h2>
+                <div class="progress">
+                    <div class="bar" style="width: 66%;"></div>
+                </div>
+                <p class="progress-desc">Step 2 of 2</p>
+                <p>
+                    To create or subscribe to events, you'll need a calendar to put them in. 
+                    If you know you'll be added to an existing calendar later, you can 
+                    <a href="#">skip this step</a>.  You will have limited access to the 
+                    events system until you're added to a calendar.
+                    <br/>
+                    <strong>
+                        Create your first calendar below, or click the cancel
+                        button to skip this step and make one later.
+                    </strong>
+                </p>
+    {% else %}
 	<div id="calendar-create-update">
 		{% if mode == 'create' %}
 			<h2>Create a Calendar</h2>
@@ -21,9 +42,10 @@
 				<form action="{% url calendar-update id=calendar.id %}" method="post" id="calendar-create">
 			{% endif %}
 		{% endif %}
-				{% if form.non_field_errors %}
-				<p>{{form.non_field_errors}}</p>
-			{% endif %}
+		{% if form.non_field_errors %}
+		  <p>{{form.non_field_errors}}</p>
+	    {% endif %}
+	{% endif %}
 			<table>
 				<tbody>
 					<tr>
@@ -106,5 +128,11 @@
 				{% endif %}
 			{% endif %}
 		</form>
+    {% if first_login %}
+            </div>
+        </div>
+    </div>
+    {% else %}
 	</div>
+	{% endif %}
 {% endblock %}

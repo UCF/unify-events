@@ -37,7 +37,10 @@ def settings(request):
                 messages.error(request, 'Saving user profile failed.')
             else:
                 messages.success(request, 'Saving user profile succeeded.')
-                return HttpResponseRedirect(reverse('dashboard'))
+                if ctx['first_login']:
+                    return HttpResponseRedirect(reverse('calendar-create'))
+                else:    
+                    return HttpResponseRedirect(reverse('dashboard'))
     else:
         ctx['forms']['user'] = UserForm(instance=request.user, prefix='user')
         ctx['forms']['profile'] = ProfileForm(instance=request.user.profile, prefix='profile')
