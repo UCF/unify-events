@@ -1,4 +1,4 @@
-# from events.forms.manager import EventForm, EventCopyForm
+from events.forms.manager import EventForm, EventCopyForm
 from events.models import Event, EventInstance, Calendar
 
 from django.views.generic.simple import direct_to_template
@@ -36,7 +36,7 @@ def create_update(request, id=None):
 
 
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
-    user_calendars = Calendar.objects.filter(Q(owner=request.user) | Q(editors=request.user))
+    user_calendars = Calendar.objects.filter(Q(owner=request.user))
 
     # TODO: add event instance formset
     if request.method == 'POST':
