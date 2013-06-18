@@ -1,27 +1,45 @@
 {% extends 'events/manager/base.html' %}
+{% block content_title_icon %}
+<i class="icon-cog" id="page-title-icon"></i>
+{% endblock %}
+{% block content_title %}
+<h2>Settings</h2>
+{% endblock %}
+{% block content_tabs %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#">My Profile</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
 {% block content_body %}
-<h2>Edit Profile</h2>
+<h3>Edit Profile:</h3>
 	{% if first_login %}
 		<p>
 			This is your first time logging in. Please review
 			your personal information and confirm that it is correct.
 		</p>
 	{% endif %}
-	<form action="{% url profile-settings %}" method="post">
+	<form action="{% url profile-settings %}" method="post" class="form-horizontal">
 		{% if forms.user.non_field_errors %}
 			<p>{{forms.user.non_field_errors}}</p>
 		{% endif %}
 		{% if forms.profile.non_field_errors %}
 			<p>{{forms.profile.non_field_errors}}</p>
 		{% endif %}
-		<table>
+		<!-- TODO: edit default output of these forms to be more bootstrap-y -->
+		<div class="control-group">
 			{{forms.user.as_table}}
 			{{forms.profile.as_table}}
-		</table>
+		</div>
 		{% if first_login %}
-			<button type="submit">Confirm Profile Information</button>
+			<button type="submit" class="btn btn-primary">Confirm Profile Information</button>
 		{% else %}
-			<button type="submit"/>Save Profile</button>
+			<button type="submit" class="btn btn-primary">Save Profile</button>
 		{% endif %}
 	</form>
 {% endblock %}
