@@ -29,6 +29,7 @@ class Calendar(TimeCreatedModified):
     """
     name = models.CharField(max_length=64)
     slug = models.CharField(max_length=64, unique=True, blank=True)
+    description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
 
     class Meta:

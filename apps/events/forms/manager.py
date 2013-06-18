@@ -1,28 +1,13 @@
-from django import forms
-from django.contrib.auth.models import User
-from events.forms.fields import InlineLDAPSearchField
 from events.modelers import Calendar
-from profiles.models import Profile
+
+from django import forms
 
 
 class CalendarForm(forms.ModelForm):
 
     class Meta:
         model = Calendar
-        fields = ('name', )
-
-
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email', )
-
-
-class ProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = Profile
-        fields = ('display_name', )
+        fields = ('name', 'description', )
 
 
 class EventCopyForm(forms.Form):
