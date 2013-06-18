@@ -1,13 +1,30 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+{% block alerts %}
+    {% if messages %}
+    <div class="row">
+        <div class="span12">
+            <div class="alert fade in" id="messages">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Message:</strong> 
+                <ul>
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
 {% block content_title %}
     <h2>
         My Calendars 
-        {% if current_calendar %}
+        {% if current_calendar and calendar == current_calendar %}
         <span class="alt">{{ current_calendar.name }}</span>
         {% endif %}
     </h2>
-    {% if current_calendar %}
+    {% if current_calendar and calendar == current_calendar %}
     <ul id="calendar-edit-options">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
@@ -34,14 +51,12 @@
     {% endif %}
 {% endblock %}
 {% block content_body %}
-
-{% if messages %}
-<ul id="messages" class="clear">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-my calendars page
+<div class="row">
+    <div class="span8 sidebarfix" id="page-content">
+        list of events here...
+    </div>
+    <div class="span4" id="page-sidebar">
+        sidebar mini calendar here...
+    </div>
+</div>
 {% endblock %}

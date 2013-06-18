@@ -1,14 +1,9 @@
 {% extends 'events/manager/base.html' %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#id_name')
-				.keyup(function() {
-					$('#id_slug').val(sluggify($(this).val()));
-				})
-		});
-	</script>
+{% block content_title_icon %}
+    {% if first_login %}
+    {% else %}
+    <i class="icon-plus" id="page-title-icon"></i>
+    {% endif %}
 {% endblock %}
 {% block content_body %}
     {% if first_login %}
@@ -70,4 +65,15 @@
     {% else %}
 	</div>
 	{% endif %}
+{% endblock %}
+{% block footer_scripts %}
+    {{block.super}}
+    <script type="text/javascript">
+        $().ready(function() {
+            $('#id_name')
+                .keyup(function() {
+                    $('#id_slug').val(sluggify($(this).val()));
+                })
+        });
+    </script>
 {% endblock %}
