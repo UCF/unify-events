@@ -6,28 +6,16 @@ from profiles.models import Profile
 
 
 class CalendarForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(CalendarForm, self).__init__(*args, **kwargs)
-
-        # Exclude calendar being edited from subscription list
-        try:
-            kwargs['instance']
-        except KeyError:
-            pass
-
-    # subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
-    # editors = forms.ModelMultipleChoiceField(queryset=User.objects.all())
-    # editors = InlineLDAPSearchField(queryset=User.objects.all(), required=False)
 
     class Meta:
         model = Calendar
-        fields = ('name', 'slug')
+        fields = ('name', )
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email', )
 
 
 class ProfileForm(forms.ModelForm):

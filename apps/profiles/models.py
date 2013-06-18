@@ -18,6 +18,5 @@ def create_profile(sender, instance, created, **kwargs):
     """
     Create a profile for every users
     """
-
     if created:
         Profile.objects.create(user=instance)

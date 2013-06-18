@@ -2,9 +2,11 @@ from core.models import TimeCreatedModified
 
 from datetime import datetime
 
-from django.contrib.auth.models import User
+from dateutil import rrule
+
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 
 # TODO: move to ucfevent app
@@ -73,6 +75,18 @@ class Event(TimeCreatedModified):
     @property
     def upcoming_instances(self):
         return self.instances.filter(start__gte=datetime.now())
+
+    def get_rrule(self):
+        if Event.Recurs.never == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, count=1)
+        elif Event.Recurs.daily == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, until=self.until)
+        elif Event.Recurs.weekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, dtstart=self.start, until=self.until)
+        elif Event.Recurs.biweekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
+        elif Event.Recurs.monthly == self.interval:
+            return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
 
     def __str__(self):
         return self.title
