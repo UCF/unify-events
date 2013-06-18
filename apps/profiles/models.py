@@ -10,7 +10,6 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, related_name='profile')
     guid = models.CharField(max_length=100, null=True, unique=True)
-    display_name = models.CharField(max_length=100, null=True, blank=True)
 
 
 @receiver(post_save, sender=User)
@@ -18,6 +17,5 @@ def create_profile(sender, instance, created, **kwargs):
     """
     Create a profile for every users
     """
-
     if created:
         Profile.objects.create(user=instance)

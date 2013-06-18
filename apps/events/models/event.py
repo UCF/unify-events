@@ -1,10 +1,12 @@
-from core.models import TimeCreatedModified
-
 from datetime import datetime
 
-from django.contrib.auth.models import User
+from dateutil import rrule
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
+
+from core.models import TimeCreatedModified
+from events.models import Calendar
 
 
 # TODO: move to ucfevent app
@@ -26,7 +28,7 @@ class Status:
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
-        (canceled, 'canceled'),
+        (canceled, 'canceled')
     )
 
 
@@ -45,7 +47,7 @@ class Event(TimeCreatedModified):
             (yearly, 'Yearly'),
         )
 
-    calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
+    calendar = models.ForeignKey(Calendar, related_name='events', blank=True, null=True)
     creator = models.ForeignKey(User, related_name='created_events', null=True)
     status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
     title = models.CharField(max_length=256)
@@ -53,8 +55,8 @@ class Event(TimeCreatedModified):
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    interval = models.SmallIntegerField(null=True, blank=True, default=Recurs.never, choices=Recurs.choices)
-    until = models.DateTimeField(null=True, blank=True)
+    interval = models.SmallIntegerField(blank=True, null=True, default=Recurs.never, choices=Recurs.choices)
+    until = models.DateTimeField(blank=True, null=True)
     # TODO: event instances
 
     class Meta:
@@ -70,9 +72,17 @@ class Event(TimeCreatedModified):
             return True
         return False
 
-    @property
-    def upcoming_instances(self):
-        return self.instances.filter(start__gte=datetime.now())
+    def get_rrule(self):
+        if Event.Recurs.never == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, count=1)
+        elif Event.Recurs.daily == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, until=self.until)
+        elif Event.Recurs.weekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, dtstart=self.start, until=self.until)
+        elif Event.Recurs.biweekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
+        elif Event.Recurs.monthly == self.interval:
+            return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
 
     def __str__(self):
         return self.title
@@ -82,9 +92,6 @@ class Event(TimeCreatedModified):
 
     def __repr__(self):
         return '<' + str(self.calendar) + '/' + self.title + '>'
-
-    class Meta:
-        ordering = ['instances__start']
 
 
 class EventInstance(TimeCreatedModified):
@@ -137,9 +144,9 @@ class EventInstance(TimeCreatedModified):
 
         return next
 
-    event = models.ForeignKey('Event', related_name='instances')
-    creator = models.ForeignKey(User, related_name='created_events', null=True)
-    state = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
+    event = models.ForeignKey(Event, related_name='instances')
+    creator = models.ForeignKey(User, related_name='created_event_instances', null=True)
+    status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True, null=True)
     location = models.TextField(blank=True, null=True)

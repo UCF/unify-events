@@ -1,40 +1,29 @@
 from django import forms
-from django.contrib.auth.models import User
-from events.forms.fields import InlineLDAPSearchField
-from events.modelers import Calendar
-from profiles.models import Profile
+
+from events.models import Calendar, Event
 
 
 class CalendarForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(CalendarForm, self).__init__(*args, **kwargs)
-
-        # Exclude calendar being edited from subscription list
-        try:
-            kwargs['instance']
-        except KeyError:
-            pass
-
-    # subscriptions = forms.ModelMultipleChoiceField(queryset=Calendar.objects.filter(shared=True),required=False)
-    # editors = forms.ModelMultipleChoiceField(queryset=User.objects.all())
-    # editors = InlineLDAPSearchField(queryset=User.objects.all(), required=False)
 
     class Meta:
         model = Calendar
-        fields = ('name', 'slug')
+        fields = ('name', 'description')
 
 
-class UserForm(forms.ModelForm):
+class EventForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        user_calendars = kwargs.pop('user_calendars')
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['calendar'].queryset = user_calendars
+
+    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
+    description = forms.CharField(widget=forms.Textarea())
+    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+
     class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
-
-
-class ProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = Profile
-        fields = ('display_name', )
+        model = Event
+        fields = ('title', 'description', 'calendar')
 
 
 class EventCopyForm(forms.Form):

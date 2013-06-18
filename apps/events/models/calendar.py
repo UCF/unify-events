@@ -1,9 +1,9 @@
-from core.models import TimeCreatedModified
-
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
+
+from core.models import TimeCreatedModified
 
 
 def calendars(self):
@@ -29,6 +29,7 @@ class Calendar(TimeCreatedModified):
     """
     name = models.CharField(max_length=64)
     slug = models.CharField(max_length=64, unique=True, blank=True)
+    description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
 
     class Meta:
