@@ -1,4 +1,6 @@
 {% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
 {% block page_header %}
 	{% spaceless %}
 	{{block.super}}
@@ -12,25 +14,93 @@
 	{% endif %}
 	{% endspaceless %}
 {% endblock %}
-{% block content_body %}
-<div class="event">
-	{% if mode == 'create' %}
-		<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
-	{% elif mode == 'update' %}
-		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
-	{% endif %}
 
-    {{  form.as_table }}
+{% block alerts %}{% endblock %}
 
+{% block content_title_icon %}
+<i class="icon-pencil" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
     {% if mode == 'create' %}
-        <button type="submit">Create</button>
-    {% else %}
-        {% if mode == 'update' %}
-            <button type="submit">Update</button>
-            <a href="{% url event-delete id=event.id %}" class="button">Delete Event</a>
-        {% endif %}
+        <h2>Create an Event</h2>
+    {% elif mode == 'update' %}
+        <h2>Update Event</h2>
     {% endif %}
-	</form>
+{% endblock %}
 
-</div><!-- /event -->
+{% block content_subheader_text %}
+Use the form below to create a new one-time or recurring event. Please read the <a target="_blank" href="#">event creation guidelines</a> before creating your event!
+{% endblock %}
+
+{% block content_body %}
+	{% if mode == 'create' %}
+		<form class="form-horizontal" action="{% url event-create %}" method="post" enctype="multipart/form-data">
+	{% elif mode == 'update' %}
+		<form class="form-horizontal" action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
+	{% endif %}
+            <div class="control-group large">
+               <label class="control-label" for="id_event-calendar">Calendar</label>
+               <p class="label-desc">Select an existing calendar to post this event to.</p>
+               <div class="controls">
+                   {{ form.calendar }}
+               </div>
+            </div>
+            <div class="control-group large">
+               <label class="control-label" for="id_event-title">Event Title</label>
+               <p class="label-desc">
+                   Be Brief. Be Bright. Be Done.
+                   <br/>
+                   (<a target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
+               </p>
+               <div class="controls">
+                   {{ form.title }}
+               </div>
+            </div>
+            <div class="control-group large">
+               <label class="control-label" for="id_event-description">Description</label>
+               <p class="label-desc">A description for your event.</p>
+               <div class="controls">
+                   {{ form.description }}
+               </div>
+            </div>
+            <div class="control-group large">
+               <p class="control-label">When</p>
+               <p class="label-desc">When your event takes place, and how often it occurs.</p>
+               <div class="controls controls-row">
+                   <label for="id_event-start">From</label>
+                   {{ form.start|attr:"type:datetime"|add_class:"field-datettime" }}
+                   <label for="id_event-end">To</label>
+                   {{ form.end|attr:"type:datetime"|add_class:"field-datettime" }}
+               </div>
+               <div class="controls controls-row">
+                   <label for="id_event-interval">Interval</label>
+                   {{ form.interval }}
+                   <label for="id_event-until">Until</label>
+                   {{ form.until }}
+               </div>
+            </div>
+            <div class="control-group large">
+               <label class="control-label" for="id_event-location">Where</label>
+               <p class="label-desc">Where your event takes place.</p>
+               <div class="controls">
+                   {{ form.location }}
+               </div>
+            </div>
+
+    <!--{{  form.as_table }}-->
+            
+            <div class="control-group large">
+                <div class="controls">
+                    {% if mode == 'create' %}
+                        <button class="btn btn-primary" type="submit">Create Event</button>
+                    {% else %}
+                        {% if mode == 'update' %}
+                            <button class="btn btn-primary" type="submit">Update</button>
+                            <a href="{% url event-delete id=event.id %}" class="btn btn-danger">Delete Event</a>
+                        {% endif %}
+                    {% endif %}    
+                </div>
+            </div>
+	</form>
 {% endblock %}
