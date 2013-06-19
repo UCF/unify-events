@@ -18,7 +18,7 @@
 		{% else %}
 			{% if mode == 'update' %}
 				<h2>Update {{calendar.name}} Calendar</h2>
-				<form action="{% url calendar-update id=calendar.id %}" method="post" id="calendar-create">
+				<form action="{% url calendar-update calendar_id=calendar.id %}" method="post" id="calendar-create">
 			{% endif %}
 		{% endif %}
 				{% if form.non_field_errors %}
@@ -37,7 +37,7 @@
 			{% else %}
 				{% if mode == 'update' %}
 					<button type="submit">Update</button>
-					<a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
+					<a href="{% url calendar-delete calendar_id=calendar.id %}" class="button">Delete Calendar</a>
 				{% endif %}
 			{% endif %}
 		</form>

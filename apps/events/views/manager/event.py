@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 
 @login_required
-def create_update(request, id=None):
+def create_update(request, event_id=None):
     ctx = {'event': None, 'form': None, 'mode': 'create'}
     tmpl = 'events/manager/events/create_update.html'
 
@@ -24,7 +24,7 @@ def create_update(request, id=None):
     formset_qs = Event.objects.none()
     if id is not None:
         try:
-            ctx['event'] = get_object_or_404(Event, pk=id)
+            ctx['event'] = get_object_or_404(Event, pk=event_id)
             ctx['mode'] = 'update'
         except Event.DoesNotExist:
             return HttpResponseNotFound('The event specified does not exist.')
@@ -59,9 +59,9 @@ def create_update(request, id=None):
 
 
 @login_required
-def update_state(request, id=None, state=None):
+def update_state(request, event_id=None, state=None):
     try:
-        event = Event.objects.get(pk=id)
+        event = Event.objects.get(pk=event_id)
     except Event.DoesNotExist:
         return HttpResponseNotFound('The event specified does not exist.')
     else:
@@ -79,9 +79,9 @@ def update_state(request, id=None, state=None):
 
 
 @login_required
-def delete(request, id=None):
+def delete(request, event_id=None):
     try:
-        event = Event.objects.get(pk=id)
+        event = Event.objects.get(pk=event_id)
     except Event.DoesNotExist:
         return HttpResponseNotFound('The event specified does not exist.')
     else:
@@ -99,12 +99,12 @@ def delete(request, id=None):
 
 
 @login_required
-def copy(request, id):
+def copy(request, event_id):
     ctx = {'event': None, 'form': None}
     tmpl = 'events/manager/events/copy.html'
 
     try:
-        ctx['event'] = Event.objects.get(pk=id)
+        ctx['event'] = Event.objects.get(pk=event_id)
     except Event.DoesNotExist:
         return HttpResponseNotFound('Event specified does not exist.')
     else:

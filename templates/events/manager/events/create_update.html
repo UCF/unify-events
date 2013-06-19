@@ -17,7 +17,7 @@
 	{% if mode == 'create' %}
 		<form action="{% url event-create %}" method="post" enctype="multipart/form-data">
 	{% elif mode == 'update' %}
-		<form action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
+		<form action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
 
     {{  form.as_table }}
@@ -27,7 +27,7 @@
     {% else %}
         {% if mode == 'update' %}
             <button type="submit">Update</button>
-            <a href="{% url event-delete id=event.id %}" class="button">Delete Event</a>
+            <a href="{% url event-delete event_id=event.id %}" class="button">Delete Event</a>
         {% endif %}
     {% endif %}
 	</form>
