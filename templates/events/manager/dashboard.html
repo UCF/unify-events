@@ -2,9 +2,10 @@
 {% load humanize %}
 {% block content_title %}
     <h2>
-        My Calendars 
         {% if current_calendar %}
         <span class="alt">{{ current_calendar.name }}</span>
+        {% else %}
+        My Calendars
         {% endif %}
     </h2>
     {% if current_calendar %}

@@ -1,16 +1,20 @@
-from django.contrib.auth.decorators import login_required
-from django.views.generic.simple import direct_to_template
 from datetime import datetime, timedelta, date
-from events.models import Event, Calendar, EventInstance
+import logging
+
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from util import LDAPHelper
-from django.conf import settings
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404
 from django.utils import simplejson
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import logging
+from django.views.generic.simple import direct_to_template
+from util import LDAPHelper
+
+from events.models import Event, Calendar, EventInstance
+
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -35,6 +39,9 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
     # log in for the first time
     if request.user.first_login:
         return HttpResponseRedirect(reverse('profile-settings'))
+
+    if calendar_id:
+        ctx['current_calendar'] = get_object_or_404(Calendar, pk=calendar_id)
 
     # Date navigation
     ctx['dates']['today'] = date.today()
