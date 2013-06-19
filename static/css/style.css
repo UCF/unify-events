@@ -40,13 +40,38 @@ select#UCFHBHeaderLinks {
 /**
  * Universal Styles
  **/
+
+/* Body */
 body { background: url('../img/gradient.png') top left repeat-x; }
+
+/* Header tags, text */
 h1 .alt,
 h2 .alt,
 h4 .alt,
 h5 .alt,
 h6 .alt { font-weight: 300; }
 h3 { letter-spacing: 0; font-weight: 300; }
+
+/* Forms */
+form.form-horizontal { margin: 20px 0 30px 0;}
+.form-horizontal .control-label { font-weight: bold; }
+.form-horizontal .control-group.large .control-label { 
+	font-size: 18px; 
+	text-indent: -1px;
+	width: 200px; 
+}
+.label-desc { 
+	display: block; 
+	float: left; 
+	width: 160px; 
+	clear: left; 
+	text-align: right; 
+	font-size: 12px;
+	line-height: 16px;
+	color: #8d8d8d;
+}
+.control-group.large .label-desc { width: 200px; }
+.form-horizontal .control-group.large .controls { margin-left: 220px; }
 
 
 /**
@@ -79,11 +104,25 @@ nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
 
 
 /**
- * Page Titles
+ * Page Tabs
  **/
-#page-title-wrap { position: relative; } 
+.nav.nav-tabs { margin-bottom: 5px; }
+
+
+/**
+ * Page Titles
+ **/ 
+#page-title-wrap { position: relative; margin-top: 10px; } 
 #page-title-wrap #page-title-icon { position: absolute; top: 10px; left: -48px; font-size: 36px; color: #a8a8a8; }
-#page-title-wrap h2 { display: block; float: left; }
+#page-title-wrap #page-title-icon.icon-plus { top: 13px; }
+#page-title-wrap #page-title-icon.icon-cog { top: 12px; }
+#page-title-wrap h2 { display: block; float: left; margin-bottom: 10px; }
+
+
+/**
+ * Page Subtitles
+ **/
+.page-subtitle { line-height: 28px; color: #8d8d8d; margin-top: 0; margin-bottom: 20px; }
 
 
 /**
@@ -92,6 +131,7 @@ nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
 .popout { 
 	padding: 10px 20px 20px 20px; 
 	margin-top: 30px; 
+	margin-bottom: 50px;
 	border: 1px solid rgba(0, 0, 0, 0.3); 
 	border-radius: 6px;  
 	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
@@ -134,3 +174,8 @@ td.field-bulk-select label,
 td.field-recommended > span { display: block; text-indent: -9999px; line-height: 1px; margin: 0; }
 td.field-bulk-select input { margin-top: 0; }
 td.field-recommended { text-align: center; }
+
+
+/**
+ * Create/Update
+ **/

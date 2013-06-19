@@ -13,6 +13,13 @@
             </div>
         </div>
 	{% endblock %}
+	{% block content_subheader %}
+    	<div class="row">
+            <div class="span12">
+                <h3 class="page-subtitle">{% block content_subheader_text %}{% endblock %}</h3>
+            </div>
+        </div>
+	{% endblock %}
 	{% block content_tabs %}{% endblock %}
 	{% block content_body %}{% endblock %}
 	{% block content_footer %}{% endblock %}

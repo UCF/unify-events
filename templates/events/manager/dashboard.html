@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+
 {% block alerts %}
     {% if messages %}
     <div class="row">
@@ -17,6 +18,7 @@
     </div>
     {% endif %}
 {% endblock %}
+
 {% block content_title %}
     <h2>
         My Calendars
@@ -50,13 +52,40 @@
     </ul>
     {% endif %}
 {% endblock %}
+
+{% if current_calendar.description %}
+    {% block content_subheader_text %}
+        {{ current_calendar.description }}
+    {% endblock %}
+{% else %}
+    {% block content_subheader %}{% endblock %}
+{% endif %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#">Posted</a>
+                </li>
+                <li>
+                    <a href="#">Pending (#)</a>
+                </li>
+                <li>
+                    <a href="#">Archived (#)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content_body %}
-<div class="row">
-    <div class="span8 sidebarfix" id="page-content">
-        list of events here...
+    <div class="row">
+        <div class="span8 sidebarfix" id="page-content">
+            list of events here...
+        </div>
+        <div class="span4" id="page-sidebar">
+            sidebar mini calendar here...
+        </div>
     </div>
-    <div class="span4" id="page-sidebar">
-        sidebar mini calendar here...
-    </div>
-</div>
 {% endblock %}
