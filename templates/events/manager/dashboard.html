@@ -19,9 +19,9 @@
 {% endblock %}
 {% block content_title %}
     <h2>
-        My Calendars 
+        My Calendars
         {% if current_calendar and calendar == current_calendar %}
-        <span class="alt">{{ current_calendar.name }}</span>
+        : <span class="alt">{{ current_calendar.name }}</span>
         {% endif %}
     </h2>
     {% if current_calendar and calendar == current_calendar %}

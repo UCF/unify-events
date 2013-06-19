@@ -43,10 +43,10 @@ select#UCFHBHeaderLinks {
 body { background: url('../img/gradient.png') top left repeat-x; }
 h1 .alt,
 h2 .alt,
-h3 .alt,
 h4 .alt,
 h5 .alt,
 h6 .alt { font-weight: 300; }
+h3 { letter-spacing: 0; font-weight: 300; }
 
 
 /**
@@ -68,6 +68,7 @@ header form.form-search { padding-top: 19px; float: right; }
 #navwrap { background: #f1f1f1; }
 #navinner { padding: 10px 0; }
 nav .user { float: left; padding-right: 30px; padding-top: 5px; padding-bottom: 5px; }
+nav .user i { color: #8d8d8d; }
 nav #actions-primary,
 nav #actions-secondary { list-style-type: none; margin: 0; }
 nav #actions-primary { float: left; }
