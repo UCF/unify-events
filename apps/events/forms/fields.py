@@ -1,11 +1,12 @@
+import logging
+
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
 from events.forms.widgets import InlineLDAPSearch
 from util import LDAPHelper
-
-import logging
 
 
 class InlineLDAPSearchField(forms.ModelMultipleChoiceField):

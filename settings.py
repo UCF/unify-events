@@ -59,7 +59,7 @@ INSTALLED_APPS = (
     'profiles',
     'events',
     'unlevents',
-    'widget_tweaks'
+    'widget_tweaks',
 )
 
 LOGGING = {

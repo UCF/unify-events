@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
+from django.forms.widgets import SplitDateTimeWidget, DateInput, TimeInput
+from django.forms.util import to_current_timezone
 
 
 class InlineLDAPSearch(forms.Widget):
@@ -22,3 +24,26 @@ class InlineLDAPSearch(forms.Widget):
                 html.append('<option value="%d">%s</option>' % (user_id, display))
         html.append('</select></div>')
         return mark_safe(u'\n'.join(html))
+
+
+class BootstrapSplitDateTimeWidget(SplitDateTimeWidget):
+    """
+    A Widget that splits datetime input into two <input type="text"> boxes.
+    """
+
+    def __init__(self, attrs=None, date_format=None, time_format=None):
+        date_class = attrs.get('date_class')
+        del attrs['date_class']
+
+        time_class = attrs.get('time_class')
+        del attrs['time_class']
+
+        widgets = (DateInput(attrs={'class': date_class}, format=date_format),
+                   TimeInput(attrs={'class': time_class}, format=time_format))
+        super(SplitDateTimeWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            value = to_current_timezone(value)
+            return [value.date(), value.time().replace(microsecond=0)]
+        return [None, None]

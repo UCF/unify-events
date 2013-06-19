@@ -73,6 +73,8 @@ form.form-horizontal { margin: 20px 0 30px 0;}
 .control-group.large .label-desc { width: 200px; }
 .form-horizontal .control-group.large .controls { margin-left: 220px; }
 .label-hidden { line-height: 0; text-indent: -9999px; }
+.field-time + span.add-on,
+.field-time + span.add-on i { cursor: pointer; }
 
 
 /**

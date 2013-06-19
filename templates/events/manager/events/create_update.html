@@ -70,14 +70,17 @@ Use the form below to create a new one-time or recurring event. Please read the 
                <div class="controls controls-row">
                    <label for="id_event-start">From</label>
                    {{ form.start }}
+                   <span class="add-on"><i class="icon-time"></i></span>
                    <label for="id_event-end">To</label>
                    {{ form.end }}
+                   <span class="add-on"><i class="icon-time"></i></span>
                </div>
                <div class="controls controls-row">
                    <label for="id_event-interval">Interval</label>
                    {{ form.interval }}
                    <label for="id_event-until">Until</label>
                    {{ form.until }}
+                   <span class="add-on"><i class="icon-time"></i></span>
                </div>
             </div>
             <div class="control-group large">

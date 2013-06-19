@@ -55,8 +55,11 @@ $('document').ready(function() {
     /**
      * Date/Timepicker Init
      **/
-    $('#id_event-start, #id_event-end, #id_event-until').datepicker({
+    $('.field-date').datepicker({
         format:'yyyy-mm-dd'
     });
-    //$('.field-time').timepicker();
+    $('.field-time')
+        .each(function(){
+            $(this).next('span.add-on').andSelf().wrapAll('<div class="input-append bootstrap-timepicker" />')
+        }).timepicker();
 });
