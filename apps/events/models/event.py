@@ -33,6 +33,10 @@ class Status:
 
 
 class Event(TimeCreatedModified):
+    """
+    Used to store a one time event or store the base information
+    for a recurring event.
+    """
     class Recurs:
         """
         Object which describes the time and place that an event is occurring
@@ -57,7 +61,6 @@ class Event(TimeCreatedModified):
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
     until = models.DateTimeField(blank=True, null=True)
-    # TODO: event instances
 
     class Meta:
         app_label = 'events'
@@ -83,6 +86,25 @@ class Event(TimeCreatedModified):
             return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
         elif Event.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
+
+    def get_instances(self):
+        """
+        Retrieves/creates event instances based on the event.
+        """
+        rule = self.get_rrule()
+        event_instances = []
+        duration = self.end - self.start
+        for event_date in list(rule):
+            instance = EventInstance(event=self,
+                                     creator=self.creator,
+                                     status=self.status,
+                                     title=self.title,
+                                     description=self.description,
+                                     start=event_date,
+                                     end=event_date + duration,
+                                     location=self.location)
+            event_instances.append(instance)
+        return event_instances
 
     def __str__(self):
         return self.title
@@ -111,6 +133,13 @@ class EventInstance(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
+        ordering = ['start']
+
+    @property
+    def archived(self):
+        if self.end < datetime.now():
+            return True
+        return False
 
     def get_absolute_url(self):
         """
@@ -149,6 +178,3 @@ class EventInstance(TimeCreatedModified):
 
     def __repr__(self):
         return '<' + str(self.start) + '>'
-
-    class Meta:
-        ordering = ['start']
