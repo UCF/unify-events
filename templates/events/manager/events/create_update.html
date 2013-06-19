@@ -37,7 +37,7 @@ Use the form below to create a new one-time or recurring event. Please read the 
 	{% if mode == 'create' %}
 		<form class="form-horizontal" action="{% url event-create %}" method="post" enctype="multipart/form-data">
 	{% elif mode == 'update' %}
-		<form class="form-horizontal" action="{% url event-update id=event.id %}" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
             <div class="control-group large">
                <label class="control-label" for="id_event-calendar">Calendar</label>
@@ -90,7 +90,7 @@ Use the form below to create a new one-time or recurring event. Please read the 
                    {{ form.location }}
                </div>
             </div>
-
+            
     <!--{{  form.as_table }}-->
             
             <div class="control-group large">
@@ -100,7 +100,7 @@ Use the form below to create a new one-time or recurring event. Please read the 
                     {% else %}
                         {% if mode == 'update' %}
                             <button class="btn btn-primary" type="submit">Update</button>
-                            <a href="{% url event-delete id=event.id %}" class="btn btn-danger">Delete Event</a>
+                            <a href="{% url event-delete event_id=event.id %}" class="btn btn-danger">Delete Event</a>
                         {% endif %}
                     {% endif %}    
                 </div>

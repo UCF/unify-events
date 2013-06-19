@@ -20,7 +20,7 @@
 			{{form.non_field_errors}}
 			{{form.errors}}
 		{% endfor %}
-		<form action="{% url event-copy id=event.id %}" method="post">
+		<form action="{% url event-copy event_id=event.id %}" method="post">
 			<p>{{form.calendars.label_tag}}</p>
 			<p>{{form.calendars}}</p>
 			<p>

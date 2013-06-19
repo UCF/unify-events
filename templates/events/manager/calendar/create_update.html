@@ -79,7 +79,7 @@
                         {% else %}
                             {% if mode == 'update' %}
                                 <button type="submit">Update</button>
-                                <a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
+                                <a href="{% url calendar-delete calendar_id=calendar.id %}" class="button">Delete Calendar</a>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -117,7 +117,7 @@
                     {% else %}
                         {% if mode == 'update' %}
                         <button class="btn btn-primary" type="submit">Update</button>
-                        <a href="{% url calendar-delete id=calendar.id %}" class="btn btn-danger">Delete Calendar</a>
+                        <a href="{% url calendar-delete calendar_id=calendar.id %}" class="btn btn-danger">Delete Calendar</a>
                         {% endif %}
                     {% endif %}
                 </div>

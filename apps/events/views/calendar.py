@@ -11,7 +11,9 @@ from events.functions import format_to_mimetype
 
 
 def calendar_widget(request, calendar, year, month):
-    """Outputs calendar widget html via http response"""
+    """
+    Outputs calendar widget html via http response
+    """
     from events.templatetags import widgets
     calendar = get_object_or_404(Calendar, slug=calendar)
 
@@ -26,7 +28,8 @@ def calendar_widget(request, calendar, year, month):
 
 
 def calendar(request, calendar, format=None):
-    """Main calendar page, displaying an aggregation of events such as upcoming
+    """
+    Main calendar page, displaying an aggregation of events such as upcoming
     events, featured events, etc.
     """
     calendar = get_object_or_404(Calendar, slug=calendar)
@@ -52,7 +55,9 @@ def calendar(request, calendar, format=None):
 
 
 def event(request, calendar, instance_id, format=None):
-    """Event instance page that serves as the public interface for events."""
+    """
+    Event instance page that serves as the public interface for events.
+    """
     calendar = get_object_or_404(Calendar, slug=calendar)
     try:
         event = calendar.events_and_subs.get(pk=instance_id)
@@ -73,7 +78,8 @@ def event(request, calendar, instance_id, format=None):
 
 
 def listing(request, calendar, start, end, format=None, extra_context=None):
-    """Outputs a listing of events defined by a calendar and a range of dates.
+    """
+    Outputs a listing of events defined by a calendar and a range of dates.
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
@@ -99,7 +105,9 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
 
 
 def auto_listing(request, calendar, year=None, month=None, day=None, format=None, extra_context=None):
-    """Generates an event listing for the defined, year, month, day, or today."""
+    """
+    Generates an event listing for the defined, year, month, day, or today.
+    """
     # Default if no date is defined
     if year is month is day is None:
         return todays_listing(request, calendar)
@@ -137,7 +145,9 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
 
 
 def week_listing(request, calendar, year, month, day, format=None):
-    """Outputs a listing of the weeks event that the defined day belongs to."""
+    """
+    Outputs a listing of the weeks event that the defined day belongs to.
+    """
     try:  # Convert applicable arguments to integer
         year = int(year) if year is not None else year
         month = int(month) if month is not None else month
@@ -158,7 +168,9 @@ def week_listing(request, calendar, year, month, day, format=None):
 
 
 def named_listing(request, calendar, type, format=None):
-    """Handles named event listings, such as today, this-month, or this-year."""
+    """
+    Handles named event listings, such as today, this-month, or this-year.
+    """
     f = {
         'today': todays_listing,
         'tomorrow': tomorrows_listing,
@@ -172,7 +184,8 @@ def named_listing(request, calendar, type, format=None):
 
 
 def range_listing(request, calendar, start, end, format=None):
-    """Generates an event listing for the date ranges provided through start
+    """
+    Generates an event listing for the date ranges provided through start
     and end.
     """
     from datetime import datetime
@@ -188,7 +201,9 @@ def range_listing(request, calendar, start, end, format=None):
 
 
 def todays_listing(request, calendar, format=None):
-    """Generates event listing for the current day"""
+    """
+    Generates event listing for the current day
+    """
     now = gmtime()
     year, month, day = now.tm_year, now.tm_mon, now.tm_mday
     return auto_listing(request, calendar, year, month, day, format, {
@@ -197,7 +212,9 @@ def todays_listing(request, calendar, format=None):
 
 
 def tomorrows_listing(request, calendar, format=None):
-    """Generates event listing for tomorrows events"""
+    """
+    Generates event listing for tomorrows events
+    """
     now = gmtime(time() + 86400)
     year, month, day = now.tm_year, now.tm_mon, now.tm_mday
     return auto_listing(request, calendar, year, month, day, format, {
@@ -206,7 +223,9 @@ def tomorrows_listing(request, calendar, format=None):
 
 
 def weeks_listing(request, calendar, format=None):
-    """Generates an event list for this weeks events"""
+    """
+    Generates an event list for this weeks events
+    """
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     start = today - timedelta(days=today.weekday())
     end = start + timedelta(weeks=1)
@@ -216,7 +235,9 @@ def weeks_listing(request, calendar, format=None):
 
 
 def months_listing(request, calendar, format=None):
-    """Generate event list for the current month"""
+    """
+    Generate event list for the current month
+    """
     now = gmtime()
     year, month, day = now.tm_year, now.tm_mon, None
     return auto_listing(request, calendar, year, month, day, format, {
@@ -225,7 +246,9 @@ def months_listing(request, calendar, format=None):
 
 
 def years_listing(request, calendar, format=None):
-    """Generate event listing for this year"""
+    """
+    Generate event listing for this year
+    """
     now = gmtime()
     year, month, day = now.tm_year, None, None
     return auto_listing(request, calendar, year, month, day, format, {
