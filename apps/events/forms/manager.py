@@ -18,12 +18,11 @@ class EventForm(forms.ModelForm):
         self.fields['calendar'].queryset = user_calendars
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
-    description = forms.CharField(widget=forms.Textarea())
-    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none())
+    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
 
     class Meta:
         model = Event
-        fields = ('title', 'description', 'calendar')
+        fields = ('calendar', 'title', 'description', 'start', 'end', 'interval', 'until', 'location')
 
 
 class EventCopyForm(forms.Form):

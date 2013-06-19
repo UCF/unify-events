@@ -55,7 +55,7 @@ class Event(TimeCreatedModified):
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    interval = models.SmallIntegerField(blank=True, null=True, default=Recurs.never, choices=Recurs.choices)
+    interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
     until = models.DateTimeField(blank=True, null=True)
     # TODO: event instances
 
@@ -95,55 +95,10 @@ class Event(TimeCreatedModified):
 
 
 class EventInstance(TimeCreatedModified):
-    @classmethod
-    def next_monthly_date(cls, d):
-        """
-        Next date in recurring by month series from datetime d
-        """
-        m = d.date().month
-        if m != 12:
-            m += 1
-        else:
-            m = 1
-        return d.replace(month=m)
-
-    @classmethod
-    def next_yearly_date(cls, d):
-        """
-        Next date in recurring by year series from datetime d
-        """
-        from datetime import datetime
-        y = d.date().year
-        return d.replace(year=y+1)
-
-    @classmethod
-    def next_arbitrary_date(cls, d, delta):
-        """
-        Next date in recurring by delta days from datetime d
-        """
-        from datetime import timedelta
-        delta = timedelta(days=delta)
-        return d + delta
-
-    @classmethod
-    def next_date(cls, d, i):
-        """
-        Given a datetime d, and Recurring interval i (Recurring.daily,
-        Recurring.weekly, etc), will return the next date in the series
-        """
-        next = {
-            cls.daily: lambda: cls.next_arbitrary_date(d, 1),
-            cls.weekly: lambda: cls.next_arbitrary_date(d, 7),
-            cls.biweekly: lambda: cls.next_arbitrary_date(d, 14),
-            cls.monthly: lambda: cls.next_monthly_date(d),
-            cls.yearly: lambda: cls.next_yearly_date(d),
-        }.get(i, lambda: None)()
-
-        if next is None:
-            raise ValueError('Invalid constant provided for interval type')
-
-        return next
-
+    """
+    Used to store the actual event for recurring events. Can also be used when
+    and event is different from the base recurring event.
+    """
     event = models.ForeignKey(Event, related_name='instances')
     creator = models.ForeignKey(User, related_name='created_event_instances', null=True)
     status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
@@ -152,6 +107,7 @@ class EventInstance(TimeCreatedModified):
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
+    cancelled = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'events'
