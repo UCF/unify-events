@@ -1,96 +1,82 @@
 {% extends 'events/manager/base.html' %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#id_name')
-				.keyup(function() {
-					$('#id_slug').val(sluggify($(this).val()));
-				})
-		});
-	</script>
+
+{% block alerts %}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{form.non_field_errors}}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
+
+{% block content_title_icon %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block content_subheader %}{% endblock %}
+{% block content_tabs %}{% endblock %}
+
 {% block content_body %}
-	<div id="calendar-create-update">
-		<h2>Create a Calendar</h2>
-		<form action="{% url calendar-create %}" method="post" id="calendar-create">
-    		{% if form.non_field_errors %}
-    		  <p>{{form.non_field_errors}}</p>
-    		{% endif %}
-    		<table>
-    			<tbody>
-    				<tr>
-    					<th scope="row">{{form.name.label_tag}}</th>
-    					<td>
-    						{{form.name}}
-    						{% if form.name.errors %}
-    							<ul>
-    							{% for error in form.name.errors %}
-    							<li>{{error}}</li>
-    							{% endfor %}
-    							</ul>
-    						{% endif %}
-    					</td>
-    					
-    				</tr>
-    				<tr>
-    					<th scope="row">{{form.public.label_tag}}</th>
-    					<td>
-    						{{form.public}}
-    						{% if form.public.errors %}
-    							<ul>
-    							{% for error in form.public.errors %}
-    							<li>{{error}}</li>
-    							{% endfor %}
-    							</ul>
-    						{% endif %}
-    					</td>
-    				</tr>
-    				<tr>
-    					<th scope="row">{{form.shared.label_tag}}</th>
-    					<td>
-    						{{form.shared}}
-    						{% if form.shared.errors %}
-    							<ul>
-    							{% for error in form.shared.errors %}
-    							<li>{{error}}</li>
-    							{% endfor %}
-    							</ul>
-    						{% endif %}
-    					</td>
-    				</tr>
-    				<tr>
-    					<th scope="row">{{form.editors.label_tag}}</th>
-    					<td>
-    						{{form.editors}}
-    						{% if form.editors.errors %}
-    							<ul>
-    							{% for error in form.editors.errors %}
-    							<li>{{error}}</li>
-    							{% endfor %}
-    							</ul>
-    						{% endif %}
-    					</td>
-    				</tr>
-    				<tr>
-    					<th scope="row">{{form.subscriptions.label_tag}}</th>
-    					<td>
-    						{{form.subscriptions}}
-    						{% if form.subscriptions.errors %}
-    							<ul>
-    							{% for error in form.subscriptions.errors %}
-    							<li>{{error}}</li>
-    							{% endfor %}
-    							</ul>
-    						{% endif %}
-    					</td>
-    				</tr>
-    			</tbody>
-    		</table>
-			{% for field in form.hidden_fields %}
-				{{field}}
-			{% endfor %}
-			<button type="submit">Create</button>
-		</form>
-	</div>
+	<div class="row">
+        <div class="span8 offset2">
+            <div class="popout">
+                <h2><span class="alt">Step 2:</span> Create a Calendar</h2>
+                <div class="progress">
+                    <div class="bar" style="width: 66%;"></div>
+                </div>
+                <p class="progress-desc">Step 2 of 2</p>
+                <p>
+                    To create or subscribe to events, you'll need a calendar to put them in. 
+                    If you know you'll be added to an existing calendar later, you can 
+                    <a href="#">skip this step</a>.  You will have limited access to the 
+                    events system until you're added to a calendar.
+                    <br/>
+                    <strong>
+                        Create your first calendar below, or click the cancel
+                        button to skip this step and make one later.
+                    </strong>
+                </p>
+                <form action="{% url calendar-create %}" method="post" id="calendar-create" class="form-horizontal">
+                    <div class="control-group">
+                       <label class="control-label" for="id_name">Calendar Name</label>
+                       <div class="controls">
+                       {{ form.name }}
+                       </div>
+                    </div>
+                    <div class="control-group">
+                       <label class="control-label" for="id_description">Calendar Description</label>
+                       <div class="controls">
+                       {{ form.description.as_textarea }}
+                       </div>
+                    </div>
+                        {% for field in form.hidden_fields %}
+                            {{field}}
+                        {% endfor %}
+                        {% if mode == 'create' %}
+                            <button type="submit">Create</button>
+                        {% else %}
+                            {% if mode == 'update' %}
+                                <button type="submit">Update</button>
+                                <a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{block.super}}
+    <script type="text/javascript">
+        $().ready(function() {
+            $('#id_name')
+                .keyup(function() {
+                    $('#id_slug').val(sluggify($(this).val()));
+                })
+        });
+    </script>
 {% endblock %}
