@@ -41,7 +41,7 @@ def create_update(request, event_id=None):
     # TODO: add event instance formset
     if request.method == 'POST':
         ctx['form'] = EventForm(request.POST,
-                                request.FILES,
+                                #request.FILES,
                                 instance=ctx['event'],
                                 prefix='event',
                                 user_calendars=user_calendars)

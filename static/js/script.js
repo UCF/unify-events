@@ -45,13 +45,19 @@ $('document').ready(function() {
     $('.field-date').datepicker({
         format:'yyyy-mm-dd'
     });
+    var date = new Date();
+    var time = date.getHours() + ':' + date.getMinutes();
     $('.field-time')
         .each(function(){
             $(this)
+                .attr('placeholder', time)
                 .next('span.add-on')
                 .andSelf()
                 .wrapAll('<div class="input-append bootstrap-timepicker" />')
-        }).timepicker();
+        }).timepicker({
+            showMeridian: false,
+            defaultTime: false
+        });
         
         
     /**
