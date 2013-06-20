@@ -24,6 +24,7 @@
         <link href="{{ MEDIA_URL }}bootstrap/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}js/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}js/datepicker/css/datepicker.css" rel="stylesheet" media="all" />
+        <link href="{{ MEDIA_URL }}js/wysihtml5-bootstrap/wysihtml5-bootstrap.css" rel="stylesheet" media="all" />
         <link href="http://universityheader.ucf.edu/bar/css/bar.css" rel="stylesheet">
         <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" media="all" />
         {% endblock %}
@@ -81,7 +82,9 @@
                                 {% if user.calendars %}
                                     {% for calendar in user.calendars %}
                                         <li role="presentation"{% if current_calendar == calendar %} class="selected"{% endif %}>
-                                            <a href="{% url dashboard calendar_id=calendar.id %}" class="name">{{ calendar.name }}</a>
+                                            <a href="{% url dashboard calendar_id=calendar.id %}" class="name">
+                                                <i class="icon-calendar"></i> {{ calendar.name }}
+                                            </a>
                                         </li>
                                     {% endfor %}
                                     <li class="divider" role="presentation"></li>
@@ -93,14 +96,16 @@
                             </li>
                             <li>
                                 <i class="icon-envelope"></i>
-                                <span class="label label-important">2</span>
                                 <a href="#">
                                     Messages
                                 </a>
+                                <span class="label label-important">2</span>
                             </li>
                             {% if user.calendars %}
                             <li id="create-event">
-                                <i class="icon-pencil"></i>
+                                <span class="icon-circle-wrap">
+                                    <i class="icon-pencil"></i>
+                                </span>
                                 <a href="{% url event-create %}">
                                     Create Event
                                 </a>
@@ -147,9 +152,10 @@
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
             <script type="text/javascript" src="http://universityheader.ucf.edu/bar/js/university-header.js"></script>
             <script src="{{ MEDIA_URL }}bootstrap/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-            <script src="{{ MEDIA_URL }}js/tinymce/jquery.tinymce.min.js" type="text/javascript" charset="utf-8"></script>
             <script src="{{ MEDIA_URL }}js/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript" charset="utf-8"></script>
             <script src="{{ MEDIA_URL }}js/datepicker/js/bootstrap-datepicker.js" type="text/javascript" charset="utf-8"></script>
+            <script src="{{ MEDIA_URL }}js/wysihtml5-base/dist/wysihtml5-0.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+            <script src="{{ MEDIA_URL }}js/wysihtml5-bootstrap/wysihtml5-bootstrap.js" type="text/javascript" charset="utf-8"></script>
             <script src="{{ MEDIA_URL }}js/script.js" type="text/javascript" charset="utf-8"></script>
             {% endblock %}
 		{% endblock %}

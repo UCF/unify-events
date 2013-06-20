@@ -30,7 +30,7 @@
                 <p>
                     To create or subscribe to events, you'll need a calendar to put them in. 
                     If you know you'll be added to an existing calendar later, you can 
-                    <a href="#">skip this step</a>.  You will have limited access to the 
+                    <a href="{% url dashboard %}">skip this step</a>.  You will have limited access to the 
                     events system until you're added to a calendar.
                     <br/>
                     <strong>
@@ -51,17 +51,14 @@
                        {{ form.description.as_textarea }}
                        </div>
                     </div>
-                        {% for field in form.hidden_fields %}
-                            {{field}}
-                        {% endfor %}
-                        {% if mode == 'create' %}
-                            <button type="submit">Create</button>
-                        {% else %}
-                            {% if mode == 'update' %}
-                                <button type="submit">Update</button>
-                                <a href="{% url calendar-delete id=calendar.id %}" class="button">Delete Calendar</a>
-                            {% endif %}
-                        {% endif %}
+                    <div class="control-group">
+                        <div class="controls">
+                            {% for field in form.hidden_fields %}
+                                {{field}}
+                            {% endfor %}
+                            <button class="btn btn-primary" type="submit">Create Calendar</button>
+                            <a class="btn" href="{% url dashboard %}">Cancel</a>
+                        </div>
                     </div>
                 </form>
             </div>

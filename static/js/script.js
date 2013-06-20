@@ -38,19 +38,6 @@ $('document').ready(function() {
     	e.preventDefault();
     });
     
-    /**
-     * TinyMCE Init
-     **/
-    /*
-    tinymce.init({
-        selector: "textarea",
-        plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-             "searchreplace visualblocks code fullscreen",
-             "insertdatetime media table contextmenu paste moxiemanager"
-        ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-    });*/
     
     /**
      * Date/Timepicker Init
@@ -58,8 +45,23 @@ $('document').ready(function() {
     $('.field-date').datepicker({
         format:'yyyy-mm-dd'
     });
+    var date = new Date();
+    var time = date.getHours() + ':' + date.getMinutes();
     $('.field-time')
         .each(function(){
-            $(this).next('span.add-on').andSelf().wrapAll('<div class="input-append bootstrap-timepicker" />')
-        }).timepicker();
+            $(this)
+                .attr('placeholder', time)
+                .next('span.add-on')
+                .andSelf()
+                .wrapAll('<div class="input-append bootstrap-timepicker" />')
+        }).timepicker({
+            showMeridian: false,
+            defaultTime: false
+        });
+        
+        
+    /**
+     * WYSIWIG Textarea Init
+     **/
+    $('textarea.wysiwyg').wysihtml5();
 });
