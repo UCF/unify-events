@@ -6,6 +6,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 from core.models import TimeCreatedModified
+from events import utils
 from events.models import Calendar
 
 
@@ -87,7 +88,10 @@ class Event(TimeCreatedModified):
         elif Event.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
 
-    def get_instances(self):
+    def instances(self):
+        return utils.override_event_instances(self.base_instances, self.override_instances)
+
+    def base_instances(self):
         """
         Retrieves/creates event instances based on the event.
         """
@@ -104,6 +108,7 @@ class Event(TimeCreatedModified):
                                      end=event_date + duration,
                                      location=self.location)
             event_instances.append(instance)
+
         return event_instances
 
     def __str__(self):
@@ -121,7 +126,7 @@ class EventInstance(TimeCreatedModified):
     Used to store the actual event for recurring events. Can also be used when
     and event is different from the base recurring event.
     """
-    event = models.ForeignKey(Event, related_name='instances')
+    event = models.ForeignKey(Event, related_name='override_instances')
     creator = models.ForeignKey(User, related_name='created_event_instances', null=True)
     status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
     title = models.CharField(max_length=256)
