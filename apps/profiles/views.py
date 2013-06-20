@@ -12,7 +12,10 @@ log = logging.getLogger(__name__)
 @login_required
 def settings(request):
     ctx = {'forms': {'user': None, 'profile': None}, 'first_login': request.user.first_login}
-    tmpl = 'events/manager/profiles/profile.html'
+    if request.user.first_login:
+        tmpl = 'events/manager/firstlogin/profile.html'
+    else:
+        tmpl = 'events/manager/profiles/profile.html'
 
     if request.method == 'POST':
         ctx['forms']['user'] = UserForm(request.POST,
@@ -37,7 +40,7 @@ def settings(request):
                 messages.error(request, 'Saving user profile failed.')
             else:
                 messages.success(request, 'Saving user profile succeeded.')
-                if ctx['first_login']:
+                if ctx['first_login'] or request.user.owned_calendars == 0:
                     return HttpResponseRedirect(reverse('calendar-create'))
                 else:    
                     return HttpResponseRedirect(reverse('dashboard'))

@@ -14,7 +14,10 @@ log = logging.getLogger(__name__)
 @login_required
 def create_update(request, calendar_id=None):
     ctx = {'form': None, 'mode': 'create', 'calendar': None}
-    tmpl = 'events/manager/calendar/create_update.html'
+    if len(request.user.owned_calendars.all()) == 0:
+        tmpl = 'events/manager/firstlogin/calendar_create.html'
+    else:
+        tmpl = 'events/manager/calendar/create_update.html'
 
     if calendar_id is not None:
         ctx['mode'] = 'update'

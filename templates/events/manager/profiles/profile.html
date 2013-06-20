@@ -24,84 +24,52 @@
 {% endblock %}
 
 {% block content_title_icon %}
-    {% if first_login %}
-    {% else %}
-    <i class="icon-cog" id="page-title-icon"></i>
-    {% endif %}
+<i class="icon-cog" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
-    {% if first_login %}
-    {% else %}
-    <h2>Settings</h2>
-    {% endif %}
+<h2>Settings</h2>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
 
 {% block content_tabs %}
-    {% if first_login %}
-    {% else %}
-    <div class="row">
-        <div class="span12">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#">My Profile</a>
-                </li>
-            </ul>
-        </div>
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#">My Profile</a>
+            </li>
+        </ul>
     </div>
-    {% endif %}
+</div>
 {% endblock %}
 
 {% block content_body %}
-    {% if first_login %}
-    <div class="row">
-        <div class="span8 offset2">
-            <div class="popout">
-                <h2><span class="alt">Step 1:</span> My Profile</h2>
-                <div class="progress">
-                    <div class="bar" style="width: 33%;"></div>
-                </div>
-                <p class="progress-desc">Step 1 of 2</p>
-                <p>
-                    Welcome to the UCF Events system! It looks like this is your 
-                    first time logging in.
-                    <br/>
-                    <strong>Please review your personal information and 
-                    confirm that it is correct.</strong>
-                </p>
-    {% else %}
-    <h3>Edit Profile:</h3>
-    {% endif %}
-    <form action="{% url profile-settings %}" method="post" class="form-horizontal">
-    	<div class="control-group">
-    	    <label class="control-label" for="id_user-first_name">First Name</label>
-    	    <div class="controls">
-    		    {{ forms.user.first_name }}
-    		</div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="id_user-last_name">Last Name</label>
-            <div class="controls">
-    		    {{ forms.user.last_name }}
-    		</div>
-    	</div>
-    	<div class="control-group">
-            <label class="control-label" for="id_user-email">Email</label>
-            <div class="controls">
-                {{ forms.user.email }}
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <button type="submit" class="btn btn-primary">Save Profile</button>
-            </div>
-        </div>
-    </form>
-    {% if first_login %}
-            </div>
+<h3>Edit Profile:</h3>
+<form action="{% url profile-settings %}" method="post" class="form-horizontal">
+	<div class="control-group">
+	    <label class="control-label" for="id_user-first_name">First Name</label>
+	    <div class="controls">
+		    {{ forms.user.first_name }}
+		</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="id_user-last_name">Last Name</label>
+        <div class="controls">
+		    {{ forms.user.last_name }}
+		</div>
+	</div>
+	<div class="control-group">
+        <label class="control-label" for="id_user-email">Email</label>
+        <div class="controls">
+            {{ forms.user.email }}
         </div>
     </div>
-    {% endif %}
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+        </div>
+    </div>
+</form>
 {% endblock %}

@@ -59,6 +59,7 @@
 {% endblock %}
 
 {% block content_tabs %}
+    {% if owned_calendars > 0 %}
     <div class="row">
         <div class="span12">
             <ul class="nav nav-tabs">
@@ -74,9 +75,11 @@
             </ul>
         </div>
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block content_body %}
+    {% if owned_calendars > 0 %}
     <div class="row">
         <div class="span8 sidebarfix" id="page-content">
             list of events here...
@@ -85,4 +88,13 @@
             sidebar mini calendar here...
         </div>
     </div>
+    {% else %}
+     <div class="row">
+        <div class="span12">
+            <div class="alert">
+                <strong>Heads Up:</strong> It doesn't look like you have any calendars.  Why not go create one?
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}

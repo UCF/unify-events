@@ -31,7 +31,8 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
             'next_month': None,
             'relative': None,
         },
-        'search_results': search_results
+        'search_results': search_results,
+        'owned_calendars': len(request.user.owned_calendars.all())
     }
     tmpl = 'events/manager/dashboard.html'
 
