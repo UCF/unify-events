@@ -65,6 +65,7 @@ h3 { letter-spacing: 0; font-weight: 300; }
 }
 
 /* Dropdowns */
+.btn b.caret { border-top: 4px solid #fff; }
 .dropdown li i { padding-right: 6px; }
 
 /* Forms */
@@ -91,8 +92,6 @@ form.form-horizontal { margin: 20px 0 30px 0;}
 	margin-top: 5px; 
 	display: inline-block; /* req'd for .rows in .controls to clear properly */
 }
-.label-hidden { line-height: 0; text-indent: -9999px; }
-.label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 .field-date { width: 40%; margin-right: 10px; }
 .bootstrap-timepicker { width: 35%; }
 .bootstrap-timepicker input { width: 100%; }
@@ -100,12 +99,15 @@ form.form-horizontal { margin: 20px 0 30px 0;}
 a > i[class^="icon-"]:before, 
 a > i[class*=" icon-"]:before { cursor: pointer; }
 textarea { height: 175px; }
+ul.wysihtml5-toolbar { display: inline-block; }
 
 
 /**
  * Utility
  **/
 .fullwidth { width: 100%; }
+.label-hidden { line-height: 0; text-indent: -9999px; }
+.label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 
 
 /**

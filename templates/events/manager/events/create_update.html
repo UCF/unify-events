@@ -54,14 +54,14 @@ Use the form below to create a new one-time or recurring event. Please read the 
                    (<a target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
                </p>
                <div class="controls">
-                   {{ form.title }}
+                   {{ form.title|add_class:"span8" }}
                </div>
             </div>
             <div class="control-group large">
                <label class="control-label" for="id_event-description">Description</label>
                <p class="label-desc">A description for your event.</p>
                <div class="controls">
-                   {{ form.description }}
+                   {{ form.description|add_class:"span8 wysiwyg" }}
                </div>
             </div>
             <div class="control-group large">
@@ -99,7 +99,7 @@ Use the form below to create a new one-time or recurring event. Please read the 
                <label class="control-label" for="id_event-location">Where</label>
                <p class="label-desc">Where your event takes place.</p>
                <div class="controls">
-                   {{ form.location }}
+                   {{ form.location|add_class:"span8" }}
                </div>
             </div>
             
