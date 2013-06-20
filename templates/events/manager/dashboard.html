@@ -21,29 +21,25 @@
 
 {% block content_title %}
     <h2>
-        {% if current_calendar and calendar == current_calendar %}
-        <span class="alt">{{ current_calendar.name }}</span>
-        {% else %}
-        My Calendars
-        {% endif %}
+        My Calendar{% if current_calendar %}: <span class="alt">{{ current_calendar.name }}</span>{% else %}s{% endif %}
     </h2>
-    {% if current_calendar and calendar == current_calendar %}
+    {% if current_calendar %}
     <ul id="calendar-edit-options">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li>
-                    <a href="#">Users &amp; Permissions</a>
+                    <a href="#"><i class="icon-group"></i> Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="#">Calendar Info</a>
+                    <a href="#"><i class="icon-info-sign"></i> Calendar Info</a>
                 </li>
                 <li>
-                    <a href="#">Subscriptions</a>
+                    <a href="#"><i class="icon-share-alt"></i> Subscriptions</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="#">Delete Calendar</a>
+                    <a href="#"><i class="icon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>
@@ -54,13 +50,13 @@
     {% endif %}
 {% endblock %}
 
-{% if current_calendar.description %}
-    {% block content_subheader_text %}
-        {{ current_calendar.description }}
-    {% endblock %}
-{% else %}
-    {% block content_subheader %}{% endblock %}
-{% endif %}
+{% block content_subheader %}
+    {% if current_calendar.description %}
+        {% block content_subheader_text %}
+            <h3 class="page-subtitle">{{ current_calendar.description }}</h3>
+        {% endblock %}
+    {% endif %}
+{% endblock %}
 
 {% block content_tabs %}
     <div class="row">

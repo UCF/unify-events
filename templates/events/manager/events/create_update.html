@@ -67,20 +67,32 @@ Use the form below to create a new one-time or recurring event. Please read the 
             <div class="control-group large">
                <p class="control-label">When</p>
                <p class="label-desc">When your event takes place, and how often it occurs.</p>
-               <div class="controls controls-row">
-                   <label for="id_event-start">From</label>
-                   {{ form.start }}
-                   <span class="add-on"><i class="icon-time"></i></span>
-                   <label for="id_event-end">To</label>
-                   {{ form.end }}
-                   <span class="add-on"><i class="icon-time"></i></span>
-               </div>
-               <div class="controls controls-row">
-                   <label for="id_event-interval">Interval</label>
-                   {{ form.interval }}
-                   <label for="id_event-until">Until</label>
-                   {{ form.until }}
-                   <span class="add-on"><i class="icon-time"></i></span>
+               <div class="controls">
+                   <div class="row">
+                       <div class="span4">
+                           <label class="label-inner" for="id_event-start_0">From</label>
+                           {{ form.start }}
+                           <span class="add-on"><i class="icon-time"></i></span>
+                       </div>
+                       <div class="span4">
+                           <label class="label-inner" for="id_event-end_0">To</label>
+                           {{ form.end }}
+                           <span class="add-on"><i class="icon-time"></i></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <div class="span8">
+                           <label class="label-inner" for="id_event-interval">Interval</label>
+                           {{ form.interval }}
+                       </div>
+                   </div>
+                   <div class="row">
+                       <div class="span4">
+                           <label class="label-inner" for="id_event-until_0">Until</label>
+                           {{ form.until }}
+                           <span class="add-on"><i class="icon-time"></i></span>
+                       </div>
+                   </div>
                </div>
             </div>
             <div class="control-group large">
@@ -97,11 +109,9 @@ Use the form below to create a new one-time or recurring event. Please read the 
                 <div class="controls">
                     {% if mode == 'create' %}
                         <button class="btn btn-primary" type="submit">Create Event</button>
-                    {% else %}
-                        {% if mode == 'update' %}
-                            <button class="btn btn-primary" type="submit">Update</button>
-                            <a href="{% url event-delete event_id=event.id %}" class="btn btn-danger">Delete Event</a>
-                        {% endif %}
+                    {% elif mode == 'update' %}
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a href="{% url event-delete event_id=event.id %}" class="btn btn-danger">Delete Event</a>
                     {% endif %}    
                 </div>
             </div>

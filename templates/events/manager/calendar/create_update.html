@@ -68,7 +68,7 @@
                     <div class="control-group">
                        <label class="control-label" for="id_description">Calendar Description</label>
                        <div class="controls">
-                       {{ form.description.as_textarea }}
+                       {{ form.description|add_class:"span5" }}
                        </div>
                     </div>
                         {% for field in form.hidden_fields %}
@@ -104,7 +104,7 @@
                <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
                <div class="controls">
                <!-- TODO: add textarea cols via view; django-widget-tweaks doesn't work with .as_textarea :( -->
-               {{ form.description.as_textarea }}
+               {{ form.description|add_class:"span5" }}
                </div>
             </div>
             {% for field in form.hidden_fields %}

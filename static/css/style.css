@@ -51,6 +51,21 @@ h4 .alt,
 h5 .alt,
 h6 .alt { font-weight: 300; }
 h3 { letter-spacing: 0; font-weight: 300; }
+.icon-circle-wrap { 
+	display: block; 
+	width: 25px; 
+	height: 18px;
+	padding-top: 5px; 
+	border-radius: 25px; 
+	box-shadow: 0 2px 0 0 #3566c9;
+	background-color: #4380fc; 
+	color: #fff; 
+	text-align: center;
+	margin-top: -2px;
+}
+
+/* Dropdowns */
+.dropdown li i { padding-right: 6px; }
 
 /* Forms */
 form.form-horizontal { margin: 20px 0 30px 0;}
@@ -72,9 +87,19 @@ form.form-horizontal { margin: 20px 0 30px 0;}
 }
 .control-group.large .label-desc { width: 200px; }
 .form-horizontal .control-group.large .controls { margin-left: 220px; }
+.form-horizontal .control-group .controls > .row { 
+	margin-top: 5px; 
+	display: inline-block; /* req'd for .rows in .controls to clear properly */
+}
 .label-hidden { line-height: 0; text-indent: -9999px; }
-.field-time + span.add-on,
-.field-time + span.add-on i { cursor: pointer; }
+.label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
+.field-date { width: 40%; margin-right: 10px; }
+.bootstrap-timepicker { width: 35%; }
+.bootstrap-timepicker input { width: 100%; }
+.field-time + span.add-on i:before,
+a > i[class^="icon-"]:before, 
+a > i[class*=" icon-"]:before { cursor: pointer; }
+textarea { height: 175px; }
 
 
 /**
@@ -98,12 +123,26 @@ header form.form-search { padding-top: 19px; float: right; }
 nav .user { float: left; padding-right: 30px; padding-top: 5px; padding-bottom: 5px; }
 nav .user i { color: #8d8d8d; }
 nav #actions-primary,
-nav #actions-secondary { list-style-type: none; margin: 0; }
+nav #actions-secondary { 
+	list-style-type: none; 
+	margin: 0; 
+}
 nav #actions-primary { float: left; }
 nav #actions-primary > li,
-nav #actions-secondary > li { float: left; padding-left: 15px; padding-top: 5px; padding-bottom: 5px; }
+nav #actions-secondary > li { 
+	float: left; 
+	padding-left: 15px; 
+	padding-top: 5px; 
+	padding-bottom: 5px; 
+	position: relative;
+}
+nav #actions-primary > li > i { color: #4380fc; font-size: 16px; padding-right: 4px; }
+nav #actions-primary > li > span.label { position: absolute; left: 25px; top: -3px; }
 nav #actions-secondary { float: right; }
+nav #actions-secondary > li > i { color: #8d8d8d; font-size: 16px; padding-right: 4px; }
 nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
+nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
+
 
 
 /**
@@ -169,6 +208,8 @@ nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
 /** Title **/
 #calendar-edit-options { list-style-type: none; float: left; margin-top: 15px; margin-left: 10px; }
 #calendar-edit-options > li { float: left; margin-left: 10px; }
+#calendar-edit-options > li > a { font-weight: bold; color: #a8a8a8; }
+#calendar-edit-options > li > a > .caret { border-top: 4px solid #a8a8a8; }
 
 /** Event List **/ 
 label[for="bulk-select"],
