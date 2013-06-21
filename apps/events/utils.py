@@ -15,7 +15,9 @@ def override_event_instances(instances, overrides):
                 save_instance = lookup.pop((base_instance.event, base_instance.start, base_instance.end))
 
             new_instances.append(save_instance)
+    else:
+        new_instances = instances
 
-        new_instances.sort(key=lambda instance: instance.start)
+    new_instances.sort(key=lambda instance: instance.start)
 
     return new_instances

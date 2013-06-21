@@ -13,16 +13,18 @@ from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 from util import LDAPHelper
 
-from events.models import Event, Calendar, EventInstance
+from events.models import Event, Calendar, get_all_users_future_events
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
 
 @login_required
 def dashboard(request, _date=None, calendar_id=None, search_results=None):
     ctx = {
         'instances': None,
         'current_calendar': None,
+        'events': None,
         'dates': {
             'prev_day': None,
             'prev_month': None,
@@ -42,7 +44,11 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
         return HttpResponseRedirect(reverse('profile-settings'))
 
     if calendar_id:
-        ctx['current_calendar'] = get_object_or_404(Calendar, pk=calendar_id)
+        current_calendar = get_object_or_404(Calendar, pk=calendar_id)
+        ctx['current_calendar'] = current_calendar
+        ctx['events'] = current_calendar.future_event_instances
+    else:
+        ctx['events'] = get_all_users_future_events(request.user)
 
     # Date navigation
     ctx['dates']['today'] = date.today()
@@ -84,8 +90,8 @@ def search_user(request, lastname, firstname=None):
     if len(lastname) > 3:
         try:
             ldap_helper = LDAPHelper()
-            LDAPHelper.bind(ldap_helper.connection,settings.LDAP_NET_SEARCH_USER,settings.LDAP_NET_SEARCH_PASS)
-            ldap_results = LDAPHelper.search(ldap_helper.connection,filter_param,filter_string)
+            LDAPHelper.bind(ldap_helper.connection, settings.LDAP_NET_SEARCH_USER, settings.LDAP_NET_SEARCH_PASS)
+            ldap_results = LDAPHelper.search(ldap_helper.connection, filter_param, filter_string)
 
             for ldap_result in ldap_results:
                 try:
