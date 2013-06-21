@@ -16,4 +16,6 @@ def override_event_instances(instances, overrides):
 
             new_instances.append(save_instance)
 
+        new_instances.sort(key=lambda instance: instance.start)
+
     return new_instances

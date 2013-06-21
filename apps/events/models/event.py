@@ -1,9 +1,11 @@
 from datetime import datetime
 
 from dateutil import rrule
-from django.db import models
-from django.template.defaultfilters import slugify
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Q
+from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
 from events import utils
@@ -17,6 +19,23 @@ def first_login(self):
         return True
     return False
 setattr(User, 'first_login', property(first_login))
+
+
+def get_all_users_events(user):
+    """
+    Retrieves all the events for the given user
+    """
+    events = Event.objects.filter(calendar__in=user.calendars).get(
+        Q(interval=Event.Recurs.never, end_lt=datetime.now()) |
+        Q(~Q(interval__not=Event.Recurs.never), until__lt=datetime.now())
+    )
+
+    event_instances = []
+    for event in list(events.all()):
+        event_instances.append(event.future_instances())
+
+    event_instances.sort(key=lambda instance: instance.start)
+    return event_instances
 
 
 class Status:
@@ -77,6 +96,9 @@ class Event(TimeCreatedModified):
         return False
 
     def get_rrule(self):
+        """
+        Retrieve the base recurrence rule for the event
+        """
         if Event.Recurs.never == self.interval:
             return rrule.rrule(rrule.DAILY, dtstart=self.start, count=1)
         elif Event.Recurs.daily == self.interval:
@@ -89,13 +111,29 @@ class Event(TimeCreatedModified):
             return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
 
     def instances(self):
-        return utils.override_event_instances(self.base_instances, self.override_instances)
+        """
+        Retrieve all the instances regardless of their date (past, present, future)
+        """
+        return utils.override_event_instances(self.base_instances(), self.override_instances)
 
-    def base_instances(self):
+    def future_instances(self):
+        """
+        Retrieve all the instances where the end date is in the future
+        """
+        return utils.override_event_instances(self.base_instances(datetime.now()), self.override_instances)
+
+    def base_instances(self, after_date=None):
         """
         Retrieves/creates event instances based on the event.
         """
         rule = self.get_rrule()
+
+        # Determine the range of dates that are needed. ex. past, future, etc
+        if after_date and self.interval is Event.Recurs.never:
+            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(year=1)))
+        elif after_date and self.interval is not Event.Recurs.never:
+            rule = rule.between(after=after_date, before=self.until)
+
         event_instances = []
         duration = self.end - self.start
         for event_date in list(rule):
