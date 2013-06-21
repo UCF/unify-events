@@ -36,8 +36,20 @@ class Calendar(TimeCreatedModified):
         app_label = 'events'
 
     @property
-    def events(self):
-        return self.events
+    def future_event_instances(self):
+        """
+        Retrieve the future calendar events
+        """
+        event_instances = []
+        for event in list(self.events.all()):
+            event_instances.extend(event.future_instances())
+
+        event_instances.sort(key=lambda instance: instance.start)
+        return event_instances
+
+    @property
+    def archived_event_instances(self):
+        pass
 
     def get_absolute_url(self):
         """

@@ -21,18 +21,23 @@ def first_login(self):
 setattr(User, 'first_login', property(first_login))
 
 
-def get_all_users_events(user):
+def get_all_users_future_events(user):
     """
-    Retrieves all the events for the given user
+    Retrieves all the future events for the given user
     """
-    events = Event.objects.filter(calendar__in=user.calendars).get(
-        Q(interval=Event.Recurs.never, end_lt=datetime.now()) |
-        Q(~Q(interval__not=Event.Recurs.never), until__lt=datetime.now())
-    )
+    events = None
+    try:
+        events = Event.objects.filter(calendar__in=list(user.calendars.all())).filter(
+            Q(interval=Event.Recurs.never, end__gt=datetime.now()) |
+            Q(~Q(interval=Event.Recurs.never), until__gt=datetime.now())
+        )
+    except Event.DoesNotExist:
+        pass
 
     event_instances = []
-    for event in list(events.all()):
-        event_instances.append(event.future_instances())
+    if events:
+        for event in list(events.all()):
+            event_instances.extend(event.future_instances())
 
     event_instances.sort(key=lambda instance: instance.start)
     return event_instances
@@ -114,13 +119,13 @@ class Event(TimeCreatedModified):
         """
         Retrieve all the instances regardless of their date (past, present, future)
         """
-        return utils.override_event_instances(self.base_instances(), self.override_instances)
+        return utils.override_event_instances(self.base_instances(), list(self.override_instances.all()))
 
     def future_instances(self):
         """
         Retrieve all the instances where the end date is in the future
         """
-        return utils.override_event_instances(self.base_instances(datetime.now()), self.override_instances)
+        return utils.override_event_instances(self.base_instances(datetime.now()), list(self.override_instances.all()))
 
     def base_instances(self, after_date=None):
         """
