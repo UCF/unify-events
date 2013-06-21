@@ -48,7 +48,7 @@ def create_update(request, event_id=None):
 
         if ctx['form'].is_valid():
             event = ctx['form'].save(commit=False)
-            event.owner = request.user
+            event.creator = request.user
             event.save()
 
             return HttpResponseRedirect(reverse('dashboard'))
