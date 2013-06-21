@@ -82,13 +82,71 @@
     {% if owned_calendars > 0 %}
     <div class="row">
         <div class="span8 sidebarfix" id="page-content">
+            
+            <form action="">
+                <div class="control-group">
+                    <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                    <div class="controls">
+                        <select id="bulk-select-all_0" name="bulk-select-all_0">
+                            <option>Select Action...</option>
+                            <option value="edit">Suggest All to Main Calendar</option>
+                            <option value="delete">Delete All</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
             {% if events %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="label-hidden" for="bulk-select-all">Select All</label>
+                            <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                        </th>
+                        <th class="label-hidden">Main Calendar Recommendation Status</th>
+                        <th>Event Title</th>
+                        <th>Date/Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for event in events %}
-                    {{ event.title }}: {{event.start }}-{{ event.end }}<br/>
+                    <tr>
+                        <td>
+                            <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                            <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
+                        </td>
+                        <td>
+                            <!-- TODO: get current recommendation status -->
+                        </td>
+                        <td>{{ event.title }}</td> <!-- TODO: determine if event is recurring; display icon -->
+                        <td>{{ event.start }}</td>
+                        <td>
+                            <a class="btn btn-mini" href="#">Edit</a> <!-- TODO: link to Event Edit, pass event_id -->
+                            <a class="btn btn-mini" href="#">Delete</a> <!-- TODO: link to Event Delete, pass event_id -->
+                        </td>
+                    </tr>
                 {% endfor %}
+                </tbody>
+            </table>
             {% else %}
-                You have no events
+                You have no events :(
             {% endif %}
+            
+            <form action="">
+                <div class="control-group">
+                    <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                    <div class="controls">
+                        <select id="bulk-select-all_0" name="bulk-select-all_0">
+                            <option>Select Action...</option>
+                            <option value="edit">Suggest All to Main Calendar</option>
+                            <option value="delete">Delete All</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
         </div>
         <div class="span4" id="page-sidebar">
             sidebar mini calendar here...
