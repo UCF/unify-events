@@ -137,7 +137,7 @@ class Event(TimeCreatedModified):
 
         # Determine the range of dates that are needed. ex. past, future, etc
         if after_date and self.interval is Event.Recurs.never:
-            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(year=1)), inc=True)
+            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(years=+1)), inc=True)
         elif after_date and self.interval is not Event.Recurs.never:
             rule = rule.between(after=after_date, before=self.until, inc=True)
 
