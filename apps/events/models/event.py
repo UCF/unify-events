@@ -102,18 +102,20 @@ class Event(TimeCreatedModified):
 
     def get_rrule(self):
         """
-        Retrieve the base recurrence rule for the event
+        Retrieve the base recurrence rule for the event. Using the
+        end date so that it can retrieve an interval that is occurring
+        now. Subtract your duration to get the start date.
         """
         if Event.Recurs.never == self.interval:
-            return rrule.rrule(rrule.DAILY, dtstart=self.start, count=1)
+            return rrule.rrule(rrule.DAILY, dtstart=self.end, count=1)
         elif Event.Recurs.daily == self.interval:
-            return rrule.rrule(rrule.DAILY, dtstart=self.start, until=self.until)
+            return rrule.rrule(rrule.DAILY, dtstart=self.end, until=self.until)
         elif Event.Recurs.weekly == self.interval:
-            return rrule.rrule(rrule.WEEKLY, dtstart=self.start, until=self.until)
+            return rrule.rrule(rrule.WEEKLY, dtstart=self.end, until=self.until)
         elif Event.Recurs.biweekly == self.interval:
-            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
+            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.end, until=self.until)
         elif Event.Recurs.monthly == self.interval:
-            return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
+            return rrule.rrule(rrule.MONTHLY, dtstart=self.end, until=self.until)
 
     def instances(self):
         """
@@ -135,20 +137,21 @@ class Event(TimeCreatedModified):
 
         # Determine the range of dates that are needed. ex. past, future, etc
         if after_date and self.interval is Event.Recurs.never:
-            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(year=1)))
+            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(year=1)), inc=True)
         elif after_date and self.interval is not Event.Recurs.never:
-            rule = rule.between(after=after_date, before=self.until)
+            rule = rule.between(after=after_date, before=self.until, inc=True)
 
         event_instances = []
         duration = self.end - self.start
+        # rrule is based on end (to get events that occur now) so subtract duration to get start
         for event_date in list(rule):
             instance = EventInstance(event=self,
                                      creator=self.creator,
                                      status=self.status,
                                      title=self.title,
                                      description=self.description,
-                                     start=event_date,
-                                     end=event_date + duration,
+                                     start=event_date - duration,
+                                     end=event_date,
                                      location=self.location)
             event_instances.append(instance)
 
