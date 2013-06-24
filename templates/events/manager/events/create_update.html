@@ -25,12 +25,18 @@
     {% if mode == 'create' %}
         <h2>Create an Event</h2>
     {% elif mode == 'update' %}
-        <h2>Update Event</h2>
+        <h2>Update Event: <span class="alt">{{ event.title }}</span></h2>
     {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
-Use the form below to create a new one-time or recurring event. Please read the <a target="_blank" href="#">event creation guidelines</a> before creating your event!
+    {% if mode == 'create' %}
+        Use the form below to create a new one-time or recurring event. Please read the 
+        <a target="_blank" href="#">event creation guidelines</a> before creating your event!
+    {% elif mode == 'update' %}
+        Use the form below to update the event "{{ event.title }}". Calendars subscribed to 
+        your event will be notified of your changes.
+    {% endif %}
 {% endblock %}
 
 {% block content_body %}
@@ -102,16 +108,13 @@ Use the form below to create a new one-time or recurring event. Please read the 
                    {{ form.location|add_class:"span8" }}
                </div>
             </div>
-            
-    <!--{{  form.as_table }}-->
-            
             <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}
                         <button class="btn btn-primary" type="submit">Create Event</button>
                     {% elif mode == 'update' %}
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a href="{% url event-delete event_id=event.id %}" class="btn btn-danger">Delete Event</a>
+                        <button class="btn btn-primary" type="submit">Update Event</button>
+                        <a href="{% url dashboard %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
                     {% endif %}    
                 </div>
             </div>

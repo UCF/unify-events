@@ -1,5 +1,24 @@
 $('document').ready(function() {
     /**
+     * Delete Event modal toggle
+     **/
+    $('.event-delete').click(function(e) {
+        e.preventDefault();
+        var modal       = $('#event-delete-modal'),
+            eventTitle  = $(this).attr('data-event-title'),
+            deleteURL   = $(this).attr('href');
+        modal
+            .find('h2 span.alt')
+                .text(eventTitle)
+                .end()
+            .find('.modal-footer a.btn-danger')
+                .attr('href', deleteURL)
+                .end()
+            .modal('show');
+    })
+    
+
+    /**
      * Sidebar Mini calendars
      **/
     $('#sidebar-minicals').on('slid', function() {

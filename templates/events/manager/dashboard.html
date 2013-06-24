@@ -83,7 +83,7 @@
     <div class="row">
         <div class="span8 sidebarfix" id="page-content">
             
-            <form action="">
+            <form action="" class="form-horizontal bulk-action-form">
                 <div class="control-group">
                     <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
                     <div class="controls">
@@ -97,7 +97,7 @@
             </form>
             
             {% if events %}
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -113,18 +113,24 @@
                 <tbody>
                 {% for event in events %}
                     <tr>
-                        <td>
+                        <td class="field-bulk-select">
                             <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
                             <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
                         </td>
-                        <td>
+                        <td class="field-recommended">
                             <!-- TODO: get current recommendation status -->
                         </td>
-                        <td>{{ event.title }}</td> <!-- TODO: determine if event is recurring; display icon -->
-                        <td>{{ event.start }}</td>
-                        <td>
-                            <a class="btn btn-mini" href="#">Edit</a> <!-- TODO: link to Event Edit, pass event_id -->
-                            <a class="btn btn-mini" href="#">Delete</a> <!-- TODO: link to Event Delete, pass event_id -->
+                        <td class="event-title"><a href="">{{ event.title }}</a></td> <!-- TODO: determine if event is recurring display icon; add link to live event -->
+                        <td class="event-time">
+                            {% if event.start.time %}
+                                {{ event.start|date:"m/d/Y f:i a" }}
+                            {% else %}
+                                {{ event.start|date:"m/d/Y" }}
+                            {% endif %}
+                        </td>
+                        <td class="event-actions">
+                            <a class="btn btn-mini" href="{% url event-update event_id=event.event_id %}">Edit</a> <!-- TODO: link to Event Edit, pass event_id -->
+                            <a class="btn btn-mini event-delete" href="{% url event-delete event_id=event.event_id %}" data-event-title="{{ event.title }}">Delete</a> <!-- TODO: link to Event Delete, pass event_id -->
                         </td>
                     </tr>
                 {% endfor %}
@@ -134,11 +140,11 @@
                 You have no events :(
             {% endif %}
             
-            <form action="">
+            <form action="" class="form-horizontal bulk-action-form">
                 <div class="control-group">
-                    <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                    <label for="bulk-select-all_1" class="control-label">Bulk Action:</label>
                     <div class="controls">
-                        <select id="bulk-select-all_0" name="bulk-select-all_0">
+                        <select id="bulk-select-all_1" name="bulk-select-all_1">
                             <option>Select Action...</option>
                             <option value="edit">Suggest All to Main Calendar</option>
                             <option value="delete">Delete All</option>
@@ -146,6 +152,21 @@
                     </div>
                 </div>
             </form>
+            
+            <!-- Modal for Event Deletion -->
+            <div class="modal hide fade" id="event-delete-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Delete Event: <span class="alt"></span></h2>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this event? There is no undo!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger">Delete Event</a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
             
         </div>
         <div class="span4" id="page-sidebar">
@@ -156,7 +177,7 @@
      <div class="row">
         <div class="span12">
             <div class="alert">
-                <strong>Heads Up:</strong> It doesn't look like you have any calendars.  Why not go create one?
+                <strong>Heads Up:</strong> It doesn't look like you have any calendars.  Why not go <a href="{% url calendar-create %}">create one?</a>
             </div>
         </div>
     </div>

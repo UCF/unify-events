@@ -146,6 +146,10 @@ nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
 nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 
 
+/**
+ * Alert Messages
+ **/
+#messages { margin: 10px 0 0 0; }
 
 /**
  * Page Tabs
@@ -214,12 +218,18 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 #calendar-edit-options > li > a > .caret { border-top: 4px solid #a8a8a8; }
 
 /** Event List **/ 
+.form-horizontal.bulk-action-form { margin-bottom: 20px; }
+.form-horizontal.bulk-action-form .control-label { width: 85px; font-weight: 400; }
+.form-horizontal.bulk-action-form .controls { margin-left: 95px; }
+
 label[for="bulk-select"],
 th#thead-recommend,
 td.field-bulk-select label,
 td.field-recommended > span { display: block; text-indent: -9999px; line-height: 1px; margin: 0; }
-td.field-bulk-select input { margin-top: 0; }
+#bulk-select-all,
+td.field-bulk-select input { margin-top: -4px; }
 td.field-recommended { text-align: center; }
+td.event-actions .btn { margin-top: -4px; }
 
 
 /**
