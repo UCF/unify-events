@@ -1,6 +1,16 @@
 $('document').ready(function() {
     /**
-     * Delete Event modal toggle
+     * Bulk Select for lists of events
+     **/
+    $('#bulk-select-all').click(function() {
+        var selectAll = $(this),
+            singleSelects = $('.field-bulk-select input');
+        singleSelects.prop('checked', selectAll.is(':checked'));
+    });
+
+
+    /**
+     * Delete Single Event modal toggle
      **/
     $('.event-delete').click(function(e) {
         e.preventDefault();
@@ -15,7 +25,7 @@ $('document').ready(function() {
                 .attr('href', deleteURL)
                 .end()
             .modal('show');
-    })
+    });
     
 
     /**
