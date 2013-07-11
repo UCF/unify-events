@@ -29,17 +29,17 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li>
-                    <a href="#"><i class="icon-group"></i> Users &amp; Permissions</a>
+                    <a href="{% url calendar-update calendar_id=current_calendar.id %}#users-permissions"><i class="icon-group"></i> Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon-info-sign"></i> Calendar Info</a>
+                    <a href="{% url calendar-update calendar_id=current_calendar.id %}#calendar-info"><i class="icon-info-sign"></i> Calendar Info</a>
                 </li>
                 <li>
-                    <a href="#"><i class="icon-share-alt"></i> Subscriptions</a>
+                    <a href="{% url calendar-update calendar_id=current_calendar.id %}#subscriptions"><i class="icon-share-alt"></i> Subscriptions</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="#"><i class="icon-trash"></i> Delete Calendar</a>
+                    <a href="{% url calendar-delete calendar_id=current_calendar.id %}"><i class="icon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>

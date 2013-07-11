@@ -65,8 +65,10 @@ h3 { letter-spacing: 0; font-weight: 300; }
 }
 form a:not([class]),
 #page-content a:not([class]),
-#page-sidebar a:not([class]),
-.page-subtitle a:not([class]) { color: #3566C9; } /* Add color to links that don't have a class assigned to them */
+#page-sidebar a:not([class]) { color: #3566C9; } /* Add color to links that don't have a class assigned to them */
+a:not(.btn) > i { padding-right: 6px; }
+a:hover > i { text-decoration: none; }
+a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 
 /* Dropdowns */
 .btn b.caret { border-top: 4px solid #fff; }
@@ -79,6 +81,8 @@ form a:not([class]),
 
 /* Forms */
 form.form-horizontal { margin: 20px 0 30px 0;}
+form.form-tabbed,
+form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
 .form-horizontal .control-label { font-weight: bold; }
 .form-horizontal .control-group.large .control-label { 
 	font-size: 18px; 
@@ -237,6 +241,8 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
  * Page Subtitles
  **/
 .page-subtitle { line-height: 28px; color: #8d8d8d; margin-top: 0; margin-bottom: 20px; }
+.subtitle-backlink-wrap { margin-top: -5px; margin-bottom: 25px; }
+.subtitle-backlink-wrap .subtitle-backlink { font-weight: bold; }
 
 
 /**
@@ -304,7 +310,13 @@ td.event-actions .btn { margin-top: -4px; }
 #manager-posted-events .event-actions { width: 16%; }
 
 /**
- * Create/Update
+ * Create/Update Calendar
  **/
-
+#manager-calendar-delete {
+	float: right;
+	position: relative;
+	top: -33px;
+	font-weight: bold;
+	color: #B71713;
+}
 
