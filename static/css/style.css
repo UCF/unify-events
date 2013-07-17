@@ -44,7 +44,7 @@ select#UCFHBHeaderLinks {
 /* Body */
 body { background: url('../img/gradient.png') top left repeat-x; }
 
-/* Header tags, text */
+/* Header tags, basic text */
 h1 .alt,
 h2 .alt,
 h4 .alt,
@@ -63,13 +63,26 @@ h3 { letter-spacing: 0; font-weight: 300; }
 	text-align: center;
 	margin-top: -2px;
 }
+form a:not([class]),
+#page-content a:not([class]),
+#page-sidebar a:not([class]) { color: #3566C9; } /* Add color to links that don't have a class assigned to them */
+a:not(.btn) > i { padding-right: 6px; }
+a:hover > i { text-decoration: none; }
+a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 
 /* Dropdowns */
 .btn b.caret { border-top: 4px solid #fff; }
 .dropdown li i { padding-right: 6px; }
+.dropdown.open a.btn.dropdown-toggle {  
+	background-image: none;
+	box-shadow: 0 2px 0 0 #4D4D4D inset, 0 2px 0 0 #8D8D8D;
+	outline: 0 none;
+}
 
 /* Forms */
 form.form-horizontal { margin: 20px 0 30px 0;}
+form.form-tabbed,
+form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
 .form-horizontal .control-label { font-weight: bold; }
 .form-horizontal .control-group.large .control-label { 
 	font-size: 18px; 
@@ -93,20 +106,77 @@ form.form-horizontal { margin: 20px 0 30px 0;}
 	display: inline-block; /* req'd for .rows in .controls to clear properly */
 }
 .field-date { width: 40%; margin-right: 10px; }
+textarea { height: 175px; }
+select option { padding-top: 3px; padding-bottom: 3px; }
+
+/* Date/Timepicker overrides */
 .bootstrap-timepicker { width: 35%; }
 .bootstrap-timepicker input { width: 100%; }
-.field-time + span.add-on i:before,
+.bootstrap-timepicker span.add-on {
+	border: 0;
+	background-color: #a8a8a8;
+	box-shadow: 0 2px 0 0 #686868;
+	color: #fff;
+}
+.bootstrap-timepicker span.add-on:hover {
+	background-color: #8D8D8D;
+	-webkit-transition: background-color 0.25s ease;
+	transition: background-color 0.25s ease;
+}
+.bootstrap-timepicker .open + span.add-on {
+	background-color: #8D8D8D;
+	box-shadow: 0 2px 0 0 #4D4D4D inset, 0 2px 0 0 #8D8D8D;
+}
+.bootstrap-timepicker span.add-on i:before,
 a > i[class^="icon-"]:before, 
 a > i[class*=" icon-"]:before { cursor: pointer; }
-textarea { height: 175px; }
+
+/** WYSIWYG overrides **/
 ul.wysihtml5-toolbar { display: inline-block; }
+ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
+	background-color: #8D8D8D;
+	box-shadow: 0 2px 0 0 #4d4d4d inset, 0 2px 0 0 #8d8d8d;
+}
+ul.wysihtml5-toolbar span.current-font,
+ul.wysihtml5-toolbar a[data-wysihtml5-command="italic"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command="underline"] { 
+	font-weight: normal; 
+}
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] { color: #333; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h4"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h5"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] {
+	font-weight: bold;
+	color: #333;
+}
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"] {
+	letter-spacing: -1px;
+	line-height: 40px;
+}
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h4"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h5"],
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] {
+	line-height: 20px;
+}
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"] { font-size: 36px; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"] { font-size: 30px; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"] { font-size: 24.5px; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h4"] { font-size: 17.5px; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h5"] { font-size: 14px; }
+ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] { font-size: 11.9px; }
+ul.wysihtml5-toolbar a:hover { color: #fff; }
 
 
 /**
  * Utility
  **/
 .fullwidth { width: 100%; }
-.label-hidden { line-height: 0; text-indent: -9999px; }
+.label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 
 
@@ -146,6 +216,10 @@ nav li#create-event { border-left: 3px solid #e1e1e1; margin-left: 15px; }
 nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 
 
+/**
+ * Alert Messages
+ **/
+#messages { margin: 10px 0 0 0; }
 
 /**
  * Page Tabs
@@ -167,6 +241,8 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
  * Page Subtitles
  **/
 .page-subtitle { line-height: 28px; color: #8d8d8d; margin-top: 0; margin-bottom: 20px; }
+.subtitle-backlink-wrap { margin-top: -5px; margin-bottom: 25px; }
+.subtitle-backlink-wrap .subtitle-backlink { font-weight: bold; }
 
 
 /**
@@ -214,14 +290,33 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 #calendar-edit-options > li > a > .caret { border-top: 4px solid #a8a8a8; }
 
 /** Event List **/ 
+.form-horizontal.bulk-action-form { margin-bottom: 20px; }
+.form-horizontal.bulk-action-form .control-label { width: 85px; font-weight: 400; }
+.form-horizontal.bulk-action-form .controls { margin-left: 95px; }
+
 label[for="bulk-select"],
 th#thead-recommend,
 td.field-bulk-select label,
 td.field-recommended > span { display: block; text-indent: -9999px; line-height: 1px; margin: 0; }
-td.field-bulk-select input { margin-top: 0; }
+#bulk-select-all,
+td.field-bulk-select input { margin-top: -4px; }
 td.field-recommended { text-align: center; }
+td.event-actions .btn { margin-top: -4px; }
 
+#manager-posted-events .field-bulk-select { width: 5%; }
+#manager-posted-events .field-recommended { width: 8%; }
+#manager-posted-events .event-title { width: 42%; }
+#manager-posted-events .event-time { width: 29%; }
+#manager-posted-events .event-actions { width: 16%; }
 
 /**
- * Create/Update
+ * Create/Update Calendar
  **/
+#manager-calendar-delete {
+	float: right;
+	position: relative;
+	top: -33px;
+	font-weight: bold;
+	color: #B71713;
+}
+

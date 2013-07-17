@@ -15,29 +15,70 @@
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-plus" id="page-title-icon"></i>
+    {% if mode == 'create' %}
+        <i class="icon-plus" id="page-title-icon"></i>
+    {% elif mode == 'update' %}
+        <i class="icon-pencil" id="page-title-icon"></i>
+    {% endif %}
 {% endblock %}
 
 {% block content_title %}
     {% if mode == 'create' %}
         <h2>Create a Calendar</h2>
     {% elif mode == 'update' %}
-        <h2>Update {{calendar.name}} Calendar</h2>
+        <h2>Edit Calendar: <span class="alt">{{calendar.name}}</span></h2>
+        <ul id="calendar-edit-options">
+            <li>
+                <a href="#">Live View</a>
+            </li>
+        </ul>
     {% endif %}
 {% endblock %}
 
-{% block content_subheader_text %}
-Use the form below to create a new calendar. Note that you can only 
-own or be an editor on up to five (5) calendars at a time.
+{% block content_subheader %}
+    {% if mode == 'create' %}
+        <div class="row">
+            <div class="span12">
+                <h3 class="page-subtitle">
+                    Use the form below to create a new calendar. Note that you can only 
+                    own or be an editor on up to five (5) calendars at a time.
+                </h3>
+            </div>
+        </div>
+    {% elif mode == 'update' %}
+        <div class="row">
+            <div class="span12 subtitle-backlink-wrap">
+                <a class="subtitle-backlink" href="{% url dashboard calendar_id=calendar.id %}">&laquo; Back to Calendar View</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#users-permissions" data-toggle="tab">Users &amp; Permissions</a>
+                </li>
+                <li>
+                    <a href="#calendar-info" data-toggle="tab">Calendar Info</a>
+                </li>
+                <li>
+                    <a href="#subscriptions" data-toggle="tab">Subscriptions</a>
+                </li>
+            </ul>
+            <a id="manager-calendar-delete" href="{% url calendar-delete calendar_id=calendar.id %}">
+                <i class="icon-trash"></i>Delete Calendar
+            </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content_body %}
     
     {% if mode == 'create' %}
     <form action="{% url calendar-create %}" method="post" id="calendar-create" class="form-horizontal">
-    {% elif mode == 'update' %}
-    <form action="{% url calendar-update %}" method="post" id="calendar-update" class="form-horizontal">
-    {% endif %}
         <div class="control-group large">
            <label class="control-label" for="id_name">Calendar Name</label>
            <div class="controls">
@@ -57,17 +98,53 @@ own or be an editor on up to five (5) calendars at a time.
         {% endfor %}
         <div class="control-group large">
             <div class="controls">
-                {% if mode == 'create' %}
                 <button type="submit" class="btn btn-primary">Create Calendar</button>
-                {% else %}
-                    {% if mode == 'update' %}
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <a href="{% url calendar-delete calendar_id=calendar.id %}" class="btn btn-danger">Delete Calendar</a>
-                    {% endif %}
-                {% endif %}
             </div>
         </div>
     </form>
+    
+    {% elif mode == 'update' %}
+    <form action="{% url calendar-update calendar_id=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed">
+        <div class="tab-content">
+            <div class="tab-pane active" id="users-permissions">
+                
+                <h3>Users &amp; Permissions</h3>
+                Users/permissions stuff goes here...
+            
+            </div>
+            <div class="tab-pane" id="calendar-info">
+                
+                <h3>Calendar Info</h3>
+                <div class="control-group large">
+                   <label class="control-label" for="id_name">Calendar Name</label>
+                   <div class="controls">
+                   {{ form.name|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                   </div>
+                </div>
+                <div class="control-group large">
+                   <label class="control-label" for="id_description">Description</label>
+                   <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+                   <div class="controls">
+                   <!-- TODO: add textarea cols via view; django-widget-tweaks doesn't work with .as_textarea :( -->
+                   {{ form.description|add_class:"span5" }}
+                   </div>
+                </div>
+                
+            </div>
+            <div class="tab-pane" id="subscriptions">
+                
+                <h3>Subscriptions</h3>
+                Subscriptions stuff goes here...
+                
+            </div>
+        </div>
+        {% for field in form.hidden_fields %}
+            {{field}}
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Update Settings</button>
+    </form>
+    {% endif %}
+    
 {% endblock %}
 
 {% block footer_scripts %}

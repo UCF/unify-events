@@ -1,5 +1,47 @@
 $('document').ready(function() {
     /**
+     * Bulk Select for lists of events
+     **/
+    $('#bulk-select-all').click(function() {
+        var selectAll = $(this),
+            singleSelects = $('.field-bulk-select input');
+        singleSelects.prop('checked', selectAll.is(':checked'));
+    });
+
+
+    /**
+     * Activate active nav tab when anchor is specified in url
+     **/
+    var anchor = window.location.hash.substring(1),
+        tab = $('.nav-tabs li a[href="#'+ anchor +'"]').parent('li'),
+        tabPane = $('#' + anchor);
+    if (anchor !== null && tabPane.length > 0 && tabPane.hasClass('tab-pane')) {
+        $('.nav-tabs li.active, .tab-pane.active').removeClass('active');
+        tab.addClass('active');
+        tabPane.addClass('active');
+    }
+
+
+    /**
+     * Delete Single Event modal toggle
+     **/
+    $('.event-delete').click(function(e) {
+        e.preventDefault();
+        var modal       = $('#event-delete-modal'),
+            eventTitle  = $(this).attr('data-event-title'),
+            deleteURL   = $(this).attr('href');
+        modal
+            .find('h2 span.alt')
+                .text(eventTitle)
+                .end()
+            .find('.modal-footer a.btn-danger')
+                .attr('href', deleteURL)
+                .end()
+            .modal('show');
+    });
+    
+
+    /**
      * Sidebar Mini calendars
      **/
     $('#sidebar-minicals').on('slid', function() {
