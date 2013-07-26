@@ -6,6 +6,7 @@
 2. cd to the new virtual environment
 3. Clone repo to subdirectory (ex. git clone <url> src)
 4. Install requirements
+
 		pip install -r requirements.txt
 5. Setup local settings using the local_settings.templ.py file
 6. Setup apache/python.wsgi using apache/python.templ.wsgi
