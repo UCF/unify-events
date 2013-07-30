@@ -1,12 +1,27 @@
-{%extends 'events/base.html'%}
-{%block content%}
-<div id="calendar-base" class="container">
-	{%block content_header%}
-	<header class="span-24 last">
-		<h1><a href="{%url calendar calendar=calendar.slug%}">{{calendar.name}}</a></h1>
-	</header>
-	{%endblock%}
-	{%block content_body%}{%endblock%}
-	{%block content_footer%}{%endblock%}
-</div>
-{%endblock%}
+{% extends 'events/base.html' %}
+
+{% block content %}
+<section id="calendar-base" class="container">
+    {% block content_header %}
+        <div class="row">
+            <div class="span12" id="page-title-wrap">
+                {% block content_title_icon %}
+                <i class="icon-calendar" id="page-title-icon"></i>
+                {% endblock %}
+                
+                {% block content_title %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+    {% block content_subheader %}
+        <div class="row">
+            <div class="span12">
+                <h3 class="page-subtitle">{% block content_subheader_text %}{% endblock %}</h3>
+            </div>
+        </div>
+    {% endblock %}
+    {% block content_tabs %}{% endblock %}
+    {% block content_body %}{% endblock %}
+    {% block content_footer %}{% endblock %}
+</section>
+{% endblock %}

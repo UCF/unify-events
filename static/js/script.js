@@ -106,4 +106,29 @@ $('document').ready(function() {
      * WYSIWIG Textarea Init
      **/
     $('textarea.wysiwyg').wysihtml5();
+
+
+    /**
+     * User search typeahead
+     **/
+    var userSearchTypeahead = function() {
+        $('.typeahead.user-search')
+            .each(function() {
+                var field = $(this);
+                field.typeahead({
+                    source: function(query, process) {
+                        return $.get(
+                            field.attr('data-source') + query,
+                            function(data) {
+                                return process(data.username);
+                            }
+                        );
+                    },
+                    minLength: 3,
+                });
+            });
+    }
+    userSearchTypeahead();
+    
+
 });

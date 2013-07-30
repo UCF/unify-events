@@ -117,7 +117,7 @@
                 <label for="id_add_user">Search for user</label>
                 <label for="id_add_role">Select a role</label>
                 <div class="form-inline">
-                    <input id="id_add_user" class="span4" type="text" placeholder="Search by first, last name" name="add_user" data-source="search/user/">
+                    <input id="id_add_user" class="span4 typeahead user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url search-user %}">
                     <select id="id_add_role" class="span2">
                         <option value="">Select Role</option>
                         <option value="admin">Admin</option>
