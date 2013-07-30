@@ -55,24 +55,27 @@
 {% endblock %}
 
 {% block content_tabs %}
-    <div class="row">
-        <div class="span12">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#users-permissions" data-toggle="tab">Users &amp; Permissions</a>
-                </li>
-                <li>
-                    <a href="#calendar-info" data-toggle="tab">Calendar Info</a>
-                </li>
-                <li>
-                    <a href="#subscriptions" data-toggle="tab">Subscriptions</a>
-                </li>
-            </ul>
-            <a id="manager-calendar-delete" href="{% url calendar-delete calendar_id=calendar.id %}">
-                <i class="icon-trash"></i>Delete Calendar
-            </a>
+    {% if mode == 'create' %}
+    {% elif mode == 'update' %}
+        <div class="row">
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#users-permissions" data-toggle="tab">Users &amp; Permissions</a>
+                    </li>
+                    <li>
+                        <a href="#calendar-info" data-toggle="tab">Calendar Info</a>
+                    </li>
+                    <li>
+                        <a href="#subscriptions" data-toggle="tab">Subscriptions</a>
+                    </li>
+                </ul>
+                <a id="manager-calendar-delete" href="{% url calendar-delete calendar_id=calendar.id %}">
+                    <i class="icon-trash"></i>Delete Calendar
+                </a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block content_body %}
