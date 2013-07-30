@@ -320,3 +320,23 @@ td.event-actions .btn { margin-top: -4px; }
 	color: #B71713;
 }
 
+/**
+ * Edit Calendar
+ **/
+
+/* Users & Permissions */ 
+#users-permissions h3,
+#subscriptions h3 { width: 0; height: 0; display: block; text-indent: -9999px; margin: 0; }
+#users-permissions h4,
+#subscriptions h4 { font-size: 24.5px; font-weight: 300; line-height: 40px; margin: 0; } /* Look like h3 */
+#users-permissions label[for="id_add_user"],
+#users-permissions label[for="id_add_role"] { width: 0; height: 0; display: block; text-indent: -9999px; }
+#users-permissions label[for="id_add_role"] + .form-inline { margin-bottom: 30px; }
+#users-permissions .calendar-access-username { font-weight: bold; }
+
+/* Calendar Info */
+#calendar-info h3 { margin-top: 0; }
+#calendar-info button { margin-top: 70px; }
+
+/* Subscriptions */
+#users-permissions { }
