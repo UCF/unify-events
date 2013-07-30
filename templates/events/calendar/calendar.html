@@ -1,58 +1,13 @@
 {%extends 'events/calendar/base.html'%}
-{%load humanize%}
-{%load widgets%}
 
-{%block title%}{{block.super}} - {{calendar.name}}{%endblock%}
-{%block links%}{{block.super}}
-		<link rel="alternate" type="application/rss+xml" title="{{calendar.name}}'s RSS Feed" href="{%url calendar calendar.slug%}.rss" />
-{%endblock%}
+{% block meta %}
+		<link rel="alternate" type="application/rss+xml" title="{{ calendar.name }}'s RSS Feed" href="{% url calendar calendar.slug %}.rss" />
+{% endblock %}
 
-{%block content_body%}
-<div id="events-content" class="calendar-home">
-	<div class="left-column span-15 append-1">
-		<section class="upcoming-events event-list">
-			<h2>Upcoming Events</h2>
-			<ul>
-				{%for event in events|slice:"5"%}
-				<li class="event{%if forloop.first%} first{%endif%} {%cycle 'even' 'odd'%} span-15 last">
-					<div class="start span-5 append-1">
-						<div class="date">{{event.start|date:"F j"}}</div>
-						<div class="time">{{event.start|pretty_date:"calendar"}}</div>
-					</div>
-					<div class="details span-9 last">
-						<div class="heading">
-							<a href="{%url event calendar.slug event.id %}{{event.event.slug}}" class="title">{{event.title}}</a>
-						</div>
-						<div class="description">{{event.description|truncatewords:"32"}}</div>
-					</div>
-					{%if event.is_ongoing%}<div class="ongoing">ongoing</div>{%endif%}
-				</li>
-				{%endfor%}
-			</ul>
-		</section>
-	</div>
-	<div class="right-column span-8 last">
-		{% calendar_widget calendar %}
-		
-		<section class="browse-widget">
-			<h1>Event Listings</h1>
-			<ul>
-				<li><a class="load" href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
-				<li><a class="load" href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
-				<li><a class="load" href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
-			</ul>
-		</section>
-		
-		{% include "events/calendar/widgets/search.html" %}
-		
-		<section class="subscribe-widget">
-			<h1>Subscribe</h1>
-			<ul class="inline">
-				<li class="rss"><a href="{%url calendar calendar.slug%}.rss">RSS</a></li>
-				<li class="ical"><a href="webcal://{{request.get_host}}{%url named-listing calendar.slug "this-month"%}.ics">iCal</a></li>
-				<li class="gcal"><a href="{%url named-listing calendar.slug "this-month"%}.ics">Google Calendar</a></li>
-			</ul>
-		</section>
-	</div>
-</div>
-{%endblock%}
+{% block content_title %}
+    <h2>{{ calendar.name }}</h2>
+{% endblock %}
+
+{% block content_body %}
+stuff here...
+{% endblock %}
