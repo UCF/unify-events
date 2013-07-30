@@ -2,6 +2,7 @@ min/
 *.pyc
 *.sqlite3
 settings_local.py
+apache/python.wsgi
 ._*
 Thumbs.db
 .DS_Store
