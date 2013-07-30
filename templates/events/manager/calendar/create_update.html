@@ -107,21 +107,26 @@
     </form>
     
     {% elif mode == 'update' %}
-    <!-- TODO: separate sections into multiple forms -->
-    <form action="{% url calendar-update calendar_id=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
-        <div class="tab-content">
-            <div class="tab-pane active" id="users-permissions">
+    
+        <div class="row tab-content" id="page-content">
+            <div class="tab-pane active span9" id="users-permissions">
                 
                 <h3>Users &amp; Permissions</h3>
                 
-                <h4>Add New User:</h4><!-- Only show this section for admins and owners -->
+                <h4>Add New User</h4><!-- Only show this section for admins and owners -->
                 <label for="id_add_user">Search for user</label>
-                <div class="input-append">
-                    <input id="id_add_user" class="span6" type="text" placeholder="Search by first, last name or NID" name="add_user"><!-- TODO: typeahead js -->
+                <label for="id_add_role">Select a role</label>
+                <div class="form-inline">
+                    <input id="id_add_user" class="span4" type="text" placeholder="Search by first, last name" name="add_user" data-source="search/user/">
+                    <select id="id_add_role" class="span2">
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="editor">Editor</option>
+                    </select>
                     <button class="btn">Add User</button>
                 </div>
                 
-                <h4>Users With Access to this Calendar:</h4>
+                <h4>Users With Access to this Calendar</h4>
                 <table class="table table-striped table-hover" id="manager-calendar-access"><!-- TODO: dynamically fill this stuff in -->
                     <thead>
                         <tr>
@@ -162,26 +167,31 @@
                 </table>
             
             </div>
-            <div class="tab-pane" id="calendar-info">
-                
-                <h3>Calendar Info</h3>
-                <div class="control-group large">
-                   <label class="control-label" for="id_name">Calendar Name</label>
-                   <div class="controls">
-                   {{ form.name|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
-                   </div>
-                </div>
-                <div class="control-group large">
-                   <label class="control-label" for="id_description">Description</label>
-                   <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-                   <div class="controls">
-                   <!-- TODO: add textarea cols via view; django-widget-tweaks doesn't work with .as_textarea :( -->
-                   {{ form.description|add_class:"span5" }}
-                   </div>
-                </div>
+            <div class="tab-pane span9" id="calendar-info">
+                <form action="{% url calendar-update calendar_id=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
+                    <h3>Calendar Info</h3>
+                    <div class="control-group large">
+                       <label class="control-label" for="id_name">Calendar Name</label>
+                       <div class="controls">
+                       {{ form.name|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                       </div>
+                    </div>
+                    <div class="control-group large">
+                       <label class="control-label" for="id_description">Description</label>
+                       <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+                       <div class="controls">
+                       <!-- TODO: add textarea cols via view; django-widget-tweaks doesn't work with .as_textarea :( -->
+                       {{ form.description|add_class:"span5" }}
+                       {% for field in form.hidden_fields %}
+                           {{field}}
+                       {% endfor %}
+                       <button class="btn btn-primary" type="submit">Update Settings</button>
+                       </div>
+                    </div>
+                </form>
                 
             </div>
-            <div class="tab-pane" id="subscriptions">
+            <div class="tab-pane span9" id="subscriptions">
                 
                 <h3>Subscriptions</h3>
                 
@@ -226,11 +236,6 @@
                 </table>
             </div>
         </div>
-        {% for field in form.hidden_fields %}
-            {{field}}
-        {% endfor %}
-        <button class="btn btn-primary" type="submit">Update Settings</button>
-    </form>
     {% endif %}
     
 {% endblock %}
