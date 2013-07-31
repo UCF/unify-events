@@ -64,8 +64,8 @@ h3 { letter-spacing: 0; font-weight: 300; }
 	margin-top: -2px;
 }
 form a:not([class]),
-#page-content a:not([class]),
-#page-sidebar a:not([class]) { color: #3566C9; } /* Add color to links that don't have a class assigned to them */
+.page-content a:not([class]),
+.page-sidebar a:not([class]) { color: #3566C9; } /* Add color to links that don't have a class assigned to them */
 a:not(.btn) > i { padding-right: 6px; }
 a:hover > i { text-decoration: none; }
 a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
@@ -108,6 +108,7 @@ form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
 .field-date { width: 40%; margin-right: 10px; }
 textarea { height: 175px; }
 select option { padding-top: 3px; padding-bottom: 3px; }
+.typeahead { margin-top: 0; }
 
 /* Date/Timepicker overrides */
 .bootstrap-timepicker { width: 35%; }
@@ -178,6 +179,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .fullwidth { width: 100%; }
 .label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
+.sidebarfix > * { padding-right: 10px; }
 
 
 /**
@@ -340,3 +342,87 @@ td.event-actions .btn { margin-top: -4px; }
 
 /* Subscriptions */
 #users-permissions { }
+
+
+/**
+ * Frontend Single Calendar
+ **/
+
+/* General */
+ul.event-list { margin-bottom: 30px; list-style-type: none; margin-left: 0; }
+ul.event-list li {
+	background-color: #f1f1f1;
+	position: relative;
+	border-left: 30px solid #666;
+	margin-bottom: 5px;
+	padding: 5px 0 20px 0;
+}
+ul.event-list li:hover { background-color: #fffbe9; }
+ul.event-list li .event-content { display: block; margin-left: 20px; padding-right: 20px; }
+ul.event-list li:hover .event-content {	text-decoration: none; }
+ul.event-list li .event-content img {
+	display: block;
+	float: left;
+	width: 100px;
+	height: 100px;
+	background-color: #666;
+	margin: 0 20px 5px 0;
+}
+ul.event-list li .event-content h5 { margin-right: 100px; margin-bottom: 0; } /* Room for event time */
+ul.event-list li:hover .event-content h5 { color: #7c6b27; }
+ul.event-list li .event-content h5 .recurring {
+	width: 0;
+	height: 0;
+	text-indent: -9999px;
+	display: block;
+}
+ul.event-list li .event-content .location {
+	color: #666;
+	font-size: 13px;
+	margin-bottom: 5px;
+	display: block;
+	margin-right: 100px; /* Room for event time */
+}
+ul.event-list li .event-content .description { display: block; font-size: 12px; line-height: 18px; }
+ul.event-list li .event-content .dtstart {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 15px 0;
+	width: 100px;
+	background-color: #fff;
+	font-size: 20px;
+	font-weight: 300;
+	text-align: right;
+}
+ul.event-list li .category {
+	position: absolute;
+	left: -30px;
+	bottom: 0;
+	font-size: 11px;
+	font-weight: 500;
+	color: #fff;
+	text-transform: uppercase;
+	line-height: 30px;
+
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	-webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: rotate(270deg); 
+    -moz-transform: rotate(270deg); 
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+/* Week View */
+#calendar-events-week h3 { margin: 0; width: 0; height: 0; display: block; text-indent: -9999px; }
+#calendar-events-week h4 { font-size: 24.5px; font-weight: 300; line-height: 40px; } /* Look like h3 */
+
+/* Month View */
+
+
+/* Year View */
+
