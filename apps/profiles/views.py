@@ -1,11 +1,13 @@
 from datetime import datetime
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
+
 from profiles.forms import UserForm, ProfileForm
-import logging
 
 log = logging.getLogger(__name__)
 

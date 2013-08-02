@@ -1,3 +1,5 @@
+import logging
+
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 from django.contrib import messages
@@ -6,7 +8,6 @@ from django.forms.models import modelformset_factory
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-import logging
 
 from events.forms.manager import EventForm, EventInstanceForm, EventCopyForm
 from events.models import Event, EventInstance, Calendar
@@ -23,7 +24,7 @@ def create_update(request, event_id=None):
     
     formset_qs = EventInstance.objects.none()
     formset_extra = 1
-    if id is not None:
+    if event_id is not None:
         try:
             ctx['event'] = get_object_or_404(Event, pk=event_id)
             formset_qs = ctx['event'].instances.filter(parent=None)

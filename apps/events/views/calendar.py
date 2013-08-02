@@ -2,7 +2,7 @@ MODULE = __import__(__name__)
 
 from django.http import Http404, HttpResponse
 from django.template import TemplateDoesNotExist
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
 from django.views.generic.simple import direct_to_template
 from time import gmtime, time
@@ -36,7 +36,7 @@ def calendar(request, calendar, format=None):
     now = gmtime()
     start = datetime.now()
     end = start + timedelta(weeks=2)
-    events = calendar.find_event_instances(
+    events = calendar.range_event_instances(
         start,
         end
     ).order_by('start', 'event__title')
