@@ -1,5 +1,3 @@
-import logging
-
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 from django.contrib import messages
@@ -8,8 +6,9 @@ from django.forms.models import modelformset_factory
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+import logging
 
-from events.forms.manager import EventForm, EventCopyForm
+from events.forms.manager import EventForm, EventInstanceForm, EventCopyForm
 from events.models import Event, EventInstance, Calendar
 
 log = logging.getLogger(__name__)
@@ -17,14 +16,20 @@ log = logging.getLogger(__name__)
 
 @login_required
 def create_update(request, event_id=None):
-    ctx = {'event': None, 'form': None, 'mode': 'create'}
+    ctx = {'event': None, 'event_form': None, 'event_instance_formset': None, 'mode': 'create'}
     tmpl = 'events/manager/events/create_update.html'
 
     # Event Forms
-    formset_qs = Event.objects.none()
-    if event_id is not None:
+    
+    formset_qs = EventInstance.objects.none()
+    formset_extra = 1
+    if id is not None:
         try:
             ctx['event'] = get_object_or_404(Event, pk=event_id)
+            formset_qs = ctx['event'].instances.filter(parent=None)
+            formset_extra = 0
+            if ctx['event'].instances.count() == 0:
+                formset_extra = 1
             ctx['mode'] = 'update'
         except Event.DoesNotExist:
             return HttpResponseNotFound('The event specified does not exist.')
@@ -36,24 +41,50 @@ def create_update(request, event_id=None):
 
 
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
-    user_calendars = Calendar.objects.filter(Q(owner=request.user))
+    user_calendars = Calendar.objects.filter(owner=request.user)
+    EventInstanceFormSet = modelformset_factory(EventInstance,
+                                                form=EventInstanceForm,
+                                                extra=formset_extra,
+                                                can_delete=True)
 
     # TODO: add event instance formset
     if request.method == 'POST':
-        ctx['form'] = EventForm(request.POST,
-                                #request.FILES,
-                                instance=ctx['event'],
-                                prefix='event',
-                                user_calendars=user_calendars)
+        ctx['event_form'] = EventForm(request.POST,
+                                      instance=ctx['event'],
+                                      prefix='event',
+                                      user_calendars=user_calendars)
+        ctx['event_instance_formset'] = EventInstanceForm(request.POST,
+                                                          prefix='event_instance',
+                                                          queryset=formset_qs)
 
-        if ctx['form'].is_valid():
-            event = ctx['form'].save(commit=False)
+        if ctx['event_form'].is_valid() and ctx['event_instance_formset'].is_valid():
+            event = ctx['event_form'].save(commit=False)
             event.creator = request.user
-            event.save()
+            try:
+                event.save()
+                ctx['event_form'].save_m2m()
+            except Exception,e:
+                log.error(str(e))
+                messages.error(request,'Saving event failed.')
+            else:
+                instances = ctx['event_formset'].save(commit=False)
+                error = False
+                for instance in instances:
+                    instance.event = event
+                    try:
+                        instance.save()
+                    except Exception,e:
+                        log.error(str(e))
+                        messages.error(request,'Saving event instance failed.')
+                        error = True
+                        break
+                if not error:
+                    messages.success(request, 'Event successfully saved')
 
             return HttpResponseRedirect(reverse('dashboard'))
     else:
-        ctx['form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
+        ctx['event_form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
+        ctx['event_instance_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance',)
 
     return direct_to_template(request, tmpl, ctx)
 

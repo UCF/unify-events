@@ -1,6 +1,6 @@
 from django import forms
 
-from events.models import Calendar, Event
+from events.models import Calendar, Event, EventInstance
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 
@@ -12,6 +12,9 @@ class CalendarForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
+    """
+    Form for and Event
+    """
 
     def __init__(self, *args, **kwargs):
         user_calendars = kwargs.pop('user_calendars')
@@ -19,18 +22,28 @@ class EventForm(forms.ModelForm):
         self.fields['calendar'].queryset = user_calendars
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
+    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
+
+    class Meta:
+        model = Event
+        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone')
+
+
+class EventInstanceForm(forms.ModelForm):
+    """
+    Form for the EventInstance
+    """
     start = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                                'time_class': 'field-time'}))
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                              'time_class': 'field-time'}))
     until = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                                'time_class': 'field-time'}))
-    calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
 
     class Meta:
-        model = Event
-        fields = ('calendar', 'title', 'description', 'start', 'end', 'interval', 'until', 'location')
-
+        model = EventInstance
+        fields = ('start', 'end', 'interval', 'until', 'location')
+    
 
 class EventCopyForm(forms.Form):
 

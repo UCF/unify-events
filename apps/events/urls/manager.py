@@ -1,6 +1,6 @@
 from django.conf.urls import include, patterns, url
 
-from events.models import Status
+from events.models import State
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -20,9 +20,9 @@ urlpatterns += patterns('events.views.manager',
 
     url(r'^event/(?P<event_id>\d+)/copy', view='event.copy', name='event-copy'),
     url(r'^event/(?P<event_id>\d+)/update', view='event.create_update', name='event-update'),
-    url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':Status.posted}),
+    url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
     url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend',
-        kwargs={'state':Status.pending}),
+        kwargs={'state':State.pending}),
     url(r'^event/(?P<event_id>\d+)/delete', view='event.delete', name='event-delete'),
     url(r'^event/create', view='event.create_update', name='event-create'),
 

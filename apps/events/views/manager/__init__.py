@@ -11,8 +11,8 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
-from util import LDAPHelper
 
+from util import LDAPHelper
 from events.models import Event, Calendar, get_all_users_future_events
 
 
