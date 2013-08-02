@@ -75,7 +75,7 @@ class Calendar(TimeCreatedModified):
         the resulting filtered queryset to.
         """
         from django.db.models import Q
-        during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
+        during = Q() & Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
         starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
         ends_after = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
         _filter = during | starts_before | ends_after
@@ -85,6 +85,13 @@ class Calendar(TimeCreatedModified):
         else:
             qs = qs.filter(_filter)
         return qs
+    
+    def events_and_subs(self, filter):
+        """
+        Filters the events and subscriptions
+        """
+        qs = self.events.filter(filter)
+
 
     def is_creator(self, user):
         """

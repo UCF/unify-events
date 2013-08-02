@@ -1,10 +1,11 @@
 from datetime import datetime
-
 from dateutil import rrule
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
@@ -27,10 +28,7 @@ def get_all_users_future_events(user):
     """
     events = None
     try:
-        events = Event.objects.filter(calendar__in=list(user.calendars.all())).filter(
-            Q(interval=Event.Recurs.never, end__gt=datetime.now()) |
-            Q(~Q(interval=Event.Recurs.never), until__gt=datetime.now())
-        )
+        events = EventInstance.objects.filter(event__calendar__in=list(user.calendars.all())).filter(end__gt=datetime.now())
     except Event.DoesNotExist:
         pass
 
@@ -43,7 +41,7 @@ def get_all_users_future_events(user):
     return event_instances
 
 
-class Status:
+class State:
     """
     This object provides the link between the time and places events are to
     take place and the purpose and name of the event as well as the calendar to
@@ -62,6 +60,43 @@ class Event(TimeCreatedModified):
     Used to store a one time event or store the base information
     for a recurring event.
     """
+    calendar = models.ForeignKey(Calendar, related_name='events', blank=True, null=True)
+    creator = models.ForeignKey(User, related_name='created_events', null=True)
+    state = models.SmallIntegerField(choices=State.choices, default=State.pending)
+    title = models.CharField(max_length=256)
+    description = models.TextField(blank=True, null=True)
+    contact_name = models.CharField(max_length=64, blank=True, null=True)
+    contact_email = models.EmailField(max_length=128, blank=True, null=True)
+    contact_phone = models.CharField(max_length=64, blank=True, null=True)
+
+    class Meta:
+        app_label = 'events'
+
+    @property
+    def slug(self):
+        return slugify(self.title)
+
+    @property
+    def archived(self):
+        if self.end < datetime.now():
+            return True
+        return False
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+    def __repr__(self):
+        return '<' + str(self.calendar) + '/' + self.title + '>'
+
+
+class EventInstance(TimeCreatedModified):
+    """
+    Used to store the actual event for recurring events. Can also be used when
+    and event is different from the base recurring event.
+    """
     class Recurs:
         """
         Object which describes the time and place that an event is occurring
@@ -76,11 +111,8 @@ class Event(TimeCreatedModified):
             (yearly, 'Yearly'),
         )
 
-    calendar = models.ForeignKey(Calendar, related_name='events', blank=True, null=True)
-    creator = models.ForeignKey(User, related_name='created_events', null=True)
-    status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-    title = models.CharField(max_length=256)
-    description = models.TextField(blank=True, null=True)
+    event = models.ForeignKey(Event, related_name='event_instances')
+    parent = models.ForeignKey(Event, related_name='children')
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -89,16 +121,7 @@ class Event(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
-
-    @property
-    def slug(self):
-        return slugify(self.title)
-
-    @property
-    def archived(self):
-        if self.end < datetime.now():
-            return True
-        return False
+        ordering = ['start']
 
     def get_rrule(self):
         """
@@ -117,74 +140,40 @@ class Event(TimeCreatedModified):
         elif Event.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.end, until=self.until)
 
-    def instances(self):
-        """
-        Retrieve all the instances regardless of their date (past, present, future)
-        """
-        return utils.override_event_instances(self.base_instances(), list(self.override_instances.all()))
-
     def future_instances(self):
         """
         Retrieve all the instances where the end date is in the future
         """
-        return utils.override_event_instances(self.base_instances(datetime.now()), list(self.override_instances.all()))
-
-    def base_instances(self, after_date=None):
+        return self.event_instances.filter(end__gte=datetime.now())
+    
+    def range_instances(self, start, end):
         """
-        Retrieves/creates event instances based on the event.
+        Retrieve all the instances that are within the start and end date
         """
-        rule = self.get_rrule()
+        from django.db.models import Q
+        during = Q() & Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
+        starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
+        ends_after = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
+        _filter = during | starts_before | ends_after
 
-        # Determine the range of dates that are needed. ex. past, future, etc
-        if after_date and self.interval is Event.Recurs.never:
-            rule = rule.between(after=after_date, before=(datetime.now() + relativedelta(years=+1)), inc=True)
-        elif after_date and self.interval is not Event.Recurs.never:
-            rule = rule.between(after=after_date, before=self.until, inc=True)
+        return self.event_instances.filter(_filter)
 
-        event_instances = []
-        duration = self.end - self.start
+    def update_children(self):
+        """
+        Creates event instances based on the event.
+        """
+        self.children.all().delete()
+
         # rrule is based on end (to get events that occur now) so subtract duration to get start
-        for event_date in list(rule):
-            instance = EventInstance(event=self,
-                                     creator=self.creator,
-                                     status=self.status,
-                                     title=self.title,
-                                     description=self.description,
+        rule = self.get_rrule()
+        duration = self.end - self.start
+        for event_date in list(rule)[1:]:
+            instance = EventInstance(event=self.event,
+                                     parent=self,
                                      start=event_date - duration,
                                      end=event_date,
                                      location=self.location)
-            event_instances.append(instance)
-
-        return event_instances
-
-    def __str__(self):
-        return self.title
-
-    def __unicode__(self):
-        return unicode(self.title)
-
-    def __repr__(self):
-        return '<' + str(self.calendar) + '/' + self.title + '>'
-
-
-class EventInstance(TimeCreatedModified):
-    """
-    Used to store the actual event for recurring events. Can also be used when
-    and event is different from the base recurring event.
-    """
-    event = models.ForeignKey(Event, related_name='override_instances')
-    creator = models.ForeignKey(User, related_name='created_event_instances', null=True)
-    status = models.SmallIntegerField(choices=Status.choices, default=Status.pending)
-    title = models.CharField(max_length=256)
-    description = models.TextField(blank=True, null=True)
-    location = models.TextField(blank=True, null=True)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    cancelled = models.BooleanField(default=False)
-
-    class Meta:
-        app_label = 'events'
-        ordering = ['start']
+            instance.save()
 
     @property
     def archived(self):
@@ -203,29 +192,30 @@ class EventInstance(TimeCreatedModified):
             'instance_id': self.id,
         }) + self.event.slug + '/'
 
-    def save(self, *args, **kwargs):
-        try:
-            #If we can find an object that matches this one, no update is needed
-            EventInstance.objects.get(
-                pk=self.pk,
-                start=self.start,
-                end=self.end,
-                location=self.location,
-                interval=self.interval,
-                until=self.until
-            )
-            update = False
-        except EventInstance.DoesNotExist:
-            #Otherwise it's the first save or something has changed, update
-            update = True
-
-        super(EventInstance, self).save(*args, **kwargs)
-        if update:
-            self.update_children()
-
     def delete(self, *args, **kwargs):
         self.children.all().delete()
         super(EventInstance, self).delete(*args, **kwargs)
 
     def __repr__(self):
         return '<' + str(self.start) + '>'
+
+
+@receiver(post_save, sender=EventInstance)
+def init_event_instances(sender, **kwargs):
+    instance = kwargs['instance']
+    try:
+        #If we can find an object that matches this one, no update is needed
+        EventInstance.objects.get(pk=instance.pk,
+                                  start=instance.start,
+                                  end=instance.end,
+                                  location=instance.location,
+                                  interval=instance.interval,
+                                  until=instance.until)
+        update = False
+    except EventInstance.DoesNotExist:
+        #Otherwise it's the first save or something has changed, update
+        update = True
+    
+
+    if update:
+        instance.update_children()
