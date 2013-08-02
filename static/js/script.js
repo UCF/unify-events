@@ -42,37 +42,38 @@ $('document').ready(function() {
     
 
     /**
-     * Sidebar Mini calendars
+     * Calendar grid carousels
      **/
-    $('#sidebar-minicals').on('slid', function() {
-    	var firstItem = $('#sidebar-minicals .carousel-inner .item:first-child'),
-    		lastItem  = $('#sidebar-minicals .carousel-inner .item:last-child'),
-    		controlNext = $('#sidebar-minicals .pager .next'),
-    		controlPrev = $('#sidebar-minicals .pager .previous');
+    $('.calendar-slider').on('slid', function() {
+    	var firstItem = $('.calendar-slider .carousel-inner .item:first-child'),
+    		lastItem  = $('.calendar-slider .carousel-inner .item:last-child'),
+    		controlNext = $('.calendar-slider .pager .next'),
+    		controlPrev = $('.calendar-slider .pager .previous'),
+            sliderID = $(this).attr('id');
     
     	if (firstItem.hasClass('active')) {
     		controlPrev
     			.addClass('disabled')
     			.find('a')
-    				.attr('href', '');
+    				.attr('href', '#');
     	}
     	else {
     		controlPrev
     			.removeClass('disabled')
     			.find('a')
-    				.attr('href', '#sidebar-minicals');
+    				.attr('href', '#' + sliderID);
     	}
     	if (lastItem.hasClass('active')) {
     		controlNext
     			.addClass('disabled')
     			.find('.carousel-control.right')
-    				.attr('href', '');
+    				.attr('href', '#');
     	}
     	else {
     		controlNext
     			.removeClass('disabled')
     			.find('.carousel-control.right')
-    				.attr('href', '#sidebar-minicals');
+    				.attr('href', '#' + sliderID);
     	}
     });
     
