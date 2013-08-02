@@ -20,12 +20,29 @@ class EventForm(forms.ModelForm):
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     start = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                               'time_class': 'field-time'}))
+                                'time_class': 'field-time'}))
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                             'time_class': 'field-time'}))
-    until = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                               'time_class': 'field-time'}))
+                              'time_class': 'field-time'}))
+    until = forms.DateTimeField(required=False, widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
+                                'time_class': 'field-time'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
+
+    def clean(self):
+        """
+            Check that until datetime is set if the interval
+            is anything other than never.
+        """
+        cleaned_data = super(EventForm, self).clean()
+        interval = cleaned_data.get('interval')
+        until_date = cleaned_data.get('until')
+
+        if interval is not Event.Recurs.never:
+            if not until_date:
+                self._errors['until'] = self.error_class([u'Recurring events require an until date time.'])
+
+                del cleaned_data['until']
+
+        return cleaned_data
 
     class Meta:
         model = Event
