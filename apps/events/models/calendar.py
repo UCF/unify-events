@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -53,8 +55,16 @@ class Calendar(TimeCreatedModified):
 
     @property
     def event_instances(self):
-        qs = events.models.EventInstance.objects.filter(event__calendar=self)
-        return qs
+        """
+        Get all the event instances for this calendar
+        """
+        return events.models.EventInstance.objects.filter(event__calendar=self)
+    
+    def future_event_instances(self):
+        """
+        Get all future event instances for this calendar
+        """
+        return self.event_instances.filter(end__gte=datetime.now())
 
     def range_event_instances(self, start, end):
         """
@@ -68,18 +78,6 @@ class Calendar(TimeCreatedModified):
         _filter = during | starts_before | ends_after | current
 
         self.event_instances.filter(_filter)
-
-    @property
-    def future_event_instances(self):
-        """
-        Retrieve the future calendar events
-        """
-        event_instances = []
-        for event in list(self.events.all()):
-            event_instances.extend(event.future_instances())
-
-        event_instances.sort(key=lambda instance: instance.start)
-        return event_instances
 
     @property
     def archived_event_instances(self):
