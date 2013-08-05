@@ -67,7 +67,7 @@ class Calendar(TimeCreatedModified):
         current = Q(start__lte=start) & Q(end__gte=end)
         _filter = during | starts_before | ends_after | current
 
-        self.event_instances.filter(_filter)
+        return self.event_instances.filter(_filter)
 
     @property
     def future_event_instances(self):
