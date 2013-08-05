@@ -120,7 +120,7 @@
                         <td class="field-recommended">
                             <!-- TODO: get current recommendation status -->
                         </td>
-                        <td class="event-title"><a href="">{{ event.title }}</a></td> <!-- TODO: determine if event is recurring display icon; add link to live event -->
+                        <td class="event-title"><a href="">{{ event.event.title }}</a></td> <!-- TODO: determine if event is recurring display icon; add link to live event -->
                         <td class="event-time">
                             {% if event.start.time %}
                                 {{ event.start|date:"m/d/Y f a" }}
