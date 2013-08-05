@@ -2,8 +2,10 @@ from datetime import datetime
 
 from dateutil import rrule
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import post_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
@@ -102,7 +104,7 @@ class EventInstance(TimeCreatedModified):
         )
 
     event = models.ForeignKey(Event, related_name='event_instances')
-    parent = models.ForeignKey(Event, related_name='children', null=True, blank=True)
+    parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -119,16 +121,16 @@ class EventInstance(TimeCreatedModified):
         end date so that it can retrieve an interval that is occurring
         now. Subtract your duration to get the start date.
         """
-        if Event.Recurs.never == self.interval:
-            return rrule.rrule(rrule.DAILY, dtstart=self.end, count=1)
-        elif Event.Recurs.daily == self.interval:
-            return rrule.rrule(rrule.DAILY, dtstart=self.end, until=self.until, inc=True)
-        elif Event.Recurs.weekly == self.interval:
-            return rrule.rrule(rrule.WEEKLY, dtstart=self.end, until=self.until)
-        elif Event.Recurs.biweekly == self.interval:
-            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.end, until=self.until)
-        elif Event.Recurs.monthly == self.interval:
-            return rrule.rrule(rrule.MONTHLY, dtstart=self.end, until=self.until)
+        if EventInstance.Recurs.never == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, count=1)
+        elif EventInstance.Recurs.daily == self.interval:
+            return rrule.rrule(rrule.DAILY, dtstart=self.start, until=self.until)
+        elif EventInstance.Recurs.weekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, dtstart=self.start, until=self.until)
+        elif EventInstance.Recurs.biweekly == self.interval:
+            return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
+        elif EventInstance.Recurs.monthly == self.interval:
+            return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
 
     def update_children(self):
         """
@@ -136,14 +138,14 @@ class EventInstance(TimeCreatedModified):
         """
         self.children.all().delete()
 
-        # rrule is based on end (to get events that occur now) so subtract duration to get start
+        # rrule is based on start date so add duration to get end date
         rule = self.get_rrule()
         duration = self.end - self.start
         for event_date in list(rule)[1:]:
             instance = EventInstance(event=self.event,
                                      parent=self,
-                                     start=event_date - duration,
-                                     end=event_date,
+                                     start=event_date,
+                                     end=event_date + duration,
                                      location=self.location)
             instance.save()
 
@@ -170,24 +172,34 @@ class EventInstance(TimeCreatedModified):
 
     def __repr__(self):
         return '<' + str(self.start) + '>'
+    
+    def __unicode__(self):
+        return self.event.title
+
+
+@receiver(pre_save, sender=EventInstance)
+def update_event_instance_until(sender, instance, **kwargs):
+    if instance.until:
+        instance.until = datetime.combine(instance.until.date(), instance.start.time())
 
 
 @receiver(post_save, sender=EventInstance)
-def init_event_instances(sender, **kwargs):
-    instance = kwargs['instance']
-    try:
-        #If we can find an object that matches this one, no update is needed
-        EventInstance.objects.get(pk=instance.pk,
-                                  start=instance.start,
-                                  end=instance.end,
-                                  location=instance.location,
-                                  interval=instance.interval,
-                                  until=instance.until)
-        update = False
-    except EventInstance.DoesNotExist:
-        #Otherwise it's the first save or something has changed, update
-        update = True
+def update_event_instance_children(sender, instance, created, **kwargs):
+    if instance.interval and instance.until:
+        update = created
+        if not update:
+            try:
+                # If we can find an object that matches this one, no update is needed
+                EventInstance.objects.get(pk=instance.pk,
+                                          start=instance.start,
+                                          end=instance.end,
+                                          location=instance.location,
+                                          interval=instance.interval,
+                                          until=instance.until)
+                update = False
+            except ObjectDoesNotExist:
+                # Something has changed
+                update = True
     
-
-    if update:
-        instance.update_children()        
+        if update:
+            instance.update_children()
