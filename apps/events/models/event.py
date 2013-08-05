@@ -138,16 +138,18 @@ class EventInstance(TimeCreatedModified):
         """
         self.children.all().delete()
 
-        # rrule is based on start date so add duration to get end date
-        rule = self.get_rrule()
-        duration = self.end - self.start
-        for event_date in list(rule)[1:]:
-            instance = EventInstance(event=self.event,
-                                     parent=self,
-                                     start=event_date,
-                                     end=event_date + duration,
-                                     location=self.location)
-            instance.save()
+        # Ensures children are deleted if a recurrence rule is removed
+        if self.interval and self.until:
+            # rrule is based on start date so add duration to get end date
+            rule = self.get_rrule()
+            duration = self.end - self.start
+            for event_date in list(rule)[1:]:
+                instance = EventInstance(event=self.event,
+                                         parent=self,
+                                         start=event_date,
+                                         end=event_date + duration,
+                                         location=self.location)
+                instance.save()
 
     @property
     def archived(self):
@@ -185,21 +187,20 @@ def update_event_instance_until(sender, instance, **kwargs):
 
 @receiver(post_save, sender=EventInstance)
 def update_event_instance_children(sender, instance, created, **kwargs):
-    if instance.interval and instance.until:
-        update = created
-        if not update:
-            try:
-                # If we can find an object that matches this one, no update is needed
-                EventInstance.objects.get(pk=instance.pk,
-                                          start=instance.start,
-                                          end=instance.end,
-                                          location=instance.location,
-                                          interval=instance.interval,
-                                          until=instance.until)
-                update = False
-            except ObjectDoesNotExist:
-                # Something has changed
-                update = True
+    update = created
+    if not update:
+        try:
+            # If we can find an object that matches this one, no update is needed
+            EventInstance.objects.get(pk=instance.pk,
+                                      start=instance.start,
+                                      end=instance.end,
+                                      location=instance.location,
+                                      interval=instance.interval,
+                                      until=instance.until)
+            update = False
+        except ObjectDoesNotExist:
+            # Something has changed
+            update = True
     
-        if update:
-            instance.update_children()
+    if update:
+        instance.update_children()

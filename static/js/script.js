@@ -141,7 +141,7 @@ $('document').ready(function() {
             cloneBtn = cloneableWrap.parent().find('.cloner');
 
         // Function to adjust cloned field IDs
-        var updateCloneIDs = function(clones) {
+        /*var updateCloneIDs = function(clones) {
             for (i=0; i<clones.length; i++) {
                 clones[i].find('[id]').each(function() {
                     var element = $(this),
@@ -150,20 +150,23 @@ $('document').ready(function() {
                     element.attr('id', newID);
                 });
             }
-        };
+        };*/
 
         var getCurrentIDCount = function() {
-            //return cloneableWrap.children(':last').attr('id');
-        }
+            return parseInt(cloneableWrap.children(':last').attr('data-id'), 10);
+        };
 
         var assignCloneDataAttrs = function() {
             // Assign a data-id attribute to a .cloneable element
             $('.cloneable').each(function() {
                 var id = $(this).find('[id]').first().attr('id');
-                    regex = '/-[0-9+]-/';
-                var idNumMatch = regex.exec(id);
+                    regex = /-[0-9+]-/;
+                var idNumMatch = regex.exec(id); // Get the regex match
+                idNumMatch = idNumMatch[0].replace(/-/g, ''); // Remove the dashes from returned ID
+                console.log(idNumMatch);
             });
-        }
+        };
+        assignCloneDataAttrs();
 
         // Handle Clone button click
         cloneBtn.click(function(e) {
@@ -173,7 +176,7 @@ $('document').ready(function() {
                 .insertAfter(cloneable);
         });
         // Handle Remove button click
-    };
+    }
     
 
 });
