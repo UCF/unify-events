@@ -37,8 +37,7 @@ class EventInstanceForm(forms.ModelForm):
                                                'time_class': 'field-time'}))
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                              'time_class': 'field-time'}))
-    until = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                               'time_class': 'field-time'}))
+    until = forms.DateField()
 
     class Meta:
         model = EventInstance
