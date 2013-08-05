@@ -8,6 +8,80 @@
     <h2>{{ calendar.name }}</h2>
 {% endblock %}
 
+{% block content_subheader_text %}
+    {% if calendar.description %}
+        {{ calendar.description }}
+    {% endif %}
+{% endblock %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="/calendar/this-week/">Week View</a>
+                </li>
+                <li>
+                    <a href="/calendar/this-month/">Month View</a>
+                </li>
+                <li>
+                    <a href="/calendar/this-year/">Year View</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content_body %}
-stuff here...
+    <div class="row">
+        <div class="span8 sidebarfix page-content" id="calendar-events-week">
+            <h3>Events This Week</h3>
+            
+            
+            {% if events %}
+            <h4>Today: Whatever Day It Is</h4><!-- TODO: group by day of week -->
+            <ul class="event-list">
+                {% for event in events %}
+                    <li class="vevent cat-name">
+                        <a class="event-content url" href="#"><!-- TODO: url -->
+                            <!-- if img -->
+                            <!--<img src="" alt="image" title="image" />-->
+                            <!-- endif -->
+                            <h5>
+                                <span class="summary">{{ event.event.title }}</span>
+                                <!-- {% if event.event.recurring == true %} -->
+                                <i class="icon-repeat"></i>
+                                <span class="recurring">(Recurring Event)</span>
+                                <!-- {% endif %} -->
+                            </h5>
+                            <span class="location">{{ event.location }}</span>
+                            <span class="description">
+                                {{ event.event.description }} <!-- TODO: truncate to excerpt length -->
+                            </span>
+                            <time class="dtstart" datetime="{{ event.start|date:"f a" }}"> <!-- TODO: UTC time -->
+                                {% if event.start.time %}
+                                    {{ event.start|date:"f a" }}
+                                {% else %}
+                                    All Day
+                                {% endif %}
+                                <span class="value-title" title="{{ event.start|date:"f a" }}"></span> <!-- TODO: UTC time -->
+                            </time>
+                        </a>
+                        <span class="category">Category Name</span><!-- TODO: category -->
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}            
+        </div>
+        <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+            <h3>Mini Calendar</h3>
+            sidebar mini calendar
+
+            <h3>Subscribe</h3>
+            feed download links
+
+            <h3>Toggle Categories</h3>
+            category toggles here...
+        </aside>
+    </div>
 {% endblock %}
