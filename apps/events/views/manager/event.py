@@ -46,7 +46,8 @@ def create_update(request, event_id=None):
     EventInstanceFormSet = modelformset_factory(EventInstance,
                                                 form=EventInstanceForm,
                                                 extra=formset_extra,
-                                                can_delete=True)
+                                                can_delete=True,
+                                                max_num=12)
 
     # TODO: add event instance formset
     if request.method == 'POST':
