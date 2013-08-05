@@ -27,14 +27,7 @@ def get_all_users_future_events(user):
         events = EventInstance.objects.filter(event__calendar__in=list(user.calendars.all())).filter(end__gt=datetime.now())
     except Event.DoesNotExist:
         pass
-
-    event_instances = []
-    if events:
-        for event in list(events.all()):
-            event_instances.extend(event.future_instances())
-
-    event_instances.sort(key=lambda instance: instance.start)
-    return event_instances
+    return events
 
 
 class State:
@@ -109,7 +102,7 @@ class EventInstance(TimeCreatedModified):
         )
 
     event = models.ForeignKey(Event, related_name='event_instances')
-    parent = models.ForeignKey(Event, related_name='children')
+    parent = models.ForeignKey(Event, related_name='children', null=True, blank=True)
     location = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -129,7 +122,7 @@ class EventInstance(TimeCreatedModified):
         if Event.Recurs.never == self.interval:
             return rrule.rrule(rrule.DAILY, dtstart=self.end, count=1)
         elif Event.Recurs.daily == self.interval:
-            return rrule.rrule(rrule.DAILY, dtstart=self.end, until=self.until)
+            return rrule.rrule(rrule.DAILY, dtstart=self.end, until=self.until, inc=True)
         elif Event.Recurs.weekly == self.interval:
             return rrule.rrule(rrule.WEEKLY, dtstart=self.end, until=self.until)
         elif Event.Recurs.biweekly == self.interval:
@@ -197,4 +190,4 @@ def init_event_instances(sender, **kwargs):
     
 
     if update:
-        instance.update_children()
+        instance.update_children()        

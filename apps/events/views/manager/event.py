@@ -54,7 +54,7 @@ def create_update(request, event_id=None):
                                       instance=ctx['event'],
                                       prefix='event',
                                       user_calendars=user_calendars)
-        ctx['event_instance_formset'] = EventInstanceForm(request.POST,
+        ctx['event_instance_formset'] = EventInstanceFormSet(request.POST,
                                                           prefix='event_instance',
                                                           queryset=formset_qs)
 
@@ -68,7 +68,7 @@ def create_update(request, event_id=None):
                 log.error(str(e))
                 messages.error(request,'Saving event failed.')
             else:
-                instances = ctx['event_formset'].save(commit=False)
+                instances = ctx['event_instance_formset'].save(commit=False)
                 error = False
                 for instance in instances:
                     instance.event = event
