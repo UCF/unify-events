@@ -1,3 +1,5 @@
+import logging
+
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 from django.contrib import messages
@@ -6,7 +8,6 @@ from django.forms.models import modelformset_factory
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-import logging
 
 from events.forms.manager import EventForm, EventInstanceForm, EventCopyForm
 from events.models import Event, EventInstance, Calendar

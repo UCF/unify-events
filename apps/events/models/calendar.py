@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
+import events.models
 
 
 def calendars(self):
@@ -34,6 +37,37 @@ class Calendar(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
+    
+    @property
+    def events_and_subs(self):
+        """
+        Returns a queryset that combines this calendars event instances with
+        its subscribed event instances
+        """
+        from django.db.models import Q
+        qs = events.models.EventInstance.objects.filter(
+            Q(event__calendar=self) |
+            Q(Q(event__calendar__in=self.subscriptions.all()) & Q(event__state=events.models.State.posted))
+        )
+        return qs
+
+    @property
+    def event_instances(self):
+        qs = events.models.EventInstance.objects.filter(event__calendar=self)
+        return qs
+
+    def range_event_instances(self, start, end):
+        """
+        Retrieve all the instances that are within the start and end date
+        """
+        from django.db.models import Q
+        during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
+        starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
+        ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
+        current = Q(start__lte=start) & Q(end__gte=end)
+        _filter = during | starts_before | ends_after | current
+
+        self.event_instances.filter(_filter)
 
     @property
     def future_event_instances(self):
@@ -67,42 +101,12 @@ class Calendar(TimeCreatedModified):
         copy = event.copy(calendar=self)
         return copy
 
-    def find_event_instances(self, start, end, qs=None):
-        """
-        Given a range of datetimes defined by start and end, will return a
-        queryset which should return all events for the current calendar in the
-        range provided.  An optional queryset argument can be passed to append
-        the resulting filtered queryset to.
-        """
-        from django.db.models import Q
-        during = Q() & Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
-        starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
-        ends_after = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
-        _filter = during | starts_before | ends_after
-
-        if qs is None:
-            qs = self.events_and_subs.filter(_filter)
-        else:
-            qs = qs.filter(_filter)
-        return qs
-    
-    def events_and_subs(self, filter):
-        """
-        Filters the events and subscriptions
-        """
-        qs = self.events.filter(filter)
-
 
     def is_creator(self, user):
         """
         Determine if user is creator of this calendar
         """
         return user == self.owner
-
-    def save(self, *args, **kwargs):
-        print(self.slug)
-        self.generate_slug()
-        super(Calendar, self).save(*args, **kwargs)
 
     def generate_slug(self):
         """
@@ -128,3 +132,12 @@ class Calendar(TimeCreatedModified):
     def __repr__(self):
         """docstring for __repr__"""
         return '<' + str(self.owner) + '/' + self.name + '>'
+    
+
+@receiver(pre_save, sender=Calendar)
+def save(sender, **kwargs):
+    """
+    Generate a slug before the calendar is saved
+    """
+    instance = kwargs['instance']
+    instance.generate_slug()

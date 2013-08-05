@@ -1,19 +1,15 @@
 from datetime import datetime
+
 from dateutil import rrule
-from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
-from events import utils
-from events.models import Calendar
 
 
-# TODO: move to ucfevent app
 def first_login(self):
     delta = self.last_login - self.date_joined
     if delta.seconds == 0 and delta.days == 0:
@@ -60,8 +56,9 @@ class Event(TimeCreatedModified):
     Used to store a one time event or store the base information
     for a recurring event.
     """
-    calendar = models.ForeignKey(Calendar, related_name='events', blank=True, null=True)
+    calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
     creator = models.ForeignKey(User, related_name='created_events', null=True)
+    created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
     state = models.SmallIntegerField(choices=State.choices, default=State.pending)
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True, null=True)
@@ -139,24 +136,6 @@ class EventInstance(TimeCreatedModified):
             return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.end, until=self.until)
         elif Event.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.end, until=self.until)
-
-    def future_instances(self):
-        """
-        Retrieve all the instances where the end date is in the future
-        """
-        return self.event_instances.filter(end__gte=datetime.now())
-    
-    def range_instances(self, start, end):
-        """
-        Retrieve all the instances that are within the start and end date
-        """
-        from django.db.models import Q
-        during = Q() & Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
-        starts_before = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
-        ends_after = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
-        _filter = during | starts_before | ends_after
-
-        return self.event_instances.filter(_filter)
 
     def update_children(self):
         """
