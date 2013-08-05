@@ -128,8 +128,52 @@ $('document').ready(function() {
                     minLength: 3,
                 });
             });
-    }
+    };
     userSearchTypeahead();
+
+
+    /**
+     * Clone fieldsets of a form; auto-increment field IDs as necessary.
+     **/
+    if ($('.cloneable').length > 0) {
+        var cloneableWrap = $('.cloneable').parent(),
+            cloneable = cloneableWrap.children(':first'),
+            cloneBtn = cloneableWrap.parent().find('.cloner');
+
+        // Function to adjust cloned field IDs
+        var updateCloneIDs = function(clones) {
+            for (i=0; i<clones.length; i++) {
+                clones[i].find('[id]').each(function() {
+                    var element = $(this),
+                        oldID = element.attr('id'),
+                        newID = 'test';
+                    element.attr('id', newID);
+                });
+            }
+        };
+
+        var getCurrentIDCount = function() {
+            //return cloneableWrap.children(':last').attr('id');
+        }
+
+        var assignCloneDataAttrs = function() {
+            // Assign a data-id attribute to a .cloneable element
+            $('.cloneable').each(function() {
+                var id = $(this).find('[id]').first().attr('id');
+                    regex = '/-[0-9+]-/';
+                var idNumMatch = regex.exec(id);
+            });
+        }
+
+        // Handle Clone button click
+        cloneBtn.click(function(e) {
+            e.preventDefault();
+            cloneable
+                .clone()
+                .insertAfter(cloneable);
+        });
+        // Handle Remove button click
+    };
     
 
 });
