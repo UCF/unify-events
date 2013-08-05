@@ -27,9 +27,9 @@ def create_update(request, event_id=None):
     if event_id is not None:
         try:
             ctx['event'] = get_object_or_404(Event, pk=event_id)
-            formset_qs = ctx['event'].instances.filter(parent=None)
+            formset_qs = ctx['event'].event_instances.filter(parent=None)
             formset_extra = 0
-            if ctx['event'].instances.count() == 0:
+            if ctx['event'].event_instances.count() == 0:
                 formset_extra = 1
             ctx['mode'] = 'update'
         except Event.DoesNotExist:
