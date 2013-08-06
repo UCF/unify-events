@@ -21,7 +21,6 @@ def create_update(request, event_id=None):
     tmpl = 'events/manager/events/create_update.html'
 
     # Event Forms
-    
     formset_qs = EventInstance.objects.none()
     formset_extra = 1
     if event_id is not None:
