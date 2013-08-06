@@ -328,6 +328,12 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 .sidebarfix > * { padding-right: 10px; }
+.recurring { /* Helper text for designating recurring events */
+	width: 0;
+	height: 0;
+	text-indent: -9999px;
+	display: block;
+}
 
 
 /**
@@ -512,12 +518,6 @@ ul.event-list li .event-content img {
 }
 ul.event-list li .event-content h5 { margin-right: 100px; margin-bottom: 0; } /* Room for event time */
 ul.event-list li:hover .event-content h5 { color: #7c6b27; }
-ul.event-list li .event-content h5 .recurring {
-	width: 0;
-	height: 0;
-	text-indent: -9999px;
-	display: block;
-}
 ul.event-list li .event-content .location {
 	color: #666;
 	font-size: 13px;
