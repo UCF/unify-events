@@ -29,7 +29,7 @@
         <h2>Edit Calendar: <span class="alt">{{calendar.name}}</span></h2>
         <ul id="calendar-edit-options">
             <li>
-                <a href="#">Live View</a>
+                <a href="{% url calendar calendar.slug %}">Live View</a>
             </li>
         </ul>
     {% endif %}
