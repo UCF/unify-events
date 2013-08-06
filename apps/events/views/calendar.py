@@ -35,7 +35,7 @@ def calendar(request, calendar, format=None):
     calendar = get_object_or_404(Calendar, slug=calendar)
     now = gmtime()
     start = datetime.now()
-    end = start + timedelta(weeks=2)
+    end = start + timedelta(weeks=1)
     events = calendar.range_event_instances(
         start,
         end
