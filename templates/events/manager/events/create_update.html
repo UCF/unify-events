@@ -46,51 +46,86 @@
 		<form class="form-horizontal" action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
             <div class="control-group large">
-               <label class="control-label" for="id_event-calendar">Calendar</label>
-               <p class="label-desc">Select an existing calendar to post this event to.</p>
-               <div class="controls">
-                   {{ event_form.calendar }}
-               </div>
+                <label class="control-label" for="{{ event_form.calendar.html_name }}">{{ event_form.calendar.label }}</label>
+                <p class="label-desc">Select an existing calendar to post this event to.</p>
+                <div class="controls">
+                    {{ event_form.calendar }}
+                </div>
             </div>
             <div class="control-group large">
-               <label class="control-label" for="id_event-title">Event Title</label>
-               <p class="label-desc">
-                   Be Brief. Be Bright. Be Done.
-                   <br/>
-                   (<a target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
-               </p>
-               <div class="controls">
-                   {{ event_form.title|add_class:"span8" }}
-               </div>
+                <label class="control-label" for="{{ event_form.title.html_name }}">{{ event_form.title.label }}</label>
+                <p class="label-desc">
+                    Be Brief. Be Bright. Be Done.
+                    <br/>
+                    (<a target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
+                </p>
+                <div class="controls">
+                    {{ event_form.title|add_class:"span8" }}
+                </div>
             </div>
             <div class="control-group large">
-               <label class="control-label" for="id_event-description">Description</label>
-               <p class="label-desc">A description for your event.</p>
-               <div class="controls">
-                   {{ event_form.description|add_class:"span8 wysiwyg" }}
-               </div>
+                <label class="control-label" for="{{ event_form.description.html_name }}">{{ event_form.description.label }}</label>
+                <p class="label-desc">A description for your event.</p>
+                <div class="controls">
+                    {{ event_form.description|add_class:"span8 wysiwyg" }}
+                </div>
             </div>
             <div class="control-group large">
-               <p class="control-label">When &amp; Where</p>
-               <p class="label-desc">When and where your event takes place, and how often it occurs.</p>
-               <div class="controls">
-                   {% for form in event_instance_formset %}
-                       {% include 'events/manager/events/create_update_whenwhere.html' %}
-                   {% endfor %}
-                   <div class="row">
-                       <div class="span6">
-                           <a class="btn cloner" href="#">Create Instance</a>
-                       </div>
-                   </div>
-               </div>
+                <p class="control-label">When &amp; Where</p>
+                <p class="label-desc">When and where your event takes place, and how often it occurs.</p>
+                <div class="controls">
+                    {% for form in event_instance_formset %}
+                    <div class="row cloneable" data-form-prefix="event_instance">
+                        {{ form.id }}
+                        <div class="span6">
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.start.html_name }}">From</label>
+                                    {{ form.start }}
+                                    <span class="add-on"><i class="icon-time"></i></span>
+                                </div>
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.end.html_name }}">To</label>
+                                    {{ form.end }}
+                                    <span class="add-on"><i class="icon-time"></i></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.interval.html_name }}">Interval</label>
+                                    {{ form.interval }}
+                                </div>
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.until.html_name }}">Until</label>
+                                    {{ form.until|add_class:"field-date" }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span6">
+                                    <label class="label-inner" for="{{ form.location.html_name }}">Where</label>
+                                    {{ form.location }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <a class="btn btn-danger remove-instance hidden" href="#">Remove Instance</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="row">
+                        <div class="span6">
+                            <a class="btn cloner" href="#">Create Instance</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             {{ event_instance_formset.management_form }}
             <div class="control-group large">
-               <label class="control-label" for="{{ event_form.submit_to_main.html_name }}">{{ event_form.submit_to_main.label }}</label>
-               <p class="label-desc">{{ event_form.submit_to_main.help_text }}</p>
-               <div class="controls">
-                   {{ event_form.submit_to_main }}
-               </div>
+                <label class="control-label" for="{{ event_form.submit_to_main.html_name }}">{{ event_form.submit_to_main.label }}</label>
+                <p class="label-desc">{{ event_form.submit_to_main.help_text }}</p>
+                <div class="controls">
+                    {{ event_form.submit_to_main }}
+                </div>
             </div>
             <div class="control-group large">
                 <div class="controls">
@@ -102,5 +137,5 @@
                     {% endif %}    
                 </div>
             </div>
-	</form>
+        </form>
 {% endblock %}

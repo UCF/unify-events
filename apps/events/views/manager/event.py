@@ -48,15 +48,14 @@ def create_update(request, event_id=None):
                                                 can_delete=True,
                                                 max_num=12)
 
-    # TODO: add event instance formset
     if request.method == 'POST':
         ctx['event_form'] = EventForm(request.POST,
                                       instance=ctx['event'],
                                       prefix='event',
                                       user_calendars=user_calendars)
         ctx['event_instance_formset'] = EventInstanceFormSet(request.POST,
-                                                          prefix='event_instance',
-                                                          queryset=formset_qs)
+                                                             prefix='event_instance',
+                                                             queryset=formset_qs)
 
         if ctx['event_form'].is_valid() and ctx['event_instance_formset'].is_valid():
             event = ctx['event_form'].save(commit=False)

@@ -45,10 +45,12 @@ class EventInstanceForm(forms.ModelForm):
     
 
 class EventCopyForm(forms.Form):
-
+    """
+    Copy event to a specified calendar
+    """
     def __init__(self, *args, **kwargs):
         calendars = kwargs.pop('calendars')
         super(EventCopyForm, self).__init__(*args, **kwargs)
         self.fields['calendars'].queryset = calendars
 
-    calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(),label='Calendars to copy to:')
+    calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
