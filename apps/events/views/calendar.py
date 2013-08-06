@@ -41,7 +41,7 @@ def calendar(request, calendar, format=None):
         end
     ).order_by('start', 'event__title')
 
-    template = 'events/calendar/calendar.' + (format or 'html')
+    template = 'events/calendar/calendar/calendar.' + (format or 'html')
     context = {
         'now': date.today(),
         'calendar': calendar,
@@ -86,7 +86,7 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     calendar = get_object_or_404(Calendar, slug=calendar)
     events = calendar.find_event_instances(start, end)
     events = events.order_by('start')
-    template = 'events/calendar/listing.' + (format or 'html')
+    template = 'events/calendar/calendar/event-list/listing.' + (format or 'html')
 
     context = {
         'start': start,
@@ -242,6 +242,7 @@ def months_listing(request, calendar, format=None):
     year, month, day = now.tm_year, now.tm_mon, None
     return auto_listing(request, calendar, year, month, day, format, {
         'list_title': 'This Month',
+        'list_type': 'month',
     })
 
 
@@ -253,4 +254,5 @@ def years_listing(request, calendar, format=None):
     year, month, day = now.tm_year, None, None
     return auto_listing(request, calendar, year, month, day, format, {
         'list_title': 'This Year',
+        'list_type': 'year',
     })
