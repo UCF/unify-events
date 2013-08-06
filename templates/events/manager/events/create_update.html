@@ -86,6 +86,13 @@
             </div>
             {{ event_instance_formset.management_form }}
             <div class="control-group large">
+               <label class="control-label" for="{{ event_form.submit_to_main.html_name }}">{{ event_form.submit_to_main.label }}</label>
+               <p class="label-desc">{{ event_form.submit_to_main.help_text }}</p>
+               <div class="controls">
+                   {{ event_form.submit_to_main }}
+               </div>
+            </div>
+            <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}
                         <button class="btn btn-primary" type="submit">Create Event</button>

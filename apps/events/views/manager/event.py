@@ -79,6 +79,11 @@ def create_update(request, event_id=None):
                         messages.error(request,'Saving event instance failed.')
                         error = True
                         break
+                    
+                # Copy to main calendar
+                if ctx['event_form'].cleaned_data['submit_to_main']:
+                    event.copy_to_main()
+                
                 if not error:
                     messages.success(request, 'Event successfully saved')
 
