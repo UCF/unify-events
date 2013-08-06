@@ -41,7 +41,7 @@ def calendar(request, calendar, format=None):
         end
     ).order_by('start', 'event__title')
 
-    template = 'events/calendar/calendar/calendar.' + (format or 'html')
+    template = 'events/frontend/calendar/calendar.' + (format or 'html')
     context = {
         'now': date.today(),
         'calendar': calendar,
@@ -65,7 +65,7 @@ def event(request, calendar, instance_id, format=None):
         raise Http404
 
     format = format or 'html'
-    template = 'events/calendar/event.' + format
+    template = 'events/frontend/event/event.' + format
     context = {
         'calendar': calendar,
         'event': event,
@@ -86,7 +86,7 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     calendar = get_object_or_404(Calendar, slug=calendar)
     events = calendar.find_event_instances(start, end)
     events = events.order_by('start')
-    template = 'events/calendar/calendar/event-list/listing.' + (format or 'html')
+    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
 
     context = {
         'start': start,
