@@ -10,6 +10,8 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
+import events.models
+import settings
 
 
 def first_login(self):
@@ -73,6 +75,38 @@ class Event(TimeCreatedModified):
         if self.end < datetime.now():
             return True
         return False
+    
+    def copy(self, *args, **kwargs):
+        """
+        Duplicates this Event creating another Event without a calendar set,
+        and a link back to the original event created.
+
+        This allows Events to be imported to other calendars and updates can be
+        pushed back to the copied events.
+        """
+        copy = Event(
+            created_from=self,
+            state=self.state,
+            title=self.title,
+            description=self.description,
+            created=self.created,
+            modified=self.modified,
+            *args,
+            **kwargs
+        )
+        copy.save()
+        copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
+        return copy
+    
+    def copy_to_main(self):
+        """
+        Creates a copy of the event for the main calendar
+        """
+        copy = self.copy()
+        main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+        copy.calendar = main_calendar 
+        copy.state = State.pending
+        copy.save()
 
     def __str__(self):
         return self.title
@@ -167,6 +201,22 @@ class EventInstance(TimeCreatedModified):
             'calendar': self.event.calendar.slug,
             'instance_id': self.id,
         }) + self.event.slug + '/'
+        
+    def copy(self, *args, **kwargs):
+        """
+        Copies the event instance
+        """
+        copy = EventInstance(
+            start=self.start,
+            end=self.end,
+            interval=self.interval,
+            until=self.until,
+            location=self.location,
+            *args,
+            **kwargs
+        )
+        copy.save()
+        return copy
 
     def delete(self, *args, **kwargs):
         self.children.all().delete()

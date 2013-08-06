@@ -48,15 +48,14 @@ def create_update(request, event_id=None):
                                                 can_delete=True,
                                                 max_num=12)
 
-    # TODO: add event instance formset
     if request.method == 'POST':
         ctx['event_form'] = EventForm(request.POST,
                                       instance=ctx['event'],
                                       prefix='event',
                                       user_calendars=user_calendars)
         ctx['event_instance_formset'] = EventInstanceFormSet(request.POST,
-                                                          prefix='event_instance',
-                                                          queryset=formset_qs)
+                                                             prefix='event_instance',
+                                                             queryset=formset_qs)
 
         if ctx['event_form'].is_valid() and ctx['event_instance_formset'].is_valid():
             event = ctx['event_form'].save(commit=False)
@@ -79,6 +78,11 @@ def create_update(request, event_id=None):
                         messages.error(request,'Saving event instance failed.')
                         error = True
                         break
+                    
+                # Copy to main calendar
+                if ctx['event_form'].cleaned_data['submit_to_main']:
+                    event.copy_to_main()
+                
                 if not error:
                     messages.success(request, 'Event successfully saved')
 

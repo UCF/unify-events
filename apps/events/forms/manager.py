@@ -15,10 +15,10 @@ class EventForm(forms.ModelForm):
     """
     Form for and Event
     """
-
     def __init__(self, *args, **kwargs):
         user_calendars = kwargs.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['submit_to_main'] = forms.BooleanField(label='Submit to Main Calendar', required=False)
         self.fields['calendar'].queryset = user_calendars
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
@@ -45,10 +45,12 @@ class EventInstanceForm(forms.ModelForm):
     
 
 class EventCopyForm(forms.Form):
-
+    """
+    Copy event to a specified calendar
+    """
     def __init__(self, *args, **kwargs):
         calendars = kwargs.pop('calendars')
         super(EventCopyForm, self).__init__(*args, **kwargs)
         self.fields['calendars'].queryset = calendars
 
-    calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(),label='Calendars to copy to:')
+    calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
