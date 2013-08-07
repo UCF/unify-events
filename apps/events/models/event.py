@@ -202,6 +202,31 @@ class EventInstance(TimeCreatedModified):
             'instance_id': self.id,
         }) + self.event.slug + '/'
         
+    def save(self, *args, **kwargs):
+        """
+        Update event instances only if a currently parent event instance
+        does not already exist.
+        """
+        update = True
+        try:
+            # If we can find an object that matches this one, no update is needed
+            EventInstance.objects.get(pk=self.pk,
+                                      start=self.start,
+                                      end=self.end,
+                                      location=self.location,
+                                      interval=self.interval,
+                                      until=self.until,
+                                      parent=None)
+            update = False
+        except ObjectDoesNotExist:
+            # Something has changed
+            pass
+        
+        super(EventInstance, self).save(*args, **kwargs)
+
+        if update:
+            self.update_children()
+        
     def copy(self, *args, **kwargs):
         """
         Copies the event instance
@@ -231,26 +256,9 @@ class EventInstance(TimeCreatedModified):
 
 @receiver(pre_save, sender=EventInstance)
 def update_event_instance_until(sender, instance, **kwargs):
+    """
+    Update the until time to match the starting of the event
+    so the rrule will operate properly
+    """
     if instance.until:
         instance.until = datetime.combine(instance.until.date(), instance.start.time())
-
-
-@receiver(post_save, sender=EventInstance)
-def update_event_instance_children(sender, instance, created, **kwargs):
-    update = created
-    if not update:
-        try:
-            # If we can find an object that matches this one, no update is needed
-            EventInstance.objects.get(pk=instance.pk,
-                                      start=instance.start,
-                                      end=instance.end,
-                                      location=instance.location,
-                                      interval=instance.interval,
-                                      until=instance.until)
-            update = False
-        except ObjectDoesNotExist:
-            # Something has changed
-            update = True
-    
-    if update:
-        instance.update_children()
