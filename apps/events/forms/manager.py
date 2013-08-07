@@ -1,14 +1,22 @@
 from django import forms
+from django.contrib.auth.models import User
 
-from events.models import Calendar, Event, EventInstance
+from events.models import Calendar
+from events.models import Event
+from events.models import EventInstance
+from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 
 class CalendarForm(forms.ModelForm):
-
+    """
+    For for the Calendar
+    """
+    editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
+    
     class Meta:
         model = Calendar
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'editors')
 
 
 class EventForm(forms.ModelForm):

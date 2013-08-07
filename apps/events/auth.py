@@ -1,8 +1,8 @@
+import logging
+
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from util import LDAPHelper
-
-import logging
 
 
 class Backend(ModelBackend):

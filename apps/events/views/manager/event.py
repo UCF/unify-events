@@ -1,16 +1,22 @@
 import logging
 
 from django.views.generic.simple import direct_to_template
-from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden
+from django.http import HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
-from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 
-from events.forms.manager import EventForm, EventInstanceForm, EventCopyForm
-from events.models import Event, EventInstance, Calendar
+from events.forms.manager import EventCopyForm
+from events.forms.manager import EventForm
+from events.forms.manager import EventInstanceForm
+from events.models import Calendar
+from events.models import get_main_calendar
+from events.models import Event
+from events.models import EventInstance
 
 log = logging.getLogger(__name__)
 
@@ -81,7 +87,7 @@ def create_update(request, event_id=None):
                     
                 # Copy to main calendar
                 if ctx['event_form'].cleaned_data['submit_to_main']:
-                    event.copy_to_main()
+                    get_main_calendar().import_event(event)
                 
                 if not error:
                     messages.success(request, 'Event successfully saved')

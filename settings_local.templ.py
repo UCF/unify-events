@@ -53,6 +53,10 @@ LDAP_NET_ATTR_MAP = { # LDAP Object -> User Object
 }
 LDAP_NET_SEARCH_USER = ''
 LDAP_NET_SEARCH_PASS = ''
+LDAP_NET_SEARCH_SIZELIMIT = 5
+
+# Limit the user search results to 5 people
+USER_SEARCHLIMIT = 5
 
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_SLUG = ''
