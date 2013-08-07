@@ -121,8 +121,8 @@
             </div>
             {{ event_instance_formset.management_form }}
             <div class="control-group large">
-                <label class="control-label" for="{{ event_form.submit_to_main.html_name }}">{{ event_form.submit_to_main.label }}</label>
-                <p class="label-desc">Would you like to submit this event to the main calendar?</p>
+                <label class="control-label" for="id_{{ event_form.submit_to_main.html_name }}">Submit for Main Calendar Approval</label>
+                <p class="label-desc">Request that this event be displayed on UCF's main calendar.</p>
                 <div class="controls">
                     {{ event_form.submit_to_main }}
                 </div>

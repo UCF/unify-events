@@ -62,6 +62,7 @@ class Event(TimeCreatedModified):
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
+    submit_to_main = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'events'
@@ -75,7 +76,25 @@ class Event(TimeCreatedModified):
         if self.end < datetime.now():
             return True
         return False
-    
+
+    @property
+    def get_main_state(self):
+        # This will probably need to be rewritten to handle
+        # event instances approved on the main calendar instead
+        # of events
+        status = None
+
+        if self.submit_to_main == True:
+            status = State.pending
+
+        main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+        instances = main_calendar.event_instances.filter(parent=self)
+        if instances:
+            event = instance[0].parent
+            status = event.status
+
+        return status
+
     def copy(self, *args, **kwargs):
         """
         Duplicates this Event creating another Event without a calendar set,
