@@ -13,12 +13,11 @@ class CalendarForm(forms.ModelForm):
 
 class EventForm(forms.ModelForm):
     """
-    Form for and Event
+    Form for an Event
     """
     def __init__(self, *args, **kwargs):
         user_calendars = kwargs.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
-        self.fields['submit_to_main'] = forms.BooleanField(label='Submit to Main Calendar', required=False)
         self.fields['calendar'].queryset = user_calendars
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
@@ -26,7 +25,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone')
+        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone', 'submit_to_main')
 
 
 class EventInstanceForm(forms.ModelForm):

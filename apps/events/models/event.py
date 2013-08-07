@@ -4,6 +4,7 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -62,6 +63,7 @@ class Event(TimeCreatedModified):
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
+    submit_to_main = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'events'
@@ -75,7 +77,21 @@ class Event(TimeCreatedModified):
         if self.end < datetime.now():
             return True
         return False
-    
+
+    @property
+    def get_main_state(self):
+        """
+        Returns the State of an Event's copied Event on the Main Calendar.
+        """
+        status = None
+        if self.submit_to_main == True:
+            status = State.pending
+            main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+            instances = main_calendar.event_instances.filter(event__created_from=self)
+            if instances:
+                status = instances[0].event.state
+        return status
+
     def copy(self, *args, **kwargs):
         """
         Duplicates this Event creating another Event without a calendar set,
@@ -213,6 +229,31 @@ class EventInstance(TimeCreatedModified):
             'instance_id': self.id,
         }) + self.event.slug + '/'
         
+    def save(self, *args, **kwargs):
+        """
+        Update event instances only if a currently parent event instance
+        does not already exist.
+        """
+        update = True
+        try:
+            # If we can find an object that matches this one, no update is needed
+            EventInstance.objects.get(pk=self.pk,
+                                      start=self.start,
+                                      end=self.end,
+                                      location=self.location,
+                                      interval=self.interval,
+                                      until=self.until,
+                                      parent=None)
+            update = False
+        except ObjectDoesNotExist:
+            # Something has changed
+            pass
+        
+        super(EventInstance, self).save(*args, **kwargs)
+
+        if update:
+            self.update_children()
+        
     def copy(self, *args, **kwargs):
         """
         Copies the event instance
@@ -242,26 +283,9 @@ class EventInstance(TimeCreatedModified):
 
 @receiver(pre_save, sender=EventInstance)
 def update_event_instance_until(sender, instance, **kwargs):
+    """
+    Update the until time to match the starting of the event
+    so the rrule will operate properly
+    """
     if instance.until:
         instance.until = datetime.combine(instance.until.date(), instance.start.time())
-
-
-@receiver(post_save, sender=EventInstance)
-def update_event_instance_children(sender, instance, created, **kwargs):
-    update = created
-    if not update:
-        try:
-            # If we can find an object that matches this one, no update is needed
-            EventInstance.objects.get(pk=instance.pk,
-                                      start=instance.start,
-                                      end=instance.end,
-                                      location=instance.location,
-                                      interval=instance.interval,
-                                      until=instance.until)
-            update = False
-        except ObjectDoesNotExist:
-            # Something has changed
-            update = True
-    
-    if update:
-        instance.update_children()

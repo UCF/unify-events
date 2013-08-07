@@ -118,7 +118,13 @@
                             <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
                         </td>
                         <td class="field-recommended">
-                            <!-- TODO: get current recommendation status -->
+                            {% if event.event.get_main_state == 0 %}
+                                <i class="icon-star-half-full"></i>
+                                <span class="state">Pending Approval</span>
+                            {% elif event.event.get_main_state == 1 %}
+                                <i class="icon-star"></i>
+                                <span class="state">Approved for Main Calendar</span>
+                            {% endif %}
                         </td>
                         <td class="event-title">
                             <a href="{% url event event.event.calendar event.id %}{{ event.event.slug }}"><!-- TODO: better slug? -->
