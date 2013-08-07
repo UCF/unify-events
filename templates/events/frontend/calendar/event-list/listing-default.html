@@ -22,8 +22,8 @@
                             <!--<img src="" alt="image" title="image" />-->
                             <!-- endif -->
                             <h5>
-                                <span class="summary">{{ event.event.title }}</span>
-                                {% if event.parent != None %}
+                                <span class="summary">{{ event.title }}</span>
+                                {% if event.is_recurring %}
                                 <i class="icon-repeat"></i>
                                 <span class="recurring">(Recurring Event)</span>
                                 {% endif %}

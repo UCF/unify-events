@@ -122,8 +122,8 @@
                         </td>
                         <td class="event-title">
                             <a href="{% url event event.event.calendar event.id %}{{ event.event.slug }}"><!-- TODO: better slug? -->
-                                {{ event.event.title }}
-                                {% if event.parent != None %}
+                                {{ event.title }}
+                                {% if event.is_recurring %}
                                     <i class="icon-repeat"></i>
                                     <span class="recurring">(Recurring Event)</span>
                                 {% endif %}
