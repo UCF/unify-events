@@ -9,6 +9,8 @@ from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
 
+import settings
+
 
 def calendar_widget(request, calendar, year, month):
     """
@@ -33,15 +35,14 @@ def calendar(request, calendar, format=None):
     events, featured events, etc.
     """
     calendar = get_object_or_404(Calendar, slug=calendar)
-    now = gmtime()
-    start = datetime.now()
-    end = start + timedelta(weeks=1)
+    start = date.today()
+    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
     events = calendar.range_event_instances(
         start,
         end
     ).order_by('start', 'event__title')
 
-    template = 'events/frontend/calendar/calendar.' + (format or 'html')
+    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
     context = {
         'now': date.today(),
         'calendar': calendar,
@@ -84,7 +85,7 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     rss, json, etc.
     """
     calendar = get_object_or_404(Calendar, slug=calendar)
-    events = calendar.find_event_instances(start, end)
+    events = calendar.range_event_instances(start, end)
     events = events.order_by('start')
     template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
 
@@ -163,7 +164,7 @@ def week_listing(request, calendar, year, month, day, format=None):
     start = day - timedelta(days=day.weekday())
     end = start + timedelta(weeks=1)
     return listing(request, calendar, start, end, format, {
-        'list_title': 'Week of %s %s' % (start.strftime("%B"), start.day),
+        'list_title': 'Events on Week of %s %s' % (start.strftime("%B"), start.day),
     })
 
 
@@ -193,7 +194,7 @@ def range_listing(request, calendar, start, end, format=None):
     start = date(start)
     end = date(end) + timedelta(days=1) - timedelta(seconds=1)
     return listing(request, calendar, start, end, format, {
-        'list_title': '%s %s through %s %s' % (
+        'list_title': 'Events on %s %s through %s %s' % (
             start.strftime("%B"), start.day,
             end.strftime("%B"), end.day,
         ),
@@ -230,7 +231,7 @@ def weeks_listing(request, calendar, format=None):
     start = today - timedelta(days=today.weekday())
     end = start + timedelta(weeks=1)
     return listing(request, calendar, start, end, format, {
-        'list_title': 'This Week',
+        'list_title': 'Events This Week',
     })
 
 
@@ -241,7 +242,7 @@ def months_listing(request, calendar, format=None):
     now = gmtime()
     year, month, day = now.tm_year, now.tm_mon, None
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'This Month',
+        'list_title': 'Events This Month',
         'list_type': 'month',
     })
 
@@ -253,6 +254,6 @@ def years_listing(request, calendar, format=None):
     now = gmtime()
     year, month, day = now.tm_year, None, None
     return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'This Year',
+        'list_title': 'Events This Year',
         'list_type': 'year',
     })

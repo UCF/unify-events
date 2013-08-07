@@ -1,41 +1,30 @@
-{%extends 'events/frontend/base.html'%}
-{%load humanize%}
-{%load widgets%}
+{% extends 'events/frontend/calendar/calendar.html' %}
+{% load humanize %}
 
-{%block title%}{{block.super}}{%if list_title%} - {{list_title}}{%endif%}{%endblock%}
-{%block links%}{{block.super}}
-		<link rel="alternate" type="application/rss+xml" title="{{calendar.name}}{%if list_title%} - {{list_title}}{%endif%}'s Events" href="./.rss" />
-{%endblock%}
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li{% if list_type == None %} class="active"{% endif %}>
+                    <a href="{% url named-listing calendar "this-week" %}">List View</a>
+                </li>
+                <li{% if list_type == 'month' %} class="active"{% endif %}>
+                    <a href="{% url named-listing calendar "this-month" %}">Month View</a>
+                </li>
+                <li{% if list_type == 'year' %} class="active"{% endif %}>
+                    <a href="{% url named-listing calendar "this-year" %}">Year View</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
 
-{%block content_body%}
-
-<div id="events-content" class="event-listing">
-	<div class="left-column span-15 append-1">
-	    {%if list_title%}<h2>{{list_title}}</h2>{%endif%}
-		{%format_event_list events calendar%}
-	</div>
-	<div class="right-column span-8 last">
-		{% calendar_widget calendar start.year start.month%}
-		
-		<section class="browse-widget">
-			<h1>Event Listings</h1>
-			<ul>
-				<li><a class="load" href="{%url named-listing calendar.slug 'today'%}">Today</a></li>
-				<li><a class="load" href="{%url named-listing calendar.slug 'this-week'%}">This Week</a></li>
-				<li><a class="load" href="{%url named-listing calendar.slug 'this-month'%}">This Month</a></li>
-			</ul>
-		</section>
-		
-		{% include "events/calendar/widgets/search.html" %}
-		
-		<section class="subscribe-widget">
-			<h1>Subscribe</h1>
-			<ul class="inline">
-				<li class="rss"><a href="./.rss">RSS</a></li>
-				<li class="ical"><a href="webcal://{{request.get_host}}{{request.path}}.ics">iCal</a></li>
-				<li class="gcal"><a href="#">Google Calendar</a></li>
-			</ul>
-		</section>
-	</div>
-</div>
-{%endblock%}
+{% block content_body %}
+    {% if list_type == 'month' %}
+        {% include 'events/frontend/calendar/event-list/listing-month.html' %}
+    {% elif list_type == 'year' %}
+        {% include 'events/frontend/calendar/event-list/listing-year.html' %}
+    {% else %}
+        {% include 'events/frontend/calendar/event-list/listing-default.html' %}
+    {% endif %}
+{% endblock %}

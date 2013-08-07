@@ -1,0 +1,63 @@
+{% load humanize %}
+
+<div class="row">
+    <div class="span8 sidebarfix page-content" id="calendar-events-week">
+        <h3>{{ list_title }}</h3><!-- TODO: use proper context -->
+        {% if events %}
+            {% regroup events by start|date:"l, F j" as dates %}
+            {% for date in dates %}
+                {% if date.list.0.start|naturalday == "today" %} <!-- Can't compare to date.grouper, so get 1st event's start date -->
+                    <h4><strong>Today:</strong> {{ date.grouper }}</h4>
+                {% elif date.list.0.start|naturalday == "tomorrow" %}
+                    <h4><strong>Tomorrow:</strong> {{ date.grouper }}</h4>
+                {% else %}
+                    <h4>{{ date.grouper }}</h4>
+                {% endif %}
+                
+                <ul class="event-list">
+                {% for event in date.list %}
+                    <li class="vevent cat-name">
+                        <a class="event-content url" href="{% url event calendar event.id %}{{ event.event.slug }}"><!-- TODO: less ugly url? -->
+                            <!-- if img -->
+                            <!--<img src="" alt="image" title="image" />-->
+                            <!-- endif -->
+                            <h5>
+                                <span class="summary">{{ event.event.title }}</span>
+                                {% if event.parent != None %}
+                                <i class="icon-repeat"></i>
+                                <span class="recurring">(Recurring Event)</span>
+                                {% endif %}
+                            </h5>
+                            <span class="location">{{ event.location }}</span>
+                            <span class="description">
+                                {{ event.event.description|truncatewords:160 }}
+                            </span>
+                            <time class="dtstart" datetime="{{ event.start|date:"cZ" }}"> <!-- TODO: real UTC time -->
+                                {% if event.start.time %}
+                                    {{ event.start|date:"f a" }}
+                                {% else %}
+                                    All Day
+                                {% endif %}
+                                <span class="value-title" title="{{ event.start|date:"cZ" }}"></span> <!-- TODO: real UTC time -->
+                            </time>
+                        </a>
+                        <span class="category">Category Name</span><!-- TODO: category -->
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+        {% else %}
+        <p>No events found for this week.</p>
+        {% endif %}  
+    </div>
+    <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+        <h3>Mini Calendar</h3>
+        sidebar mini calendar
+
+        <h3>Subscribe</h3>
+        feed download links
+
+        <h3>Toggle Categories</h3>
+        category toggles here...
+    </aside>
+</div>
