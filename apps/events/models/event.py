@@ -4,6 +4,7 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -79,20 +80,16 @@ class Event(TimeCreatedModified):
 
     @property
     def get_main_state(self):
-        # This will probably need to be rewritten to handle
-        # event instances approved on the main calendar instead
-        # of events
+        """
+        Returns the State of an Event's copied Event on the Main Calendar.
+        """
         status = None
-
         if self.submit_to_main == True:
             status = State.pending
-
-        main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
-        instances = main_calendar.event_instances.filter(parent=self)
-        if instances:
-            event = instance[0].parent
-            status = event.status
-
+            main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+            instances = main_calendar.event_instances.filter(event__created_from=self)
+            if instances:
+                status = instances[0].event.state
         return status
 
     def copy(self, *args, **kwargs):
