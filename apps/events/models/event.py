@@ -210,6 +210,17 @@ class EventInstance(TimeCreatedModified):
                 instance.save()
 
     @property
+    def title(self):
+        return self.event.title
+
+    @property
+    def is_recurring(self):
+        recurs = False
+        if len(self.event.event_instances.all()) > 1:
+            recurs = True
+        return recurs
+
+    @property
     def archived(self):
         if self.end < datetime.now():
             return True
