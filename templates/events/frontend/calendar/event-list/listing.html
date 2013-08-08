@@ -6,13 +6,13 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li{% if list_type == None %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar "this-week" %}">List View</a>
+                    <a href="{% url named-listing calendar.slug "this-week" %}">List View</a>
                 </li>
                 <li{% if list_type == 'month' %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar "this-month" %}">Month View</a>
+                    <a href="{% url named-listing calendar.slug "this-month" %}">Month View</a>
                 </li>
                 <li{% if list_type == 'year' %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar "this-year" %}">Year View</a>
+                    <a href="{% url named-listing calendar.slug "this-year" %}">Year View</a>
                 </li>
             </ul>
         </div>
