@@ -123,21 +123,115 @@ var initiateWysiwyg = function(textarea) {
  * User search typeahead
  **/
 var userSearchTypeahead = function() {
-    $('.typeahead.user-search')
-        .each(function() {
-            var field = $(this);
-            field.typeahead({
-                source: function(query, process) {
-                    return $.get(
-                        field.attr('data-source') + query,
-                        function(data) {
-                            return process(data.username);
-                        }
-                    );
-                },
-                minLength: 3,
+    var inputField = $('#id_add_user'),
+        resultList = inputField.next($('.typeahead.dropdown-menu')),
+        timer = null,
+        delay = 700;
+
+    // Show retrieved results in a list below the input field
+    var displayResults = function(response) {
+        // Kill any previous input field styling
+        inputField.removeClass('warning success');
+        // Remove any existing results
+        resultList.children('li').remove();
+        // Display the list of successful results
+        var results = response;
+        for (i=0; i<results.length; i++) {
+            var result = results[i],
+            // Results are a list: first_name, last_name, username
+                firstname = result[0],
+                lastname = result[1],
+                username = result[2];
+            resultList
+                .append('<li data-first_name="' + firstname + '" data-last_name="' + lastname + '" data-username="' + username + '"><a href="#">' + firstname + ' ' + lastname + ' (' + username + ')</a></li>')
+                .show();
+        }
+        // Assign click event to new list items
+        resultList
+            .find('li > a')
+            .click(function(e) {
+                e.preventDefault();
+                var result = $(this).parent('li'),
+                    firstname = result.attr('data-first_name'),
+                    lastname = result.attr('data-last_name'),
+                    username = result.attr('data-username');
+                // Populate hidden field values
+                $('#id_first_name').val(firstname);
+                $('#id_last_name').val(lastname);
+                $('#id_username').val(username);
+                // Update the input field; make it look successful
+                inputField
+                    .val(firstname + ' ' + lastname)
+                    .addClass('success');
+                // Hide the result list
+                resultList.hide();
             });
+    };
+
+    // Execute a search
+    var performSearch = function(query) {
+        $.ajax({
+            url: 'http://' + HTTPHOST + '/manager/search/user/' + query,
+            type: 'post',
+            success: function(response) {
+                displayResults(response);
+            },
+            error: function() {
+                // Give the user a visual response that nothing came back
+                inputField.addClass('warning');
+            }
         });
+    };
+
+    // Handle typing into search field
+    inputField.keyup(function() {
+        clearTimeout(timer);
+        var query = inputField.val();
+        timer = setTimeout(function() {
+            performSearch(query);
+        }, delay);
+    });
+};
+
+/**
+ * Add new user front-end validation
+ * (Don't allow new users to be submitted w/o valid name, role)
+ **/
+var userAddValidation = function() {
+    var addBtn = $('#add-user-submit'),
+        inputField = $('#id_add_user');
+
+    // Click handler for easy toggling of link enable/disable
+    var handler = function(e) {
+        e.preventDefault();
+    };
+
+    // Check for changes in input values; toggle button
+    var toggleAddBtn = function() {
+        if (
+            (
+            $('#id_first_name').val() === '' ||
+            $('#id_last_name').val() === '' ||
+            $('#id_username').val() === ''
+            ) ||
+            ( $('#id_add_role').val() === '' )
+        ){
+            addBtn
+                .addClass('disabled')
+                .bind('click', handler);
+        }
+        else {
+            addBtn
+                .removeClass('disabled')
+                .unbind('click', handler);
+        }
+    };
+
+    // Handle load, on form change events
+    toggleAddBtn();
+    $('#id_add_user, #id_add_role, #id_add_user + ul.dropdown-menu').change(function() {
+        toggleAddBtn();
+    });
 };
 
 /**
@@ -275,5 +369,6 @@ $(document).ready(function() {
     initiateTimePickers($('.field-time'));
     initiateWysiwyg($('textarea.wysiwyg'));
     userSearchTypeahead();
+    userAddValidation();
     cloneableFieldsets();
 });

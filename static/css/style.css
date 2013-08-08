@@ -474,6 +474,7 @@ td.event-actions .btn { margin-top: -4px; }
 #users-permissions label[for="id_add_role"] { width: 0; height: 0; display: block; text-indent: -9999px; }
 #users-permissions label[for="id_add_role"] + .form-inline { margin-bottom: 30px; }
 #users-permissions .calendar-access-username { font-weight: bold; }
+#manager-calendar-add-user { position: relative; }
 
 /* Calendar Info */
 #calendar-info h3 { margin-top: 0; }

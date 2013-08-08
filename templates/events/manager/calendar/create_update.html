@@ -114,18 +114,22 @@
                 <h3>Users &amp; Permissions</h3>
                 
                 <h4>Add New User</h4><!-- Only show this section for admins and owners -->
-                {{ form.editors }}
                 <label for="id_add_user">Search for user</label>
                 <label for="id_add_role">Select a role</label>
-                <div class="form-inline">
+                <form class="form-inline" id="manager-calendar-add-user">
                     <input id="id_add_user" class="span4 typeahead user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url search-user %}">
+                    <ul class="typeahead dropdown-menu">
+                    </ul>
                     <select id="id_add_role" class="span2">
                         <option value="">Select Role</option>
                         <option value="admin">Admin</option>
                         <option value="editor">Editor</option>
                     </select>
-                    <button class="btn">Add User</button>
-                </div>
+                    <input type="hidden" id="id_first_name" value="">
+                    <input type="hidden" id="id_last_name" value="">
+                    <input type="hidden" id="id_username" value="">
+                    <a class="btn" id="add-user-submit">Add User</a>
+                </form>
                 
                 <h4>Users With Access to this Calendar</h4>
                 <table class="table table-striped table-hover" id="manager-calendar-access"><!-- TODO: dynamically fill this stuff in -->
@@ -242,29 +246,5 @@
 {% endblock %}
 
 {% block footer_scripts %}
-    {{block.super}}
-    <script type="text/javascript">
-        $().ready(function() {
-            $('#id_name')
-                .keyup(function() {
-                    $('#id_slug').val(sluggify($(this).val()));
-                })
-            
-            $('.inlineldapsearch .search').click(function(event) {
-                var search_input = $('.inlineldapsearch .query');
-                
-                $.ajax({
-                    url: 'http://{{ request.META.HTTP_HOST }}/manager/search/user/' + search_input.val(),
-                    type: 'post',
-                    success: function(response) {
-                        alert(response);
-                    },
-                    error: function(response, textStatus, errorThrown) {
-                        alert('failed :( ' + errorThrown);
-                    }
-                });
-                event.preventDefault();
-            });
-        });
-    </script>
+    {{ block.super }}
 {% endblock %}
