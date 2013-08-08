@@ -114,6 +114,7 @@
                 <h3>Users &amp; Permissions</h3>
                 
                 <h4>Add New User</h4><!-- Only show this section for admins and owners -->
+                {{ form.editors }}
                 <label for="id_add_user">Search for user</label>
                 <label for="id_add_role">Select a role</label>
                 <div class="form-inline">
@@ -248,6 +249,22 @@
                 .keyup(function() {
                     $('#id_slug').val(sluggify($(this).val()));
                 })
+            
+            $('.inlineldapsearch .search').click(function(event) {
+                var search_input = $('.inlineldapsearch .query');
+                
+                $.ajax({
+                    url: 'http://{{ request.META.HTTP_HOST }}/manager/search/user/' + search_input.val(),
+                    type: 'post',
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(response, textStatus, errorThrown) {
+                        alert('failed :( ' + errorThrown);
+                    }
+                });
+                event.preventDefault();
+            });
         });
     </script>
 {% endblock %}

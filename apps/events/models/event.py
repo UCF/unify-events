@@ -4,8 +4,6 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models import Q
-from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -100,29 +98,18 @@ class Event(TimeCreatedModified):
         This allows Events to be imported to other calendars and updates can be
         pushed back to the copied events.
         """
-        copy = Event(
-            created_from=self,
-            state=self.state,
-            title=self.title,
-            description=self.description,
-            created=self.created,
-            modified=self.modified,
-            *args,
-            **kwargs
-        )
+        copy = Event(creator=self.creator,
+                     created_from=self,
+                     state=self.state,
+                     title=self.title,
+                     description=self.description,
+                     created=self.created,
+                     modified=self.modified,
+                     *args,
+                     **kwargs)
         copy.save()
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
-    
-    def copy_to_main(self):
-        """
-        Creates a copy of the event for the main calendar
-        """
-        copy = self.copy()
-        main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
-        copy.calendar = main_calendar 
-        copy.state = State.pending
-        copy.save()
 
     def __str__(self):
         return self.title

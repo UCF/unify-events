@@ -56,7 +56,7 @@ class LDAPHelper(object):
     @classmethod
     def bind(cls, connection, username, password):
         try:
-            connection.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX,password)
+            connection.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX, password)
         except ldap.LDAPError, e:
             raise LDAPHelper.UnableToBind(e)
 
@@ -71,21 +71,29 @@ class LDAPHelper(object):
             return results[0]
 
     @classmethod
-    def search(cls, connection, filter_params, filter_string='cn=%s'):
+    def search(cls, connection, filter_params, filter_string='cn=%s', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
         try:
             ldap_filter = filter_string % filter_params
-            result_id = connection.search(settings.LDAP_NET_BASE_DN, ldap.SCOPE_SUBTREE, ldap_filter, None)
+            result_id = connection.search_ext(settings.LDAP_NET_BASE_DN, 
+                                              ldap.SCOPE_SUBTREE, 
+                                              ldap_filter, 
+                                              None, 
+                                              sizelimit=sizelimit)
         except ldap.LDAPError, e:
             raise LDAPHelper.UnableToSearch(e)
         else:
             results = []
             while 1:
-                ldap_type, data = connection.result(result_id, 0)
-                if not data:
+                try:
+                    ldap_type, data = connection.result(result_id, 0)
+                    if not data:
+                        break
+                    else:
+                        if ldap_type == ldap.RES_SEARCH_ENTRY:
+                            results.append(data)
+                except ldap.SIZELIMIT_EXCEEDED:
+                    # Results sizelimit has been reached
                     break
-                else:
-                    if ldap_type == ldap.RES_SEARCH_ENTRY:
-                        results.append(data)
             try:
                 return list(o[0][1] for o in results)
             except ValueError:
