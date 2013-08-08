@@ -4,6 +4,7 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -110,6 +111,24 @@ class Event(TimeCreatedModified):
             # The event has not been submitted to the main calendar
             pass
         return event
+
+    def pull_updates(self):
+        """
+        Updates this Event with information from the event it was created
+        from, if it exists.
+        """
+        updated_copy = None
+        
+        if self.created_from:
+            self.event_instances.all().delete()
+            self.title = self.created_from.title
+            self.description = self.created_from.description
+            self.modified=self.created_from.modified
+            self.save()
+            self.event_instances.add(*[i.copy(event=self) for i in self.created_from.event_instances.filter(parent=None)])
+            updated_copy = self
+
+        return updated_copy
 
     def copy(self, *args, **kwargs):
         """
@@ -286,7 +305,7 @@ class EventInstance(TimeCreatedModified):
         return '<' + str(self.start) + '>'
     
     def __unicode__(self):
-        return self.event.title
+        return self.event.calendar.name + ' - ' + self.event.title
 
 
 @receiver(pre_save, sender=EventInstance)
