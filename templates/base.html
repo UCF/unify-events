@@ -9,16 +9,18 @@
         <meta name="description" content="{% block meta-description %}Unify Events{% endblock %}">
         {% block meta %}{% endblock %}
         
-        <script>
+        <script type="text/javascript">
             var Unify = {};
             if(!window.console ) { window.console = { log: function() { return; } }; }
+
+            var HTTPHOST = '{{ request.META.HTTP_HOST }}';
         </script>
-            
         <!--[if IE]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        {% block header_scripts %}
+        {% endblock %}
         
-        {% block links %}
         <link rel="shortcut icon" href="{{ MEDIA_URL }}-/img/favicon.ico" />
         <link href="{{ MEDIA_URL }}bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}bootstrap/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="all" />
@@ -27,6 +29,7 @@
         <link href="{{ MEDIA_URL }}js/wysihtml5-bootstrap/wysihtml5-bootstrap.css" rel="stylesheet" media="all" />
         <link href="http://universityheader.ucf.edu/bar/css/bar.css" rel="stylesheet">
         <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" media="all" />
+        {% block links %}
         {% endblock %}
         
     {% endblock %}
