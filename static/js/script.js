@@ -152,12 +152,8 @@ var userSearchTypeahead = function() {
             .click(function(e) {
                 e.preventDefault();
                 var result = $(this).parent('li'),
-                    firstname = result.attr('data-first_name'),
-                    lastname = result.attr('data-last_name'),
                     username = result.attr('data-username');
                 // Populate hidden field values
-                $('#id_first_name').val(firstname);
-                $('#id_last_name').val(lastname);
                 $('#id_username').val(username);
                 // Update the input field; make it look successful
                 inputField
@@ -179,6 +175,8 @@ var userSearchTypeahead = function() {
             error: function() {
                 // Give the user a visual response that nothing came back
                 inputField.addClass('warning');
+                $('#id_username').val('');
+                resultList.children('li').remove();
             }
         });
     };
@@ -209,12 +207,8 @@ var userAddValidation = function() {
     // Check for changes in input values; toggle button
     var toggleAddBtn = function() {
         if (
-            (
-            $('#id_first_name').val() === '' ||
-            $('#id_last_name').val() === '' ||
-            $('#id_username').val() === ''
-            ) ||
-            ( $('#id_add_role').val() === '' )
+            $('#id_username').val() === '' ||
+            $('#id_add_role').val() === ''
         ){
             addBtn
                 .addClass('disabled')
