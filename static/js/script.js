@@ -252,6 +252,9 @@ $('document').ready(function() {
             return false;
         };
 
+        // On load
+        toggleRemoveBtn(prefix);
+
         // Register the click event handlers
         cloneBtn.click(function(e) {
             e.preventDefault();
