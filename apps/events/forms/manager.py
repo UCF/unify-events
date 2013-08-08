@@ -27,13 +27,18 @@ class EventForm(forms.ModelForm):
         user_calendars = kwargs.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+        self.fields['submit_to_main'] = forms.BooleanField(required=False)
+        instance = kwargs['instance']
+        if instance and instance.is_submit_to_main:
+            self.fields['submit_to_main'].widget.attrs['disabled'] = 'disabled'
+            self.fields['submit_to_main'].initial = True
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone', 'submit_to_main')
+        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone')
 
 
 class EventInstanceForm(forms.ModelForm):
