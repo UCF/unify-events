@@ -61,7 +61,6 @@ class Event(TimeCreatedModified):
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
-    submit_to_main = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'events'
@@ -75,20 +74,42 @@ class Event(TimeCreatedModified):
         if self.end < datetime.now():
             return True
         return False
+    
+    @property
+    def is_submit_to_main(self):
+        """
+        Returns true if event has been submitted to the
+        main calendar.
+        """
+        is_main = False
+        if self.get_main_event():
+            is_main = True
+            
+        return is_main
 
     @property
     def get_main_state(self):
         """
         Returns the State of an Event's copied Event on the Main Calendar.
         """
-        status = None
-        if self.submit_to_main == True:
-            status = State.pending
-            main_calendar = events.models.Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
-            instances = main_calendar.event_instances.filter(event__created_from=self)
-            if instances:
-                status = instances[0].event.state
-        return status
+        main_status = None
+        main_event = self.get_main_event()
+        if main_event:
+            main_status = main_event.state
+
+        return main_status
+
+    def get_main_event(self):
+        """
+        Retrieves the event submitted to the main calendar
+        """
+        event = None
+        try:
+            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=self)
+        except Event.DoesNotExist:
+            # The event has not been submitted to the main calendar
+            pass
+        return event
 
     def copy(self, *args, **kwargs):
         """
@@ -187,6 +208,17 @@ class EventInstance(TimeCreatedModified):
                                          end=event_date + duration,
                                          location=self.location)
                 instance.save()
+
+    @property
+    def title(self):
+        return self.event.title
+
+    @property
+    def is_recurring(self):
+        recurs = False
+        if len(self.event.event_instances.all()) > 1:
+            recurs = True
+        return recurs
 
     @property
     def archived(self):

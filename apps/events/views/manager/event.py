@@ -85,8 +85,8 @@ def create_update(request, event_id=None):
                         error = True
                         break
                     
-                # Copy to main calendar
-                if ctx['event_form'].cleaned_data['submit_to_main']:
+                # Copy to main calendar if it hasn't already be copied
+                if not event.is_submit_to_main and ctx['event_form'].cleaned_data['submit_to_main']:
                     get_main_calendar().import_event(event)
                 
                 if not error:
@@ -95,7 +95,7 @@ def create_update(request, event_id=None):
             return HttpResponseRedirect(reverse('dashboard'))
     else:
         ctx['event_form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
-        ctx['event_instance_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance',)
+        ctx['event_instance_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance')
 
     return direct_to_template(request, tmpl, ctx)
 

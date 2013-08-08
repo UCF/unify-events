@@ -1,4 +1,4 @@
-{% extends 'events/calendar/base.html' %}
+{% extends 'events/frontend/base.html' %}
 {% load humanize %}
 
 {% block meta %}
@@ -6,93 +6,11 @@
 {% endblock %}
 
 {% block content_title %}
-    <h2>{{ calendar.name }}</h2>
+    <h2><a href="{% url calendar calendar.slug %}">{{ calendar.name }}</a></h2>
 {% endblock %}
 
 {% block content_subheader_text %}
     {% if calendar.description %}
         {{ calendar.description }}
     {% endif %}
-{% endblock %}
-
-{% block content_tabs %}
-    <div class="row">
-        <div class="span12">
-            <ul class="nav nav-tabs">
-                <li class="active"><!-- Main calendar view is a week view -->
-                    <a href="{% url named-listing calendar "this-week" %}">List View</a>
-                </li>
-                <li>
-                    <a href="{% url named-listing calendar "this-month" %}">Month View</a>
-                </li>
-                <li>
-                    <a href="{% url named-listing calendar "this-year" %}">Year View</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
-{% block content_body %}
-    <div class="row">
-        <div class="span8 sidebarfix page-content" id="calendar-events-week">
-            <h3>Events This Week</h3>
-            {% if events %}
-                {% regroup events by start as dates %}
-                {% for date in dates %}
-                    {% if date.grouper|naturalday == "today" %}
-                        <h4>Today: {{ date.grouper }}</h4>
-                    {% elif date.grouper|naturalday == "tomorrow" %}
-                        <h4>Tomorrow: {{ date.grouper|date:"F j" }}</h4>
-                    {% else %}
-                        <h4>{{ date.grouper|date:"F j" }}</h4>
-                    {% endif %}
-                    
-                    <ul class="event-list">
-                    {% for event in date.list %}
-                        <li class="vevent cat-name">
-                            <a class="event-content url" href="{% url event calendar event.id %}{{ event.event.slug }}"><!-- TODO: less ugly url? -->
-                                <!-- if img -->
-                                <!--<img src="" alt="image" title="image" />-->
-                                <!-- endif -->
-                                <h5>
-                                    <span class="summary">{{ event.event.title }}</span>
-                                    {% if event.parent != None %}
-                                    <i class="icon-repeat"></i>
-                                    <span class="recurring">(Recurring Event)</span>
-                                    {% endif %}
-                                </h5>
-                                <span class="location">{{ event.location }}</span>
-                                <span class="description">
-                                    {{ event.event.description|truncatewords:160 }}
-                                </span>
-                                <time class="dtstart" datetime="{{ event.start|date:"cZ" }}"> <!-- TODO: real UTC time -->
-                                    {% if event.start.time %}
-                                        {{ event.start|date:"f a" }}
-                                    {% else %}
-                                        All Day
-                                    {% endif %}
-                                    <span class="value-title" title="{{ event.start|date:"cZ" }}"></span> <!-- TODO: real UTC time -->
-                                </time>
-                            </a>
-                            <span class="category">Category Name</span><!-- TODO: category -->
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% endfor %}
-            {% else %}
-            <p>No events found for this week.</p>
-            {% endif %}  
-        </div>
-        <aside class="span4 page-sidebar" id="calendar-events-sidebar">
-            <h3>Mini Calendar</h3>
-            sidebar mini calendar
-
-            <h3>Subscribe</h3>
-            feed download links
-
-            <h3>Toggle Categories</h3>
-            category toggles here...
-        </aside>
-    </div>
 {% endblock %}

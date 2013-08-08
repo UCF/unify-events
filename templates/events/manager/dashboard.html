@@ -129,7 +129,7 @@
                         <td class="event-title">
                             <a href="#"><!-- TODO: better slug? -->
                                 {{ event.event.title }}
-                                {% if event.parent != None %}
+                                {% if event.is_recurring %}
                                     <i class="icon-repeat"></i>
                                     <span class="recurring">(Recurring Event)</span>
                                 {% endif %}
@@ -144,7 +144,9 @@
                         </td>
                         <td class="event-actions">
                             <a class="btn btn-mini" href="{% url event-update event_id=event.event_id %}">Edit</a>
+                            {% if not event.is_recurring %}
                             <a class="btn btn-mini event-delete" href="{% url event-delete event_id=event.event_id %}" data-event-title="{{ event.title }}">Delete</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

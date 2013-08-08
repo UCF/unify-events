@@ -13,7 +13,7 @@ import events.models
 import settings
 
 
-def get_main_calendar(self):
+def get_main_calendar():
     """
     Retrieve the main calendar
     """
