@@ -46,14 +46,14 @@
 		<form class="form-horizontal" action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
             <div class="control-group large">
-                <label class="control-label" for="{{ event_form.calendar.html_name }}">{{ event_form.calendar.label }}</label>
+                <label class="control-label" for="{{ event_form.calendar.auto_id }}">{{ event_form.calendar.label }}</label>
                 <p class="label-desc">Select an existing calendar to post this event to.</p>
                 <div class="controls">
                     {{ event_form.calendar }}
                 </div>
             </div>
             <div class="control-group large">
-                <label class="control-label" for="{{ event_form.title.html_name }}">{{ event_form.title.label }}</label>
+                <label class="control-label" for="{{ event_form.title.auto_id }}">{{ event_form.title.label }}</label>
                 <p class="label-desc">
                     Be Brief. Be Bright. Be Done.
                     <br/>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="control-group large">
-                <label class="control-label" for="{{ event_form.description.html_name }}">{{ event_form.description.label }}</label>
+                <label class="control-label" for="{{ event_form.description.auto_id }}">{{ event_form.description.label }}</label>
                 <p class="label-desc">A description for your event.</p>
                 <div class="controls">
                     {{ event_form.description|add_class:"span8 wysiwyg" }}
@@ -80,29 +80,29 @@
                         <div class="span6">
                             <div class="row">
                                 <div class="span3">
-                                    <label class="label-inner" for="{{ form.start.html_name }}">From</label>
+                                    <label class="label-inner" for="{{ form.start.auto_id }}">From</label>
                                     {{ form.start }}
                                     <span class="add-on"><i class="icon-time"></i></span>
                                 </div>
                                 <div class="span3">
-                                    <label class="label-inner" for="{{ form.end.html_name }}">To</label>
+                                    <label class="label-inner" for="{{ form.end.auto_id }}">To</label>
                                     {{ form.end }}
                                     <span class="add-on"><i class="icon-time"></i></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="span3">
-                                    <label class="label-inner" for="{{ form.interval.html_name }}">Interval</label>
+                                    <label class="label-inner" for="{{ form.interval.auto_id }}">Interval</label>
                                     {{ form.interval }}
                                 </div>
                                 <div class="span3">
-                                    <label class="label-inner" for="{{ form.until.html_name }}">Until</label>
+                                    <label class="label-inner" for="{{ form.until.auto_id }}">Until</label>
                                     {{ form.until|add_class:"field-date" }}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="span6">
-                                    <label class="label-inner" for="{{ form.location.html_name }}">Where</label>
+                                    <label class="label-inner" for="{{ form.location.auto_id }}">Where</label>
                                     {{ form.location }}
                                 </div>
                             </div>
@@ -121,7 +121,25 @@
             </div>
             {{ event_instance_formset.management_form }}
             <div class="control-group large">
-                <label class="control-label" for="id_{{ event_form.submit_to_main.html_name }}">Submit for Main Calendar Approval</label>
+                <p class="control-label">Contact Information</p>
+                <p class="label-desc">Let users know how to get in touch with questions about your event.</p>
+                <div class="controls">
+                    <label class="label-inner" for="{{ event_form.contact_name.auto_id }}">Contact Name</label>
+                    {{ event_form.contact_name }}
+                    <div class="row">
+                        <div class="span4">
+                            <label class="label-inner" for="{{ event_form.contact_email.auto_id }}">Email</label>
+                            {{ event_form.contact_email }}
+                        </div>
+                        <div class="span4">
+                            <label class="label-inner" for="{{ event_form.contact_phone.auto_id }}">Phone Number</label>
+                            {{ event_form.contact_phone }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group large">
+                <label class="control-label" for="{{ event_form.submit_to_main.auto_id }}">Submit for Main Calendar Approval</label>
                 <p class="label-desc">Request that this event be displayed on UCF's main calendar.</p>
                 <div class="controls">
                     {{ event_form.submit_to_main }}
