@@ -90,6 +90,10 @@ def create_update(request, event_id=None):
                     get_main_calendar().import_event(event)
                 
                 if not error:
+                    # Updates the copied versions if the original event is updated
+                    for copied_event in event.duplicated_to.all():
+                        copy = copied_event.pull_updates()
+                        copy.save()
                     messages.success(request, 'Event successfully saved')
 
             return HttpResponseRedirect(reverse('dashboard'))
