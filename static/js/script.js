@@ -1,17 +1,18 @@
-$('document').ready(function() {
-    /**
-     * Bulk Select for lists of events
-     **/
+/**
+ * Bulk Select for lists of events
+ **/
+var bulkSelectAll = function() {
     $('#bulk-select-all').click(function() {
         var selectAll = $(this),
             singleSelects = $('.field-bulk-select input');
         singleSelects.prop('checked', selectAll.is(':checked'));
     });
+};
 
-
-    /**
-     * Activate active nav tab when anchor is specified in url
-     **/
+/**
+ * Activate active nav tab when anchor is specified in url
+ **/
+var autoOpenTagByAnchor = function() {
     var anchor = window.location.hash.substring(1),
         tab = $('.nav-tabs li a[href="#'+ anchor +'"]').parent('li'),
         tabPane = $('#' + anchor);
@@ -20,11 +21,12 @@ $('document').ready(function() {
         tab.addClass('active');
         tabPane.addClass('active');
     }
+};
 
-
-    /**
-     * Delete Single Event modal toggle
-     **/
+/**
+ * Toggle 'Delete Single Event' modal
+ **/
+var toggleModalDeleteEvent = function() {
     $('.event-delete').click(function(e) {
         e.preventDefault();
         var modal       = $('#event-delete-modal'),
@@ -39,18 +41,19 @@ $('document').ready(function() {
                 .end()
             .modal('show');
     });
-    
+};
 
-    /**
-     * Calendar grid carousels
-     **/
+/**
+ * Calendar grid carousels
+ **/
+var calendarCarousels = function() {
     $('.calendar-slider').on('slid', function() {
         var firstItem = $('.calendar-slider .carousel-inner .item:first-child'),
             lastItem  = $('.calendar-slider .carousel-inner .item:last-child'),
             controlNext = $('.calendar-slider .pager .next'),
             controlPrev = $('.calendar-slider .pager .previous'),
             sliderID = $(this).attr('id');
-    
+
         if (firstItem.hasClass('active')) {
             controlPrev
             .addClass('disabled')
@@ -76,76 +79,71 @@ $('document').ready(function() {
                     .attr('href', '#' + sliderID);
         }
     });
-    
+
     $('.disabled').click(function(e) {
         e.preventDefault();
     });
-    
-    
-    /**
-     * Date/Timepicker Init
-     **/
-    var initiateDatePickers = function(field) {
-        field.datepicker({
-            format:'yyyy-mm-dd'
-        });
-    };
-    var initiateTimePickers = function(field) {
-        var date = new Date();
-        var time = date.getHours() + ':' + date.getMinutes();
-        field
-            .each(function(){
-                // Wrap each timepicker input if this field isn't a clone
-                if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
-                    $(this)
-                        .attr('placeholder', time)
-                        .next('span.add-on')
-                        .andSelf()
-                        .wrapAll('<div class="input-append bootstrap-timepicker" />');
-                }
-            }).timepicker({
-                showMeridian: false,
-                defaultTime: false
-            });
-    };
-    $(document).ready(function() {
-        initiateDatePickers($('.field-date'));
-        initiateTimePickers($('.field-time'));
+};
+
+/**
+ * Date/Timepicker Init
+ **/
+var initiateDatePickers = function(field) {
+    field.datepicker({
+        format:'yyyy-mm-dd'
     });
-        
+};
+var initiateTimePickers = function(field) {
+    var date = new Date();
+    var time = date.getHours() + ':' + date.getMinutes();
+    field
+        .each(function(){
+            // Wrap each timepicker input if this field isn't a clone
+            if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
+                $(this)
+                    .attr('placeholder', time)
+                    .next('span.add-on')
+                    .andSelf()
+                    .wrapAll('<div class="input-append bootstrap-timepicker" />');
+            }
+        }).timepicker({
+            showMeridian: false,
+            defaultTime: false
+        });
+};
 
-    /**
-     * WYSIWIG Textarea Init
-     **/
-    $('textarea.wysiwyg').wysihtml5();
+/**
+ * WYSIWIG Textarea Init
+ **/
+var initiateWysiwyg = function(textarea) {
+    textarea.wysihtml5();
+};
 
-
-    /**
-     * User search typeahead
-     **/
-    var userSearchTypeahead = function() {
-        $('.typeahead.user-search')
-            .each(function() {
-                var field = $(this);
-                field.typeahead({
-                    source: function(query, process) {
-                        return $.get(
-                            field.attr('data-source') + query,
-                            function(data) {
-                                return process(data.username);
-                            }
-                        );
-                    },
-                    minLength: 3,
-                });
+/**
+ * User search typeahead
+ **/
+var userSearchTypeahead = function() {
+    $('.typeahead.user-search')
+        .each(function() {
+            var field = $(this);
+            field.typeahead({
+                source: function(query, process) {
+                    return $.get(
+                        field.attr('data-source') + query,
+                        function(data) {
+                            return process(data.username);
+                        }
+                    );
+                },
+                minLength: 3,
             });
-    };
-    userSearchTypeahead();
+        });
+};
 
-
-    /**
-     * Clone fieldsets of a form; auto-increment field IDs as necessary.
-     **/
+/**
+ * Clone fieldsets of a form; auto-increment field IDs as necessary.
+ **/
+var cloneableFieldsets = function() {
     if ($('.cloneable').length > 0) {
         var cloneableWrap = $('.cloneable').parent(),
             cloneable = cloneableWrap.children(':first'),
@@ -264,9 +262,18 @@ $('document').ready(function() {
             e.preventDefault();
             return deleteForm(this, prefix);
         });
-
-
     }
-    
+};
 
+
+$(document).ready(function() {
+    bulkSelectAll();
+    autoOpenTagByAnchor();
+    toggleModalDeleteEvent();
+    calendarCarousels();
+    initiateDatePickers($('.field-date'));
+    initiateTimePickers($('.field-time'));
+    initiateWysiwyg($('textarea.wysiwyg'));
+    userSearchTypeahead();
+    cloneableFieldsets();
 });
