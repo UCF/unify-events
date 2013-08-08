@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, date
 import logging
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -76,36 +77,23 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
 
     return direct_to_template(request, tmpl, ctx)
 
+
 @login_required
-def search_user(request, lastname, firstname=None):
-    LDAP_RESULT_LIMIT = 10
+def search_user(request, firstname, lastname=None):
     results = []
-    filter_param = lastname
-    filter_string = '(sn=%s*)'
 
-    if firstname is not None:
-        filter_param  = (lastname,firstname)
-        filter_string = '(&(sn=%s*)(givenName=%s*))'
+    if lastname:
+        user_qs = User.objects.filter(first_name__startswith=firstname, last_name__startswith=lastname)
+    else:
+        # Search first or last if only firstname is given
+        user_qs = User.objects.filter(Q(first_name__startswith=firstname) | Q(last_name__startswith=firstname))
+        
+    # Limit the size of the results and only return the needed User attributes
+    if len(user_qs):
+        results = list(user_qs.values_list('first_name', 'last_name', 'username')[:settings.USER_SEARCHLIMIT])
 
-    if len(lastname) > 3:
-        try:
-            ldap_helper = LDAPHelper()
-            LDAPHelper.bind(ldap_helper.connection, settings.LDAP_NET_SEARCH_USER, settings.LDAP_NET_SEARCH_PASS)
-            ldap_results = LDAPHelper.search(ldap_helper.connection, filter_param, filter_string)
-
-            for ldap_result in ldap_results:
-                try:
-                    results.append({
-                        'lastname':LDAPHelper.extract_lastname(ldap_result),
-                        'firstname':LDAPHelper.extract_firstname(ldap_result),
-                        'username':LDAPHelper.extract_username(ldap_result),
-                        'guid':LDAPHelper.extract_guid(ldap_result),
-                        })
-                except LDAPHelper.MissingAttribute:
-                    pass
-        except Exception, e:
-            logging.error(str(e))
     return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
 
 @login_required
 def search_event(request):

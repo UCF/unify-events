@@ -3,12 +3,21 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
 import events.models
+import settings
+
+
+def get_main_calendar(self):
+    """
+    Retrieve the main calendar
+    """
+    return Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
 
 
 def calendars(self):
@@ -16,11 +25,15 @@ def calendars(self):
     Add and attribute to the User model to retrieve
     the calendars associated to them
     """
-    return Calendar.objects.filter(owner=self)
+    return Calendar.objects.filter(Q(owner=self) | Q(editors=self))
 setattr(User, 'calendars', property(calendars))
 
 
 def calendars_include_submitted(self):
+    """
+    Add and attribute to the User model to retrieve
+    TODO: is this needed
+    """
     return Calendar.objects.filter(
         models.Q(owner=self) |
         models.Q(editors=self) |
@@ -36,6 +49,7 @@ class Calendar(TimeCreatedModified):
     slug = models.CharField(max_length=64, unique=True, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
+    editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
 
     class Meta:
         app_label = 'events'
@@ -98,7 +112,6 @@ class Calendar(TimeCreatedModified):
         """
         copy = event.copy(calendar=self)
         return copy
-
 
     def is_creator(self, user):
         """
