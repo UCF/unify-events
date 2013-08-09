@@ -25,6 +25,7 @@
     </h2>
     {% if current_calendar %}
     <ul id="calendar-edit-options">
+        {% if current_calendar in user.editable_calendars.all %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -43,6 +44,7 @@
                 </li>
             </ul>
         </li>
+        {% endif %}
         <li>
             <a href="{% url calendar current_calendar.slug %}">Live View</a>
         </li>

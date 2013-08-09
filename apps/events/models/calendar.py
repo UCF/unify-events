@@ -57,6 +57,7 @@ class Calendar(TimeCreatedModified):
     slug = models.CharField(max_length=64, unique=True, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
+    # TODO: possibly make Permission model (m2m on Calendar) user, permission
     editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', null=True)
 

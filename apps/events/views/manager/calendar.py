@@ -1,10 +1,12 @@
 import logging
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 from events.models import Calendar
 from events.forms.manager import CalendarForm
@@ -60,3 +62,47 @@ def delete(request, calendar_id=None):
         else:
             messages.success(request, 'Calendar successfully deleted.')
     return HttpResponseRedirect(reverse('dashboard'))
+
+@login_required
+def add_update_user(request, calendar_id=None, username=None, role=None):
+    calendar = get_object_or_404(Calendar, pk=calendar_id)
+    user = get_object_or_404(User, username=username)
+    if calendar not in request.user.editable_calendars or not role:
+        return HttpResponseForbidden('Cannot modify permissions.')
+    if role == 'admin':
+        calendar.editors.remove(user)
+        calendar.admins.add(user)
+    elif role == 'editor':
+        calendar.admins.remove(user)
+        calendar.editors.add(user)
+    else:
+        return HttpResponseForbidden('Not a legitimate role value.')
+    calendar.save()
+    url_name = 'calendar-update'
+    if request.user == user and role == 'editor':
+        url_name = 'dashboard'
+    return HttpResponseRedirect(reverse(url_name, args=(calendar_id,)))
+
+@login_required
+def delete_user(request, calendar_id=None, username=None):
+    calendar = get_object_or_404(Calendar, pk=calendar_id)
+    user = get_object_or_404(User, username=username)
+    if calendar not in request.user.editable_calendars:
+        return HttpResponseForbidden('Cannot modify permissions.')
+    calendar.admins.remove(user)
+    calendar.editors.remove(user)
+    calendar.save()
+    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+
+@login_required
+def reassign_ownership(request, calendar_id=None, username=None):
+    calendar = get_object_or_404(Calendar, pk=calendar_id)
+    user = get_object_or_404(User, username=username)
+    if calendar not in request.user.editable_calendars:
+        return HttpResponseForbidden('Cannot modify permissions.')
+    calendar.admins.add(calendar.owner)
+    calendar.owner = user
+    calendar.admins.remove(user)
+    calendar.editors.remove(user)
+    calendar.save()
+    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))

@@ -226,6 +226,20 @@ var userAddValidation = function() {
     $('#id_add_user, #id_add_role, #id_add_user + ul.dropdown-menu').change(function() {
         toggleAddBtn();
     });
+
+    // Handle form submit
+    addBtn.click(function(e) {
+        //e.preventDefault();
+        if ($(this).hasClass('disabled') === false) {
+            var form = $('#manager-calendar-add-user'),
+                url = addBtn.attr('data-url'),
+                username = $('#id_username').val(),
+                role = $('#id_add_role').val();
+            url = url.replace('/username/role', '/' + username + '/' + role);
+            addBtn.attr('href', url);
+            //window.location.href = url;
+        }
+    });
 };
 
 /**
@@ -353,6 +367,25 @@ var cloneableFieldsets = function() {
     }
 };
 
+/**
+ * Update Calendar Ownership Reassignment url value in modal;
+ * enable/disable submit button
+ **/
+var calendarOwnershipModal = function() {
+    if ($('#calendar-reassign-ownership')) {
+        var modal = $('#calendar-reassign-ownership');
+        var submitBtn = modal.find('.modal-footer a.btn:first-child');
+        submitBtn.click(function() {
+            var newOwner = $('#new-owner-select').val(),
+                url = submitBtn.attr('href');
+            if (newOwner !== '') {
+                url = url.replace(/user\/[A-Za-z0-9]+$/, 'user/' + newOwner);
+                submitBtn.attr('href', url);
+            }
+        });
+    }
+} ;
+
 
 $(document).ready(function() {
     bulkSelectAll();
@@ -365,4 +398,5 @@ $(document).ready(function() {
     userSearchTypeahead();
     userAddValidation();
     cloneableFieldsets();
+    calendarOwnershipModal();
 });
