@@ -27,14 +27,15 @@ def create_update(request, calendar_id=None):
         except Calendar.DoesNotExist:
             return HttpResponseNotFound('The calendar specified does not exist.')
         else:
-            if not request.user.is_superuser and ctx['calendar'] not in request.user.calendars:
+            if not request.user.is_superuser and ctx['calendar'] not in request.user.editable_calendars:
                 return HttpResponseForbidden('You cannot modify the specified calendar.')
 
     if request.method == 'POST':
         ctx['form'] = CalendarForm(request.POST, instance=ctx['calendar'])
         if ctx['form'].is_valid():
             calendar = ctx['form'].save(commit=False)
-            calendar.owner = request.user
+            if not calendar.owner:
+                calendar.owner = request.user
             calendar.save()
         return HttpResponseRedirect(reverse('dashboard'))
     else:

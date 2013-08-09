@@ -29,6 +29,14 @@ def calendars(self):
 setattr(User, 'calendars', property(calendars))
 
 
+def editable_calendars(self):
+    """
+    Returns the list of calendars the user can edit
+    """
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self))
+setattr(User, 'editable_calendars', property(editable_calendars))
+
+
 def calendars_include_submitted(self):
     """
     Add and attribute to the User model to retrieve
@@ -50,6 +58,7 @@ class Calendar(TimeCreatedModified):
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
     editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
+    admins = models.ManyToManyField(User, related_name='admin_calendars', null=True)
 
     class Meta:
         app_label = 'events'
