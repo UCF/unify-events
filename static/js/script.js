@@ -113,10 +113,41 @@ var initiateTimePickers = function(field) {
 };
 
 /**
- * WYSIWIG Textarea Init
+ * WYSIWYG Textarea Init
  **/
 var initiateWysiwyg = function(textarea) {
-    textarea.wysihtml5();
+    textarea.wysihtml5({
+        "font-styles": true, // Font styling, e.g. h1, h2, etc. Default true
+        "emphasis": true, // Italics, bold, etc. Default true
+        "lists": true, // (Un)ordered lists, e.g. Bullets, Numbers. Default true
+        "html": false, // Button which allows you to edit the generated HTML. Default false
+        "link": true, // Button to insert a link. Default true
+        "image": true, // Button to insert an image. Default true,
+        "color": false, // Button to change color of font
+        events: {
+            "load": function() {
+                // Make the 'Insert Link' button more obvious
+                $('ul.wysihtml5-toolbar')
+                    .find('li a[data-wysihtml5-command="createLink"]')
+                    .html('<i class="icon-link"></i>');
+                // Execute iframe, label name reassignments
+                //accessibleEventDescription();
+            }
+        }
+    });
+};
+
+/**
+ * Reassign Event Desc. WYSIWYG label to iframe
+ **/
+var accessibleEventDescription = function() {
+    var textarea = $('#id_event-description'),
+        label = $('label[for="id_event-description"]'),
+        iframe = label.parent().find('iframe');
+    if (textarea.length > 0) {
+        iframe.attr('id', textarea.attr('id') + '_iframe');
+        label.attr('for', label.attr('for') + '_iframe');
+    }
 };
 
 /**
@@ -241,7 +272,6 @@ var userAddValidation = function() {
                 .removeClass('disabled')
                 .unbind('click', handler);
         }
-        console.log('username val is:' + $('#id_username').val() + '; role val is:' + $('#id_add_role').val());
     };
 
     // Handle load, on form change events
@@ -416,6 +446,7 @@ $(document).ready(function() {
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
     initiateWysiwyg($('textarea.wysiwyg'));
+    //accessibleEventDescription();
     userSearchTypeahead();
     userAddValidation();
     cloneableFieldsets();

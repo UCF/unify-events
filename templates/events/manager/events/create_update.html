@@ -67,7 +67,7 @@
                 <label class="control-label" for="{{ event_form.description.auto_id }}">{{ event_form.description.label }}</label>
                 <p class="label-desc">A description for your event.</p>
                 <div class="controls">
-                    {{ event_form.description|add_class:"span8 wysiwyg" }}
+                    {% render_field event_form.description id=event_form.description.auto_id class="span8 wysiwyg" %}
                 </div>
             </div>
             <div class="control-group large">
