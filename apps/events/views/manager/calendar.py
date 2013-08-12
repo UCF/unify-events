@@ -69,6 +69,8 @@ def add_update_user(request, calendar_id=None, username=None, role=None):
     user = get_object_or_404(User, username=username)
     if calendar not in request.user.editable_calendars or not role:
         return HttpResponseForbidden('Cannot modify permissions.')
+    if user == calendar.owner:
+        return HttpResponseForbidden('Cannot give Owner a different role through this request.')
     if role == 'admin':
         calendar.editors.remove(user)
         calendar.admins.add(user)
