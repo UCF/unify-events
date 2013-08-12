@@ -47,7 +47,7 @@ def create_update(request, event_id=None):
 
 
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
-    user_calendars = Calendar.objects.filter(owner=request.user)
+    user_calendars = request.user.calendars
     EventInstanceFormSet = modelformset_factory(EventInstance,
                                                 form=EventInstanceForm,
                                                 extra=formset_extra,
@@ -73,6 +73,11 @@ def create_update(request, event_id=None):
                 log.error(str(e))
                 messages.error(request,'Saving event failed.')
             else:
+                # Can you add an event to this calendar?
+                if not request.user.is_superuser:
+                    if ctx['event'].calendar not in request.user.calendars:
+                        return HttpResponseForbidden('You cannot add an event to this calendar.')
+
                 instances = ctx['event_instance_formset'].save(commit=False)
                 error = False
                 for instance in instances:

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
 from events.models import Calendar
+from events.models import first_login
 from events.forms.manager import CalendarForm
 
 log = logging.getLogger(__name__)
@@ -17,7 +18,7 @@ log = logging.getLogger(__name__)
 @login_required
 def create_update(request, calendar_id=None):
     ctx = {'form': None, 'mode': 'create', 'calendar': None}
-    if len(request.user.owned_calendars.all()) == 0:
+    if len(request.user.calendars.all()) == 0 and request.user.first_login:
         tmpl = 'events/manager/firstlogin/calendar_create.html'
     else:
         tmpl = 'events/manager/calendar/create_update.html'

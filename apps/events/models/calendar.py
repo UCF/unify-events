@@ -25,7 +25,7 @@ def calendars(self):
     Add and attribute to the User model to retrieve
     the calendars associated to them
     """
-    return Calendar.objects.filter(Q(owner=self) | Q(editors=self))
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self))
 setattr(User, 'calendars', property(calendars))
 
 
