@@ -75,7 +75,7 @@ def create_update(request, event_id=None):
             else:
                 # Can you add an event to this calendar?
                 if not request.user.is_superuser:
-                    if ctx['event'].calendar not in request.user.calendars:
+                    if event.calendar not in request.user.calendars:
                         return HttpResponseForbidden('You cannot add an event to this calendar.')
 
                 instances = ctx['event_instance_formset'].save(commit=False)
