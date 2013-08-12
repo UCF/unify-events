@@ -128,6 +128,15 @@ var userSearchTypeahead = function() {
         timer = null,
         delay = 700;
 
+    // Get all existing users in user list
+    var existingUsers = function() {
+        var array = [];
+        $('.calendar-access-username:not("th")').each(function() {
+            array.push($(this).html());
+        });
+        return array;
+    };
+
     // Show retrieved results in a list below the input field
     var displayResults = function(response) {
         // Kill any previous input field styling
@@ -142,9 +151,12 @@ var userSearchTypeahead = function() {
                 firstname = result[0],
                 lastname = result[1],
                 username = result[2];
-            resultList
-                .append('<li data-first_name="' + firstname + '" data-last_name="' + lastname + '" data-username="' + username + '"><a href="#">' + firstname + ' ' + lastname + ' (' + username + ')</a></li>')
-                .show();
+            // Add result to list if username is not in list of existing calendar users
+            if ($.inArray(username, existingUsers()) === -1) {
+                resultList
+                    .append('<li data-first_name="' + firstname + '" data-last_name="' + lastname + '" data-username="' + username + '"><a href="#">' + firstname + ' ' + lastname + ' (' + username + ')</a></li>')
+                    .show();
+            }
         }
         // Assign click event to new list items
         resultList
@@ -153,8 +165,10 @@ var userSearchTypeahead = function() {
                 e.preventDefault();
                 var result = $(this).parent('li'),
                     username = result.attr('data-username');
-                // Populate hidden field values
-                $('#id_username').val(username);
+                // Populate hidden field values; force triggering of 'change' action
+                $('#id_username')
+                    .val(username)
+                    .trigger('change');
                 // Update the input field; make it look successful
                 inputField
                     .val(firstname + ' ' + lastname)
@@ -186,7 +200,14 @@ var userSearchTypeahead = function() {
         clearTimeout(timer);
         var query = inputField.val();
         timer = setTimeout(function() {
-            performSearch(query);
+            // Execute a search for a non-empty field val
+            if (query !== '') {
+                performSearch(query);
+            }
+            // Remove an existing username value if the user cleared a name
+            else {
+                $('#id_username').val('');
+            }
         }, delay);
     });
 };
@@ -207,6 +228,7 @@ var userAddValidation = function() {
     // Check for changes in input values; toggle button
     var toggleAddBtn = function() {
         if (
+            $('#id_add_user').val() === '' ||
             $('#id_username').val() === '' ||
             $('#id_add_role').val() === ''
         ){
@@ -219,17 +241,17 @@ var userAddValidation = function() {
                 .removeClass('disabled')
                 .unbind('click', handler);
         }
+        console.log('username val is:' + $('#id_username').val() + '; role val is:' + $('#id_add_role').val());
     };
 
     // Handle load, on form change events
     toggleAddBtn();
-    $('#id_add_user, #id_add_role, #id_add_user + ul.dropdown-menu').change(function() {
+    $('#id_add_user, #id_username, #id_add_role').change(function() {
         toggleAddBtn();
     });
 
     // Handle form submit
     addBtn.click(function(e) {
-        //e.preventDefault();
         if ($(this).hasClass('disabled') === false) {
             var form = $('#manager-calendar-add-user'),
                 url = addBtn.attr('data-url'),
@@ -237,7 +259,6 @@ var userAddValidation = function() {
                 role = $('#id_add_role').val();
             url = url.replace('/username/role', '/' + username + '/' + role);
             addBtn.attr('href', url);
-            //window.location.href = url;
         }
     });
 };

@@ -121,16 +121,15 @@
                     <ul class="typeahead dropdown-menu">
                     </ul>
                     <select id="id_add_role" class="span2">
-                        <option value="">Select Role</option>
                         <option value="admin">Admin</option>
-                        <option value="editor">Editor</option>
+                        <option value="editor" selected>Editor</option>
                     </select>
                     <input type="hidden" id="id_username" value="">
                     <a class="btn" id="add-user-submit" href="#" data-url="{% url calendar-add-update-user calendar_id=calendar.id username="username" role="role" %}">Add User</a>
                 </form>
                 
                 <h4>Users With Access to this Calendar</h4>
-                <table class="table table-striped table-hover" id="manager-calendar-access"><!-- TODO: dynamically fill this stuff in -->
+                <table class="table table-striped table-hover" id="manager-calendar-access">
                     <thead>
                         <tr>
                             <th class="calendar-access-name">Name</th>
