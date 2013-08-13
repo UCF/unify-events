@@ -4,7 +4,6 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -40,10 +39,11 @@ class State:
     take place and the purpose and name of the event as well as the calendar to
     which the events belong.
     """
-    pending, posted, canceled = range(0, 3)
+    pending, posted, rereview, canceled = range(0, 4)
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
+        (rereview, 're-review'),
         (canceled, 'canceled')
     )
 
@@ -69,6 +69,13 @@ class Event(TimeCreatedModified):
     @property
     def slug(self):
         return slugify(self.title)
+    
+    @property
+    def is_re_review(self):
+        re_review = False
+        if self.state is State.rereview:
+            re_review = True
+        return re_review
 
     @property
     def has_instances(self):
@@ -117,17 +124,27 @@ class Event(TimeCreatedModified):
             pass
         return event
 
-    def pull_updates(self):
+    def pull_updates(self, is_main_rereview=False):
         """
         Updates this Event with information from the event it was created
         from, if it exists.
         """
         updated_copy = None
-        
+
         if self.created_from:
+            # If main calendar copy then update everything except
+            # the title and description and set for re-review
+            if self.calendar.is_main_calendar() and self.state is not State.pending:
+                if is_main_rereview:
+                    self.state = State.rereview
+            else:
+                self.title = self.created_from.title
+                self.description = self.created_from.description
+            
+            self.contact_email = self.created_from.contact_email
+            self.contact_name = self.created_from.contact_name
+            self.contact_phone = self.created_from.contact_phone
             self.event_instances.all().delete()
-            self.title = self.created_from.title
-            self.description = self.created_from.description
             self.modified=self.created_from.modified
             self.save()
             self.event_instances.add(*[i.copy(event=self) for i in self.created_from.event_instances.filter(parent=None)])

@@ -89,16 +89,21 @@ def create_update(request, event_id=None):
                         messages.error(request,'Saving event instance failed.')
                         error = True
                         break
-                    
+
+                is_main_rereview = False
+                if 'description' in ctx['event_form'].changed_data or 'title' in ctx['event_form'].changed_data:
+                    is_main_rereview = True
+
+                # Updates the copied versions if the original event is updated
+                for copied_event in event.duplicated_to.all():
+                    copy = copied_event.pull_updates(is_main_rereview)
+                    copy.save()
+
                 # Copy to main calendar if it hasn't already be copied
                 if not event.is_submit_to_main and ctx['event_form'].cleaned_data['submit_to_main']:
                     get_main_calendar().import_event(event)
                 
                 if not error:
-                    # Updates the copied versions if the original event is updated
-                    for copied_event in event.duplicated_to.all():
-                        copy = copied_event.pull_updates()
-                        copy.save()
                     messages.success(request, 'Event successfully saved')
 
             return HttpResponseRedirect(reverse('dashboard'))
