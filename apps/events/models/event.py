@@ -11,6 +11,7 @@ from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
 import events.models
+from events.models import Calendar
 import settings
 
 
@@ -33,6 +34,35 @@ def get_all_users_future_events(user):
         pass
     return events
 
+def get_grouped_events(user, calendar_id=None):
+    """
+    Retrieves a dict of top-level events with instances
+    and recurrences grouped as list values for each key.
+    """
+    events = None
+    calendar_list = None
+    if calendar_id:
+        calendar_list = Calendar.objects.filter(pk=calendar_id)
+    else:
+        calendar_list = user.calendars.all()
+    try:
+        events = EventInstance.objects.filter(event__calendar__in=list(calendar_list))
+        unique_events = dict()
+        for event in events:
+            instances = list()
+            if event.is_recurring == True:
+                instances = [event.children.all(), event]
+            else:
+                instances = [event]
+            # Check if parent event is in unique_events;
+            # if not, add it as a key and append its instances/recurrences
+            if event.event in unique_events:
+                unique_events[event.event].extend(instances)
+            else:
+                unique_events[event.event] = instances
+    except Calendar.DoesNotExist:
+        pass
+    return unique_events
 
 class State:
     """
@@ -69,12 +99,6 @@ class Event(TimeCreatedModified):
     @property
     def slug(self):
         return slugify(self.title)
-
-    @property
-    def archived(self):
-        if self.end < datetime.now():
-            return True
-        return False
     
     @property
     def is_submit_to_main(self):
@@ -240,7 +264,7 @@ class EventInstance(TimeCreatedModified):
         return recurs
 
     @property
-    def archived(self):
+    def is_archived(self):
         if self.end < datetime.now():
             return True
         return False

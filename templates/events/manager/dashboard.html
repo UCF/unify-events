@@ -113,42 +113,54 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for event in events %}
+                    {{ events }}
+                {% for event, instances in events.items %}
                     <tr>
                         <td class="field-bulk-select">
                             <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
                             <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
                         </td>
                         <td class="field-recommended">
-                            {% if event.event.get_main_state == 0 %}
+                            {% if event.get_main_state == 0 %}
                                 <i class="icon-star-half-full"></i>
                                 <span class="state">Pending Approval</span>
-                            {% elif event.event.get_main_state == 1 %}
+                            {% elif event.get_main_state == 1 %}
                                 <i class="icon-star"></i>
                                 <span class="state">Approved for Main Calendar</span>
                             {% endif %}
                         </td>
                         <td class="event-title">
                             <a href="#"><!-- TODO: better slug? -->
-                                {{ event.event.title }}
-                                {% if event.is_recurring %}
+                                {{ event.title }}
+                                {% if instances|length > 1 %}
                                     <i class="icon-repeat"></i>
                                     <span class="recurring">(Recurring Event)</span>
                                 {% endif %}
                             </a>
                         </td>
                         <td class="event-time">
-                            {% if event.start.time %}
-                                {{ event.start|date:"m/d/Y f a" }}
+                            {% if instances|length > 1 %}
+                            <ul class="recurrences">
+                                {% for instance in instances %}
+                                
+                                    {% if instance.start.time %}
+                                        {{ instance.start|date:"m/d/Y f a" }}
+                                    {% else %}
+                                        {{ instance.start|date:"m/d/Y" }}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                             {% else %}
-                                {{ event.start|date:"m/d/Y" }}
+                                {% if instances.0.start.time %}
+                                    {{ instances.0.start|date:"m/d/Y f a" }}
+                                {% else %}
+                                    {{ instances.0.start|date:"m/d/Y" }}
+                                {% endif %}
                             {% endif %}
                         </td>
                         <td class="event-actions">
-                            <a class="btn btn-mini" href="{% url event-update event_id=event.event_id %}">Edit</a>
-                            {% if not event.is_recurring %}
-                            <a class="btn btn-mini event-delete" href="{% url event-delete event_id=event.event_id %}" data-event-title="{{ event.title }}">Delete</a>
-                            {% endif %}
+                            <a class="btn btn-mini" href="{% url event-update event_id=event.id %}">Edit</a>
+                            <a class="btn btn-mini event-delete" href="{% url event-delete event_id=event.id %}" data-event-title="{{ event.title }}">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

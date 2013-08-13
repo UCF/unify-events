@@ -14,7 +14,7 @@ from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 
 from util import LDAPHelper
-from events.models import Event, Calendar, get_all_users_future_events
+from events.models import Event, Calendar, get_all_users_future_events, get_grouped_events
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -49,9 +49,11 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
         if current_calendar not in request.user.calendars:
             return HttpResponseNotFound('You do not have permission to access this calendar.')
         ctx['current_calendar'] = current_calendar
-        ctx['events'] = current_calendar.future_event_instances
+        #ctx['events'] = current_calendar.future_event_instances
+        ctx['events'] = get_grouped_events(request.user, calendar_id)
     else:
-        ctx['events'] = get_all_users_future_events(request.user)
+        ctx['events'] = get_grouped_events(request.user, None)
+        #ctx['events'] = get_all_users_future_events(request.user)
 
     # Date navigation
     ctx['dates']['today'] = date.today()
