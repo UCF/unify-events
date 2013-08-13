@@ -435,7 +435,17 @@ var calendarOwnershipModal = function() {
             }
         });
     }
-} ;
+};
+
+/**
+ * Toggle recurrences in Dashboard event list
+ **/
+var toggleEventListRecurrences = function() {
+    $('.recurrences-toggle').click(function(e) {
+        e.preventDefault();
+        $(this).next('.recurrences').slideToggle();
+    });
+};
 
 
 $(document).ready(function() {
@@ -451,4 +461,5 @@ $(document).ready(function() {
     userAddValidation();
     cloneableFieldsets();
     calendarOwnershipModal();
+    toggleEventListRecurrences();
 });

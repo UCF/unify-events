@@ -34,36 +34,6 @@ def get_all_users_future_events(user):
         pass
     return events
 
-def get_grouped_events(user, calendar_id=None):
-    """
-    Retrieves a dict of top-level events with instances
-    and recurrences grouped as list values for each key.
-    """
-    events = None
-    calendar_list = None
-    if calendar_id:
-        calendar_list = Calendar.objects.filter(pk=calendar_id)
-    else:
-        calendar_list = user.calendars.all()
-    try:
-        events = EventInstance.objects.filter(event__calendar__in=list(calendar_list))
-        unique_events = dict()
-        for event in events:
-            instances = list()
-            if event.is_recurring == True:
-                instances = [event.children.all(), event]
-            else:
-                instances = [event]
-            # Check if parent event is in unique_events;
-            # if not, add it as a key and append its instances/recurrences
-            if event.event in unique_events:
-                unique_events[event.event].extend(instances)
-            else:
-                unique_events[event.event] = instances
-    except Calendar.DoesNotExist:
-        pass
-    return unique_events
-
 class State:
     """
     This object provides the link between the time and places events are to
@@ -99,7 +69,18 @@ class Event(TimeCreatedModified):
     @property
     def slug(self):
         return slugify(self.title)
-    
+
+    @property
+    def has_instances(self):
+        """
+        Returns true if an event has more than one event instance
+        (is "recurring" to the user.)
+        """
+        has_instances = False
+        if self.event_instances.all().count() > 1:
+            has_instances = True
+        return has_instances
+
     @property
     def is_submit_to_main(self):
         """
@@ -279,7 +260,7 @@ class EventInstance(TimeCreatedModified):
             'calendar': self.event.calendar.slug,
             'instance_id': self.id,
         }) + self.event.slug + '/'
-        
+
     def save(self, *args, **kwargs):
         """
         Update event instances only if a currently parent event instance
