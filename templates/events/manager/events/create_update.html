@@ -63,6 +63,17 @@
                     {{ event_form.title|add_class:"span8" }}
                 </div>
             </div>
+            {% if event.is_re_review %}
+            <div class="pull-right">
+                <button id="copy_title" class="btn btn-info" data-copy-to="{{ event_form.title.auto_id }}">Copy</button>
+            </div>
+            <div class="control-group large"><label class="control-label" for="new_title">New Title</label>
+                <p class="label-desc">The new title form the originating event</p>
+                <div class="controls">
+                    <input id="new_title" class="span8" disabled='disabled' type='text' value='{{ event.created_from.title }}' />
+                </div>
+            </div>
+            {% endif %}
             <div class="control-group large">
                 <label class="control-label" for="{{ event_form.description.auto_id }}">{{ event_form.description.label }}</label>
                 <p class="label-desc">A description for your event.</p>
@@ -70,6 +81,18 @@
                     {{ event_form.description|add_class:"span8 wysiwyg" }}
                 </div>
             </div>
+            {% if event.is_re_review %}
+            <div class="span1 pull-right">
+                <button id="copy_description" class="btn btn-info" data-copy-to="{{ event_form.description.auto_id }}">Copy</button>
+            </div>
+            <div class="control-group large">
+                <label class="control-label" for="new_description">New Description</label>
+                <p class="label-desc">The new description from the originating event.</p>
+                <div class="controls">
+                    <textarea id="new_description" class="span8 wysiwyg disabled-wysiwyg" disabled='disabled'>{{ event.created_from.description }}</textarea>
+                </div>
+            </div>
+            {% endif %}
             <div class="control-group large">
                 <p class="control-label">When &amp; Where</p>
                 <p class="label-desc">When and where your event takes place, and how often it occurs.</p>

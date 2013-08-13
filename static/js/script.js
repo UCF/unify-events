@@ -120,6 +120,35 @@ var initiateWysiwyg = function(textarea) {
 };
 
 /**
+ * Display wysiwyg without control bar
+ **/
+var initiateDisabledWysiwyg = function(textarea) {
+    textarea.wysihtml5({"font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
+                        "emphasis": false, //Italics, bold, etc. Default true
+                        "lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+                        "html": false, //Button which allows you to edit the generated HTML. Default false
+                        "link": false, //Button to insert a link. Default true
+                        "image": false, //Button to insert an image. Default true,
+                        "color": false //Button to change color of font
+    });
+};
+
+/**
+ * Display wysiwyg without control bar
+ **/
+var initiateReReviewCopy = function() {
+    $('#copy_title').click(function(e) {
+        e.preventDefault();
+        $('#' + $(this).attr('data-copy-to')).val($('#new_title').val());
+    });
+
+    $('#copy_description').click(function(e) {
+        e.preventDefault();
+        $('#' + $(this).attr('data-copy-to')).data('wysihtml5').editor.setValue($('#new_description').val());
+    });
+}
+
+/**
  * User search typeahead
  **/
 var userSearchTypeahead = function() {
@@ -394,7 +423,9 @@ $(document).ready(function() {
     calendarCarousels();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
-    initiateWysiwyg($('textarea.wysiwyg'));
+    initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
+    initiateDisabledWysiwyg($('textarea.wysiwyg.disabled-wysiwyg'));
+    initiateReReviewCopy();
     userSearchTypeahead();
     userAddValidation();
     cloneableFieldsets();

@@ -27,8 +27,19 @@ class EventForm(forms.ModelForm):
         user_calendars = kwargs.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
-        self.fields['submit_to_main'] = forms.BooleanField(required=False)
+
         instance = kwargs['instance']
+        if instance.created_from:
+            if instance.created_from.title is instance.title:
+                self.fields['new_title'] = forms.CharField(required=False, initial=instance.title)
+                self.fields['new_title'].widget.attrs['disabled'] = 'disabled'
+
+            if instance.created_from.description is instance.description:
+                self.fields['new_description'] = forms.CharField(required=False,
+                                                                 initial=instance.description,
+                                                                 widget=forms.Textarea(attrs={'disabled': 'disabled'}))
+
+        self.fields['submit_to_main'] = forms.BooleanField(required=False)
         if instance and instance.is_submit_to_main:
             self.fields['submit_to_main'].widget.attrs['disabled'] = 'disabled'
             self.fields['submit_to_main'].initial = True
