@@ -29,7 +29,7 @@ class EventForm(forms.ModelForm):
         self.fields['calendar'].queryset = user_calendars
 
         instance = kwargs['instance']
-        if instance.created_from:
+        if instance and instance.created_from:
             if instance.created_from.title is instance.title:
                 self.fields['new_title'] = forms.CharField(required=False, initial=instance.title)
                 self.fields['new_title'].widget.attrs['disabled'] = 'disabled'
