@@ -33,6 +33,27 @@ def get_all_users_future_events(user):
         pass
     return events
 
+
+class Location(TimeCreatedModified):
+    """
+    Location
+    """
+    name = models.CharField(max_length=256)
+    url = models.CharField(max_length=256)
+
+    class Meta:
+        app_label = 'events'
+
+    def __repr__(self):
+        return '<' + self.name + '/' + self.url + '>'
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
 class State:
     """
     This object provides the link between the time and places events are to
@@ -204,7 +225,8 @@ class EventInstance(TimeCreatedModified):
 
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    location = models.TextField(blank=True, null=True)
+    #location = models.CharField(blank=True, null=True, max_length=256)
+    location = models.ForeignKey(Location, related_name='location');
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)

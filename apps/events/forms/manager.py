@@ -65,7 +65,7 @@ class EventInstanceForm(forms.ModelForm):
     class Meta:
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location')
-    
+
 
 class EventCopyForm(forms.Form):
     """
