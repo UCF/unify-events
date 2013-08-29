@@ -476,6 +476,71 @@ var toggleEventListRecurrences = function() {
     });
 };
 
+/**
+ * Create/Update Event location searching+creation
+ **/
+var eventLocationsSearch = function() {
+    // Hide dropdown
+    var locationDropdown = $('#id_event_instance-0-location');
+    locationDropdown.hide();
+
+    // Create search as you type field
+    var locationAutocomplete = $('<input type="text" id="location-autocomplete" placeholder="Find a location" />');
+    locationAutocomplete.insertAfter('#id_event_instance-0-location');
+
+    var suggestionList = $('<ul id="location-suggestions"></ul>');
+    suggestionList.insertAfter(locationAutocomplete);
+
+    // Handle typing into search field
+    var timer = null;
+    var delay = 700;
+
+    locationAutocomplete.keyup(function() {
+        clearTimeout(timer);
+        var query = locationAutocomplete.val();
+        timer = setTimeout(function() {
+            suggestionList.empty();
+            var matchesFound = false;
+            var matches = [];
+
+            // Execute a search for a non-empty field val.
+            // Searches eventLocations object (created in template.)
+            if (query !== '') {
+                $.each(eventLocations, function(location, locationVals) {
+                    if (location.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                        // Push comboname to autocomplete suggestions list
+                        matchesFound = true;
+                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-name="' + locationVals.name + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"><a class="suggestion-link" href="#">' + location + '</a></li>');
+                        matches.push(listItem);
+                    }
+                });
+                if (matchesFound == true) {
+                    // Append matches to list
+                    $.each(matches, function(index, val) {
+                        val.appendTo(suggestionList);
+                    });
+                }
+            }
+            // Remove an existing value if the user emptied the field
+            else {
+                locationDropdown.val('');
+            }
+        }, delay);
+    });
+
+    // Handle selection of a suggestion
+    $('.suggestion-link').on('click', function() {
+        selectSuggestion($(this).parent('li'));
+    });
+
+    var selectSuggestion = function(listItem) {
+        $('#location-selected-name').text(listItem.attr('data-location-name'));
+        $('#location-selected-room').text(listItem.attr('data-location-room'));
+        $('#location-selected-url').text(listItem.attr('data-location-url'));
+    };
+
+};
+
 
 $(document).ready(function() {
     bulkSelectAll();
@@ -493,4 +558,5 @@ $(document).ready(function() {
     cloneableFieldsets();
     calendarOwnershipModal();
     toggleEventListRecurrences();
+    eventLocationsSearch();
 });

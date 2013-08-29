@@ -17,13 +17,14 @@ from events.models import Calendar
 from events.models import get_main_calendar
 from events.models import Event
 from events.models import EventInstance
+from events.models import Location
 
 log = logging.getLogger(__name__)
 
 
 @login_required
 def create_update(request, event_id=None):
-    ctx = {'event': None, 'event_form': None, 'event_instance_formset': None, 'mode': 'create'}
+    ctx = {'event': None, 'event_form': None, 'event_instance_formset': None, 'locations': Location.objects.all(), 'mode': 'create'}
     tmpl = 'events/manager/events/create_update.html'
 
     # Event Forms

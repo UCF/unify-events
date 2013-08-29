@@ -15,6 +15,14 @@
 	{% endspaceless %}
 {% endblock %}
 
+{% block header_scripts %}
+<script type="text/javascript">
+    var eventLocations = {
+    {% for location in locations %}"{{ location.comboname }}": { "name": "{{ location.name }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
+    };
+</script>
+{% endblock %}
+
 {% block alerts %}{% endblock %}
 
 {% block content_title_icon %}
@@ -124,9 +132,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="span6">
+                                <div class="span3">
                                     <label class="label-inner" for="{{ form.location.auto_id }}">Where</label>
                                     {{ form.location }}
+                                    TODO: form for create new location...
+                                </div>
+                                <div class="span3">
+                                    <span id="location-selected-name"></span>
+                                    <span id="location-selected-room"></span>
+                                    <span id="location-selected-url"></span>
                                 </div>
                             </div>
                         </div>

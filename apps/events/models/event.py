@@ -40,18 +40,26 @@ class Location(TimeCreatedModified):
     """
     name = models.CharField(max_length=256)
     url = models.CharField(max_length=256)
+    room = models.CharField(max_length=256)
+
+    @property
+    def comboname(self):
+        comboname = self.name
+        if self.room:
+            comboname += ': ' + self.room
+        return comboname
 
     class Meta:
         app_label = 'events'
 
     def __repr__(self):
-        return '<' + self.name + '/' + self.url + '>'
+        return '<' + self.comboname + '>'
 
     def __str__(self):
-        return self.name
+        return self.comboname
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.comboname)
 
 
 class State:

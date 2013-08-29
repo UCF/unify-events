@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
+from events.models import Location
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 
@@ -77,3 +78,12 @@ class EventCopyForm(forms.Form):
         self.fields['calendars'].queryset = calendars
 
     calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
+
+
+class LocationForm(forms.ModelForm):
+    """
+    Form for adding/creating locations for an EventInstance
+    """
+    class Meta:
+        model = Location
+        fields = ('name', 'url')
