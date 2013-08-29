@@ -132,15 +132,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="span3">
+                                <div class="span3" style="position:relative;">
+                                    TODO: form for create new location...
                                     <label class="label-inner" for="{{ form.location.auto_id }}">Where</label>
                                     {{ form.location }}
-                                    TODO: form for create new location...
                                 </div>
                                 <div class="span3">
-                                    <span id="location-selected-name"></span>
-                                    <span id="location-selected-room"></span>
-                                    <span id="location-selected-url"></span>
+                                    <a id="location-selected-remove" href="#">Remove</a>
+                                    <span class="location-selected-name"></span>
+                                    <span class="location-selected-room"></span>
+                                    <span class="location-selected-url"></span>
                                 </div>
                             </div>
                         </div>

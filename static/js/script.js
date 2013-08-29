@@ -478,6 +478,7 @@ var toggleEventListRecurrences = function() {
 
 /**
  * Create/Update Event location searching+creation
+ * TODO: clone friendly
  **/
 var eventLocationsSearch = function() {
     // Hide dropdown
@@ -485,17 +486,18 @@ var eventLocationsSearch = function() {
     locationDropdown.hide();
 
     // Create search as you type field
-    var locationAutocomplete = $('<input type="text" id="location-autocomplete" placeholder="Find a location" />');
+    var locationAutocomplete = $('<input type="text" class="location-autocomplete" placeholder="Find a location" />');
     locationAutocomplete.insertAfter('#id_event_instance-0-location');
 
-    var suggestionList = $('<ul id="location-suggestions"></ul>');
-    suggestionList.insertAfter(locationAutocomplete);
+    var suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
+    suggestionList.insertAfter(locationAutocomplete).hide();
 
     // Handle typing into search field
     var timer = null;
     var delay = 700;
 
-    locationAutocomplete.keyup(function() {
+    // grab by class instead of var locationAutocomplete to get all current/future instances
+    $('.location-autocomplete').on('keyup', function() {
         clearTimeout(timer);
         var query = locationAutocomplete.val();
         timer = setTimeout(function() {
@@ -519,6 +521,7 @@ var eventLocationsSearch = function() {
                     $.each(matches, function(index, val) {
                         val.appendTo(suggestionList);
                     });
+                    suggestionList.show();
                 }
             }
             // Remove an existing value if the user emptied the field
@@ -528,17 +531,28 @@ var eventLocationsSearch = function() {
         }, delay);
     });
 
+    var selectSuggestion = function(listItem) {
+        $('.location-selected-name').text(listItem.attr('data-location-name'));
+        $('.location-selected-room').text(listItem.attr('data-location-room'));
+        $('.location-selected-url').text(listItem.attr('data-location-url'));
+        suggestionList.empty().hide();
+    };
+
+    var unselectSuggestion = function() {
+        $('.location-selected-name, .location-selected-room, .location-selected-url').text('');
+    };
+
     // Handle selection of a suggestion
-    $('.suggestion-link').on('click', function() {
+    $('body').on('click', '.suggestion-link', function(event) {
+        event.preventDefault();
         selectSuggestion($(this).parent('li'));
     });
 
-    var selectSuggestion = function(listItem) {
-        $('#location-selected-name').text(listItem.attr('data-location-name'));
-        $('#location-selected-room').text(listItem.attr('data-location-room'));
-        $('#location-selected-url').text(listItem.attr('data-location-url'));
-    };
-
+    // Handle removal of a selected suggestion
+    $('#location-selected-remove').on('click', function(event) {
+        event.preventDefault();
+        unselectSuggestion();
+    });
 };
 
 
