@@ -419,6 +419,8 @@ var cloneableFieldsets = function() {
                 // Add event handlers for date/time widgets
                 initiateDatePickers($(row).find('.field-date'));
                 initiateTimePickers($(row).find('.field-time'));
+                // Add event handler for location autocomplete
+                eventLocationsSearch($(row).find('.location-dropdown'));
 
                 // Update the total form count
                 $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
@@ -477,42 +479,47 @@ var toggleEventListRecurrences = function() {
 };
 
 /**
- * Create/Update Event location searching+creation
- * TODO: clone friendly
+ * Create/Update Event location searching + creation
+ * Arg: $('select.location-dropdown')
  **/
-var eventLocationsSearch = function() {
-    // Hide dropdown
-    var locationDropdown = $('#id_event_instance-0-location');
-    locationDropdown.hide();
+var eventLocationsSearch = function(locationDropdowns) {
+    if (locationDropdowns.length > 0) {
+        locationDropdowns.each(function() {
+            var dropdown = $(this);
+            var autocompleteId = dropdown.attr('id') + '-autocomplete';
 
-    // Create search as you type field
-    var locationAutocomplete = $('<input type="text" class="location-autocomplete" placeholder="Find a location" />');
-    locationAutocomplete.insertAfter('#id_event_instance-0-location');
+            // Hide dropdown
+            dropdown.hide();
 
-    var suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
-    suggestionList.insertAfter(locationAutocomplete).hide();
+            // Create search as you type field, if necessary
+            var locationAutocomplete = null,
+                suggestionList = null;
 
-    // Handle typing into search field
-    var timer = null;
-    var delay = 700;
+            if (dropdown.siblings('.location-autocomplete').length < 1) {
+                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" placeholder="Type a location name..." />');
+                locationAutocomplete.insertAfter(dropdown);
 
-    // grab by class instead of var locationAutocomplete to get all current/future instances
-    $('.location-autocomplete').on('keyup', function() {
-        clearTimeout(timer);
-        var query = locationAutocomplete.val();
-        timer = setTimeout(function() {
-            suggestionList.empty();
-            var matchesFound = false;
-            var matches = [];
+                suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
+                suggestionList.insertAfter(locationAutocomplete).hide();
+            }
+            else {
+                locationAutocomplete = dropdown.siblings('.location-autocomplete');
+                suggestionList = dropdown.siblings('.location-suggestions');
+            }
 
-            // Execute a search for a non-empty field val.
-            // Searches eventLocations object (created in template.)
-            if (query !== '') {
+            // Reassign dropdown label to autocomplete field
+            dropdown.siblings('label[for*="-location"]').attr('for', autocompleteId);
+
+            // Perform a search + show suggestion list
+            var autocompleteSearch = function(query) {
+                var matchesFound = false;
+                var matches = [];
+
                 $.each(eventLocations, function(location, locationVals) {
                     if (location.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                         // Push comboname to autocomplete suggestions list
                         matchesFound = true;
-                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-name="' + locationVals.name + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"><a class="suggestion-link" href="#">' + location + '</a></li>');
+                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-name="' + locationVals.name + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"><a tabindex="0" class="suggestion-link" href="#">' + location + '</a></li>');
                         matches.push(listItem);
                     }
                 });
@@ -524,35 +531,117 @@ var eventLocationsSearch = function() {
                     suggestionList.show();
                 }
             }
-            // Remove an existing value if the user emptied the field
-            else {
-                locationDropdown.val('');
-            }
-        }, delay);
-    });
 
-    var selectSuggestion = function(listItem) {
-        $('.location-selected-name').text(listItem.attr('data-location-name'));
-        $('.location-selected-room').text(listItem.attr('data-location-room'));
-        $('.location-selected-url').text(listItem.attr('data-location-url'));
-        suggestionList.empty().hide();
-    };
+            // Prevent form submission via enter keypress in autocomplete field
+            dropdown.parents('form').on('submit', function(event) {
+                if ($('.location-autocomplete').is(':focus')) {
+                    return false;
+                }
+            });
 
-    var unselectSuggestion = function() {
-        $('.location-selected-name, .location-selected-room, .location-selected-url').text('');
-    };
+            // Handle typing into search field
+            var timer = null;
+            var delay = 300;
 
-    // Handle selection of a suggestion
-    $('body').on('click', '.suggestion-link', function(event) {
-        event.preventDefault();
-        selectSuggestion($(this).parent('li'));
-    });
+            locationAutocomplete.on('keyup focus', function(event) {
+                clearTimeout(timer);
+                var query = locationAutocomplete.val();
+                
+                // Execute a search for a non-empty field val.
+                // Searches eventLocations object (created in template.)
+                if (query !== '') {
+                    // Detect standard alphanumeric chars (and onfocus event)
+                    if (
+                        (event.type == 'focus') ||
+                        (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44)
+                    ) {
+                        timer = setTimeout(function() {
+                            suggestionList.empty();
+                            autocompleteSearch(query);
+                        }, delay);
+                    }
+                    // If user typed a non-alphanumeric key, check for up/down strokes
+                    else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
+                        if (suggestionList.children().length > 0) {
+                            var newselected = null;
+                            if (event.keyCode == 40) {
+                                // Move down one list item. Check if a list item is highlighted yet or not
+                                if (suggestionList.children('.selected').length > 0) {
+                                    newselected = ($('.selected').next('li').length !== 0) ? $('.selected').next('li') : suggestionList.children('li').first();
+                                }
+                                else {
+                                    newselected = suggestionList.children('li').first();
+                                }
+                            }
+                            else if (event.keyCode == 38) {
+                                // Move up one list item
+                                if (suggestionList.children('.selected').length > 0) {
+                                    newselected = ($('.selected').prev('li').length !== 0) ? $('.selected').prev('li') : suggestionList.children('li').last();
+                                }
+                                else {
+                                    newselected = suggestionList.children('li').last();
+                                }
+                            }
+                            else if (event.keyCode == 39 || event.keyCode == 37) {
+                                // Left/right key press; do nothing
+                                return;
+                            }
+                            suggestionList.children('li.selected').removeClass('selected');
+                            newselected.addClass('selected');
+                            locationAutocomplete.val(newselected.attr('data-location-name'));
+                        }
+                    }
+                    // If user hit enter on the autocomplete field, select the query
+                    else if (event.type == 'keyup' && event.keyCode == 13) {
+                        // We can only select queries that are currently highlighted
+                        if (suggestionList.children().length > 0) {
+                            if (suggestionList.children('.selected').length < 1) {
+                                selectSuggestion(suggestionList.children('li').first());
+                            }
+                            else {
+                                selectSuggestion(suggestionList.children('.selected').first());
+                            }
+                        }
+                    }
+                }
+                // Remove suggestion list if user emptied the field
+                else {
+                    suggestionList.empty().hide();
+                }
 
-    // Handle removal of a selected suggestion
-    $('#location-selected-remove').on('click', function(event) {
-        event.preventDefault();
-        unselectSuggestion();
-    });
+            });
+
+            var selectSuggestion = function(listItem) {
+                var row = listItem.parents('.row');
+                row.find('.location-selected-name').text(listItem.attr('data-location-name'));
+                row.find('.location-selected-room').text(listItem.attr('data-location-room'));
+                row.find('.location-selected-url').text(listItem.attr('data-location-url'));
+                suggestionList.empty().hide();
+                dropdown.children('option[selected="selected"]').attr('selected', false);
+                dropdown.children('option[value="' + listItem.attr('data-location-id') + '"]').attr('selected', true);
+                row.find('.location-selected-remove').show();
+            };
+
+            var unselectSuggestion = function(removeBtn) {
+                removeBtn.siblings('span').text('');
+                dropdown.children('option[selected="selected"]').attr('selected', false);
+                dropdown.children('option[value=""]').attr('selected', true);
+            };
+
+            // Handle selection of a suggestion
+            $('body').on('click', '.suggestion-link', function(event) {
+                event.preventDefault();
+                selectSuggestion($(this).parent('li'));
+            });
+
+            // Handle removal of a selected suggestion
+            $('.location-selected-remove').on('click', function(event) {
+                event.preventDefault();
+                unselectSuggestion($(this));
+                $(this).hide();
+            });
+        });
+    }
 };
 
 
@@ -572,5 +661,5 @@ $(document).ready(function() {
     cloneableFieldsets();
     calendarOwnershipModal();
     toggleEventListRecurrences();
-    eventLocationsSearch();
+    eventLocationsSearch($('select.location-dropdown'));
 });

@@ -135,10 +135,10 @@
                                 <div class="span3" style="position:relative;">
                                     TODO: form for create new location...
                                     <label class="label-inner" for="{{ form.location.auto_id }}">Where</label>
-                                    {{ form.location }}
+                                    {{ form.location|add_class:"location-dropdown" }}
                                 </div>
                                 <div class="span3">
-                                    <a id="location-selected-remove" href="#">Remove</a>
+                                    <a class="location-selected-remove btn btn-small" href="#" alt="Remove Location">&times;</a>
                                     <span class="location-selected-name"></span>
                                     <span class="location-selected-room"></span>
                                     <span class="location-selected-url"></span>

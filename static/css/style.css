@@ -617,3 +617,15 @@ ul.event-list-condensed li time { font-weight: bold; }
 
 /* Year View */
 
+
+/**
+ * Create/Update Event
+ **/
+.location-autocomplete {}
+.location-selected-remove { display: none; font-weight: bold; border-radius: 20px; font-size: 16px; padding: 0 6px 1px 6px; }
+.location-selected-remove:hover { text-decoration: none; }
+.location-suggestions li.selected a {
+	background-color: #3979fc;
+	background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
+	color: #fff;
+}
