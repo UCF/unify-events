@@ -9,8 +9,6 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
-import events.models
-from events.models import Calendar
 import settings
 
 
@@ -40,7 +38,7 @@ class Location(TimeCreatedModified):
     """
     name = models.CharField(max_length=256)
     url = models.CharField(max_length=256)
-    room = models.CharField(max_length=256)
+    room = models.CharField(max_length=256, blank=True, null=True)
 
     @property
     def comboname(self):
@@ -233,8 +231,7 @@ class EventInstance(TimeCreatedModified):
 
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    #location = models.CharField(blank=True, null=True, max_length=256)
-    location = models.ForeignKey(Location, related_name='location');
+    location = models.ForeignKey(Location, blank=True, null=True, related_name='location');
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)

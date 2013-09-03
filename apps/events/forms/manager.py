@@ -62,6 +62,44 @@ class EventInstanceForm(forms.ModelForm):
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                              'time_class': 'field-time'}))
     until = forms.DateField(required=False)
+    new_location_name = forms.CharField(required=False)
+    new_location_room = forms.CharField(required=False)
+    new_location_url = forms.URLField(required=False)
+    
+    def clean_new_location_url(self):
+        """
+        Ensure data is entered for new event instance locations
+        """
+        new_location_name = self.cleaned_data.get('new_location_name')
+        new_location_url = self.cleaned_data.get('new_location_url')
+
+        if new_location_name:
+            if not new_location_url:
+                raise forms.ValidationError('URL needs to be provided for new locations')
+        return new_location_url
+
+    def save(self, commit=False):
+        """
+        Determining whether to create a new 
+        location or use an existing one
+        """
+        location = self.cleaned_data.get('location')
+        new_location_name = self.cleaned_data.get('new_location_name')
+        new_location_room = self.cleaned_data.get('new_location_room')
+        if new_location_name:
+            location_query = Location.objects.filter(name=new_location_name, room=new_location_room)
+            if location_query.count():
+                location = location_query[0]
+            else:
+                location = Location()
+                location.name = new_location_name
+                location.room = new_location_room
+                location.url = self.cleaned_data.get('new_location_url') 
+                location.save()
+            self.instance.location = location
+
+        e = super(EventInstanceForm, self).save(commit=commit)
+        return e
 
     class Meta:
         model = EventInstance

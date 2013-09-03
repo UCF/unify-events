@@ -144,6 +144,22 @@
                                     <span class="location-selected-url"></span>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.new_location_name.auto_id }}">Location Name</label>
+                                    {{ form.new_location_name }}
+                                </div>
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.new_location_room.auto_id }}">Location Room</label>
+                                    {{ form.new_location_room }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="label-inner" for="{{ form.new_location_url.auto_id }}">Location Map URL</label>
+                                    {{ form.new_location_url }}
+                                </div>
+                            </div>
                         </div>
                         <div class="span2">
                             <a class="btn btn-danger remove-instance hidden" href="#">Remove Instance</a>
