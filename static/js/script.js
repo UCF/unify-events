@@ -496,7 +496,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 suggestionList = null;
 
             if (dropdown.siblings('.location-autocomplete').length < 1) {
-                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" placeholder="Type a location name..." />');
+                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />');
                 locationAutocomplete.insertAfter(dropdown);
 
                 suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
@@ -509,6 +509,11 @@ var eventLocationsSearch = function(locationDropdowns) {
 
             // Reassign dropdown label to autocomplete field
             dropdown.siblings('label[for*="-location"]').attr('for', autocompleteId);
+
+            // Hide location remove btn if necessary
+            if (dropdown.parents('.row').find('.location-selected-name').text() == '') {
+                dropdown.parents('.row').find('.locations-selected-remove').hide();
+            }
 
             // Perform a search + show suggestion list
             var autocompleteSearch = function(query) {

@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load widget_tweaks %}
+{% load locations %}
 
 {% block page_header %}
 	{% spaceless %}
@@ -139,9 +140,15 @@
                                 </div>
                                 <div class="span3">
                                     <a class="location-selected-remove btn btn-small" href="#" alt="Remove Location">&times;</a>
-                                    <span class="location-selected-name"></span>
-                                    <span class="location-selected-room"></span>
-                                    <span class="location-selected-url"></span>
+                                    <span class="location-selected-name">
+                                        {{ locations|locations_name:form.location.value }}
+                                    </span>
+                                    <span class="location-selected-room">
+                                        {{ locations|locations_room:form.location.value }}
+                                    </span>
+                                    <span class="location-selected-url">
+                                        {{ locations|locations_url:form.location.value }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
