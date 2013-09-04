@@ -109,6 +109,7 @@
                     {% for form in event_instance_formset %}
                     <div class="row cloneable" data-form-prefix="event_instance">
                         {{ form.id }}
+                        <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this instance">&times;</a>
                         <div class="span7">
                             <div class="whenwhere-wrap">
                                 <div class="row">
@@ -137,22 +138,28 @@
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <div class="span3" style="position:relative;">
+                                    <div class="span3 location-search">
                                         <label class="label-inner" for="{{ form.location.auto_id }}">Select a Location</label>
                                         {{ form.location|add_class:"location-dropdown" }}
                                     </div>
                                     <div class="span3 location-selected">
                                         <a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>
                                         <span class="location-selected-name">
-                                            {{ locations|locations_name:form.location.value }}
+                                            {% if form.location.value %}
+                                                {{ locations|locations_name:form.location.value }}
+                                            {% endif %}
                                         </span>
                                         <span class="location-selected-room">
-                                            {{ locations|locations_room:form.location.value }}
+                                            {% if form.location.value %}
+                                                {{ locations|locations_room:form.location.value }}
+                                            {% endif %}
                                         </span>
                                         <span class="location-selected-url">
+                                            {% if form.location.value %}
                                             <a target="_blank" href="{{ locations|locations_url:form.location.value }}">
                                                 <i class="icon-external-link"></i>{{ locations|locations_url:form.location.value }}
                                             </a>
+                                            {% endif %}
                                         </span>
                                         <div class="location-new-form">
                                             <label class="label-inner" for="{{ form.new_location_name.auto_id }}">New Location Name</label>
@@ -168,7 +175,6 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this instance">&times;</a>
                     </div>
                     {% endfor %}
                     

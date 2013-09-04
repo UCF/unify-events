@@ -651,10 +651,22 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 .cloner { position: relative; }
 .cloner:hover { cursor: pointer; }
 .cloner > div { padding: 4px 20px; border-radius: 4px 0 0 4px; font-size: 14px; font-weight: bold; color: #646464; }
+.cloner:hover > div { background: #DFF0D8; border-color: #62C462; color: #2D792D; }
 .cloner > a { position: absolute; top: 0; right: -39px; border-radius: 0 4px 4px 0; }
-.remove-instance { border-radius: 0 4px 4px 0; font-size: 18px; }
+.remove-instance { border-radius: 0 4px 4px 0; font-size: 18px; float: right; }
+.remove-instance:hover ~ div > .whenwhere-wrap { background-color: #F2DEDE; border-color: #EE5F5B; }
+
+.location-search { position: relative; }
 
 .location-autocomplete {}
+.location-new-btn {
+	position: absolute;
+	bottom: 2px;
+	right: -16px;
+	padding-left: 12px;
+	padding-right: 16px;
+	border-radius: 4px 20px 20px 4px;
+}
 .location-suggestions li.selected a {
 	background-color: #3979fc;
 	background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
@@ -676,5 +688,3 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 .location-selected-name,
 .location-selected-room,
 .location-selected-url { display: block; float: left; width: 90%; }
-
-.location-new-form { display: none; }
