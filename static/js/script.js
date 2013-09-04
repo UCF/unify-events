@@ -625,6 +625,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 dropdown.children('option[selected="selected"]').attr('selected', false);
                 dropdown.children('option[value="' + listItem.attr('data-location-id') + '"]').attr('selected', true);
                 row.find('.location-selected-remove').show();
+                locationAutocomplete.val('');
             };
 
             var unselectSuggestion = function(removeBtn) {
