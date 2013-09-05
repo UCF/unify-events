@@ -105,7 +105,14 @@ form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
 	margin-top: 5px; 
 	display: inline-block; /* req'd for .rows in .controls to clear properly */
 }
-.field-date { width: 40%; margin-right: 10px; }
+.field-date,
+.field-time {
+	width: 40%; /* .field-time overridden by bootstrap timepicker plugin */
+}
+.field-date { margin-right: 10px; }
+.field-time { margin-right: 0; }
+.field-time + .add-on { display: none; }
+
 textarea { height: 175px; }
 select option { padding-top: 3px; padding-bottom: 3px; }
 .typeahead { margin-top: 0; }
@@ -621,11 +628,75 @@ ul.event-list-condensed li time { font-weight: bold; }
 /**
  * Create/Update Event
  **/
+.whenwhere-wrap,
+.cloner > div {
+	border-radius: 4px 0 4px 4px;
+	background: #f9f9f9;
+	padding: 10px 20px 20px 20px;
+	border: 1px solid #c8c8c8;
+	margin-bottom: 5px;
+}
+.cloneable:only-child .whenwhere-wrap { border-radius: 4px; }
+.whenwhere-wrap hr {
+	border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
+    border-width: 1px 0;
+    border-top: 1px solid #c8c8c8;
+    border-bottom: 1px solid #c8c8c8;
+}
+.whenwhere-wrap label { margin-top: 10px; }
+label[for*="-location-autocomplete"] { margin-top: 0; }
+.whenwhere-end,
+.whenwhere-until,
+.location-selected { float: right; margin-right: 10px; }
+.whenwhere-start label,
+.whenwhere-end label {
+	display: block;
+	width: 50%;
+	float: left;
+}
+
+.cloner { position: relative; }
+.cloner:hover { cursor: pointer; }
+.cloner > div { padding: 8px 20px; border-radius: 4px 0 0 4px; font-size: 14px; font-weight: bold; color: #646464; }
+.cloner:hover > div { background: #DFF0D8; border-color: #62C462; color: #2D792D; }
+.cloner > a { position: absolute; top: 0; right: -39px; border-radius: 0 4px 4px 0; padding: 8px 14px; }
+.remove-instance {
+	border-radius: 0 4px 4px 0;
+	font-size: 18px;
+	float: right;
+	padding: 8px 14px;
+}
+.remove-instance:hover ~ div > .whenwhere-wrap { background-color: #F2DEDE; border-color: #EE5F5B; }
+
+.location-search { position: relative; }
+
 .location-autocomplete {}
-.location-selected-remove { display: none; font-weight: bold; border-radius: 20px; font-size: 16px; padding: 0 6px 1px 6px; }
-.location-selected-remove:hover { text-decoration: none; }
+.location-new-btn {
+	position: absolute;
+	bottom: 2px;
+	right: -16px;
+	padding-left: 12px;
+	padding-right: 16px;
+	border-radius: 4px 20px 20px 4px;
+}
 .location-suggestions li.selected a {
 	background-color: #3979fc;
 	background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
 	color: #fff;
 }
+
+.location-selected { position: relative; }
+.location-selected-remove {
+	font-weight: bold;
+	font-size: 20px;
+	padding: 0 6px 1px 6px;
+	position: absolute;
+	top: 0;
+	right: -16px;
+	color: #A8A8A8;
+}
+.location-selected-remove:hover { text-decoration: none; }
+.location-selected-remove:hover ~ span { text-decoration: line-through; }
+.location-selected-title,
+.location-selected-room,
+.location-selected-url { display: block; float: left; width: 90%; }

@@ -105,6 +105,9 @@ var initiateTimePickers = function(field) {
                     .next('span.add-on')
                     .andSelf()
                     .wrapAll('<div class="input-append bootstrap-timepicker" />');
+                $(this)
+                    .next('span.add-on')
+                        .css('display', 'inline-block');
             }
         }).timepicker({
             showMeridian: false,
@@ -402,6 +405,7 @@ var cloneableFieldsets = function() {
                 $(row)
                     // Insert it after the last form
                     .removeAttr('id')
+                    .addClass('clone')
                     .hide()
                     .insertAfter('.cloneable:last')
                     .slideDown(300)
@@ -485,30 +489,59 @@ var toggleEventListRecurrences = function() {
 var eventLocationsSearch = function(locationDropdowns) {
     if (locationDropdowns.length > 0) {
         locationDropdowns.each(function() {
-            var dropdown = $(this);
-            var autocompleteId = dropdown.attr('id') + '-autocomplete';
+            var dropdown = $(this),
+                autocompleteId = dropdown.attr('id') + '-autocomplete',
+                locationCloneParent = dropdown.parents('.cloneable'),
+                cloneBtn = locationCloneParent.parents('.control-group').find('.cloner'),
+                locationRow = dropdown.parent('.location-search').parent('.row'),
+                locationTitleSpan = locationRow.find('.location-selected-title'),
+                locationRoomSpan = locationRow.find('.location-selected-room'),
+                locationUrlSpan = locationRow.find('.location-selected-url'),
+                locationNewForm = locationRow.find('.location-new-form');
 
             // Hide dropdown
             dropdown.hide();
 
-            // Create search as you type field, if necessary
+            // Hide new location form
+            var locationNewForm = locationRow.find('.location-new-form');
+            locationNewForm.hide();
+
+            // Add content to cloner btn
+            cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Create New Instance"><i class="icon-plus"></i></a>');
+
+            // Create search as you type field + other elements, if necessary
             var locationAutocomplete = null,
-                suggestionList = null;
+                locationNewBtn = null,
+                suggestionList = null,
+                locationRemoveBtn = null;
 
             if (dropdown.siblings('.location-autocomplete').length < 1) {
-                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" placeholder="Type a location name..." />');
+                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />');
                 locationAutocomplete.insertAfter(dropdown);
 
+                locationNewBtn = $('<a class="location-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
+                locationNewBtn.insertAfter(locationAutocomplete).hide();
+
                 suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
-                suggestionList.insertAfter(locationAutocomplete).hide();
+                suggestionList.insertAfter(locationNewBtn).hide();
+
+                locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>');
+                locationRemoveBtn.insertBefore(locationTitleSpan);
             }
             else {
                 locationAutocomplete = dropdown.siblings('.location-autocomplete');
+                locationNewBtn = dropdown.siblings('.location-new-btn');
                 suggestionList = dropdown.siblings('.location-suggestions');
+                locationRemoveBtn = locationRow.find('.location-selected-remove');
             }
 
             // Reassign dropdown label to autocomplete field
             dropdown.siblings('label[for*="-location"]').attr('for', autocompleteId);
+
+            // Hide location remove btn if necessary
+            if (dropdown.val() == '' && $.trim(locationTitleSpan.text()) == '') {
+                locationRemoveBtn.hide();
+            }
 
             // Perform a search + show suggestion list
             var autocompleteSearch = function(query) {
@@ -519,7 +552,16 @@ var eventLocationsSearch = function(locationDropdowns) {
                     if (location.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                         // Push comboname to autocomplete suggestions list
                         matchesFound = true;
-                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"><a tabindex="0" class="suggestion-link" href="#">' + location + '</a></li>');
+                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
+                        var link = $('<a tabindex="0" class="suggestion-link" href="#">' + location + '</a>');
+
+                        // Assign click event to link
+                        link.on('click', function(event) {
+                            event.preventDefault();
+                            selectSuggestion(listItem);
+                        });
+
+                        listItem.html(link);
                         matches.push(listItem);
                     }
                 });
@@ -530,9 +572,14 @@ var eventLocationsSearch = function(locationDropdowns) {
                     });
                     suggestionList.show();
                 }
+                else {
+                    suggestionList.hide();
+                    // Show the 'create new location' button
+                    locationNewBtn.show();
+                }
             }
 
-            // Prevent form submission via enter keypress in autocomplete field
+            // Prevent form submission via enter keypress in any autocomplete field
             dropdown.parents('form').on('submit', function(event) {
                 if ($('.location-autocomplete').is(':focus')) {
                     return false;
@@ -563,11 +610,12 @@ var eventLocationsSearch = function(locationDropdowns) {
                     // If user typed a non-alphanumeric key, check for up/down strokes
                     else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
                         if (suggestionList.children().length > 0) {
+                            var selected = suggestionList.children('.selected');
                             var newselected = null;
                             if (event.keyCode == 40) {
                                 // Move down one list item. Check if a list item is highlighted yet or not
-                                if (suggestionList.children('.selected').length > 0) {
-                                    newselected = ($('.selected').next('li').length !== 0) ? $('.selected').next('li') : suggestionList.children('li').first();
+                                if (selected.length > 0) {
+                                    newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
                                 }
                                 else {
                                     newselected = suggestionList.children('li').first();
@@ -575,8 +623,8 @@ var eventLocationsSearch = function(locationDropdowns) {
                             }
                             else if (event.keyCode == 38) {
                                 // Move up one list item
-                                if (suggestionList.children('.selected').length > 0) {
-                                    newselected = ($('.selected').prev('li').length !== 0) ? $('.selected').prev('li') : suggestionList.children('li').last();
+                                if (selected.length > 0) {
+                                    newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
                                 }
                                 else {
                                     newselected = suggestionList.children('li').last();
@@ -586,21 +634,26 @@ var eventLocationsSearch = function(locationDropdowns) {
                                 // Left/right key press; do nothing
                                 return;
                             }
-                            suggestionList.children('li.selected').removeClass('selected');
+                            selected.removeClass('selected');
                             newselected.addClass('selected');
-                            locationAutocomplete.val(newselected.attr('data-location-name'));
+                            locationAutocomplete.val(newselected.attr('data-location-title'));
                         }
                     }
                     // If user hit enter on the autocomplete field, select the query
                     else if (event.type == 'keyup' && event.keyCode == 13) {
-                        // We can only select queries that are currently highlighted
+                        // We can only select existing locations that are currently highlighted
                         if (suggestionList.children().length > 0) {
-                            if (suggestionList.children('.selected').length < 1) {
+                            var selected = suggestionList.children('.selected');
+                            if (selected.length < 1) {
                                 selectSuggestion(suggestionList.children('li').first());
                             }
                             else {
-                                selectSuggestion(suggestionList.children('.selected').first());
+                                selectSuggestion(selected.first());
                             }
+                        }
+                        // Try to create a new location if no suggestions are found
+                        else {
+                            createNewLocation();
                         }
                     }
                 }
@@ -608,38 +661,97 @@ var eventLocationsSearch = function(locationDropdowns) {
                 else {
                     suggestionList.empty().hide();
                 }
-
             });
 
             var selectSuggestion = function(listItem) {
-                var row = listItem.parents('.row');
-                row.find('.location-selected-name').text(listItem.attr('data-location-name'));
-                row.find('.location-selected-room').text(listItem.attr('data-location-room'));
-                row.find('.location-selected-url').text(listItem.attr('data-location-url'));
+                // Remove any existing set location value
+                unselectSuggestion();
+                removeNewLocation(locationRemoveBtn);
+
+                // Display new values to the user
+                locationTitleSpan.text(listItem.attr('data-location-title')).show();
+                locationRoomSpan.text(listItem.attr('data-location-room')).show();
+                locationUrlSpan.html('<a href="' + listItem.attr('data-location-url') + '"><i class="icon-external-link"></i> ' + listItem.attr('data-location-url') + '</a>').show();
+
+                // Hide autocomplete suggestions
                 suggestionList.empty().hide();
-                dropdown.children('option[selected="selected"]').attr('selected', false);
-                dropdown.children('option[value="' + listItem.attr('data-location-id') + '"]').attr('selected', true);
-                row.find('.location-selected-remove').show();
+
+                // Assign the hidden dropdown's value
+                dropdown
+                    .children('option[selected="selected"]')
+                        .attr('selected', false)
+                        .end()
+                    .children('option[value="' + listItem.attr('data-location-id') + '"]')
+                        .attr('selected', true);
+
+                // Show the location delete btn
+                locationRemoveBtn.show();
+
+                // Empty the current autocomplete field value
+                locationAutocomplete.val('');
             };
 
-            var unselectSuggestion = function(removeBtn) {
-                removeBtn.siblings('span').text('');
-                dropdown.children('option[selected="selected"]').attr('selected', false);
-                dropdown.children('option[value=""]').attr('selected', true);
+            var unselectSuggestion = function() {
+                //$(locationTitleSpan, locationRoomSpan, locationUrlSpan).text('').hide();
+                locationTitleSpan.text('').hide();
+                locationRoomSpan.text('').hide();
+                locationUrlSpan.text('').hide();
+                dropdown
+                    .children('option[selected="selected"]')
+                        .attr('selected', false)
+                        .end()
+                    .children('option[value=""]')
+                        .attr('selected', true);
+                locationRemoveBtn.hide();
             };
 
-            // Handle selection of a suggestion
-            $('body').on('click', '.suggestion-link', function(event) {
-                event.preventDefault();
-                selectSuggestion($(this).parent('li'));
-            });
+            var createNewLocation = function() {
+                // Remove any existing set location value
+                unselectSuggestion();
+                removeNewLocation();
+
+                // Show New Location form fields; populate Name field w/autocomplete field val
+                locationNewForm
+                    .show()
+                    .children('input[name*="-new_location_title"]')
+                        .val(locationAutocomplete.val());
+
+                // Show location delete btn
+                locationRemoveBtn.show();
+
+                // Hide stuff we don't need
+                suggestionList.empty().hide();
+                locationNewBtn.hide();
+
+                // Empty autocomplete field val
+                locationAutocomplete.val('');
+            }
+
+            var removeNewLocation = function() {
+                locationNewForm
+                    .hide()
+                    .children('input')
+                        .val('');
+                locationRemoveBtn.hide();
+            }
 
             // Handle removal of a selected suggestion
-            $('.location-selected-remove').on('click', function(event) {
+            locationRemoveBtn.on('click', function(event) {
                 event.preventDefault();
-                unselectSuggestion($(this));
-                $(this).hide();
+                unselectSuggestion();
+                removeNewLocation();
             });
+
+            // Handle new location creation
+            locationNewBtn.on('click', function(event) {
+                event.preventDefault();
+                createNewLocation();
+            });
+
+            // Stupid selectedIndex fix for cloned location values
+            if (locationCloneParent.hasClass('clone')) {
+                dropdown.get(0).selectedIndex = dropdown.children('option[selected="selected"]').val();
+            }
         });
     }
 };

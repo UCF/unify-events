@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load widget_tweaks %}
+{% load locations %}
 
 {% block page_header %}
 	{% spaceless %}
@@ -108,67 +109,78 @@
                     {% for form in event_instance_formset %}
                     <div class="row cloneable" data-form-prefix="event_instance">
                         {{ form.id }}
-                        <div class="span6">
-                            <div class="row">
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.start.auto_id }}">From</label>
-                                    {{ form.start }}
-                                    <span class="add-on"><i class="icon-time"></i></span>
+                        <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this instance">&times;</a>
+                        <div class="span7">
+                            <div class="whenwhere-wrap">
+                                <div class="row">
+                                    <div class="span3 whenwhere-start">
+                                        <label class="label-inner" for="{{ form.start.auto_id }}_0">Start Date</label>
+                                        <label class="label-inner" for="{{ form.start.auto_id }}_1">Start Time</label>
+                                        {{ form.start }}
+                                        <span class="add-on"><i class="icon-time"></i></span>
+                                    </div>
+                                    <div class="span3 whenwhere-end">
+                                        <label class="label-inner" for="{{ form.end.auto_id }}_0">End Date</label>
+                                        <label class="label-inner" for="{{ form.end.auto_id }}_1">End Time</label>
+                                        {{ form.end }}
+                                        <span class="add-on"><i class="icon-time"></i></span>
+                                    </div>
                                 </div>
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.end.auto_id }}">To</label>
-                                    {{ form.end }}
-                                    <span class="add-on"><i class="icon-time"></i></span>
+                                <div class="row">
+                                    <div class="span3 whenwhere-interval">
+                                        <label class="label-inner" for="{{ form.interval.auto_id }}">How often does it re-occur?</label>
+                                        {{ form.interval }}
+                                    </div>
+                                    <div class="span3 whenwhere-until">
+                                        <label class="label-inner" for="{{ form.until.auto_id }}">Re-occurs until...</label>
+                                        {{ form.until|add_class:"field-date" }}
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="span3 location-search">
+                                        <label class="label-inner" for="{{ form.location.auto_id }}">Select a Location</label>
+                                        {{ form.location|add_class:"location-dropdown" }}
+                                    </div>
+                                    <div class="span3 location-selected">
+                                        <span class="location-selected-title">
+                                            {% if form.location.value %}
+                                                {{ locations|locations_title:form.location.value }}
+                                            {% endif %}
+                                        </span>
+                                        <span class="location-selected-room">
+                                            {% if form.location.value %}
+                                                {{ locations|locations_room:form.location.value }}
+                                            {% endif %}
+                                        </span>
+                                        <span class="location-selected-url">
+                                            {% if form.location.value %}
+                                            <a target="_blank" href="{{ locations|locations_url:form.location.value }}">
+                                                <i class="icon-external-link"></i>{{ locations|locations_url:form.location.value }}
+                                            </a>
+                                            {% endif %}
+                                        </span>
+                                        <div class="location-new-form">
+                                            <label class="label-inner" for="{{ form.new_location_title.auto_id }}">New Location Name</label>
+                                            {{ form.new_location_title }}
+                                            
+                                            <label class="label-inner" for="{{ form.new_location_room.auto_id }}">New Location Room</label>
+                                            {{ form.new_location_room }}
+                                            
+                                            <label class="label-inner" for="{{ form.new_location_url.auto_id }}">New Location Map URL</label>
+                                            {{ form.new_location_url }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.interval.auto_id }}">Interval</label>
-                                    {{ form.interval }}
-                                </div>
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.until.auto_id }}">Until</label>
-                                    {{ form.until|add_class:"field-date" }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="span3" style="position:relative;">
-                                    TODO: form for create new location...
-                                    <label class="label-inner" for="{{ form.location.auto_id }}">Where</label>
-                                    {{ form.location|add_class:"location-dropdown" }}
-                                </div>
-                                <div class="span3">
-                                    <a class="location-selected-remove btn btn-small" href="#" alt="Remove Location">&times;</a>
-                                    <span class="location-selected-name"></span>
-                                    <span class="location-selected-room"></span>
-                                    <span class="location-selected-url"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.new_location_title.auto_id }}">Location Name</label>
-                                    {{ form.new_location_title }}
-                                </div>
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.new_location_room.auto_id }}">Location Room</label>
-                                    {{ form.new_location_room }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="span3">
-                                    <label class="label-inner" for="{{ form.new_location_url.auto_id }}">Location Map URL</label>
-                                    {{ form.new_location_url }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span2">
-                            <a class="btn btn-danger remove-instance hidden" href="#">Remove Instance</a>
                         </div>
                     </div>
                     {% endfor %}
+                    
+                </div>
+                <div class="controls">
                     <div class="row">
-                        <div class="span6">
-                            <a class="btn cloner" href="#">Create Instance</a>
+                        <div class="span7 cloner">
                         </div>
                     </div>
                 </div>

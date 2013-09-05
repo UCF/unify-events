@@ -97,6 +97,9 @@ class EventInstanceForm(forms.ModelForm):
                 location.url = self.cleaned_data.get('new_location_url') 
                 location.save()
             self.instance.location = location
+        else:
+            if not location:
+                raise forms.ValidationError('No existing or new location has been selected')
 
         e = super(EventInstanceForm, self).save(commit=commit)
         return e
