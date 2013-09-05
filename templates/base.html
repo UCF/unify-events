@@ -39,12 +39,13 @@
         <header class="container">
             <div class="row">
                 <div class="span7">
-                    <h1><a href="{% url dashboard %}"><span class="alt">UCF</span> Events</a></h1>
+                    <span id="header-title"><a href="{% url dashboard %}"><span class="alt">UCF</span> Events</a></span>
                 </div>
                 <div class="span5">
                     <form class="form-search">
                         <div class="input-append">
-                            <input type="text" class="span3 search-query" placeholder="Search events, calendars" />
+                            <label class="label-hidden" for="global-search">Search events, calendars</label>
+                            <input type="text" class="span3 search-query" id="global-search" placeholder="Search events, calendars" />
                             <button type="submit" class="btn">Search <i class="icon-search"></i></button>
                         </div>
                     </form>
@@ -73,7 +74,7 @@
                         <ul id="actions-primary">
                             <li class="dropdown">
                                 <i class="icon-calendar"></i> 
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url dashboard %}">
                                     My Calendars
                                     <b class="caret"></b>
                                 </a>

@@ -47,10 +47,11 @@ body { background: url('../img/gradient.png') top left repeat-x; }
 /* Header tags, basic text */
 h1 .alt,
 h2 .alt,
+h3 .alt,
 h4 .alt,
 h5 .alt,
 h6 .alt { font-weight: 300; }
-h3 { letter-spacing: 0; font-weight: 300; }
+h2 { letter-spacing: 0; font-weight: 300; }
 .icon-circle-wrap { 
 	display: block; 
 	width: 25px; 
@@ -79,10 +80,17 @@ a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 	outline: 0 none;
 }
 
+/* Modals */
+.modal h2 { font-weight: bold; }
+.modal-header .object-type,
+.modal-footer .object-type {
+	text-transform: capitalize;
+}
+
 /* Forms */
 form.form-horizontal { margin: 20px 0 30px 0;}
 form.form-tabbed,
-form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
+form.form-tabbed .tab-content .tab-pane h2 { margin-top: 0; }
 .form-horizontal .control-label { font-weight: bold; }
 .form-horizontal .control-group.large .control-label { 
 	font-size: 18px; 
@@ -195,7 +203,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	float: none;
 }
 .calendar-slider .carousel-inner { position: relative; z-index: 1; }
-.calendar-slider .carousel-inner .item h4 { text-align: center; }
+.calendar-slider .carousel-inner .item h3 { text-align: center; }
 
 /* Calendar Grids */
 .calendar-grid { 
@@ -335,6 +343,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 .sidebarfix > * { padding-right: 10px; }
+.sidebarfix > .modal { padding-right: 0; }
 .recurring { /* Helper text for designating recurring events */
 	width: 0;
 	height: 0;
@@ -346,7 +355,16 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 /**
  * Header
  **/
-header { padding-top: 10px; }
+header { padding-top: 15px; }
+header #header-title {
+	font-size: 36px;
+	line-height: 40px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	margin: 10px 0;
+	display: block;
+}
+header #header-title .alt { font-weight: 300; }
 header form.form-search { padding-top: 19px; float: right; }
 
 
@@ -397,7 +415,7 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 #page-title-wrap #page-title-icon { position: absolute; top: 10px; left: -48px; font-size: 36px; color: #a8a8a8; }
 #page-title-wrap #page-title-icon.icon-plus { top: 13px; }
 #page-title-wrap #page-title-icon.icon-cog { top: 12px; }
-#page-title-wrap h2 { display: block; float: left; margin-bottom: 10px; }
+#page-title-wrap h1 { display: block; float: left; margin-bottom: 10px; }
 
 
 /**
@@ -485,10 +503,10 @@ td.event-actions .btn { margin-top: -4px; }
  **/
 
 /* Users & Permissions */ 
+#users-permissions h2,
+#subscriptions h2 { width: 0; height: 0; display: block; text-indent: -9999px; margin: 0; }
 #users-permissions h3,
-#subscriptions h3 { width: 0; height: 0; display: block; text-indent: -9999px; margin: 0; }
-#users-permissions h4,
-#subscriptions h4 { font-size: 24.5px; font-weight: 300; line-height: 40px; margin: 0; } /* Look like h3 */
+#subscriptions h3 { font-size: 24.5px; font-weight: 300; line-height: 40px; margin: 0; } /* Look like h2 */
 #users-permissions label[for="id_add_user"],
 #users-permissions label[for="id_add_role"] { width: 0; height: 0; display: block; text-indent: -9999px; }
 #users-permissions label[for="id_add_role"] + .form-inline { margin-bottom: 30px; }
@@ -496,8 +514,9 @@ td.event-actions .btn { margin-top: -4px; }
 #manager-calendar-add-user { position: relative; }
 
 /* Calendar Info */
-#calendar-info h3 { margin-top: 0; }
+#calendar-info h2 { margin-top: 0; }
 #calendar-info button { margin-top: 70px; }
+#calendar-update { margin-bottom: 0; }
 
 /* Subscriptions */
 #users-permissions { }
@@ -596,25 +615,24 @@ ul.event-list-condensed li {
 ul.event-list-condensed li time { font-weight: bold; }
 
 /* Week View */
-#calendar-events-week h3 { margin-bottom: 20px; }
-#calendar-events-week h4 {
+#calendar-events-week h2 { margin-bottom: 20px; }
+#calendar-events-week h3 {
 	font-size: 20px;
 	line-height: 30px;
 	font-weight: 300;
 } 
 
 /* Month View */
-#calendar-events-month h3 {
+#calendar-events-month h2 {
 	margin: 0;
 	width: 0;
 	height: 0;
 	display: block;
 	text-indent: -9999px;
 }
-#calendar-events-month h4 {
+#calendar-events-month h3 {
 	text-align: center;
 	font-size: 24.5px;
-	font-weight: 300;
 	line-height: 40px;
 }
 #month-toggle { margin: 15px 0 0 0; width: 280px; position: relative; top: 0; left: 0; }
