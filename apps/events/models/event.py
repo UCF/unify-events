@@ -6,9 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from django.template.defaultfilters import slugify
+from taggit.managers import TaggableManager
 
 from core.models import TimeCreatedModified
+from core.utils import pre_save_slug
 import settings
 
 
@@ -36,13 +37,13 @@ class Location(TimeCreatedModified):
     """
     Location
     """
-    name = models.CharField(max_length=256)
+    title = models.CharField(max_length=256)
     url = models.CharField(max_length=256)
     room = models.CharField(max_length=256, blank=True, null=True)
 
     @property
     def comboname(self):
-        comboname = self.name
+        comboname = self.title
         if self.room:
             comboname += ': ' + self.room
         return comboname
@@ -58,6 +59,26 @@ class Location(TimeCreatedModified):
 
     def __unicode__(self):
         return unicode(self.comboname)
+
+
+class Category(TimeCreatedModified):
+    """
+    Used to cateogorize objects
+    """
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(max_length=128, unique=True, blank=True)
+
+    class Meta:
+        app_label = 'events'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+pre_save.connect(pre_save_slug, sender=Category)
 
 
 class State:
@@ -85,17 +106,16 @@ class Event(TimeCreatedModified):
     created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
     state = models.SmallIntegerField(choices=State.choices, default=State.pending)
     title = models.CharField(max_length=256)
+    slug = models.SlugField(max_length=256, unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
+    category = models.ForeignKey('Category', related_name='events')
+    tags = TaggableManager()
 
     class Meta:
         app_label = 'events'
-
-    @property
-    def slug(self):
-        return slugify(self.title)
     
     @property
     def is_re_review(self):
@@ -208,6 +228,8 @@ class Event(TimeCreatedModified):
 
     def __repr__(self):
         return '<' + str(self.calendar) + '/' + self.title + '>'
+
+pre_save.connect(pre_save_slug, sender=Event)
 
 
 class EventInstance(TimeCreatedModified):
@@ -354,7 +376,7 @@ class EventInstance(TimeCreatedModified):
         return '<' + str(self.start) + '>'
     
     def __unicode__(self):
-        return self.event.calendar.name + ' - ' + self.event.title
+        return self.event.calendar.title + ' - ' + self.event.title
 
 
 @receiver(pre_save, sender=EventInstance)

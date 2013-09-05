@@ -5,10 +5,9 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.template.defaultfilters import slugify
 
 from core.models import TimeCreatedModified
+from core.utils import pre_save_slug
 import events.models
 import settings
 
@@ -45,7 +44,7 @@ def calendars_include_submitted(self):
     return Calendar.objects.filter(
         models.Q(owner=self) |
         models.Q(editors=self) |
-        models.Q(events__owner=self)).order_by('name').distinct()
+        models.Q(events__owner=self)).order_by('title').distinct()
 setattr(User, 'calendars_include_submitted', property(calendars_include_submitted))
 
 
@@ -53,8 +52,8 @@ class Calendar(TimeCreatedModified):
     """
     Calendar
     """
-    name = models.CharField(max_length=64)
-    slug = models.CharField(max_length=64, unique=True, blank=True)
+    title = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64, unique=True, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
     # TODO: possibly make Permission model (m2m on Calendar) user, permission
@@ -136,36 +135,14 @@ class Calendar(TimeCreatedModified):
         """
         return user == self.owner
 
-    def generate_slug(self):
-        """
-        Generates a slug from the calendar's name, ensuring that the slug
-        is not already used by another calendar.
-        """
-        slug = orig = slugify(self.name)
-        count = 0
-        while True:
-            if not Calendar.objects.filter(slug=slug).count():
-                break
-            else:
-                count += 1
-                slug = orig + '-' + str(count)
-        self.slug = slug
-
     def __str__(self):
-        return self.name
+        return self.title
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.title)
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<' + str(self.owner) + '/' + self.name + '>'
-    
+        return '<' + str(self.owner) + '/' + self.title + '>'
 
-@receiver(pre_save, sender=Calendar)
-def save(sender, **kwargs):
-    """
-    Generate a slug before the calendar is saved
-    """
-    instance = kwargs['instance']
-    instance.generate_slug()
+pre_save.connect(pre_save_slug, sender=Calendar)

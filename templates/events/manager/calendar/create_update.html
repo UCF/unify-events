@@ -26,7 +26,7 @@
     {% if mode == 'create' %}
         <h2>Create a Calendar</h2>
     {% elif mode == 'update' %}
-        <h2>Edit Calendar: <span class="alt">{{calendar.name}}</span></h2>
+        <h2>Edit Calendar: <span class="alt">{{calendar.title}}</span></h2>
         <ul id="calendar-edit-options">
             <li>
                 <a href="{% url calendar calendar.slug %}">Live View</a>
@@ -85,7 +85,7 @@
         <div class="control-group large">
            <label class="control-label" for="id_name">Calendar Name</label>
            <div class="controls">
-           {{ form.name|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+           {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
            </div>
         </div>
         <div class="control-group large">
@@ -191,7 +191,7 @@
                 <div class="modal hide fade" id="calendar-reassign-ownership">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2>Reassign Ownership of Calendar: <span class="alt">{{ calendar.name }}</span></h2>
+                        <h2>Reassign Ownership of Calendar: <span class="alt">{{ calendar.title }}</span></h2>
                     </div>
                     <div class="modal-body">
                         <p>You are about to reassign ownership of this calendar to an existing user.  You will be reassigned as an Admin.</p>
@@ -260,7 +260,7 @@
                     <div class="control-group large">
                        <label class="control-label" for="id_name">Calendar Name</label>
                        <div class="controls">
-                       {{ form.name|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                       {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
                        </div>
                     </div>
                     <div class="control-group large">

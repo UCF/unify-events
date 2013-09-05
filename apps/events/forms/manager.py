@@ -17,7 +17,7 @@ class CalendarForm(forms.ModelForm):
     
     class Meta:
         model = Calendar
-        fields = ('name', 'description', 'editors')
+        fields = ('title', 'description', 'editors')
 
 
 class EventForm(forms.ModelForm):
@@ -50,7 +50,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone')
+        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
 class EventInstanceForm(forms.ModelForm):
@@ -62,7 +62,7 @@ class EventInstanceForm(forms.ModelForm):
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
                                              'time_class': 'field-time'}))
     until = forms.DateField(required=False)
-    new_location_name = forms.CharField(required=False)
+    new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
     new_location_url = forms.URLField(required=False)
     
@@ -70,10 +70,10 @@ class EventInstanceForm(forms.ModelForm):
         """
         Ensure data is entered for new event instance locations
         """
-        new_location_name = self.cleaned_data.get('new_location_name')
+        new_location_title = self.cleaned_data.get('new_location_title')
         new_location_url = self.cleaned_data.get('new_location_url')
 
-        if new_location_name:
+        if new_location_title:
             if not new_location_url:
                 raise forms.ValidationError('URL needs to be provided for new locations')
         return new_location_url
@@ -84,15 +84,15 @@ class EventInstanceForm(forms.ModelForm):
         location or use an existing one
         """
         location = self.cleaned_data.get('location')
-        new_location_name = self.cleaned_data.get('new_location_name')
+        new_location_title = self.cleaned_data.get('new_location_title')
         new_location_room = self.cleaned_data.get('new_location_room')
-        if new_location_name:
-            location_query = Location.objects.filter(name=new_location_name, room=new_location_room)
+        if new_location_title:
+            location_query = Location.objects.filter(title=new_location_title, room=new_location_room)
             if location_query.count():
                 location = location_query[0]
             else:
                 location = Location()
-                location.name = new_location_name
+                location.title = new_location_title
                 location.room = new_location_room
                 location.url = self.cleaned_data.get('new_location_url') 
                 location.save()
@@ -124,4 +124,4 @@ class LocationForm(forms.ModelForm):
     """
     class Meta:
         model = Location
-        fields = ('name', 'url')
+        fields = ('title', 'url')

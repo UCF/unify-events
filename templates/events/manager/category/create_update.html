@@ -8,7 +8,7 @@
 			<form action="{% url category-create %}" method="post" id="category-create">
 		{% else %}
 			{% if mode == 'update' %}
-				<h2>Update {{category.name}}</h2>
+				<h2>Update {{category.title}}</h2>
 				<form action="{% url category-update id=category.id %}" method="post" id="category-create">
 			{% endif %}
 		{% endif %}

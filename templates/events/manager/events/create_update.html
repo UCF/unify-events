@@ -18,7 +18,7 @@
 {% block header_scripts %}
 <script type="text/javascript">
     var eventLocations = {
-    {% for location in locations %}"{{ location.comboname }}": { "name": "{{ location.name }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
+    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
     };
 </script>
 {% endblock %}
@@ -146,8 +146,8 @@
                             </div>
                             <div class="row">
                                 <div class="span3">
-                                    <label class="label-inner" for="{{ form.new_location_name.auto_id }}">Location Name</label>
-                                    {{ form.new_location_name }}
+                                    <label class="label-inner" for="{{ form.new_location_title.auto_id }}">Location Name</label>
+                                    {{ form.new_location_title }}
                                 </div>
                                 <div class="span3">
                                     <label class="label-inner" for="{{ form.new_location_room.auto_id }}">Location Room</label>
@@ -199,6 +199,9 @@
                     {{ event_form.submit_to_main }}
                 </div>
             </div>
+            {{ event_form.tags.errors }}
+            {{ event_form.tags }}
+            {{ event_form.category }}
             <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}
@@ -206,7 +209,7 @@
                     {% elif mode == 'update' %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
                         <a href="{% url dashboard %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
-                    {% endif %}    
+                    {% endif %}
                 </div>
             </div>
         </form>

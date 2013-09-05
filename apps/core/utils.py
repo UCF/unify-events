@@ -1,0 +1,29 @@
+from django.template.defaultfilters import slugify
+
+
+def generate_unique_slug(title, clazz):
+    """
+    Generate a unique slug for the given class
+    """
+    slug_cnt = 0
+    slug = orig_slug = slugify(title)
+    is_unique_slug = False
+    while not is_unique_slug:
+        try:
+            clazz.objects.get(slug=slug)
+            # Slug is not unique so try the next one
+            slug_cnt += 1
+            slug = orig_slug + '-' + str(slug_cnt)
+        except clazz.DoesNotExist:
+            # No object exists with this slug so use it!
+            is_unique_slug = True
+
+    return slug
+
+
+def pre_save_slug(sender, **kwargs):
+    """
+    Generate a slug before the object is saved
+    """
+    instance = kwargs['instance']
+    instance.slug = generate_unique_slug(instance.title, sender)
