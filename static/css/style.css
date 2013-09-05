@@ -715,7 +715,7 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 }
 .location-selected-remove:hover { text-decoration: none; }
 .location-selected-remove:hover ~ span { text-decoration: line-through; }
-.location-selected-name,
+.location-selected-title,
 .location-selected-room,
 .location-selected-url { display: block; float: left; width: 90%; }
 

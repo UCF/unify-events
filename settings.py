@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'core',
     'profiles',
+    'taggit',
     'events',
     'unlevents',
     'widget_tweaks',

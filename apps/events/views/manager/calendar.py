@@ -9,7 +9,6 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
 from events.models import Calendar
-from events.models import first_login
 from events.forms.manager import CalendarForm
 
 log = logging.getLogger(__name__)

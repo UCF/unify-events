@@ -513,7 +513,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 locationCloneParent = dropdown.parents('.cloneable'),
                 cloneBtn = locationCloneParent.parents('.control-group').find('.cloner'),
                 locationRow = dropdown.parent('.location-search').parent('.row'),
-                locationNameSpan = locationRow.find('.location-selected-name'),
+                locationTitleSpan = locationRow.find('.location-selected-title'),
                 locationRoomSpan = locationRow.find('.location-selected-room'),
                 locationUrlSpan = locationRow.find('.location-selected-url'),
                 locationNewForm = locationRow.find('.location-new-form');
@@ -545,7 +545,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 suggestionList.insertAfter(locationNewBtn).hide();
 
                 locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>');
-                locationRemoveBtn.insertBefore(locationNameSpan);
+                locationRemoveBtn.insertBefore(locationTitleSpan);
             }
             else {
                 locationAutocomplete = dropdown.siblings('.location-autocomplete');
@@ -558,7 +558,7 @@ var eventLocationsSearch = function(locationDropdowns) {
             dropdown.siblings('label[for*="-location"]').attr('for', autocompleteId);
 
             // Hide location remove btn if necessary
-            if (dropdown.val() == '' && $.trim(locationNameSpan.text()) == '') {
+            if (dropdown.val() == '' && $.trim(locationTitleSpan.text()) == '') {
                 locationRemoveBtn.hide();
             }
 
@@ -571,7 +571,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                     if (location.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                         // Push comboname to autocomplete suggestions list
                         matchesFound = true;
-                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-name="' + locationVals.name + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
+                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
                         var link = $('<a tabindex="0" class="suggestion-link" href="#">' + location + '</a>');
 
                         // Assign click event to link
@@ -655,7 +655,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                             }
                             selected.removeClass('selected');
                             newselected.addClass('selected');
-                            locationAutocomplete.val(newselected.attr('data-location-name'));
+                            locationAutocomplete.val(newselected.attr('data-location-title'));
                         }
                     }
                     // If user hit enter on the autocomplete field, select the query
@@ -688,7 +688,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 removeNewLocation(locationRemoveBtn);
 
                 // Display new values to the user
-                locationNameSpan.text(listItem.attr('data-location-name')).show();
+                locationTitleSpan.text(listItem.attr('data-location-title')).show();
                 locationRoomSpan.text(listItem.attr('data-location-room')).show();
                 locationUrlSpan.html('<a href="' + listItem.attr('data-location-url') + '"><i class="icon-external-link"></i> ' + listItem.attr('data-location-url') + '</a>').show();
 
@@ -711,8 +711,8 @@ var eventLocationsSearch = function(locationDropdowns) {
             };
 
             var unselectSuggestion = function() {
-                //$(locationNameSpan, locationRoomSpan, locationUrlSpan).text('').hide();
-                locationNameSpan.text('').hide();
+                //$(locationTitleSpan, locationRoomSpan, locationUrlSpan).text('').hide();
+                locationTitleSpan.text('').hide();
                 locationRoomSpan.text('').hide();
                 locationUrlSpan.text('').hide();
                 dropdown
@@ -732,7 +732,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 // Show New Location form fields; populate Name field w/autocomplete field val
                 locationNewForm
                     .show()
-                    .children('input[name*="-new_location_name"]')
+                    .children('input[name*="-new_location_title"]')
                         .val(locationAutocomplete.val());
 
                 // Show location delete btn

@@ -19,7 +19,7 @@
 {% block header_scripts %}
 <script type="text/javascript">
     var eventLocations = {
-    {% for location in locations %}"{{ location.comboname }}": { "name": "{{ location.name }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
+    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
     };
 </script>
 {% endblock %}
@@ -143,9 +143,9 @@
                                         {{ form.location|add_class:"location-dropdown" }}
                                     </div>
                                     <div class="span3 location-selected">
-                                        <span class="location-selected-name">
+                                        <span class="location-selected-title">
                                             {% if form.location.value %}
-                                                {{ locations|locations_name:form.location.value }}
+                                                {{ locations|locations_title:form.location.value }}
                                             {% endif %}
                                         </span>
                                         <span class="location-selected-room">
@@ -161,8 +161,8 @@
                                             {% endif %}
                                         </span>
                                         <div class="location-new-form">
-                                            <label class="label-inner" for="{{ form.new_location_name.auto_id }}">New Location Name</label>
-                                            {{ form.new_location_name }}
+                                            <label class="label-inner" for="{{ form.new_location_title.auto_id }}">New Location Name</label>
+                                            {{ form.new_location_title }}
                                             
                                             <label class="label-inner" for="{{ form.new_location_room.auto_id }}">New Location Room</label>
                                             {{ form.new_location_room }}
@@ -214,6 +214,9 @@
                     {{ event_form.submit_to_main }}
                 </div>
             </div>
+            {{ event_form.tags.errors }}
+            {{ event_form.tags }}
+            {{ event_form.category }}
             <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}
@@ -221,7 +224,7 @@
                     {% elif mode == 'update' %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
                         <a href="{% url dashboard %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
-                    {% endif %}    
+                    {% endif %}
                 </div>
             </div>
         </form>

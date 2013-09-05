@@ -13,7 +13,6 @@ from django.shortcuts import get_object_or_404
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceForm
-from events.models import Calendar
 from events.models import get_main_calendar
 from events.models import Event
 from events.models import EventInstance
@@ -78,6 +77,9 @@ def create_update(request, event_id=None):
                 if not request.user.is_superuser:
                     if event.calendar not in request.user.calendars:
                         return HttpResponseForbidden('You cannot add an event to this calendar.')
+                
+                m_tags = ctx['event_form'].cleaned_data['tags']
+                event.tags.set(*m_tags)
 
                 instances = ctx['event_instance_formset'].save(commit=False)
                 error = False
@@ -179,7 +181,7 @@ def copy(request, event_id):
                     try:
                         ctx['event'].copy(calendar=calendar)
                     except Exception, e:
-                        messages.error(request, 'Unable to copy even to %s' % calendar.name)
+                        messages.error(request, 'Unable to copy even to %s' % calendar.title)
                         error = True
                 if not error:
                     messages.success(request, 'Event successfully copied.')

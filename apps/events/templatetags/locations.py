@@ -6,8 +6,8 @@ def locations_comboname(d, key):
     return d.get(pk=key).comboname
 
 @register.filter
-def locations_name(d, key):
-    return d.get(pk=key).name
+def locations_title(d, key):
+    return d.get(pk=key).title
 
 @register.filter
 def locations_room(d, key):
