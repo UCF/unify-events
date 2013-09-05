@@ -24,15 +24,27 @@ var autoOpenTagByAnchor = function() {
 };
 
 /**
- * Toggle 'Delete Single Event' modal
+ * Toggle 'Delete Single Event/Calendar' modal
  **/
-var toggleModalDeleteEvent = function() {
-    $('.event-delete').click(function(e) {
+var toggleModalDeleteObject = function() {
+    $('.event-delete, .calendar-delete').click(function(e) {
         e.preventDefault();
-        var modal       = $('#event-delete-modal'),
-            eventTitle  = $(this).attr('data-event-title'),
+         
+        var objectType = '';
+        if ($(this).hasClass('event-delete')) {
+            objectType = 'event';
+        }
+        else {
+            objectType = 'calendar';
+        }
+        var modal       = $('#object-delete-modal'),
+            eventTitle  = $(this).attr('data-object-title'),
             deleteURL   = $(this).attr('href');
+
         modal
+            .find('span.object-type')
+                .text(objectType)
+                .end()
             .find('h2 span.alt')
                 .text(eventTitle)
                 .end()
@@ -366,10 +378,17 @@ var cloneableFieldsets = function() {
             var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
             if (formCount > 1) {
                 // Delete the cloneable
-                $(btn).parents('.cloneable').slideUp(300);
+                $(btn)
+                    .parents('.cloneable')
+                        .slideUp(300)
+                        .find('input[id*="-DELETE"]')
+                            .prop('checked', true);
+
                 setTimeout(function() {
                     // Remove deleted cloneable; update totals/indexes after removal
-                    $(btn).parents('.cloneable').remove();
+                    if ($(btn).parents('.cloneable').find('input[id$="-id"]').val() == '') {
+                        $(btn).parents('.cloneable').remove();
+                    }
 
                     var forms = $('.cloneable'); // Get all the cloneable items
 
@@ -760,7 +779,7 @@ var eventLocationsSearch = function(locationDropdowns) {
 $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
-    toggleModalDeleteEvent();
+    toggleModalDeleteObject();
     calendarCarousels();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));

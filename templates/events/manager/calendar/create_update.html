@@ -24,9 +24,9 @@
 
 {% block content_title %}
     {% if mode == 'create' %}
-        <h2>Create a Calendar</h2>
+        <h1>Create a Calendar</h1>
     {% elif mode == 'update' %}
-        <h2>Edit Calendar: <span class="alt">{{calendar.title}}</span></h2>
+        <h1>Edit Calendar: <span class="alt">{{calendar.title}}</span></h1>
         <ul id="calendar-edit-options">
             <li>
                 <a href="{% url calendar calendar.slug %}">Live View</a>
@@ -39,10 +39,10 @@
     {% if mode == 'create' %}
         <div class="row">
             <div class="span12">
-                <h3 class="page-subtitle">
+                <h2 class="page-subtitle">
                     Use the form below to create a new calendar. Note that you can only 
                     own or be an editor on up to five (5) calendars at a time.
-                </h3>
+                </h2>
             </div>
         </div>
     {% elif mode == 'update' %}
@@ -111,9 +111,9 @@
         <div class="row tab-content page-content">
             <div class="tab-pane active span9" id="users-permissions">
                 
-                <h3>Users &amp; Permissions</h3>
+                <h2>Users &amp; Permissions</h2>
                 
-                <h4>Add New User</h4><!-- Only show this section for admins and owners -->
+                <h3>Add New User</h3><!-- Only show this section for admins and owners -->
                 <label for="id_add_user">Search for user</label>
                 <label for="id_add_role">Select a role</label>
                 <form class="form-inline" id="manager-calendar-add-user">
@@ -128,7 +128,7 @@
                     <a class="btn" id="add-user-submit" href="#" data-url="{% url calendar-add-update-user calendar_id=calendar.id username="username" role="role" %}">Add User</a>
                 </form>
                 
-                <h4>Users With Access to this Calendar</h4>
+                <h3>Users With Access to this Calendar</h3>
                 <table class="table table-striped table-hover" id="manager-calendar-access">
                     <thead>
                         <tr>
@@ -256,7 +256,7 @@
             </div>
             <div class="tab-pane span9" id="calendar-info">
                 <form action="{% url calendar-update calendar_id=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
-                    <h3>Calendar Info</h3>
+                    <h2>Calendar Info</h2>
                     <div class="control-group large">
                        <label class="control-label" for="id_name">Calendar Name</label>
                        <div class="controls">
@@ -280,9 +280,9 @@
             </div>
             <div class="tab-pane span9" id="subscriptions">
                 
-                <h3>Subscriptions</h3>
+                <h2>Subscriptions</h2>
                 
-                <h4>Subscribed Calendars</h4>
+                <h3>Subscribed Calendars</h3>
                 <p>
                     This calendar's subscribed calendars are listed below. 
                     Events from the calendars listed below will automatically publish to your calendar and receive updates from the original when they are made.

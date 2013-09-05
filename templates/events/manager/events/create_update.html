@@ -32,9 +32,9 @@
 
 {% block content_title %}
     {% if mode == 'create' %}
-        <h2>Create an Event</h2>
+        <h1>Create an Event</h1>
     {% elif mode == 'update' %}
-        <h2>Update Event: <span class="alt">{{ event.title }}</span></h2>
+        <h1>Update Event: <span class="alt">{{ event.title }}</span></h1>
     {% endif %}
 {% endblock %}
 
@@ -170,13 +170,16 @@
                                             <label class="label-inner" for="{{ form.new_location_url.auto_id }}">New Location Map URL</label>
                                             {{ form.new_location_url }}
                                         </div>
+                                        <div class="clone-delete-hiddenfield">
+                                            <label for="{{ form.DELETE.auto_id }}">Delete Instance: {{ form.start.value }} - {{ form.end.value }}</label>
+                                            {{ form.DELETE }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
-                    
                 </div>
                 <div class="controls">
                     <div class="row">
