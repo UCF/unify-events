@@ -718,3 +718,5 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 .location-selected-name,
 .location-selected-room,
 .location-selected-url { display: block; float: left; width: 90%; }
+
+.clone-delete-hiddenfield { display: none; }

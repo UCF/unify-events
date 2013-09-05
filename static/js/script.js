@@ -378,10 +378,15 @@ var cloneableFieldsets = function() {
             var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
             if (formCount > 1) {
                 // Delete the cloneable
-                $(btn).parents('.cloneable').slideUp(300);
+                $(btn)
+                    .parents('.cloneable')
+                        .slideUp(300)
+                        .find('input[id*="-DELETE"]')
+                            .prop('checked', true);
+
                 setTimeout(function() {
                     // Remove deleted cloneable; update totals/indexes after removal
-                    $(btn).parents('.cloneable').remove();
+                    //$(btn).parents('.cloneable').remove();
 
                     var forms = $('.cloneable'); // Get all the cloneable items
 

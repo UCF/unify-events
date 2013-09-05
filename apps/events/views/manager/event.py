@@ -83,7 +83,7 @@ def create_update(request, event_id=None):
                 error = False
                 for instance in instances:
                     instance.event = event
-                    
+
                     try:
                         instance.save()
                     except Exception, e:
