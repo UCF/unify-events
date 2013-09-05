@@ -105,6 +105,9 @@ var initiateTimePickers = function(field) {
                     .next('span.add-on')
                     .andSelf()
                     .wrapAll('<div class="input-append bootstrap-timepicker" />');
+                $(this)
+                    .next('span.add-on')
+                        .css('display', 'inline-block');
             }
         }).timepicker({
             showMeridian: false,
@@ -489,8 +492,8 @@ var eventLocationsSearch = function(locationDropdowns) {
             var dropdown = $(this),
                 autocompleteId = dropdown.attr('id') + '-autocomplete',
                 locationCloneParent = dropdown.parents('.cloneable'),
+                cloneBtn = locationCloneParent.parents('.control-group').find('.cloner'),
                 locationRow = dropdown.parent('.location-search').parent('.row'),
-                locationRemoveBtn = locationRow.find('.location-selected-remove'),
                 locationNameSpan = locationRow.find('.location-selected-name'),
                 locationRoomSpan = locationRow.find('.location-selected-room'),
                 locationUrlSpan = locationRow.find('.location-selected-url'),
@@ -503,10 +506,14 @@ var eventLocationsSearch = function(locationDropdowns) {
             var locationNewForm = locationRow.find('.location-new-form');
             locationNewForm.hide();
 
-            // Create search as you type field, if necessary
+            // Add content to cloner btn
+            cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Create New Instance"><i class="icon-plus"></i></a>');
+
+            // Create search as you type field + other elements, if necessary
             var locationAutocomplete = null,
                 locationNewBtn = null,
-                suggestionList = null;
+                suggestionList = null,
+                locationRemoveBtn = null;
 
             if (dropdown.siblings('.location-autocomplete').length < 1) {
                 locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />');
@@ -517,11 +524,15 @@ var eventLocationsSearch = function(locationDropdowns) {
 
                 suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
                 suggestionList.insertAfter(locationNewBtn).hide();
+
+                locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>');
+                locationRemoveBtn.insertBefore(locationNameSpan);
             }
             else {
                 locationAutocomplete = dropdown.siblings('.location-autocomplete');
                 locationNewBtn = dropdown.siblings('.location-new-btn');
                 suggestionList = dropdown.siblings('.location-suggestions');
+                locationRemoveBtn = locationRow.find('.location-selected-remove');
             }
 
             // Reassign dropdown label to autocomplete field

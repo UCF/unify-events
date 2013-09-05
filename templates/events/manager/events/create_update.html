@@ -143,7 +143,6 @@
                                         {{ form.location|add_class:"location-dropdown" }}
                                     </div>
                                     <div class="span3 location-selected">
-                                        <a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>
                                         <span class="location-selected-name">
                                             {% if form.location.value %}
                                                 {{ locations|locations_name:form.location.value }}
@@ -182,8 +181,6 @@
                 <div class="controls">
                     <div class="row">
                         <div class="span7 cloner">
-                            <div>Add another event instance...</div>
-                            <a class="btn btn-success" href="#" alt="Create New Instance"><i class="icon-plus"></i></a>
                         </div>
                     </div>
                 </div>

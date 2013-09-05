@@ -105,7 +105,14 @@ form.form-tabbed .tab-content .tab-pane h3 { margin-top: 0; }
 	margin-top: 5px; 
 	display: inline-block; /* req'd for .rows in .controls to clear properly */
 }
-.field-date { width: 40%; margin-right: 10px; }
+.field-date,
+.field-time {
+	width: 40%; /* .field-time overridden by bootstrap timepicker plugin */
+}
+.field-date { margin-right: 10px; }
+.field-time { margin-right: 0; }
+.field-time + .add-on { display: none; }
+
 textarea { height: 175px; }
 select option { padding-top: 3px; padding-bottom: 3px; }
 .typeahead { margin-top: 0; }
@@ -650,10 +657,15 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 
 .cloner { position: relative; }
 .cloner:hover { cursor: pointer; }
-.cloner > div { padding: 4px 20px; border-radius: 4px 0 0 4px; font-size: 14px; font-weight: bold; color: #646464; }
+.cloner > div { padding: 8px 20px; border-radius: 4px 0 0 4px; font-size: 14px; font-weight: bold; color: #646464; }
 .cloner:hover > div { background: #DFF0D8; border-color: #62C462; color: #2D792D; }
-.cloner > a { position: absolute; top: 0; right: -39px; border-radius: 0 4px 4px 0; }
-.remove-instance { border-radius: 0 4px 4px 0; font-size: 18px; float: right; }
+.cloner > a { position: absolute; top: 0; right: -39px; border-radius: 0 4px 4px 0; padding: 8px 14px; }
+.remove-instance {
+	border-radius: 0 4px 4px 0;
+	font-size: 18px;
+	float: right;
+	padding: 8px 14px;
+}
 .remove-instance:hover ~ div > .whenwhere-wrap { background-color: #F2DEDE; border-color: #EE5F5B; }
 
 .location-search { position: relative; }
