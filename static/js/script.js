@@ -386,7 +386,9 @@ var cloneableFieldsets = function() {
 
                 setTimeout(function() {
                     // Remove deleted cloneable; update totals/indexes after removal
-                    //$(btn).parents('.cloneable').remove();
+                    if ($(btn).parents('.cloneable').find('input[id$="-id"]').val() == '') {
+                        $(btn).parents('.cloneable').remove();
+                    }
 
                     var forms = $('.cloneable'); // Get all the cloneable items
 
