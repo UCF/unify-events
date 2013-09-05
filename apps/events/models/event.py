@@ -191,6 +191,8 @@ class Event(TimeCreatedModified):
             self.contact_email = self.created_from.contact_email
             self.contact_name = self.created_from.contact_name
             self.contact_phone = self.created_from.contact_phone
+            self.category = self.created_from.category
+            self.tags.set(*self.created_from.tags.all())
             self.event_instances.all().delete()
             self.modified=self.created_from.modified
             self.save()
@@ -212,11 +214,13 @@ class Event(TimeCreatedModified):
                      state=self.state,
                      title=self.title,
                      description=self.description,
+                     category=self.category,
                      created=self.created,
                      modified=self.modified,
                      *args,
                      **kwargs)
         copy.save()
+        copy.tags.set(*self.tags.all())
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
 
