@@ -53,7 +53,6 @@ def create_update(request, event_id=None):
                 if ctx['event'].calendar not in request.user.calendars:
                     return HttpResponseForbidden('You cannot modify the specified event.')
 
-
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
     user_calendars = request.user.calendars
     EventInstanceFormSet = modelformset_factory(EventInstance,
@@ -77,15 +76,15 @@ def create_update(request, event_id=None):
             try:
                 event.save()
                 ctx['event_form'].save_m2m()
-            except Exception,e:
+            except Exception, e:
                 log.error(str(e))
-                messages.error(request,'Saving event failed.')
+                messages.error(request, 'Saving event failed.')
             else:
                 # Can you add an event to this calendar?
                 if not request.user.is_superuser:
                     if event.calendar not in request.user.calendars:
                         return HttpResponseForbidden('You cannot add an event to this calendar.')
-                
+
                 m_tags = ctx['event_form'].cleaned_data['tags']
                 event.tags.set(*m_tags)
 
@@ -98,7 +97,7 @@ def create_update(request, event_id=None):
                         instance.save()
                     except Exception, e:
                         log.error(str(e))
-                        messages.error(request,'Saving event instance failed.')
+                        messages.error(request, 'Saving event instance failed.')
                         error = True
                         break
 
@@ -114,7 +113,7 @@ def create_update(request, event_id=None):
                 # Copy to main calendar if it hasn't already be copied
                 if not event.is_submit_to_main and ctx['event_form'].cleaned_data['submit_to_main']:
                     get_main_calendar().import_event(event)
-                
+
                 if not error:
                     messages.success(request, 'Event successfully saved')
 
@@ -163,7 +162,7 @@ def delete(request, event_id=None):
             messages.error(request, 'Deleting event failed.')
         else:
             messages.success(request, 'Event successfully deleted.')
-            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id':event.calendar.id}))
+            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
@@ -188,7 +187,7 @@ def copy(request, event_id):
                 for calendar in ctx['form'].cleaned_data['calendars']:
                     try:
                         ctx['event'].copy(calendar=calendar)
-                    except Exception, e:
+                    except Exception:
                         messages.error(request, 'Unable to copy even to %s' % calendar.title)
                         error = True
                 if not error:
@@ -196,4 +195,4 @@ def copy(request, event_id):
                 return HttpResponseRedirect(reverse('dashboard'))
         else:
             ctx['form'] = EventCopyForm(calendars=user_calendars)
-    return direct_to_template(request,tmpl,ctx)
+    return direct_to_template(request, tmpl, ctx)

@@ -33,54 +33,6 @@ def get_all_users_future_events(user):
     return events
 
 
-class Location(TimeCreatedModified):
-    """
-    Location
-    """
-    title = models.CharField(max_length=256)
-    url = models.CharField(max_length=256)
-    room = models.CharField(max_length=256, blank=True, null=True)
-
-    @property
-    def comboname(self):
-        comboname = self.title
-        if self.room:
-            comboname += ': ' + self.room
-        return comboname
-
-    class Meta:
-        app_label = 'events'
-
-    def __repr__(self):
-        return '<' + self.comboname + '>'
-
-    def __str__(self):
-        return self.comboname
-
-    def __unicode__(self):
-        return unicode(self.comboname)
-
-
-class Category(TimeCreatedModified):
-    """
-    Used to cateogorize objects
-    """
-    title = models.CharField(max_length=128)
-    slug = models.SlugField(max_length=128, unique=True, blank=True)
-
-    class Meta:
-        app_label = 'events'
-        verbose_name_plural = 'categories'
-
-    def __str__(self):
-        return self.title
-
-    def __unicode__(self):
-        return unicode(self.title)
-
-pre_save.connect(pre_save_slug, sender=Category)
-
-
 class State:
     """
     This object provides the link between the time and places events are to
@@ -257,7 +209,7 @@ class EventInstance(TimeCreatedModified):
 
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    location = models.ForeignKey(Location, blank=True, null=True, related_name='location');
+    location = models.ForeignKey('Location', blank=True, null=True, related_name='location');
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
