@@ -611,8 +611,9 @@ var eventLocationsSearch = function(locationDropdowns) {
 
             locationAutocomplete.on('keyup focus', function(event) {
                 clearTimeout(timer);
-                var query = locationAutocomplete.val();
-                
+                //var query = locationAutocomplete.val().replace(/\W/g, '');
+                var query = locationAutocomplete.val().replace(/\W|[-!$%&*+|:?\/]/g, '');
+
                 // Execute a search for a non-empty field val.
                 // Searches eventLocations object (created in template.)
                 if (query !== '') {
@@ -775,6 +776,193 @@ var eventLocationsSearch = function(locationDropdowns) {
     }
 };
 
+/**
+ * Search for and add tags to an event
+ **/
+eventTagging = function() {
+    if ($('#id_event-tags').length > 0) {
+        var taglist = $('#id_event-tags');
+
+        // Hide existing taglist
+        taglist.hide();
+
+        // Make sure all values in taglist field are enclosed in quotes
+        var existingTaglistVal = taglist.val();
+        if (existingTaglistVal !== '') {
+            var vals = existingTaglistVal.split(',');
+            for (var i = 0; i < vals.length; i++) {
+                vals[i] = vals[i].trim();
+                if (vals[i].charAt(0) !== '"') {
+                    vals[i] = '"' + vals[i] + '"';
+                }
+            }
+            vals = vals.join(',');
+            // rejoin
+            taglist
+                .val(vals)
+                .attr('value', vals);
+        }
+
+        // Update helptext
+        taglist.siblings('.help-text').text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
+
+        // Create a new textfield for autocompletion
+        var tagAutocomplete = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
+        var suggestionList = $('<ul class="dropdown-menu" id="id_event-tags-suggestions"></ul>');
+        var selectedTags = $('#event-tags-selected');
+        tagAutocomplete.insertAfter(taglist);
+        suggestionList.insertAfter(tagAutocomplete);
+
+        // Perform a search + show suggestion list
+        var autocompleteSearch = function(query) {
+            var matchesFound = false;
+            var matches = [];
+
+            for (var i = 0; i < eventTags.length; i++) {    
+                var tagName = eventTags[i];
+                if (tagName.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                    // Push comboname to autocomplete suggestions list
+                    matchesFound = true;
+                    var listItem = $('<li data-tag-name="' + tagName + '"></li>');
+                    var link = $('<a tabindex="0" class="suggestion-link" href="#">' + tagName + '</a>');
+
+                    // Assign click event to link
+                    link.on('click', function(event) {
+                        event.preventDefault();
+                        addTag(listItem);
+                    });
+
+                    listItem.html(link);
+                    matches.push(listItem);
+                }
+            }
+            if (matchesFound == true) {
+                // Append matches to list
+                $.each(matches, function(index, val) {
+                    val.appendTo(suggestionList);
+                });
+                suggestionList.show();
+            }
+            else {
+                suggestionList.hide();
+            }
+        }
+
+        // Prevent form submission via enter keypress in any autocomplete field
+        taglist.parents('form').on('submit', function(event) {
+            if (tagAutocomplete.is(':focus')) {
+                return false;
+            }
+        });
+
+        // Handle typing into search field
+        var timer = null;
+        var delay = 300;
+
+        tagAutocomplete.on('keyup focus', function(event) {
+            clearTimeout(timer);
+            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|;:?])/g, '');
+            
+            // Execute a search for a non-empty field val.
+            // Searches eventLocations object (created in template.)
+            if (query !== '') {
+                // Detect standard alphanumeric chars (and onfocus event)
+                if (
+                    (event.type == 'focus') ||
+                    (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44 && event.keyCode !== 188)
+                ) {
+                    timer = setTimeout(function() {
+                        suggestionList.empty();
+                        autocompleteSearch(query);
+                    }, delay);
+                }
+                // If user typed a non-alphanumeric key, check for up/down strokes
+                else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
+                    if (suggestionList.children().length > 0) {
+                        var selected = suggestionList.children('.selected');
+                        var newselected = null;
+                        if (event.keyCode == 40) {
+                            // Move down one list item. Check if a list item is highlighted yet or not
+                            if (selected.length > 0) {
+                                newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
+                            }
+                            else {
+                                newselected = suggestionList.children('li').first();
+                            }
+                        }
+                        else if (event.keyCode == 38) {
+                            // Move up one list item
+                            if (selected.length > 0) {
+                                newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
+                            }
+                            else {
+                                newselected = suggestionList.children('li').last();
+                            }
+                        }
+                        else if (event.keyCode == 39 || event.keyCode == 37) {
+                            // Left/right key press; do nothing
+                            return;
+                        }
+                        selected.removeClass('selected');
+                        newselected.addClass('selected');
+                        tagAutocomplete.val(newselected.attr('data-tag-name'));
+                    }
+                }
+                // If user hit enter or comma on the autocomplete field, select the query
+                else if (event.type == 'keyup' && (event.keyCode == 13 || event.keyCode == 188)) {
+                    // Add the tag to the tag list.  Taggit handles creation of new
+                    // or assignment of existing tags
+                    addTag($('<li data-tag-name="'+ query +'"><a tabindex="0" class="suggestion-link" href="#">'+ query +'</a></li>'));
+                }
+            }
+            // Remove suggestion list if user emptied the field
+            else {
+                suggestionList.empty().hide();
+            }
+        });
+
+        var addTag = function(listItem) {
+            var removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag">&times;</a>');
+            removeLink.on('click', function(event) {
+                event.preventDefault();
+                removeTag($(this).parent('li'));
+            });
+
+            var tagName = listItem.attr('data-tag-name');
+
+            // Display new values to the user
+            listItem.appendTo(selectedTags).prepend(removeLink);
+
+            // Hide autocomplete suggestions
+            suggestionList.empty().hide();
+
+            // Remove original suggestion link
+            listItem.find('.suggestion-link').replaceWith(tagName);
+
+            // Assign the hidden textfield's value
+            taglist.val(taglist.val() + '"' + tagName + '",');
+
+            // Empty the current autocomplete field value
+            tagAutocomplete.val('');
+        };
+
+        var removeTag = function(listItem) {
+            // Remove selected list item
+            selectedTags.find(listItem).remove();
+
+            // Remove from hidden textfield's value
+            taglist
+                .val(taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', ''))
+                .attr(taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', ''));
+        }
+
+        $('.selected-remove').on('click', function(event) {
+            event.preventDefault();
+            removeTag($(this).parent('li'));
+        });
+    }
+};
+
 
 $(document).ready(function() {
     bulkSelectAll();
@@ -793,4 +981,5 @@ $(document).ready(function() {
     calendarOwnershipModal();
     toggleEventListRecurrences();
     eventLocationsSearch($('select.location-dropdown'));
+    eventTagging();
 });

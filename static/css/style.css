@@ -125,6 +125,8 @@ textarea { height: 175px; }
 select option { padding-top: 3px; padding-bottom: 3px; }
 .typeahead { margin-top: 0; }
 
+form p.help-text { font-size: 11px; font-style: italic; line-height: 18px; color: #888; padding-top: 8px; }
+
 /* Date/Timepicker overrides */
 .bootstrap-timepicker { width: 35%; }
 .bootstrap-timepicker input { width: 100%; }
@@ -646,6 +648,8 @@ ul.event-list-condensed li time { font-weight: bold; }
 /**
  * Create/Update Event
  **/
+
+/* When/Where */ 
 .whenwhere-wrap,
 .cloner > div {
 	border-radius: 4px 0 4px 4px;
@@ -686,7 +690,10 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 }
 .remove-instance:hover ~ div > .whenwhere-wrap { background-color: #F2DEDE; border-color: #EE5F5B; }
 
-.location-search { position: relative; }
+.location-search,
+.tag-search {
+	position: relative;
+}
 
 .location-autocomplete {}
 .location-new-btn {
@@ -697,7 +704,8 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 	padding-right: 16px;
 	border-radius: 4px 20px 20px 4px;
 }
-.location-suggestions li.selected a {
+.location-suggestions li.selected a,
+#id_event-tags-suggestions li.selected a {
 	background-color: #3979fc;
 	background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
 	color: #fff;
@@ -720,3 +728,31 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 .location-selected-url { display: block; float: left; width: 90%; }
 
 .clone-delete-hiddenfield { display: none; }
+
+/* Tags */
+#event-tags-selected li {
+	display: block;
+	float: left;
+	margin: 0 5px 5px 0;
+	border-radius: 20px;
+	padding: 2px 12px 2px 28px;
+	background: #aaa;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	position: relative;
+}
+#event-tags-selected li a {
+	padding: 0 5px 0 9px;
+	border-radius: 20px 0 0 20px;
+	color: #fff;
+	font-weight: bold;
+	margin-right: 6px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	font-size: 14px;
+	line-height: 22px;
+}
+#event-tags-selected li a:hover { text-decoration: none; background-color: #EE5F5B; }

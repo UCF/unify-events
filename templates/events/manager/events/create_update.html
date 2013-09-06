@@ -21,6 +21,9 @@
     var eventLocations = {
     {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
     };
+    var eventTags = [
+    {% for tag in tags %}"{{ tag.name }}",{% endfor %}
+    ];
 </script>
 {% endblock %}
 
@@ -58,7 +61,17 @@
                 <label class="control-label" for="{{ event_form.calendar.auto_id }}">{{ event_form.calendar.label }}</label>
                 <p class="label-desc">Select an existing calendar to post this event to.</p>
                 <div class="controls">
-                    {{ event_form.calendar }}
+                    <div class="row">
+                        <div class="span4">
+                            {{ event_form.calendar|add_class:"span4" }}
+                        </div>
+                        <div class="span4">
+                            <label class="checkbox" for="{{ event_form.submit_to_main.auto_id }}">
+                                {{ event_form.submit_to_main }}
+                                 <strong>Suggest for Main Calendar Approval</strong>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="control-group large">
@@ -190,6 +203,38 @@
             </div>
             {{ event_instance_formset.management_form }}
             <div class="control-group large">
+                <label class="control-label" for="{{ event_form.category.auto_id }}">Category</label>
+                <p class="label-desc">Select a category to group this event under.</p>
+                <div class="controls">
+                    {{ event_form.category }}
+                </div>
+            </div>
+            <div class="control-group large">
+                <label class="control-label" for="{{ event_form.tags.auto_id }}">Tags</label>
+                <p class="label-desc">Provide keywords that describe this event for better searchability.</p>
+                <div class="controls">
+                    <div class="row">
+                        <div class="span4 tag-search">
+                            {{ event_form.tags }}
+                            <p class="help-text">Type tags separated by commas in this field.  Tag phrases should be enclosed in double quotes; e.g. "My phrase".</p>
+                        </div>
+                        <div class="span4">
+                            <ul id="event-tags-selected">
+                                {% if event_form.tags.value %}
+                                    {% for tag in event.tags.all %}
+                                        <li data-tag-name="{{ tag.name }}">
+                                            <a href="#" class="selected-remove" alt="Remove this tag">&times;</a>
+                                            {{ tag.name }}
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="control-group large">
                 <p class="control-label">Contact Information</p>
                 <p class="label-desc">Let users know how to get in touch with questions about your event.</p>
                 <div class="controls">
@@ -207,16 +252,6 @@
                     </div>
                 </div>
             </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.submit_to_main.auto_id }}">Submit for Main Calendar Approval</label>
-                <p class="label-desc">Request that this event be displayed on UCF's main calendar.</p>
-                <div class="controls">
-                    {{ event_form.submit_to_main }}
-                </div>
-            </div>
-            {{ event_form.tags.errors }}
-            {{ event_form.tags }}
-            {{ event_form.category }}
             <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}
