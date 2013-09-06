@@ -1,0 +1,93 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+{% load locations %}
+
+{% block page_header %}
+	{% spaceless %}
+	{{block.super}}
+	|
+	{% if mode == 'create' %}
+		Create Location
+	{% else %}
+		{% if mode == 'update' %}
+			Update Location
+		{% endif %}
+	{% endif %}
+	{% endspaceless %}
+{% endblock %}
+
+{% block header_scripts %}{% endblock %}
+
+{% block alerts %}{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-pencil" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    {% if mode == 'create' %}
+        <h1>Create an Location</h1>
+    {% elif mode == 'update' %}
+        <h1>Update Location: <span class="alt">{{ location.title }}</span></h1>
+    {% endif %}
+{% endblock %}
+
+{% block content_subheader_text %}
+    {% if mode == 'create' %}
+        Use the form below to create a new location
+    {% elif mode == 'update' %}
+        Use the form below to update the location "{{ location.title }}". Events with this location will be updated with these changes.
+    {% endif %}
+{% endblock %}
+
+{% block content_body %}
+	{% if mode == 'create' %}
+		<form class="form-horizontal" action="{% url location-create %}" method="post" enctype="multipart/form-data">
+	{% elif mode == 'update' %}
+		<form class="form-horizontal" action="{% url location-update location_id=location.id %}" method="post" enctype="multipart/form-data">
+	{% endif %}
+            {{ form.non_field_errors }}
+            {{ form.title.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+                <p class="label-desc">Be Brief. Be Bright. Be Done.</p>
+                <div class="controls">
+                    {{ form.title }}
+                </div>
+            </div>
+            {{ form.room.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
+                <p class="label-desc">A more specific place within the location like a room, hall, etc.</p>
+                <div class="controls">
+                    {{ form.room }}
+                </div>
+            </div>
+            {{ form.url.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
+                <p class="label-desc">A map url of the location (http://map.ucf.edu or http://maps.google.com)</p>
+                <div class="controls">
+                    {{ form.url }}
+                </div>
+            </div>
+            {{ form.reviewed.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.url.auto_id }}">{{ form.reviewed.label }}</label>
+                <p class="label-desc">Is this location acceptable?</p>
+                <div class="controls">
+                    {{ form.reviewed }}
+                </div>
+            </div>
+            <div class="control-group large">
+                <div class="controls">
+                    {% if mode == 'create' %}
+                        <button class="btn btn-primary" type="submit">Create Location</button>
+                    {% elif mode == 'update' %}
+                        <button class="btn btn-primary" type="submit">Update Location</button>
+                        <a href="{% url dashboard %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+{% endblock %}

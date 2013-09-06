@@ -1,0 +1,92 @@
+{% extends 'events/manager/base.html' %}
+
+{% block page_header %}
+    {% spaceless %}
+    {{block.super}} | Locations
+    {% endspaceless %}
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-map-marker" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>Locations</h1>
+{% endblock %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#">All</a>
+                </li>
+                <li>
+                    <a href="#">Review</a>
+                </li>
+                <li>
+                    <a href="#">Approved</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_body %}
+    {% if locations %}
+        <div class="row">
+            <div class="span8 sidebarfix page-content">
+                <form action="" class="form-horizontal bulk-action-form">
+                    <div class="control-group">
+                        <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                        <div class="controls">
+                            <select id="bulk-select-all_0" name="bulk-select-all_0">
+                                <option>Select Action...</option>
+                                <option value="edit">Approve</option>
+                                <option value="delete">Delete</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <table class="table table-striped table-hover" id="manager-posted-events">
+                    <thead>
+                        <tr>
+                            <th class="field-bulk-select">
+                                <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                            </th>
+                            <th class="location-title">Location Name</th>
+                            <th class="location-room">Room</th>
+                            <th class="location-url">URL</th>
+                            <th class="location-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for location in locations %}
+                        <tr>
+                            <td class="field-bulk-select">
+                                <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current location count -->
+                            </td>
+                            <td class="location-title">
+                                <a href="#"><!-- TODO: better slug? -->{{ location.title }}</a>
+                            </td>
+                            <td class="location-room">
+                                {{ location.room }}
+                            </td>
+                            <td class="location-url">
+                                <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                            </td>
+                            <td class="location-actions">
+                                <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>No locations found. Want to <a href="{% url location-create %}">create one?</a></p>
+    {% endif %}   
+{% endblock %}

@@ -127,4 +127,4 @@ class LocationForm(forms.ModelForm):
     """
     class Meta:
         model = Location
-        fields = ('title', 'url')
+        fields = ('title', 'room', 'url', 'reviewed')
