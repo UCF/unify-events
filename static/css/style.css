@@ -81,7 +81,7 @@ a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 }
 
 /* Modals */
-.modal h2 { font-weight: bold; }
+.modal h2 { font-weight: bold; line-height: 30px; }
 .modal-header .object-type,
 .modal-footer .object-type {
 	text-transform: capitalize;
@@ -506,10 +506,10 @@ td.event-actions .btn { margin-top: -4px; }
  **/
 
 /* Users & Permissions */ 
-#users-permissions h2,
-#subscriptions h2 { width: 0; height: 0; display: block; text-indent: -9999px; margin: 0; }
-#users-permissions h3,
-#subscriptions h3 { font-size: 24.5px; font-weight: 300; line-height: 40px; margin: 0; } /* Look like h2 */
+#users-permissions > h2,
+#subscriptions > h2 { width: 0; height: 0; display: block; text-indent: -9999px; margin: 0; }
+#users-permissions > h3,
+#subscriptions > h3 { font-size: 24.5px; font-weight: 300; line-height: 40px; margin: 0; } /* Look like h2 */
 #users-permissions label[for="id_add_user"],
 #users-permissions label[for="id_add_role"] { width: 0; height: 0; display: block; text-indent: -9999px; }
 #users-permissions label[for="id_add_role"] + .form-inline { margin-bottom: 30px; }
