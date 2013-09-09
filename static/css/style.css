@@ -126,6 +126,7 @@ select option { padding-top: 3px; padding-bottom: 3px; }
 .typeahead { margin-top: 0; }
 
 form p.help-text { font-size: 11px; font-style: italic; line-height: 18px; color: #888; padding-top: 8px; }
+form p.help-text + .dropdown-menu { top: 30px; }
 
 /* Date/Timepicker overrides */
 .bootstrap-timepicker { width: 35%; }

@@ -612,7 +612,7 @@ var eventLocationsSearch = function(locationDropdowns) {
             locationAutocomplete.on('keyup focus', function(event) {
                 clearTimeout(timer);
                 //var query = locationAutocomplete.val().replace(/\W/g, '');
-                var query = locationAutocomplete.val().replace(/\W|[-!$%&*+|:?\/]/g, '');
+                var query = locationAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
 
                 // Execute a search for a non-empty field val.
                 // Searches eventLocations object (created in template.)
@@ -804,14 +804,15 @@ eventTagging = function() {
         }
 
         // Update helptext
-        taglist.siblings('.help-text').text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
+        var helpText = taglist.siblings('.help-text');
+        helpText.text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
 
         // Create a new textfield for autocompletion
         var tagAutocomplete = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
         var suggestionList = $('<ul class="dropdown-menu" id="id_event-tags-suggestions"></ul>');
         var selectedTags = $('#event-tags-selected');
         tagAutocomplete.insertAfter(taglist);
-        suggestionList.insertAfter(tagAutocomplete);
+        suggestionList.insertAfter(helpText);
 
         // Perform a search + show suggestion list
         var autocompleteSearch = function(query) {
@@ -829,7 +830,7 @@ eventTagging = function() {
                     // Assign click event to link
                     link.on('click', function(event) {
                         event.preventDefault();
-                        addTag(listItem);
+                        addTag($(this).parent('li'));
                     });
 
                     listItem.html(link);
@@ -861,7 +862,7 @@ eventTagging = function() {
 
         tagAutocomplete.on('keyup focus', function(event) {
             clearTimeout(timer);
-            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|;:?])/g, '');
+            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
             
             // Execute a search for a non-empty field val.
             // Searches eventLocations object (created in template.)
@@ -950,10 +951,17 @@ eventTagging = function() {
             // Remove selected list item
             selectedTags.find(listItem).remove();
 
-            // Remove from hidden textfield's value
+            // Remove from hidden textfield's value. Check for stray comma + remove if necessary
+            var newval = '';
+            if (taglist.val().indexOf('"' + listItem.attr('data-tag-name') + '",') > -1) {
+                newval = taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', '');
+            }
+            else {
+                newval = taglist.val().replace('"' + listItem.attr('data-tag-name') + '"', '');
+            }
             taglist
-                .val(taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', ''))
-                .attr(taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', ''));
+                .val(newval)
+                .attr(newval);    
         }
 
         $('.selected-remove').on('click', function(event) {
