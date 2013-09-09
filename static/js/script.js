@@ -703,6 +703,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                         .end()
                     .children('option[value="' + listItem.attr('data-location-id') + '"]')
                         .attr('selected', true);
+                dropdown.get(0).selectedIndex = dropdown.children('option[value="' + listItem.attr('data-location-id') + '"]').val();
 
                 // Show the location delete btn
                 locationRemoveBtn.show();
