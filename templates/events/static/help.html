@@ -1,0 +1,159 @@
+{% extends 'events/static/base.html' %}
+{% load humanize %}
+
+{% block content_title %}
+    <h1>Help &amp; Documentation</h1>
+{% endblock %}
+    
+{% block content_body %}
+    <section class="container" id="static-base">
+        <div class="row">
+            <div class="span8 sidebarfix page-content" id="static-help">
+                <h2 id="about">About the Events System</h2>
+                
+                <h3 id="overview">Overview</h3>
+                <p>
+                    <a href="http://events.ucf.edu">http://events.ucf.edu</a> is the online location for listing and promoting UCF events. 
+                    The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any 
+                    occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start 
+                    date &amp; time, category-type and location are all required for submitting an event into the system.
+                </p>
+                <p>
+                    The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend 
+                    an event for publication on the main site. If your website promotes UCF events - including lectures, receptions, speakers, 
+                    meetings, and shows, the UCF events system can help your users find this information and easily add it to their own 
+                    calendars. Here’s what you can do with the new UCF events system:
+                </p>
+                <ul>
+                    <li>Get a unique events calendar for yourself or your UCF organization</li>
+                    <li>Add, edit, and manage your upcoming events</li>
+                    <li>Recommend events for posting on the main UCF web site</li>
+                    <li>Share events with other organizations on campus</li>
+                    <li>Display a calendar on your site</li>
+                </ul>
+                <p>
+                    As with any IT system at UCF, use of the Events System is governed by the 
+                    <a href="http://policies.ucf.edu/documents/4-002UseofInformationTechnologiesandResourcesFINAL.pdf">
+                        Division of Information Technologies and Resources Use of Information Technology and Resources Policy.
+                    </a> 
+                    Please be sure you have reviewed and understand this policy before logging in and entering content in the Events System.
+                </p>
+                
+                <h3 id="event-or-announcement">Events vs. Announcements</h3>
+                
+                <hr />
+                
+                <h2 id="first-time-users">First Time Users</h2>
+                
+                <h3 id="create-an-account">Create an Account</h3>
+                
+                <h3 id="first-time-user-setup">First Time User Setup</h3>
+                
+                <hr />
+                
+                <h2 id="existing-users">Existing Users</h2>
+                
+                <h3 id="log-in-log-out">Log In/Log Out</h3>
+                <p>
+                    The login for the events system is located at <a href="https://eventsadmin.smca.ucf.edu/">https://eventsadmin.smca.ucf.edu/</a>, 
+                    and requires a UCF NID and password.
+                </p>
+                <p>
+                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.  
+                    If you don't know the password associated with that NID, you may reset it using the 
+                    <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
+                </p>
+                <p>
+                    If you have issues with retrieving your NID or resetting your password, please contact the Service Desk at 407-823-5117.
+                </p>
+                
+                <h3 id="manage-account">Manage Your Account</h3>
+                
+                <hr />
+                
+                <h2 id="calendar-information">Calendars</h2>
+                
+                <h3 id="create-a-new-calendar">Create a New Calendar</h3>
+                
+                <h3 id="calendar-management">Calendar Management</h3>
+                
+                <h3 id="subscribing-to-another-calendar">Subscribing to Another Calendar</h3>
+                
+                <hr />
+                
+                <h2 id="event-information">Events</h2>
+                
+                <h3 id="create-a-new-event">Create a New Event</h3>
+                
+                <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
+                
+                <h3 id="modifying-an-event">Modifying an Event</h3>
+                
+                <h3 id="recurring-events">Recurring Events</h3>
+                
+                <h3 id="subscribing-to-an-event">Subscribing to an Event</h3>
+            </div>
+            <aside class="span4 page-sidebar" id="static-help-sidebar">
+                <nav>
+                    <strong>About the Events System</strong>
+                    <ul>
+                        <li>
+                            <a href="#overview">Overview</a>
+                        </li>
+                        <li>
+                            <a href="#event-or-announcement">Events vs. Announcements</a>
+                        </li>
+                    </ul>
+                    <strong>First Time Users</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Create an Account</a>
+                        </li>
+                        <li>
+                            <a href="#">First Time User Setup</a>
+                        </li>
+                    </ul>
+                    <strong>Existing Users</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Log In/Log Out</a>
+                        </li>
+                        <li>
+                            <a href="#">Manage Your Account</a>
+                        </li>
+                    </ul>
+                    <strong>Calendar Information</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Create a New Calendar</a>
+                        </li>
+                        <li>
+                            <a href="#">Calendar Management</a>
+                        </li>
+                        <li>
+                            <a href="#">Subscribing to Another Calendar</a>
+                        </li>
+                    </ul>
+                    <strong>Event Information</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Create a New Event</a>
+                        </li>
+                        <li>
+                            <a href="#">Posting an Event on the Main Calendar</a>
+                        </li>
+                        <li>
+                            <a href="#">Modifying an Event</a>
+                        </li>
+                        <li>
+                            <a href="#">Recurring Events</a>
+                        </li>
+                        <li>
+                            <a href="#">Subscribing to an Event</a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </div>
+    </section>
+{% endblock %}

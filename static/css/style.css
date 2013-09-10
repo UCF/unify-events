@@ -73,12 +73,17 @@ a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 
 /* Dropdowns */
 .btn b.caret { border-top: 4px solid #fff; }
-.dropdown li i { padding-right: 6px; }
+.dropdown li i,
+.dropdown-menu li i {
+	padding-right: 6px;
+}
 .dropdown.open a.btn.dropdown-toggle {  
 	background-image: none;
 	box-shadow: 0 2px 0 0 #4D4D4D inset, 0 2px 0 0 #8D8D8D;
 	outline: 0 none;
 }
+.dropdown-menu > li > a { color: #333 !important; }
+.dropdown-menu > li > a:hover { color: #fff !important; }
 
 /* Modals */
 .modal h2 { font-weight: bold; line-height: 30px; }
@@ -345,7 +350,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .fullwidth { width: 100%; }
 .label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
-.sidebarfix > * { padding-right: 10px; }
+.sidebarfix > * { padding-right: 10px; } /* This does dumb things to tables. Wrap tables in a div to accomodate */
 .sidebarfix > .modal { padding-right: 0; }
 .recurring { /* Helper text for designating recurring events */
 	width: 0;
@@ -447,6 +452,26 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
  **/
 
 
+/**
+ * Footer
+ **/
+footer { margin: 40px 0; }
+footer ul { list-style-type: none; margin-left: 0; }
+footer ul li {
+	display: block;
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+
+/**
+ * Static Pages
+ **/
+#static-base h3 { margin-top: 20px; } 
+#static-base h2 + h3 { margin-top: 10px; }
+#static-base .page-sidebar strong { margin-bottom: 5px; display: block; }
+
 
 /**
  * My Calendars
@@ -469,7 +494,10 @@ td.field-bulk-select label,
 td.field-recommended > span { display: block; text-indent: -9999px; line-height: 1px; margin: 0; }
 #bulk-select-all,
 td.field-bulk-select input { margin-top: -4px; }
-td.field-recommended { text-align: center; }
+th.field-recommended,
+td.field-recommended {
+	text-align: center;
+}
 td.event-actions .btn { margin-top: -4px; }
 
 #manager-posted-events .field-bulk-select { width: 5%; }

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="static-base" class="container">
+    {% block content_header %}
+        <div class="row">
+            <div class="span12" id="page-title-wrap">
+                {% block content_title_icon %}
+                <i class="icon-info-sign" id="page-title-icon"></i>
+                {% endblock %}
+                
+                {% block content_title %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+    {% block content_body %}{% endblock %}
+    {% block content_footer %}{% endblock %}
+</section>
+{% endblock %}

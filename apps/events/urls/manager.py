@@ -20,6 +20,7 @@ urlpatterns += patterns('events.views.manager',
 
     url(r'^event/(?P<event_id>\d+)/copy', view='event.copy', name='event-copy'),
     url(r'^event/(?P<event_id>\d+)/update', view='event.create_update', name='event-update'),
+    url(r'^event/(?P<event_id>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
     url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
     url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend',
         kwargs={'state':State.pending}),

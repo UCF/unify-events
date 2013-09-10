@@ -146,6 +146,27 @@ def update_state(request, event_id=None, state=None):
 
 
 @login_required
+def submit_to_main(request, event_id=None):
+    try:
+        event = Event.objects.get(pk=event_id)
+    except Event.DoesNotExist:
+        return HttpResponseNotFound('The event specified does not exist.')
+    else:
+        if not request.user.is_superuser and event.calendar not in request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
+        if not event.is_submit_to_main:
+            get_main_calendar().import_event(Event.objects.get(pk=event_id))
+        try:
+            event.save()
+        except Exception, e:
+            log(str(e))
+            messages.error(request, 'Saving event failed.')
+        else:
+            messages.success(request, 'Event successfully updated.')
+            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+
+
+@login_required
 def delete(request, event_id=None):
     try:
         event = Event.objects.get(pk=event_id)

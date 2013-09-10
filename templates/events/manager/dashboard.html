@@ -106,7 +106,7 @@
                             <label class="label-hidden" for="bulk-select-all">Select All</label>
                             <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                         </th>
-                        <th class="label-hidden field-recommended">Main Calendar Recommendation State</th>
+                        <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
                         <th class="event-title">Event Title</th>
                         <th class="event-time">Date/Time</th>
                         <th class="event-actions">Actions</th>
@@ -121,27 +121,21 @@
                         </td>
                         <td class="field-recommended">
                             {% if event.event.get_main_state == 0 %}
-                                <i class="icon-star-half-full"></i>
-                                <span class="state">Pending Approval</span>
+                                <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
                             {% elif event.event.get_main_state == 1 %}
-                                <i class="icon-star"></i>
-                                <span class="state">Approved for Main Calendar</span>
+                                <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
                             {% endif %}
                         </td>
                         <td class="event-title">
                             <a href="#"><!-- TODO: better slug? -->
                                 {{ event.title }}
-                                {% if event.event.has_instances %}
-                                    <i class="icon-repeat"></i>
-                                    <span class="recurring">(Recurring Event)</span>
-                                {% endif %}
                             </a>
                         </td>
                         <td class="event-time">
                             {% if event.start.time %}
-                                {{ event.start|date:"m/d/Y f a" }}
+                                {{ event.start|date:"M. d, Y f a" }}
                             {% else %}
-                                {{ event.start|date:"m/d/Y" }}
+                                {{ event.start|date:"M. d, Y" }}
                             {% endif %}
                             {% if event.event.has_instances %}
                             <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
@@ -150,17 +144,17 @@
                                     {% if instance.start.time %}
                                         <li>
                                             {% if instance.is_archived %}
-                                                <span class="archived-instance">{{ instance.start|date:"m/d/Y f a" }}</span>
+                                                <span class="archived-instance">{{ instance.start|date:"M. d, Y f a" }}</span>
                                             {% else %}
-                                                {{ instance.start|date:"m/d/Y f a" }}
+                                                {{ instance.start|date:"M. d, Y f a" }}
                                             {% endif %} 
                                         </li>
                                     {% else %}
                                         <li>
                                             {% if instance.is_archived %}
-                                                <span class="archived-instance">{{ instance.start|date:"m/d/Y" }}</span>
+                                                <span class="archived-instance">{{ instance.start|date:"M. d, Y" }}</span>
                                             {% else %}
-                                                {{ instance.start|date:"m/d/Y" }}
+                                                {{ instance.start|date:"M. d, Y" }}
                                             {% endif %}
                                         </li>
                                     {% endif %}
@@ -169,10 +163,36 @@
                             {% endif %}
                         </td>
                         <td class="event-actions">
-                            <a class="btn btn-mini" href="{% url event-update event_id=event.event.id %}">Edit</a>
-                            {% if not event.event.has_instances %}
-                            <a class="btn btn-mini event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.title }}">Delete</a>
-                            {% endif %}
+                            <div class="btn-group">
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                    Select
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation">
+                                        <a href="{% url event-update event_id=event.event.id %}">
+                                            <i class="icon-pencil"></i>
+                                            Edit Event
+                                        </a>
+                                    </li>
+                                    {% if not event.event.is_submit_to_main %}
+                                    <li role="presentation">
+                                        <a href="{% url event-submit-to-main event_id=event.event.id %}">
+                                            <i class="icon-star-empty"></i>
+                                            Suggest to Main Calendar
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% if not event.event.has_instances %}
+                                    <li role="presentation">
+                                        <a href="#">
+                                            <i class="icon-trash"></i>
+                                            Delete Event
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}

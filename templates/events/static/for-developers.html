@@ -1,0 +1,193 @@
+{% extends 'events/static/base.html' %}
+{% load humanize %}
+
+{% block content_title %}
+    <h1>For Developers</h1>
+{% endblock %}
+
+{% block content_body %}
+    <section class="container" id="static-base">
+        <div class="row">
+            <div class="span8 sidebarfix page-content" id="static-help">
+                <h2 id="">Events Widget</h2>
+                
+                <h3 id="">Overview</h3>
+                <p>
+                    What is the Events Widget; what does it do...
+                </p>
+                
+                <h3 id="">Requirements</h3>
+                <p>
+                    The UCF Events Widget is built as a <a href="http://jquery.com/">jQuery</a> plugin.
+                    The widget is compatible with jQuery v1.4.2+.
+                </p>
+                
+                <h3 id="">Installation</h3>
+                <p>
+                    The UCF Events Widget can be <a href="#">downloaded and installed locally</a>, or linked to directly 
+                    from UCF Events using the code below.
+                </p>
+                
+                <ol>
+                    <li>
+                        In the header, link the javascript and stylesheet:
+                        <pre>&lt;!-- jQuery is required --&gt;
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+
+&lt;!-- Widget Includes --&gt;
+&lt;script src="http://events.ucf.edu/tools/script.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;link href="http://events.ucf.edu/tools/style.css" rel="stylesheet" type="text/css"&gt;</pre>
+                    </li>
+                    <li>
+                        Place where you want the widget to display:
+                        <pre>&lt;div class="events"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="http://events.ucf.edu/"&gt;View Calendar&lt;/a&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    $(function(){ $(".events").eventsUCF(); });
+&lt;/script&gt;</pre>
+                    </li>
+                </ol>
+                
+                
+                <h3 id="">Available Options</h3>
+                <p>
+                    All properties listed below are optional.
+                </p>
+                <p>
+                    Options are attached to the Events Widget using 
+                    <a href="http://dev.w3.org/html5/spec/Overview.html#custom-data-attribute">data attributes</a>; 
+                    e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
+                </p>
+                <div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Default Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>limit</code></td>
+                                <td><code>number</code></td>
+                                <td><code>4</code></td>
+                                <td>How many events should be included in the event list.</td>
+                            </tr>
+                            <tr>
+                                <td><code>calendar-id</code></td>
+                                <td><code>number</code></td>
+                                <td><code>1</code></td>
+                                <td>Chooses which UCF Event Calendar to use.  Defaults to the main calendar.</td>
+                            </tr>
+                            <tr>
+                                <td><code>template</code></td>
+                                <td><code>string</code></td>
+                                <td><code>default</code></td>
+                                <td>Changes the html output of the widget.</td>
+                            </tr>
+                            <tr>
+                                <td><code>monthwidget</code></td>
+                                <td><code>boolean</code></td>
+                                <td><code>false</code></td>
+                                <td>Switches plugin to calendar view.  Defaults to list view.</td>
+                            </tr>
+                            <tr>
+                                <td><code>month</code></td>
+                                <td><code>number</code></td>
+                                <td><code>false</code></td>
+                                <td>Chooses specific calendar month to view.</td>
+                            </tr>
+                            <tr>
+                                <td><code>year</code></td>
+                                <td><code>number</code></td>
+                                <td><code>false</code></td>
+                                <td>Chooses specific calendar year to view.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 id="">Demos</h3>
+                
+                <h4 id="">List Display</h4>
+                <div class="row">
+                    <div class="span3">
+                        links to list demos...
+                    </div>
+                    <div class="span4">
+                        screenshot
+                    </div>
+                </div>
+                
+                <h4 id="">Calendar Display</h4>
+                <div class="row">
+                    <div class="span3">
+                        links to calendar display demos...
+                    </div>
+                    <div class="span4">
+                        screenshot
+                    </div>
+                </div>
+                
+                <hr />
+                
+                <h2 id="">Feeds</h2>
+                
+                <h3 id="">Overview</h3>
+                <p>
+                    Feeds are available; where to access them; parameters...
+                </p>
+                
+                <h3 id="">RSS</h3>
+                
+                
+                <h3 id="">JSON</h3>
+                
+                
+                <h3 id="">iCal</h3>
+                
+                
+            </div>
+            <aside class="span4 page-sidebar" id="static-developers-sidebar">
+                <nav>
+                    <strong>Events Widget</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Overview</a>
+                        </li>
+                        <li>
+                            <a href="#">Requirements</a>
+                        </li>
+                        <li>
+                            <a href="#">Installation</a>
+                        </li>
+                        <li>
+                            <a href="#">Available Options</a>
+                        </li>
+                        <li>
+                            <a href="#">Demos</a>
+                        </li>
+                    </ul>
+                    <strong>Feeds</strong>
+                    <ul>
+                        <li>
+                            <a href="#">Overview</a>
+                        </li>
+                        <li>
+                            <a href="#">RSS</a>
+                        </li>
+                        <li>
+                            <a href="#">JSON</a>
+                        </li>
+                        <li>
+                            <a href="#">iCal</a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </div>
+    </section>
+{% endblock %}
