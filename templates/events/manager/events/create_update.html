@@ -35,9 +35,9 @@
 
 {% block content_title %}
     {% if mode == 'create' %}
-        <h1>Create an Event</h1>
+        <h1 tabindex="0">Create an Event</h1>
     {% elif mode == 'update' %}
-        <h1>Update Event: <span class="alt">{{ event.title }}</span></h1>
+        <h1 tabindex="0">Update Event: <span class="alt">{{ event.title }}</span></h1>
     {% endif %}
 {% endblock %}
 
@@ -57,13 +57,13 @@
 	{% elif mode == 'update' %}
 		<form class="form-horizontal" action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
 	{% endif %}
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.calendar.auto_id }}">{{ event_form.calendar.label }}</label>
-                <p class="label-desc">Select an existing calendar to post this event to.</p>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ event_form.calendar.label }}</label>
+                <p class="label-desc" id="help-label-calendar" tabindex="-1">Select an existing calendar to post this event to.</p>
                 <div class="controls">
                     <div class="row">
                         <div class="span4">
-                            {{ event_form.calendar|add_class:"span4" }}
+                            {% render_field event_form.calendar class="span4" aria-describedby="help-label-calendar" %}
                         </div>
                         <div class="span4">
                             <label class="checkbox" for="{{ event_form.submit_to_main.auto_id }}">
@@ -73,56 +73,57 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.title.auto_id }}">{{ event_form.title.label }}</label>
-                <p class="label-desc">
+            </fieldset>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.title.auto_id }}" tabindex="-1">{{ event_form.title.label }}</label>
+                <p class="label-desc" id="help-label-title" tabindex="-1">
                     Be Brief. Be Bright. Be Done.
                     <br/>
-                    (<a target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
+                    (<a tabindex="-1" target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
                 </p>
                 <div class="controls">
-                    {{ event_form.title|add_class:"span8" }}
+                    {% render_field event_form.title class="span8" aria-describedby="help-label-title" %}
                 </div>
-            </div>
+            </fieldset>
             {% if event.is_re_review %}
             <div class="pull-right">
                 <button id="copy_title" class="btn btn-info" data-copy-to="{{ event_form.title.auto_id }}">Copy</button>
             </div>
-            <div class="control-group large"><label class="control-label" for="new_title">New Title</label>
-                <p class="label-desc">The new title form the originating event</p>
+            <fieldset class="control-group large">
+                <label class="control-label" for="new_title" tabindex="-1">New Title</label>
+                <p class="label-desc" id="help-label-new_title" tabindex="-1">The new title form the originating event</p>
                 <div class="controls">
-                    <input id="new_title" class="span8" disabled='disabled' type='text' value='{{ event.created_from.title }}' />
+                    <input id="new_title" class="span8" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
                 </div>
-            </div>
+            </fieldset>
             {% endif %}
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.description.auto_id }}">{{ event_form.description.label }}</label>
-                <p class="label-desc">A description for your event.</p>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.description.auto_id }}" tabindex="-1">{{ event_form.description.label }}</label>
+                <p class="label-desc" id="help-label-description" tabindex="-1">A description for your event.</p>
                 <div class="controls">
-                    {% render_field event_form.description id=event_form.description.auto_id class="span8 wysiwyg" %}
+                    {% render_field event_form.description id=event_form.description.auto_id class="span8 wysiwyg" title=event_form.description.label aria-describedby="help-label-description" %}
                 </div>
-            </div>
+            </fieldset>
             {% if event.is_re_review %}
             <div class="span1 pull-right">
                 <button id="copy_description" class="btn btn-info" data-copy-to="{{ event_form.description.auto_id }}">Copy</button>
             </div>
-            <div class="control-group large">
-                <label class="control-label" for="new_description">New Description</label>
-                <p class="label-desc">The new description from the originating event.</p>
+            <fieldset class="control-group large">
+                <label class="control-label" for="new_description" tabindex="-1">New Description</label>
+                <p class="label-desc" id="help-label-new_description" tabindex="-1">The new description from the originating event.</p>
                 <div class="controls">
-                    <textarea id="new_description" class="span8 wysiwyg disabled-wysiwyg" disabled='disabled'>{{ event.created_from.description }}</textarea>
+                    <textarea id="new_description" class="span8 wysiwyg disabled-wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
                 </div>
-            </div>
+            </fieldset>
             {% endif %}
-            <div class="control-group large">
-                <p class="control-label">When &amp; Where</p>
-                <p class="label-desc">When and where your event takes place, and how often it occurs.</p>
+            <fieldset class="control-group large">
+                <legend class="control-label" tabindex="-1">When &amp; Where</legend>
+                <p class="label-desc" tabindex="-1">When and where your event takes place, and how often it occurs.</p>
                 <div class="controls">
                     {% for form in event_instance_formset %}
                     <div class="row cloneable" data-form-prefix="event_instance">
                         {{ form.id }}
-                        <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this instance">&times;</a>
+                        <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
                         <div class="span7">
                             <div class="whenwhere-wrap">
                                 <div class="row">
@@ -200,23 +201,23 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
             {{ event_instance_formset.management_form }}
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.category.auto_id }}">Category</label>
-                <p class="label-desc">Select a category to group this event under.</p>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.category.auto_id }}" tabindex="-1">Category</label>
+                <p class="label-desc" id="help-label-category" tabindex="-1">Select a category to group this event under.</p>
                 <div class="controls">
-                    {{ event_form.category }}
+                    {% render_field event_form.category aria-describedby="help-label-category" %}
                 </div>
-            </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ event_form.tags.auto_id }}">Tags</label>
-                <p class="label-desc">Provide keywords that describe this event for better searchability.</p>
+            </fieldset>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.tags.auto_id }}" tabindex="-1">Tags</label>
+                <p class="label-desc" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</p>
                 <div class="controls">
                     <div class="row">
                         <div class="span4 tag-search">
-                            {{ event_form.tags }}
-                            <p class="help-text">Type tags separated by commas in this field.  Tag phrases should be enclosed in double quotes; e.g. "My phrase".</p>
+                            {% render_field event_form.tags aria_describedby="help-label-tags" %}
+                            <p class="help-text" tabindex="0">Type tags separated by commas in this field.  Tag phrases should be enclosed in double quotes; e.g. "My phrase".</p>
                         </div>
                         <div class="span4">
                             <ul id="event-tags-selected">
@@ -233,10 +234,10 @@
                     </div>
                     
                 </div>
-            </div>
-            <div class="control-group large">
-                <p class="control-label">Contact Information</p>
-                <p class="label-desc">Let users know how to get in touch with questions about your event.</p>
+            </fieldset>
+            <fieldset class="control-group large">
+                <legend class="control-label" tabindex="-1">Contact Information</legend>
+                <p class="label-desc" tabindex="-1">Let users know how to get in touch with questions about your event.</p>
                 <div class="controls">
                     <label class="label-inner" for="{{ event_form.contact_name.auto_id }}">Contact Name</label>
                     {{ event_form.contact_name }}
@@ -251,7 +252,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
             <div class="control-group large">
                 <div class="controls">
                     {% if mode == 'create' %}

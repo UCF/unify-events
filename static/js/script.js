@@ -144,25 +144,13 @@ var initiateWysiwyg = function(textarea) {
                 // Make the 'Insert Link' button more obvious
                 $('ul.wysihtml5-toolbar')
                     .find('li a[data-wysihtml5-command="createLink"]')
-                    .html('<i class="icon-link"></i>');
-                // Execute iframe, label name reassignments
-                //accessibleEventDescription();
+                        .html('<i class="icon-link"></i>')
+                        .end()
+                    .find('li.dropdown a')
+                        .attr('tabindex', '-1');
             }
         }
     });
-};
-
-/**
- * Reassign Event Desc. WYSIWYG label to iframe
- **/
-var accessibleEventDescription = function() {
-    var textarea = $('#id_event-description'),
-        label = $('label[for="id_event-description"]'),
-        iframe = label.parent().find('iframe');
-    if (textarea.length > 0) {
-        iframe.attr('id', textarea.attr('id') + '_iframe');
-        label.attr('for', label.attr('for') + '_iframe');
-    }
 };
 
 /**
@@ -526,7 +514,7 @@ var eventLocationsSearch = function(locationDropdowns) {
             locationNewForm.hide();
 
             // Add content to cloner btn
-            cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Create New Instance"><i class="icon-plus"></i></a>');
+            cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
 
             // Create search as you type field + other elements, if necessary
             var locationAutocomplete = null,
@@ -544,7 +532,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
                 suggestionList.insertAfter(locationNewBtn).hide();
 
-                locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location">&times;</a>');
+                locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
                 locationRemoveBtn.insertBefore(locationTitleSpan);
             }
             else {
@@ -924,7 +912,7 @@ eventTagging = function() {
         });
 
         var addTag = function(listItem) {
-            var removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag">&times;</a>');
+            var removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">&times;</a>');
             removeLink.on('click', function(event) {
                 event.preventDefault();
                 removeTag($(this).parent('li'));
