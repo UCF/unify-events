@@ -34,6 +34,14 @@ urlpatterns += patterns('events.views.manager',
     url(r'^calendar/(?P<calendar_id>\d+)/delete/user/(?P<username>[\w]+)', view='calendar.delete_user', name='calendar-delete-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/reassign-ownership/user/(?P<username>[\w]+)', view='calendar.reassign_ownership', name='calendar-reassign-ownership'),
     url(r'^calendar/(?P<calendar_id>\d+)/?$', view='dashboard', name='dashboard'),
+    url(r'^calendar/(?P<calendar_id>\d+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
+        view='dashboard',
+        name='manager-day-listing'
+    ),
+    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
+        view='dashboard',
+        name='manager-all-calendars-day-listing'
+    ),
 
     url(r'^location/?$', view='location.list', name='location-list'),
     url(r'^location/create/?$', view='location.create_update', name='location-create'),

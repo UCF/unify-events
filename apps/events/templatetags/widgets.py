@@ -1,15 +1,21 @@
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+
 from django import template
-from django.template import loader, Context
+from django.template import Context
+from django.template import loader
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
-from datetime import datetime, date, timedelta
-from events.functions import get_date_event_map, chunk
+from events.functions import chunk
+from events.functions import get_date_event_map
+from events.models import Calendar
 
 register = template.Library()
 
 @register.simple_tag
-def calendar_widget(calendar, year=None, month=None):
+def calendar_widget(calendars, year=None, month=None, is_manager=0):
     
     if year is None or month is None:
         today = date.today()
@@ -23,7 +29,14 @@ def calendar_widget(calendar, year=None, month=None):
                    month + 1 if month != 12 else 1,
                    1) - timedelta(seconds=1)
 
-    events = calendar.range_event_instances(start, end).order_by('start')
+    calendar = None
+    events = list()
+    if (isinstance(calendars, Calendar)):
+        events.extend(calendars.range_event_instances(start, end).order_by('start'))
+        calendar = calendars
+    else:
+        for cal in calendars:
+            events.extend(cal.range_event_instances(start, end).order_by('start'))
 
     # Getting next and last month makes the assumption that moving 45 days
     # from the start or 15 days before start will result in next and last
@@ -71,6 +84,7 @@ def calendar_widget(calendar, year=None, month=None):
     html = template.render(Context(
         {
             'MEDIA_URL': settings.MEDIA_URL,
+            'is_manager': is_manager,
             'calendar': calendar,
             'this_month': date(this_month.year, this_month.month, 1),
             'next_month': date(next_month.year, next_month.month, 1),

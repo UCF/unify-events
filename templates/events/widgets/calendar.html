@@ -28,9 +28,21 @@
                     <tr class="week">
                         {% for day, events, weight in week %}
                         <td class="day{% if weight %} {{ weight }}{% endif %}{% if today == day.date %} active{% endif %}">
-                            <a href="{% url day-listing calendar.slug day.year day.month day.day %}">
-                              {{ day.day }}
-                            </a>
+                            {% if is_manager %}
+                                {% if not calendar %}
+                                    <a href="{% url manager-all-calendars-day-listing day.year day.month day.day %}">
+                                      {{ day.day }}
+                                    </a>
+                                {% else %}
+                                    <a href="{% url manager-day-listing calendar.id day.year day.month day.day %}">
+                                      {{ day.day }}
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url day-listing calendar.slug day.year day.month day.day %}">
+                                  {{ day.day }}
+                                </a>
+                            {% endif %}
                         </td>
                         {% endfor %}
                     </tr>
