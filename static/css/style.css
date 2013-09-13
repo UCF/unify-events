@@ -245,8 +245,12 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	position: relative;
 	z-index: 1;
 }
+.calendar-slider .carousel-inner .item .table td a:hover { background: #fffbe9; }
 .calendar-slider .carousel-inner .item .table td.active { background: #fcc904; }
 .calendar-slider .carousel-inner .item .table td.active a { color: #fff; }
+.calendar-slider .carousel-inner .item .table td.active a:hover {
+	background-color: #daad00;
+}
 .calendar-slider .carousel-inner .item .table td.hasevents a:after {
 	content: "";
 	display: block;
@@ -262,6 +266,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 }
 .calendar-slider .carousel-inner .item .table td.muted { background-color: #fff; }
 .calendar-slider .carousel-inner .item .table td.muted a { color: #e2e2e2; }
+.calendar-slider .carousel-inner .item .table td.muted a:hover { color: #8d8d8d; }
 .calendar-slider .carousel-inner .item .table td.hasevents.muted a:after {
 	border-color: transparent transparent #EFDB97 transparent;
 }
