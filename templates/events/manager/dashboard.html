@@ -235,7 +235,11 @@
             
         </div>
         <aside class="span4 page-sidebar">
-            {% calendar_widget calendar=current_calendar %}
+            {% if current_calendar %}
+                {% calendar_widget calendars=current_calendar is_manager=1 %}
+            {% else %}
+                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 %}
+            {% endif %}
         </aside>
     </section>
     {% else %}
