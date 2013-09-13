@@ -3,13 +3,14 @@ from django.template import loader, Context
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
+from datetime import datetime, date, timedelta
+from events.functions import get_date_event_map, chunk
+
 register = template.Library()
 
 @register.simple_tag
 def calendar_widget(calendar, year=None, month=None):
-    from datetime import datetime, date, timedelta
-    from events.functions import get_date_event_map, chunk
-
+    
     if year is None or month is None:
         today = date.today()
         year = today.year
@@ -22,7 +23,7 @@ def calendar_widget(calendar, year=None, month=None):
                    month + 1 if month != 12 else 1,
                    1) - timedelta(seconds=1)
 
-    events = calendar.find_event_instances(start, end).order_by('start')
+    events = calendar.range_event_instances(start, end).order_by('start')
 
     # Getting next and last month makes the assumption that moving 45 days
     # from the start or 15 days before start will result in next and last
@@ -53,31 +54,27 @@ def calendar_widget(calendar, year=None, month=None):
         events = date_event_map.get(d.date(), None)
         if events is None:
             weight = ''
-        elif len(events) < 2:
-            weight = 'light'
-        elif len(events) < 5:
-            weight = 'medium'
         else:
-            weight = 'heavy'
+            weight = 'hasevents'
 
         # Filter out dates not in this month.  Ongoing events will cause the
         # calendar widget to display improperly by including any days that occur
         # for that event before the start of the month.  Adding an empty weight
         # fixes this.
         if d.date().month != month:
-            days.append((d, events, ''))
+            days.append((d, events, 'muted'))
         else:
             days.append((d, events, weight))
 
     weeks = chunk(days, 7)
-    template = loader.get_template('events/calendar/widgets/calendar.html')
+    template = loader.get_template('events/widgets/calendar.html')
     html = template.render(Context(
         {
             'MEDIA_URL': settings.MEDIA_URL,
             'calendar': calendar,
-            'this_month': date(*(this_month.year, this_month.month, 1)),
-            'next_month': date(*(next_month.year, next_month.month, 1)),
-            'last_month': date(*(last_month.year, last_month.month, 1)),
+            'this_month': date(this_month.year, this_month.month, 1),
+            'next_month': date(next_month.year, next_month.month, 1),
+            'last_month': date(last_month.year, last_month.month, 1),
             'today': date.today(),
             'weeks': weeks,
         }

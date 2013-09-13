@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+{% load widgets %}
 
 {% block alerts %}
     {% if messages %}
@@ -82,7 +83,7 @@
 
 {% block content_body %}
     {% if user.calendars.all > 0 %}
-    <div class="row">
+    <section class="row">
         <div class="span8 sidebarfix page-content">
             
             <form action="" class="form-horizontal bulk-action-form">
@@ -99,105 +100,107 @@
             </form>
             
             {% if events %}
-            <table class="table table-striped table-hover" id="manager-posted-events">
-                <thead>
-                    <tr>
-                        <th class="field-bulk-select">
-                            <label class="label-hidden" for="bulk-select-all">Select All</label>
-                            <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
-                        </th>
-                        <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
-                        <th class="event-title">Event Title</th>
-                        <th class="event-time">Date/Time</th>
-                        <th class="event-actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for event in events %}
-                    <tr>
-                        <td class="field-bulk-select">
-                            <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                            <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
-                        </td>
-                        <td class="field-recommended">
-                            {% if event.event.get_main_state == 0 %}
-                                <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
-                            {% elif event.event.get_main_state == 1 %}
-                                <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
-                            {% endif %}
-                        </td>
-                        <td class="event-title">
-                            <a href="#"><!-- TODO: better slug? -->
-                                {{ event.title }}
-                            </a>
-                        </td>
-                        <td class="event-time">
-                            {% if event.start.time %}
-                                {{ event.start|date:"M. d, Y f a" }}
-                            {% else %}
-                                {{ event.start|date:"M. d, Y" }}
-                            {% endif %}
-                            {% if event.event.has_instances %}
-                            <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
-                            <ul class="recurrences">
-                                {% for instance in event.event.event_instances.all %}
-                                    {% if instance.start.time %}
-                                        <li>
-                                            {% if instance.is_archived %}
-                                                <span class="archived-instance">{{ instance.start|date:"M. d, Y f a" }}</span>
-                                            {% else %}
-                                                {{ instance.start|date:"M. d, Y f a" }}
-                                            {% endif %} 
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            {% if instance.is_archived %}
-                                                <span class="archived-instance">{{ instance.start|date:"M. d, Y" }}</span>
-                                            {% else %}
-                                                {{ instance.start|date:"M. d, Y" }}
-                                            {% endif %}
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
-                        </td>
-                        <td class="event-actions">
-                            <div class="btn-group">
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-                                    Select
-                                    <span class="caret"></span>
+            <div>
+                <table class="table table-striped table-hover" id="manager-posted-events">
+                    <thead>
+                        <tr>
+                            <th class="field-bulk-select">
+                                <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                            </th>
+                            <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
+                            <th class="event-title">Event Title</th>
+                            <th class="event-time">Date/Time</th>
+                            <th class="event-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td class="field-bulk-select">
+                                <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
+                            </td>
+                            <td class="field-recommended">
+                                {% if event.event.get_main_state == 0 %}
+                                    <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
+                                {% elif event.event.get_main_state == 1 %}
+                                    <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
+                                {% endif %}
+                            </td>
+                            <td class="event-title">
+                                <a href="{% url event-update event_id=event.event.id %}">
+                                    {{ event.title }}
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li role="presentation">
-                                        <a href="{% url event-update event_id=event.event.id %}">
-                                            <i class="icon-pencil"></i>
-                                            Edit Event
-                                        </a>
-                                    </li>
-                                    {% if not event.event.is_submit_to_main %}
-                                    <li role="presentation">
-                                        <a href="{% url event-submit-to-main event_id=event.event.id %}">
-                                            <i class="icon-star-empty"></i>
-                                            Suggest to Main Calendar
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% if not event.event.has_instances %}
-                                    <li role="presentation">
-                                        <a href="#">
-                                            <i class="icon-trash"></i>
-                                            Delete Event
-                                        </a>
-                                    </li>
-                                    {% endif %}
+                            </td>
+                            <td class="event-time">
+                                {% if event.start.time %}
+                                    {{ event.start|date:"M. d, Y f a" }}
+                                {% else %}
+                                    {{ event.start|date:"M. d, Y" }}
+                                {% endif %}
+                                {% if event.event.has_instances %}
+                                <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
+                                <ul class="recurrences">
+                                    {% for instance in event.event.event_instances.all %}
+                                        {% if instance.start.time %}
+                                            <li>
+                                                {% if instance.is_archived %}
+                                                    <span class="archived-instance">{{ instance.start|date:"M. d, Y f a" }}</span>
+                                                {% else %}
+                                                    {{ instance.start|date:"M. d, Y f a" }}
+                                                {% endif %} 
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                {% if instance.is_archived %}
+                                                    <span class="archived-instance">{{ instance.start|date:"M. d, Y" }}</span>
+                                                {% else %}
+                                                    {{ instance.start|date:"M. d, Y" }}
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ul>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                                {% endif %}
+                            </td>
+                            <td class="event-actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                        Select
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li role="presentation">
+                                            <a href="{% url event-update event_id=event.event.id %}">
+                                                <i class="icon-pencil"></i>
+                                                Edit Event
+                                            </a>
+                                        </li>
+                                        {% if not event.event.is_submit_to_main %}
+                                        <li role="presentation">
+                                            <a href="{% url event-submit-to-main event_id=event.event.id %}">
+                                                <i class="icon-star-empty"></i>
+                                                Suggest to Main Calendar
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% if not event.event.has_instances %}
+                                        <li role="presentation">
+                                            <a href="#">
+                                                <i class="icon-trash"></i>
+                                                Delete Event
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% else %}
                 <p>No events found. Want to <a href="{% url event-create %}">create one?</a></p>
             {% endif %}
@@ -231,17 +234,17 @@
             </div>
             
         </div>
-        <div class="span4 page-sidebar">
-            sidebar mini calendar here...
-        </div>
-    </div>
+        <aside class="span4 page-sidebar">
+            {% calendar_widget calendar=current_calendar %}
+        </aside>
+    </section>
     {% else %}
-     <div class="row">
+     <section class="row">
         <div class="span12">
             <div class="alert">
                 <strong>Heads Up:</strong> It doesn't look like you have any calendars.  Why not go <a href="{% url calendar-create %}">create one?</a>
             </div>
         </div>
-    </div>
+    </section>
     {% endif %}
 {% endblock %}

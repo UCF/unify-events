@@ -1,39 +1,43 @@
-<section class="calendar-widget" data-month="{{this_month.month}}" data-year="{{this_month.year}}">
-	<div class="heading">
-		<a class="expand">Expand</a>
-		<h1 class="month"><a href="{%url month-listing calendar.slug this_month.year this_month.month%}">{{this_month|date:"F Y"}}</a></h1>
-	</div>
-	<div class="table-wrap">
-		<ul class="month-controls">
-			<li class="back last-month"><a href="{%url calendar-widget calendar.slug last_month.year last_month.month %}">{{last_month|date:"F"}}</a></li>
-			<li class="now"><a href="{%url calendar-widget calendar.slug today.year today.month %}">Today</a></li>
-			<li class="forward next-month"><a href="{%url calendar-widget calendar.slug next_month.year next_month.month %}">{{next_month|date:"F"}}</a></li>
-		</ul>
-		<table>
-			<thead>
-				<tr>
-					<th scope="col">Su</th>
-					<th scope="col">M</th>
-					<th scope="col">T</th>
-					<th scope="col">W</th>
-					<th scope="col">Th</th>
-					<th scope="col">F</th>
-					<th scope="col">S</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for week in weeks %}
-				<tr class="week">
-					{% for day, events, weight in week %}
-					<td class="day{%if weight%} {{weight}}{%endif%}{%if today == day.date%} active{%endif%}{%if day.month != this_month.month%} subtle{%endif%}">
-						<a class="load" href="{%url day-listing calendar.slug day.year day.month day.day%}">
-						{{day.day}}
-						</a>
-					</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</section>
+<div id="sidebar-minicals" class="carousel slide calendar-slider" data-interval="false">
+    <ul class="pager">
+        <li class="previous">
+            <a class="carousel-control left" href="#sidebar-minicals" data-slide="prev"><i class="icon-chevron-left"></i><span>{{last_month|date:"F"}}</span></a>
+        </li>
+        <li class="next">
+            <a class="carousel-control right next" href="#sidebar-minicals" data-slide="next"><i class="icon-chevron-right"></i><span>{{next_month|date:"F"}}</span></a>
+        </li>
+    </ul>
+    <div class="carousel-inner">
+        <div class="item"></div>
+        <div class="item active">
+            <h2>{{this_month|date:"F"}} <span class="alt">{{this_month|date:"Y"}}</span></h2>
+            <table class="table minical">
+                <thead>
+                    <tr>
+                        <th>Su</th>
+                        <th>M</th>
+                        <th>Tu</th>
+                        <th>W</th>
+                        <th>Th</th>
+                        <th>F</th>
+                        <th>Sa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in weeks %}
+                    <tr class="week">
+                        {% for day, events, weight in week %}
+                        <td class="day{% if weight %} {{ weight }}{% endif %}{% if today == day.date %} active{% endif %}">
+                            <a href="{% url day-listing calendar.slug day.year day.month day.day %}">
+                              {{ day.day }}
+                            </a>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="item"></div>
+    </div>
+</div>

@@ -46,12 +46,12 @@ body { background: url('../img/gradient.png') top left repeat-x; }
 
 /* Header tags, basic text */
 h1 .alt,
-h2 .alt,
 h3 .alt,
 h4 .alt,
 h5 .alt,
 h6 .alt { font-weight: 300; }
 h2 { letter-spacing: 0; font-weight: 300; }
+h2 .alt { font-weight: bold; }
 .icon-circle-wrap { 
 	display: block; 
 	width: 25px; 
@@ -212,6 +212,8 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .calendar-slider .pager li.next { right: 0; }
 .calendar-slider .pager li .carousel-control { 
 	font-size: 14px; 
+	height: 26px;
+	line-height: 26px;
 	padding: 0; 
 	position: static; 
 	height: auto; 
@@ -219,8 +221,51 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	margin: 0;
 	float: none;
 }
+.calendar-slider .pager li .carousel-control > i { padding-right: 0; }
+.calendar-slider .pager li .carousel-control > span { width: 0; height: 0; text-indent: -9999px; display: block; line-height: 0; }
 .calendar-slider .carousel-inner { position: relative; z-index: 1; }
-.calendar-slider .carousel-inner .item h3 { text-align: center; }
+.calendar-slider .carousel-inner .item h2 { text-align: center; font-size: 21px; line-height: 36px; margin-bottom: 0; }
+.calendar-slider .carousel-inner .item .table { border-collapse: separate; border-spacing: 3px; }
+.calendar-slider .carousel-inner .item .table th, 
+.calendar-slider .carousel-inner .item .table td {
+	border-top: 0;
+	text-align: center;
+}
+.calendar-slider .carousel-inner .item .table td {
+	background: #f1f1f1;
+	font-size: 18px;
+	line-height: 18px;
+	padding: 0;
+}
+.calendar-slider .carousel-inner .item .table td a {
+	font-weight: bold;
+	color: #8d8d8d;
+	display: block;
+	padding: 11px 8px;
+	position: relative;
+	z-index: 1;
+}
+.calendar-slider .carousel-inner .item .table td.active { background: #fcc904; }
+.calendar-slider .carousel-inner .item .table td.active a { color: #fff; }
+.calendar-slider .carousel-inner .item .table td.hasevents a:after {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 0 10px 10px;
+	border-color: transparent transparent #daae00 transparent;
+	z-index: 2;
+}
+.calendar-slider .carousel-inner .item .table td.muted { background-color: #fff; }
+.calendar-slider .carousel-inner .item .table td.muted a { color: #e2e2e2; }
+.calendar-slider .carousel-inner .item .table td.hasevents.muted a:after {
+	border-color: transparent transparent #EFDB97 transparent;
+}
+
 
 /* Calendar Grids */
 .calendar-grid { 

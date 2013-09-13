@@ -8,6 +8,7 @@ from django.views.generic.simple import direct_to_template
 from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
+from events.templatetags import widgets
 
 import settings
 
@@ -16,7 +17,6 @@ def calendar_widget(request, calendar, year, month):
     """
     Outputs calendar widget html via http response
     """
-    from events.templatetags import widgets
     calendar = get_object_or_404(Calendar, slug=calendar)
 
     try: # Convert applicable arguments to integer

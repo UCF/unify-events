@@ -113,7 +113,6 @@ var initiateTimePickers = function(field) {
             // Wrap each timepicker input if this field isn't a clone
             if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
                 $(this)
-                    .attr('placeholder', time)
                     .next('span.add-on')
                     .andSelf()
                     .wrapAll('<div class="input-append bootstrap-timepicker" />');
