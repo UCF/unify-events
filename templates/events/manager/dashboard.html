@@ -82,7 +82,7 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if user.calendars.all > 0 %}
+    {% if user.calendars.count > 0 %}
     <section class="row">
         <div class="span8 sidebarfix page-content">
             
@@ -187,7 +187,7 @@
                                         {% endif %}
                                         {% if not event.event.has_instances %}
                                         <li role="presentation">
-                                            <a href="#">
+                                            <a class="event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.event.title }}">
                                                 <i class="icon-trash"></i>
                                                 Delete Event
                                             </a>

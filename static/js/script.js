@@ -479,6 +479,32 @@ var calendarOwnershipModal = function() {
 };
 
 /**
+ * Update Calendar Ownership Reassignment url value in modal;
+ * enable/disable submit button
+ **/
+var calendarSubscribeModal = function() {
+    if ($('#calendar-subscribe-modal')) {
+        var modal = $('#calendar-subscribe-modal');
+        var submitBtn = modal.find('.modal-footer a.btn:first-child');
+
+        $('.calendar-subscribe').click(function(e) {
+            e.preventDefault();
+            modal.modal('show');
+        });
+        
+        submitBtn.click(function() {
+            var newSubscriber = $('#new-subscription-select').val(),
+                url = submitBtn.attr('href');
+            if (newSubscriber !== '') {
+                /* TODO: Fix stupid 'unrecognized expression' syntax error */
+                url = url.replace(/calendar\/[A-Za-z0-9-]+\/subscribe/, 'calendar/' + newSubscriber + '/subscribe');
+                submitBtn.attr('href', url);
+            }
+        });
+    }
+};
+
+/**
  * Toggle recurrences in Dashboard event list
  **/
 var toggleEventListRecurrences = function() {
@@ -975,6 +1001,7 @@ $(document).ready(function() {
     userAddValidation();
     cloneableFieldsets();
     calendarOwnershipModal();
+    calendarSubscribeModal();
     toggleEventListRecurrences();
     eventLocationsSearch($('select.location-dropdown'));
     eventTagging();

@@ -108,3 +108,41 @@ def reassign_ownership(request, calendar_id=None, username=None):
     calendar.editors.remove(user)
     calendar.save()
     return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+
+@login_required
+def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=None):
+    try:
+        calendar = Calendar.objects.get(pk=calendar_id)
+        subscribing_calendar = Calendar.objects.get(pk=subscribing_calendar_id)
+    except Calendar.DoesNotExist:
+        return HttpResponseNotFound('One of the specified calendars does not exist.')
+    else:
+        if calendar not in request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+        try:
+            subscribing_calendar.subscriptions.add(calendar)
+        except Exception, e:
+            log.error(str(e))
+            messages.error(request, 'Adding calendar to subscribing list failed.')
+        else:
+            messages.success(request, 'Calendar successfully subscribed to.')
+    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+
+@login_required
+def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=None):
+    try:
+        calendar = Calendar.objects.get(pk=calendar_id)
+        subscribed_calendar = Calendar.objects.get(pk=subscribed_calendar_id)
+    except Calendar.DoesNotExist:
+        return HttpResponseNotFound('One of the specified calendars does not exist.')
+    else:
+        if calendar not in request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+        try:
+            calendar.subscriptions.remove(subscribed_calendar)
+        except Exception, e:
+            log.error(str(e))
+            messages.error(request, 'Removing subscribed calendar failed.')
+        else:
+            messages.success(request, 'Calendar successfully unsubscribed.')
+    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))

@@ -59,6 +59,7 @@ class Calendar(TimeCreatedModified):
     # TODO: possibly make Permission model (m2m on Calendar) user, permission
     editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', null=True)
+    subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', null=True, symmetrical=False)
 
     class Meta:
         app_label = 'events'
@@ -69,17 +70,24 @@ class Calendar(TimeCreatedModified):
             is_main = True
 
         return is_main
-    
+
+    @property
+    def subscribing_calendars(self):
+        """
+        Returns all calendars that are currently subscribed to this calendar
+        """
+        return Calendar.objects.filter(subscriptions=self.id)
+
     @property
     def events_and_subs(self):
         """
         Returns a queryset that combines this calendars event instances with
         its subscribed event instances
         """
-        from django.db.models import Q
         qs = events.models.EventInstance.objects.filter(
             Q(event__calendar=self) |
-            Q(Q(event__calendar__in=self.subscriptions.all()) & Q(event__state=events.models.State.posted))
+            #Q(Q(event__calendar__in=self.subscriptions.all()) & Q(event__state=events.models.State.posted))
+            Q(event__calendar__in=self.subscriptions.all())
         )
         return qs
 
@@ -89,29 +97,48 @@ class Calendar(TimeCreatedModified):
         Get all the event instances for this calendar
         """
         return events.models.EventInstance.objects.filter(event__calendar=self)
-    
+
     def future_event_instances(self):
         """
-        Get all future event instances for this calendar
+        Get all future event instances for this calendar, including
+        subscribed event instances
         """
-        return self.event_instances.filter(end__gte=datetime.now())
+        return self.events_and_subs.filter(end__gte=datetime.now())
 
     def range_event_instances(self, start, end):
         """
-        Retrieve all the instances that are within the start and end date
+        Retrieve all the instances that are within the start and end date,
+        including subscribed event instances
         """
-        from django.db.models import Q
         during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
         starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
         ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
         current = Q(start__lte=start) & Q(end__gte=end)
         _filter = during | starts_before | ends_after | current
 
-        return self.event_instances.filter(_filter)
+        return self.events_and_subs.filter(_filter)
 
     @property
     def archived_event_instances(self):
-        pass
+        """
+        Returns a queryset of this calendar's archived event instances
+        """
+        qs = events.models.EventInstance.objects.filter(
+            Q(Q(event__calendar=self) & Q(is_archived=True))
+        )
+        return qs
+
+    @property
+    def archived_events_and_subs(self):
+        """
+        Returns a queryset that combines this calendar's archived event
+        instances with its subscribed archived event instances
+        """
+        qs = events.models.EventInstance.objects.filter(
+            Q(Q(event__calendar=self) & Q(is_archived=True)) |
+            Q(Q(event__calendar__in=self.subscriptions.all()) & Q(is_archived=True))
+        )
+        return qs
 
     def get_absolute_url(self):
         """

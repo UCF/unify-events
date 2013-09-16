@@ -90,6 +90,7 @@ a.btn-mini { font-weight: 500; letter-spacing: 0.3px; }
 
 /* Modals */
 .modal h2 { font-weight: bold; line-height: 30px; }
+.modal h2 .alt { font-weight: 300; }
 .modal-header .object-type,
 .modal-footer .object-type {
 	text-transform: capitalize;
