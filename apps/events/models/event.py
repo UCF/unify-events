@@ -46,10 +46,9 @@ def get_range_users_events(user, start, end):
     starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
     ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
     current = Q(start__lte=start) & Q(end__gte=end)
-    calendar = Q(event__calendar__in=list(user.calendars.all()))
-    _filter = during | starts_before | ends_after | current | calendar
+    _filter = during | starts_before | ends_after | current
 
-    return EventInstance.objects.filter(_filter)
+    return EventInstance.objects.filter(_filter, event__calendar__in=list(user.calendars.all()))
 
 
 class State:

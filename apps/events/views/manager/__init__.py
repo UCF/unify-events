@@ -34,8 +34,6 @@ def dashboard(request, calendar_id=None, search_results=None, year=None, month=N
             'next_day': None, # relative to 'relative' date value
             'next_month': None, # relative to 'relative' date value
             'relative': None, # date selected in calendar to view
-            'relative_year': None,
-            'relative_month': None,
         },
         'day_view': False,
         'search_results': search_results,
@@ -54,8 +52,6 @@ def dashboard(request, calendar_id=None, search_results=None, year=None, month=N
         try:
             ctx['dates']['relative'] = date(int(year), int(month), int(day))
             ctx['day_view'] = True
-            ctx['dates']['relative_year'] = int(year)
-            ctx['dates']['relative_month'] = int(month)
         except ValueError: # bad day/month/year vals provided
             ctx['dates']['relative'] = ctx['dates']['today']
     else:

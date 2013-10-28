@@ -15,12 +15,15 @@ from events.models import Calendar
 register = template.Library()
 
 @register.simple_tag
-def calendar_widget(calendars, year=None, month=None, is_manager=0):
-    
-    if year is None or month is None:
+def calendar_widget(calendars, day=None, is_manager=0):
+
+    if day is None:
         today = date.today()
-        year = today.year
-        month = today.month
+    else:
+        today = day
+
+    year = today.year
+    month = today.month
 
     # Find date range for the passed month, year combo.  End is defined by
     # the start of next month minus 1 second.
@@ -89,7 +92,7 @@ def calendar_widget(calendars, year=None, month=None, is_manager=0):
             'this_month': date(this_month.year, this_month.month, 1),
             'next_month': date(next_month.year, next_month.month, 1),
             'last_month': date(last_month.year, last_month.month, 1),
-            'today': date.today(),
+            'today': today,
             'weeks': weeks,
         }
     ))

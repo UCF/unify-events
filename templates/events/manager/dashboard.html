@@ -235,9 +235,9 @@
         </div>
         <aside class="span4 page-sidebar">
             {% if current_calendar %}
-                {% calendar_widget calendars=current_calendar is_manager=1 year=dates.relative_year month=dates.relative_month %}
+                {% calendar_widget calendars=current_calendar is_manager=1 day=dates.relative %}
             {% else %}
-                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=dates.relative_year month=dates.relative_month %}
+                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 day=dates.relative %}
             {% endif %}
         </aside>
     </section>
