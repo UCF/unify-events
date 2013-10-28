@@ -15,13 +15,14 @@ from django.views.generic.simple import direct_to_template
 
 from util import LDAPHelper
 from events.models import Event, Calendar, get_all_users_future_events
+from events.functions import format_to_mimetype
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
 @login_required
-def dashboard(request, _date=None, calendar_id=None, search_results=None):
+def dashboard(request, _date=None, calendar_id=None, search_results=None, format=None, day=None, month=None, year=None):
     ctx = {
         'instances': None,
         'current_calendar': None,
@@ -77,7 +78,7 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
         except EmptyPage:
             ctx['instances'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+    return direct_to_template(request, tmpl, ctx, mimetype=format_to_mimetype(format))
 
 
 @login_required
