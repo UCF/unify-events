@@ -14,26 +14,30 @@ from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 
 from util import LDAPHelper
-from events.models import Event, Calendar, get_all_users_future_events
+from events.models import Event, Calendar, get_range_users_events, get_all_users_future_events
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
 @login_required
-def dashboard(request, _date=None, calendar_id=None, search_results=None):
+def dashboard(request, calendar_id=None, search_results=None, year=None, month=None, day=None, format=None):
     ctx = {
         'instances': None,
         'current_calendar': None,
         'events': None,
         'dates': {
-            'prev_day': None,
-            'prev_month': None,
-            'today': None,
-            'next_day': None,
-            'next_month': None,
-            'relative': None,
+            'prev_day': None, # relative to 'relative' date value
+            'prev_month': None, # relative to 'relative' date value
+            'today': None, # always today's date
+            'today_str': None, # 'today' but in string format
+            'next_day': None, # relative to 'relative' date value
+            'next_month': None, # relative to 'relative' date value
+            'relative': None, # date selected in calendar to view
+            'relative_year': None,
+            'relative_month': None,
         },
+        'day_view': False,
         'search_results': search_results,
         'owned_calendars': len(request.user.owned_calendars.all())
     }
@@ -44,19 +48,16 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
     if request.user.first_login:
         return HttpResponseRedirect(reverse('profile-settings'))
 
-    if calendar_id:
-        current_calendar = get_object_or_404(Calendar, pk=calendar_id)
-        if current_calendar not in request.user.calendars:
-            return HttpResponseNotFound('You do not have permission to access this calendar.')
-        ctx['current_calendar'] = current_calendar
-        ctx['events'] = current_calendar.future_event_instances
-    else:
-        ctx['events'] = get_all_users_future_events(request.user)
-
     # Date navigation
     ctx['dates']['today'] = date.today()
-    if _date is not None:
-        ctx['dates']['relative'] = datetime(*[int(i) for i in _date.split('-')]).date()
+    if all([year, month, day]):
+        try:
+            ctx['dates']['relative'] = date(int(year), int(month), int(day))
+            ctx['day_view'] = True
+            ctx['dates']['relative_year'] = int(year)
+            ctx['dates']['relative_month'] = int(month)
+        except ValueError: # bad day/month/year vals provided
+            ctx['dates']['relative'] = ctx['dates']['today']
     else:
         ctx['dates']['relative'] = ctx['dates']['today']
 
@@ -65,6 +66,22 @@ def dashboard(request, _date=None, calendar_id=None, search_results=None):
     ctx['dates']['next_day'] = str((ctx['dates']['relative'] + timedelta(days=1)))
     ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
     ctx['dates']['today_str'] = str(ctx['dates']['today'])
+
+    # Get events from calendar(s)
+    if calendar_id:
+        current_calendar = get_object_or_404(Calendar, pk=calendar_id)
+        if current_calendar not in request.user.calendars:
+            return HttpResponseNotFound('You do not have permission to access this calendar.')
+        ctx['current_calendar'] = current_calendar
+        if ctx['day_view']:
+            ctx['events'] = current_calendar.range_event_instances(ctx['dates']['relative'], ctx['dates']['relative'])
+        else:
+            ctx['events'] = current_calendar.future_event_instances
+    else:
+        if ctx['day_view']:
+            ctx['events'] = get_range_users_events(request.user, ctx['dates']['relative'], ctx['dates']['relative'])
+        else:
+            ctx['events'] = get_all_users_future_events(request.user)
 
     # Pagination
     if ctx['instances'] is not None:
