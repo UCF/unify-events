@@ -2,14 +2,30 @@
 
 {% block content %}
 <section id="manager-base" class="container">
-    {% block alerts %}{% endblock %}
+    {% block alerts %}
+        {% if messages %}
+            <div class="row">
+                <div class="span12">
+                    <div class="alert fade in" id="messages">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>Message:</strong>
+                        <ul>
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
 	{% block content_header %}
 		<div class="row">
             <div class="span12" id="page-title-wrap">
                 {% block content_title_icon %}
                 <i class="icon-calendar" id="page-title-icon"></i>
                 {% endblock %}
-                
+
                 {% block content_title %}{% endblock %}
             </div>
         </div>

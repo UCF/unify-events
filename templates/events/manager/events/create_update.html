@@ -27,7 +27,19 @@
 </script>
 {% endblock %}
 
-{% block alerts %}{% endblock %}
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{form.non_field_errors}}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% block content_title_icon %}
 <i class="icon-pencil" id="page-title-icon"></i>
@@ -43,10 +55,10 @@
 
 {% block content_subheader_text %}
     {% if mode == 'create' %}
-        Use the form below to create a new one-time or recurring event. Please read the 
+        Use the form below to create a new one-time or recurring event. Please read the
         <a target="_blank" href="#">event creation guidelines</a> before creating your event!
     {% elif mode == 'update' %}
-        Use the form below to update the event "{{ event.title }}". Calendars subscribed to 
+        Use the form below to update the event "{{ event.title }}". Calendars subscribed to
         your event will be updated as well.
     {% endif %}
 {% endblock %}
@@ -177,10 +189,10 @@
                                         <div class="location-new-form">
                                             <label class="label-inner" for="{{ form.new_location_title.auto_id }}">New Location Name</label>
                                             {{ form.new_location_title }}
-                                            
+
                                             <label class="label-inner" for="{{ form.new_location_room.auto_id }}">New Location Room</label>
                                             {{ form.new_location_room }}
-                                            
+
                                             <label class="label-inner" for="{{ form.new_location_url.auto_id }}">New Location Map URL</label>
                                             {{ form.new_location_url }}
                                         </div>
@@ -232,7 +244,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                 </div>
             </fieldset>
             <fieldset class="control-group large">

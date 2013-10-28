@@ -1,6 +1,7 @@
 {% extends 'events/manager/base.html' %}
 
 {% block alerts %}
+    {{ block.super }}
     {% if forms.user.non_field_errors %}
         <div class="row">
             <div class="span12">
@@ -38,10 +39,10 @@
             </div>
             <p class="progress-desc">Step 1 of 2</p>
             <p>
-                Welcome to the UCF Events system! It looks like this is your 
+                Welcome to the UCF Events system! It looks like this is your
                 first time logging in.
                 <br/>
-                <strong>Please review your personal information and 
+                <strong>Please review your personal information and
                 confirm that it is correct.</strong>
             </p>
             <form action="{% url profile-settings %}" method="post" class="form-horizontal">

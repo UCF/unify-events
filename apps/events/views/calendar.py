@@ -61,7 +61,7 @@ def event(request, calendar, instance_id, format=None):
     """
     calendar = get_object_or_404(Calendar, slug=calendar)
     try:
-        event = calendar.events_and_subs.get(pk=instance_id)
+        event = calendar.event_instances.get(pk=instance_id)
     except EventInstance.DoesNotExist:
         raise Http404
 

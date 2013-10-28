@@ -18,7 +18,19 @@
 
 {% block header_scripts %}{% endblock %}
 
-{% block alerts %}{% endblock %}
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{form.non_field_errors}}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% block content_title_icon %}
 <i class="icon-pencil" id="page-title-icon"></i>

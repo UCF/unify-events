@@ -68,7 +68,7 @@ class Event(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
-    
+
     @property
     def is_re_review(self):
         re_review = False
@@ -96,7 +96,7 @@ class Event(TimeCreatedModified):
         is_main = False
         if self.get_main_event():
             is_main = True
-            
+
         return is_main
 
     @property
@@ -139,7 +139,7 @@ class Event(TimeCreatedModified):
             else:
                 self.title = self.created_from.title
                 self.description = self.created_from.description
-            
+
             self.contact_email = self.created_from.contact_email
             self.contact_name = self.created_from.contact_name
             self.contact_phone = self.created_from.contact_phone
@@ -155,8 +155,8 @@ class Event(TimeCreatedModified):
 
     def copy(self, *args, **kwargs):
         """
-        Duplicates this Event creating another Event without a calendar set,
-        and a link back to the original event created.
+        Duplicates this Event creating another Event without a calendar set
+        (unless in *args/**kwargs), and a link back to the original event created.
 
         This allows Events to be imported to other calendars and updates can be
         pushed back to the copied events.
@@ -169,6 +169,9 @@ class Event(TimeCreatedModified):
                      category=self.category,
                      created=self.created,
                      modified=self.modified,
+                     contact_name=self.contact_name,
+                     contact_email=self.contact_email,
+                     contact_phone=self.contact_phone,
                      *args,
                      **kwargs)
         copy.save()
@@ -302,12 +305,12 @@ class EventInstance(TimeCreatedModified):
         except ObjectDoesNotExist:
             # Something has changed
             pass
-        
+
         super(EventInstance, self).save(*args, **kwargs)
 
         if update:
             self.update_children()
-        
+
     def copy(self, *args, **kwargs):
         """
         Copies the event instance
@@ -330,7 +333,7 @@ class EventInstance(TimeCreatedModified):
 
     def __repr__(self):
         return '<' + str(self.start) + '>'
-    
+
     def __unicode__(self):
         return self.event.calendar.title + ' - ' + self.event.title
 
