@@ -79,31 +79,34 @@ class Calendar(TimeCreatedModified):
         return Calendar.objects.filter(subscriptions=self.id)
 
     @property
-    def events_and_subs(self):
-        """
-        Returns a queryset that combines this calendars event instances with
-        its subscribed event instances
-        """
-        qs = events.models.EventInstance.objects.filter(
-            Q(event__calendar=self) |
-            #Q(Q(event__calendar__in=self.subscriptions.all()) & Q(event__state=events.models.State.posted))
-            Q(event__calendar__in=self.subscriptions.all())
-        )
-        return qs
-
-    @property
     def event_instances(self):
         """
         Get all the event instances for this calendar
         """
         return events.models.EventInstance.objects.filter(event__calendar=self)
 
+    def copy_future_events(self, calendar):
+        """
+        Copy all future events to a new calendar.
+        """
+        events = self.events.filter(event_instances__end__gte=datetime.now()).distinct()
+        for event in events:
+            event.copy(calendar=calendar)
+
+    def delete_subscribed_events(self, calendar):
+        """
+        Deletes all the subscribed events related to the calendar
+        """
+        events = self.events.filter(created_from__calendar=calendar)
+        for event in events:
+            event.delete()
+
     def future_event_instances(self):
         """
         Get all future event instances for this calendar, including
         subscribed event instances
         """
-        return self.events_and_subs.filter(end__gte=datetime.now())
+        return self.event_instances.filter(end__gte=datetime.now())
 
     def range_event_instances(self, start, end):
         """
@@ -116,7 +119,7 @@ class Calendar(TimeCreatedModified):
         current = Q(start__lte=start) & Q(end__gte=end)
         _filter = during | starts_before | ends_after | current
 
-        return self.events_and_subs.filter(_filter)
+        return self.event_instances.filter(_filter)
 
     @property
     def archived_event_instances(self):
@@ -125,18 +128,6 @@ class Calendar(TimeCreatedModified):
         """
         qs = events.models.EventInstance.objects.filter(
             Q(Q(event__calendar=self) & Q(is_archived=True))
-        )
-        return qs
-
-    @property
-    def archived_events_and_subs(self):
-        """
-        Returns a queryset that combines this calendar's archived event
-        instances with its subscribed archived event instances
-        """
-        qs = events.models.EventInstance.objects.filter(
-            Q(Q(event__calendar=self) & Q(is_archived=True)) |
-            Q(Q(event__calendar__in=self.subscriptions.all()) & Q(is_archived=True))
         )
         return qs
 

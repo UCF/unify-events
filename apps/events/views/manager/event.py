@@ -114,6 +114,10 @@ def create_update(request, event_id=None):
                 if not event.is_submit_to_main and ctx['event_form'].cleaned_data['submit_to_main']:
                     get_main_calendar().import_event(event)
 
+                # Copy event for subscribed calendars
+                for subscribed_calendar in event.calendar.subscribed_calendars.all():
+                    subscribed_calendar.import_event(event)
+
                 if not error:
                     messages.success(request, 'Event successfully saved')
 

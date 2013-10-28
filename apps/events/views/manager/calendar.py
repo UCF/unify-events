@@ -120,13 +120,15 @@ def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=Non
         if calendar not in request.user.calendars:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         try:
-            subscribing_calendar.subscriptions.add(calendar)
+            if calendar not in subscribing_calendar.subscriptions.all():
+                subscribing_calendar.subscriptions.add(calendar)
+                calendar.copy_future_events(subscribing_calendar)
         except Exception, e:
             log.error(str(e))
             messages.error(request, 'Adding calendar to subscribing list failed.')
         else:
             messages.success(request, 'Calendar successfully subscribed to.')
-    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+    return HttpResponseRedirect(reverse('calendar-update', args=(subscribing_calendar_id,)) + '#subscriptions')
 
 @login_required
 def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=None):
@@ -140,9 +142,10 @@ def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         try:
             calendar.subscriptions.remove(subscribed_calendar)
+            calendar.delete_subscribed_events(subscribed_calendar)
         except Exception, e:
             log.error(str(e))
             messages.error(request, 'Removing subscribed calendar failed.')
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
-    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)) + '#subscriptions')

@@ -1,6 +1,7 @@
 {% extends 'events/manager/base.html' %}
 
 {% block alerts %}
+    {{ block.super }}
     {% if forms.user.non_field_errors %}
         <div class="row">
             <div class="span12">
