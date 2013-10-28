@@ -27,7 +27,6 @@
         <link href="{{ MEDIA_URL }}js/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}js/datepicker/css/datepicker.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}js/wysihtml5-bootstrap/wysihtml5-bootstrap.css" rel="stylesheet" media="all" />
-        <link href="http://universityheader.ucf.edu/bar/css/bar.css" rel="stylesheet">
         <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" media="all" />
         {% block links %}
         {% endblock %}
@@ -51,7 +50,7 @@
                     </form>
                 </div>
             </div>
-        </header>	    
+        </header>       
         {% endblock %}
         
         {% block navbar %}
@@ -176,44 +175,43 @@
             </nav>
         </div>
         {% endblock %}
-	    
-		<!-- Content -->
-		{% block body %}
+        
+        <!-- Content -->
+        {% block body %}
             {% block content %}
                 {% block content_header %}{% endblock %}
                 {% block content_body %}{% endblock %}
                 {% block content_footer %}{% endblock %}
             {% endblock %}
-		{% endblock %}
-		
-		{% block footer %}
-		<footer class="container">
-		    <div class="row">
-		        <hr class="span12" />
-		        <div class="span8">
-		            &copy; University of Central Florida
-		        </div>
-		        <div class="span4">
-		            <ul>
-		                <li>
-		                    <a href="{% url help %}">Help &amp; Documentation</a>
-		                </li>
-		                <li>
-		                    <a href="{% url for-developers %}">For Developers</a>
-		                </li>
-		                <li>
-		                    <a href="mailto:webcom@ucf.edu">Contact</a>
-		                </li>
-		            </ul>
-		        </div>
-		    </div>
-		</footer>
         {% endblock %}
         
-		{% block footer_scripts %}
+        {% block footer %}
+        <footer class="container">
+            <div class="row">
+                <hr class="span12" />
+                <div class="span8">
+                    &copy; University of Central Florida
+                </div>
+                <div class="span4">
+                    <ul>
+                        <li>
+                            <a href="{% url help %}">Help &amp; Documentation</a>
+                        </li>
+                        <li>
+                            <a href="{% url for-developers %}">For Developers</a>
+                        </li>
+                        <li>
+                            <a href="mailto:webcom@ucf.edu">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        {% endblock %}
+        
+        {% block footer_scripts %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <!-- <script type="text/javascript" src="http://universityheader.ucf.edu/bar/js/university-header.js"></script>-->
-        <script type="text/javascript" id="ucfhb-script" src="http://webcom.dev.smca.ucf.edu/UCF-Header/bar/js/university-header-full.js?use-bootstrap-overrides=1"></script>
+        <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header-full.js?use-bootstrap-overrides=1"></script>
         <script src="{{ MEDIA_URL }}bootstrap/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ MEDIA_URL }}js/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ MEDIA_URL }}js/datepicker/js/bootstrap-datepicker.js" type="text/javascript" charset="utf-8"></script>
@@ -221,5 +219,5 @@
         <script src="{{ MEDIA_URL }}js/wysihtml5-bootstrap/wysihtml5-bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ MEDIA_URL }}js/script.js" type="text/javascript" charset="utf-8"></script>
         {% endblock %}
-	</body>
+    </body>
 </html>
