@@ -1,4 +1,6 @@
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include
+from django.conf.urls import patterns
+from django.conf.urls import url
 
 from events.models import State
 
@@ -22,8 +24,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^event/(?P<event_id>\d+)/update', view='event.create_update', name='event-update'),
     url(r'^event/(?P<event_id>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
     url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
-    url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend',
-        kwargs={'state':State.pending}),
+    url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),
     url(r'^event/(?P<event_id>\d+)/delete', view='event.delete', name='event-delete'),
     url(r'^event/create', view='event.create_update', name='event-create'),
 

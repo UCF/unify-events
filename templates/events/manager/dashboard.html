@@ -111,6 +111,9 @@
                                 {% endif %}
                             </td>
                             <td class="event-title">
+                                {% if event.event.created_from %}
+                                    <i class="icon-share-alt"></i>
+                                {% endif %}
                                 <a href="{% url event-update event_id=event.event.id %}">
                                     {{ event.title }}
                                 </a>

@@ -89,9 +89,9 @@ class Calendar(TimeCreatedModified):
         """
         Copy all future events to a new calendar.
         """
-        events = self.events.filter(event_instances__end__gte=datetime.now()).distinct()
+        events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None).distinct()
         for event in events:
-            event.copy(calendar=calendar)
+            calendar.import_event(event)
 
     def delete_subscribed_events(self, calendar):
         """
@@ -139,7 +139,7 @@ class Calendar(TimeCreatedModified):
             'calendar': self.slug,
         })
 
-    def import_event(self, event):
+    def import_event(self, event, completed_calendars=[]):
         """
         Given an event, will duplicate that event and import it into this
         calendar. Returns the newly created event.

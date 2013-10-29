@@ -81,9 +81,8 @@ def create_update(request, event_id=None):
                 messages.error(request, 'Saving event failed.')
             else:
                 # Can you add an event to this calendar?
-                if not request.user.is_superuser:
-                    if event.calendar not in request.user.calendars:
-                        return HttpResponseForbidden('You cannot add an event to this calendar.')
+                if not request.user.is_superuser and event.calendar not in request.user.calendars:
+                    return HttpResponseForbidden('You cannot add an event to this calendar.')
 
                 m_tags = ctx['event_form'].cleaned_data['tags']
                 event.tags.set(*m_tags)
@@ -115,8 +114,9 @@ def create_update(request, event_id=None):
                     get_main_calendar().import_event(event)
 
                 # Copy event for subscribed calendars
-                for subscribed_calendar in event.calendar.subscribed_calendars.all():
-                    subscribed_calendar.import_event(event)
+                if  ctx['mode'] == 'create' and event.created_from is None:
+                    for subscribed_calendar in event.calendar.subscribed_calendars.all():
+                        subscribed_calendar.import_event(event)
 
                 if not error:
                     messages.success(request, 'Event successfully saved')
@@ -200,9 +200,6 @@ def copy(request, event_id):
     except Event.DoesNotExist:
         return HttpResponseNotFound('Event specified does not exist.')
     else:
-        if not request.user.is_superuser and ctx['event'].calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot copy the specified event.')
-
         user_calendars = request.user.calendars.exclude(pk=ctx['event'].calendar.id)
 
         if request.method == 'POST':
@@ -211,7 +208,7 @@ def copy(request, event_id):
                 error = False
                 for calendar in ctx['form'].cleaned_data['calendars']:
                     try:
-                        ctx['event'].copy(calendar=calendar)
+                        calendar.import_event(ctx['event'])
                     except Exception:
                         messages.error(request, 'Unable to copy even to %s' % calendar.title)
                         error = True

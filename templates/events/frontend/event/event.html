@@ -1,4 +1,4 @@
-{%extends 'events/calendar/base.html'%}
+{%extends 'events/frontend/base.html'%}
 
 {%block content_body%}
 <div class="event-page">
@@ -14,6 +14,13 @@
 				{%endif%}
 				</div>
 				<div class="time">{{event.start|date:"g:i a"}}</div>
+			</div>
+			<div>
+				{% if event.event.calendar in user.editable_calendars.all %}
+					<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i> Edit</a>
+				{% else %}
+					<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i> Add Event To</a>
+				{% endif %}
 			</div>
 			<div class="social">
 				<img src="{{MEDIA_URL}}-/img/test-social.png" height="97" width="299" />
@@ -46,16 +53,16 @@
 			</div>
 			{%endif%}
 		</div>
-		
+
 		<div class="span-16 last">
 			<h1 class="title">{{event.title}}</h1>
-			
+
 			<div class="image">
 				<img class="snazzy" src="{{MEDIA_URL}}-/img/test-image.jpg" height="397" width="631" />
 			</div>
-		
+
 			<div class="description">{{event.description}}</div>
-		
+
 			<div class="meta">
 				<table class="tag-breakdown">
 					<thead>
@@ -94,7 +101,7 @@
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<ul class="nobullet">
 					<li>Event Posted By: {{event.owner.full_name}}</li>
 					<li>Event Posted Date: {{event.created|date:"F, jS Y"}}</li>

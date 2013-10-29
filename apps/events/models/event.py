@@ -161,8 +161,14 @@ class Event(TimeCreatedModified):
         This allows Events to be imported to other calendars and updates can be
         pushed back to the copied events.
         """
+
+        # Ensures that the originating event is always set as the created_from
+        created_from = self
+        if self.created_from:
+            created_from = self.created_from
+
         copy = Event(creator=self.creator,
-                     created_from=self,
+                     created_from=created_from,
                      state=self.state,
                      title=self.title,
                      description=self.description,
