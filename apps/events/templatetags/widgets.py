@@ -1,18 +1,23 @@
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+import calendar as calgenerator
+import itertools
+import collections
 
 from django import template
 from django.template import Context
 from django.template import loader
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from dateutil.relativedelta import relativedelta
 
 from events.functions import chunk
 from events.functions import get_date_event_map
 from events.models import Calendar
 
 register = template.Library()
+
 
 @register.simple_tag
 def calendar_widget(calendars, day=None, is_manager=0):
@@ -45,55 +50,42 @@ def calendar_widget(calendars, day=None, is_manager=0):
     # from the start or 15 days before start will result in next and last
     # month dates, so start needs to be the start of this month or this needs
     # to change
-    this_month = start
-    next_month = start + timedelta(days=45)
-    last_month = start - timedelta(days=15)
+    #this_month = start
+    #next_month = start + timedelta(days=45)
+    #last_month = start - timedelta(days=15)
 
-    dates, date_event_map = get_date_event_map(events)
+    this_month = date(start.year, start.month, 1)
+    next_month = this_month + relativedelta(months=+1)
+    last_month = this_month + relativedelta(months=-1)
 
-    # These tuples map to the difference between sunday or saturday for start
-    # and end of the calendar page respectively.  So if the start of this month
-    # is monday, we need to get 1 extra day before it, and the end of this month
-    # is wednesday, we need to get 3 extra days after it.
-    start_shift = (1, 2, 3, 4, 5, 6, 0)
-    end_shift = (5, 4, 3, 2, 1, 0, 6)
+    # Create new lists of days in each month (strip week grouping)
+    this_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(this_month.year, this_month.month)))
+    next_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(next_month.year, next_month.month)))
+    last_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(last_month.year, last_month.month)))
 
-    # Discover month's page start and end including previous and next month days
-    cal_start = start - timedelta(days=start_shift[start.weekday()])
-    cal_end = end + timedelta(days=end_shift[end.weekday()])
+    # Set dates as dict keys
+    this_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(this_month_cal))
+    next_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(next_month_cal))
+    last_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(last_month_cal))
 
-    # Generate a list of weeks and the days/events contained
-    diff = cal_end - cal_start + timedelta(days=1)
-    days = list()
-    for d in range(0, diff.days):
-        d = cal_start + timedelta(days=d)
-        events = date_event_map.get(d.date(), None)
-        if events is None:
-            weight = ''
-        else:
-            weight = 'hasevents'
+    month_calendar_map = dict({last_month.month: last_month_cal, this_month.month: this_month_cal, next_month.month: next_month_cal})
 
-        # Filter out dates not in this month.  Ongoing events will cause the
-        # calendar widget to display improperly by including any days that occur
-        # for that event before the start of the month.  Adding an empty weight
-        # fixes this.
-        if d.date().month != month:
-            days.append((d, events, 'muted'))
-        else:
-            days.append((d, events, weight))
 
-    weeks = chunk(days, 7)
+    for event in events:
+        month_calendar_map[event.start.month][event.start.date()].append(event)
+
+
     template = loader.get_template('events/widgets/calendar.html')
     html = template.render(Context(
         {
             'MEDIA_URL': settings.MEDIA_URL,
             'is_manager': is_manager,
             'calendar': calendar,
-            'this_month': date(this_month.year, this_month.month, 1),
-            'next_month': date(next_month.year, next_month.month, 1),
-            'last_month': date(last_month.year, last_month.month, 1),
-            'today': today,
-            'weeks': weeks,
+            'this_month': this_month,
+            'next_month': next_month,
+            'last_month': last_month,
+            'today': date.today(),
+            'cals': month_calendar_map,
         }
     ))
 

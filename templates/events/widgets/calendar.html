@@ -8,10 +8,18 @@
         </li>
     </ul>
     <div class="carousel-inner">
-        <div class="item"></div>
-        <div class="item active">
-            <h2>{{this_month|date:"F"}} <span class="alt">{{this_month|date:"Y"}}</span></h2>
-            <table class="table minical">
+        {% for key, cal in cals.items %}
+        <div class="item {% if key == this_month.month %}active{% endif %}">
+             <h2>
+                 {% if key == this_month.month %}
+                    {{ this_month|date:"F" }} <span class="alt">{{ this_month.year }}</span>
+                 {% elif key == last_month.month %}
+                    {{ last_month|date:"F" }} <span class="alt">{{ last_month.year }}</span>
+                 {% else %}
+                    {{ next_month|date:"F" }} <span class="alt">{{ next_month.year }}</span>
+                 {% endif %}
+             </h2>
+             <table class="table minical">
                 <thead>
                     <tr>
                         <th>Su</th>
@@ -24,32 +32,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for week in weeks %}
-                    <tr class="week">
-                        {% for day, events, weight in week %}
-                        <td class="day{% if weight %} {{ weight }}{% endif %}{% if today == day.date %} active{% endif %}">
-                            {% if is_manager %}
-                                {% if not calendar %}
-                                    <a href="{% url manager-all-calendars-day-listing day.year day.month day.day %}">
-                                      {{ day.day }}
-                                    </a>
+                    {% for day, events in cal.items %}
+                        {% if forloop.counter|add:"-1"|divisibleby:7 and forloop.counter|add:"-1" != 0 %}</tr>{% endif %}
+                            <td class="day{% if events %} hasevents{% endif %}{% if today == day.date %} active{% endif %}{% if day.month != key %} muted{% endif %}">
+                                {% if is_manager %}
+                                    {% if not calendar %}
+                                        <a href="{% url manager-all-calendars-day-listing day.year day.month day.day %}">
+                                        {{ day.day }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url manager-day-listing calendar.id day.year day.month day.day %}">
+                                            {{ day.day }}
+                                        </a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url manager-day-listing calendar.id day.year day.month day.day %}">
-                                      {{ day.day }}
+                                    <a href="{% url day-listing calendar.slug day.year day.month day.day %}">
+                                        {{ day.day }}
                                     </a>
                                 {% endif %}
-                            {% else %}
-                                <a href="{% url day-listing calendar.slug day.year day.month day.day %}">
-                                  {{ day.day }}
-                                </a>
-                            {% endif %}
-                        </td>
-                        {% endfor %}
-                    </tr>
+                            </td>
+                        {% if forloop.counter|divisibleby:7 and forloop.counter != 0 %}<tr class="week">{% endif %}
                     {% endfor %}
                 </tbody>
-            </table>
+             </table>
         </div>
-        <div class="item"></div>
+        {% endfor %}
     </div>
 </div>
