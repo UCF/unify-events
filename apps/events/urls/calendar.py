@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+
 from events.views.calendar import auto_listing
 from events.views.calendar import calendar
-from events.views.calendar import calendar_widget
 from events.views.calendar import event
 from events.views.calendar import named_listing
 from events.views.calendar import range_listing
@@ -33,6 +33,4 @@ urlpatterns = patterns('events.views.calendar',
     # etc.
     url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$', view=named_listing, name="named-listing"),
 
-    # http://events.ucf.edu/calendar/athletics/2010/01/calendar-widget
-    url(r'^(?P<calendar>[\w-]+)/widget/(?P<year>[\d]+)/(?P<month>[\d]+)/$', view=calendar_widget, name="calendar-widget"),
 )

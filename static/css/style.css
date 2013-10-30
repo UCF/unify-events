@@ -1,43 +1,4 @@
 /**
- * University Header Overrides
- **/
-#UCFHBSearch_ucf fieldset #q {
-	line-height: 11px;
-	color: #000000;
-	padding: 2px!important;
-	font-size: 11px;
-	font-family: 'Lucida Grande',sans-serif;
-	height: 13px;
-	border-radius: 0;
-	webkit-border-radius: 0;
-	moz-border-radius: 0;
-	margin-bottom: 0;
-	margin-top: 1px;
-}
-select#UCFHBHeaderLinks {
-	height: 18px;
-	font-size: 11px;
-	color: #000000;
-	font-family: 'Lucida Grande', sans-serif;
-	border-radius: 0;
-	webkit-border-radius: 0;
-	moz-border-radius: 0;
-	margin-bottom: 0;
-	margin-top: 1px;
-	padding: 0;
-	line-height: 15px;
-}
-#UCFHBHeader { position: relative; z-index: 999; }
-@media (max-width: 979px) {
-	#UCFHBSearch_and_links { display: none; }
-	#UCFHBHeader div.UCFHBWrapper { width: 100%; }
-}
-@media (max-width: 767px) {
-	#UCFHBHeader { margin-left: -20px; width: 100%; padding-right: 40px; }
-}
-
-
-/**
  * Universal Styles
  **/
 
@@ -246,7 +207,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	position: relative;
 	z-index: 1;
 }
-.calendar-slider .carousel-inner .item .table td a:hover { background: #fffbe9; }
+.calendar-slider .carousel-inner .item .table td a:hover { background: #fffbe9; text-decoration: none; }
 .calendar-slider .carousel-inner .item .table td.active { background: #fcc904; }
 .calendar-slider .carousel-inner .item .table td.active a { color: #fff; }
 .calendar-slider .carousel-inner .item .table td.active a:hover {
@@ -271,6 +232,7 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 .calendar-slider .carousel-inner .item .table td.hasevents.muted a:after {
 	border-color: transparent transparent #EFDB97 transparent;
 }
+.calendar-slider .carousel-inner .item .table td.today a { text-decoration: underline; }
 
 
 /* Calendar Grids */
@@ -705,8 +667,12 @@ ul.event-list-condensed li {
 }
 ul.event-list-condensed li time { font-weight: bold; }
 
-/* Week View */
-#calendar-events-week h2 { margin-bottom: 20px; }
+/* Day, Week View */
+#calendar-events-day h2,
+#calendar-events-week h2 {
+	margin-bottom: 20px;
+}
+#calendar-events-day h3,
 #calendar-events-week h3 {
 	font-size: 20px;
 	line-height: 30px;

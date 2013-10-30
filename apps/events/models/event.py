@@ -34,6 +34,23 @@ def get_all_users_future_events(user):
     return events
 
 
+def get_range_users_events(user, start, end):
+    """
+    Retrieves a range of events for the given user
+
+    TODO: condense this into a more basic function?
+    (Calendar.range_event_instances uses similar filters)
+    """
+    from django.db.models import Q
+    during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
+    starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
+    ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
+    current = Q(start__lte=start) & Q(end__gte=end)
+    _filter = during | starts_before | ends_after | current
+
+    return EventInstance.objects.filter(_filter, event__calendar__in=list(user.calendars.all()))
+
+
 class State:
     """
     This object provides the link between the time and places events are to
