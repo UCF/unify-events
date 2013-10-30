@@ -9,11 +9,11 @@
     </ul>
     <div class="carousel-inner">
         {% for key, cal in cals.items %}
-        <div class="item {% if key == this_month.month %}active{% endif %}">
+        <div class="item {% if key.month == this_month.month %}active{% endif %}">
              <h2>
-                 {% if key == this_month.month %}
+                 {% if key.month == this_month.month %}
                     {{ this_month|date:"F" }} <span class="alt">{{ this_month.year }}</span>
-                 {% elif key == last_month.month %}
+                 {% elif key.month == last_month.month %}
                     {{ last_month|date:"F" }} <span class="alt">{{ last_month.year }}</span>
                  {% else %}
                     {{ next_month|date:"F" }} <span class="alt">{{ next_month.year }}</span>
@@ -34,7 +34,7 @@
                 <tbody>
                     {% for day, events in cal.items %}
                         {% if forloop.counter|add:"-1"|divisibleby:7 %}<tr class="week">{% endif %}
-                            <td class="day{% if events %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key %} muted{% endif %}">
+                            <td class="day{% if events %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
                                 {% if is_manager %}
                                     {% if not calendar %}
                                         <a href="{% url manager-all-calendars-day-listing day.year day.month day.day %}">
