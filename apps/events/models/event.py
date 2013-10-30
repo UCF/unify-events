@@ -123,10 +123,10 @@ class Event(TimeCreatedModified):
         Returns the State of an Event's copied Event on the Main Calendar.
         """
         main_status = None
-        main_event = self.get_main_event()
-        if main_event:
-            main_status = main_event.state
-
+        if self.calendar.id != events.models.get_main_calendar().id:
+            main_event = self.get_main_event()
+            if main_event:
+                main_status = main_event.state
         return main_status
 
     def get_main_event(self):
@@ -134,8 +134,14 @@ class Event(TimeCreatedModified):
         Retrieves the event submitted to the main calendar
         """
         event = None
+
+        # Compare against the original event
+        original_event = self
+        if self.created_from:
+            original_event = self.created_from
+
         try:
-            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=self)
+            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=original_event)
         except Event.DoesNotExist:
             # The event has not been submitted to the main calendar
             pass
@@ -151,7 +157,7 @@ class Event(TimeCreatedModified):
         if self.created_from:
             # If main calendar copy then update everything except
             # the title and description and set for re-review
-            if self.calendar.is_main_calendar() and self.state is not State.pending:
+            if self.calendar.is_main_calendar and self.state is not State.pending:
                 if is_main_rereview:
                     self.state = State.rereview
             else:
@@ -202,6 +208,14 @@ class Event(TimeCreatedModified):
         copy.tags.set(*self.tags.all())
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
+
+    def delete(self, *args, **kwargs):
+        """
+        Delete all the event subscriptions.
+        """
+        for copy in self.duplicated_to.all():
+            copy.delete()
+        super(Event, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.title

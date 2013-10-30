@@ -64,6 +64,7 @@ class Calendar(TimeCreatedModified):
     class Meta:
         app_label = 'events'
 
+    @property
     def is_main_calendar(self):
         is_main = False
         if self.slug == settings.FRONT_PAGE_CALENDAR_SLUG:
@@ -139,7 +140,7 @@ class Calendar(TimeCreatedModified):
             'calendar': self.slug,
         })
 
-    def import_event(self, event, completed_calendars=[]):
+    def import_event(self, event):
         """
         Given an event, will duplicate that event and import it into this
         calendar. Returns the newly created event.

@@ -27,6 +27,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),
     url(r'^event/(?P<event_id>\d+)/delete', view='event.delete', name='event-delete'),
     url(r'^event/create', view='event.create_update', name='event-create'),
+    url(r'^event/bulk-action/', view='event.bulk_action', name='event-bulk-action'),
 
     url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
