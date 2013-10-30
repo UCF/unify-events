@@ -1,6 +1,7 @@
 import logging
 
 from django.views.generic.simple import direct_to_template
+from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
@@ -17,6 +18,7 @@ from events.models import get_main_calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
+from events.models import State
 from taggit.models import Tag
 
 log = logging.getLogger(__name__)
@@ -142,7 +144,7 @@ def update_state(request, event_id=None, state=None):
         try:
             event.save()
         except Exception, e:
-            log(str(e))
+            log.error(str(e))
             messages.error(request, 'Saving event failed.')
         else:
             messages.success(request, 'Event successfully updated.')
@@ -159,15 +161,108 @@ def submit_to_main(request, event_id=None):
         if not request.user.is_superuser and event.calendar not in request.user.calendars:
             return HttpResponseForbidden('You cannot modify the specified event.')
         if not event.is_submit_to_main:
-            get_main_calendar().import_event(Event.objects.get(pk=event_id))
+            get_main_calendar().import_event(event)
         try:
             event.save()
         except Exception, e:
-            log(str(e))
+            log.error(str(e))
             messages.error(request, 'Saving event failed.')
         else:
             messages.success(request, 'Event successfully updated.')
             return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+
+
+@login_required
+def bulk_action(request):
+    if request.method == 'POST':
+        action_0 = request.POST['bulk-action_0']
+        action_1 = request.POST['bulk-action_1']
+
+        if action_0 == action_1 == 'Select Action...':
+            messages.error(request, 'No action selected.')
+            return HttpResponseRedirect(request.META.HTTP_REFERER)
+
+        action = action_0
+        if action == 'Select Action...':
+            action = action_1
+
+        if action not in ['submit-to-main', 'posted', 'pending', 'delete']:
+            messages.error(request, 'Unrecognized action selected %s.' % action)
+            return HttpResponseRedirect(request.META.HTTP_REFERER)
+
+        # remove duplicates
+        event_ids = list(set(request.POST.getlist('event_ids', [])))
+
+        for event_id in event_ids:
+            try:
+                event = Event.objects.get(pk=event_id)
+            except Event.DoesNotExist:
+                log.error(str(e))
+                messages.error(request, 'Event %d does note exist.' % event_id)
+
+            if event.calendar not in request.user.calendars:
+                messages.error(request, 'You do not have permissions to modify Event %s' % event.title)
+                continue
+
+            if action == 'submit-to-main' and not event.is_submit_to_main:
+                # Submit all Events to Main Calendar
+                # TODO: submit scribed events?
+                try:
+                    get_main_calendar().import_event(event)
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
+
+            elif action == 'posted':
+                # Set all Events to Posted
+                try:
+                    event.state = State.posted
+                    event.save()
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to set Event %s to Posted.' % event.title)
+
+            elif action == 'pending':
+                # Set all Events to Pending
+                try:
+                    event.state = State.pending
+                    event.save()
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to move Event %s to Pending.' % event.title)
+
+            elif action == 'delete':
+                # Delete all Events
+                try:
+                    event.delete()
+                    messages.error(request, 'Deleting %s.' % event.title)
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to delete Event %s.' % event.title)
+
+        # Determine whether to set a successful message
+        error = False
+        storage = messages.get_messages(request)
+        for message in storage:
+            error = True
+            storage.used = False
+            break
+
+        if not error:
+            message = ''
+            if action == 'submit-to-main':
+                message = 'Events successfully submitted to the Main Calendar.'
+            elif action == 'posted':
+                message = 'Events successfully added to Posted.'
+            elif action == 'pending':
+                message = 'Events successfully moved to Pending.'
+            elif action == 'delete':
+                message = 'Events successfully deleted.'
+
+            messages.success(request, message)
+
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    raise Http404
 
 
 @login_required
@@ -177,13 +272,13 @@ def delete(request, event_id=None):
     except Event.DoesNotExist:
         return HttpResponseNotFound('The event specified does not exist.')
     else:
-        if not request.user.is_superuser:
-            if event.calendar not in request.user.calendars:
-                return HttpResponseForbidden('You cannot modify the specified event.')
+        if not request.user.is_superuser and event.calendar not in request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
+
         try:
             event.delete()
         except Exception, e:
-            log(str(e))
+            log.error(str(e))
             messages.error(request, 'Deleting event failed.')
         else:
             messages.success(request, 'Event successfully deleted.')

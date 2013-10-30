@@ -185,6 +185,14 @@ class Event(TimeCreatedModified):
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
 
+    def delete(self, *args, **kwargs):
+        """
+        Delete all the event subscriptions.
+        """
+        for copy in self.duplicated_to.all():
+            copy.delete()
+        super(Event, self).delete(*args, **kwargs)
+
     def __str__(self):
         return self.title
 

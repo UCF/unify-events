@@ -139,7 +139,7 @@ class Calendar(TimeCreatedModified):
             'calendar': self.slug,
         })
 
-    def import_event(self, event, completed_calendars=[]):
+    def import_event(self, event):
         """
         Given an event, will duplicate that event and import it into this
         calendar. Returns the newly created event.
