@@ -91,7 +91,9 @@
                                     <label class="label-hidden" for="bulk-select-all">Select All</label>
                                     <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                 </th>
+                                {% if not current_calendar.is_main_calendar %}
                                 <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
+                                {% endif %}
                                 <th class="event-title">Event Title</th>
                                 <th class="event-time">Date/Time</th>
                                 <th class="event-actions">Actions</th>
@@ -104,13 +106,17 @@
                                     <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
                                     <input type="checkbox" name="event_ids" value="{{ event.event.id }}" />
                                 </td>
+                                {% if not current_calendar.is_main_calendar %}
                                 <td class="field-recommended">
-                                    {% if event.event.get_main_state == 0 %}
-                                        <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
-                                    {% elif event.event.get_main_state == 1 %}
-                                        <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
+                                    {% if not event.calendar.is_main_calendar %}
+                                        {% if event.event.get_main_state == 0 %}
+                                            <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
+                                        {% elif event.event.get_main_state == 1 %}
+                                            <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
+                                        {% endif %}
                                     {% endif %}
                                 </td>
+                                {% endif %}
                                 <td class="event-title">
                                     {% if event.event.created_from %}
                                         <i class="icon-share-alt"></i>

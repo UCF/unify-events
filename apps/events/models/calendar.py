@@ -64,6 +64,7 @@ class Calendar(TimeCreatedModified):
     class Meta:
         app_label = 'events'
 
+    @property
     def is_main_calendar(self):
         is_main = False
         if self.slug == settings.FRONT_PAGE_CALENDAR_SLUG:
