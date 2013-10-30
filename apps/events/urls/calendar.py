@@ -14,7 +14,10 @@ cache_length = getattr(settings, 'CACHE_LENGTH', 60 * 15)
 urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
-    url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$', view=event, name='event'),
+    url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
+        view=event,
+        name='event'
+    ),
 
     # http://events.ucf.edu/calendar/athletics
     # http://events.ucf.edu/calendar/athletics/2010.json
@@ -42,7 +45,10 @@ urlpatterns = patterns('events.views.calendar',
     ),
 
     # http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
-    url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(\.(?P<format>[\w]+))?$', view=range_listing, name="range-listing"),
+    url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=range_listing,
+        name="range-listing"
+    ),
 
     # http://events.ucf.edu/calendar/athletics/this-year
     # http://events.ucf.edu/calendar/athletics/today

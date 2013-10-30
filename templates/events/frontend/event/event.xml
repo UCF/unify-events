@@ -1,11 +1,54 @@
-<Event>
-	<EventID>{{event.id}}</EventID>
-	<EventTitle>{{event.title}}</EventTitle>
-	<DateTime>
-		<StartDate>{{event.start|date:"Y-m-d"}}</StartDate>
-		<StartTime>{{event.start|date:"H:i:s\ZO"}}</StartTime>
-		<EndDate>{{event.end|date:"Y-m-d"}}</EndDate>
-		<EndTime>{{event.end|date:"H:i:s\ZO"}}</EndTime>
-	</DateTime>
-	<Description>{{event.description}}</Description>
-</Event>
+    <event>
+        <id>{{ event.event.id }}</id>
+        <event_id>{{ event.id }}</event_id>
+		<title>{{ event.title }}</title>
+		<subtitle></subtitle>
+		<start_date>{{ event.start|date:'r' }}</start_date>
+		<end_date>{{ event.end|date:'r' }}</end_date>
+		<location>{{ event.location.title }}</location>
+		<room>{{ event.location.room }}</room>
+
+		<address>
+			<building></building>
+			<city></city>
+			<zipcode></zipcode>
+			<state></state>
+			<country>
+				<id xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-1.0" codeListID="ISO3166-1" codeListAgencyID="6" codeListAgencyName="United Nations Economic Commission for Europe" codeListName="country" codeListVersionID="0.3" languageID="en" codeListURI="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1-semic.txt" codeListSchemeURI="urn:oasis:names:specification:ubl:schema:xsd:countryIdentificationCode-1.0">US</id>
+				<name xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-1.0">United States</name>
+			</country>
+		</address>
+
+		<location_info>
+			<location_type></location_type>
+			<location_hours></location_hours>
+			<location_phone></location_phone>
+			<location_website>{{ event.location.url }}</location_website>
+			<directions></directions>
+			<map_link></map_link>
+			<additional_public_info></additional_public_info>
+		</location_info>
+
+		<languages>
+			<language>en-US</language>
+		</languages>
+		<event_transparency></event_transparency>
+
+		<description>{{ event.event.description|escape }}</description>
+		<short_description></short_description>
+
+		<refreshments></refreshments>
+		<webpages>
+			<webpage>
+				<title>Event Instance url</title>
+				<url>http://{{ request.get_host }}{{ event.get_absolute_url }}</url>
+			</webpage>
+		</webpages>
+
+		<contact_person>{{ event.event.contact_name }}</contact_person>
+		<contact_email>{{ event.event.contact_email }}</contact_email>
+		<contact_phone>{{ event.event.contact_phone }}</contact_phone>
+
+		<status>Happening As Scheduled</status>
+		<classification>Public</classification>
+	</event>
