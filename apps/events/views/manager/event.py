@@ -206,7 +206,6 @@ def bulk_action(request):
 
             if action == 'submit-to-main' and not event.is_submit_to_main:
                 # Submit all Events to Main Calendar
-                # TODO: submit scribed events?
                 try:
                     get_main_calendar().import_event(event)
                 except Exception, e:
@@ -235,7 +234,6 @@ def bulk_action(request):
                 # Delete all Events
                 try:
                     event.delete()
-                    messages.error(request, 'Deleting %s.' % event.title)
                 except Exception, e:
                     log.error(str(e))
                     messages.error(request, 'Unable to delete Event %s.' % event.title)

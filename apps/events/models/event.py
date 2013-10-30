@@ -117,9 +117,12 @@ class Event(TimeCreatedModified):
         Retrieves the event submitted to the main calendar
         """
         event = None
+
+        # Compare against the original event
         original_event = self
         if self.created_from:
             original_event = self.created_from
+
         try:
             event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=original_event)
         except Event.DoesNotExist:
