@@ -5,8 +5,8 @@
     <div class="row">
         <div class="span12">
             <ul class="nav nav-tabs">
-                <li{% if list_type == None %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar.slug "this-week" %}">List View</a>
+                <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
+                    <a href="{% url calendar calendar.slug %}">List View</a>
                 </li>
                 <li{% if list_type == 'month' %} class="active"{% endif %}>
                     <a href="{% url named-listing calendar.slug "this-month" %}">Month View</a>
@@ -24,6 +24,8 @@
         {% include 'events/frontend/calendar/event-list/listing-month.html' %}
     {% elif list_type == 'year' %}
         {% include 'events/frontend/calendar/event-list/listing-year.html' %}
+    {% elif list_type == 'day' %}
+        {% include 'events/frontend/calendar/event-list/listing-day.html' %}
     {% else %}
         {% include 'events/frontend/calendar/event-list/listing-default.html' %}
     {% endif %}

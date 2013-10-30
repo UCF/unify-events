@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </form>
-
+            
             {% if events %}
             <div>
                 <table class="table table-striped table-hover" id="manager-posted-events">
@@ -221,9 +221,9 @@
         </div>
         <aside class="span4 page-sidebar">
             {% if current_calendar %}
-                {% calendar_widget calendars=current_calendar is_manager=1 %}
+                {% calendar_widget calendars=current_calendar is_manager=1 day=dates.relative %}
             {% else %}
-                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 %}
+                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 day=dates.relative %}
             {% endif %}
         </aside>
     </section>
