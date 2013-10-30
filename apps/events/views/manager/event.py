@@ -196,9 +196,12 @@ def bulk_action(request):
         for event_id in event_ids:
             try:
                 event = Event.objects.get(pk=event_id)
-            except Event.DoesNotExist:
+            except Event.DoesNotExist, e:
+                # The subscription event may not exist anymore since
+                # the original event has been deleted, thus deleting
+                # the subscription events. Log and fail gracefully.
                 log.error(str(e))
-                messages.error(request, 'Event %d does note exist.' % event_id)
+                continue
 
             if event.calendar not in request.user.calendars:
                 messages.error(request, 'You do not have permissions to modify Event %s' % event.title)
