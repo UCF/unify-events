@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 from events.views.calendar import calendar, event, auto_listing, week_listing, \
-    range_listing, named_listing, calendar_widget
+    day_listing, range_listing, named_listing
 
 cache_length = getattr(settings, 'CACHE_LENGTH', 60 * 15)
 
@@ -31,7 +31,7 @@ urlpatterns = patterns('events.views.calendar',
         name="month-listing"
     ),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
-        view=cache_page(auto_listing, cache_length),
+        view=cache_page(day_listing, cache_length),
         name="day-listing"
     ),
     url(r'^(?P<calendar>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
@@ -51,11 +51,5 @@ urlpatterns = patterns('events.views.calendar',
     url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$',
         view=cache_page(named_listing, cache_length),
         name="named-listing"
-    ),
-
-    # http://events.ucf.edu/calendar/athletics/2010/01/calendar-widget
-    url(r'^(?P<calendar>[\w-]+)/widget/(?P<year>[\d]+)/(?P<month>[\d]+)/$',
-        view=cache_page(calendar_widget, cache_length),
-        name="calendar-widget"
     ),
 )

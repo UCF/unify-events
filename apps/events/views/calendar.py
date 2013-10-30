@@ -13,48 +13,6 @@ from events.templatetags import widgets
 import settings
 
 
-def calendar_widget(request, calendar, year, month):
-    """
-    Outputs calendar widget html via http response
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-
-    try: # Convert applicable arguments to integer
-        year = int(year) if year is not None else year
-        month = int(month) if month is not None else month
-    except ValueError:
-        raise Http404
-
-    html = widgets.calendar_widget(calendar, year, month)
-    return HttpResponse(html)
-
-
-def calendar(request, calendar, format=None):
-    """
-    Main calendar page, displaying an aggregation of events such as upcoming
-    events, featured events, etc.
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-    start = date.today()
-    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
-    events = calendar.range_event_instances(
-        start,
-        end
-    ).order_by('start', 'event__title')
-
-    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
-    context = {
-        'now': date.today(),
-        'calendar': calendar,
-        'events': events,
-    }
-
-    try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
-
-
 def event(request, calendar, instance_id, format=None):
     """
     Event instance page that serves as the public interface for events.
@@ -145,6 +103,18 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     return listing(request, calendar, start, end, format, extra_context)
 
 
+def calendar(request, calendar, format=None):
+    """
+    Main calendar page, displaying an aggregation of events such as upcoming
+    events, featured events, etc.
+    """
+    start = date.today()
+    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
+    return listing(request, calendar, start, end, format, {
+        'list_title': 'Events This Week',
+    })
+
+
 def week_listing(request, calendar, year, month, day, format=None):
     """
     Outputs a listing of the weeks event that the defined day belongs to.
@@ -198,6 +168,22 @@ def range_listing(request, calendar, start, end, format=None):
             start.strftime("%B"), start.day,
             end.strftime("%B"), end.day,
         ),
+    })
+
+
+def day_listing(request, calendar, year, month, day, format=None):
+    """
+    Generates event listing for any single day
+    """
+    # Default if no date is defined
+    if year is month is day is None:
+        year = date.now().year
+        month = date.now().month
+        day = date.now().day
+
+    return auto_listing(request, calendar, year, month, day, format, {
+        'list_title': 'Events by Day',
+        'list_type': 'day',
     })
 
 

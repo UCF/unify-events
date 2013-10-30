@@ -666,8 +666,12 @@ ul.event-list-condensed li {
 }
 ul.event-list-condensed li time { font-weight: bold; }
 
-/* Week View */
-#calendar-events-week h2 { margin-bottom: 20px; }
+/* Day, Week View */
+#calendar-events-day h2,
+#calendar-events-week h2 {
+	margin-bottom: 20px;
+}
+#calendar-events-day h3,
 #calendar-events-week h3 {
 	font-size: 20px;
 	line-height: 30px;
