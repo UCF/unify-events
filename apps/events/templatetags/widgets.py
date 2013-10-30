@@ -23,12 +23,12 @@ register = template.Library()
 def calendar_widget(calendars, day=None, is_manager=0):
 
     if day is None:
-        today = date.today()
+        relative_day = date.today()
     else:
-        today = day
+        relative_day = day
 
-    year = today.year
-    month = today.month
+    year = relative_day.year
+    month = relative_day.month
 
     # Find date range for the passed month, year combo.  End is defined by
     # the start of next month minus 1 second.
@@ -85,6 +85,7 @@ def calendar_widget(calendars, day=None, is_manager=0):
             'next_month': next_month,
             'last_month': last_month,
             'today': date.today(),
+            'relative': relative_day,
             'cals': month_calendar_map,
         }
     ))
