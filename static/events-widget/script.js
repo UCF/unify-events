@@ -33,27 +33,24 @@
 	$.fn.eventsUCF = function() {
 		// all values are optional
 		var defaults = {
-			'url'          : 'http://events.ucf.edu/',
+			'url'          : 'http://events.ucf.edu',
 			'limit'        : 4,
-			'calendar-id'  : 1,
+			'calendar_id'  : 1,
 			'monthwidget'  : false,
 			'month'        : false,
 			'year'         : false,
-			'template'     : 'default'
 		};
 		
 		this.each(function() {
-			
 			// pull options from data attriburte
 			var cal = $(this);
 			var options = {
 				'url'          : cal.attr('data-url'),
 				'limit'        : cal.attr('data-limit'),
-				'calendar-id'  : cal.attr('data-calendar-id'),
+				'calendar_id'  : cal.attr('data-calendar-id'),
 				'monthwidget'  : cal.attr('data-monthwidget'),
 				'month'        : cal.attr('data-month'),
 				'year'         : cal.attr('data-year'),
-				'template'     : cal.attr('data-template')
 			};
 			
 			var settings = $.extend({}, defaults, options);
@@ -61,22 +58,20 @@
 			
 			// set the ajax data / query string according to options
 			var data = {
-				'format'      : 'hcalendar',
-				'upcoming'    : 'upcoming',
-				'template'    : settings['template'],
-				'calendar_id' : settings['calendar-id'],
+				'is_widget'   : true,
+				'calendar_id' : settings['calendar_id'],
 				'limit'       : settings['limit']
 			};
 			
 			if(settings.monthwidget){
 				data.monthwidget = true;
 			}
-			if(settings.month || settings.year){
+			if(settings.year || settings.month){
 				var d  = new Date();
-				data.m = (settings.month) ? settings.month : d.getMonth();
 				data.y = (settings.year) ? settings.year : d.getFullYear();
+				data.m = (settings.month) ? settings.month : d.getMonth();
+				url = url + '/' + data.y + '/' + data.m + '/';
 			}
-			
 			
 			var Browser = {
 			  Version: function() {

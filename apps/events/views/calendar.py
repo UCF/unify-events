@@ -42,10 +42,12 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
-    # Check for GET params
+    # Check for GET params (backwards compatibility with old events widget)
     param_format = request.GET.get('format', '')
     param_limit = request.GET.get('limit', '')
-    param_calendar = request.GET.get('calendar-id', '')
+    param_calendar = request.GET.get('calendar_id', '')
+    param_monthwidget = request.GET.get('monthwidget', '')
+    param_iswidget = request.GET.get('is_widget', '')
 
     # Get specified calendar. GET param will override any
     # previously defined calendar.
@@ -69,7 +71,13 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     if param_format != '':
         format = param_format
 
-    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
+    if param_iswidget == 'true':
+        if param_monthwidget == 'true':
+            template = 'events/frontend/calendar/event-list/listing-widget-month.html'
+        else:
+            template = 'events/frontend/calendar/event-list/listing-widget-list.html'
+    else:
+        template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
 
     context = {
         'start': start,
