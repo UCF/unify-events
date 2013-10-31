@@ -71,7 +71,7 @@
             <div class="span12">
                 <div class="pull-right">
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
-                        {% if not created_from and event.calendar in user_calendars or created_from and created_from.calendar in user_calendars or request.user.is_superuser %}
+                        {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                             <a class="btn btn-warning" href="{% url event-cancel-uncancel event_id=event.id %}">
                                 <i class="icon-ban-circle"></i>
                             {% if event.canceled %}

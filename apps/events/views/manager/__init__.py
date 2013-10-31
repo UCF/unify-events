@@ -32,6 +32,7 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
         'current_calendar': None,
         'rereview_count': None,
         'pending_count': None,
+        'posted_state': State.posted,
         'state': 'posted',
         'events': None,
         'dates': {

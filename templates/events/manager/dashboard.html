@@ -189,7 +189,7 @@
                                             </li>
                                             {% endif %}
                                             {% with created_from=event.event.created_from user_calendars=request.user.calendars %}
-                                                {% if not created_from and event.event.calendar in user_calendars or created_from and created_from.calendar in user_calendars or request.user.is_superuser %}
+                                                {% if not created_from and event.event.calendar in user_calendars and event.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                                                     <li role="presentation">
                                                         <a href="{% url event-cancel-uncancel event_id=event.event.id %}">
                                                             <i class="icon-ban-circle"></i>

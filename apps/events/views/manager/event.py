@@ -32,7 +32,8 @@ def create_update(request, event_id=None):
            'event_instance_formset': None,
            'locations': Location.objects.all(),
            'tags': Tag.objects.all(),
-           'mode': 'create'
+           'mode': 'create',
+           'posted_state': State.posted
     }
     tmpl = 'events/manager/events/create_update.html'
 
