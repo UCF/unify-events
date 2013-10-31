@@ -169,6 +169,7 @@ class Event(TimeCreatedModified):
                 self.title = self.created_from.title
                 self.description = self.created_from.description
 
+            self.canceled = self.created_from.canceled
             self.contact_email = self.created_from.contact_email
             self.contact_name = self.created_from.contact_name
             self.contact_phone = self.created_from.contact_phone

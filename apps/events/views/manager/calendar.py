@@ -117,7 +117,7 @@ def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=Non
     except Calendar.DoesNotExist:
         return HttpResponseNotFound('One of the specified calendars does not exist.')
     else:
-        if calendar not in request.user.calendars:
+        if subscribing_calendar not in request.user.calendars:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         try:
             if calendar not in subscribing_calendar.subscriptions.all():

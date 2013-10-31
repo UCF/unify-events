@@ -109,7 +109,6 @@ def create_update(request, event_id=None):
                 # Updates the copied versions if the original event is updated
                 for copied_event in event.duplicated_to.all():
                     copy = copied_event.pull_updates(is_main_rereview)
-                    copy.save()
 
                 # Copy to main calendar if it hasn't already be copied
                 if not event.is_submit_to_main and ctx['event_form'].cleaned_data['submit_to_main']:
@@ -203,7 +202,7 @@ def bulk_action(request):
                 log.error(str(e))
                 continue
 
-            if event.calendar not in request.user.calendars:
+            if not request.user.is_superuser and event.calendar not in request.user.calendars:
                 messages.error(request, 'You do not have permissions to modify Event %s' % event.title)
                 continue
 
@@ -267,6 +266,41 @@ def bulk_action(request):
 
 
 @login_required
+def cancel_uncancel(request, event_id=None):
+    try:
+        event = Event.objects.get(pk=event_id)
+    except Event.DoesNotExist:
+        return HttpResponseNotFound('The event specified does not exist.')
+    else:
+        # Get original event
+        original_event = event
+        if event.created_from:
+            event = event.created_from
+
+        if not request.user.is_superuser and event.calendar not in request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
+
+        try:
+            event.canceled = not event.canceled
+            event.save()
+
+            # Updates the copied versions if the original event is updated
+            for copied_event in event.duplicated_to.all():
+                copy = copied_event.pull_updates()
+
+        except Exception, e:
+            log.error(str(e))
+            messages.error(request, 'Canceling/Un-Canceling event failed.')
+        else:
+            message = 'Event successfully un-canceled.'
+            if event.canceled:
+                message = 'Event successfully canceled.'
+
+            messages.success(request, message)
+        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
+
+
+@login_required
 def delete(request, event_id=None):
     try:
         event = Event.objects.get(pk=event_id)
@@ -283,7 +317,7 @@ def delete(request, event_id=None):
             messages.error(request, 'Deleting event failed.')
         else:
             messages.success(request, 'Event successfully deleted.')
-            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required

@@ -133,7 +133,7 @@
                                         <i class="icon-share-alt"></i>
                                     {% endif %}
                                     <a href="{% url event-update event_id=event.event.id %}">
-                                        {{ event.title }}
+                                        {% if event.event.canceled %}CANCELED:{% endif %} {{ event.title }}
                                     </a>
                                 </td>
                                 <td class="event-time">
@@ -188,6 +188,20 @@
                                                 </a>
                                             </li>
                                             {% endif %}
+                                            {% with created_from=event.event.created_from user_calendars=request.user.calendars %}
+                                                {% if not created_from and event.event.calendar in user_calendars or created_from and created_from.calendar in user_calendars or request.user.is_superuser %}
+                                                    <li role="presentation">
+                                                        <a href="{% url event-cancel-uncancel event_id=event.event.id %}">
+                                                            <i class="icon-ban-circle"></i>
+                                                            {% if event.event.canceled %}
+                                                                Un-Cancel Event
+                                                            {% else %}
+                                                                Cancel Event
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endwith %}
                                             {% if not event.event.has_instances %}
                                             <li role="presentation">
                                                 <a class="event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.event.title }}">
