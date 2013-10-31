@@ -30,6 +30,8 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
     ctx = {
         'instances': None,
         'current_calendar': None,
+        'rereview_count': None,
+        'pending_count': None,
         'state': 'posted',
         'events': None,
         'dates': {
@@ -76,11 +78,15 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
         if current_calendar not in request.user.calendars:
             return HttpResponseNotFound('You do not have permission to access this calendar.')
         ctx['current_calendar'] = current_calendar
+        ctx['rereview_count'] = current_calendar.future_event_instances().filter(event__state=State.rereview).count()
+        ctx['pending_count'] = current_calendar.future_event_instances().filter(event__state=State.pending).count()
         if ctx['day_view']:
             events = current_calendar.range_event_instances(ctx['dates']['relative'], ctx['dates']['relative'])
         else:
             events = current_calendar.future_event_instances()
     else:
+        ctx['rereview_count'] = get_all_users_future_events(request.user).filter(event__state=State.rereview).count()
+        ctx['pending_count'] = get_all_users_future_events(request.user).filter(event__state=State.pending).count()
         if ctx['day_view']:
             events = get_range_users_events(request.user, ctx['dates']['relative'], ctx['dates']['relative'])
         else:

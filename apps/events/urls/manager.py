@@ -30,6 +30,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^event/bulk-action/', view='event.bulk_action', name='event-bulk-action'),
 
     url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
+    url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-calendar-state'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/user/(?P<username>[\w]+)/(?P<role>[\w]+)?$', view='calendar.add_update_user', name='calendar-add-update-user'),
