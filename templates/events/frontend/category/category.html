@@ -1,0 +1,67 @@
+{% extends 'events/frontend/base.html' %}
+{% load humanize %}
+
+{% block meta %}
+		<link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url category-by-calendar calendar=calendar.slug category=category.slug %}{% else %}{% url category category=category.slug %}{% endif %}.rss" />
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-tag" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>
+        {% if calendar %}
+        <a href="{% url category-by-calendar calendar=calendar.slug category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        {% else %}
+        <a href="{% url category category=category.slug %}">Event Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        {% endif %}
+    </h1>
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+    <div class="row">
+        <div class="span8 sidebarfix page-content" id="calendar-events-week">
+            <h2>Some subtitle here</h2><!-- TODO: use proper context -->
+            {% if events %}
+                
+                    
+                    <ul class="event-list">
+                    {% for event in events %}
+                        <li class="vevent cat-name">
+                            <a class="event-content url" href="{% url event event.event.calendar.slug event.id %}{{ event.event.slug }}"><!-- TODO: less ugly url? -->
+                                <!-- if img -->
+                                <!--<img src="" alt="image" title="image" />-->
+                                <!-- endif -->
+                                <h4>
+                                    <span class="summary">{{ event.title }}</span>
+                                    {% if event.is_recurring %}
+                                    <i class="icon-repeat"></i>
+                                    <span class="recurring">(Recurring Event)</span>
+                                    {% endif %}
+                                </h4>
+                                <span class="location">{{ event.location }}</span>
+                                <span class="description">
+                                    {{ event.description|truncatewords:160 }}
+                                </span>
+                                <time class="dtstart" datetime="TIME HERE..."> <!-- TODO: real UTC time -->
+                                    Need to get time...
+                                    <span class="value-title" title="TIME HERE..."></span> <!-- TODO: real UTC time -->
+                                </time>
+                            </a>
+                            <span class="category">Category Name</span><!-- TODO: category -->
+                        </li>
+                    {% endfor %}
+                    </ul>
+            {% else %}
+            <p>No events found.</p>
+            {% endif %}  
+        </div>
+        <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+            <h2>Subscribe</h2>
+            feed download links
+        </aside>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+[
+	{% for event in events %}
+		{% include "events/frontend/event/event.json" %}{% if not forloop.last %},{% endif %}
+	{% endfor %}
+]

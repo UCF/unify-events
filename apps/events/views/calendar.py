@@ -275,3 +275,62 @@ def years_listing(request, calendar, format=None):
         'list_title': 'Events This Year',
         'list_type': 'year',
     })
+
+
+def tag(request, tag, calendar=None, format=None):
+    """
+    Page that lists all upcoming events tagged with a specific tag.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    # FUN TIMES: doing a deep relationship filter to event__tags__name__in fails.
+    # https://github.com/alex/django-taggit/issues/84
+    # TODO: work around stupid bug and filter by future event instances
+    events = Event.objects.filter(tags__name__in=[tag])
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(calendar=calendar)
+
+    format = format or 'html'
+    template = 'events/frontend/tag/tag.' + format
+    context = {
+        'tag': tag,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404
+
+
+def category(request, category, calendar=None, format=None):
+    """
+    Page that lists all upcoming events categorized with the
+    given category.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    category = get_object_or_404(Category, slug=category)
+    events = EventInstance.objects.filter(event__category=category.id)
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(event__calendar=calendar)
+
+    format = format or 'html'
+    template = 'events/frontend/category/category.' + format
+    context = {
+        'category': category,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404

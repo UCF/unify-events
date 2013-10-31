@@ -8,6 +8,8 @@ from events.views.calendar import named_listing
 from events.views.calendar import day_listing
 from events.views.calendar import range_listing
 from events.views.calendar import week_listing
+from events.views.calendar import tag
+from events.views.calendar import category
 
 cache_length = getattr(settings, 'CACHE_LENGTH', 60 * 15)
 
@@ -56,5 +58,17 @@ urlpatterns = patterns('events.views.calendar',
     url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$',
         view=cache_page(named_listing, cache_length),
         name="named-listing"
+    ),
+
+    # http://events.ucf.edu/calendar/athletics/tag/tag-name
+    url(r'^(?P<calendar>[\w-]+)/tag/(?P<tag>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=cache_page(tag, cache_length),
+        name="tag-by-calendar"
+    ),
+
+    # http://events.ucf.edu/calendar/athletics/category/category-name
+    url(r'^(?P<calendar>[\w-]+)/category/(?P<category>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=cache_page(category, cache_length),
+        name="category-by-calendar"
     ),
 )
