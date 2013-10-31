@@ -50,7 +50,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
+        fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
 class EventInstanceForm(forms.ModelForm):

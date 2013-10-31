@@ -97,6 +97,13 @@
                     {% render_field event_form.title class="span8" aria-describedby="help-label-title" %}
                 </div>
             </fieldset>
+            <fieldset class="control-group large">
+                <label class="control-label" for="{{ event_form.state.auto_id }}" title="State" tabindex="-1">{{ event_form.state.label }}</label>
+                <p class="label-desc" id="help-label-state" tabindex="-1">Select an event state.</p>
+                <div class="controls">
+                    {% render_field event_form.state aria-describedby="help-label-state" %}
+                </div>
+            </fieldset>
             {% if event.is_re_review %}
             <div class="pull-right">
                 <button id="copy_title" class="btn btn-info" data-copy-to="{{ event_form.title.auto_id }}">Copy</button>

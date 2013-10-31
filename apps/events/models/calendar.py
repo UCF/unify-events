@@ -145,7 +145,11 @@ class Calendar(TimeCreatedModified):
         Given an event, will duplicate that event and import it into this
         calendar. Returns the newly created event.
         """
-        copy = event.copy(calendar=self)
+        # Make state pending if copying for Main Calendar
+        state = None
+        if self.is_main_calendar:
+            state = events.models.State.pending
+        copy = event.copy(calendar=self, state=state)
         return copy
 
     def is_creator(self, user):

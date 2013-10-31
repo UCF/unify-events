@@ -57,12 +57,11 @@ class State:
     take place and the purpose and name of the event as well as the calendar to
     which the events belong.
     """
-    pending, posted, rereview, canceled = range(0, 4)
+    pending, posted, rereview = range(0, 3)
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
-        (rereview, 'rereview'),
-        (canceled, 'canceled')
+        (rereview, 'rereview')
     )
 
     @classmethod
@@ -79,7 +78,8 @@ class Event(TimeCreatedModified):
     calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
     creator = models.ForeignKey(User, related_name='created_events', null=True)
     created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
-    state = models.SmallIntegerField(choices=State.choices, default=State.pending)
+    state = models.SmallIntegerField(choices=State.choices, default=State.posted)
+    canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -182,7 +182,7 @@ class Event(TimeCreatedModified):
 
         return updated_copy
 
-    def copy(self, *args, **kwargs):
+    def copy(self, state=None, *args, **kwargs):
         """
         Duplicates this Event creating another Event without a calendar set
         (unless in *args/**kwargs), and a link back to the original event created.
@@ -196,9 +196,13 @@ class Event(TimeCreatedModified):
         if self.created_from:
             created_from = self.created_from
 
+        # Allow state to be specified to copy as Pending (Main Calendar)
+        if state is None:
+            state = self.state
+
         copy = Event(creator=self.creator,
                      created_from=created_from,
-                     state=self.state,
+                     state=state,
                      title=self.title,
                      description=self.description,
                      category=self.category,
