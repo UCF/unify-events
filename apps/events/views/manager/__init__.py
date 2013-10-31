@@ -14,17 +14,23 @@ from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 
 from util import LDAPHelper
-from events.models import Event, Calendar, get_range_users_events, get_all_users_future_events
+from events.models import Calendar
+from events.models import Event
+from events.models import get_all_users_future_events
+from events.models import get_range_users_events
+from events.models import State
+
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
 @login_required
-def dashboard(request, calendar_id=None, search_results=None, year=None, month=None, day=None, format=None):
+def dashboard(request, calendar_id=None, state=None, search_results=None, year=None, month=None, day=None, format=None):
     ctx = {
         'instances': None,
         'current_calendar': None,
+        'state': 'posted',
         'events': None,
         'dates': {
             'prev_day': None, # relative to 'relative' date value
@@ -64,20 +70,33 @@ def dashboard(request, calendar_id=None, search_results=None, year=None, month=N
     ctx['dates']['today_str'] = str(ctx['dates']['today'])
 
     # Get events from calendar(s)
+    events = None
     if calendar_id:
         current_calendar = get_object_or_404(Calendar, pk=calendar_id)
         if current_calendar not in request.user.calendars:
             return HttpResponseNotFound('You do not have permission to access this calendar.')
         ctx['current_calendar'] = current_calendar
         if ctx['day_view']:
-            ctx['events'] = current_calendar.range_event_instances(ctx['dates']['relative'], ctx['dates']['relative'])
+            events = current_calendar.range_event_instances(ctx['dates']['relative'], ctx['dates']['relative'])
         else:
-            ctx['events'] = current_calendar.future_event_instances
+            events = current_calendar.future_event_instances()
     else:
         if ctx['day_view']:
-            ctx['events'] = get_range_users_events(request.user, ctx['dates']['relative'], ctx['dates']['relative'])
+            events = get_range_users_events(request.user, ctx['dates']['relative'], ctx['dates']['relative'])
         else:
-            ctx['events'] = get_all_users_future_events(request.user)
+            events = get_all_users_future_events(request.user)
+
+    # Determine if a State filter is needed
+    if state is not None:
+        ctx['state']
+
+    state_id = State.get_id(state)
+    if state_id is not None:
+        ctx['state'] = state
+    else:
+        state_id = State.get_id('posted')
+    events = events.filter(event__state=state_id)
+    ctx['events'] = events
 
     # Pagination
     if ctx['instances'] is not None:
@@ -102,7 +121,7 @@ def search_user(request, firstname, lastname=None):
     else:
         # Search first or last if only firstname is given
         user_qs = User.objects.filter(Q(first_name__startswith=firstname) | Q(last_name__startswith=firstname))
-        
+
     # Limit the size of the results and only return the needed User attributes
     if len(user_qs):
         results = list(user_qs.values_list('first_name', 'last_name', 'username')[:settings.USER_SEARCHLIMIT])

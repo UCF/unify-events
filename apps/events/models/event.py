@@ -61,9 +61,14 @@ class State:
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
-        (rereview, 're-review'),
+        (rereview, 'rereview'),
         (canceled, 'canceled')
     )
+
+    @classmethod
+    def get_id(cls, value):
+        id_lookup = dict((v,k) for k,v in cls.choices)
+        return id_lookup.get(value)
 
 
 class Event(TimeCreatedModified):
@@ -156,7 +161,7 @@ class Event(TimeCreatedModified):
 
         if self.created_from:
             # If main calendar copy then update everything except
-            # the title and description and set for re-review
+            # the title and description and set for rereview
             if self.calendar.is_main_calendar and self.state is not State.pending:
                 if is_main_rereview:
                     self.state = State.rereview

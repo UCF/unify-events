@@ -48,14 +48,14 @@
     <div class="row">
         <div class="span12">
             <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#">Posted</a>
+                <li class="{% if state == 'posted' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='posted' %}">Posted</a>
                 </li>
-                <li>
-                    <a href="#">Pending (#)</a>
+                <li class="{% if state == 'rereview' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='rereview' %}">Re-Review (#)</a>
                 </li>
-                <li>
-                    <a href="#">Archived (#)</a>
+                <li class="{% if state == 'pending' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='pending' %}">Pending (#)</a>
                 </li>
             </ul>
         </div>
@@ -68,7 +68,7 @@
     <section class="row">
         <div class="span8 sidebarfix page-content">
 
-            <form action="/manager/event/bulk-action/" class="form-horizontal bulk-action-form" method="post">
+            <form action="{% url event-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
                 <div class="control-group">
                     <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                     <div class="controls">

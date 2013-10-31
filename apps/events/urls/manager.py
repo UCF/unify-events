@@ -56,4 +56,5 @@ urlpatterns += patterns('events.views.manager',
     url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
     url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),
     url(r'^$', view='dashboard', name='dashboard'),
+    url(r'^state/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-state'),
 )
