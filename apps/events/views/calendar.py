@@ -42,9 +42,33 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
-    calendar = get_object_or_404(Calendar, slug=calendar)
+    # Check for GET params
+    param_format = request.GET.get('format', '')
+    param_limit = request.GET.get('limit', '')
+    param_calendar = request.GET.get('calendar-id', '')
+
+    # Get specified calendar. GET param will override any
+    # previously defined calendar.
+    if param_calendar != '':
+        calendar = get_object_or_404(Calendar, id=param_calendar)
+    else:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+
     events = calendar.range_event_instances(start, end)
     events = events.order_by('start')
+
+    # Narrow down events by limit, if necessary.
+    if param_limit != '':
+        try:
+            events = events[:param_limit]
+        except:
+            pass
+
+    # Modify format value. GET param will override any
+    # previously defined format.
+    if param_format != '':
+        format = param_format
+
     template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
 
     context = {
