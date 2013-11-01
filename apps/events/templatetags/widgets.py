@@ -3,7 +3,6 @@ from datetime import datetime
 from dateutil import rrule
 import calendar as calgenerator
 import itertools
-import collections
 
 from django import template
 from django.template import Context
@@ -12,6 +11,7 @@ from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from django.conf import settings
 from dateutil.relativedelta import relativedelta
+from ordereddict import OrderedDict
 
 from events.models import Calendar
 
@@ -43,9 +43,9 @@ def calendar_widget(calendars, day=None, is_manager=0):
     last_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(last_month.year, last_month.month)))
 
     # Set dates as dict keys. Use OrderedDict to sort by date.
-    this_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(this_month_cal))
-    next_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(next_month_cal))
-    last_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(last_month_cal))
+    this_month_cal = OrderedDict((v, []) for k, v in enumerate(this_month_cal))
+    next_month_cal = OrderedDict((v, []) for k, v in enumerate(next_month_cal))
+    last_month_cal = OrderedDict((v, []) for k, v in enumerate(last_month_cal))
 
     # Create map using SortedDict to maintain declared order.
     month_calendar_map = SortedDict([(last_month, last_month_cal), (this_month, this_month_cal), (next_month, next_month_cal)])
