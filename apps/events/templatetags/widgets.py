@@ -3,7 +3,6 @@ from datetime import datetime
 from dateutil import rrule
 import calendar as calgenerator
 import itertools
-import collections
 
 from django import template
 from django.template import Context
@@ -11,6 +10,7 @@ from django.template import loader
 from django.utils.safestring import mark_safe
 from django.conf import settings
 from dateutil.relativedelta import relativedelta
+from ordereddict import OrderedDict
 
 from events.models import Calendar
 
@@ -39,7 +39,7 @@ def calendar_widget(calendars, day=None, is_manager=0):
     this_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(settings.FIRST_DAY_OF_WEEK).monthdatescalendar(this_month.year, this_month.month)))
 
     # Set dates as dict keys. Use OrderedDict to sort by date.
-    this_month_cal = collections.OrderedDict((v, []) for k, v in enumerate(this_month_cal))
+    this_month_cal = OrderedDict((v, []) for k, v in enumerate(this_month_cal))
 
     # Create map of month and day/event list.
     month_calendar_map = dict({this_month: this_month_cal})
