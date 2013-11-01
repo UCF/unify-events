@@ -70,7 +70,7 @@
 				var d  = new Date();
 				data.y = (settings.year) ? settings.year : d.getFullYear();
 				data.m = (settings.month) ? settings.month : d.getMonth();
-				url = url + '/' + data.y + '/' + data.m + '/';
+				url = url + 'calendar/' + settings.calendar_id + '/' + data.y + '/' + data.m + '/';
 			}
 			
 			var Browser = {
