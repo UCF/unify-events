@@ -1,22 +1,41 @@
 <div id="sidebar-minicals" class="carousel slide calendar-slider" data-interval="false">
     <ul class="pager">
-        <li class="previous">
-            <a class="carousel-control left" href="#sidebar-minicals" data-slide="prev"><i class="icon-chevron-left"></i><span>{{last_month|date:"F"}}</span></a>
-        </li>
-        <li class="next">
-            <a class="carousel-control right next" href="#sidebar-minicals" data-slide="next"><i class="icon-chevron-right"></i><span>{{next_month|date:"F"}}</span></a>
-        </li>
+        <!-- Pager links go to the 1st day of the previous/next month -->
+        {% if is_manager %}
+            {% if not calendar %}
+                <li class="previous">
+                    <a class="carousel-control left" href="{% url manager-all-calendars-day-listing year=last_month.year month=last_month.month day=last_month.day %}" data-slide="prev"><i class="icon-chevron-left"></i><span>{{ last_month|date:"F" }}</span></a>
+                </li>
+                <li class="next">
+                    <a class="carousel-control right next" href="{% url manager-all-calendars-day-listing year=next_month.year month=next_month.month day=next_month.day %}" data-slide="next"><i class="icon-chevron-right"></i><span>{{ next_month|date:"F" }}</span></a>
+                </li>
+            {% else %}
+                <li class="previous">
+                    <a class="carousel-control left" href="{% url manager-day-listing calendar_id=calendar.id year=last_month.year month=last_month.month day=last_month.day %}" data-slide="prev"><i class="icon-chevron-left"></i><span>{{ last_month|date:"F" }}</span></a>
+                </li>
+                <li class="next">
+                    <a class="carousel-control right next" href="{% url manager-day-listing calendar_id=calendar.id year=next_month.year month=next_month.month day=next_month.day %}" data-slide="next"><i class="icon-chevron-right"></i><span>{{ next_month|date:"F" }}</span></a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="previous">
+                <a class="carousel-control left" href="{% url month-listing calendar=calendar.slug year=last_month.year month=last_month.month %}" data-slide="prev"><i class="icon-chevron-left"></i><span>{{ last_month|date:"F" }}</span></a>
+            </li>
+            <li class="next">
+                <a class="carousel-control right next" href="{% url month-listing calendar=calendar.slug year=next_month.year month=next_month.month %}" data-slide="next"><i class="icon-chevron-right"></i><span>{{ next_month|date:"F" }}</span></a>
+            </li>
+        {% endif %}
     </ul>
     <div class="carousel-inner">
-        {% for key, cal in cals.items %}
+        {% for key, cal in calendar_map.items %}
         <div class="item {% if key.month == this_month.month %}active{% endif %}">
              <h2>
                  {% if key.month == this_month.month %}
-                    {{ this_month|date:"F" }} <span class="alt">{{ this_month.year }}</span>
-                 {% elif key.month == last_month.month %}
-                    {{ last_month|date:"F" }} <span class="alt">{{ last_month.year }}</span>
-                 {% else %}
-                    {{ next_month|date:"F" }} <span class="alt">{{ next_month.year }}</span>
+                    {% if is_manager %}
+                        {{ this_month|date:"F" }} <span class="alt">{{ this_month.year }}</span>
+                    {% else %}
+                        <a href="{% url month-listing calendar=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{% url year-listing calendar=calendar.slug year=this_month.year %}"><span class="alt">{{ this_month.year }}</span></a>
+                    {% endif %}
                  {% endif %}
              </h2>
              <table class="table minical">
