@@ -110,12 +110,19 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     except ValueError:
         raise Http404
 
+    if type(extra_context) is not dict:
+        extra_context = dict()
+
     # Define start and end dates
     try:
         start = datetime(year, month or 1, day or 1)
 
         if month is None:
             end = datetime(year + 1, 1, 1)
+            if 'list_type' not in extra_context:
+                extra_context['list_type'] = 'year'
+            if 'list_title' not in extra_context:
+                extra_context['list_title'] = year
         elif day is None:
             roll = month > 11  # Check for December to January rollover
             end = datetime(
@@ -123,8 +130,8 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
                 month + 1 if not roll else 1,
                 1
             )
-            if type(extra_context) is not dict:
-                extra_context = dict()
+            if 'list_type' not in extra_context:
+                extra_context['list_type'] = 'month'
             if 'list_title' not in extra_context:
                 extra_context['list_title'] = start.strftime("%B %Y")
         else:

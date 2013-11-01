@@ -8,7 +8,6 @@ from django import template
 from django.template import Context
 from django.template import loader
 from django.utils.safestring import mark_safe
-from django.utils.datastructures import SortedDict
 from django.conf import settings
 from dateutil.relativedelta import relativedelta
 from ordereddict import OrderedDict
@@ -31,29 +30,24 @@ def calendar_widget(calendars, day=None, is_manager=0):
         else:
             raise TypeError('day must be a datetime.date or datetime.datetime, not a %s' % type(day))
 
-    # Get next and last month (1st day of month)
+    # Get this month, next and last month (1st day of month)
     this_month = date(relative_day.year, relative_day.month, 1)
     next_month = date((this_month + relativedelta(months=+1)).year, (this_month + relativedelta(months=+1)).month, 1)
     last_month = date((this_month + relativedelta(months=-1)).year, (this_month + relativedelta(months=-1)).month, 1)
-    months = list([last_month, this_month, next_month])
 
-    # Create new lists of days in each month (strip week grouping)
-    this_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(this_month.year, this_month.month)))
-    next_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(next_month.year, next_month.month)))
-    last_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(0).monthdatescalendar(last_month.year, last_month.month)))
+    # Create new list of days in month (strip week grouping)
+    this_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(settings.FIRST_DAY_OF_WEEK).monthdatescalendar(this_month.year, this_month.month)))
 
     # Set dates as dict keys. Use OrderedDict to sort by date.
     this_month_cal = OrderedDict((v, []) for k, v in enumerate(this_month_cal))
-    next_month_cal = OrderedDict((v, []) for k, v in enumerate(next_month_cal))
-    last_month_cal = OrderedDict((v, []) for k, v in enumerate(last_month_cal))
 
-    # Create map using SortedDict to maintain declared order.
-    month_calendar_map = SortedDict([(last_month, last_month_cal), (this_month, this_month_cal), (next_month, next_month_cal)])
+    # Create map of month and day/event list.
+    month_calendar_map = dict({this_month: this_month_cal})
 
 
     # Get a date range by which we will fetch events
-    start = last_month_cal.keys()[0]
-    end = next_month_cal.keys()[-1]
+    start = this_month_cal.keys()[0]
+    end = this_month_cal.keys()[-1]
 
     # Fetch events; group them by date
     calendar = None
@@ -69,9 +63,8 @@ def calendar_widget(calendars, day=None, is_manager=0):
         # Assign event to all days the event falls on
         rule = rrule.rrule(rrule.DAILY, dtstart=event.start, until=event.end)
         for event_date in rule:
-            for key in months:
-                if event_date.date() in month_calendar_map[key].keys():
-                    month_calendar_map[key][event_date.date()].append(event)
+            if event_date.date() in month_calendar_map[this_month].keys():
+                month_calendar_map[this_month][event_date.date()].append(event)
 
 
     template = loader.get_template('events/widgets/calendar.html')
@@ -85,7 +78,7 @@ def calendar_widget(calendars, day=None, is_manager=0):
             'last_month': last_month,
             'today': date.today(),
             'relative': relative_day,
-            'cals': month_calendar_map,
+            'calendar_map': month_calendar_map,
         }
     ))
 

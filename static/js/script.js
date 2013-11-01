@@ -990,7 +990,7 @@ $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
     toggleModalDeleteObject();
-    calendarCarousels();
+    //calendarCarousels();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
     initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
