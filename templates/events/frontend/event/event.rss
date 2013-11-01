@@ -4,7 +4,7 @@
 		<title>{{ calendar.title }}</title>
 		<link>{{ request.build_absolute_uri }}</link>
 		<description>{{ calendar.title }}{% if list_title %} - {{ list_title }}{% endif %}</description>
-		<lastBuildDate>{% now "r" %}</lastBuildDate>{% for event in events %}
+		<lastBuildDate>{% now "r" %}</lastBuildDate>
 		<item>
 			<title>{{ event.title }}</title>
 			<link>http://{{ request.get_host }}{{ event.get_absolute_url }}</link>
@@ -18,6 +18,6 @@
 				<ucfevent:name><![CDATA[{{ event.location.title }}]]></ucfevent:name>
 				<ucfevent:mapurl><![CDATA[{{ event.location.url }}]]></ucfevent:mapurl>
 			</ucfevent:location>
-		</item>{% endfor %}
+		</item>
 	</channel>
 </rss>

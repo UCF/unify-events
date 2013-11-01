@@ -42,10 +42,42 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
-    calendar = get_object_or_404(Calendar, slug=calendar)
+    # Check for GET params (backwards compatibility with old events widget)
+    param_format = request.GET.get('format', '')
+    param_limit = request.GET.get('limit', '')
+    param_calendar = request.GET.get('calendar_id', '')
+    param_monthwidget = request.GET.get('monthwidget', '')
+    param_iswidget = request.GET.get('is_widget', '')
+
+    # Get specified calendar. GET param will override any
+    # previously defined calendar.
+    if param_calendar != '':
+        calendar = get_object_or_404(Calendar, id=param_calendar)
+    else:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+
     events = calendar.range_event_instances(start, end)
     events = events.order_by('start')
-    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
+
+    # Narrow down events by limit, if necessary.
+    if param_limit != '':
+        try:
+            events = events[:param_limit]
+        except:
+            pass
+
+    # Modify format value. GET param will override any
+    # previously defined format.
+    if param_format != '':
+        format = param_format
+
+    if param_iswidget == 'true':
+        if param_monthwidget == 'true':
+            template = 'events/frontend/calendar/event-list/listing-widget-month.html'
+        else:
+            template = 'events/frontend/calendar/event-list/listing-widget-list.html'
+    else:
+        template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
 
     context = {
         'start': start,
@@ -243,3 +275,62 @@ def years_listing(request, calendar, format=None):
         'list_title': 'Events This Year',
         'list_type': 'year',
     })
+
+
+def tag(request, tag, calendar=None, format=None):
+    """
+    Page that lists all upcoming events tagged with a specific tag.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    # FUN TIMES: doing a deep relationship filter to event__tags__name__in fails.
+    # https://github.com/alex/django-taggit/issues/84
+    parent_events = Event.objects.filter(tags__name__in=[tag])
+    events = EventInstance.objects.filter(event__in=parent_events, end__gt=datetime.now())
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(event__calendar=calendar)
+
+    format = format or 'html'
+    template = 'events/frontend/tag/tag.' + format
+    context = {
+        'tag': tag,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404
+
+
+def category(request, category, calendar=None, format=None):
+    """
+    Page that lists all upcoming events categorized with the
+    given category.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    category = get_object_or_404(Category, slug=category)
+    events = EventInstance.objects.filter(event__category=category.id)
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(event__calendar=calendar)
+
+    format = format or 'html'
+    template = 'events/frontend/category/category.' + format
+    context = {
+        'category': category,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404

@@ -1,9 +1,12 @@
 {
-	'event_id'    : {{event.event.id}},
-	'instance_id' : {{event.id}},
-	'title'       : '{{ event.title }}',
-	'description' : '{{ event.description }}',
-	'start'       : '{{ event.start|date:"r" }}',
-	'end'         : '{{ event.end|date:"r" }}',
-	'url'         : 'http://{{ request.get_host }}{{ event.get_absolute_url }}'
+	"event_id": "{{ event.event.id }}",
+	"id": "{{ event.id }}",
+	"title": "{{ event.title|escapejs }}",
+	"subtitle": null,
+	"description": "{{ event.event.description|escapejs }}",
+	"location": "{{ event.location.title|escapejs }}: {{ event.location.room|escapejs }}",
+	"location_url": "{{ event.location.url|escapejs }}",
+	"starts": "{{ event.start|date:'r' }}",
+	"ends": "{{ event.end|date:'r' }}",
+	"ongoing": "{{ event.event.has_instances }}"
 }

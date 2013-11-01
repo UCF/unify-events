@@ -9,13 +9,18 @@ from events.views.calendar import named_listing
 from events.views.calendar import day_listing
 from events.views.calendar import range_listing
 from events.views.calendar import week_listing
+from events.views.calendar import tag
+from events.views.calendar import category
 
 cache_length = getattr(settings, 'CACHE_LENGTH', 60 * 15)
 
 urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
-    url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$', view=event, name='event'),
+    url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
+        view=event,
+        name='event'
+    ),
 
     # http://events.ucf.edu/calendar/athletics
     # http://events.ucf.edu/calendar/athletics/2010.json
@@ -28,10 +33,28 @@ urlpatterns = patterns('events.views.calendar',
     url(r'^(?P<calendar>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', view=week_listing, name='week-listing'),
 
     # http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
-    url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(\.(?P<format>[\w]+))?$', view=range_listing, name="range-listing"),
+    url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=range_listing,
+        name="range-listing"
+    ),
 
     # http://events.ucf.edu/calendar/athletics/this-year
     # http://events.ucf.edu/calendar/athletics/today
     # etc.
-    url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$', view=named_listing, name="named-listing"),
+    url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=cache_page(named_listing, cache_length),
+        name="named-listing"
+    ),
+
+    # http://events.ucf.edu/calendar/athletics/tag/tag-name
+    url(r'^(?P<calendar>[\w-]+)/tag/(?P<tag>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=cache_page(tag, cache_length),
+        name="tag-by-calendar"
+    ),
+
+    # http://events.ucf.edu/calendar/athletics/category/category-name
+    url(r'^(?P<calendar>[\w-]+)/category/(?P<category>[\w-]+)/(\.(?P<format>[\w]+))?$',
+        view=cache_page(category, cache_length),
+        name="category-by-calendar"
+    ),
 )
