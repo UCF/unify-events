@@ -286,11 +286,11 @@ def tag(request, tag, calendar=None, format=None):
     """
     # FUN TIMES: doing a deep relationship filter to event__tags__name__in fails.
     # https://github.com/alex/django-taggit/issues/84
-    # TODO: work around stupid bug and filter by future event instances
-    events = Event.objects.filter(tags__name__in=[tag])
+    parent_events = Event.objects.filter(tags__name__in=[tag])
+    events = EventInstance.objects.filter(event__in=parent_events, end__gt=datetime.now())
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
-        events = events.filter(calendar=calendar)
+        events = events.filter(event__calendar=calendar)
 
     format = format or 'html'
     template = 'events/frontend/tag/tag.' + format
