@@ -1,113 +1,89 @@
-{%extends 'events/frontend/base.html'%}
+{% extends 'events/frontend/base.html' %}
 
-{%block content_body%}
-<div class="event-page">
-	<section class="event" id="event-{{event.id}}">
-		<div class="span-7 append-1">
-			<div class="when">
-				<div class="weekday">{{event.start|date:"l"}}</div>
-				<div class="date">
-				{%if event.start.day == event.end.day%}
-				{{event.start|date:"F j"}}
-				{%else%}
-				{{event.start|date:"M\. j"}} through {{event.end|date:"M\. j"}}
-				{%endif%}
-				</div>
-				<div class="time">{{event.start|date:"g:i a"}}</div>
-			</div>
-			<div>
-				{% if event.event.calendar in user.editable_calendars.all %}
-					<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i> Edit</a>
-				{% else %}
-					<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i> Add Event To</a>
-				{% endif %}
-			</div>
-			<div class="social">
-				<img src="{{MEDIA_URL}}-/img/test-social.png" height="97" width="299" />
-			</div>
-			<div class="where">
-				<div class="name">Visual Arts Building</div>
-				<img class="snazzy" src="{{MEDIA_URL}}-/img/test-map.png" height="266" width="266" />
-			</div>
-			{%if event.has_contact%}
-			<ul class="contact nobullet">
-				{%if event.contact.name%}
-				<li class="name">{{event.contact.name}}</li>
-				{%endif%}
-				{%if event.contact.phone%}
-				<li class="phone">{{event.contact.phone}}</li>
-				{%endif%}
-				{%if event.contact.email%}
-				<li class="email mail"><a href="mailto:{{event.contact.email}}">{{event.contact.email}}</a></li>
-				{%endif%}
-			</ul>
-			{%endif%}
-			{%if event.sibling_upcoming.count%}
-			<div class="other">
-				<p>This event has multiple times and locations</p>
-				<ul class="nobullet">
-				{%for event in event.sibling_upcoming%}
-					<li><a href="{%url event calendar=calendar.slug instance_id=event.id%}">{{event.start|date:"M\. jS"}} at {{event.location}}</a></li>
-				{%endfor%}
-				</ul>
-			</div>
-			{%endif%}
-		</div>
+{% block content_title_icon %}
+<i class="icon-calendar-empty" id="page-title-icon"></i>
+{% endblock %}
 
-		<div class="span-16 last">
-			<h1 class="title">{{event.title}}</h1>
+{% block content_title %}
+    <h1>
+        <a href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
+    </h1>
+    {% if user.is_authenticated %}
+    <ul id="calendar-edit-options"><!-- TODO: rewrite to use a class; e.g. 'edit-options' -->
+    	{% if event.event.calendar in user.editable_calendars.all %}
+    	<li>
+    		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
+    	</li>
+    	{% else %}
+    	<li>
+    		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+    	</li>
+    	{% endif %}
+    </ul>
+    {% endif %}
+{% endblock %}
 
-			<div class="image">
-				<img class="snazzy" src="{{MEDIA_URL}}-/img/test-image.jpg" height="397" width="631" />
-			</div>
+{% block content_subheader %}{% endblock %}
 
-			<div class="description">{{event.description}}</div>
+{% block content_body %}
+<div class="row">
+    <div class="span8 sidebarfix page-content" id="calendar-events-week">
 
-			<div class="meta">
-				<table class="tag-breakdown">
-					<thead>
-						<tr>
-							<th>Tag Type</th>
-							<th>Tags</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="tag-type">Category</td>
-							<td class="tags">
-								<ul class="inline">
-									<li><a class="tag" href="#">Student Life</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td class="tag-type">Event Type</td>
-							<td class="tags">
-								<ul class="inline">
-									<li><a class="tag" href="#">Gallery</a>,</li>
-									<li><a class="tag" href="#">Speaker</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td class="tag-type">Tags</td>
-							<td class="tags">
-								<ul class="inline">
-									{%for tag in event.tags.all%}
-									<li><a class="tag" href="#">{{tag.name}}</a>{%if not forloop.last%},{%endif%}</li>
-									{%endfor%}
-								</ul>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+    	<!-- TODO: image here, once we get images going... -->
 
-				<ul class="nobullet">
-					<li>Event Posted By: {{event.owner.full_name}}</li>
-					<li>Event Posted Date: {{event.created|date:"F, jS Y"}}</li>
-				</ul>
-			</div>
-		</div>
-	</section>
+    	{{ event.event.description|safe }}
+
+    	<hr />
+
+        {% if event.event.has_instances %}<!-- TODO: microformats -->
+    	<h2>Full Schedule</h2>
+    	<table class="table table-striped">
+    		<thead>
+    			<tr>
+	    			<th>Date</th>
+	    			<th>Location</th>
+	    		</tr>
+    		</thead>
+    		<tbody>
+    			{% for instance in event.event.event_instances.all %}
+    			<tr>
+    				<td>{{ instance.start|date:"F j" }}</td>
+    				<td>
+    					<a href="{{ instance.location.url }}" target="_blank">
+    						{{ instance.location.title }}: {{ instance.location.room }}
+    					</a>
+    				</td>
+    			</tr>
+    			{% endfor %}
+    		</tbody>
+    	</table>
+
+    	<hr />
+        {% endif %}
+        
+    	<div class="well" id="event-meta">
+    		<h3>Event Type</h3>
+    		<a href="{% url category category=event.event.category.slug %}">{{ event.event.category.title }}</a>
+    		<h3>Tags</h3>
+    		{% for tag in event.event.tags.all %}
+    		<a href="{% url tag tag=tag.slug %}">{{ tag }}</a>
+    		{% endfor %}
+    		<h3>Calendar</h3>
+    		<a href="{% url calendar calendar=event.event.calendar.slug %}">{{ event.event.calendar.title }}</a>
+    	</div>
+
+    </div>
+    <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+    	<h2>Starting on</h2>
+    	<span>{{ event.start|date:"l, F j" }}</span>
+    	<span class="">at</span>
+    	<span>{{ event.start|date:"P" }}</span>
+
+    	<h2>Social Stuff Here...</h2>
+
+        <h2>Located At Here...</h2>
+
+        <h2>Contact Info Here...</h2>
+    </aside>
 </div>
-{%endblock%}
+{% endblock %}

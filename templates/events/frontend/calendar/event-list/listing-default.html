@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load tz %}
 {% load widgets %}
 <div class="row">
     <div class="span8 sidebarfix page-content" id="calendar-events-week">
@@ -17,9 +18,9 @@
                 <ul class="event-list">
                 {% for event in date.list %}
                     <li class="vevent cat-name">
-                        <a class="event-content url" href="{% url event calendar.slug event.id %}{{ event.event.slug }}"><!-- TODO: less ugly url? -->
+                        <a class="event-content url" href="{% url event calendar.slug event.id %}{{ event.event.slug }}">
                             <!-- if img -->
-                            <!--<img src="" alt="image" title="image" />-->
+                            <!--<img class="photo" src="" alt="image" title="image" />-->
                             <!-- endif -->
                             <h4>
                                 <span class="summary">{{ event.title }}</span>
@@ -29,19 +30,19 @@
                                 {% endif %}
                             </h4>
                             <span class="location">{{ event.location }}</span>
-                            <span class="description">
-                                {{ event.event.description|truncatewords:160 }}
+                            <span class="description"><!-- TODO: strip tags except linebreaks? -->
+                                {{ event.event.description|striptags|truncatewords:160 }}
                             </span>
-                            <time class="dtstart" datetime="{{ event.start|date:"cZ" }}"> <!-- TODO: real UTC time -->
+                            <time class="dtstart" datetime="{{ event.start|date:"cZ" }}">
                                 {% if event.start.time %}
                                     {{ event.start|date:"f a" }}
                                 {% else %}
                                     All Day
                                 {% endif %}
-                                <span class="value-title" title="{{ event.start|date:"cZ" }}"></span> <!-- TODO: real UTC time -->
+                                <span class="value-title" title="{{ event.start|date:"cZ" }}"></span>
                             </time>
                         </a>
-                        <span class="category">Category Name</span><!-- TODO: category -->
+                        <span class="category {{ event.event.category.slug }}">{{ event.event.category.title }}</span>
                     </li>
                 {% endfor %}
                 </ul>
