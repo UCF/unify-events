@@ -24,7 +24,7 @@ def event(request, calendar, instance_id, format=None):
         raise Http404
 
     format = format or 'html'
-    template = 'events/frontend/event/event.' + format
+    template = 'events/frontend/event-single/event.' + format
     context = {
         'calendar': calendar,
         'event': event,
@@ -73,11 +73,11 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
 
     if param_iswidget == 'true':
         if param_monthwidget == 'true':
-            template = 'events/frontend/calendar/event-list/listing-widget-month.html'
+            template = 'events/frontend/calendar/listing/listing-widget-month.html'
         else:
-            template = 'events/frontend/calendar/event-list/listing-widget-list.html'
+            template = 'events/frontend/calendar/listing/listing-widget-list.html'
     else:
-        template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
+        template = 'events/frontend/calendar/listing/listing.' + (format or 'html')
 
     context = {
         'start': start,

@@ -21,13 +21,13 @@
 
 {% block content_body %}
     {% if list_type == 'month' %}
-        {% include 'events/frontend/calendar/event-list/listing-month.html' %}
+        {% include 'events/frontend/calendar/listing/listing-month.html' %}
     {% elif list_type == 'year' %}
-        {% include 'events/frontend/calendar/event-list/listing-year.html' %}
+        {% include 'events/frontend/calendar/listing/listing-year.html' %}
     {% elif list_type == 'day' %}
-        {% include 'events/frontend/calendar/event-list/listing-day.html' %}
+        {% include 'events/frontend/calendar/listing/listing-day.html' %}
     {% else %}
-        {% include 'events/frontend/calendar/event-list/listing-default.html' %}
+        {% include 'events/frontend/calendar/listing/listing-default.html' %}
     {% endif %}
     
     <!-- Subscribe to Calendar Modal -->

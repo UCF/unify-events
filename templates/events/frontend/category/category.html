@@ -39,7 +39,7 @@
                     <ul class="event-list">
                     {% for event in events %}
                         <li class="vevent cat-name">
-                            <a class="event-content url" href="{% url event event.event.calendar.slug event.id %}{{ event.event.slug }}"><!-- TODO: less ugly url? -->
+                            <a class="event-content url" href="{% url event event.event.calendar.slug event.id %}{{ event.event.slug }}">
                                 <!-- if img -->
                                 <!--<img src="" alt="image" title="image" />-->
                                 <!-- endif -->
@@ -54,16 +54,16 @@
                                 <span class="description">
                                     {{ event.description|truncatewords:160 }}
                                 </span>
-                                <time class="dtstart" datetime="{{ event.start|date:"cZ" }}"> <!-- TODO: real UTC time -->
+                                <time class="dtstart" datetime="{{ event.start|date:"cZ" }}">
                                     {% if event.start.time %}
                                         {{ event.start|date:"f a" }}
                                     {% else %}
                                         All Day
                                     {% endif %}
-                                    <span class="value-title" title="{{ event.start|date:"cZ" }}"></span> <!-- TODO: real UTC time -->
+                                    <span class="value-title" title="{{ event.start|date:"cZ" }}"></span>
                                 </time>
                             </a>
-                            <span class="category">Category Name</span><!-- TODO: category -->
+                            <span class="category {{ event.event.category.slug }}">{{ event.event.category.title }}</span>
                         </li>
                     {% endfor %}
                     </ul>
