@@ -298,6 +298,8 @@ def tag(request, tag, calendar=None, format=None):
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
         events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
 
     format = format or 'html'
     template = 'events/frontend/tag/tag.' + format
@@ -327,6 +329,8 @@ def category(request, category, calendar=None, format=None):
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
         events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
 
     format = format or 'html'
     template = 'events/frontend/category/category.' + format
