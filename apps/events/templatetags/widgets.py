@@ -60,9 +60,14 @@ def calendar_widget(calendars, day=None, is_manager=0):
             events.extend(cal.range_event_instances(start, end).order_by('start'))
 
     for event in events:
+        event_date = event.start.date()
         # Assign event to all days the event falls on
-        rule = rrule.rrule(rrule.DAILY, dtstart=event.start, until=event.end)
-        for event_date in rule:
+        if event_date is not event.end.date():
+            duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
+            for day in duration:
+                if day.date() in month_calendar_map[this_month].keys():
+                    month_calendar_map[this_month][day.date()].append(event)
+        else:
             if event_date.date() in month_calendar_map[this_month].keys():
                 month_calendar_map[this_month][event_date.date()].append(event)
 
