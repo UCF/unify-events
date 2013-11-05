@@ -5,10 +5,12 @@ import calendar as calgenerator
 import itertools
 
 from django import template
+from django.http import Http404
 from django.template import Context
 from django.template import loader
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from dateutil.relativedelta import relativedelta
 from ordereddict import OrderedDict
 
@@ -18,10 +20,17 @@ register = template.Library()
 
 
 @register.simple_tag
-def calendar_widget(calendars, day=None, is_manager=0):
+def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'):
+
+    # Catch requests for frontend widget with no specified calendar
+    if calendars is "" and is_manager is 0:
+        raise Http404
+
+    if isinstance(calendars, unicode):
+        calendars = get_object_or_404(Calendar, slug=calendars)
 
     if day is None or day is "":
-        relative_day = date.today()
+        relative_day = None
     else:
         if isinstance(day, datetime):
             relative_day = day.date()
@@ -31,7 +40,10 @@ def calendar_widget(calendars, day=None, is_manager=0):
             raise TypeError('day must be a datetime.date or datetime.datetime, not a %s' % type(day))
 
     # Get this month, next and last month (1st day of month)
-    this_month = date(relative_day.year, relative_day.month, 1)
+    if relative_day is None:
+        this_month = date(int(year), int(month), 1)
+    else:
+        this_month = date(relative_day.year, relative_day.month, 1)
     next_month = date((this_month + relativedelta(months=+1)).year, (this_month + relativedelta(months=+1)).month, 1)
     last_month = date((this_month + relativedelta(months=-1)).year, (this_month + relativedelta(months=-1)).month, 1)
 
@@ -72,7 +84,11 @@ def calendar_widget(calendars, day=None, is_manager=0):
                 month_calendar_map[this_month][event_date.date()].append(event)
 
 
-    template = loader.get_template('events/widgets/calendar.html')
+    if size is 'small':
+        template = loader.get_template('events/widgets/calendar-sidebar.html')
+    else:
+        template = loader.get_template('events/widgets/calendar-large.html')
+
     html = template.render(Context(
         {
             'MEDIA_URL': settings.MEDIA_URL,

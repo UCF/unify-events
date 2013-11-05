@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     url(r'^help/$', direct_to_template, {'template': 'events/static/help.html'}, name='help'),
     url(r'for-developers/$', direct_to_template, {'template': 'events/static/for-developers.html'}, name='for-developers'),
     url(r'^tools/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT + '/events-widget/'}),
+    url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', direct_to_template, {'template': 'events/widgets/calendar-by-url.html'}, name='calendar-widget'),
+    url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', direct_to_template, {'template': 'events/widgets/calendar-by-url.html'}, name='calendar-widget-by-calendar')
 )
 
 handler500 = lambda r: direct_to_template(r, template='500.html')
