@@ -185,21 +185,21 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 }
 .calendar-slider .pager li .carousel-control > i { padding-right: 0; }
 .calendar-slider .pager li .carousel-control > span { width: 0; height: 0; text-indent: -9999px; display: block; line-height: 0; }
-.calendar-slider .carousel-inner { position: relative; z-index: 1; }
-.calendar-slider .carousel-inner .item h2 { text-align: center; font-size: 21px; line-height: 36px; margin-bottom: 0; }
-.calendar-slider .carousel-inner .item .table { border-collapse: separate; border-spacing: 3px; }
-.calendar-slider .carousel-inner .item .table th, 
-.calendar-slider .carousel-inner .item .table td {
+.calendar-slider { position: relative; z-index: 1; }
+.calendar-slider .item h2 { text-align: center; font-size: 21px; line-height: 36px; margin-bottom: 0; }
+.calendar-slider .item .table { border-collapse: separate; border-spacing: 3px; }
+.calendar-slider .item .table th, 
+.calendar-slider .item .table td {
 	border-top: 0;
 	text-align: center;
 }
-.calendar-slider .carousel-inner .item .table td {
+.calendar-slider .item .table td {
 	background: #f1f1f1;
 	font-size: 18px;
 	line-height: 18px;
 	padding: 0;
 }
-.calendar-slider .carousel-inner .item .table td a {
+.calendar-slider .item .table td a {
 	font-weight: bold;
 	color: #8d8d8d;
 	display: block;
@@ -207,13 +207,13 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	position: relative;
 	z-index: 1;
 }
-.calendar-slider .carousel-inner .item .table td a:hover { background: #fffbe9; text-decoration: none; }
-.calendar-slider .carousel-inner .item .table td.active { background: #fcc904; }
-.calendar-slider .carousel-inner .item .table td.active a { color: #fff; }
-.calendar-slider .carousel-inner .item .table td.active a:hover {
+.calendar-slider .item .table td a:hover { background: #fffbe9; text-decoration: none; }
+.calendar-slider .item .table td.active { background: #fcc904; }
+.calendar-slider .item .table td.active a { color: #fff; }
+.calendar-slider .item .table td.active a:hover {
 	background-color: #daad00;
 }
-.calendar-slider .carousel-inner .item .table td.hasevents a:after {
+.calendar-slider .item .table td.hasevents a:after {
 	content: "";
 	display: block;
 	position: absolute;
@@ -226,13 +226,13 @@ ul.wysihtml5-toolbar a:hover { color: #fff; }
 	border-color: transparent transparent #daae00 transparent;
 	z-index: 2;
 }
-.calendar-slider .carousel-inner .item .table td.muted { background-color: #fff; }
-.calendar-slider .carousel-inner .item .table td.muted a { color: #e2e2e2; }
-.calendar-slider .carousel-inner .item .table td.muted a:hover { color: #8d8d8d; }
-.calendar-slider .carousel-inner .item .table td.hasevents.muted a:after {
+.calendar-slider .item .table td.muted { background-color: #fff; }
+.calendar-slider .item .table td.muted a { color: #e2e2e2; }
+.calendar-slider .item .table td.muted a:hover { color: #8d8d8d; }
+.calendar-slider .item .table td.hasevents.muted a:after {
 	border-color: transparent transparent #EFDB97 transparent;
 }
-.calendar-slider .carousel-inner .item .table td.today a { text-decoration: underline; }
+.calendar-slider .item .table td.today a { text-decoration: underline; }
 
 
 /* Calendar Grids */

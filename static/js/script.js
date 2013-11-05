@@ -56,44 +56,16 @@ var toggleModalDeleteObject = function() {
 };
 
 /**
- * Calendar grid carousels
+ * Calendar grid sliders
  **/
-var calendarCarousels = function() {
-    $('.calendar-slider').on('slid', function() {
-        var firstItem = $('.calendar-slider .carousel-inner .item:first-child'),
-            lastItem  = $('.calendar-slider .carousel-inner .item:last-child'),
-            controlNext = $('.calendar-slider .pager .next'),
-            controlPrev = $('.calendar-slider .pager .previous'),
-            sliderID = $(this).attr('id');
-
-        if (firstItem.hasClass('active')) {
-            controlPrev
-            .addClass('disabled')
-                .find('a')
-                    .attr('href', '#');
-        }
-        else {
-            controlPrev
-                .removeClass('disabled')
-                .find('a')
-                    .attr('href', '#' + sliderID);
-        }
-        if (lastItem.hasClass('active')) {
-            controlNext
-                .addClass('disabled')
-                .find('.carousel-control.right')
-                    .attr('href', '#');
-        }
-        else {
-            controlNext
-                .removeClass('disabled')
-                .find('.carousel-control.right')
-                    .attr('href', '#' + sliderID);
-        }
-    });
-
-    $('.disabled').click(function(e) {
+var calendarSliders = function() {
+    $('body').on('click', '.calendar-slider ul.pager li a', function(e) {
         e.preventDefault();
+        
+        var slider = $(this).parents('.calendar-slider');
+        $.get($(this).attr('data-ajax-link'), function(data) {
+            slider.replaceWith(data);
+        });
     });
 };
 
@@ -990,7 +962,7 @@ $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
     toggleModalDeleteObject();
-    //calendarCarousels();
+    calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
     initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));

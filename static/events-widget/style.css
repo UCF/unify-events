@@ -30,8 +30,8 @@
 /******************************************************************************\
     Events Calendar
 \******************************************************************************/
-#sidebar-minicals { width: 200px; position: relative; font: 75% 'Lucida Grande',Verdana,Arial; }
-#sidebar-minicals .pager {
+#sidebar-minical { width: 200px; position: relative; font: 75% 'Lucida Grande',Verdana,Arial; }
+#sidebar-minical .pager {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -42,31 +42,31 @@
 	background: url("img/monthviewnav_mid.gif") center center repeat-x;
 	border-radius: 8px;
 }
-#sidebar-minicals .pager .previous,
-#sidebar-minicals .pager .next {
+#sidebar-minical .pager .previous,
+#sidebar-minical .pager .next {
 	display: block;
 	height: 31px;
 }
-#sidebar-minicals .pager .previous { float: left; }
-#sidebar-minicals .pager .next { float: right; }
-#sidebar-minicals .pager .previous a,
-#sidebar-minicals .pager .next a {
+#sidebar-minical .pager .previous { float: left; }
+#sidebar-minical .pager .next { float: right; }
+#sidebar-minical .pager .previous a,
+#sidebar-minical .pager .next a {
 	display: block;
 	width: 22px; 
 	height: 31px;
 	text-indent: -9999px;
 }
-#sidebar-minicals .pager .previous a { background: url("img/monthviewnav_prev.gif") 0 0 no-repeat; }
-#sidebar-minicals .pager .next a { background: url("img/monthviewnav_next.gif") 0 0 no-repeat; }
-#sidebar-minicals .pager .previous a:hover,
-#sidebar-minicals .pager .previous a:focus,
-#sidebar-minicals .pager .previous a:active,
-#sidebar-minicals .pager .next a:hover,
-#sidebar-minicals .pager .next a:focus,
-#sidebar-minicals .pager .next a:active {
+#sidebar-minical .pager .previous a { background: url("img/monthviewnav_prev.gif") 0 0 no-repeat; }
+#sidebar-minical .pager .next a { background: url("img/monthviewnav_next.gif") 0 0 no-repeat; }
+#sidebar-minical .pager .previous a:hover,
+#sidebar-minical .pager .previous a:focus,
+#sidebar-minical .pager .previous a:active,
+#sidebar-minical .pager .next a:hover,
+#sidebar-minical .pager .next a:focus,
+#sidebar-minical .pager .next a:active {
 	background-position: 0 -45px;
 }
-#sidebar-minicals .carousel-inner .item h2 {
+#sidebar-minical .item h2 {
 	margin: 0;
 	padding: 0;
 	position: absolute;
@@ -78,22 +78,22 @@
 	font-weight: normal;
 	text-align: center;
 }
-#sidebar-minicals .carousel-inner .item h2 a {
+#sidebar-minical .item h2 a {
 	color: #fff;
 	text-decoration: none;
 }
-#sidebar-minicals .carousel-inner .item h2 a:hover,
-#sidebar-minicals .carousel-inner .item h2 a:focus,
-#sidebar-minicals .carousel-inner .item h2 a:active {
+#sidebar-minical .item h2 a:hover,
+#sidebar-minical .item h2 a:focus,
+#sidebar-minical .item h2 a:active {
 	text-decoration: underline;
 }
-#sidebar-minicals .carousel-inner .item table {
+#sidebar-minical .item table {
 	position: absolute;
 	top: 35px;
 	border-top: 1px solid #ddd;
 	border-collapse: collapse;
 }
-#sidebar-minicals .carousel-inner .item table thead th {
+#sidebar-minical .item table thead th {
     border-bottom: 3px none #DDDDDD;
     border-top: 1px solid #DDDDDD;
     color: #333333;
@@ -102,31 +102,31 @@
     padding-top: 4px;
     min-width: 28.5px;
 }
-#sidebar-minicals .carousel-inner .item table tbody {
+#sidebar-minical .item table tbody {
 	border: 1px solid #ddd;
 }
-#sidebar-minicals .carousel-inner .item table tbody td {
+#sidebar-minical .item table tbody td {
 	border: 1px solid #ddd;
 	text-align: center;
 	font-size: 12px;
 }
-#sidebar-minicals .carousel-inner .item table tbody td.hasevents {
+#sidebar-minical .item table tbody td.hasevents {
 	background-color: #eee;
 }
-#sidebar-minicals .carousel-inner .item table tbody td:hover,
-#sidebar-minicals .carousel-inner .item table tbody td:active,
-#sidebar-minicals .carousel-inner .item table tbody td:focus {
+#sidebar-minical .item table tbody td:hover,
+#sidebar-minical .item table tbody td:active,
+#sidebar-minical .item table tbody td:focus {
 	background: #FFFFCC;
 }
-#sidebar-minicals .carousel-inner .item table tbody td a {
+#sidebar-minical .item table tbody td a {
 	text-decoration: none;
 	color: #000;
 }
-#sidebar-minicals .carousel-inner .item table tbody td.hasevents a {
+#sidebar-minical .item table tbody td.hasevents a {
 	color: #990000;
 }
-#sidebar-minicals .carousel-inner .item table tbody td a:hover,
-#sidebar-minicals .carousel-inner .item table tbody td a:active,
-#sidebar-minicals .carousel-inner .item table tbody td a:focus {
+#sidebar-minical .item table tbody td a:hover,
+#sidebar-minical .item table tbody td a:active,
+#sidebar-minical .item table tbody td a:focus {
 	text-decoration: underline;
 }

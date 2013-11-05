@@ -84,7 +84,7 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
                 month_calendar_map[this_month][event_date.date()].append(event)
 
 
-    if size is 'small':
+    if size == 'small':
         template = loader.get_template('events/widgets/calendar-sidebar.html')
     else:
         template = loader.get_template('events/widgets/calendar-large.html')
