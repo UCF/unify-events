@@ -20,7 +20,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'):
+def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
     if calendars is "" and is_manager is 0:
@@ -84,23 +84,25 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
                 month_calendar_map[this_month][event_date.date()].append(event)
 
 
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL,
+        'is_manager': is_manager,
+        'calendar': calendar,
+        'this_month': this_month,
+        'next_month': next_month,
+        'last_month': last_month,
+        'today': date.today(),
+        'relative': relative_day,
+        'calendar_map': month_calendar_map,
+        'use_pagers': use_pagers,
+    }
+
+
     if size == 'small':
         template = loader.get_template('events/widgets/calendar-sidebar.html')
     else:
         template = loader.get_template('events/widgets/calendar-large.html')
 
-    html = template.render(Context(
-        {
-            'MEDIA_URL': settings.MEDIA_URL,
-            'is_manager': is_manager,
-            'calendar': calendar,
-            'this_month': this_month,
-            'next_month': next_month,
-            'last_month': last_month,
-            'today': date.today(),
-            'relative': relative_day,
-            'calendar_map': month_calendar_map,
-        }
-    ))
+    html = template.render(Context(context))
 
     return html

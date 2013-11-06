@@ -698,6 +698,7 @@ ul.event-list-condensed li time { font-weight: bold; }
 #month-toggle select#id_month { width: 107px; }
 
 /* Year View */
+#calendar-events-year h2 { text-align: center; }
 
 
 /**

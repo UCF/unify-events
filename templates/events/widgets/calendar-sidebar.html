@@ -1,4 +1,5 @@
 <div id="sidebar-minical" class="calendar-slider" {% if calendar %}data-calendar-slug="{{ calendar.slug }}"{% endif %} data-view="{% if is_manager %}manager{% else %}frontend{% endif %}" data-year="{{ this_month.year }}" data-month="{{ this_month.month }}">
+    {% if use_pagers %}
     <ul class="pager">
         <!-- Pager links go to the 1st day of the previous/next month -->
         <!-- TODO: add data attributes that specify the current calendar slug, manager/frontend view, and current month/year to build prev/next ajax urls -->
@@ -39,6 +40,7 @@
             </li>
         {% endif %}
     </ul>
+    {% endif %}
     {% for key, cal in calendar_map.items %}
     <div class="item {% if key.month == this_month.month %}active{% endif %}">
          <h2>
