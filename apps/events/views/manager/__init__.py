@@ -76,7 +76,7 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
     events = None
     if calendar_id:
         current_calendar = get_object_or_404(Calendar, pk=calendar_id)
-        if current_calendar not in request.user.calendars:
+        if not request.user.is_superuser and current_calendar not in request.user.calendars:
             return HttpResponseNotFound('You do not have permission to access this calendar.')
         ctx['current_calendar'] = current_calendar
         ctx['rereview_count'] = current_calendar.future_event_instances().filter(event__state=State.rereview).count()
