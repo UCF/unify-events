@@ -52,13 +52,13 @@ sys.path.append(APP_FOLDER)
 sys.path.append(INC_FOLDER)
 
 INSTALLED_APPS = (
+    'core', # On top to lengthen the first and last name field for the user
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize',
-    'core',
     'profiles',
     'taggit',
     'events',

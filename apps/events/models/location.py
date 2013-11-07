@@ -8,7 +8,7 @@ class Location(TimeCreatedModified):
     Location
     """
     title = models.CharField(max_length=256)
-    url = models.CharField(max_length=256)
+    url = models.URLField(max_length=400, blank=True, null=True)
     room = models.CharField(max_length=256, blank=True, null=True)
     reviewed = models.BooleanField(default=False)
 
