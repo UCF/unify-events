@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from django.views.decorators.cache import cache_page
 from django.conf import settings
 
 from events.views.calendar import auto_listing
@@ -12,7 +11,6 @@ from events.views.calendar import week_listing
 from events.views.calendar import tag
 from events.views.calendar import category
 
-cache_length = getattr(settings, 'CACHE_LENGTH', 60 * 15)
 
 urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
@@ -42,19 +40,19 @@ urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/today
     # etc.
     url(r'^(?P<calendar>[\w-]+)/(?P<type>[\w-]+)/(\.(?P<format>[\w]+))?$',
-        view=cache_page(named_listing, cache_length),
+        view=named_listing,
         name="named-listing"
     ),
 
     # http://events.ucf.edu/calendar/athletics/tag/tag-name
     url(r'^(?P<calendar>[\w-]+)/tag/(?P<tag>[\w-]+)/(\.(?P<format>[\w]+))?$',
-        view=cache_page(tag, cache_length),
+        view=tag,
         name="tag-by-calendar"
     ),
 
     # http://events.ucf.edu/calendar/athletics/category/category-name
     url(r'^(?P<calendar>[\w-]+)/category/(?P<category>[\w-]+)/(\.(?P<format>[\w]+))?$',
-        view=cache_page(category, cache_length),
+        view=category,
         name="category-by-calendar"
     ),
 )

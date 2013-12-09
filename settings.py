@@ -122,13 +122,6 @@ LOGGING = {
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
-}
-CACHE_LENGTH = 60 * 15
-
 AUTH_PROFILE_MODULE = 'events.Profile'
 FILE_UPLOAD_PATH = 'uploads'
 
