@@ -41,20 +41,16 @@ def create_update(request, event_id=None):
     formset_qs = EventInstance.objects.none()
     formset_extra = 1
     if event_id is not None:
-        try:
-            ctx['event'] = get_object_or_404(Event, pk=event_id)
-            formset_qs = ctx['event'].event_instances.filter(parent=None)
-            formset_extra = 0
-            if ctx['event'].event_instances.count() == 0:
-                formset_extra = 1
-            ctx['mode'] = 'update'
-        except Event.DoesNotExist:
-            return HttpResponseNotFound('The event specified does not exist.')
-        else:
-            # Is this an event you can edit?
-            if not request.user.is_superuser:
-                if ctx['event'].calendar not in request.user.calendars:
-                    return HttpResponseForbidden('You cannot modify the specified event.')
+        ctx['event'] = get_object_or_404(Event, pk=event_id)
+        formset_qs = ctx['event'].event_instances.filter(parent=None)
+        formset_extra = 0
+        if ctx['event'].event_instances.count() == 0:
+            formset_extra = 1
+        ctx['mode'] = 'update'
+
+        # Is this an event you can edit?
+        if not request.user.is_superuser and ctx['event'].calendar not in request.user.calendars:
+                return HttpResponseForbidden('You cannot modify the specified event.')
 
     ## Can't use user.calendars here because ModelChoiceField expects a queryset
     user_calendars = request.user.calendars
@@ -133,22 +129,20 @@ def create_update(request, event_id=None):
 
 @login_required
 def update_state(request, event_id=None, state=None):
+    event = get_object_or_404(Event, pk=event_id)
+
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
+        return HttpResponseForbidden('You cannot modify the state for the specified event.')
+
+    event.state = state
     try:
-        event = Event.objects.get(pk=event_id)
-    except Event.DoesNotExist:
-        return HttpResponseNotFound('The event specified does not exist.')
+        event.save()
+    except Exception, e:
+        log(str(e))
+        messages.error(request, 'Saving event failed.')
     else:
-        if not request.user.is_superuser and event.calendar not in request.user.calendars:
-                return HttpResponseForbidden('You cannot modify the specified event.')
-        event.state = state
-        try:
-            event.save()
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Saving event failed.')
-        else:
-            messages.success(request, 'Event successfully updated.')
-            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+        messages.success(request, 'Event successfully updated.')
+        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
@@ -303,49 +297,46 @@ def cancel_uncancel(request, event_id=None):
 
 @login_required
 def delete(request, event_id=None):
-    try:
-        event = Event.objects.get(pk=event_id)
-    except Event.DoesNotExist:
-        return HttpResponseNotFound('The event specified does not exist.')
-    else:
-        if not request.user.is_superuser and event.calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified event.')
+    event = get_object_or_404(Event, pk=event_id)
 
-        try:
-            event.delete()
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Deleting event failed.')
-        else:
-            messages.success(request, 'Event successfully deleted.')
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
+        return HttpResponseForbidden('You cannot delete the specified event.')
+
+    try:
+        event.delete()
+    except Exception, e:
+        log(str(e))
+        messages.error(request, 'Deleting event failed.')
+    else:
+        messages.success(request, 'Event successfully deleted.')
         return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
-def copy(request, event_id):
+def copy(request, event_id=None):
     ctx = {'event': None, 'form': None}
     tmpl = 'events/manager/events/copy.html'
 
-    try:
-        ctx['event'] = Event.objects.get(pk=event_id)
-    except Event.DoesNotExist:
-        return HttpResponseNotFound('Event specified does not exist.')
-    else:
-        user_calendars = request.user.calendars.exclude(pk=ctx['event'].calendar.id)
+    ctx['event'] = get_object_or_404(Event, pk=event_id)
 
-        if request.method == 'POST':
-            ctx['form'] = EventCopyForm(request.POST, calendars=user_calendars)
-            if ctx['form'].is_valid():
-                error = False
-                for calendar in ctx['form'].cleaned_data['calendars']:
-                    try:
-                        calendar.import_event(ctx['event'])
-                    except Exception:
-                        messages.error(request, 'Unable to copy even to %s' % calendar.title)
-                        error = True
-                if not error:
-                    messages.success(request, 'Event successfully copied.')
-                return HttpResponseRedirect(reverse('dashboard'))
-        else:
-            ctx['form'] = EventCopyForm(calendars=user_calendars)
+    if not request.user.is_superuser and ctx['event'].calendar not in request.user.calendars:
+        return HttpResponseForbidden('You cannot copy the specified event.')
+
+    user_calendars = request.user.calendars.exclude(pk=ctx['event'].calendar.id)
+
+    if request.method == 'POST':
+        ctx['form'] = EventCopyForm(request.POST, calendars=user_calendars)
+        if ctx['form'].is_valid():
+            error = False
+            for calendar in ctx['form'].cleaned_data['calendars']:
+                try:
+                    ctx['event'].copy(calendar=calendar)
+                except Exception:
+                    messages.error(request, 'Unable to copy even to %s' % calendar.title)
+                    error = True
+            if not error:
+                messages.success(request, 'Event successfully copied.')
+            return HttpResponseRedirect(reverse('dashboard'))
+    else:
+        ctx['form'] = EventCopyForm(calendars=user_calendars)
     return direct_to_template(request, tmpl, ctx)
