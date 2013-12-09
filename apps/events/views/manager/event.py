@@ -147,23 +147,22 @@ def update_state(request, event_id=None, state=None):
 
 @login_required
 def submit_to_main(request, event_id=None):
+    event = get_object_or_404(Event, pk=event_id)
+
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
+        return HttpResponseForbidden('You cannot modify the specified event.')
+
+    if not event.is_submit_to_main:
+        get_main_calendar().import_event(event)
     try:
-        event = Event.objects.get(pk=event_id)
-    except Event.DoesNotExist:
-        return HttpResponseNotFound('The event specified does not exist.')
+        event.save()
+    except Exception, e:
+        log.error(str(e))
+        messages.error(request, 'Saving event failed.')
     else:
-        if not request.user.is_superuser and event.calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified event.')
-        if not event.is_submit_to_main:
-            get_main_calendar().import_event(event)
-        try:
-            event.save()
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Saving event failed.')
-        else:
-            messages.success(request, 'Event successfully updated.')
-            return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+        messages.success(request, 'Event successfully updated.')
+
+    return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
@@ -262,37 +261,34 @@ def bulk_action(request):
 
 @login_required
 def cancel_uncancel(request, event_id=None):
+    event = get_object_or_404(Event, pk=event_id)
+
+    # Get original event
+    original_event = event
+    if event.created_from:
+        event = event.created_from
+
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
+        return HttpResponseForbidden('You cannot modify the specified event.')
+
     try:
-        event = Event.objects.get(pk=event_id)
-    except Event.DoesNotExist:
-        return HttpResponseNotFound('The event specified does not exist.')
+        event.canceled = not event.canceled
+        event.save()
+
+        # Updates the copied versions if the original event is updated
+        for copied_event in event.duplicated_to.all():
+            copy = copied_event.pull_updates()
+
+    except Exception, e:
+        log.error(str(e))
+        messages.error(request, 'Canceling/Un-Canceling event failed.')
     else:
-        # Get original event
-        original_event = event
-        if event.created_from:
-            event = event.created_from
+        message = 'Event successfully un-canceled.'
+        if event.canceled:
+            message = 'Event successfully canceled.'
 
-        if not request.user.is_superuser and event.calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified event.')
-
-        try:
-            event.canceled = not event.canceled
-            event.save()
-
-            # Updates the copied versions if the original event is updated
-            for copied_event in event.duplicated_to.all():
-                copy = copied_event.pull_updates()
-
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Canceling/Un-Canceling event failed.')
-        else:
-            message = 'Event successfully un-canceled.'
-            if event.canceled:
-                message = 'Event successfully canceled.'
-
-            messages.success(request, message)
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
+        messages.success(request, message)
+    return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
 
 
 @login_required

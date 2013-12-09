@@ -5,11 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.http import HttpResponseNotFound
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 
