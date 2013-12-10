@@ -6,6 +6,7 @@ vevent
 
 {% block content_title_icon %}
 <i class="icon-calendar-empty" id="page-title-icon"></i>
+<span class="event-icon-date">{{ event.start|date:"j" }}</span>
 {% endblock %}
 
 {% block content_title %}

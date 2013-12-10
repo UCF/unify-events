@@ -735,6 +735,21 @@ ul.event-list-condensed li time { font-weight: bold; }
 	border-width: 3px 0;
 }
 
+/* Title icon date */
+#page-title-wrap .event-icon-date {
+	display: block;
+	width: 28px;
+	height: 20px;
+	position: absolute;
+	top: 23px;
+	left: -45px;
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: bold;
+	color: #a8a8a8;
+	text-align: center;
+}
+
 /* Sidebar */
 #event-single-sidebar { top: -40px; position: relative; }
 #event-single-sidebar .event-single-datetime {
