@@ -7,7 +7,7 @@
         My Calendar{% if current_calendar %}: <span class="alt">{{ current_calendar.title }}</span>{% else %}s{% endif %}
     </h1>
     {% if current_calendar %}
-    <ul id="calendar-edit-options">
+    <ul class="edit-options">
         {% if current_calendar in user.editable_calendars.all %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url calendar-update calendar_id=current_calendar.id %}">Edit <b class="caret"></b></a>

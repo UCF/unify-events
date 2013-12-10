@@ -111,6 +111,24 @@ class Event(TimeCreatedModified):
         return has_instances
 
     @property
+    def get_last_instance(self):
+        """
+        Retrieves the very last event instance out of all instances
+        of this event.
+        Makes up for Django's lack of support for negative indexing
+        on querysets.
+        """
+        return list(self.event_instances.all())[-1]
+
+    @property
+    def get_all_parent_instances(self):
+        """
+        Returns all of this event's event instances that are the
+        parents for those instances.
+        """
+        return EventInstance.objects.filter(event=self, parent=None)
+
+    @property
     def is_submit_to_main(self):
         """
         Returns true if event has been submitted to the
@@ -286,6 +304,14 @@ class EventInstance(TimeCreatedModified):
             return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
         elif EventInstance.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
+
+    @property
+    def get_rrule_name(self):
+        """
+        Retrieves the human-readable rrule defined by this
+        EventInstance's interval value.
+        """
+        return self.Recurs.choices[self.interval][1]
 
     def update_children(self):
         """
