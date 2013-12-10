@@ -64,6 +64,7 @@ class Calendar(TimeCreatedModified):
     class Meta:
         app_label = 'events'
 
+    @property
     def is_main_calendar(self):
         is_main = False
         if self.slug == settings.FRONT_PAGE_CALENDAR_SLUG:
@@ -89,9 +90,9 @@ class Calendar(TimeCreatedModified):
         """
         Copy all future events to a new calendar.
         """
-        events = self.events.filter(event_instances__end__gte=datetime.now()).distinct()
+        events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None).distinct()
         for event in events:
-            event.copy(calendar=calendar)
+            calendar.import_event(event)
 
     def delete_subscribed_events(self, calendar):
         """
@@ -144,7 +145,11 @@ class Calendar(TimeCreatedModified):
         Given an event, will duplicate that event and import it into this
         calendar. Returns the newly created event.
         """
-        copy = event.copy(calendar=self)
+        # Make state pending if copying for Main Calendar
+        state = None
+        if self.is_main_calendar:
+            state = events.models.State.pending
+        copy = event.copy(calendar=self, state=state)
         return copy
 
     def is_creator(self, user):

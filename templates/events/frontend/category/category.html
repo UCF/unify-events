@@ -1,0 +1,35 @@
+{% extends 'events/frontend/base.html' %}
+{% load humanize %}
+
+{% block meta %}
+		<link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url category-by-calendar calendar=calendar.slug category=category.slug %}{% else %}{% url category category=category.slug %}{% endif %}.rss" />
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-tag" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>
+        {% if calendar %}
+        <a href="{% url category-by-calendar calendar=calendar.slug category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        {% else %}
+        <a href="{% url category category=category.slug %}">Event Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        {% endif %}
+    </h1>
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+    <div class="row">
+        <div class="span8 sidebarfix page-content" id="calendar-events-week">
+            <h2>Some subtitle here</h2><!-- TODO: use proper context -->
+            {% include 'events/frontend/event-listing/event-listing.html' %}
+        </div>
+        <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+            <h2>Subscribe</h2>
+            feed download links
+        </aside>
+    </div>
+{% endblock %}

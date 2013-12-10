@@ -1,0 +1,15 @@
+{% load humanize %}
+{% load widgets %}
+
+<div class="row">
+    <div class="span12 page-content" id="calendar-events-year">
+        <h2>{{ list_title }}</h2>
+        {% for month in all_months %}
+            {% if forloop.counter|add:"-1"|divisibleby:3 %}<div class="row">{% endif %}
+                <div class="span4">
+                    {% calendar_widget calendars=calendar is_manager=0 year=start.year month=month use_pagers=False %}
+                </div>
+            {% if forloop.counter|divisibleby:3 and forloop.counter != 0 %}</div>{% endif %}
+        {% endfor %}
+    </div>
+</div>

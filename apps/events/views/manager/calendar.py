@@ -3,7 +3,8 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.generic.simple import direct_to_template
-from django.http import HttpResponseNotFound, HttpResponseForbidden,HttpResponseRedirect
+from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -24,13 +25,10 @@ def create_update(request, calendar_id=None):
 
     if calendar_id is not None:
         ctx['mode'] = 'update'
-        try:
-            ctx['calendar'] = Calendar.objects.get(pk=calendar_id)
-        except Calendar.DoesNotExist:
-            return HttpResponseNotFound('The calendar specified does not exist.')
-        else:
-            if not request.user.is_superuser and ctx['calendar'] not in request.user.editable_calendars:
-                return HttpResponseForbidden('You cannot modify the specified calendar.')
+        ctx['calendar'] = get_object_or_404(Calendar, pk=calendar_id)
+
+        if not request.user.is_superuser and ctx['calendar'] not in request.user.editable_calendars:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
 
     if request.method == 'POST':
         ctx['form'] = CalendarForm(request.POST, instance=ctx['calendar'])
@@ -46,31 +44,32 @@ def create_update(request, calendar_id=None):
     return direct_to_template(request, tmpl, ctx)
 
 @login_required
-def delete(request, calendar_id=None):
+def delete(request, calendar_id):
+    calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+    if not request.user.is_superuser and calendar not in request.user.owned_calendars:
+        return HttpResponseForbidden('You cannot delete the specified calendar.')
+
     try:
-        calendar = Calendar.objects.get(pk=calendar_id)
-    except Calendar.DoesNotExist:
-        return HttpResponseNotFound('The calendar specified does not exist')
+        calendar.delete()
+    except Exception, e:
+        log.error(str(e))
+        messages.error(request, 'Deleting calendar failed.')
     else:
-        if not request.user.is_superuser and calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified calendar.')
-        try:
-            calendar.delete()
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Deleting calendar failed.')
-        else:
-            messages.success(request, 'Calendar successfully deleted.')
+        messages.success(request, 'Calendar successfully deleted.')
     return HttpResponseRedirect(reverse('dashboard'))
 
 @login_required
-def add_update_user(request, calendar_id=None, username=None, role=None):
+def add_update_user(request, calendar_id, username, role):
     calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+    if not request.user.is_superuser and calendar not in request.user.editable_calendars:
+        return HttpResponseForbidden('You cannot add/update users to the specified calendar.')
+
     user = get_object_or_404(User, username=username)
-    if calendar not in request.user.editable_calendars or not role:
-        return HttpResponseForbidden('Cannot modify permissions.')
     if user == calendar.owner:
         return HttpResponseForbidden('Cannot give Owner a different role through this request.')
+
     if role == 'admin':
         calendar.editors.remove(user)
         calendar.admins.add(user)
@@ -79,29 +78,35 @@ def add_update_user(request, calendar_id=None, username=None, role=None):
         calendar.editors.add(user)
     else:
         return HttpResponseForbidden('Not a legitimate role value.')
+
     calendar.save()
     url_name = 'calendar-update'
     if request.user == user and role == 'editor':
         url_name = 'dashboard'
+
     return HttpResponseRedirect(reverse(url_name, args=(calendar_id,)))
 
 @login_required
-def delete_user(request, calendar_id=None, username=None):
+def delete_user(request, calendar_id, username):
     calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+    if not request.user.is_superuser and calendar not in request.user.editable_calendars:
+        return HttpResponseForbidden('You cannot delete a user from this calendar.')
+
     user = get_object_or_404(User, username=username)
-    if calendar not in request.user.editable_calendars:
-        return HttpResponseForbidden('Cannot modify permissions.')
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
     return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
 
 @login_required
-def reassign_ownership(request, calendar_id=None, username=None):
+def reassign_ownership(request, calendar_id, username):
     calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+    if not request.user.is_superuser and calendar not in request.user.owned_calendars:
+        return HttpResponseForbidden('You cannot reassign ownership for this calendar.')
+
     user = get_object_or_404(User, username=username)
-    if calendar not in request.user.editable_calendars:
-        return HttpResponseForbidden('Cannot modify permissions.')
     calendar.admins.add(calendar.owner)
     calendar.owner = user
     calendar.admins.remove(user)
@@ -117,7 +122,7 @@ def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=Non
     except Calendar.DoesNotExist:
         return HttpResponseNotFound('One of the specified calendars does not exist.')
     else:
-        if calendar not in request.user.calendars:
+        if subscribing_calendar not in request.user.calendars:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         try:
             if calendar not in subscribing_calendar.subscriptions.all():

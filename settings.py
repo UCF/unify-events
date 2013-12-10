@@ -52,13 +52,14 @@ sys.path.append(APP_FOLDER)
 sys.path.append(INC_FOLDER)
 
 INSTALLED_APPS = (
+    'core', # On top to lengthen the first and last name field for the user
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
-    'core',
     'profiles',
     'taggit',
     'events',
@@ -122,13 +123,6 @@ LOGGING = {
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
-}
-CACHE_LENGTH = 60 * 15
-
 AUTH_PROFILE_MODULE = 'events.Profile'
 FILE_UPLOAD_PATH = 'uploads'
 
@@ -148,3 +142,6 @@ TEMPLATE_DEBUG = DEBUG
 TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
 MEDIA_ROOT = os.path.join(PROJECT_FOLDER, 'static')
 TEMPLATE_DIRS = (TEMPL_FOLDER, )
+
+STATIC_ROOT = ''
+STATIC_URL = '/media/'

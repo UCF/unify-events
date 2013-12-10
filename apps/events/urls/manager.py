@@ -1,4 +1,6 @@
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include
+from django.conf.urls import patterns
+from django.conf.urls import url
 
 from events.models import State
 
@@ -22,14 +24,16 @@ urlpatterns += patterns('events.views.manager',
     url(r'^event/(?P<event_id>\d+)/update', view='event.create_update', name='event-update'),
     url(r'^event/(?P<event_id>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
     url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
-    url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend',
-        kwargs={'state':State.pending}),
+    url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),
+    url(r'^event/(?P<event_id>\d+)/cancel', view='event.cancel_uncancel', name='event-cancel-uncancel'),
     url(r'^event/(?P<event_id>\d+)/delete', view='event.delete', name='event-delete'),
     url(r'^event/create', view='event.create_update', name='event-create'),
+    url(r'^event/bulk-action/', view='event.bulk_action', name='event-bulk-action'),
 
     url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
+    url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-calendar-state'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/user/(?P<username>[\w]+)/(?P<role>[\w]+)?$', view='calendar.add_update_user', name='calendar-add-update-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/user/(?P<username>[\w]+)', view='calendar.delete_user', name='calendar-delete-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/reassign-ownership/user/(?P<username>[\w]+)', view='calendar.reassign_ownership', name='calendar-reassign-ownership'),
@@ -54,4 +58,5 @@ urlpatterns += patterns('events.views.manager',
     url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
     url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),
     url(r'^$', view='dashboard', name='dashboard'),
+    url(r'^state/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-state'),
 )

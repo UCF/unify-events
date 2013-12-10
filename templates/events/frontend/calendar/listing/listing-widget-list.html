@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>UCF Events Calendar</title>
+        <link rel="stylesheet" href="/tools/style.css" charset="utf-8" />
+        <style type="text/css">
+            body { font-size:75%; font-family: "Trebuchet MS", sans-serif; text-align:left; }
+        </style>
+    </head>
+    <body>
+        <div class="events">
+            <h4 class="upcoming-header">Upcoming Events</h4>
+            {% if events %}
+            <table class="eventlisting">
+                <thead>
+                    <th class="date" scope="col">
+                        Date
+                    </th>
+                    <th class="description" scope="col">
+                        Description
+                    </th>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr class="vevent{% cycle ' alt' '' %}">
+                        <td class="date">
+                            {{ event.start|date:"M j h:i a" }}
+                        </td>
+                        <td class="description">
+                            <a class="url summary" href="http://{{ request.get_host }}{{ event.get_absolute_url }}">
+                                {{ event.title }}
+                            </a>
+                            <span class="location">
+                                <a href="{{ event.location.url }}">
+                                    {{ event.location }}
+                                </a>
+                            </span>
+                            <div class="details">
+                                {{ event.event.description }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            No events found.
+            {% endif %}
+            <p class="feeds">
+                <a class="icsformat" href="http://{{ request.get_host }}.ics" title="ics format for upcoming events">
+                    ics format for upcoming events
+                </a>
+                <a class="rssformat" href="http://{{ request.get_host }}.rss" title="rss format for upcoming events" target="_blank">
+                    rss format for upcoming events
+                </a>
+            </p>
+            <a class="more" href="http://{{ request.get_host }}">
+                More Events
+            </a>
+        </div>
+    </body>
+</html>

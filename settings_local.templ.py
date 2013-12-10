@@ -64,6 +64,3 @@ FRONT_PAGE_CALENDAR_SLUG = ''
 # How many days' worth of events should be displayed
 # on the primary Calendar frontend view.
 CALENDAR_MAIN_DAYS = 7
-
-# Disable Cache
-#CACHES = { 'default': { 'BACKEND': 'django.core.cache.backends.dummy.DummyCache', } }

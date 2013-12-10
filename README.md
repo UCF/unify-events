@@ -15,4 +15,4 @@
 ## Code Contribution
 Never commit directly to master. Create a branch or fork and work on the new feature. Once it is complete it will be merged back to the master branch.
 
-If you use a branch to develop a feature, make sure to delete the branch once it has been merged to master.
+If you use a branch to develop a feature, make sure to delete the old branch once it has been merged to master.

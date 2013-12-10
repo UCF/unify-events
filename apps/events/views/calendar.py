@@ -9,50 +9,10 @@ from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
 from events.templatetags import widgets
+from dateutil.relativedelta import relativedelta
+from ordereddict import OrderedDict
 
 import settings
-
-
-def calendar_widget(request, calendar, year, month):
-    """
-    Outputs calendar widget html via http response
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-
-    try: # Convert applicable arguments to integer
-        year = int(year) if year is not None else year
-        month = int(month) if month is not None else month
-    except ValueError:
-        raise Http404
-
-    html = widgets.calendar_widget(calendar, year, month)
-    return HttpResponse(html)
-
-
-def calendar(request, calendar, format=None):
-    """
-    Main calendar page, displaying an aggregation of events such as upcoming
-    events, featured events, etc.
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-    start = date.today()
-    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
-    events = calendar.range_event_instances(
-        start,
-        end
-    ).order_by('start', 'event__title')
-
-    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
-    context = {
-        'now': date.today(),
-        'calendar': calendar,
-        'events': events,
-    }
-
-    try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
 
 
 def event(request, calendar, instance_id, format=None):
@@ -66,7 +26,7 @@ def event(request, calendar, instance_id, format=None):
         raise Http404
 
     format = format or 'html'
-    template = 'events/frontend/event/event.' + format
+    template = 'events/frontend/event-single/event.' + format
     context = {
         'calendar': calendar,
         'event': event,
@@ -84,10 +44,42 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
-    calendar = get_object_or_404(Calendar, slug=calendar)
+    # Check for GET params (backwards compatibility with old events widget)
+    param_format = request.GET.get('format', '')
+    param_limit = request.GET.get('limit', '')
+    param_calendar = request.GET.get('calendar_id', '')
+    param_monthwidget = request.GET.get('monthwidget', '')
+    param_iswidget = request.GET.get('is_widget', '')
+
+    # Get specified calendar. GET param will override any
+    # previously defined calendar.
+    if param_calendar != '':
+        calendar = get_object_or_404(Calendar, id=param_calendar)
+    else:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+
     events = calendar.range_event_instances(start, end)
     events = events.order_by('start')
-    template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
+
+    # Narrow down events by limit, if necessary.
+    if param_limit != '':
+        try:
+            events = events[:param_limit]
+        except:
+            pass
+
+    # Modify format value. GET param will override any
+    # previously defined format.
+    if param_format != '':
+        format = param_format
+
+    if param_iswidget == 'true':
+        if param_monthwidget == 'true':
+            template = 'events/frontend/calendar/listing/listing-widget-month.html'
+        else:
+            template = 'events/frontend/calendar/listing/listing-widget-list.html'
+    else:
+        template = 'events/frontend/calendar/listing/listing.' + (format or 'html')
 
     context = {
         'start': start,
@@ -120,12 +112,23 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     except ValueError:
         raise Http404
 
+    if type(extra_context) is not dict:
+        extra_context = dict()
+
     # Define start and end dates
     try:
         start = datetime(year, month or 1, day or 1)
 
         if month is None:
             end = datetime(year + 1, 1, 1)
+            if 'list_type' not in extra_context:
+                extra_context['list_type'] = 'year'
+            if 'list_title' not in extra_context:
+                    extra_context['list_title'] = 'Events by Year: %s' % (year)
+            if 'all_years' not in extra_context:
+                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
+            if 'all_months' not in extra_context:
+                extra_context['all_months'] = range(1, 13)
         elif day is None:
             roll = month > 11  # Check for December to January rollover
             end = datetime(
@@ -133,16 +136,45 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
                 month + 1 if not roll else 1,
                 1
             )
-            if type(extra_context) is not dict:
-                extra_context = dict()
+            if 'list_type' not in extra_context:
+                extra_context['list_type'] = 'month'
             if 'list_title' not in extra_context:
-                extra_context['list_title'] = start.strftime("%B %Y")
+                extra_context['list_title'] = 'Events by Month: %s' % (start.strftime("%B %Y"))
+            if 'all_months' not in extra_context:
+                extra_context['all_months'] = OrderedDict([
+                    ('January', '01'),
+                    ('February', '02'),
+                    ('March', '03'),
+                    ('April', '04'),
+                    ('May', '05'),
+                    ('June', '06'),
+                    ('July', '07'),
+                    ('August', '08'),
+                    ('September', '09'),
+                    ('October', '10'),
+                    ('November', '11'),
+                    ('December', '12')
+                ])
+            if 'all_years' not in extra_context:
+                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
         else:
             end = start + timedelta(days=1) - timedelta(seconds=1)
     except ValueError:
         raise Http404
 
     return listing(request, calendar, start, end, format, extra_context)
+
+
+def calendar(request, calendar, format=None):
+    """
+    Main calendar page, displaying an aggregation of events such as upcoming
+    events, featured events, etc.
+    """
+    start = date.today()
+    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
+    return listing(request, calendar, start, end, format, {
+        'list_title': 'Events This Week',
+    })
 
 
 def week_listing(request, calendar, year, month, day, format=None):
@@ -198,6 +230,22 @@ def range_listing(request, calendar, start, end, format=None):
             start.strftime("%B"), start.day,
             end.strftime("%B"), end.day,
         ),
+    })
+
+
+def day_listing(request, calendar, year, month, day, format=None):
+    """
+    Generates event listing for any single day
+    """
+    # Default if no date is defined
+    if year is month is day is None:
+        year = date.now().year
+        month = date.now().month
+        day = date.now().day
+
+    return auto_listing(request, calendar, year, month, day, format, {
+        'list_title': 'Events by Day',
+        'list_type': 'day',
     })
 
 
@@ -257,3 +305,66 @@ def years_listing(request, calendar, format=None):
         'list_title': 'Events This Year',
         'list_type': 'year',
     })
+
+
+def tag(request, tag, calendar=None, format=None):
+    """
+    Page that lists all upcoming events tagged with a specific tag.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    # FUN TIMES: doing a deep relationship filter to event__tags__name__in fails.
+    # https://github.com/alex/django-taggit/issues/84
+    parent_events = Event.objects.filter(tags__name__in=[tag])
+    events = EventInstance.objects.filter(event__in=parent_events, end__gt=datetime.now())
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
+
+    format = format or 'html'
+    template = 'events/frontend/tag/tag.' + format
+    context = {
+        'tag': tag,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404
+
+
+def category(request, category, calendar=None, format=None):
+    """
+    Page that lists all upcoming events categorized with the
+    given category.
+    Events can optionally be filtered by calendar.
+
+    TODO: move this view?
+    """
+    category = get_object_or_404(Category, slug=category)
+    events = EventInstance.objects.filter(event__category=category.id)
+    if calendar:
+        calendar = get_object_or_404(Calendar, slug=calendar)
+        events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
+
+    format = format or 'html'
+    template = 'events/frontend/category/category.' + format
+    context = {
+        'category': category,
+        'calendar': calendar,
+        'events': events,
+        'format': format,
+    }
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404

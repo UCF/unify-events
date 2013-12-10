@@ -1,0 +1,192 @@
+{% extends 'events/frontend/base.html' %}
+
+{% block content_section_classes %}
+vevent
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-calendar-empty" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>
+        <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
+    </h1>
+    {% if user.is_authenticated %}
+    <ul class="edit-options">
+    	{% if event.event.calendar in user.editable_calendars.all %}
+    	<li>
+    		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
+    	</li>
+    	{% else %}
+    	<li>
+    		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+    	</li>
+    	{% endif %}
+    </ul>
+    {% endif %}
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+<div class="row">
+    <div class="span8 sidebarfix page-content" id="event-single">
+
+    	<!-- TODO: image here, once we get images going... -->
+
+    	{{ event.event.description|safe }}
+
+    	<hr />
+
+        {% if event.event.has_instances %}
+    	<h2>Full Schedule</h2>
+    	<div>
+    	   <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for instance in event.event.event_instances.all %}
+                <tr>
+                    <td>{{ instance.start|date:"F j" }}</td>
+                    <td>
+                        <a href="{{ instance.location.url }}" target="_blank">
+                            {{ instance.location.title }}{% if instance.location.room %} {{ instance.location.room }}{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    	</div>
+
+    	<hr />
+        {% endif %}
+        
+    	<div class="well" id="event-meta">
+    	    <h3>On Calendar</h3>
+            <span class="event-meta-calendar">
+                <a href="{% url calendar calendar=event.event.calendar.slug %}">{{ event.event.calendar.title }}</a>
+            </span>
+    		<h3>Category</h3>
+    		<span class="event-meta-category">
+    		    <a href="{% url category category=event.event.category.slug %}">{{ event.event.category.title }}</a>
+    		</span>
+    		<h3>Tags</h3>
+    		<span class="event-meta-tags">
+    	        {% for tag in event.event.tags.all %}
+                <a href="{% url tag tag=tag.slug %}">{{ tag }}</a>
+                {% endfor %}
+    		</span>
+    	</div>
+
+    </div>
+    <aside class="span4 page-sidebar" id="event-single-sidebar">
+        
+    	<h2>Happening on</h2>
+    	<span class="event-single-datetime">
+    	    {{ event.start|date:"l," }}<br/>{{ event.start|date:"F j" }}
+    	    <span class="dtstart"><span class="value-title" title="{{ event.start|date:"c" }}"></span></span>
+    	</span>
+    	{% if event.start|date:"H:i" != "00:00" %}
+    	<span class="event-single-subheader event-single-attime">at</span>
+    	<span class="event-single-datetime">{{ event.start|date:"P" }}</span>
+    	{% endif %}
+    	
+    	{% comment %}
+        "Until" Phrasing logic:
+        "all day": if start date/time and end date/time are the same, or if the start date and end date are the same,
+            but the start time is "00:00" and the end time is "23:59"
+        "until [time]": if start and end date are the same, but times differ (and are not "all day")
+        "until [day]": if event spans multiple days, consuming the entirety of each day
+        "until [day] at [time]": if event spans multiple days, ending at some point before midnight of the last day
+    	{% endcomment %}
+    	
+    	<span class="event-single-subheader event-single-until">
+        	{% if event.start == event.end %}<!-- TODO: remove this in favor of the more specific 'same day' check -->
+        	All Day
+        	{% elif event.start|date:"omd" == event.end|date:"omd" and event.start|date:"H:i" == "00:00" and event.end|date:"H:i" == "23:59" %}
+        	All Day
+        	{% elif event.start|date:"omd" == event.end|date:"omd" and event.start|date:"H:i" != event.end|date:"H:i" %}
+        	until {{ event.end|date:"P" }}
+        	{% else %}
+        	until {{ event.end|date:"l, F j" }}
+        	    {% if event.end|date:"H:i" != "00:00" and event.end|date:"H:i" != "23:59" %}
+        	    at {{ event.end|date:"P" }}
+        	    {% endif %}
+        	{% endif %}
+    	   <span class="dtend"><span class="value-title" title="{{ event.end|date:"c" }}"></span></span>
+    	</span>
+    	
+    	{% comment %}
+    	"Occuring Until" phrasing logic:
+    	Only display an "Occuring until" line if an event has more than one event instance.
+    	"Occuring [rule] until...": if an interval value is set for an event instance, and that event instance's
+    	   parent is the only parent instance for that event (no other recurrence rules are available for the 
+    	   entire event)
+    	"Occuring until...": if multiple event instances exist for an event with more than one parent instance
+    	   (more than one recurrence rule)
+    	{% endcomment %}
+    	
+    	{% if event.is_recurring %}
+    	   <span class="event-single-subheader event-single-occurring">
+    	       Occuring
+    	       {% if event.interval != 0 and event.event.get_all_parent_instances.count == 1 %}
+    	           {{ event.get_rrule_name }}
+    	       {% endif %}
+    	       until<br/>{{ event.event.get_last_instance.end|date:"l, F j" }}
+    	       {% if event.event.get_last_instance.end|date:"H:i" != "00:00" and event.event.get_last_instance.end|date:"H:i" != "23:59" %}
+    	           at {{ event.event.get_last_instance.end|date:"P" }}
+               {% endif %}
+    	   </span>
+        {% endif %}
+
+
+        <hr />
+<!--
+    	<h2>Social Stuff Here...</h2>
+    	
+    	<hr />
+-->
+        <div class="location vcard">
+            <h2 class="alt">Located at {% if event.event.has_instances %}*{% endif %}</h2>
+            <span class="event-location-title fn org">{{ event.location.title }}</span>
+            {% if event.location.get_map_widget_url %}
+            <iframe class="event-location-widget" frameborder="0" src="{{ event.location.get_map_widget_url }}" style="border:none;width:300px;height:300px"></iframe>
+            {% else %}
+            <span class="event-location-url">
+                <i class="icon-globe"></i> <a class="url" href="{{ event.location.url }}">Website</a>
+            </span>
+            {% endif %}
+            {% if event.event.has_instances %}
+            <span class="event-location-note">
+                *This event occurs on multiple dates/times. This event takes place at this location on this date.
+            </span>
+            {% endif %}
+        </div>
+        
+        <hr />
+
+        <h2 class="alt">Contact</h2>
+        <div class="event-contact-wrap{% if event.event.contact_name %} vcard{% endif %}">
+            {% if event.event.contact_name and event.event.contact_phone and event.event.contact_email %}
+                {% if event.event.contact_name %}
+                <span class="event-contact-name fn">{{ event.event.contact_name }}</span>
+                {% endif %}
+                {% if event.event.contact_phone %}
+                <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event.event.contact_phone }}">{{ event.event.contact_phone }}</a></span>
+                {% endif %}
+                {% if event.event.contact_email %}
+                <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event.event.contact_email }}">{{ event.event.contact_email }}</a></span>
+                {% endif %}
+            {% else %}
+            <em>No contact information available.</em>
+            {% endif %}
+        </div>
+    </aside>
+</div>
+{% endblock %}

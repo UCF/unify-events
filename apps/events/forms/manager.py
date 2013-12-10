@@ -14,7 +14,7 @@ class CalendarForm(forms.ModelForm):
     For for the Calendar
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
-    
+
     class Meta:
         model = Calendar
         fields = ('title', 'description', 'editors')
@@ -50,7 +50,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
+        fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
 class EventInstanceForm(forms.ModelForm):
@@ -65,7 +65,7 @@ class EventInstanceForm(forms.ModelForm):
     new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
     new_location_url = forms.URLField(required=False)
-    
+
     def clean_new_location_url(self):
         """
         Ensure data is entered for new event instance locations
@@ -80,7 +80,7 @@ class EventInstanceForm(forms.ModelForm):
 
     def save(self, commit=False):
         """
-        Determining whether to create a new 
+        Determining whether to create a new
         location or use an existing one
         """
         location = self.cleaned_data.get('location')
@@ -94,7 +94,7 @@ class EventInstanceForm(forms.ModelForm):
                 location = Location()
                 location.title = new_location_title
                 location.room = new_location_room
-                location.url = self.cleaned_data.get('new_location_url') 
+                location.url = self.cleaned_data.get('new_location_url')
                 location.save()
             self.instance.location = location
         else:

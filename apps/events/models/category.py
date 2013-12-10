@@ -9,7 +9,7 @@ class Category(TimeCreatedModified):
     """
     Used to cateogorize objects
     """
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=128, unique=True, blank=True)
 
     class Meta:

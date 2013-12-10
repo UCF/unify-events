@@ -7,7 +7,7 @@
         My Calendar{% if current_calendar %}: <span class="alt">{{ current_calendar.title }}</span>{% else %}s{% endif %}
     </h1>
     {% if current_calendar %}
-    <ul id="calendar-edit-options">
+    <ul class="edit-options">
         {% if current_calendar in user.editable_calendars.all %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url calendar-update calendar_id=current_calendar.id %}">Edit <b class="caret"></b></a>
@@ -48,15 +48,27 @@
     <div class="row">
         <div class="span12">
             <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#">Posted</a>
+            {% if current_calendar %}
+                <li class="{% if state == 'posted' %} active{% endif %}">
+                    <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='posted' %}">Posted</a>
                 </li>
-                <li>
-                    <a href="#">Pending (#)</a>
+                <li class="{% if state == 'rereview' %} active{% endif %}">
+                    <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='rereview' %}">Re-Review ({{ rereview_count }})</a>
                 </li>
-                <li>
-                    <a href="#">Archived (#)</a>
+                <li class="{% if state == 'pending' %} active{% endif %}">
+                    <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='pending' %}">Pending ({{ pending_count }})</a>
                 </li>
+            {% else %}
+                <li class="{% if state == 'posted' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='posted' %}">Posted</a>
+                </li>
+                <li class="{% if state == 'rereview' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='rereview' %}">Re-Review ({{ rereview_count }})</a>
+                </li>
+                <li class="{% if state == 'pending' %} active{% endif %}">
+                    <a href="{% url dashboard-state state='pending' %}">Pending ({{ pending_count }})</a>
+                </li>
+            {% endif %}
             </ul>
         </div>
     </div>
@@ -68,133 +80,157 @@
     <section class="row">
         <div class="span8 sidebarfix page-content">
 
-            <form action="" class="form-horizontal bulk-action-form">
+            <form action="{% url event-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
                 <div class="control-group">
-                    <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                    <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                     <div class="controls">
-                        <select id="bulk-select-all_0" name="bulk-select-all_0">
+                        <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
                             <option>Select Action...</option>
-                            <option value="edit">Suggest All to Main Calendar</option>
-                            <option value="delete">Delete All</option>
+                            <option value="submit-to-main">Suggest to Main Calendar</option>
+                            <option value="posted">Add to Posted</option>
+                            <option value="pending">Move to Pending</option>
+                            <option value="delete">Delete</option>
                         </select>
                     </div>
                 </div>
-            </form>
-
-            {% if events %}
-            <div>
-                <table class="table table-striped table-hover" id="manager-posted-events">
-                    <thead>
-                        <tr>
-                            <th class="field-bulk-select">
-                                <label class="label-hidden" for="bulk-select-all">Select All</label>
-                                <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
-                            </th>
-                            <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
-                            <th class="event-title">Event Title</th>
-                            <th class="event-time">Date/Time</th>
-                            <th class="event-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for event in events %}
-                        <tr>
-                            <td class="field-bulk-select">
-                                <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current event count -->
-                            </td>
-                            <td class="field-recommended">
-                                {% if event.event.get_main_state == 0 %}
-                                    <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
-                                {% elif event.event.get_main_state == 1 %}
-                                    <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
+                {% if events %}
+                <div>
+                    <table class="table table-striped table-hover" id="manager-posted-events">
+                        <thead>
+                            <tr>
+                                <th class="field-bulk-select">
+                                    <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                    <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                                </th>
+                                {% if not current_calendar.is_main_calendar %}
+                                <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
                                 {% endif %}
-                            </td>
-                            <td class="event-title">
-                                <a href="{% url event-update event_id=event.event.id %}">
-                                    {{ event.title }}
-                                </a>
-                            </td>
-                            <td class="event-time">
-                                {% if event.start.time %}
-                                    {{ event.start|date:"M. d, Y f a" }}
-                                {% else %}
-                                    {{ event.start|date:"M. d, Y" }}
-                                {% endif %}
-                                {% if event.event.has_instances %}
-                                <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
-                                <ul class="recurrences">
-                                    {% for instance in event.event.event_instances.all %}
-                                        {% if instance.start.time %}
-                                            <li>
-                                                {% if instance.is_archived %}
-                                                    <span class="archived-instance">{{ instance.start|date:"M. d, Y f a" }}</span>
-                                                {% else %}
-                                                    {{ instance.start|date:"M. d, Y f a" }}
-                                                {% endif %}
-                                            </li>
-                                        {% else %}
-                                            <li>
-                                                {% if instance.is_archived %}
-                                                    <span class="archived-instance">{{ instance.start|date:"M. d, Y" }}</span>
-                                                {% else %}
-                                                    {{ instance.start|date:"M. d, Y" }}
-                                                {% endif %}
-                                            </li>
+                                <th class="event-title">Event Title</th>
+                                <th class="event-time">Date/Time</th>
+                                <th class="event-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in events %}
+                            <tr>
+                                <td class="field-bulk-select">
+                                    <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                    <input type="checkbox" name="event_ids" value="{{ event.event.id }}" />
+                                </td>
+                                {% if not current_calendar.is_main_calendar %}
+                                <td class="field-recommended">
+                                    {% if not event.calendar.is_main_calendar %}
+                                        {% if event.event.get_main_state == 0 %}
+                                            <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
+                                        {% elif event.event.get_main_state == 1 %}
+                                            <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
                                         {% endif %}
-                                    {% endfor %}
-                                </ul>
+                                    {% endif %}
+                                </td>
                                 {% endif %}
-                            </td>
-                            <td class="event-actions">
-                                <div class="btn-group">
-                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-                                        Select
-                                        <span class="caret"></span>
+                                <td class="event-title">
+                                    {% if event.event.created_from %}
+                                        <i class="icon-share-alt"></i>
+                                    {% endif %}
+                                    <a href="{% url event-update event_id=event.event.id %}">
+                                        {% if event.event.canceled %}CANCELED:{% endif %} {{ event.title }}
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li role="presentation">
-                                            <a href="{% url event-update event_id=event.event.id %}">
-                                                <i class="icon-pencil"></i>
-                                                Edit Event
-                                            </a>
-                                        </li>
-                                        {% if not event.event.is_submit_to_main %}
-                                        <li role="presentation">
-                                            <a href="{% url event-submit-to-main event_id=event.event.id %}">
-                                                <i class="icon-star-empty"></i>
-                                                Suggest to Main Calendar
-                                            </a>
-                                        </li>
-                                        {% endif %}
-                                        {% if not event.event.has_instances %}
-                                        <li role="presentation">
-                                            <a class="event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.event.title }}">
-                                                <i class="icon-trash"></i>
-                                                Delete Event
-                                            </a>
-                                        </li>
-                                        {% endif %}
+                                </td>
+                                <td class="event-time">
+                                    {% if event.start.time %}
+                                        {{ event.start|date:"M. d, Y f a" }}
+                                    {% else %}
+                                        {{ event.start|date:"M. d, Y" }}
+                                    {% endif %}
+                                    {% if event.event.has_instances %}
+                                    <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
+                                    <ul class="recurrences">
+                                        {% for instance in event.event.event_instances.all %}
+                                            {% if instance.start.time %}
+                                                <li>
+                                                    {% if instance.is_archived %}
+                                                        <span class="archived-instance">{{ instance.start|date:"M. d, Y f a" }}</span>
+                                                    {% else %}
+                                                        {{ instance.start|date:"M. d, Y f a" }}
+                                                    {% endif %}
+                                                </li>
+                                            {% else %}
+                                                <li>
+                                                    {% if instance.is_archived %}
+                                                        <span class="archived-instance">{{ instance.start|date:"M. d, Y" }}</span>
+                                                    {% else %}
+                                                        {{ instance.start|date:"M. d, Y" }}
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
                                     </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-                <p>No events found. Want to <a href="{% url event-create %}">create one?</a></p>
-            {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td class="event-actions">
+                                    <div class="btn-group">
+                                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                            Select
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li role="presentation">
+                                                <a href="{% url event-update event_id=event.event.id %}">
+                                                    <i class="icon-pencil"></i>
+                                                    Edit Event
+                                                </a>
+                                            </li>
+                                            {% if not event.event.is_submit_to_main %}
+                                            <li role="presentation">
+                                                <a href="{% url event-submit-to-main event_id=event.event.id %}">
+                                                    <i class="icon-star-empty"></i>
+                                                    Suggest to Main Calendar
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            {% with created_from=event.event.created_from user_calendars=request.user.calendars %}
+                                                {% if not created_from and event.event.calendar in user_calendars and event.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
+                                                    <li role="presentation">
+                                                        <a href="{% url event-cancel-uncancel event_id=event.event.id %}">
+                                                            <i class="icon-ban-circle"></i>
+                                                            {% if event.event.canceled %}
+                                                                Un-Cancel Event
+                                                            {% else %}
+                                                                Cancel Event
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endwith %}
+                                            {% if not event.event.has_instances %}
+                                            <li role="presentation">
+                                                <a class="event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.event.title }}">
+                                                    <i class="icon-trash"></i>
+                                                    Delete Event
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                    <p>No events found. Want to <a href="{% url event-create %}">create one?</a></p>
+                {% endif %}
 
-            <form action="" class="form-horizontal bulk-action-form">
                 <div class="control-group">
-                    <label for="bulk-select-all_1" class="control-label">Bulk Action:</label>
+                    <label for="bulk-action_1" class="control-label">Bulk Action:</label>
                     <div class="controls">
-                        <select id="bulk-select-all_1" name="bulk-select-all_1">
+                        <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
                             <option>Select Action...</option>
-                            <option value="edit">Suggest All to Main Calendar</option>
-                            <option value="delete">Delete All</option>
+                            <option value="submit-to-main">Suggest to Main Calendar</option>
+                            <option value="posted">Add to Posted</option>
+                            <option value="pending">Move to Pending</option>
+                            <option value="delete">Delete</option>
                         </select>
                     </div>
                 </div>
@@ -218,9 +254,9 @@
         </div>
         <aside class="span4 page-sidebar">
             {% if current_calendar %}
-                {% calendar_widget calendars=current_calendar is_manager=1 %}
+                {% calendar_widget calendars=current_calendar is_manager=1 year=dates.relative.year month=dates.relative.month day=dates.relative %}
             {% else %}
-                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 %}
+                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=dates.relative.year month=dates.relative.month day=dates.relative %}
             {% endif %}
         </aside>
     </section>

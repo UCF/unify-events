@@ -28,7 +28,7 @@
         <h1>Create a Calendar</h1>
     {% elif mode == 'update' %}
         <h1>Edit Calendar: <span class="alt">{{calendar.title}}</span></h1>
-        <ul id="calendar-edit-options">
+        <ul class="edit-options">
             <li>
                 <a href="{% url calendar calendar.slug %}">Live View</a>
             </li>

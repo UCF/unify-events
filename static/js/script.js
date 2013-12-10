@@ -56,44 +56,16 @@ var toggleModalDeleteObject = function() {
 };
 
 /**
- * Calendar grid carousels
+ * Calendar grid sliders
  **/
-var calendarCarousels = function() {
-    $('.calendar-slider').on('slid', function() {
-        var firstItem = $('.calendar-slider .carousel-inner .item:first-child'),
-            lastItem  = $('.calendar-slider .carousel-inner .item:last-child'),
-            controlNext = $('.calendar-slider .pager .next'),
-            controlPrev = $('.calendar-slider .pager .previous'),
-            sliderID = $(this).attr('id');
-
-        if (firstItem.hasClass('active')) {
-            controlPrev
-            .addClass('disabled')
-                .find('a')
-                    .attr('href', '#');
-        }
-        else {
-            controlPrev
-                .removeClass('disabled')
-                .find('a')
-                    .attr('href', '#' + sliderID);
-        }
-        if (lastItem.hasClass('active')) {
-            controlNext
-                .addClass('disabled')
-                .find('.carousel-control.right')
-                    .attr('href', '#');
-        }
-        else {
-            controlNext
-                .removeClass('disabled')
-                .find('.carousel-control.right')
-                    .attr('href', '#' + sliderID);
-        }
-    });
-
-    $('.disabled').click(function(e) {
+var calendarSliders = function() {
+    $('body').on('click', '.calendar-slider ul.pager li a', function(e) {
         e.preventDefault();
+        
+        var slider = $(this).parents('.calendar-slider');
+        $.get($(this).attr('data-ajax-link'), function(data) {
+            slider.replaceWith(data);
+        });
     });
 };
 
@@ -986,11 +958,37 @@ eventTagging = function() {
 };
 
 
+/**
+ * Update frontend calendar month view month/year form
+ * "action" value on dropdown change
+ **/
+var updateMonthviewDropdown = function() {
+    var form = $('#month-toggle'),
+        yearSelect = form.find('#id_year'),
+        monthSelect = form.find('#id_month');
+    monthSelect.change(function() {
+        var action = form.attr('action'),
+            newMonth = '/' + $(this).val() + '/',
+            oldMonth = action.slice((action.length - 4), action.length),
+            newAction = action.replace(oldMonth, newMonth);
+        form.attr('action', newAction);
+    });
+    yearSelect.change(function() {
+        var action = form.attr('action'),
+            newYear = '/' + $(this).val() + '/',
+            oldYear = action.slice((action.length - 9), (action.length - 3)),
+            newAction = action.replace(oldYear, newYear);
+        form.attr('action', newAction);
+    });
+};
+
+
+
 $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
     toggleModalDeleteObject();
-    calendarCarousels();
+    calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
     initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
@@ -1005,4 +1003,5 @@ $(document).ready(function() {
     toggleEventListRecurrences();
     eventLocationsSearch($('select.location-dropdown'));
     eventTagging();
+    updateMonthviewDropdown();
 });

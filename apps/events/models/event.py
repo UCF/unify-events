@@ -10,6 +10,7 @@ from taggit.managers import TaggableManager
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+import events.models
 import settings
 
 
@@ -33,19 +34,40 @@ def get_all_users_future_events(user):
     return events
 
 
+def get_range_users_events(user, start, end):
+    """
+    Retrieves a range of events for the given user
+
+    TODO: condense this into a more basic function?
+    (Calendar.range_event_instances uses similar filters)
+    """
+    from django.db.models import Q
+    during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
+    starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
+    ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
+    current = Q(start__lte=start) & Q(end__gte=end)
+    _filter = during | starts_before | ends_after | current
+
+    return EventInstance.objects.filter(_filter, event__calendar__in=list(user.calendars.all()))
+
+
 class State:
     """
     This object provides the link between the time and places events are to
     take place and the purpose and name of the event as well as the calendar to
     which the events belong.
     """
-    pending, posted, rereview, canceled = range(0, 4)
+    pending, posted, rereview = range(0, 3)
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
-        (rereview, 're-review'),
-        (canceled, 'canceled')
+        (rereview, 'rereview')
     )
+
+    @classmethod
+    def get_id(cls, value):
+        id_lookup = dict((v,k) for k,v in cls.choices)
+        return id_lookup.get(value)
 
 
 class Event(TimeCreatedModified):
@@ -56,9 +78,10 @@ class Event(TimeCreatedModified):
     calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
     creator = models.ForeignKey(User, related_name='created_events', null=True)
     created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
-    state = models.SmallIntegerField(choices=State.choices, default=State.pending)
-    title = models.CharField(max_length=256)
-    slug = models.SlugField(max_length=256, unique=True, blank=True)
+    state = models.SmallIntegerField(choices=State.choices, default=State.posted)
+    canceled = models.BooleanField(default=False)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
@@ -88,6 +111,24 @@ class Event(TimeCreatedModified):
         return has_instances
 
     @property
+    def get_last_instance(self):
+        """
+        Retrieves the very last event instance out of all instances
+        of this event.
+        Makes up for Django's lack of support for negative indexing
+        on querysets.
+        """
+        return list(self.event_instances.all())[-1]
+
+    @property
+    def get_all_parent_instances(self):
+        """
+        Returns all of this event's event instances that are the
+        parents for those instances.
+        """
+        return EventInstance.objects.filter(event=self, parent=None)
+
+    @property
     def is_submit_to_main(self):
         """
         Returns true if event has been submitted to the
@@ -105,10 +146,10 @@ class Event(TimeCreatedModified):
         Returns the State of an Event's copied Event on the Main Calendar.
         """
         main_status = None
-        main_event = self.get_main_event()
-        if main_event:
-            main_status = main_event.state
-
+        if self.calendar.id != events.models.get_main_calendar().id:
+            main_event = self.get_main_event()
+            if main_event:
+                main_status = main_event.state
         return main_status
 
     def get_main_event(self):
@@ -116,8 +157,14 @@ class Event(TimeCreatedModified):
         Retrieves the event submitted to the main calendar
         """
         event = None
+
+        # Compare against the original event
+        original_event = self
+        if self.created_from:
+            original_event = self.created_from
+
         try:
-            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=self)
+            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=original_event)
         except Event.DoesNotExist:
             # The event has not been submitted to the main calendar
             pass
@@ -132,14 +179,15 @@ class Event(TimeCreatedModified):
 
         if self.created_from:
             # If main calendar copy then update everything except
-            # the title and description and set for re-review
-            if self.calendar.is_main_calendar() and self.state is not State.pending:
+            # the title and description and set for rereview
+            if self.calendar.is_main_calendar and self.state is not State.pending:
                 if is_main_rereview:
                     self.state = State.rereview
             else:
                 self.title = self.created_from.title
                 self.description = self.created_from.description
 
+            self.canceled = self.created_from.canceled
             self.contact_email = self.created_from.contact_email
             self.contact_name = self.created_from.contact_name
             self.contact_phone = self.created_from.contact_phone
@@ -153,7 +201,7 @@ class Event(TimeCreatedModified):
 
         return updated_copy
 
-    def copy(self, *args, **kwargs):
+    def copy(self, state=None, *args, **kwargs):
         """
         Duplicates this Event creating another Event without a calendar set
         (unless in *args/**kwargs), and a link back to the original event created.
@@ -161,9 +209,19 @@ class Event(TimeCreatedModified):
         This allows Events to be imported to other calendars and updates can be
         pushed back to the copied events.
         """
+
+        # Ensures that the originating event is always set as the created_from
+        created_from = self
+        if self.created_from:
+            created_from = self.created_from
+
+        # Allow state to be specified to copy as Pending (Main Calendar)
+        if state is None:
+            state = self.state
+
         copy = Event(creator=self.creator,
-                     created_from=self,
-                     state=self.state,
+                     created_from=created_from,
+                     state=state,
                      title=self.title,
                      description=self.description,
                      category=self.category,
@@ -178,6 +236,14 @@ class Event(TimeCreatedModified):
         copy.tags.set(*self.tags.all())
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
+
+    def delete(self, *args, **kwargs):
+        """
+        Delete all the event subscriptions.
+        """
+        for copy in self.duplicated_to.all():
+            copy.delete()
+        super(Event, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -238,6 +304,14 @@ class EventInstance(TimeCreatedModified):
             return rrule.rrule(rrule.WEEKLY, interval=2, dtstart=self.start, until=self.until)
         elif EventInstance.Recurs.monthly == self.interval:
             return rrule.rrule(rrule.MONTHLY, dtstart=self.start, until=self.until)
+
+    @property
+    def get_rrule_name(self):
+        """
+        Retrieves the human-readable rrule defined by this
+        EventInstance's interval value.
+        """
+        return self.Recurs.choices[self.interval][1]
 
     def update_children(self):
         """
