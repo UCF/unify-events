@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section id="calendar-base" class="container">
+<section id="calendar-base" class="container {% block content_section_classes %}{% endblock %}">
     {% block content_header %}
         <div class="row">
             <div class="span12" id="page-title-wrap">

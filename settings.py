@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
     'profiles',
@@ -141,3 +142,6 @@ TEMPLATE_DEBUG = DEBUG
 TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
 MEDIA_ROOT = os.path.join(PROJECT_FOLDER, 'static')
 TEMPLATE_DIRS = (TEMPL_FOLDER, )
+
+STATIC_ROOT = ''
+STATIC_URL = '/media/'

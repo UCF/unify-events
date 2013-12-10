@@ -1,0 +1,48 @@
+{% load humanize %}
+
+{% if events %}
+    {% regroup events by start|date:"l, F j" as dates %}
+    {% for date in dates %}
+        {% if date.list.0.start|naturalday == "today" %} <!-- Can't compare to date.grouper, so get 1st event's start date -->
+            <h3>Today: <span class="alt">{{ date.grouper }}</span></h3>
+        {% elif date.list.0.start|naturalday == "tomorrow" %}
+            <h3>Tomorrow: <span class="alt">{{ date.grouper }}</span></h3>
+        {% else %}
+            <h3>{{ date.grouper }}</h3>
+        {% endif %}
+        
+        <ul class="event-list">
+        {% for event in date.list %}
+            <li class="vevent cat-name">
+                <a class="event-content url" href="{% url event event.event.calendar.slug event.id %}{{ event.event.slug }}">
+                    <!-- if img -->
+                    <!--<img src="" alt="image" title="image" />-->
+                    <!-- endif -->
+                    <h4>
+                        <span class="summary">{{ event.title }}</span>
+                        {% if event.is_recurring %}
+                        <i class="icon-repeat"></i>
+                        <span class="recurring">(Recurring Event)</span>
+                        {% endif %}
+                    </h4>
+                    <span class="location">{{ event.location }}</span>
+                    <span class="description">
+                        {{ event.event.description|striptags|truncatewords:160 }}
+                    </span>
+                    <time class="dtstart" datetime="{{ event.start|date:"cZ" }}">
+                        {% if event.start.time %}
+                            {{ event.start|date:"f a" }}
+                        {% else %}
+                            All Day
+                        {% endif %}
+                        <span class="value-title" title="{{ event.start|date:"cZ" }}"></span>
+                    </time>
+                </a>
+                <span class="category {{ event.event.category.slug }}">{{ event.event.category.title }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+{% else %}
+<p>No events found.</p>
+{% endif %}

@@ -87,7 +87,9 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
         ctx['rereview_count'] = current_calendar.future_event_instances().filter(event__state=State.rereview).count()
         ctx['pending_count'] = current_calendar.future_event_instances().filter(event__state=State.pending).count()
         if ctx['day_view']:
-            events = current_calendar.range_event_instances(ctx['dates']['relative'], ctx['dates']['relative'])
+            start = ctx['dates']['relative']
+            end = start + timedelta(days=1) - timedelta(seconds=1)
+            events = current_calendar.range_event_instances(start, end)
         else:
             events = current_calendar.future_event_instances()
     else:

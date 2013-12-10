@@ -9,6 +9,8 @@ from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
 from events.templatetags import widgets
+from dateutil.relativedelta import relativedelta
+from ordereddict import OrderedDict
 
 import settings
 
@@ -24,7 +26,7 @@ def event(request, calendar, instance_id, format=None):
         raise Http404
 
     format = format or 'html'
-    template = 'events/frontend/event/event.' + format
+    template = 'events/frontend/event-single/event.' + format
     context = {
         'calendar': calendar,
         'event': event,
@@ -73,11 +75,11 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
 
     if param_iswidget == 'true':
         if param_monthwidget == 'true':
-            template = 'events/frontend/calendar/event-list/listing-widget-month.html'
+            template = 'events/frontend/calendar/listing/listing-widget-month.html'
         else:
-            template = 'events/frontend/calendar/event-list/listing-widget-list.html'
+            template = 'events/frontend/calendar/listing/listing-widget-list.html'
     else:
-        template = 'events/frontend/calendar/event-list/listing.' + (format or 'html')
+        template = 'events/frontend/calendar/listing/listing.' + (format or 'html')
 
     context = {
         'start': start,
@@ -122,7 +124,11 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
             if 'list_type' not in extra_context:
                 extra_context['list_type'] = 'year'
             if 'list_title' not in extra_context:
-                extra_context['list_title'] = year
+                    extra_context['list_title'] = 'Events by Year: %s' % (year)
+            if 'all_years' not in extra_context:
+                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
+            if 'all_months' not in extra_context:
+                extra_context['all_months'] = range(1, 13)
         elif day is None:
             roll = month > 11  # Check for December to January rollover
             end = datetime(
@@ -133,7 +139,24 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
             if 'list_type' not in extra_context:
                 extra_context['list_type'] = 'month'
             if 'list_title' not in extra_context:
-                extra_context['list_title'] = start.strftime("%B %Y")
+                extra_context['list_title'] = 'Events by Month: %s' % (start.strftime("%B %Y"))
+            if 'all_months' not in extra_context:
+                extra_context['all_months'] = OrderedDict([
+                    ('January', '01'),
+                    ('February', '02'),
+                    ('March', '03'),
+                    ('April', '04'),
+                    ('May', '05'),
+                    ('June', '06'),
+                    ('July', '07'),
+                    ('August', '08'),
+                    ('September', '09'),
+                    ('October', '10'),
+                    ('November', '11'),
+                    ('December', '12')
+                ])
+            if 'all_years' not in extra_context:
+                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
         else:
             end = start + timedelta(days=1) - timedelta(seconds=1)
     except ValueError:
@@ -298,6 +321,8 @@ def tag(request, tag, calendar=None, format=None):
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
         events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
 
     format = format or 'html'
     template = 'events/frontend/tag/tag.' + format
@@ -327,6 +352,8 @@ def category(request, category, calendar=None, format=None):
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
         events = events.filter(event__calendar=calendar)
+    else:
+        events = events.filter(event__created_from__isnull=True)
 
     format = format or 'html'
     template = 'events/frontend/category/category.' + format
