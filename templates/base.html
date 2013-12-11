@@ -78,17 +78,11 @@
                             {% if user.is_superuser %}
                             <li class="dropdown">
                                 <i class="icon-key"></i>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <!-- TODO: fallback to admin dashboard link -->
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url calendar-list %">
                                     Admin Menu
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li role="presentation">
-                                        <a href="#">
-                                            Admin Dashboard
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
                                     <li class="nav-header">Moderate</li>
                                     <li role="presentation">
                                         <a href="{% url location-list %}">
@@ -106,6 +100,12 @@
                                         <a href="#">
                                             <i class="icon-tags"></i>
                                             Tags
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="{% url calendar-list %}">
+                                            <i class="icon-calendar"></i>
+                                            All Calendars
                                         </a>
                                     </li>
                                 </ul>

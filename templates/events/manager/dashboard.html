@@ -76,7 +76,7 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if user.calendars.count > 0 %}
+    {% if user.calendars.count > 0 or user.is_superuser and current_calendar %}
     <section class="row">
         <div class="span8 sidebarfix page-content">
 
