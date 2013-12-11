@@ -15,17 +15,29 @@ log = logging.getLogger(__name__)
 
 
 @login_required
-def list(request):
+def list(request, state=None):
     """
     View for listing out the locations.
     """
     if not request.user.is_superuser:
         return HttpResponseForbidden('You cannot views locations.')
 
-    ctx = {'locations': None}
+    ctx = {
+        'state': None,
+        'locations': None,
+        'review_count': Location.objects.filter(reviewed=False).count(),
+    }
+
     tmpl = 'events/manager/location/list.html'
 
-    ctx['locations'] = Location.objects.all()
+    if state is not None and state in ['review', 'approved']:
+        ctx['state'] = state
+        if state == 'review':
+            ctx['locations'] = Location.objects.filter(reviewed=False)
+        else:
+            ctx['locations'] = Location.objects.filter(reviewed=True)
+    else:
+        ctx['locations'] = Location.objects.all()
 
     return direct_to_template(request, tmpl, ctx)
 
