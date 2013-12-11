@@ -8,7 +8,7 @@
     </h1>
     {% if current_calendar %}
     <ul class="edit-options">
-        {% if current_calendar in user.editable_calendars.all %}
+        {% if current_calendar in user.editable_calendars.all or user.is_superuser %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url calendar-update calendar_id=current_calendar.id %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -76,7 +76,7 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if user.calendars.count > 0 %}
+    {% if user.calendars.count > 0 or user.is_superuser and current_calendar %}
     <section class="row">
         <div class="span8 sidebarfix page-content">
 
@@ -210,6 +210,13 @@
                                                 </a>
                                             </li>
                                             {% endif %}
+                                            <li class="divider"></li>
+                                            <li role="presentation">
+                                                <a href="{% url event calendar=event.event.calendar.slug instance_id=event.id %}{{ event.event.slug }}">
+                                                    <i class="icon-circle-arrow-right"></i>
+                                                    Live View
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>

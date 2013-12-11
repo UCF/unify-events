@@ -154,3 +154,13 @@ def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
     return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)) + '#subscriptions')
+
+@login_required
+def list(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You do not have permission to access this page.')
+
+    ctx = {'calendars': Calendar.objects.all()}
+    tmpl = 'events/manager/calendar/list.html'
+
+    return direct_to_template(request, tmpl, ctx)

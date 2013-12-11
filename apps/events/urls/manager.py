@@ -59,6 +59,8 @@ urlpatterns += patterns('events.views.manager',
     url(r'^category/create/?$', view='category.create_update', name='category-create'),
     url(r'^category/(?P<category_id>\d+)/update', view='category.create_update', name='category-update'),
 
+    url(r'^all-calendars/?$', view='calendar.list', name='calendar-list'),
+
     url(r'^profiles/', include('profiles.urls')),
 
     url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),

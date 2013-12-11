@@ -1,0 +1,82 @@
+{% extends 'events/manager/base.html' %}
+{% load humanize %}
+
+{% block content_title %}
+    <h1>All Calendars</h1>
+{% endblock %}
+
+{% block content_subheader %}
+    {% if current_calendar.description %}
+        {% block content_subheader_text %}
+            <h2 class="page-subtitle">All calendars registered in the events system are listed below. Super admins have access to manage all calendars and their settings.</h2>
+        {% endblock %}
+    {% endif %}
+{% endblock %}
+
+{% block content_body %}
+    {% if calendars.count > 0 %}
+    <section class="row">
+        <div class="span8 sidebarfix page-content">
+            <table class="table table-striped table-hover manager-item-table">
+                <thead>
+                    <tr>
+                        <th class="calendar-title">Calendar</th>
+                        <th class="calendar-owner">Owner</th>
+                        <th class="calendar-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for calendar in calendars %}
+                    <tr>
+                        <td class="calendar-title">
+                            <a href="{% url calendar-update calendar_id=calendar.id %}">{{ calendar.title }}</a>
+                        </td>
+                        <td class="calendar-owner">
+                            {{ calendar.owner.username }}<br/>
+                            ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
+                        </td>
+                        <td class="calendar-actions">
+                            <div class="btn-group">
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                    Select
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation">
+                                        <a href="{% url dashboard calendar_id=calendar.id %}">
+                                            <i class="icon-calendar-empty"></i>
+                                            Manage Events
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="{% url calendar-update calendar_id=calendar.id %}">
+                                            <i class="icon-pencil"></i>
+                                            Edit Calendar
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li role="presentation">
+                                        <a href="{% url calendar calendar=calendar.slug %}">
+                                            <i class="icon-circle-arrow-right"></i>
+                                            Live View
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% else %}
+     <section class="row">
+        <div class="span12">
+            <div class="alert">
+                <strong>Heads Up:</strong> No calendars currently exist in the events system.</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}
