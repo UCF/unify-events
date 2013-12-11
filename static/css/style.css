@@ -534,20 +534,20 @@ td.field-recommended {
 }
 td.event-actions .btn { margin-top: -4px; }
 
-#manager-posted-events .field-bulk-select { width: 5%; }
-#manager-posted-events .field-recommended { width: 8%; }
-#manager-posted-events .event-title { width: 42%; }
-#manager-posted-events .event-time { width: 29%; }
-#manager-posted-events .event-actions { width: 16%; }
+.manager-item-table .field-bulk-select { width: 5%; }
+.manager-item-table .field-recommended { width: 8%; }
+.manager-item-table .event-title { width: 42%; }
+.manager-item-table .event-time { width: 29%; }
+.manager-item-table .event-actions { width: 16%; }
 
-#manager-posted-events .recurrences-toggle {
+.manager-item-table .recurrences-toggle {
 	display: block;
 	font-size: 11px;
 	font-weight: bold;
 	color: #777;
 }
-#manager-posted-events .recurrences { display: none; font-size: 12px; line-height: 16px; }
-#manager-posted-events .recurrences .archived-instance {
+.manager-item-table .recurrences { display: none; font-size: 12px; line-height: 16px; }
+.manager-item-table .recurrences .archived-instance {
 	text-decoration: line-through;
 	color: #888;
 }

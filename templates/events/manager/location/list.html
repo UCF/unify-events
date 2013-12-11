@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </form>
-                <table class="table table-striped table-hover" id="manager-posted-events">
+                <table class="table table-striped table-hover manager-item-table">
                     <thead>
                         <tr>
                             <th class="field-bulk-select">
@@ -71,7 +71,7 @@
                                 <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current location count -->
                             </td>
                             <td class="location-title">
-                                <a href="#"><!-- TODO: better slug? -->{{ location.title }}</a>
+                                <a href="{% url location-update location_id=location.id %}">{{ location.title }}</a>
                             </td>
                             <td class="location-room">
                                 {{ location.room }}
