@@ -34,7 +34,7 @@
                                 <a href="{% url category-update category_id=category.id %}">{{ category.title }}</a>
                             </td>
                             <td class="category-color">
-                                <span style="background-color: {{ category.color }};">{{ category.color }}</span><!-- TODO: use class-based styling, defined dynamically in base.html -->
+                                <span class="category-label {{ category.slug }}">{{ category.color }}</span>
                             </td>
                             <td class="category-actions">
                                 <a class="btn btn-mini" href="{% url category-update category_id=category.id %}">Edit</a>

@@ -74,7 +74,7 @@ vevent
                 <a href="{% url calendar calendar=event.event.calendar.slug %}">{{ event.event.calendar.title }}</a>
             </span>
     		<h3>Category</h3>
-    		<span class="event-meta-category">
+    		<span class="event-meta-category category-text {{ event.event.category.slug }}">
     		    <a href="{% url category category=event.event.category.slug %}">{{ event.event.category.title }}</a>
     		</span>
     		<h3>Tags</h3>

@@ -1,3 +1,5 @@
+{% load category_colors %}
+
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
@@ -6,7 +8,7 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
-        <meta name="description" content="{% block meta-description %}Unify Events{% endblock %}">
+        <meta name="description" content="{% block meta_description %}Unify Events{% endblock %}">
         {% block meta %}{% endblock %}
         
         <script type="text/javascript">
@@ -30,6 +32,8 @@
         <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" media="all" />
         {% block links %}
         {% endblock %}
+        
+        {% category_color_styles %}
         
     {% endblock %}
     </head>
