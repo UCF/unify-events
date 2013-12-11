@@ -38,54 +38,66 @@
     {% if locations %}
         <div class="row">
             <div class="span8 sidebarfix page-content">
-                <form action="" class="form-horizontal bulk-action-form">
+                <form action="{% url location-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
                     <div class="control-group">
-                        <label for="bulk-select-all_0" class="control-label">Bulk Action:</label>
+                        <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                         <div class="controls">
-                            <select id="bulk-select-all_0" name="bulk-select-all_0">
+                            <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
                                 <option>Select Action...</option>
-                                <option value="edit">Approve</option>
+                                <option value="approve">Approve</option>
+                                <option value="review">Move to Review</option>
+                                <option value="delete">Delete</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover manager-item-table">
+                        <thead>
+                            <tr>
+                                <th class="field-bulk-select">
+                                    <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                    <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                                </th>
+                                <th class="location-title">Location Name</th>
+                                <th class="location-room">Room</th>
+                                <th class="location-url">URL</th>
+                                <th class="location-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for location in locations %}
+                            <tr>
+                                <td class="field-bulk-select">
+                                    <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                    <input type="checkbox" name="location_ids" value="{{ location.id }}" />
+                                </td>
+                                <td class="location-title">
+                                    <a href="{% url location-update location_id=location.id %}">{{ location.title }}</a>
+                                </td>
+                                <td class="location-room">
+                                    {{ location.room }}
+                                </td>
+                                <td class="location-url">
+                                    <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                                </td>
+                                <td class="location-actions">
+                                    <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="control-group">
+                        <label for="bulk-action_1" class="control-label">Bulk Action:</label>
+                        <div class="controls">
+                            <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
+                                <option>Select Action...</option>
+                                <option value="approve">Approve</option>
+                                <option value="review">Move to Review</option>
                                 <option value="delete">Delete</option>
                             </select>
                         </div>
                     </div>
                 </form>
-                <table class="table table-striped table-hover manager-item-table">
-                    <thead>
-                        <tr>
-                            <th class="field-bulk-select">
-                                <label class="label-hidden" for="bulk-select-all">Select All</label>
-                                <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
-                            </th>
-                            <th class="location-title">Location Name</th>
-                            <th class="location-room">Room</th>
-                            <th class="location-url">URL</th>
-                            <th class="location-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for location in locations %}
-                        <tr>
-                            <td class="field-bulk-select">
-                                <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                <input type="checkbox" id="" name="" value="" /> <!-- TODO: assign ID, name by current location count -->
-                            </td>
-                            <td class="location-title">
-                                <a href="{% url location-update location_id=location.id %}">{{ location.title }}</a>
-                            </td>
-                            <td class="location-room">
-                                {{ location.room }}
-                            </td>
-                            <td class="location-url">
-                                <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
-                            </td>
-                            <td class="location-actions">
-                                <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </div>
     {% else %}

@@ -53,6 +53,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^location/create/?$', view='location.create_update', name='location-create'),
     url(r'^location/(?P<location_id>\d+)/update', view='location.create_update', name='location-update'),
     url(r'^location/(?P<state>[\w]+)?$', view='location.list', name='location-state'),
+    url(r'^location/bulk-action/', view='location.bulk_action', name='location-bulk-action'),
 
     url(r'^category/?$', view='category.list', name='category-list'),
     url(r'^category/create/?$', view='category.create_update', name='category-create'),

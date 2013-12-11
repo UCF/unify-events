@@ -68,3 +68,83 @@ def create_update(request, location_id=None):
     else:
         ctx['form'] = LocationForm(instance=ctx['location'])
     return direct_to_template(request, tmpl, ctx)
+
+@login_required
+def bulk_action(request):
+    if request.method == 'POST':
+        action_0 = request.POST['bulk-action_0']
+        action_1 = request.POST['bulk-action_1']
+
+        if action_0 == action_1 == 'Select Action...':
+            messages.error(request, 'No action selected.')
+            return HttpResponseRedirect(request.META.HTTP_REFERER)
+
+        action = action_0
+        if action == 'Select Action...':
+            action = action_1
+
+        if action not in ['approve', 'review', 'delete']:
+            messages.error(request, 'Unrecognized action selected %s.' % action)
+            return HttpResponseRedirect(request.META.HTTP_REFERER)
+
+        # remove duplicates
+        location_ids = request.POST.getlist('location_ids')
+
+        for location_id in location_ids:
+            try:
+                location = Location.objects.get(pk=location_id)
+            except Location.DoesNotExist, e:
+                log.error(str(e))
+                continue
+
+            if not request.user.is_superuser:
+                messages.error(request, 'You do not have permissions to modify Location %s' % location.title)
+                continue
+
+            if action == 'approve':
+                # approve the location
+                try:
+                    location.reviewed = True
+                    location.save()
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to set Location %s to Approved.' % location.title)
+
+            elif action == 'review':
+                # Set all Locations to Reviewed
+                try:
+                    location.reviewed = False
+                    location.save()
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to set Location %s to Review.' % location.title)
+
+            elif action == 'delete':
+                # Delete all Locations
+                try:
+                    location.delete()
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to delete Location %s.' % location.title)
+
+        # Determine whether to set a successful message
+        error = False
+        storage = messages.get_messages(request)
+        for message in storage:
+            error = True
+            storage.used = False
+            break
+
+        if not error:
+            message = ''
+            if action == 'approve':
+                message = 'Locations successfully Approved.'
+            elif action == 'posted':
+                message = 'Locations successfully moved to Review.'
+            elif action == 'delete':
+                message = 'Locations successfully deleted.'
+
+            messages.success(request, message)
+
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    raise Http404
