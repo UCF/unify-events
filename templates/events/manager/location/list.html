@@ -20,14 +20,14 @@
     <div class="row">
         <div class="span12">
             <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#">All</a>
+                <li class="{{ state|yesno:',,active' }}">
+                    <a href="{% url location-state %}">All</a>
                 </li>
-                <li>
-                    <a href="#">Review</a>
+                <li class="{% if state == 'review' %} active{% endif %}">
+                    <a href="{% url location-state state='review' %}">Review ({{ review_count }})</a>
                 </li>
-                <li>
-                    <a href="#">Approved</a>
+                <li class="{% if state == 'approved' %} active{% endif %}">
+                    <a href="{% url location-state state='approved' %}">Approved</a>
                 </li>
             </ul>
         </div>
@@ -90,5 +90,5 @@
         </div>
     {% else %}
         <p>No locations found. Want to <a href="{% url location-create %}">create one?</a></p>
-    {% endif %}   
+    {% endif %}
 {% endblock %}

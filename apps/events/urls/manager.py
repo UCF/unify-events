@@ -52,6 +52,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^location/?$', view='location.list', name='location-list'),
     url(r'^location/create/?$', view='location.create_update', name='location-create'),
     url(r'^location/(?P<location_id>\d+)/update', view='location.create_update', name='location-update'),
+    url(r'^location/(?P<state>[\w]+)?$', view='location.list', name='location-state'),
 
     url(r'^profiles/', include('profiles.urls')),
 
