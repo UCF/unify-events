@@ -1,0 +1,51 @@
+{% extends 'events/manager/base.html' %}
+
+{% block content_title_icon %}
+<i class="icon-tag" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>Categories</h1>
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+
+{% block content_body %}
+    {% if categories %}
+        <div class="row">
+            <div class="span8 sidebarfix page-content">
+                <a class="btn btn-primary page-top-action" href="{% url category-create %}">
+                    <i class="icon-plus"></i> Create New Category
+                </a>
+                
+                <table class="table table-striped table-hover" id="manager-posted-events"><!-- TODO: replace ID with generic class -->
+                    <thead>
+                        <tr>
+                            <th class="category-title">Category</th>
+                            <th class="category-color">Color</th>
+                            <th class="category-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td class="category-title">
+                                <a href="{% url category-update category_id=category.id %}">{{ category.title }}</a>
+                            </td>
+                            <td class="category-color">
+                                <span style="background-color: {{ category.color }};">{{ category.color }}</span><!-- TODO: use class-based styling, defined dynamically in base.html -->
+                            </td>
+                            <td class="category-actions">
+                                <a class="btn btn-mini" href="{% url category-update category_id=category.id %}">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>No categories found. Want to <a href="{% url category-create %}">create one?</a></p>
+    {% endif %}   
+{% endblock %}

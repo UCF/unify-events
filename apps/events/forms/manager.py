@@ -5,6 +5,7 @@ from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
+from events.models import Category
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 
@@ -128,3 +129,12 @@ class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
         fields = ('title', 'room', 'url', 'reviewed')
+
+
+class CategoryForm(forms.ModelForm):
+    """
+    Form for adding/creating categories for Events
+    """
+    class Meta:
+        model = Category
+        fields = ('title', 'color')

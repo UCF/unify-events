@@ -478,6 +478,13 @@ nav li#create-event .icon-circle-wrap { float: left; margin-right: 6px; }
 
 
 /**
+ * Page Content - General
+ **/
+.page-content {}
+.page-content .page-top-action { margin: 10px 0 20px 0; }
+
+
+/**
  * Sidebars
  **/
 
@@ -940,4 +947,18 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 #event-tags-selected li a:focus {
 	text-decoration: none;
 	background-color: #EE5F5B;
+}
+
+
+
+/**
+ * Admin Sections
+ **/
+
+/* Category Manager */
+.category-color span {
+	display: block;
+	padding: 0 5px;
+	font-weight: bold;
+	color: #fff;
 }

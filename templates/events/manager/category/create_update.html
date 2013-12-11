@@ -1,45 +1,85 @@
 {% extends 'events/manager/base.html' %}
-{% block footer_scripts %}
-	{{block.super}}
+{% load widget_tweaks %}
+
+{% block title %}
+    {% spaceless %}
+    {{ block.super }}
+    |
+    {% if mode == 'create' %}
+        Create Category
+    {% else %}
+        {% if mode == 'update' %}
+            Update Category
+        {% endif %}
+    {% endif %}
+    {% endspaceless %}
 {% endblock %}
+
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-pencil" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    {% if mode == 'create' %}
+        <h1>Create a Category</h1>
+    {% elif mode == 'update' %}
+        <h1>Update Category: <span class="alt">{{ category.title }}</span></h1>
+    {% endif %}
+{% endblock %}
+
+{% block content_subheader_text %}
+    {% if mode == 'create' %}
+        Use the form below to create a new category.
+    {% elif mode == 'update' %}
+        Use the form below to update the category "{{ category.title }}". Events with this category will be updated with these changes.
+    {% endif %}
+{% endblock %}
+
 {% block content_body %}
-		{% if mode == 'create' %}
-			<h2>Create a Category</h2>
-			<form action="{% url category-create %}" method="post" id="category-create">
-		{% else %}
-			{% if mode == 'update' %}
-				<h2>Update {{category.title}}</h2>
-				<form action="{% url category-update id=category.id %}" method="post" id="category-create">
-			{% endif %}
-		{% endif %}
-				{% if form.non_field_errors %}
-				<p>{{form.non_field_errors}}</p>
-			{% endif %}
-			<table>
-				<tbody>
-					<tr>
-						<th scope="row">{{form.name.label_tag}}</th>
-						<td>
-							{{form.name}}
-							{% if form.name.errors %}
-								<ul>
-								{% for error in form.name.errors %}
-								<li>{{error}}</li>
-								{% endfor %}
-								</ul>
-							{% endif %}
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
-			{% if mode == 'create' %}
-				<button type="submit">Create</button>
-			{% else %}
-				{% if mode == 'update' and user.is_superuser %}
-					<button type="submit">Update</button>
-					<a href="{% url category-delete id=category.id %}" class="button">Delete category</a>
-				{% endif %}
-			{% endif %}
-		</form>
+    {% if mode == 'create' %}
+        <form class="form-horizontal" action="{% url category-create %}" method="post" enctype="multipart/form-data">
+    {% elif mode == 'update' %}
+        <form class="form-horizontal" action="{% url category-update category_id=category.id %}" method="post" enctype="multipart/form-data">
+    {% endif %}
+            {{ form.non_field_errors }}
+            {{ form.title.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+                <div class="controls">
+                    {{ form.title }}
+                </div>
+            </div>
+            {{ form.color.errors }}
+            <div class="control-group large">
+                <label class="control-label" for="{{ form.url.auto_id }}">{{ form.color.label }}</label>
+                <p class="label-desc">A color to represent this category in the front-end interface. Standard hex values are recommended.</p>
+                <div class="controls">
+                    {{ form.color }}
+                </div>
+            </div>
+            <div class="control-group large">
+                <div class="controls">
+                    {% if mode == 'create' %}
+                        <button class="btn btn-primary" type="submit">Create Category</button>
+                    {% elif mode == 'update' %}
+                        <button class="btn btn-primary" type="submit">Update Category</button>
+                        <a href="{% url category-list %}" class="btn">Cancel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
 {% endblock %}

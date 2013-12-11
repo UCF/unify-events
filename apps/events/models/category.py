@@ -11,6 +11,7 @@ class Category(TimeCreatedModified):
     """
     title = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=128, unique=True, blank=True)
+    color = models.CharField(max_length=60, unique=True, blank=True)
 
     class Meta:
         app_label = 'events'
