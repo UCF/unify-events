@@ -6,7 +6,6 @@
         {% include 'events/frontend/event-listing/event-listing.html' %}
     </div>
     <aside class="span4 page-sidebar" id="calendar-events-sidebar">
-        <h2>Mini Calendar</h2>
         {% calendar_widget calendars=calendar is_manager=0 year=start.year month=start.month day=start %}
 
         <h2>Subscribe</h2>
