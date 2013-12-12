@@ -73,7 +73,9 @@
         </div>
         
         {% else %}
-            <p>No categories found. Want to <a href="{% url category-create %}">create one?</a></p>
+            <div class="well well-empty">
+                No categories found. Want to <a href="{% url category-create %}">create one?</a>
+            </div>
         {% endif %}
     </div>
 </div>

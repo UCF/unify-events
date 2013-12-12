@@ -111,7 +111,9 @@
                     </div>
                 </form>
             {% else %}
-                <p>No locations found. Want to <a href="{% url location-create %}">create one?</a></p>
+                <div class="well well-empty">
+                    No locations found. Want to <a href="{% url location-create %}">create one?</a>
+                </div>
             {% endif %}
                 <div class="pagination">
                     <ul>

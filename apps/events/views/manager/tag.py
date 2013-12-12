@@ -1,6 +1,9 @@
 import logging
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
@@ -27,6 +30,17 @@ def list(request):
 
     ctx['tags'] = Tag.objects.all()
 
+    # Pagination
+    if ctx['tags'] is not None:
+        paginator = Paginator(ctx['tags'], 20)
+        page = request.GET.get('page', 1)
+        try:
+            ctx['tags'] = paginator.page(page)
+        except PageNotAnInteger:
+            ctx['tags'] = paginator.page(1)
+        except EmptyPage:
+            ctx['tags'] = paginator.page(paginator.num_pages)
+
     return direct_to_template(request, tmpl, ctx)
 
 
@@ -43,7 +57,7 @@ def create_update(request, tag_id=None):
             return HttpResponseForbidden('You cannot modify the specified tag.')
     else:
         if not request.user.is_superuser:
-            return HttpResponseForbidden('You cannot create a tag.')\
+            return HttpResponseForbidden('You cannot create a tag.')
 
     if request.method == 'POST':
         ctx['form'] = TagForm(request.POST, instance=ctx['tag'])

@@ -98,8 +98,8 @@
             </div>
                 
             {% else %}
-            <div class="alert">
-                <strong>Heads Up:</strong> No calendars currently exist in the events system.</a>
+            <div class="well well-empty">
+                No calendars found. Want to <a href="{% url calendar-create %}">create one?</a>
             </div>
             {% endif %}
         </div>
