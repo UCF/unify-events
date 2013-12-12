@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if calendars.count > 0 %}
     <section class="row">
-        <div class="span8 sidebarfix page-content">
+        <div class="span9 page-content">
+            {% if calendars.count > 0 %}
             <table class="table table-striped table-hover manager-item-table">
                 <thead>
                     <tr>
@@ -68,15 +68,40 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </section>
-    {% else %}
-     <section class="row">
-        <div class="span12">
+            
+            <div class="pagination">
+                <ul>
+                    {% if calendars.has_previous %}
+                    <li>
+                        <a href="?page={{ calendars.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for page in calendars.paginator.page_range %}
+                    <li{% if page == calendars.number %} class="active"{% endif %}>
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if calendars.has_next %}
+                    <li>
+                        <a href="?page={{ calendars.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+                
+            {% else %}
             <div class="alert">
                 <strong>Heads Up:</strong> No calendars currently exist in the events system.</a>
             </div>
+            {% endif %}
         </div>
     </section>
-    {% endif %}
 {% endblock %}

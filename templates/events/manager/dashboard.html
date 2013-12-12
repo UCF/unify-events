@@ -225,6 +225,7 @@
                         </tbody>
                     </table>
                 </div>
+                
                 {% else %}
                     <p>No events found. Want to <a href="{% url event-create %}">create one?</a></p>
                 {% endif %}
@@ -242,6 +243,34 @@
                     </div>
                 </div>
             </form>
+            
+            <div class="pagination">
+                <ul>
+                    {% if events.has_previous %}
+                    <li>
+                        <a href="?page={{ events.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for page in events.paginator.page_range %}
+                    <li{% if page == events.number %} class="active"{% endif %}>
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if events.has_next %}
+                    <li>
+                        <a href="?page={{ events.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
 
             <!-- Modal for Event/Calendar Deletion -->
             <div class="modal hide fade" id="object-delete-modal">

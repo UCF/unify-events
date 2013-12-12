@@ -3,6 +3,9 @@ import logging
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -26,6 +29,17 @@ def list(request):
     tmpl = 'events/manager/category/list.html'
 
     ctx['categories'] = Category.objects.all()
+
+    # Pagination
+    if ctx['categories'] is not None:
+        paginator = Paginator(ctx['categories'], 20)
+        page = request.GET.get('page', 1)
+        try:
+            ctx['categories'] = paginator.page(page)
+        except PageNotAnInteger:
+            ctx['categories'] = paginator.page(1)
+        except EmptyPage:
+            ctx['categories'] = paginator.page(paginator.num_pages)
 
     return direct_to_template(request, tmpl, ctx)
 

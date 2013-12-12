@@ -113,15 +113,15 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
     ctx['events'] = events
 
     # Pagination
-    if ctx['instances'] is not None:
-        paginator = Paginator(ctx['instances'], 10)
+    if ctx['events'] is not None:
+        paginator = Paginator(ctx['events'], 10)
         page = request.GET.get('page', 1)
         try:
-            ctx['instances'] = paginator.page(page)
+            ctx['events'] = paginator.page(page)
         except PageNotAnInteger:
-            ctx['instances'] = paginator.page(1)
+            ctx['events'] = paginator.page(1)
         except EmptyPage:
-            ctx['instances'] = paginator.page(paginator.num_pages)
+            ctx['events'] = paginator.page(paginator.num_pages)
 
     return direct_to_template(request, tmpl, ctx, mimetype=format_to_mimetype(format))
 

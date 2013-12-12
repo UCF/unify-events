@@ -2,6 +2,9 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
@@ -162,5 +165,16 @@ def list(request):
 
     ctx = {'calendars': Calendar.objects.all()}
     tmpl = 'events/manager/calendar/list.html'
+
+    # Pagination
+    if ctx['calendars'] is not None:
+        paginator = Paginator(ctx['calendars'], 20)
+        page = request.GET.get('page', 1)
+        try:
+            ctx['calendars'] = paginator.page(page)
+        except PageNotAnInteger:
+            ctx['calendars'] = paginator.page(1)
+        except EmptyPage:
+            ctx['calendars'] = paginator.page(paginator.num_pages)
 
     return direct_to_template(request, tmpl, ctx)

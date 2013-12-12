@@ -35,9 +35,13 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if locations %}
-        <div class="row">
-            <div class="span8 sidebarfix page-content">
+    <div class="row">
+        <div class="span9 page-content">
+            <a class="btn btn-primary page-top-action" href="{% url location-create %}">
+                <i class="icon-plus"></i> Create New Location
+            </a>
+                
+            {% if locations %}
                 <form action="{% url location-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
                     <div class="control-group">
                         <label for="bulk-action_0" class="control-label">Bulk Action:</label>
@@ -60,6 +64,7 @@
                                 <th class="location-title">Location Name</th>
                                 <th class="location-room">Room</th>
                                 <th class="location-url">URL</th>
+                                <th class="location-status">Status</th>
                                 <th class="location-actions">Actions</th>
                             </tr>
                         </thead>
@@ -78,6 +83,13 @@
                                 </td>
                                 <td class="location-url">
                                     <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                                </td>
+                                <td class="location-status">
+                                    {% if location.reviewed %}
+                                    Approved
+                                    {% else %}
+                                    Needs Review
+                                    {% endif %}
                                 </td>
                                 <td class="location-actions">
                                     <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
@@ -98,9 +110,36 @@
                         </div>
                     </div>
                 </form>
+            {% else %}
+                <p>No locations found. Want to <a href="{% url location-create %}">create one?</a></p>
+            {% endif %}
+                <div class="pagination">
+                    <ul>
+                        {% if locations.has_previous %}
+                        <li>
+                            <a href="?page={{ locations.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="disabled">
+                            <a href="#">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        {% for page in locations.paginator.page_range %}
+                        <li{% if page == locations.number %} class="active"{% endif %}>
+                            <a href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if locations.has_next %}
+                        <li>
+                            <a href="?page={{ locations.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="disabled">
+                            <a href="#">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
-    {% else %}
-        <p>No locations found. Want to <a href="{% url location-create %}">create one?</a></p>
-    {% endif %}
 {% endblock %}

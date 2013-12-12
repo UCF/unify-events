@@ -12,40 +12,69 @@
 
 
 {% block content_body %}
-    {% if categories %}
-        <div class="row">
-            <div class="span8 sidebarfix page-content">
-                <a class="btn btn-primary page-top-action" href="{% url category-create %}">
-                    <i class="icon-plus"></i> Create New Category
-                </a>
-                
-                <table class="table table-striped table-hover manager-item-table">
-                    <thead>
-                        <tr>
-                            <th class="category-title">Category</th>
-                            <th class="category-color">Color</th>
-                            <th class="category-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for category in categories %}
-                        <tr>
-                            <td class="category-title">
-                                <a href="{% url category-update category_id=category.id %}">{{ category.title }}</a>
-                            </td>
-                            <td class="category-color">
-                                <span class="category-label {{ category.slug }}">{{ category.color }}</span>
-                            </td>
-                            <td class="category-actions">
-                                <a class="btn btn-mini" href="{% url category-update category_id=category.id %}">Edit</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+<div class="row">
+    <div class="span9 page-content">
+        {% if categories %}
+        <a class="btn btn-primary page-top-action" href="{% url category-create %}">
+            <i class="icon-plus"></i> Create New Category
+        </a>
+        
+        <table class="table table-striped table-hover manager-item-table">
+            <thead>
+                <tr>
+                    <th class="category-title">Category</th>
+                    <th class="category-color">Color</th>
+                    <th class="category-actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td class="category-title">
+                        <a href="{% url category-update category_id=category.id %}">{{ category.title }}</a>
+                    </td>
+                    <td class="category-color">
+                        <span class="category-label {{ category.slug }}">{{ category.color }}</span>
+                    </td>
+                    <td class="category-actions">
+                        <a class="btn btn-mini" href="{% url category-update category_id=category.id %}">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <ul>
+                {% if categories.has_previous %}
+                <li>
+                    <a href="?page={{ categories.previous_page_number }}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="disabled">
+                    <a href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for page in categories.paginator.page_range %}
+                <li{% if page == categories.number %} class="active"{% endif %}>
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %}
+                {% if categories.has_next %}
+                <li>
+                    <a href="?page={{ categories.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="disabled">
+                    <a href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-    {% else %}
-        <p>No categories found. Want to <a href="{% url category-create %}">create one?</a></p>
-    {% endif %}   
+        
+        {% else %}
+            <p>No categories found. Want to <a href="{% url category-create %}">create one?</a></p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
