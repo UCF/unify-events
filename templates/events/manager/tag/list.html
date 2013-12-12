@@ -15,7 +15,7 @@
     {% if tags %}
         <div class="row">
             <div class="span8 sidebarfix page-content">
-                <a class="btn btn-primary page-top-action" href="">
+                <a class="btn btn-primary page-top-action" href="{% url tag-create %}">
                     <i class="icon-plus"></i> Create New Tag
                 </a>
 
@@ -42,6 +42,6 @@
             </div>
         </div>
     {% else %}
-        <p>No tags found. Want to <a href="">create one?</a></p>
+        <p>No tags found. Want to <a href="{% url tag-create %}">create one?</a></p>
     {% endif %}
 {% endblock %}

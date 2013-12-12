@@ -56,7 +56,8 @@ urlpatterns += patterns('events.views.manager',
     url(r'^location/bulk-action/', view='location.bulk_action', name='location-bulk-action'),
 
     url(r'^tag/?$', view='tag.list', name='tag-list'),
-    url(r'^tag/(?P<tag_id>\d+)/update/?$', view='tag.update', name='tag-update'),
+    url(r'^tag/create/?$', view='tag.create_update', name='tag-create'),
+    url(r'^tag/(?P<tag_id>\d+)/update/?$', view='tag.create_update', name='tag-update'),
     url(r'^location/bulk-action/', view='location.bulk_action', name='location-bulk-action'),
 
     url(r'^category/?$', view='category.list', name='category-list'),

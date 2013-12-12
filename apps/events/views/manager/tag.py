@@ -31,17 +31,19 @@ def list(request):
 
 
 @login_required
-def update(request, tag_id=None):
-    ctx = {'form': None, 'mode': 'update', 'tag': None}
+def create_update(request, tag_id=None):
+    ctx = {'form': None, 'mode': 'create', 'tag': None}
     tmpl = 'events/manager/tag/create_update.html'
 
     if tag_id is not None:
+        ctx['mode'] = 'update'
         ctx['tag'] = get_object_or_404(Tag, pk=tag_id)
 
         if not request.user.is_superuser:
             return HttpResponseForbidden('You cannot modify the specified tag.')
     else:
-        return HttpResponseForbidden('You must select a tag to edit.')
+        if not request.user.is_superuser:
+            return HttpResponseForbidden('You cannot create a tag.')\
 
     if request.method == 'POST':
         ctx['form'] = TagForm(request.POST, instance=ctx['tag'])
