@@ -52,9 +52,11 @@
                 <li class="{% if state == 'posted' %} active{% endif %}">
                     <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='posted' %}">Posted</a>
                 </li>
+                {% if current_calendar.is_main_calendar and current_calendar in user.editable_calendars or current_calendar.is_main_calendar and user.is_superuser %}
                 <li class="{% if state == 'rereview' %} active{% endif %}">
                     <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='rereview' %}">Re-Review ({{ rereview_count }})</a>
                 </li>
+                {% endif %}
                 <li class="{% if state == 'pending' %} active{% endif %}">
                     <a href="{% url dashboard-calendar-state calendar_id=current_calendar.id state='pending' %}">Pending ({{ pending_count }})</a>
                 </li>
@@ -207,6 +209,23 @@
                                                 <a class="event-delete" href="{% url event-delete event_id=event.event.id %}" data-object-title="{{ event.event.title }}">
                                                     <i class="icon-trash"></i>
                                                     Delete Event
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            <li class="divider"></li>
+                                            {% if event.event.state != 1 %}
+                                            <li role="presentation">
+                                                <a href="{% url event-post event_id=event.id %}">
+                                                    <i class="icon-check"></i>
+                                                    Add to Posted
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            {% if event.event.state != 0 %}
+                                            <li role="presentation">
+                                                <a href="{% url event-pend event_id=event.id %}">
+                                                    <i class="icon-inbox"></i>
+                                                    Move to Pending
                                                 </a>
                                             </li>
                                             {% endif %}
