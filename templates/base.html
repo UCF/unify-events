@@ -5,12 +5,12 @@
     <head>
     {% block head %}
         <title>{% block title %}Unify Events{% endblock %}</title>
-        
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
         <meta name="description" content="{% block meta_description %}Unify Events{% endblock %}">
         {% block meta %}{% endblock %}
-        
+
         <script type="text/javascript">
             var Unify = {};
             if(!window.console ) { window.console = { log: function() { return; } }; }
@@ -22,7 +22,7 @@
         <![endif]-->
         {% block header_scripts %}
         {% endblock %}
-        
+
         <link rel="shortcut icon" href="{{ MEDIA_URL }}-/img/favicon.ico" />
         <link href="{{ MEDIA_URL }}bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all" />
         <link href="{{ MEDIA_URL }}bootstrap/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="all" />
@@ -32,9 +32,9 @@
         <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" media="all" />
         {% block links %}
         {% endblock %}
-        
+
         {% category_color_styles %}
-        
+
     {% endblock %}
     </head>
     <body>
@@ -54,16 +54,16 @@
                     </form>
                 </div>
             </div>
-        </header>       
+        </header>
         {% endblock %}
-        
+
         {% block navbar %}
         <div class="fullwidth" id="navwrap">
             <nav class="container">
                 <div class="row">
                     <div class="span12" id="navinner">
                         <div class="user">
-                            <i class="icon-user"></i> 
+                            <i class="icon-user"></i>
                             {% if user.is_authenticated %}
                             Hi, <strong>{{user.first_name}}</strong>
                             {% else %}
@@ -97,7 +97,7 @@
                                         </a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#">
+                                        <a href="{% url tag-list %}">
                                             <i class="icon-tags"></i>
                                             Tags
                                         </a>
@@ -112,7 +112,7 @@
                             </li>
                             {% endif %}
                             <li class="dropdown">
-                                <i class="icon-calendar"></i> 
+                                <i class="icon-calendar"></i>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url dashboard %}">
                                     My Calendars
                                     <b class="caret"></b>
@@ -131,7 +131,7 @@
                                         </li>
                                     {% endfor %}
                                     <li class="divider" role="presentation"></li>
-                                 {% endif %}   
+                                 {% endif %}
                                     <li role="presentation">
                                         <a href="{% url calendar-create %}"><i class="icon-plus"></i> Create New Calendar</a>
                                     </li>
@@ -163,7 +163,7 @@
                                 <i class="icon-power-off"></i>
                                 <a href="{% url accounts-logout %}">
                                     Logout
-                                </a>                                
+                                </a>
                             </li>
                             {% else %}
                             <li>
@@ -179,7 +179,7 @@
             </nav>
         </div>
         {% endblock %}
-        
+
         <!-- Content -->
         {% block body %}
             {% block content %}
@@ -188,7 +188,7 @@
                 {% block content_footer %}{% endblock %}
             {% endblock %}
         {% endblock %}
-        
+
         {% block footer %}
         <footer class="container">
             <div class="row">
@@ -212,7 +212,7 @@
             </div>
         </footer>
         {% endblock %}
-        
+
         {% block footer_scripts %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js?use-bootstrap-overrides=1"></script>

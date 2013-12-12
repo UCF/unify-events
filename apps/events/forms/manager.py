@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from taggit.models import Tag
+from taggit.forms import TagField
 
 from events.models import Calendar
 from events.models import Event
@@ -138,3 +140,12 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('title', 'color')
+
+
+class TagForm(forms.ModelForm):
+    """
+    Form for tags
+    """
+    class Meta:
+        model = Tag
+        fields = ('name',)

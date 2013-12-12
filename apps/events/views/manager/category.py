@@ -25,7 +25,7 @@ def list(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden('You cannot view the category manager.')
 
-    ctx = {'locations': None}
+    ctx = {'categories': None}
     tmpl = 'events/manager/category/list.html'
 
     ctx['categories'] = Category.objects.all()
