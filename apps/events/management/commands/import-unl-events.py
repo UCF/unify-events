@@ -41,6 +41,7 @@ class Command(BaseCommand):
             calendar_creator = self.get_create_user(str(old_calendar.uidcreated))
             if calendar_creator is not None:
                 new_calendar = Calendar(title=old_calendar.name, owner=calendar_creator)
+                new_calendar.pk = old_calendar.id
                 try:
                     new_calendar.save()
                 except Exception, e:
