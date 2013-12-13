@@ -63,6 +63,8 @@ urlpatterns += patterns('events.views.manager',
     url(r'^category/?$', view='category.list', name='category-list'),
     url(r'^category/create/?$', view='category.create_update', name='category-create'),
     url(r'^category/(?P<category_id>\d+)/update', view='category.create_update', name='category-update'),
+    url(r'^category/(?P<category_from_id>\d+)/merge/(?P<category_to_id>\d+)', view='category.merge', name='category-merge'),
+    url(r'^category/(?P<category_id>\d+)/delete', view='category.delete', name='category-delete'),
 
     url(r'^all-calendars/?$', view='calendar.list', name='calendar-list'),
 

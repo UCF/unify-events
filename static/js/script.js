@@ -25,18 +25,23 @@ var autoOpenTagByAnchor = function() {
 
 /**
  * Toggle 'Delete Single Event/Calendar' modal
+ * TODO: generalize modal toggling for object actions
  **/
 var toggleModalDeleteObject = function() {
-    $('.event-delete, .calendar-delete').click(function(e) {
+    $('.event-delete, .calendar-delete, .object-delete').click(function(e) {
         e.preventDefault();
-         
+
         var objectType = '';
         if ($(this).hasClass('event-delete')) {
             objectType = 'event';
         }
-        else {
+        else if ($(this).hasClass('calendar-delete')) {
             objectType = 'calendar';
         }
+        else {
+            objectType = $(this).attr('data-object-type');
+        }
+
         var modal       = $('#object-delete-modal'),
             eventTitle  = $(this).attr('data-object-title'),
             deleteURL   = $(this).attr('href');
@@ -52,6 +57,64 @@ var toggleModalDeleteObject = function() {
                 .attr('href', deleteURL)
                 .end()
             .modal('show');
+    });
+};
+
+/**
+ * Toggle 'Merge Tag/Category' modal
+ **/
+var toggleModalMergeObject = function() {
+    var modal = $('#object-merge-modal');
+
+    $('.category-merge, .tag-merge').click(function(e) {
+        e.preventDefault();
+        
+        var objectTitle = $(this).attr('data-object-title'),
+            mergeURL    = $(this).attr('href');
+
+        var objectType = '';
+        if ($(this).hasClass('category-merge')) {
+            objectType = 'category';
+        }
+        else {
+            objectType = 'tag';
+        }
+
+        /* Remove selected object from list of all objects */
+        modal
+            .find('#new-object-select option')
+                .each(function() {
+                    if ($(this).text() == objectTitle) {
+                        $(this).prop('disabled', true);
+                    }
+                    else {
+                        /* Re-enable any previously disabled options from an old modal */
+                        $(this).prop('disabled', false);
+                    }
+                });
+
+        /* Insert object type/title in modal text */
+        modal
+            .find('span.object-type')
+                .text(objectType)
+                .end()
+            .find('h2 span.alt')
+                .text(objectTitle)
+                .end()
+            .find('.modal-footer a.btn-primary')
+                .attr('href', mergeURL)
+                .end()
+            .modal('show');
+    });
+
+    var submitBtn = modal.find('.modal-footer a.btn:first-child');
+    submitBtn.click(function() {
+        var newObject = $('#new-object-select').val(),
+            url = submitBtn.attr('href');
+        if (newObject !== '') {
+            url = url.replace(/merge\/[A-Za-z0-9]+$/, 'merge/' + newObject);
+            submitBtn.attr('href', url);
+        }
     });
 };
 
@@ -988,6 +1051,7 @@ $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
     toggleModalDeleteObject();
+    toggleModalMergeObject();
     calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));

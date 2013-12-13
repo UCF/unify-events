@@ -13,6 +13,7 @@ from django.views.generic.simple import direct_to_template
 
 from events.forms.manager import CategoryForm
 from events.models import Category
+from events.models import Event
 
 log = logging.getLogger(__name__)
 
@@ -70,3 +71,49 @@ def create_update(request, category_id=None):
     else:
         ctx['form'] = CategoryForm(instance=ctx['category'])
     return direct_to_template(request, tmpl, ctx)
+
+@login_required
+def merge(request, category_from_id=None, category_to_id=None):
+    """
+    View for merging the category into another category.
+    """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot perform this action.')
+
+    if category_from_id and category_to_id:
+        category_from = get_object_or_404(Category, pk=category_from_id)
+        category_to = get_object_or_404(Category, pk=category_to_id)
+
+        events = category_from.events.all()
+        if events.count() > 0:
+            try:
+                for event in events:
+                    event.category = category_to
+                    event.save()
+                category_from.delete()
+            except Exception, e:
+                log.error(str(e))
+                messages.error(request, 'Merging category failed.')
+            else:
+                messages.success(request, 'Category successfully merged.')
+        else:
+            messages.error(request, 'Cannot merge this category: category has no events. Delete this category instead of merging.')
+        return HttpResponseRedirect(reverse('category-list'))
+
+    raise Http404
+
+@login_required
+def delete(request, category_id=None):
+    category = get_object_or_404(Category, pk=category_id)
+
+    if not request.user.is_superuser or category.events.count() > 0:
+        return HttpResponseForbidden('You cannot delete the specified category.')
+
+    try:
+        category.delete()
+    except Exception, e:
+        log(str(e))
+        messages.error(request, 'Deleting category failed.')
+    else:
+        messages.success(request, 'Category successfully deleted.')
+        return HttpResponseRedirect(reverse('category-list'))
