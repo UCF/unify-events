@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
@@ -11,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from taggit.models import Tag
+from events.models import Event
 
 from events.forms.manager import TagForm
 
@@ -28,7 +30,7 @@ def list(request):
     ctx = {'tags': None}
     tmpl = 'events/manager/tag/list.html'
 
-    ctx['tags'] = Tag.objects.all()
+    ctx['tags'] = Tag.objects.annotate(event_count=Count('taggit_taggeditem_items')).order_by('name')
 
     # Pagination
     if ctx['tags'] is not None:
@@ -42,7 +44,6 @@ def list(request):
             ctx['tags'] = paginator.page(paginator.num_pages)
 
     return direct_to_template(request, tmpl, ctx)
-
 
 @login_required
 def create_update(request, tag_id=None):
@@ -68,3 +69,46 @@ def create_update(request, tag_id=None):
         ctx['form'] = TagForm(instance=ctx['tag'])
 
     return direct_to_template(request, tmpl, ctx)
+
+@login_required
+def merge(request, tag_from_id=None, tag_to_id=None):
+    """
+    View for merging the tag into another tag.
+    """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot perform this action.')
+
+    if tag_from_id and tag_to_id:
+        tag_from = get_object_or_404(Tag, pk=tag_from_id)
+        tag_to = get_object_or_404(Tag, pk=tag_to_id)
+
+        events = Event.objects.filter(tags__name__in=[tag_from.name])
+        try:
+            for event in events:
+                event.tags.add(tag_to)
+                event.save()
+            tag_from.delete()
+        except Exception, e:
+            log.error(str(e))
+            messages.error(request, 'Merging tag failed.')
+        else:
+            messages.success(request, 'Tag successfully merged.')
+        return HttpResponseRedirect(reverse('tag-list'))
+
+    raise Http404
+
+@login_required
+def delete(request, tag_id=None):
+    tag = get_object_or_404(Tag, pk=tag_id)
+
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot delete the specified tag.')
+
+    try:
+        tag.delete()
+    except Exception, e:
+        log(str(e))
+        messages.error(request, 'Deleting tag failed.')
+    else:
+        messages.success(request, 'Tag successfully deleted.')
+        return HttpResponseRedirect(reverse('tag-list'))
