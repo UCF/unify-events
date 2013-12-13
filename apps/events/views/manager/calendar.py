@@ -50,7 +50,7 @@ def create_update(request, calendar_id=None):
 def delete(request, calendar_id):
     calendar = get_object_or_404(Calendar, pk=calendar_id)
 
-    if not request.user.is_superuser and calendar not in request.user.owned_calendars:
+    if not request.user.is_superuser and calendar not in request.user.owned_calendars.all():
         return HttpResponseForbidden('You cannot delete the specified calendar.')
 
     try:
@@ -106,7 +106,7 @@ def delete_user(request, calendar_id, username):
 def reassign_ownership(request, calendar_id, username):
     calendar = get_object_or_404(Calendar, pk=calendar_id)
 
-    if not request.user.is_superuser and calendar not in request.user.owned_calendars:
+    if not request.user.is_superuser and calendar not in request.user.owned_calendars.all():
         return HttpResponseForbidden('You cannot reassign ownership for this calendar.')
 
     user = get_object_or_404(User, username=username)

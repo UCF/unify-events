@@ -36,18 +36,6 @@ def editable_calendars(self):
 setattr(User, 'editable_calendars', property(editable_calendars))
 
 
-def calendars_include_submitted(self):
-    """
-    Add and attribute to the User model to retrieve
-    TODO: is this needed
-    """
-    return Calendar.objects.filter(
-        models.Q(owner=self) |
-        models.Q(editors=self) |
-        models.Q(events__owner=self)).order_by('title').distinct()
-setattr(User, 'calendars_include_submitted', property(calendars_include_submitted))
-
-
 class Calendar(TimeCreatedModified):
     """
     Calendar
