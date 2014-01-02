@@ -19,16 +19,16 @@ urlpatterns = patterns('',
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', direct_to_template, {'template': 'events/widgets/calendar-by-url.html'}, name='calendar-widget-by-calendar')
 )
 
-handler500 = lambda r: direct_to_template(r, template='500.html')
-handler404 = lambda r: direct_to_template(r, template='404.html')
+handler500 = lambda r: direct_to_template(r, template='events/static/500.html')
+handler404 = lambda r: direct_to_template(r, template='events/static/404.html')
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
-            'django.views.static.serve',
-            {
-                'document_root': settings.MEDIA_ROOT,
-                'show_indexes' : True,
-            }
-        ),
-    )
+#if settings.DEBUG:
+urlpatterns += patterns('',
+    (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
+        'django.views.static.serve',
+        {
+            'document_root': settings.MEDIA_ROOT,
+            'show_indexes' : True,
+        }
+    ),
+)
