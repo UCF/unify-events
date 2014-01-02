@@ -132,33 +132,58 @@ var calendarSliders = function() {
     });
 };
 
+
+/**
+ * Helper function for determining browser support for <input> types.
+ **/
+var inputTypeSupport = function(type) {
+    var dummyField = document.createElement('input');
+    dummyField.setAttribute('type', type);
+    if (dummyField.type == type) {
+        return true;
+    }
+    return false;
+}
+
+
 /**
  * Date/Timepicker Init
  **/
 var initiateDatePickers = function(field) {
-    field.datepicker({
-        format:'yyyy-mm-dd'
-    });
+    if (inputTypeSupport('date')) {
+        field.attr('type', 'date');
+    }
+    else {
+        field
+            .datepicker({
+                format: 'mm/dd/yyyy'
+            })
+            .attr('placeholder', 'mm/dd/yyyy');
+    }
 };
 var initiateTimePickers = function(field) {
-    var date = new Date();
-    var time = date.getHours() + ':' + date.getMinutes();
-    field
-        .each(function(){
-            // Wrap each timepicker input if this field isn't a clone
-            if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
-                $(this)
-                    .next('span.add-on')
-                    .andSelf()
-                    .wrapAll('<div class="input-append bootstrap-timepicker" />');
-                $(this)
-                    .next('span.add-on')
-                        .css('display', 'inline-block');
-            }
-        }).timepicker({
-            showMeridian: false,
-            defaultTime: false
-        });
+    if (inputTypeSupport('time')) {
+        field
+            .each(function() {
+                $(this).attr('type', 'time');
+            });
+    }
+    else {
+        field
+            .each(function(){
+                // Wrap each timepicker input if this field isn't a clone
+                if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
+                    $(this)
+                        .wrap('<div class="bootstrap-timepicker" />');
+                }
+            })
+            .timepicker({
+                template: false,
+                showMeridian: true, /* TODO: causes form validation to fail! */
+                defaultTime: false,
+            })
+            .attr('placeholder', '--:-- --');
+    }
 };
 
 /**

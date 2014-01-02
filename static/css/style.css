@@ -99,9 +99,9 @@ form.form-tabbed .tab-content .tab-pane h2 { margin-top: 0; }
 }
 .field-date,
 .field-time {
-	width: 40%; /* .field-time overridden by bootstrap timepicker plugin */
+	width: 70%; /* .field-time overridden by bootstrap timepicker plugin */
 }
-.field-date { margin-right: 10px; }
+.field-date { margin-right: 10px; margin-bottom: 8px !important; }
 .field-time { margin-right: 0; }
 .field-time + .add-on { display: none; }
 
@@ -113,26 +113,8 @@ form p.help-text { font-size: 11px; font-style: italic; line-height: 18px; color
 form p.help-text + .dropdown-menu { top: 30px; }
 
 /* Date/Timepicker overrides */
-.bootstrap-timepicker { width: 35%; }
-.bootstrap-timepicker input { width: 100%; }
-.bootstrap-timepicker span.add-on {
-	border: 0;
-	background-color: #a8a8a8;
-	box-shadow: 0 2px 0 0 #686868;
-	color: #fff;
-}
-.bootstrap-timepicker span.add-on:hover {
-	background-color: #8D8D8D;
-	-webkit-transition: background-color 0.25s ease;
-	transition: background-color 0.25s ease;
-}
-.bootstrap-timepicker .open + span.add-on {
-	background-color: #8D8D8D;
-	box-shadow: 0 2px 0 0 #4D4D4D inset, 0 2px 0 0 #8D8D8D;
-}
-.bootstrap-timepicker span.add-on i:before,
-a > i[class^="icon-"]:before, 
-a > i[class*=" icon-"]:before { cursor: pointer; }
+.bootstrap-timepicker { width: 70%; }
+.bootstrap-timepicker input { width: 100%; border-radius: 4px; }
 
 /** WYSIWYG overrides **/
 ul.wysihtml5-toolbar { display: inline-block; }
@@ -865,8 +847,9 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 .whenwhere-start label,
 .whenwhere-end label {
 	display: block;
-	width: 50%;
+	width: auto;
 	float: left;
+	margin-right: 4px;
 }
 
 .cloner { position: relative; }
