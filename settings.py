@@ -14,6 +14,10 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 TIME_ZONE = 'America/New_York'
+DATE_INPUT_FORMATS = ('%m/%d/%Y', '%Y-%m-%d', '%m/%d/%y', '%b %d %Y',
+'%b %d, %Y', '%d %b %Y', '%d %b, %Y', '%B %d %Y',
+'%B %d, %Y', '%d %B %Y', '%d %B, %Y')
+TIME_INPUT_FORMATS = ('%I:%M %p', '%H:%M:%S')
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
