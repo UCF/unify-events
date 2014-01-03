@@ -99,7 +99,7 @@ form.form-tabbed .tab-content .tab-pane h2 { margin-top: 0; }
 }
 .field-date,
 .field-time {
-	width: 70%; /* .field-time overridden by bootstrap timepicker plugin */
+	width: 70%;
 }
 .field-date { margin-right: 10px; margin-bottom: 8px !important; }
 .field-time { margin-right: 0; }
@@ -112,9 +112,86 @@ select option { padding-top: 3px; padding-bottom: 3px; }
 form p.help-text { font-size: 11px; font-style: italic; line-height: 18px; color: #888; padding-top: 8px; }
 form p.help-text + .dropdown-menu { top: 30px; }
 
+label.error,
+div.error label,
+.control-group.error .control-label,
+.control-group.error .help-block,
+.control-group.error .help-inline {
+	color: #EE5F5B;
+}
+input.error,
+textarea.error,
+select.error,
+div.error input,
+div.error textarea,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+	border: 1px solid #EE5F5B;
+	color: #B71713;
+}
+ul.errorlist {
+	background: none repeat scroll 0 0 #EE5F5B;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: block;
+    list-style-type: none;
+    margin: 10px 0;
+    padding: 10px;
+    position: relative;
+    max-width: 220px;
+}
+ul.errorlist:before {
+	content: "";
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #EE5F5B;
+	position: absolute;
+	top: -5px;
+	left: 10px;
+}
+ul.errorlist li {
+	margin-top: 5px;
+	text-indent: 0;
+	padding-left: 20px;
+}
+ul.errorlist li:first-child { margin-top: 0; }
+ul.errorlist li:before {
+	font-family: "FontAwesome";
+	content: "";
+	float: left;
+	width: 20px;
+	margin-left: -20px;
+}
+
+
 /* Date/Timepicker overrides */
-.bootstrap-timepicker { width: 70%; }
-.bootstrap-timepicker input { width: 100%; border-radius: 4px; }
+.bootstrap-datepicker { position: relative; }
+.bootstrap-timepicker input { border-radius: 4px; }
+.bootstrap-datepicker i,
+.bootstrap-timepicker i {
+	position: absolute;
+	right: 60px;
+	color: #ccc;
+}
+.bootstrap-datepicker i { bottom: 15px; }
+.bootstrap-timepicker i { bottom: 7px; }
+
+.datepicker td.active,
+.datepicker td.active:hover,
+.datepicker td span.active {
+	background-image: none;
+	background-color: #ffc904 !important;
+	text-shadow: 0 0 0 transparent;
+	font-weight: bold;
+}
+.datepicker td,
+.datepicker th,
+.datepicker td span {
+	border-radius: 0;
+}
 
 /** WYSIWYG overrides **/
 ul.wysihtml5-toolbar { display: inline-block; }
@@ -850,6 +927,8 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 	width: auto;
 	float: left;
 	margin-right: 4px;
+	position: relative;
+	z-index: 3;
 }
 
 .cloner { position: relative; }

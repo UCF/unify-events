@@ -120,6 +120,8 @@ def create_update(request, event_id=None):
                     messages.success(request, 'Event successfully saved')
 
             return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            messages.error(request, 'Something wasn\'t entered correctly. Please review the errors below and try again.')
     else:
         ctx['event_form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
         ctx['event_instance_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance')

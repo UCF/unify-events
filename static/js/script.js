@@ -147,13 +147,23 @@ var inputTypeSupport = function(type) {
 
 
 /**
- * Date/Timepicker Init
+ * Date/Timepicker Init.
+ * Use built-in HTML5 date/time <input>'s, where available.
+ * Fall back to Bootstrap date/timepicker plugins.
  **/
 var initiateDatePickers = function(field) {
     if (inputTypeSupport('date')) {
         field.attr('type', 'date');
     }
     else {
+        // Wrap field in wrapper div; add icon
+        if (field.parent().hasClass('bootstrap-datepicker') === false) {
+            field
+                .wrap('<div class="bootstrap-datepicker" />')
+                .parent()
+                .append('<i class="icon-calendar" />');
+        }
+
         field
             .datepicker({
                 format: 'mm/dd/yyyy'
@@ -174,17 +184,20 @@ var initiateTimePickers = function(field) {
                 // Wrap each timepicker input if this field isn't a clone
                 if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
                     $(this)
-                        .wrap('<div class="bootstrap-timepicker" />');
+                        .wrap('<div class="bootstrap-timepicker" />')
+                        .parent()
+                        .append('<i class="icon-time" />');
                 }
             })
             .timepicker({
                 template: false,
-                showMeridian: true, /* TODO: causes form validation to fail! */
+                showMeridian: true,
                 defaultTime: false,
             })
-            .attr('placeholder', '--:-- --');
+            .attr('placeholder', '12:00 AM');
     }
 };
+
 
 /**
  * WYSIWYG Textarea Init
@@ -887,6 +900,18 @@ eventTagging = function() {
         var selectedTags = $('#event-tags-selected');
         tagAutocomplete.insertAfter(taglist);
         suggestionList.insertAfter(helpText);
+
+        // Handle a form validation error, where new tags are saved in
+        // the hidden taglist field but are not yet saved + populated
+        // in the selectedTags list
+        if (taglist.val() !== '' && selectedTags.children().length < 1) {
+            // Strip wrapper quotes, separate by comma and remove empty vals
+            var tagArray = taglist.val().replace(/\"/g, '').split(',').filter(Boolean);
+            $.each(tagArray, function(key, val) {
+                selectedTags
+                    .append('<li data-tag-name="'+ val +'"><a href="#" class="selected-remove" alt="Remove this tag">&times;</a>'+ val +'</li>')
+            });
+        }
 
         // Perform a search + show suggestion list
         var autocompleteSearch = function(query) {
