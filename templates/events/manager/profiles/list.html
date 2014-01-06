@@ -1,0 +1,96 @@
+{% extends 'events/manager/base.html' %}
+
+{% block alerts %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content_title_icon %}
+<i class="icon-group" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+<h1>All Users</h1>
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+    <section class="row">
+        <div class="span9 page-content">
+        {% if users.count > 0 %}
+            <table class="table table-striped table-hover manager-item-table">
+                <thead>
+                    <tr>
+                        <th class="user-title">Username</th>
+                        <th class="user-fullname">Full Name</th>
+                        <th class="user-permissions">Permissions</th>
+                        <th class="user-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% regroup users|dictsort:"last_name" by is_superuser as usergroups %}
+                {% for group in usergroups %}
+                    {% for user in group.list %}
+                        <tr>
+                            <td class="user-title">
+                                {{ user.username }}
+                            </td>
+                            <td class="user-fullname">
+                                {{ user.first_name }} {{ user.last_name }}
+                            </td>
+                            <td class="user-permissions">
+                                {% if user.is_superuser %}
+                                Superuser
+                                {% else %}
+                                User
+                                {% endif %}
+                            </td>
+                            <td class="user-actions">
+                                {% if user.is_superuser %}
+                                <a class="btn btn-mini" href="{% url profile-demote user_id=user.id %}"><i class="icon-circle-arrow-down"></i> Demote</a>
+                                {% else %}
+                                <a class="btn btn-mini" href="{% url profile-promote user_id=user.id %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <ul>
+                    {% if users.has_previous %}
+                    <li>
+                        <a href="?page={{ users.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for page in users.paginator.page_range %}
+                    <li{% if page == users.number %} class="active"{% endif %}>
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if users.has_next %}
+                    <li>
+                        <a href="?page={{ users.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+                
+        {% else %}
+            <div class="well well-empty">
+                No users found.
+            </div>
+        {% endif %}
+        </div>
+    </section>
+{% endblock %}
