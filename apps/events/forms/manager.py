@@ -60,14 +60,35 @@ class EventInstanceForm(forms.ModelForm):
     """
     Form for the EventInstance
     """
-    start = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                               'time_class': 'field-time',
-                                               'date_placeholder': 'mm/dd/yyyy',
-                                               'time_placeholder': '12:00 AM'}))
-    end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                             'time_class': 'field-time',
-                                             'date_placeholder': 'mm/dd/yyyy',
-                                             'time_placeholder': '12:00 AM'}))
+    start = forms.DateTimeField(
+        widget=BootstrapSplitDateTimeWidget(
+            attrs={
+                'date_class': 'field-date',
+                'time_class': 'field-time',
+                'date_placeholder': 'mm/dd/yyyy',
+                'time_placeholder': '12:00 AM'
+            }
+        ),
+        input_formats=[
+            '%m/%d/%Y %I:%M %p', # '10/25/2006 2:30 PM'
+            '%m/%d/%Y %I:%M',    # '10/25/2006 14:30'
+        ],
+    )
+    end = forms.DateTimeField(
+        widget=BootstrapSplitDateTimeWidget(
+            attrs={
+                'date_class': 'field-date',
+                'time_class': 'field-time',
+                'date_placeholder': 'mm/dd/yyyy',
+                'time_placeholder': '12:00 AM'
+            }
+        ),
+        input_formats=[
+            '%m/%d/%Y %I:%M %p', # '10/25/2006 2:30 PM'
+            '%m/%d/%Y %I:%M',    # '10/25/2006 14:30'
+        ],
+    )
+
     until = forms.DateField(required=False)
     new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
