@@ -66,7 +66,7 @@ def list(request):
         return HttpResponseForbidden('You do not have permission to access this page.')
 
     ctx = {
-        'users': User.objects.all(),
+        'users': User.objects.all().order_by('-is_superuser', 'last_name'),
     }
     tmpl = 'events/manager/profiles/list.html'
 
@@ -95,6 +95,9 @@ def update_permissions(request, user_id=None, permissions=False):
     else:
         if not request.user.is_superuser:
             return HttpResponseForbidden('You cannot modify the specified user.')
+        if permissions is False and User.objects.filter(is_superuser=True).count() < 2:
+            return HttpResponseForbidden('You cannot demote this user; no more superusers would be left!')
+
         try:
             modified_user.is_staff = permissions
             modified_user.is_superuser = permissions
@@ -105,4 +108,7 @@ def update_permissions(request, user_id=None, permissions=False):
         else:
             messages.success(request, 'User permissions successfully updated.')
 
-    return HttpResponseRedirect(reverse('profile-list'))
+    if request.user.is_superuser:
+        return HttpResponseRedirect(reverse('profile-list'))
+    else:
+        return HttpResponseRedirect(reverse('dashboard'))

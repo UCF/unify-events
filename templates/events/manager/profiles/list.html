@@ -28,32 +28,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% regroup users|dictsort:"last_name" by is_superuser as usergroups %}
-                {% for group in usergroups %}
-                    {% for user in group.list %}
-                        <tr>
-                            <td class="user-title">
-                                {{ user.username }}
-                            </td>
-                            <td class="user-fullname">
-                                {{ user.first_name }} {{ user.last_name }}
-                            </td>
-                            <td class="user-permissions">
-                                {% if user.is_superuser %}
-                                Superuser
-                                {% else %}
-                                User
-                                {% endif %}
-                            </td>
-                            <td class="user-actions">
-                                {% if user.is_superuser %}
-                                <a class="btn btn-mini" href="{% url profile-demote user_id=user.id %}"><i class="icon-circle-arrow-down"></i> Demote</a>
-                                {% else %}
-                                <a class="btn btn-mini" href="{% url profile-promote user_id=user.id %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
+                {% for user in users %}
+                    <tr>
+                        <td class="user-title">
+                            {{ user.username }}
+                        </td>
+                        <td class="user-fullname">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </td>
+                        <td class="user-permissions">
+                            {% if user.is_superuser %}
+                            Superuser
+                            {% else %}
+                            User
+                            {% endif %}
+                        </td>
+                        <td class="user-actions">
+                            {% if user.is_superuser %}
+                            <a class="btn btn-mini" href="{% url profile-demote user_id=user.id %}"><i class="icon-circle-arrow-down"></i> Demote</a>
+                            {% else %}
+                            <a class="btn btn-mini" href="{% url profile-promote user_id=user.id %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
