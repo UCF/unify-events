@@ -2,6 +2,7 @@ import logging
 
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
+
 from util import LDAPHelper
 
 
@@ -34,9 +35,12 @@ class Backend(ModelBackend):
                 return None
             except User.DoesNotExist:
 
-                user = User(username=username)
-                # Try to extract some other details
+                # Must use create_user() here instead of initiating a new
+                # User object directly so that password hashing is handled
+                # properly
+                user = User.objects.create_user(username=username)
 
+                # Try to extract some other details
                 try:
                     user.first_name = LDAPHelper.extract_firstname(ldap_user)
                 except LDAPHelper.MissingAttribute:
@@ -57,6 +61,7 @@ class Backend(ModelBackend):
                 except Exception, e:
                     logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                     return None
+
         return user
 
     def get_user(self, user_id):

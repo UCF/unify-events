@@ -21,7 +21,7 @@
                     <div class="control-group {% if form.password.errors %}error{% endif %}">
                         <label class="control-label" for="id_username">NID</label>
                         <div class="controls">
-                            <input type="text" id="id_username" name="username" placeholder="Your NID, e.g. a1234567">
+                            <input type="text" id="id_username" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
                             {% if form.password.errors %}
                                 {% for error in form.password.errors %}
                                 <span class="help-inline">{{error}}</span>
@@ -32,7 +32,7 @@
                     <div class="control-group {% if form.password.errors %}error{% endif %}">
                         <label class="control-label" for="id_password">NID Password</label>
                         <div class="controls">
-                            <input type="password" id="id_password" name="password" placeholder="Your NID password">
+                            <input type="password" id="id_password" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
                             {% if form.password.errors %}
                                 {% for error in form.password.errors %}
                                 <span class="help-inline">{{error}}</span>
