@@ -167,8 +167,7 @@ var initiateDatePickers = function(field) {
         field
             .datepicker({
                 format: 'mm/dd/yyyy'
-            })
-            .attr('placeholder', 'mm/dd/yyyy');
+            });
     }
 };
 var initiateTimePickers = function(field) {
@@ -193,8 +192,7 @@ var initiateTimePickers = function(field) {
                 template: false,
                 showMeridian: true,
                 defaultTime: false,
-            })
-            .attr('placeholder', '12:00 AM');
+            });
     }
 };
 

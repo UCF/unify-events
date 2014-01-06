@@ -31,15 +31,21 @@ class BootstrapSplitDateTimeWidget(SplitDateTimeWidget):
     A Widget that splits datetime input into two <input type="text"> boxes.
     """
 
-    def __init__(self, attrs=None, date_format=None, time_format=None):
+    def __init__(self, attrs=None, date_format=None, time_format=None, date_placeholder=None, time_placeholder=None):
         date_class = attrs.get('date_class')
         del attrs['date_class']
 
         time_class = attrs.get('time_class')
         del attrs['time_class']
 
-        widgets = (DateInput(attrs={'class': date_class}, format=date_format),
-                   TimeInput(attrs={'class': time_class}, format=time_format))
+        date_placeholder = attrs.get('date_placeholder')
+        del attrs['date_placeholder']
+
+        time_placeholder = attrs.get('time_placeholder')
+        del attrs['time_placeholder']
+
+        widgets = (DateInput(attrs={'class': date_class, 'placeholder': date_placeholder}, format=date_format),
+                   TimeInput(attrs={'class': time_class, 'placeholder': time_placeholder}, format=time_format))
         super(SplitDateTimeWidget, self).__init__(widgets, attrs)
 
     def decompress(self, value):

@@ -61,9 +61,13 @@ class EventInstanceForm(forms.ModelForm):
     Form for the EventInstance
     """
     start = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                               'time_class': 'field-time'}))
+                                               'time_class': 'field-time',
+                                               'date_placeholder': 'mm/dd/yyyy',
+                                               'time_placeholder': '12:00 AM'}))
     end = forms.DateTimeField(widget=BootstrapSplitDateTimeWidget(attrs={'date_class': 'field-date',
-                                             'time_class': 'field-time'}))
+                                             'time_class': 'field-time',
+                                             'date_placeholder': 'mm/dd/yyyy',
+                                             'time_placeholder': '12:00 AM'}))
     until = forms.DateField(required=False)
     new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
