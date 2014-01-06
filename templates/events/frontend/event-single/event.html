@@ -1,4 +1,5 @@
 {% extends 'events/frontend/base.html' %}
+{% load bleach_tags %}
 
 {% block content_section_classes %}
 vevent
@@ -36,7 +37,7 @@ vevent
 
     	<!-- TODO: image here, once we get images going... -->
 
-    	{{ event.event.description|safe }}
+    	{{ event.event.description|bleach }}
 
     	<hr />
 

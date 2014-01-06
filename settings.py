@@ -69,6 +69,7 @@ INSTALLED_APPS = (
     'events',
     'unlevents',
     'widget_tweaks',
+    'django_bleach'
 )
 
 LOGGING = {
@@ -149,3 +150,38 @@ TEMPLATE_DIRS = (TEMPL_FOLDER, )
 
 STATIC_ROOT = ''
 STATIC_URL = '/media/'
+
+# Which HTML tags are allowed
+BLEACH_ALLOWED_TAGS = [
+    'p',
+    'b',
+    'i',
+    'u',
+    'em',
+    'strong',
+    'a',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'ul',
+    'ol',
+    'li',
+    'blockquote'
+]
+
+# Which HTML attributes are allowed
+BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'alt']
+
+# Which CSS properties are allowed in 'style' attributes (assuming
+# style is an allowed attribute)
+BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']
+
+# Strip unknown tags if True, replace with HTML escaped characters if
+# False
+BLEACH_STRIP_TAGS = True
+
+# Strip comments, or leave them in.
+BLEACH_STRIP_COMMENTS = True

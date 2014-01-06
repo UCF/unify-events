@@ -8,6 +8,8 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from taggit.managers import TaggableManager
 
+from django_bleach.models import BleachField
+
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 import events.models
@@ -82,7 +84,7 @@ class Event(TimeCreatedModified):
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    description = models.TextField(blank=True, null=True)
+    description = BleachField(blank=True, null=True)
     contact_name = models.CharField(max_length=64, blank=True, null=True)
     contact_email = models.EmailField(max_length=128, blank=True, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
