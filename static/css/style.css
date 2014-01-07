@@ -168,7 +168,10 @@ ul.errorlist li:before {
 
 
 /* Date/Timepicker overrides */
-.bootstrap-datepicker { position: relative; }
+.bootstrap-datepicker,
+.bootstrap-timepicker {
+	position: relative;
+}
 .bootstrap-timepicker input { border-radius: 4px; }
 .bootstrap-datepicker i,
 .bootstrap-timepicker i {
@@ -179,6 +182,12 @@ ul.errorlist li:before {
 .bootstrap-datepicker i { bottom: 15px; }
 .bootstrap-timepicker i { bottom: 7px; }
 
+.datepicker:before,
+.datepicker:after {
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 0;
+}
 .datepicker td.active,
 .datepicker td.active:hover,
 .datepicker td span.active {
@@ -192,6 +201,13 @@ ul.errorlist li:before {
 .datepicker td span {
 	border-radius: 0;
 }
+
+.ui-timepicker-wrapper {
+	-webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+}
+
 
 /** WYSIWYG overrides **/
 ul.wysihtml5-toolbar { display: inline-block; }
@@ -963,7 +979,7 @@ label[for*="-location-autocomplete"] { margin-top: 0; }
 #id_event-tags-suggestions li.selected a {
 	background-color: #3979fc;
 	background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
-	color: #fff;
+	color: #fff !important;
 }
 
 .location-selected { position: relative; }

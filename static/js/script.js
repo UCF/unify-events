@@ -149,7 +149,7 @@ var inputTypeSupport = function(type) {
 /**
  * Date/Timepicker Init.
  * Use built-in HTML5 date/time <input>'s, where available.
- * Fall back to Bootstrap date/timepicker plugins.
+ * Fall back to Bootstrap datepicker/jQuery timepicker plugins.
  **/
 var initiateDatePickers = function(field) {
     if (inputTypeSupport('date')) {
@@ -189,9 +189,9 @@ var initiateTimePickers = function(field) {
                 }
             })
             .timepicker({
-                template: false,
-                showMeridian: true,
-                defaultTime: false,
+                'scrollDefaultNow': true,
+                'timeFormat': 'h:i A',
+                'step': 15
             });
     }
 };
