@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
+    (r'^search/', include('haystack.urls')),
     url(r'^manager/', include('events.urls.manager')),
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^tag/', include('events.urls.tag')),

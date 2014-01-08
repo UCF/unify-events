@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+    'haystack',
     'profiles',
     'taggit',
     'events',
@@ -151,7 +152,21 @@ TEMPLATE_DIRS = (TEMPL_FOLDER, )
 STATIC_ROOT = ''
 STATIC_URL = '/media/'
 
-# Which HTML tags are allowed
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+# Enables updating of models with an associated SearchIndex
+# when that model is saved or deleted.
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+
+# Settings for django-bleach, which sanitizes input from
+# designated fields (i.e. wysiwyg editor content).
 BLEACH_ALLOWED_TAGS = [
     'p',
     'b',
@@ -171,17 +186,7 @@ BLEACH_ALLOWED_TAGS = [
     'li',
     'blockquote'
 ]
-
-# Which HTML attributes are allowed
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'alt']
-
-# Which CSS properties are allowed in 'style' attributes (assuming
-# style is an allowed attribute)
 BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']
-
-# Strip unknown tags if True, replace with HTML escaped characters if
-# False
 BLEACH_STRIP_TAGS = True
-
-# Strip comments, or leave them in.
 BLEACH_STRIP_COMMENTS = True
