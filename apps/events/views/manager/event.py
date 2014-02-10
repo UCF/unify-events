@@ -11,6 +11,7 @@ from django.forms.models import modelformset_factory
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 
+from core.forms import RequiredModelFormSet
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceForm
@@ -56,6 +57,7 @@ def create_update(request, event_id=None):
     user_calendars = request.user.calendars
     EventInstanceFormSet = modelformset_factory(EventInstance,
                                                 form=EventInstanceForm,
+                                                formset=RequiredModelFormSet,
                                                 extra=formset_extra,
                                                 can_delete=True,
                                                 max_num=12)

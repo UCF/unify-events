@@ -6,9 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from taggit.managers import TaggableManager
-
 from django_bleach.models import BleachField
+from taggit.managers import TaggableManager
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
