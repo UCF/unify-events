@@ -605,9 +605,14 @@ var eventLocationsSearch = function(locationDropdowns) {
             // Hide dropdown
             dropdown.hide();
 
-            // Hide new location form
-            var locationNewForm = locationRow.find('.location-new-form');
-            locationNewForm.hide();
+            /**
+             * Hide new location form if creating a new event instance
+             * by checking whether the title field is empty. Display
+             * location form if there something is in the title field.
+             **/
+            if (!locationNewForm.children('input[name*="-new_location_title"]').val()) {
+                locationNewForm.hide();
+            }
 
             // Add content to cloner btn
             cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
