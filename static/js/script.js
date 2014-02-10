@@ -68,7 +68,7 @@ var toggleModalMergeObject = function() {
 
     $('.category-merge, .tag-merge').click(function(e) {
         e.preventDefault();
-        
+
         var objectTitle = $(this).attr('data-object-title'),
             mergeURL    = $(this).attr('href');
 
@@ -124,7 +124,7 @@ var toggleModalMergeObject = function() {
 var calendarSliders = function() {
     $('body').on('click', '.calendar-slider ul.pager li a', function(e) {
         e.preventDefault();
-        
+
         var slider = $(this).parents('.calendar-slider');
         $.get($(this).attr('data-ajax-link'), function(data) {
             slider.replaceWith(data);
@@ -493,7 +493,7 @@ var cloneableFieldsets = function() {
                         $(this).val('');
                 });
 
-                // Add an event handler for the delete item/form link 
+                // Add an event handler for the delete item/form link
                 $(row).find('.remove-instance').click(function () {
                     return deleteForm(this, prefix);
                 });
@@ -562,7 +562,7 @@ var calendarSubscribeModal = function() {
             e.preventDefault();
             modal.modal('show');
         });
-        
+
         submitBtn.click(function() {
             var newSubscriber = $('#new-subscription-select').val(),
                 url = submitBtn.attr('href');
@@ -916,7 +916,7 @@ eventTagging = function() {
             var matchesFound = false;
             var matches = [];
 
-            for (var i = 0; i < eventTags.length; i++) {    
+            for (var i = 0; i < eventTags.length; i++) {
                 var tagName = eventTags[i];
                 if (tagName.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                     // Push comboname to autocomplete suggestions list
@@ -960,7 +960,7 @@ eventTagging = function() {
         tagAutocomplete.on('keyup focus', function(event) {
             clearTimeout(timer);
             var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
-            
+
             // Execute a search for a non-empty field val.
             // Searches eventLocations object (created in template.)
             if (query !== '') {
@@ -1058,7 +1058,7 @@ eventTagging = function() {
             }
             taglist
                 .val(newval)
-                .attr(newval);    
+                .attr(newval);
         }
 
         $('.selected-remove').on('click', function(event) {
