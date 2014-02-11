@@ -6,7 +6,7 @@ django-bleach==0.1.5
 django-compressor==1.3
 django-taggit==0.11.2
 django-widget-tweaks==1.3
-html5lib==1.0b3
+html5lib==0.999
 ordereddict==1.1
 python-dateutil==2.2
 python-ldap==2.4.14
