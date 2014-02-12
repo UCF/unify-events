@@ -40,7 +40,7 @@ def create_update(request, calendar_id=None):
             if not calendar.owner:
                 calendar.owner = request.user
             calendar.save()
-        return HttpResponseRedirect(reverse('dashboard'))
+        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': calendar.pk}))
     else:
         ctx['form'] = CalendarForm(instance=ctx['calendar'])
 
