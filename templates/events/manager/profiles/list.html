@@ -28,33 +28,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for theUser in users %}
                     <tr>
                         <td class="user-title">
-                            {{ user.username }}
+                            {{ theUser.username }}
                         </td>
                         <td class="user-fullname">
-                            {{ user.first_name }} {{ user.last_name }}
+                            {{ theUser.first_name }} {{ theUser.last_name }}
                         </td>
                         <td class="user-permissions">
-                            {% if user.is_superuser %}
+                            {% if theUser.is_superuser %}
                             Superuser
                             {% else %}
                             User
                             {% endif %}
                         </td>
                         <td class="user-actions">
-                            {% if user.is_superuser %}
-                            <a class="btn btn-mini" href="{% url profile-demote user_id=user.id %}"><i class="icon-circle-arrow-down"></i> Demote</a>
+                            {% if theUser.is_superuser %}
+                            <a class="btn btn-mini{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url profile-demote user_id=theUser.id %}" data-user-name="{{ theUser.username }}"><i class="icon-circle-arrow-down"></i> Demote</a>
                             {% else %}
-                            <a class="btn btn-mini" href="{% url profile-promote user_id=user.id %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
+                            <a class="btn btn-mini" href="{% url profile-promote user_id=theUser.id %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
                             {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            
+
             <div class="pagination">
                 <ul>
                     {% if users.has_previous %}
@@ -82,7 +82,24 @@
                     {% endif %}
                 </ul>
             </div>
-                
+
+            <!-- Modal for User Demote -->
+            <div class="modal hide fade" id="user-demote-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Demote self: <span class="alt"></span></h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        You are about demote yourself from adminitrative privilages. Once this is done you will no longer have access to the Admin Menu and any of its features.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger">Demote Self</a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
+
         {% else %}
             <div class="well well-empty">
                 No users found.

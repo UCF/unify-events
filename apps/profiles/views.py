@@ -95,7 +95,7 @@ def update_permissions(request, user_id=None, permissions=False):
     else:
         if not request.user.is_superuser:
             return HttpResponseForbidden('You cannot modify the specified user.')
-        if permissions is False and User.objects.filter(is_superuser=True).count() < 2:
+        if not permissions and User.objects.filter(is_superuser=True).count() < 2:
             return HttpResponseForbidden('You cannot demote this user; no more superusers would be left!')
 
         try:
@@ -108,7 +108,9 @@ def update_permissions(request, user_id=None, permissions=False):
         else:
             messages.success(request, 'User permissions successfully updated.')
 
-    if request.user.is_superuser:
+    # The request user is not updated with changes that have been made to the modified user.
+    # This requires a check to see if the usernames match and whether they have superuser permissions.
+    if request.user.username != modified_user.username or (request.user.username == modified_user.username and modified_user.is_superuser):
         return HttpResponseRedirect(reverse('profile-list'))
     else:
         return HttpResponseRedirect(reverse('dashboard'))

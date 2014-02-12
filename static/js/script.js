@@ -1073,6 +1073,39 @@ eventTagging = function() {
     }
 };
 
+/**
+ * Toggle 'demote' modal
+ **/
+var toggleModalUserDemote = function() {
+    var modal = $('#user-demote-modal');
+
+    $('.demote-self').click(function(e) {
+        e.preventDefault();
+
+        var userName  = $(this).attr('data-user-name'),
+            demoteURL = $(this).attr('href');
+
+        /* Insert user name in modal text */
+        modal
+            .find('h2 span.alt')
+                .text(userName)
+                .end()
+            .find('.modal-footer a.btn-danger')
+                .attr('href', demoteURL)
+                .end()
+            .modal('show');
+    });
+
+    var submitBtn = modal.find('.modal-footer a.btn:first-child');
+    submitBtn.click(function() {
+        var newObject = $('#new-object-select').val(),
+            url = submitBtn.attr('href');
+        if (newObject !== '') {
+            url = url.replace(/merge\/[A-Za-z0-9]+$/, 'merge/' + newObject);
+            submitBtn.attr('href', url);
+        }
+    });
+};
 
 /**
  * Update frontend calendar month view month/year form
@@ -1105,6 +1138,7 @@ $(document).ready(function() {
     autoOpenTagByAnchor();
     toggleModalDeleteObject();
     toggleModalMergeObject();
+    toggleModalUserDemote();
     calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
