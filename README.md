@@ -8,10 +8,10 @@
 5. Clone repo to subdirectory (ex. git clone <url> src)
 6. Activate virtual environment
 
-		source bin/activate
+        source bin/activate
 7. Install requirements
 
-		pip install -r src/requirements.txt
+        pip install -r src/requirements.txt
 8. Setup local settings using the local_settings.templ.py file
 9. Setup apache/python.wsgi using apache/python.templ.wsgi
 10. python manage.py syncdb
