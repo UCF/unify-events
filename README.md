@@ -8,7 +8,7 @@
 5. Clone repo to subdirectory (ex. git clone <url> src)
 6. Activate virtual environment
 
-        source bin/activate
+		source bin/activate
 7. Install requirements
 
 		pip install -r src/requirements.txt
