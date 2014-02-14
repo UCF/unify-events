@@ -137,10 +137,15 @@ class Command(BaseCommand):
                                         logging.info('UNL event instance location not in UNL Location table: %d' % old_location_id)
                                     else:
                                         if old_location.name is not None:
+                                            # check to see if the location name is too long
+                                            old_locatin_name = old_location.name
+                                            if len(old_locatin_name) > 256:
+                                                old_locatin_name = old_locatin_name[0:256]
+
                                             try:
-                                                new_instance.location = Location.objects.get(title__iexact=old_location.name)
+                                                new_instance.location = Location.objects.get(title__iexact=old_locatin_name)
                                             except Location.DoesNotExist:
-                                                logging.error('No Location for UNL Location %s' % old_location.name)
+                                                logging.error('No Location for UNL Location %s' % old_locatin_name)
 
                                     try:
                                         new_instance.save()
@@ -200,17 +205,19 @@ class Command(BaseCommand):
     def create_locations(self):
         LOCATION_NAMES = []
         for name,mapurl,room in UNLLocation.objects.values_list('name','mapurl','room'):
-            # check to see if the contact name is too long
-            if len(name) > 256:
-                name = name[0:256]
 
-            if name is not None and name.lower() not in LOCATION_NAMES:
-                LOCATION_NAMES.append(name.lower())
-                new_location = Location(title=name, url=mapurl, room=room)
-                try:
-                    new_location.save()
-                except Exception, e:
-                    logging.error('Unable to save location %s: %s' % (name, str(e)))
+            if name:
+                # check to see if the location name is too long
+                if len(name) > 256:
+                    name = name[0:256]
+
+                if name.lower() not in LOCATION_NAMES:
+                    LOCATION_NAMES.append(name.lower())
+                    new_location = Location(title=name, url=mapurl, room=room)
+                    try:
+                        new_location.save()
+                    except Exception, e:
+                        logging.error('Unable to save location %s: %s' % (name, str(e)))
 
     def get_create_user(self,username):
 
