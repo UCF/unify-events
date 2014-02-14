@@ -69,7 +69,22 @@ class Command(BaseCommand):
                         elif old_event.subtitle is not None and len(old_event.title + ' - ' + old_event.subtitle) < 255:
                             old_title += ' - ' + old_event.subtitle
 
-                        new_event = Event(title=old_title,description=old_event.description,calendar=new_calendar)
+                        old_contact_name = old_event.listingcontactname
+                        if not old_contact_name:
+                            old_contact_name = calendar_creator.first_name
+
+                        old_contact_email = old_event.listingcontactemail
+                        if not old_contact_email:
+                            old_contact_email = calendar_creator.email
+
+                        old_contact_phone = old_event.listingcontactphone
+
+                        new_event = Event(title=old_title,
+                                          description=old_event.description,
+                                          calendar=new_calendar,
+                                          contact_name=old_contact_name,
+                                          contact_email=old_contact_email,
+                                          contact_phone=old_contact_phone)
 
                         # TODO - images
 
@@ -104,18 +119,21 @@ class Command(BaseCommand):
                                     new_instance.start = old_instance.starttime
                                     new_instance.end   = old_instance.endtime
 
-                                    if old_instance.location_id is not None:
-                                        # Location
-                                        try:
-                                            old_location = UNLLocation.objects.get(id=old_instance.location_id)
-                                        except UNLLocation.DoesNotExist:
-                                            logging.info('UNL event instance location not in UNL Location table: %d' % old_instance.location_id)
-                                        else:
-                                            if old_location.name is not None:
-                                                try:
-                                                    new_instance.location = Location.objects.get(title__iexact=old_location.name)
-                                                except Location.DoesNotExist:
-                                                    logging.error('No Location for UNL Location %s' % old_location.name)
+                                    old_location_id = old_instance.location_id
+                                    if old_location_id:
+                                        old_location_id = 1
+
+                                    # Location
+                                    try:
+                                        old_location = UNLLocation.objects.get(id=old_location_id)
+                                    except UNLLocation.DoesNotExist:
+                                        logging.info('UNL event instance location not in UNL Location table: %d' % old_location_id)
+                                    else:
+                                        if old_location.name is not None:
+                                            try:
+                                                new_instance.location = Location.objects.get(title__iexact=old_location.name)
+                                            except Location.DoesNotExist:
+                                                logging.error('No Location for UNL Location %s' % old_location.name)
 
                                     try:
                                         new_instance.save()

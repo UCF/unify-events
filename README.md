@@ -16,6 +16,16 @@
 9. Setup apache/python.wsgi using apache/python.templ.wsgi
 10. python manage.py syncdb
 
+## Import
+4. cd to the new virtual environment src folder
+6. Activate virtual environment
+
+        source ../bin/activate
+7. Add old events database information to local_settings.py under DATABASES name 'unlevents'
+4. Run import command
+
+        python manage.py import-unl-events
+
 ## Code Contribution
 Never commit directly to master. Create a branch or fork and work on the new feature. Once it is complete it will be merged back to the master branch.
 

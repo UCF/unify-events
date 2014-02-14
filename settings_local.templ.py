@@ -39,7 +39,21 @@ DATABASES = {
         'HOST': '',
         # Set to empty string for default. Not used with sqlite3.
         'PORT': '',
-    }
+    },
+    # 'unlevents': {
+    #     # postgresql_psycopg2, postgresql, mysql, sqlite3, oracle
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     # Or path to database file if using sqlite3.
+    #     'NAME': '',
+    #     # Not used with sqlite3.
+    #     'USER': '',
+    #     # Not used with sqlite3.
+    #     'PASSWORD': '',
+    #     # Set to empty string for localhost. Not used with sqlite3.
+    #     'HOST': '',
+    #     # Set to empty string for default. Not used with sqlite3.
+    #     'PORT': '',
+    # }
 }
 
 # NET Domain LDAP CONFIG
