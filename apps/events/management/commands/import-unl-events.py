@@ -73,6 +73,10 @@ class Command(BaseCommand):
                         if not old_contact_name:
                             old_contact_name = calendar_creator.first_name
 
+                        # check to see if the contact name is too long
+                        if len(old_contact_name) > 64:
+                            old_contact_name = old_contact_name[0:63]
+
                         old_contact_email = old_event.listingcontactemail
                         if not old_contact_email:
                             if calendar_creator.email:
@@ -196,6 +200,10 @@ class Command(BaseCommand):
     def create_locations(self):
         LOCATION_NAMES = []
         for name,mapurl,room in UNLLocation.objects.values_list('name','mapurl','room'):
+            # check to see if the contact name is too long
+            if len(name) > 256:
+                name = name[0:256]
+
             if name is not None and name.lower() not in LOCATION_NAMES:
                 LOCATION_NAMES.append(name.lower())
                 new_location = Location(title=name, url=mapurl, room=room)
