@@ -1,5 +1,6 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
+{% load widgets %}
 
 {% block meta %}
 		<link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url category-by-calendar calendar=calendar.slug category=category.slug %}{% else %}{% url category category=category.slug %}{% endif %}.rss" />
@@ -26,33 +27,7 @@
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
             {% include 'events/frontend/event-listing/event-listing.html' %}
             
-            <div class="pagination">
-                <ul>
-                    {% if events.has_previous %}
-                    <li>
-                        <a href="?page={{ events.previous_page_number }}">&laquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&laquo;</a>
-                    </li>
-                    {% endif %}
-                    {% for page in events.paginator.page_range %}
-                    <li{% if page == events.number %} class="active"{% endif %}>
-                        <a href="?page={{ page }}">{{ page }}</a>
-                    </li>
-                    {% endfor %}
-                    {% if events.has_next %}
-                    <li>
-                        <a href="?page={{ events.next_page_number }}">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&raquo;</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+            {% pager events %}
         </div>
         <aside class="span4 page-sidebar" id="calendar-events-sidebar">
             <h2>Subscribe</h2>

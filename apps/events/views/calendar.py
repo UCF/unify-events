@@ -310,6 +310,25 @@ def years_listing(request, calendar, format=None):
     })
 
 
+def paginated_listing(request, template, context, format=None):
+    """
+    Generate a paginated list of events.
+    """
+    paginator = Paginator(context['events'], 20)
+    page = request.GET.get('page', 1)
+    try:
+        context['events'] = paginator.page(page)
+    except PageNotAnInteger:
+        context['events'] = paginator.page(1)
+    except EmptyPage:
+        context['events'] = paginator.page(paginator.num_pages)
+
+    try:
+        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+    except TemplateDoesNotExist:
+        raise Http404
+
+
 def tag(request, tag, calendar=None, format=None):
     """
     Page that lists all upcoming events tagged with a specific tag.
@@ -336,20 +355,7 @@ def tag(request, tag, calendar=None, format=None):
         'format': format,
     }
 
-    # Pagination
-    paginator = Paginator(context['events'], 20)
-    page = request.GET.get('page', 1)
-    try:
-        context['events'] = paginator.page(page)
-    except PageNotAnInteger:
-        context['events'] = paginator.page(1)
-    except EmptyPage:
-        context['events'] = paginator.page(paginator.num_pages)
-
-    try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
+    return paginated_listing(request, template, context, format)
 
 
 def category(request, category, calendar=None, format=None):
@@ -377,17 +383,4 @@ def category(request, category, calendar=None, format=None):
         'format': format,
     }
 
-    # Pagination
-    paginator = Paginator(context['events'], 20)
-    page = request.GET.get('page', 1)
-    try:
-        context['events'] = paginator.page(page)
-    except PageNotAnInteger:
-        context['events'] = paginator.page(1)
-    except EmptyPage:
-        context['events'] = paginator.page(paginator.num_pages)
-
-    try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
+    return paginated_listing(request, template, context, format)

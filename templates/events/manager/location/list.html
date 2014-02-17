@@ -1,4 +1,5 @@
 {% extends 'events/manager/base.html' %}
+{% load widgets %}
 
 {% block page_header %}
     {% spaceless %}
@@ -115,33 +116,7 @@
                     No locations found. Want to <a href="{% url location-create %}">create one?</a>
                 </div>
             {% endif %}
-                <div class="pagination">
-                    <ul>
-                        {% if locations.has_previous %}
-                        <li>
-                            <a href="?page={{ locations.previous_page_number }}">&laquo;</a>
-                        </li>
-                        {% else %}
-                        <li class="disabled">
-                            <a href="#">&laquo;</a>
-                        </li>
-                        {% endif %}
-                        {% for page in locations.paginator.page_range %}
-                        <li{% if page == locations.number %} class="active"{% endif %}>
-                            <a href="?page={{ page }}">{{ page }}</a>
-                        </li>
-                        {% endfor %}
-                        {% if locations.has_next %}
-                        <li>
-                            <a href="?page={{ locations.next_page_number }}">&raquo;</a>
-                        </li>
-                        {% else %}
-                        <li class="disabled">
-                            <a href="#">&raquo;</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
+                {% pager locations %}
             </div>
         </div>
 {% endblock %}

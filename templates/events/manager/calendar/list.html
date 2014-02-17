@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+{% load widgets %}
 
 {% block content_title %}
     <h1>All Calendars</h1>
@@ -69,33 +70,7 @@
                 </tbody>
             </table>
             
-            <div class="pagination">
-                <ul>
-                    {% if calendars.has_previous %}
-                    <li>
-                        <a href="?page={{ calendars.previous_page_number }}">&laquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&laquo;</a>
-                    </li>
-                    {% endif %}
-                    {% for page in calendars.paginator.page_range %}
-                    <li{% if page == calendars.number %} class="active"{% endif %}>
-                        <a href="?page={{ page }}">{{ page }}</a>
-                    </li>
-                    {% endfor %}
-                    {% if calendars.has_next %}
-                    <li>
-                        <a href="?page={{ calendars.next_page_number }}">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&raquo;</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+            {% pager calendars %}
                 
             {% else %}
             <div class="well well-empty">
