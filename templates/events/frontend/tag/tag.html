@@ -24,8 +24,35 @@
 {% block content_body %}
     <div class="row">
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
-            <h2>Some subtitle here</h2><!-- TODO: use proper context -->
-            {% include 'events/frontend/event-listing/event-listing.html' %}  
+            {% include 'events/frontend/event-listing/event-listing.html' %}
+            
+            <div class="pagination">
+                <ul>
+                    {% if events.has_previous %}
+                    <li>
+                        <a href="?page={{ events.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for page in events.paginator.page_range %}
+                    <li{% if page == events.number %} class="active"{% endif %}>
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if events.has_next %}
+                    <li>
+                        <a href="?page={{ events.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div> 
         </div>
         <aside class="span4 page-sidebar" id="calendar-events-sidebar">
             <h2>Subscribe</h2>
