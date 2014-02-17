@@ -170,10 +170,10 @@ def calendar(request, calendar, format=None):
     Main calendar page, displaying an aggregation of events such as upcoming
     events, featured events, etc.
     """
-    start = date.today()
-    end = start + timedelta(days=settings.CALENDAR_MAIN_DAYS)
+    start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    end = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
     return listing(request, calendar, start, end, format, {
-        'list_title': 'Events This Week',
+        'list_title': 'Today\'s Events',
     })
 
 
@@ -280,6 +280,7 @@ def weeks_listing(request, calendar, format=None):
     end = start + timedelta(weeks=1)
     return listing(request, calendar, start, end, format, {
         'list_title': 'Events This Week',
+        'list_type': 'week',
     })
 
 
