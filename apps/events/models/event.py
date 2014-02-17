@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -247,6 +248,15 @@ class Event(TimeCreatedModified):
             copy.delete()
         super(Event, self).delete(*args, **kwargs)
 
+    def get_absolute_url(self):
+        """
+        Generate permalink for this object
+        """
+        return reverse('event', kwargs={
+            'calendar': self.calendar.slug,
+            'instance_id': self.event_instances.all()[0].id,
+        }) + self.slug + '/'
+
     def __str__(self):
         return self.title
 
@@ -355,8 +365,6 @@ class EventInstance(TimeCreatedModified):
         """
         Generate permalink for this object
         """
-        from django.core.urlresolvers import reverse
-
         return reverse('event', kwargs={
             'calendar': self.event.calendar.slug,
             'instance_id': self.id,
