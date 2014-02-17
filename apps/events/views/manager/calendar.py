@@ -84,10 +84,10 @@ def add_update_user(request, calendar_id, username, role):
 
     calendar.save()
     url_name = 'calendar-update'
-    if request.user == user and role == 'editor':
+    if request.user == user and role == 'editor' and not request.user.is_superuser:
         url_name = 'dashboard'
 
-    return HttpResponseRedirect(reverse(url_name, args=(calendar_id,)))
+    return HttpResponseRedirect(reverse(url_name, kwargs={'calendar_id': calendar_id}))
 
 @login_required
 def delete_user(request, calendar_id, username):
