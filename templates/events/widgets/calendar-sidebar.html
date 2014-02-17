@@ -46,7 +46,7 @@
          <h2>
              {% if key.month == this_month.month %}
                 {% if is_manager %}
-                    {{ this_month|date:"F" }} <span class="alt">{{ this_month.year }}</span>
+                    <span class="alt">{{ this_month|date:"F" }}</span> {{ this_month.year }}
                 {% else %}
                     <a href="{% url month-listing calendar=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{% url year-listing calendar=calendar.slug year=this_month.year %}"><span class="alt">{{ this_month.year }}</span></a>
                 {% endif %}
