@@ -1,0 +1,28 @@
+{% load widgets %}
+<div class="pagination">
+    <ul>
+        {% if objects.has_previous %}
+        <li>
+            <a href="?page={{ objects.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&laquo;</a>
+        </li>
+        {% endif %}
+        {% for page in range %}
+        <li{% if page == objects.number %} class="active"{% endif %}>
+            <a href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+        {% if objects.has_next %}
+        <li>
+            <a href="?page={{ objects.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

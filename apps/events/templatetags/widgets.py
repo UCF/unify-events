@@ -106,3 +106,43 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
     html = template.render(Context(context))
 
     return html
+
+
+@register.simple_tag
+def pager(objects):
+    """
+    Creates Bootstrap pagination links for a Paginator object list.
+    Page range is 10.
+    """
+
+    if not objects.paginator:
+        raise Exception("Object passed is not a Paginator object")
+
+    range_length = 10
+    if range_length > objects.paginator.num_pages:
+        range_length = objects.paginator.num_pages
+
+    # Calculate range of pages to return
+    range_length -= 1
+    range_min = max(objects.number - (range_length / 2), 1)
+    range_max = min(objects.number + (range_length / 2), objects.paginator.num_pages)
+    range_diff = range_max - range_min
+    if range_diff < range_length:
+        shift = range_length - range_diff
+        if range_min - shift > 0:
+            range_min -= shift
+        else:
+            range_max += shift
+
+    page_range = range(range_min, range_max + 1)
+
+
+    context = {
+        'range': page_range,
+        'objects': objects
+    }
+
+    template = loader.get_template('events/widgets/pager.html')
+    html = template.render(Context(context))
+
+    return html

@@ -1,4 +1,5 @@
 {% extends 'events/manager/base.html' %}
+{% load widgets %}
 
 {% block content_title_icon %}
 <i class="icon-tag" id="page-title-icon"></i>
@@ -84,33 +85,7 @@
             </tbody>
         </table>
         
-        <div class="pagination">
-            <ul>
-                {% if categories.has_previous %}
-                <li>
-                    <a href="?page={{ categories.previous_page_number }}">&laquo;</a>
-                </li>
-                {% else %}
-                <li class="disabled">
-                    <a href="#">&laquo;</a>
-                </li>
-                {% endif %}
-                {% for page in categories.paginator.page_range %}
-                <li{% if page == categories.number %} class="active"{% endif %}>
-                    <a href="?page={{ page }}">{{ page }}</a>
-                </li>
-                {% endfor %}
-                {% if categories.has_next %}
-                <li>
-                    <a href="?page={{ categories.next_page_number }}">&raquo;</a>
-                </li>
-                {% else %}
-                <li class="disabled">
-                    <a href="#">&raquo;</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+        {% pager categories %}
         
         {% else %}
             <div class="well well-empty">

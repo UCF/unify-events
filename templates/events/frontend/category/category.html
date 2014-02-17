@@ -1,5 +1,6 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
+{% load widgets %}
 
 {% block meta %}
 		<link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url category-by-calendar calendar=calendar.slug category=category.slug %}{% else %}{% url category category=category.slug %}{% endif %}.rss" />
@@ -24,8 +25,9 @@
 {% block content_body %}
     <div class="row">
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
-            <h2>Some subtitle here</h2><!-- TODO: use proper context -->
             {% include 'events/frontend/event-listing/event-listing.html' %}
+            
+            {% pager events %}
         </div>
         <aside class="span4 page-sidebar" id="calendar-events-sidebar">
             <h2>Subscribe</h2>
