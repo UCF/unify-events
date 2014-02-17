@@ -2,7 +2,7 @@
     {% for key, cal in calendar_map.items %}
     <h2>
         {% if key.month == this_month.month %}
-           <a href="{% url month-listing calendar=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{% url year-listing calendar=calendar.slug year=this_month.year %}"><span class="alt">{{ this_month.year }}</span></a>
+           <a href="{% url month-listing calendar=calendar.slug year=this_month.year month=this_month.month %}"><span class="alt">{{ this_month|date:"F" }}</span></a> <a href="{% url year-listing calendar=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
         {% endif %}
     </h2>
     <div class="row calendar-grid calendar-grid-labels">
