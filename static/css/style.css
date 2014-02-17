@@ -1228,58 +1228,57 @@ ul.event-list-condensed {
 /* Sidebar */
 /* line 1368, ../sass/style.scss */
 #event-single-sidebar {
-  top: -40px;
   position: relative; }
-  /* line 1372, ../sass/style.scss */
+  /* line 1371, ../sass/style.scss */
   #event-single-sidebar .event-single-datetime {
     font-size: 30px;
     line-height: 30px;
     letter-spacing: -0.5px;
     margin-top: 0; }
-  /* line 1379, ../sass/style.scss */
+  /* line 1378, ../sass/style.scss */
   #event-single-sidebar .event-single-attime {
     margin-bottom: 7px;
     margin-top: 5px; }
-  /* line 1385, ../sass/style.scss */
+  /* line 1384, ../sass/style.scss */
   #event-single-sidebar .event-single-until,
   #event-single-sidebar .event-single-occurring {
     margin-top: 20px; }
-  /* line 1390, ../sass/style.scss */
+  /* line 1389, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-wrap {
     display: block;
     float: left;
     width: 50%;
     clear: right; }
-  /* line 1398, ../sass/style.scss */
+  /* line 1397, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-wrap span {
     margin-bottom: 5px; }
-  /* line 1403, ../sass/style.scss */
+  /* line 1402, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-name {
     font-weight: bold; }
-  /* line 1407, ../sass/style.scss */
+  /* line 1406, ../sass/style.scss */
   #event-single-sidebar i {
     color: #8d8d8d; }
-  /* line 1411, ../sass/style.scss */
+  /* line 1410, ../sass/style.scss */
   #event-single-sidebar .event-location-widget {
     margin-top: 10px;
     margin-bottom: -10px; }
-  /* line 1415, ../sass/style.scss */
+  /* line 1414, ../sass/style.scss */
   #event-single-sidebar .event-location-note {
     font-size: 12px;
     line-height: 16px;
     margin-top: 20px; }
 
 /* Body - Meta Information */
-/* line 1421, ../sass/style.scss */
+/* line 1420, ../sass/style.scss */
 #event-meta {
   overflow: hidden; }
-  /* line 1424, ../sass/style.scss */
+  /* line 1423, ../sass/style.scss */
   #event-meta > * {
     margin-bottom: 10px; }
-  /* line 1428, ../sass/style.scss */
+  /* line 1427, ../sass/style.scss */
   #event-meta h3 {
     display: block;
     float: left;
@@ -1287,7 +1286,7 @@ ul.event-list-condensed {
     clear: left;
     font-weight: normal;
     margin-top: 10px; }
-  /* line 1439, ../sass/style.scss */
+  /* line 1438, ../sass/style.scss */
   #event-meta .event-meta-calendar,
   #event-meta .event-meta-category,
   #event-meta .event-meta-tags {
@@ -1299,7 +1298,7 @@ ul.event-list-condensed {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px; }
-  /* line 1450, ../sass/style.scss */
+  /* line 1449, ../sass/style.scss */
   #event-meta .event-meta-tags a {
     display: block;
     width: auto;
@@ -1317,7 +1316,7 @@ ul.event-list-condensed {
  * Create/Update Event
  **/
 /* When/Where */
-/* line 1471, ../sass/style.scss */
+/* line 1470, ../sass/style.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -1326,32 +1325,32 @@ ul.event-list-condensed {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 1478, ../sass/style.scss */
+/* line 1477, ../sass/style.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 1483, ../sass/style.scss */
+/* line 1482, ../sass/style.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 1490, ../sass/style.scss */
+/* line 1489, ../sass/style.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 1495, ../sass/style.scss */
+/* line 1494, ../sass/style.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 1501, ../sass/style.scss */
+/* line 1500, ../sass/style.scss */
 .whenwhere-end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 1506, ../sass/style.scss */
+/* line 1505, ../sass/style.scss */
 .whenwhere-start label,
 .whenwhere-end label {
   display: block;
@@ -1361,18 +1360,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 1515, ../sass/style.scss */
+/* line 1514, ../sass/style.scss */
 .cloner {
   position: relative; }
-  /* line 1518, ../sass/style.scss */
+  /* line 1517, ../sass/style.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 1521, ../sass/style.scss */
+    /* line 1520, ../sass/style.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 1528, ../sass/style.scss */
+  /* line 1527, ../sass/style.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -1380,7 +1379,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 1537, ../sass/style.scss */
+  /* line 1536, ../sass/style.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -1388,25 +1387,25 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 1546, ../sass/style.scss */
+/* line 1545, ../sass/style.scss */
 .remove-instance {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   float: right;
   padding: 8px 14px; }
 
-/* line 1553, ../sass/style.scss */
+/* line 1552, ../sass/style.scss */
 .remove-instance:hover ~ div > .whenwhere-wrap,
 .remove-instance:focus ~ div > .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 1559, ../sass/style.scss */
+/* line 1558, ../sass/style.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 1563, ../sass/style.scss */
+/* line 1562, ../sass/style.scss */
 .location-new-btn {
   position: absolute;
   bottom: 2px;
@@ -1415,18 +1414,18 @@ label[for*="-location-autocomplete"] {
   padding-right: 16px;
   border-radius: 4px 20px 20px 4px; }
 
-/* line 1573, ../sass/style.scss */
+/* line 1572, ../sass/style.scss */
 .location-suggestions li.selected a,
 #id_event-tags-suggestions li.selected a {
   background-color: #3979fc;
   background-image: linear-gradient(to bottom, #4380fc, #2a6ffc);
   color: #fff !important; }
 
-/* line 1579, ../sass/style.scss */
+/* line 1578, ../sass/style.scss */
 .location-selected {
   position: relative; }
 
-/* line 1583, ../sass/style.scss */
+/* line 1582, ../sass/style.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -1436,14 +1435,14 @@ label[for*="-location-autocomplete"] {
   right: -16px;
   color: #A8A8A8; }
 
-/* line 1594, ../sass/style.scss */
+/* line 1593, ../sass/style.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1599, ../sass/style.scss */
+/* line 1598, ../sass/style.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1606, ../sass/style.scss */
+/* line 1605, ../sass/style.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -1451,12 +1450,12 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 90%; }
 
-/* line 1612, ../sass/style.scss */
+/* line 1611, ../sass/style.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1617, ../sass/style.scss */
+/* line 1616, ../sass/style.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -1468,7 +1467,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1629, ../sass/style.scss */
+  /* line 1628, ../sass/style.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -1481,7 +1480,7 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1643, ../sass/style.scss */
+    /* line 1642, ../sass/style.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
@@ -1490,7 +1489,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1655, ../sass/style.scss */
+/* line 1654, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;
