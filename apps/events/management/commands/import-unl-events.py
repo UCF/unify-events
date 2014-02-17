@@ -127,7 +127,7 @@ class Command(BaseCommand):
                                     new_instance.end   = old_instance.endtime
 
                                     old_location_id = old_instance.location_id
-                                    if old_location_id:
+                                    if not old_location_id:
                                         old_location_id = 1
 
                                     # Location
@@ -136,7 +136,7 @@ class Command(BaseCommand):
                                     except UNLLocation.DoesNotExist:
                                         logging.info('UNL event instance location not in UNL Location table: %d' % old_location_id)
                                     else:
-                                        if old_location.name is not None:
+                                        if old_location.name:
                                             # check to see if the location name is too long
                                             old_locatin_name = old_location.name
                                             if len(old_locatin_name) > 256:
