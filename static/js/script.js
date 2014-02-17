@@ -148,52 +148,38 @@ var inputTypeSupport = function(type) {
 
 /**
  * Date/Timepicker Init.
- * Use built-in HTML5 date/time <input>'s, where available.
- * Fall back to Bootstrap datepicker/jQuery timepicker plugins.
+ * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
 var initiateDatePickers = function(field) {
-    if (inputTypeSupport('date')) {
-        field.attr('type', 'date');
-    }
-    else {
-        // Wrap field in wrapper div; add icon
-        if (field.parent().hasClass('bootstrap-datepicker') === false) {
-            field
-                .wrap('<div class="bootstrap-datepicker" />')
-                .parent()
-                .append('<i class="icon-calendar" />');
-        }
-
+    // Wrap field in wrapper div; add icon
+    if (field.parent().hasClass('bootstrap-datepicker') === false) {
         field
-            .datepicker({
-                format: 'mm/dd/yyyy'
-            });
+            .wrap('<div class="bootstrap-datepicker" />')
+            .parent()
+            .append('<i class="icon-calendar" />');
     }
+
+    field
+        .datepicker({
+            format: 'mm/dd/yyyy'
+        });
 };
 var initiateTimePickers = function(field) {
-    if (inputTypeSupport('time')) {
-        field
-            .each(function() {
-                $(this).attr('type', 'time');
-            });
-    }
-    else {
-        field
-            .each(function(){
-                // Wrap each timepicker input if this field isn't a clone
-                if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
-                    $(this)
-                        .wrap('<div class="bootstrap-timepicker" />')
-                        .parent()
-                        .append('<i class="icon-time" />');
-                }
-            })
-            .timepicker({
-                'scrollDefaultNow': true,
-                'timeFormat': 'h:i A',
-                'step': 15
-            });
-    }
+    field
+        .each(function(){
+            // Wrap each timepicker input if this field isn't a clone
+            if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
+                $(this)
+                    .wrap('<div class="bootstrap-timepicker" />')
+                    .parent()
+                    .append('<i class="icon-time" />');
+            }
+        })
+        .timepicker({
+            'scrollDefaultNow': true,
+            'timeFormat': 'h:i A',
+            'step': 15
+        });
 };
 
 
