@@ -11,22 +11,26 @@ vevent
 {% endblock %}
 
 {% block content_title %}
-    <h1>
-        <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
-    </h1>
-    {% if user.is_authenticated %}
-    <ul class="edit-options">
-    	{% if event.event.calendar in user.editable_calendars.all %}
-    	<li>
-    		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
-    	</li>
-    	{% else %}
-    	<li>
-    		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
-    	</li>
-    	{% endif %}
-    </ul>
-    {% endif %}
+    <div class="row">
+        <div class="span8">
+            <h1>
+                <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
+            </h1>
+            {% if user.is_authenticated %}
+            <ul class="edit-options">
+            	{% if event.event.calendar in user.editable_calendars.all %}
+            	<li>
+            		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
+            	</li>
+            	{% else %}
+            	<li>
+            		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+            	</li>
+            	{% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
@@ -68,7 +72,7 @@ vevent
 
     	<hr />
         {% endif %}
-        
+
     	<div class="well" id="event-meta">
     	    <h3>On Calendar</h3>
             <span class="event-meta-calendar">
@@ -88,7 +92,7 @@ vevent
 
     </div>
     <aside class="span4 page-sidebar" id="event-single-sidebar">
-        
+
     	<h2>Happening on</h2>
     	<span class="event-single-datetime">
     	    {{ event.start|date:"l," }}<br/>{{ event.start|date:"F j" }}
@@ -98,7 +102,7 @@ vevent
     	<span class="event-single-subheader event-single-attime">at</span>
     	<span class="event-single-datetime">{{ event.start|date:"P" }}</span>
     	{% endif %}
-    	
+
     	{% comment %}
         "Until" Phrasing logic:
         "all day": if start date/time and end date/time are the same, or if the start date and end date are the same,
@@ -107,7 +111,7 @@ vevent
         "until [day]": if event spans multiple days, consuming the entirety of each day
         "until [day] at [time]": if event spans multiple days, ending at some point before midnight of the last day
     	{% endcomment %}
-    	
+
     	<span class="event-single-subheader event-single-until">
         	{% if event.start == event.end %}<!-- TODO: remove this in favor of the more specific 'same day' check -->
         	All Day
@@ -123,17 +127,17 @@ vevent
         	{% endif %}
     	   <span class="dtend"><span class="value-title" title="{{ event.end|date:"c" }}"></span></span>
     	</span>
-    	
+
     	{% comment %}
     	"Occuring Until" phrasing logic:
     	Only display an "Occuring until" line if an event has more than one event instance.
     	"Occuring [rule] until...": if an interval value is set for an event instance, and that event instance's
-    	   parent is the only parent instance for that event (no other recurrence rules are available for the 
+    	   parent is the only parent instance for that event (no other recurrence rules are available for the
     	   entire event)
     	"Occuring until...": if multiple event instances exist for an event with more than one parent instance
     	   (more than one recurrence rule)
     	{% endcomment %}
-    	
+
     	{% if event.is_recurring %}
     	   <span class="event-single-subheader event-single-occurring">
     	       Occuring
@@ -151,7 +155,7 @@ vevent
         <hr />
 <!--
     	<h2>Social Stuff Here...</h2>
-    	
+
     	<hr />
 -->
         <div class="location vcard">
@@ -170,7 +174,7 @@ vevent
             </span>
             {% endif %}
         </div>
-        
+
         <hr />
 
         <h2 class="alt">Contact</h2>
