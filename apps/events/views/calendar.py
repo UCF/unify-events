@@ -368,7 +368,7 @@ def category(request, category, calendar=None, format=None):
     TODO: move this view?
     """
     category = get_object_or_404(Category, slug=category)
-    events = EventInstance.objects.filter(event__category=category.id)
+    events = EventInstance.objects.filter(event__category=category.id, end__gt=datetime.now())
     if calendar:
         calendar = get_object_or_404(Calendar, slug=calendar)
         events = events.filter(event__calendar=calendar)
