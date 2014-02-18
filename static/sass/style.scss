@@ -1315,7 +1315,6 @@ ul {
 /* Year View */
 #calendar-events-year h2 {
     text-align: center;
-    top: -40px
 }
 
 /**
@@ -1368,6 +1367,7 @@ ul {
 /* Sidebar */
 #event-single-sidebar {
     position: relative;
+    top: -40px;
 
     .event-single-datetime {
         font-size: 30px;
