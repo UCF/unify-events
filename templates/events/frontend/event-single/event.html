@@ -11,26 +11,22 @@ vevent
 {% endblock %}
 
 {% block content_title %}
-    <div class="row">
-        <div class="span8">
-            <h1>
-                <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
-            </h1>
-            {% if user.is_authenticated %}
-            <ul class="edit-options">
-            	{% if event.event.calendar in user.editable_calendars.all %}
-            	<li>
-            		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
-            	</li>
-            	{% else %}
-            	<li>
-            		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
-            	</li>
-            	{% endif %}
-            </ul>
-            {% endif %}
-        </div>
-    </div>
+    <h1>
+        <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
+    </h1>
+    {% if user.is_authenticated %}
+    <ul class="edit-options">
+    	{% if event.event.calendar in user.editable_calendars.all %}
+    	<li>
+    		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
+    	</li>
+    	{% else %}
+    	<li>
+    		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+    	</li>
+    	{% endif %}
+    </ul>
+    {% endif %}
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
