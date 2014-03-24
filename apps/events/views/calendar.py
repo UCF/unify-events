@@ -7,7 +7,9 @@ from django.http import Http404, HttpResponse
 from django.template import TemplateDoesNotExist
 from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
-from django.views.generic.simple import direct_to_template
+
+from django.views.generic import TemplateView
+
 from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
@@ -36,7 +38,7 @@ def event(request, calendar, instance_id, format=None):
     }
 
     try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
     except TemplateDoesNotExist:
         raise Http404
 
@@ -95,7 +97,7 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
     if extra_context is not None:
         context.update(extra_context)
     try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
     except TemplateDoesNotExist:
         raise Http404
 
@@ -325,7 +327,7 @@ def paginated_listing(request, template, context, format=None):
         context['events'] = paginator.page(paginator.num_pages)
 
     try:
-        return direct_to_template(request, template, context, mimetype=format_to_mimetype(format))
+        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
     except TemplateDoesNotExist:
         raise Http404
 

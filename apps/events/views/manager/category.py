@@ -9,7 +9,7 @@ from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from events.forms.manager import CategoryForm
 from events.models import Category
@@ -42,7 +42,7 @@ def list(request):
         except EmptyPage:
             ctx['categories'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def create_update(request, category_id=None):

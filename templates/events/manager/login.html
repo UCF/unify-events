@@ -17,7 +17,7 @@
                     </ul>
                 </div>
                 {% endif %}
-                <form class="form-horizontal" action="{% url django.contrib.auth.views.login %}" method="post" id="login-form">
+                <form class="form-horizontal" action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">
                     <div class="control-group {% if form.password.errors %}error{% endif %}">
                         <label class="control-label" for="id_username">NID</label>
                         <div class="controls">
@@ -54,7 +54,7 @@
                         If you are having trouble logging in, your NID password
                         may be expired.
                         <br/>
-                        Try resetting your password using the 
+                        Try resetting your password using the
                         <a href="https://www.secure.net.ucf.edu/extranet/reset/validation.aspx?type=nid">Password Reset Tool</a>.
                         <br/>
                         If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.

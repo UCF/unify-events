@@ -16,7 +16,7 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from util import LDAPHelper
 from events.models import Calendar
@@ -123,7 +123,7 @@ def dashboard(request, calendar_id=None, state=None, search_results=None, year=N
         except EmptyPage:
             ctx['events'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx, mimetype=format_to_mimetype(format))
+    return TemplateView.as_view(request, tmpl, ctx, mimetype=format_to_mimetype(format))
 
 
 @login_required

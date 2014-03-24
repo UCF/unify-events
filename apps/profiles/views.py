@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from profiles.models import Profile
 
@@ -58,7 +58,7 @@ def settings(request):
         ctx['forms']['user'] = UserForm(instance=request.user, prefix='user')
         ctx['forms']['profile'] = ProfileForm(instance=request.user.profile, prefix='profile')
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def list(request):
@@ -81,7 +81,7 @@ def list(request):
         except EmptyPage:
             ctx['users'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def update_permissions(request, user_id=None, permissions=False):

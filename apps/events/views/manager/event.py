@@ -1,6 +1,5 @@
 import logging
 
-from django.views.generic.simple import direct_to_template
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
@@ -10,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 
 from core.forms import RequiredModelFormSet
 from events.forms.manager import EventCopyForm
@@ -128,7 +128,7 @@ def create_update(request, event_id=None):
         ctx['event_form'] = EventForm(prefix='event', instance=ctx['event'], user_calendars=user_calendars)
         ctx['event_instance_formset'] = EventInstanceFormSet(queryset=formset_qs, prefix='event_instance')
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 
 @login_required
@@ -339,4 +339,4 @@ def copy(request, event_id=None):
             return HttpResponseRedirect(reverse('dashboard'))
     else:
         ctx['form'] = EventCopyForm(calendars=user_calendars)
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)

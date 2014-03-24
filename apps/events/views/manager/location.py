@@ -9,7 +9,7 @@ from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from events.forms.manager import LocationForm
 from events.models import Location
@@ -53,7 +53,7 @@ def list(request, state=None):
         except EmptyPage:
             ctx['locations'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def create_update(request, location_id=None):
@@ -81,7 +81,7 @@ def create_update(request, location_id=None):
             return HttpResponseRedirect(reverse('location-list'))
     else:
         ctx['form'] = LocationForm(instance=ctx['location'])
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def bulk_action(request):

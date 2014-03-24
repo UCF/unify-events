@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
-from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 
 from events.models import Calendar
 from events.forms.manager import CalendarForm
@@ -44,7 +44,7 @@ def create_update(request, calendar_id=None):
     else:
         ctx['form'] = CalendarForm(instance=ctx['calendar'])
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
 
 @login_required
 def delete(request, calendar_id):
@@ -177,4 +177,4 @@ def list(request):
         except EmptyPage:
             ctx['calendars'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+    return TemplateView.as_view(request, tmpl, ctx)
