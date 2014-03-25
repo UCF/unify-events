@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from events.models import State
 from events.views.manager import Dashboard
 from events.views.manager.event import EventCreate
+from events.views.manager.calendar import CalendarCreate
+from events.views.manager.calendar import CalendarUpdate
+from events.views.manager.calendar import CalendarDelete
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -33,9 +36,18 @@ urlpatterns += patterns('events.views.manager',
     url(r'^event/create', login_required(EventCreate.as_view()), name='event-create'),
     url(r'^event/bulk-action/', view='event.bulk_action', name='event-bulk-action'),
 
-    url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
-    url(r'^calendar/(?P<calendar_id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
-    url(r'^calendar/(?P<calendar_id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
+    url(r'^calendar/create/?$',
+        view=login_required(CalendarCreate.as_view()),
+        name='calendar-create'
+    ),
+    url(r'^calendar/(?P<pk>\d+)/update/?$',
+        view=login_required(CalendarUpdate.as_view()),
+        name='calendar-update'
+    ),
+    url(r'^calendar/(?P<pk>\d+)/delete/?$',
+        view=login_required(CalendarDelete.as_view()),
+        name='calendar-delete'
+    ),
     url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-calendar-state'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/user/(?P<username>[\w]+)/(?P<role>[\w]+)?$', view='calendar.add_update_user', name='calendar-add-update-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/user/(?P<username>[\w]+)', view='calendar.delete_user', name='calendar-delete-user'),

@@ -14,7 +14,7 @@ from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 class CalendarForm(forms.ModelForm):
     """
-    For for the Calendar
+    Form for the Calendar
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
 

@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'for-developers/$', TemplateView.as_view(template_name='events/static/for-developers.html'), name='for-developers'),
     # url(r'^tools/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT + '/events-widget/'}),
-    # url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', direct_to_template, {'template': 'events/widgets/calendar-by-url.html'}, name='calendar-widget'),
+    url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', TemplateView.as_view(template_name='events/widgets/calendar-by-url.html'), name='calendar-widget'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', TemplateView.as_view(template_name='events/widgets/calendar-by-url.html'), name='calendar-widget-by-calendar')
 )
 

@@ -10,20 +10,20 @@
     <ul class="edit-options">
         {% if current_calendar in user.editable_calendars.all or user.is_superuser %}
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' calendar_id=current_calendar.id %}">Edit <b class="caret"></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=current_calendar.id %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li>
-                    <a href="{% url 'calendar-update' calendar_id=current_calendar.id %}#users-permissions"><i class="icon-group"></i> Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update' pk=current_calendar.id %}#users-permissions"><i class="icon-group"></i> Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' calendar_id=current_calendar.id %}#calendar-info"><i class="icon-info-sign"></i> Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=current_calendar.id %}#calendar-info"><i class="icon-info-sign"></i> Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' calendar_id=current_calendar.id %}#subscriptions"><i class="icon-share-alt"></i> Subscriptions</a>
+                    <a href="{% url 'calendar-update' pk=current_calendar.id %}#subscriptions"><i class="icon-share-alt"></i> Subscriptions</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a class="calendar-delete" href="{% url 'calendar-delete' calendar_id=current_calendar.id %}" data-object-title="{{ current_calendar.title }}"><i class="icon-trash"></i> Delete Calendar</a>
+                    <a class="calendar-delete" href="{% url 'calendar-delete' pk=current_calendar.id %}" data-object-title="{{ current_calendar.title }}"><i class="icon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>
