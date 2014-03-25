@@ -17,6 +17,7 @@ from core.forms import RequiredModelFormSet
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceForm
+from events.forms.manager import EventInstanceFormSet
 from events.models import get_main_calendar
 from events.models import Event
 from events.models import EventInstance
@@ -30,9 +31,8 @@ log = logging.getLogger(__name__)
 class EventCreate(CreateView):
     model = Event
     form_class = EventForm
-    prefix = 'event'
     template_name = 'events/manager/events/create_update.html'
-    success_url = 'manager/'
+    success_url = '/manager/'
 
     def get_initial(self):
         """
@@ -41,18 +41,6 @@ class EventCreate(CreateView):
         initial = super(EventCreate, self).get_initial()
         initial['user_calendars'] = self.request.user.calendars
         return initial
-
-    def get(self, request, *args, **kwargs):
-        """
-        Handles the GET request and instantiates blank versions
-        of the form and inline formsets.
-        """
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        event_instance_form = inlineformset_factory(Event, EventInstance, EventInstanceForm, extra=1)
-        return self.render_to_response(self.get_context_data(form=form,
-                                                             event_instance_form=event_instance_form))
 
     def get_context_data(self, **kwargs):
         """
@@ -68,6 +56,52 @@ class EventCreate(CreateView):
         ctx.update(context)
 
         return ctx
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles the GET request and instantiates blank versions
+        of the form and inline formsets.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        event_instance_form = EventInstanceFormSet()
+        return self.render_to_response(self.get_context_data(form=form,
+                                                             event_instance_formset=event_instance_form))
+
+    def post(self, request, *args, **kwargs):
+        """
+        Set the event creator
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        event_instance_form = EventInstanceFormSet(self.request.POST)
+        if form.is_valid() and event_instance_form.is_valid():
+            return self.form_valid(form, event_instance_form)
+        else:
+            return self.form_invalid(form, event_instance_form)
+
+    def form_valid(self, form, event_instance_form):
+        """
+        Called if all forms are valid. Creates an event instance
+        and redirects to success url.
+        """
+        form.instance.creator = self.request.user
+        self.object = form.save()
+        event_instance_form.instance = self.object
+        event_instance_form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, event_instance_form):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  event_instance_formset=event_instance_form))
+
 
 @login_required
 def create_update(request, event_id=None):

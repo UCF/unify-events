@@ -43,7 +43,6 @@ class Dashboard(TemplateView) :
             'current_calendar': None,
             'rereview_count': None,
             'pending_count': None,
-            'posted_state': State.posted,
             'state': 'posted',
             'events': None,
             'dates': {
@@ -102,14 +101,13 @@ class Dashboard(TemplateView) :
             else:
                 events = get_all_users_future_events(self.request.user)
 
-        # Determine if a State filter is needed
-        if 'state' in ctx:
-            state_id = State.get_id(self.kwargs.get('state'))
-            if state_id is not None:
-                ctx['state'] = self.kwargs.get('state')
-            else:
-                state_id = State.get_id('posted')
-            events = events.filter(event__state=state_id)
+        # get the state filter
+        state_id = State.get_id(self.kwargs.get('state'))
+        if state_id is not None:
+            ctx['state'] = self.kwargs.get('state')
+        else:
+            state_id = State.get_id('posted')
+        events = events.filter(event__state=state_id)
         ctx['events'] = events
 
         # Pagination
