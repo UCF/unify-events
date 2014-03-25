@@ -1,8 +1,11 @@
 from django.conf.urls import include
 from django.conf.urls import patterns
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
 from events.models import State
+from events.views.manager import Dashboard
+from events.views.manager.event import EventCreate
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -20,32 +23,32 @@ urlpatterns += patterns('events.views.manager',
     url(r'^search/user/(?P<firstname>\w+)?/?(?P<lastname>\w+)?/?$', view='search_user', name='search-user'),
     url(r'^search/event/?', view='search_event', name='search-event'),
 
-    url(r'^event/(?P<event_id>\d+)/copy', view='event.copy', name='event-copy'),
-    url(r'^event/(?P<event_id>\d+)/update', view='event.create_update', name='event-update'),
-    url(r'^event/(?P<event_id>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
-    url(r'^event/(?P<event_id>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
-    url(r'^event/(?P<event_id>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),
-    url(r'^event/(?P<event_id>\d+)/cancel', view='event.cancel_uncancel', name='event-cancel-uncancel'),
-    url(r'^event/(?P<event_id>\d+)/delete', view='event.delete', name='event-delete'),
-    url(r'^event/create', view='event.create_update', name='event-create'),
+    url(r'^event/(?P<pk>\d+)/copy', view='event.copy', name='event-copy'),
+    url(r'^event/(?P<pk>\d+)/update', view='event.create_update', name='event-update'),
+    url(r'^event/(?P<pk>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
+    url(r'^event/(?P<pk>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
+    url(r'^event/(?P<pk>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),
+    url(r'^event/(?P<pk>\d+)/cancel', view='event.cancel_uncancel', name='event-cancel-uncancel'),
+    url(r'^event/(?P<pk>\d+)/delete', view='event.delete', name='event-delete'),
+    url(r'^event/create', login_required(EventCreate.as_view()), name='event-create'),
     url(r'^event/bulk-action/', view='event.bulk_action', name='event-bulk-action'),
 
     url(r'^calendar/create/?$', view='calendar.create_update', name='calendar-create'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/?$', view='calendar.create_update', name='calendar-update'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/?$', view='calendar.delete', name='calendar-delete'),
-    url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-calendar-state'),
+    url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-calendar-state'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/user/(?P<username>[\w]+)/(?P<role>[\w]+)?$', view='calendar.add_update_user', name='calendar-add-update-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/delete/user/(?P<username>[\w]+)', view='calendar.delete_user', name='calendar-delete-user'),
     url(r'^calendar/(?P<calendar_id>\d+)/reassign-ownership/user/(?P<username>[\w]+)', view='calendar.reassign_ownership', name='calendar-reassign-ownership'),
     url(r'^calendar/(?P<calendar_id>\d+)/unsubscribe-from/(?P<subscribed_calendar_id>\d+)?$', view='calendar.unsubscribe_from_calendar', name='calendar-unsubscribe'),
     url(r'^calendar/(?P<subscribing_calendar_id>\d+)/subscribe-to/(?P<calendar_id>\d+)?$', view='calendar.subscribe_to_calendar', name='calendar-subscribe'),
-    url(r'^calendar/(?P<calendar_id>\d+)/?$', view='dashboard', name='dashboard'),
+    url(r'^calendar/(?P<calendar_id>\d+)/?$', login_required(Dashboard.as_view()), name='dashboard'),
     url(r'^calendar/(?P<calendar_id>\d+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
-        view='dashboard',
+        login_required(Dashboard.as_view()),
         name='manager-day-listing'
     ),
     url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
-        view='dashboard',
+        login_required(Dashboard.as_view()),
         name='manager-all-calendars-day-listing'
     ),
 
@@ -71,8 +74,8 @@ urlpatterns += patterns('events.views.manager',
 
     url(r'^profiles/', include('profiles.urls')),
 
-    url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', view='dashboard', name='dashboard'),
-    url(r'^date/(?P<_date>[\w-]+)/?$', view='dashboard', name='dashboard'),
-    url(r'^$', view='dashboard', name='dashboard'),
-    url(r'^state/(?P<state>[\w]+)?$', view='dashboard', name='dashboard-state'),
+    url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', login_required(Dashboard.as_view()), name='dashboard'),
+    url(r'^date/(?P<_date>[\w-]+)/?$', login_required(Dashboard.as_view()), name='dashboard'),
+    url(r'^$', login_required(Dashboard.as_view()), name='dashboard'),
+    url(r'^state/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-state'),
 )

@@ -7,8 +7,10 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
+from django.forms.models import inlineformset_factory
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
 from django.views.generic import TemplateView
 
 from core.forms import RequiredModelFormSet
@@ -24,6 +26,48 @@ from taggit.models import Tag
 
 log = logging.getLogger(__name__)
 
+
+class EventCreate(CreateView):
+    model = Event
+    form_class = EventForm
+    prefix = 'event'
+    template_name = 'events/manager/events/create_update.html'
+    success_url = 'manager/'
+
+    def get_initial(self):
+        """
+        Set the set of calendars the user can select from
+        """
+        initial = super(EventCreate, self).get_initial()
+        initial['user_calendars'] = self.request.user.calendars
+        return initial
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles the GET request and instantiates blank versions
+        of the form and inline formsets.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        event_instance_form = inlineformset_factory(Event, EventInstance, EventInstanceForm, extra=1)
+        return self.render_to_response(self.get_context_data(form=form,
+                                                             event_instance_form=event_instance_form))
+
+    def get_context_data(self, **kwargs):
+        """
+        Default the context data
+        """
+        context = super(EventCreate, self).get_context_data(**kwargs)
+
+        ctx = {
+               'locations': Location.objects.all(),
+               'tags': Tag.objects.all(),
+               'posted_state': State.posted
+        }
+        ctx.update(context)
+
+        return ctx
 
 @login_required
 def create_update(request, event_id=None):

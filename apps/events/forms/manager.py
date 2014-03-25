@@ -28,7 +28,8 @@ class EventForm(forms.ModelForm):
     Form for an Event
     """
     def __init__(self, *args, **kwargs):
-        user_calendars = kwargs.pop('user_calendars')
+        initial = kwargs.pop('initial')
+        user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
 

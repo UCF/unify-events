@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns
 from django.conf.urls import url
 
+# TODO this will all get replaced
 from events.views.calendar import auto_listing
 from events.views.calendar import calendar
 from events.views.calendar import event
@@ -11,6 +12,8 @@ from events.views.calendar import range_listing
 from events.views.calendar import week_listing
 from events.views.calendar import tag
 from events.views.calendar import category
+
+from events.views.calendar import TodayEventCalendarListView
 
 
 urlpatterns = patterns('events.views.calendar',
@@ -25,7 +28,7 @@ urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/2010.json
     # http://events.ucf.edu/calendar/athletics/2010/01
     # http://events.ucf.edu/calendar/athletics/2010/01/10.rss
-    url(r'^(?P<calendar>[\w-]+)/(\.(?P<format>[\w]+))?$', view=calendar, name="calendar"),
+    url(r'^(?P<calendar>[\w-]+)/(\.(?P<format>[\w]+))?$', view=TodayEventCalendarListView.as_view(), name='calendar'),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="year-listing"),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="month-listing"),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="day-listing"),

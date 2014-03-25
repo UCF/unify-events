@@ -6,16 +6,16 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
-                    <a href="{% url calendar calendar.slug %}">Day View</a>
+                    <a href="{% url 'calendar' calendar.slug %}">Day View</a>
                 </li>
                 <li{% if list_type == 'week' %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar.slug "this-week" %}">Week View</a>
+                    <a href="{% url 'named-listing' calendar.slug "this-week" %}">Week View</a>
                 </li>
                 <li{% if list_type == 'month' %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar.slug "this-month" %}">Month View</a>
+                    <a href="{% url 'named-listing' calendar.slug "this-month" %}">Month View</a>
                 </li>
                 <li{% if list_type == 'year' %} class="active"{% endif %}>
-                    <a href="{% url named-listing calendar.slug "this-year" %}">Year View</a>
+                    <a href="{% url 'named-listing' calendar.slug "this-year" %}">Year View</a>
                 </li>
             </ul>
         </div>
@@ -32,7 +32,7 @@
     {% else %}
         {% include 'events/frontend/calendar/listing/listing-default.html' %}
     {% endif %}
-    
+
     <!-- Subscribe to Calendar Modal -->
     {% if user.editable_calendars.all.count > 0 %}
     <div class="modal hide fade" id="calendar-subscribe-modal">
@@ -42,11 +42,11 @@
         </div>
         <div class="modal-body">
             <p>
-                Select one of your calendars below to automatically receive published 
+                Select one of your calendars below to automatically receive published
                 events from <em>{{ calendar.title }}</em>.
             </p>
             <p>
-                These settings can be changed at any time from the selected calendar 
+                These settings can be changed at any time from the selected calendar
                 settings screen under the "Subscriptions" tab.
             </p>
             <select id="new-subscription-select">
@@ -59,7 +59,7 @@
             </select>
         </div>
         <div class="modal-footer">
-            <a href="{% url calendar-subscribe calendar_id=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}" class="btn btn-primary">Subscribe</a>
+            <a href="{% url 'calendar-subscribe' calendar_id=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}" class="btn btn-primary">Subscribe</a>
             <a href="#" data-dismiss="modal" class="btn">Cancel</a>
         </div>
     </div>

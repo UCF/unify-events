@@ -65,14 +65,14 @@
 
 {% block content_body %}
     {% if mode == 'create' %}
-        <form class="form-horizontal" action="{% url event-create %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% elif mode == 'update' %}
         <div class="row">
             <div class="span12">
                 <div class="pull-right">
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
                         {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
-                            <a class="btn btn-warning" href="{% url event-cancel-uncancel event_id=event.id %}">
+                            <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' event_id=event.id %}">
                                 <i class="icon-ban-circle"></i>
                             {% if event.canceled %}
                                 Un-Cancel Event
@@ -82,11 +82,11 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="btn btn-danger event-delete" href="{% url event-delete event_id=event.id %}"><i class="icon-trash"></i> Delete Event</a>
+                    <a class="btn btn-danger event-delete" href="{% url 'event-delete' event_id=event.id %}"><i class="icon-trash"></i> Delete Event</a>
                 </div>
             </div>
         </div>
-        <form class="form-horizontal" action="{% url event-update event_id=event.id %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'event-update' event_id=event.id %}" method="post" enctype="multipart/form-data">
     {% endif %}
             <fieldset class="control-group large">
                 <label class="control-label {% if event_form.calendar.errors %}error{% endif %}" for="{{ event_form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ event_form.calendar.label }}</label>
@@ -322,7 +322,7 @@
                         <button class="btn btn-primary" type="submit">Create Event</button>
                     {% elif mode == 'update' %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
-                        <a href="{% url dashboard %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
+                        <a href="{% url 'dashboard' %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
                     {% endif %}
                 </div>
             </div>

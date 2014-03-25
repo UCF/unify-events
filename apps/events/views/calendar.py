@@ -9,6 +9,7 @@ from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
 
 from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 from time import gmtime, time
 from events.models import *
@@ -43,18 +44,18 @@ def event(request, calendar, instance_id, format=None):
         raise Http404
 
 
-def listing(request, calendar, start, end, format=None, extra_context=None):
+def listing(url_params, calendar, start, end, format=None, extra_context=None):
     """
     Outputs a listing of events defined by a calendar and a range of dates.
     Format of this list is controlled by the optional format argument, ie. html,
     rss, json, etc.
     """
     # Check for GET params (backwards compatibility with old events widget)
-    param_format = request.GET.get('format', '')
-    param_limit = request.GET.get('limit', '')
-    param_calendar = request.GET.get('calendar_id', '')
-    param_monthwidget = request.GET.get('monthwidget', '')
-    param_iswidget = request.GET.get('is_widget', '')
+    param_format = url_params.get('format', '')
+    param_limit = url_params.get('limit', '')
+    param_calendar = url_params.get('calendar_id', '')
+    param_monthwidget = url_params.get('monthwidget', '')
+    param_iswidget = url_params.get('is_widget', '')
 
     # Get specified calendar. GET param will override any
     # previously defined calendar.
@@ -96,10 +97,8 @@ def listing(request, calendar, start, end, format=None, extra_context=None):
 
     if extra_context is not None:
         context.update(extra_context)
-    try:
-        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
+
+    return context
 
 
 def auto_listing(request, calendar, year=None, month=None, day=None, format=None, extra_context=None):
@@ -170,16 +169,22 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     return listing(request, calendar, start, end, format, extra_context)
 
 
-def calendar(request, calendar, format=None):
-    """
-    Main calendar page, displaying an aggregation of events such as upcoming
-    events, featured events, etc.
-    """
-    start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    end = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
-    return listing(request, calendar, start, end, format, {
-        'list_title': 'Today\'s Events',
-    })
+class TodayEventCalendarListView(ListView):
+    model = EventInstance
+    template_name = 'events/frontend/calendar/listing/listing.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Main calendar page, displaying an aggregation of events such as upcoming
+        events, featured events, etc.
+        """
+        context = super(TodayEventCalendarListView, self).get_context_data(**kwargs)
+
+        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        end = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
+        return listing(self.kwargs, self.kwargs.get('calendar'), start, end, self.kwargs.get('format'), {
+            'list_title': 'Today\'s Events',
+        })
 
 
 def week_listing(request, calendar, year, month, day, format=None):

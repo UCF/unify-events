@@ -30,100 +30,100 @@ from events.functions import format_to_mimetype
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
-@login_required
-def dashboard(request, calendar_id=None, state=None, search_results=None, year=None, month=None, day=None, format=None):
-    ctx = {
-        'instances': None,
-        'current_calendar': None,
-        'rereview_count': None,
-        'pending_count': None,
-        'posted_state': State.posted,
-        'state': 'posted',
-        'events': None,
-        'dates': {
-            'prev_day': None, # relative to 'relative' date value
-            'prev_month': None, # relative to 'relative' date value
-            'today': None, # always today's date
-            'today_str': None, # 'today' but in string format
-            'next_day': None, # relative to 'relative' date value
-            'next_month': None, # relative to 'relative' date value
-            'relative': None, # date selected in calendar to view
-        },
-        'day_view': False,
-        'search_results': search_results,
-        'owned_calendars': len(request.user.owned_calendars.all())
-    }
-    tmpl = 'events/manager/dashboard.html'
+class Dashboard(TemplateView) :
 
-    # Make sure check their profile when they
-    # log in for the first time
-    if request.user.first_login:
-        return HttpResponseRedirect(reverse('profile-settings'))
+    template_name = 'events/manager/dashboard.html'
 
-    # Date navigation
-    ctx['dates']['today'] = date.today()
-    if all([year, month, day]):
-        try:
-            ctx['dates']['relative'] = date(int(year), int(month), int(day))
-            ctx['day_view'] = True
-        except ValueError: # bad day/month/year vals provided
+    def get_context_data(self, **kwargs):
+        context = super(Dashboard, self).get_context_data(**kwargs)
+
+        # request, calendar_id=None, state=None, search_results=None, year=None, month=None, day=None, format=None
+        ctx = {
+            'instances': None,
+            'current_calendar': None,
+            'rereview_count': None,
+            'pending_count': None,
+            'posted_state': State.posted,
+            'state': 'posted',
+            'events': None,
+            'dates': {
+                'prev_day': None, # relative to 'relative' date value
+                'prev_month': None, # relative to 'relative' date value
+                'today': None, # always today's date
+                'today_str': None, # 'today' but in string format
+                'next_day': None, # relative to 'relative' date value
+                'next_month': None, # relative to 'relative' date value
+                'relative': None, # date selected in calendar to view
+            },
+            'day_view': False,
+            'owned_calendars': len(self.request.user.owned_calendars.all())
+        }
+
+        # merge context data
+        ctx.update(context)
+
+        # Date navigation
+        ctx['dates']['today'] = date.today()
+        if all(x in ctx for x in ('year', 'month', 'day')):
+            try:
+                ctx['dates']['relative'] = date(int(year), int(month), int(day))
+                ctx['day_view'] = True
+            except ValueError: # bad day/month/year vals provided
+                ctx['dates']['relative'] = ctx['dates']['today']
+        else:
             ctx['dates']['relative'] = ctx['dates']['today']
-    else:
-        ctx['dates']['relative'] = ctx['dates']['today']
 
-    ctx['dates']['prev_day'] = str((ctx['dates']['relative'] - timedelta(days=1)))
-    ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
-    ctx['dates']['next_day'] = str((ctx['dates']['relative'] + timedelta(days=1)))
-    ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
-    ctx['dates']['today_str'] = str(ctx['dates']['today'])
+        ctx['dates']['prev_day'] = str((ctx['dates']['relative'] - timedelta(days=1)))
+        ctx['dates']['prev_month'] = str((ctx['dates']['relative'] - timedelta(days=MDAYS[ctx['dates']['today'].month])))
+        ctx['dates']['next_day'] = str((ctx['dates']['relative'] + timedelta(days=1)))
+        ctx['dates']['next_month'] = str((ctx['dates']['relative'] + timedelta(days=MDAYS[ctx['dates']['today'].month])))
+        ctx['dates']['today_str'] = str(ctx['dates']['today'])
 
-    # Get events from calendar(s)
-    events = None
-    if calendar_id:
-        current_calendar = get_object_or_404(Calendar, pk=calendar_id)
-        if not request.user.is_superuser and current_calendar not in request.user.calendars:
-            return HttpResponseNotFound('You do not have permission to access this calendar.')
-        ctx['current_calendar'] = current_calendar
-        ctx['rereview_count'] = current_calendar.future_event_instances().filter(event__state=State.rereview).count()
-        ctx['pending_count'] = current_calendar.future_event_instances().filter(event__state=State.pending).count()
-        if ctx['day_view']:
-            start = ctx['dates']['relative']
-            end = start + timedelta(days=1) - timedelta(seconds=1)
-            events = current_calendar.range_event_instances(start, end)
+        # Get events from calendar(s)
+        events = None
+        if self.kwargs.get('calendar_id'):
+            current_calendar = get_object_or_404(Calendar, pk=self.kwargs.get('calendar_id'))
+            if not self.request.user.is_superuser and current_calendar not in self.request.user.calendars:
+                return HttpResponseNotFound('You do not have permission to access this calendar.')
+            ctx['current_calendar'] = current_calendar
+            ctx['rereview_count'] = current_calendar.future_event_instances().filter(event__state=State.rereview).count()
+            ctx['pending_count'] = current_calendar.future_event_instances().filter(event__state=State.pending).count()
+            if ctx['day_view']:
+                start = ctx['dates']['relative']
+                end = start + timedelta(days=1) - timedelta(seconds=1)
+                events = current_calendar.range_event_instances(start, end)
+            else:
+                events = current_calendar.future_event_instances()
         else:
-            events = current_calendar.future_event_instances()
-    else:
-        ctx['rereview_count'] = get_all_users_future_events(request.user).filter(event__state=State.rereview).count()
-        ctx['pending_count'] = get_all_users_future_events(request.user).filter(event__state=State.pending).count()
-        if ctx['day_view']:
-            events = get_range_users_events(request.user, ctx['dates']['relative'], ctx['dates']['relative'])
-        else:
-            events = get_all_users_future_events(request.user)
+            ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
+            ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
+            if ctx['day_view']:
+                events = get_range_users_events(self.request.user, ctx['dates']['relative'], ctx['dates']['relative'])
+            else:
+                events = get_all_users_future_events(self.request.user)
 
-    # Determine if a State filter is needed
-    if state is not None:
-        ctx['state']
+        # Determine if a State filter is needed
+        if 'state' in ctx:
+            state_id = State.get_id(self.kwargs.get('state'))
+            if state_id is not None:
+                ctx['state'] = self.kwargs.get('state')
+            else:
+                state_id = State.get_id('posted')
+            events = events.filter(event__state=state_id)
+        ctx['events'] = events
 
-    state_id = State.get_id(state)
-    if state_id is not None:
-        ctx['state'] = state
-    else:
-        state_id = State.get_id('posted')
-    events = events.filter(event__state=state_id)
-    ctx['events'] = events
+        # Pagination
+        if ctx['events'] is not None:
+            paginator = Paginator(ctx['events'], 10)
+            page = self.request.GET.get('page', 1)
+            try:
+                ctx['events'] = paginator.page(page)
+            except PageNotAnInteger:
+                ctx['events'] = paginator.page(1)
+            except EmptyPage:
+                ctx['events'] = paginator.page(paginator.num_pages)
 
-    # Pagination
-    if ctx['events'] is not None:
-        paginator = Paginator(ctx['events'], 10)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['events'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['events'] = paginator.page(1)
-        except EmptyPage:
-            ctx['events'] = paginator.page(paginator.num_pages)
-
-    return TemplateView.as_view(request, tmpl, ctx, mimetype=format_to_mimetype(format))
+        return ctx
 
 
 @login_required
