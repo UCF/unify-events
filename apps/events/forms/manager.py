@@ -15,7 +15,7 @@ from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 class CalendarForm(forms.ModelForm):
     """
-    For for the Calendar
+    Form for the Calendar
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
 
@@ -29,10 +29,9 @@ class EventForm(forms.ModelForm):
     Form for an Event
     """
     def __init__(self, *args, **kwargs):
+        initial = kwargs.pop('initial')
+        user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
-
-        initial = kwargs.get('initial')
-        user_calendars = initial.get('user_calendars')
         self.fields['calendar'].queryset = user_calendars
 
         instance = kwargs['instance']
@@ -141,7 +140,9 @@ class EventInstanceForm(forms.ModelForm):
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location')
 
+
 EventInstanceFormSet = inlineformset_factory(Event, EventInstance, EventInstanceForm, extra=1)
+
 
 class EventCopyForm(forms.Form):
     """

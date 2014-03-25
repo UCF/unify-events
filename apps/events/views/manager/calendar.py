@@ -8,9 +8,14 @@ from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 from events.models import Calendar
 from events.forms.manager import CalendarForm
@@ -18,33 +23,51 @@ from events.forms.manager import CalendarForm
 log = logging.getLogger(__name__)
 
 
-@login_required
-def create_update(request, calendar_id=None):
-    ctx = {'form': None, 'mode': 'create', 'calendar': None}
-    if len(request.user.calendars.all()) == 0 and request.user.first_login:
-        tmpl = 'events/manager/firstlogin/calendar_create.html'
-    else:
-        tmpl = 'events/manager/calendar/create_update.html'
+class CalendarCreate(SuccessMessageMixin, CreateView):
+    form_class = CalendarForm
+    model = Calendar
+    success_message = "%(title)s was created successfully."
+    success_url = reverse_lazy('dashboard')
+    template_name = 'events/manager/calendar/create.html'
 
-    if calendar_id is not None:
-        ctx['mode'] = 'update'
-        ctx['calendar'] = get_object_or_404(Calendar, pk=calendar_id)
+    def get_template_names(self):
+        """
+        Display the First Login calendar creation template if necessary
+        """
+        if len(self.request.user.calendars.all()) == 0 and self.request.user.first_login:
+            tmpl = ['events/manager/firstlogin/calendar_create.html']
+        else:
+            tmpl = [self.template_name]
 
-        if not request.user.is_superuser and ctx['calendar'] not in request.user.editable_calendars:
-            return HttpResponseForbidden('You cannot modify the specified calendar.')
+        return tmpl
 
-    if request.method == 'POST':
-        ctx['form'] = CalendarForm(request.POST, instance=ctx['calendar'])
-        if ctx['form'].is_valid():
-            calendar = ctx['form'].save(commit=False)
-            if not calendar.owner:
-                calendar.owner = request.user
-            calendar.save()
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': calendar.pk}))
-    else:
-        ctx['form'] = CalendarForm(instance=ctx['calendar'])
+    def form_valid(self, form):
+        """
+        Set the calendar owner when validating the form.
+        """
+        self.object = form.save()
+        self.object.owner = self.request.user
+        return super(CalendarCreate, self).form_valid(form)
 
-    return TemplateView.as_view(request, tmpl, ctx)
+class CalendarUpdate(SuccessMessageMixin, UpdateView):
+    form_class = CalendarForm
+    model = Calendar
+    success_message = "%(title)s was updated successfully."
+    success_url = reverse_lazy('dashboard')
+    template_name = 'events/manager/calendar/update.html'
+
+class CalendarDelete(SuccessMessageMixin, DeleteView):
+    model = Calendar
+    success_message = "%(title)s was deleted successfully."
+    success_url = reverse_lazy('dashboard')
+
+    # TODO: only manage deleting on post, not get
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
+            return HttpResponseForbidden('You cannot delete the specified calendar.')
+
+        return self.post(*args, **kwargs)
+
 
 @login_required
 def delete(request, calendar_id):

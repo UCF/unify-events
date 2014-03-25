@@ -1,0 +1,326 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_title_icon %}
+    <i class="icon-pencil" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
+    <ul class="edit-options">
+        <li>
+            <a href="{% url 'calendar' calendar.slug %}">Live View</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content_subheader %}
+    <div class="row">
+        <div class="span12 subtitle-backlink-wrap">
+            <a class="subtitle-backlink" href="{% url 'dashboard' calendar_id=calendar.id %}">&laquo; Back to Manager View</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#users-permissions" data-toggle="tab">Users &amp; Permissions</a>
+                </li>
+                <li>
+                    <a href="#calendar-info" data-toggle="tab">Calendar Info</a>
+                </li>
+                <li>
+                    <a href="#subscriptions" data-toggle="tab">Subscriptions</a>
+                </li>
+            </ul>
+            <a id="manager-calendar-delete" class="calendar-delete" data-object-title="{{ calendar.title }}" href="{% url 'calendar-delete' pk=calendar.id %}">
+                <i class="icon-trash"></i>Delete Calendar
+            </a>
+        </div>
+    </div>
+    <!-- Modal for Calendar Deletion -->
+    <div class="modal hide fade" id="object-delete-modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2>Delete <span class="object-type"></span>: <span class="alt"></span></h2>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete this <span class="object-type"></span>? There is no undo!</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-danger">Delete <span class="object-type"></span></a>
+            <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_body %}
+    <div class="row tab-content page-content">
+        <div class="tab-pane active span9" id="users-permissions">
+
+            <h2>Users &amp; Permissions</h2>
+
+            <h3>Add New User</h3><!-- Only show this section for admins and owners -->
+            <label for="id_add_user">Search for user</label>
+            <label for="id_add_role">Select a role</label>
+            <form class="form-inline" id="manager-calendar-add-user">
+                <input id="id_add_user" class="span4 typeahead user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url 'search-user' %}">
+                <ul class="typeahead dropdown-menu">
+                </ul>
+                <select id="id_add_role" class="span2">
+                    <option value="admin">Admin</option>
+                    <option value="editor" selected>Editor</option>
+                </select>
+                <input type="hidden" id="id_username" value="">
+                <a class="btn" id="add-user-submit" href="#" data-url="{% url 'calendar-add-update-user' calendar_id=calendar.id username="username" role="role" %}">Add User</a>
+            </form>
+
+            <h3>Users With Access to this Calendar</h3>
+            <table class="table table-striped table-hover" id="manager-calendar-access">
+                <thead>
+                    <tr>
+                        <th class="calendar-access-name">Name</th>
+                        <th class="calendar-access-username">NID</th>
+                        <th class="calendar-access-role">Access Role</th>
+                        <th class="calendar-access-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Calendar Owner -->
+                    <tr {% if user == calendar.owner %}class="info"{% endif %}>
+                        <td class="calendar-access-name">{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</td>
+                        <td class="calendar-access-username">{{ calendar.owner.username }}</td>
+                        <td class="calendar-access-role">Owner</td>
+                        <td class="calendar-access-actions">
+                            {% if calendar in user.owned_calendars.all or user.is_superuser %}
+                                {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
+                                <a class="btn btn-mini" href="#calendar-reassign-ownership" data-toggle="modal"><i class="icon-random"></i> Re-assign Ownership</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Calendar Admins -->
+                    {% for admin in calendar.admins.all %}
+                    <tr {% if user == admin %}class="info"{% endif %}>
+                        <td class="calendar-access-name">{{ admin.first_name }} {{ admin.last_name }}</td>
+                        <td class="calendar-access-username">{{ admin.username }}</td>
+                        <td class="calendar-access-role">Admin</td>
+                        <td class="calendar-access-actions">
+                            {% if user == admin %}
+                            <a class="btn btn-mini" href="#calendar-demote-self-editor" data-toggle="modal"><i class="icon-circle-arrow-down"></i> Make Editor</a>
+                            <a class="btn btn-mini" href="#calendar-remove-self" data-toggle="modal"><i class="icon-remove-sign"></i> Remove User</a>
+                            {% else %}
+                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' calendar_id=calendar.id username=admin.username role="editor" %}"><i class="icon-circle-arrow-down"></i> Make Editor</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' calendar_id=calendar.id username=admin.username %}"><i class="icon-remove-sign"></i> Remove User</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Calendar Editors -->
+                    {% for editor in calendar.editors.all %}
+                    <tr {% if user == editor %}class="info"{% endif %}>
+                        <td class="calendar-access-name">{{ editor.first_name }} {{ editor.last_name }}</td>
+                        <td class="calendar-access-username">{{ editor.username }}</td>
+                        <td class="calendar-access-role">Editor</td>
+                        <td class="calendar-access-actions">
+                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' calendar_id=calendar.id username=editor.username role="admin" %}"><i class="icon-circle-arrow-up"></i> Make Admin</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' calendar_id=calendar.id username=editor.username %}"><i class="icon-remove-sign"></i> Remove User</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Reassign ownership modal -->
+            {% if calendar in user.owned_calendars.all %}
+            <div class="modal hide fade" id="calendar-reassign-ownership">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Reassign Ownership of Calendar: <span class="alt">{{ calendar.title }}</span></h2>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to reassign ownership of this calendar to an existing user.  You will be reassigned as an Admin.</p>
+                    <select id="new-owner-select">
+                        <option value="">Select a User</option>
+                        {% for admin in calendar.admins.all %}
+                        <option value="{{ admin.username }}">{{ admin.first_name }} {{ admin.last_name }} (Admin)</option>
+                        {% endfor %}
+                        {% for editor in calendar.editors.all %}
+                        <option value="{{ editor.username }}">{{ editor.first_name }} {{ editor.last_name }} (Editor)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'calendar-reassign-ownership' calendar_id=calendar.id username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
+            {% endif %}
+            <!-- Demote self to Editor modal -->
+            {% if user in calendar.admins.all %}
+            <div class="modal hide fade" id="calendar-demote-self-editor">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Demote Self to Editor</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong>Warning:</strong> You are about to demote yourself to an Editor role.
+                        As an Editor, you will no longer have access to this calendar's management options
+                        and you will be redirected to your Dashboard when you click 'Continue'. Proceed?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'calendar-add-update-user' calendar_id=calendar.id username=user role='editor' %}" class="btn btn-danger">Continue</a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
+            {% endif %}
+            <!-- Remove self from calendar modal -->
+            {% if user in calendar.admins.all %}
+            <div class="modal hide fade" id="calendar-remove-self">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Remove Self from Calendar</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong>Warning:</strong> You are about to remove yourself from this calendar.
+                        You will no longer be able to submit events to this calendar or access this
+                        calendar's management options. Clicking 'Continue' will redirect you to your
+                        Dashboard. Proceed?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'calendar-delete-user' calendar_id=calendar.id username=user %}" class="btn btn-primary">Continue</a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="tab-pane span9" id="calendar-info">
+            <form action="{% url 'calendar-update' pk=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
+                <h2>Calendar Info</h2>
+                <div class="control-group large">
+                   <label class="control-label" for="id_title">Calendar Name</label>
+                   <div class="controls">
+                   {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                   </div>
+                </div>
+                <div class="control-group large">
+                   <label class="control-label" for="id_description">Description</label>
+                   <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+                   <div class="controls">
+                   <!-- TODO: add textarea cols via view; django-widget-tweaks doesn't work with .as_textarea :( -->
+                   {{ form.description|add_class:"span5" }}
+                   {% for field in form.hidden_fields %}
+                       {{field}}
+                   {% endfor %}
+                   <button class="btn btn-primary" type="submit">Update Settings</button>
+                   </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="tab-pane span9" id="subscriptions">
+
+            <h2>Subscriptions</h2>
+
+            <h3>Your Subscribed Calendars</h3>
+            <p>
+                Below are calendars that <em>{{ calendar.title }}</em> is currently subscribed to.
+                Events from the calendars listed below will automatically publish to your calendar and receive updates from the original when they are made.
+            </p>
+            {% if calendar.subscriptions.all %}
+            <div>
+                <table class="table table-striped table-hover" id="manager-calendar-your-subscriptions">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name">Calendar Name</th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                            <th class="calendar-subscriptions-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscriptions.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a href="{% url 'calendar' sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">{{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})</td>
+                            <td class="calendar-subscriptions-actions">
+                                <a class="btn btn-mini" href="{% url 'calendar-unsubscribe' calendar_id=calendar.id subscribed_calendar_id=sub_cal.id %}"><i class="icon-remove-sign"></i> Unsubscribe</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <p>
+                    <strong><em>This calendar is currently not subscribed to any other calendars.</em></strong>
+                </p>
+                <p>
+                    To subscribe to a calendar, go to that calendar's event list and click the "Subscribe" link at the top of the page, next to the calendar title.
+                </p>
+            </div>
+            {% endif %}
+
+            <h3>Subscribing Calendars</h3>
+            <p>
+                Below are calendars that are subscribed to <em>{{ calendar.title }}</em>.  These calendars will automatically receive copies of events you publish.
+            </p>
+            {% if calendar.subscribing_calendars %}
+            <div>
+                <table class="table table-striped table-hover" id="manager-calendar-subscribing-cals">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name">Calendar Name</th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscribing_calendars.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a href="{% url 'calendar' sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">{{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <p>
+                    <strong><em>No calendars are currently subscribed to this calendar.</em></strong>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}
