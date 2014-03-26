@@ -24,39 +24,67 @@ var autoOpenTagByAnchor = function() {
 };
 
 /**
- * Toggle 'Delete Single Event/Calendar' modal
- * TODO: generalize modal toggling for object actions
+ * Toggle Generic Object modification/deletion modal.
+ *
+ * Populates modal contents with the static form specified
+ * in the toggle link's 'href' attribute.
  **/
-var toggleModalDeleteObject = function() {
-    $('.event-delete, .calendar-delete, .object-delete').click(function(e) {
+var toggleModalModifyObject = function() {
+    $('.object-modify').click(function(e) {
         e.preventDefault();
 
-        var objectType = '';
-        if ($(this).hasClass('event-delete')) {
-            objectType = 'event';
-        }
-        else if ($(this).hasClass('calendar-delete')) {
-            objectType = 'calendar';
-        }
-        else {
-            objectType = $(this).attr('data-object-type');
-        }
+        var deleteBtn = $(this),
+            staticPgUrl = deleteBtn.attr('href'),
+            modal = $('#object-modify-modal');
 
-        var modal       = $('#object-delete-modal'),
-            eventTitle  = $(this).attr('data-object-title'),
-            deleteURL   = $(this).attr('href');
+        if (modal) {
+            $.ajax({
+                url: staticPgUrl,
+                timeout: 600 // allow 6 seconds to pass before failing the ajax request
+            })
+                .done(function(html) {
+                    // Assign returned html to some element so we can traverse the dom successfully
+                    var markup = $('<div />');
+                    markup.html(html);
 
-        modal
-            .find('span.object-type')
-                .text(objectType)
-                .end()
-            .find('h2 span.alt')
-                .text(eventTitle)
-                .end()
-            .find('.modal-footer a.btn-danger')
-                .attr('href', deleteURL)
-                .end()
-            .modal('show');
+                    var modalTitle = '',
+                        modalBody = '',
+                        modalFooter = '';
+
+                    // Grab data from the requested page. Check it to make sure it's not
+                    // an error message or something we don't want
+                    if (markup.find('.object-modify-form').length > 0) {
+                        modalTitle = markup.find('h1').html();
+                        modalBody = markup.find('.modal-body-content').html();
+                        modalFooter = markup.find('.modal-footer-content').html();
+                    }
+                    else {
+                        modalTitle = 'Error';
+                        modalBody = '<p>You do not have access to this content.</p>';
+                        modalFooter = '<a class="btn" data-dismiss="modal" href="#">Close</a>';
+                    }
+
+                    modal
+                        .find('h2')
+                            .html(modalTitle)
+                            .end()
+                        .find('form')
+                            .attr('action', staticPgUrl)
+                            .end()
+                        .find('.modal-body')
+                            .html(modalBody)
+                            .end()
+                        .find('.modal-footer')
+                            .html(modalFooter)
+                            .end()
+                        .modal('show');
+                })
+                .fail(function() {
+                    // Just redirect to the static modify/delete page for the object
+                    window.location = staticPgUrl;
+                });
+        }
+        else { window.location = staticPgUrl; }
     });
 };
 
@@ -1122,7 +1150,7 @@ var updateMonthviewDropdown = function() {
 $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
-    toggleModalDeleteObject();
+    toggleModalModifyObject();
     toggleModalMergeObject();
     toggleModalUserDemote();
     calendarSliders();

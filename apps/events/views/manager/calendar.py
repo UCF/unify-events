@@ -58,15 +58,19 @@ class CalendarUpdate(SuccessMessageMixin, UpdateView):
 
 class CalendarDelete(SuccessMessageMixin, DeleteView):
     model = Calendar
-    success_message = "%(title)s was deleted successfully."
+    success_message = "Calendar was successfully deleted."
     success_url = reverse_lazy('dashboard')
+    template_name = 'events/manager/calendar/delete.html'
 
-    # TODO: only manage deleting on post, not get
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
             return HttpResponseForbidden('You cannot delete the specified calendar.')
+        return super(CalendarDelete, self).get(self)
 
-        return self.post(*args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
+            return HttpResponseForbidden('You cannot delete the specified calendar.')
+        return super(CalendarDelete, self).post(self)
 
 
 @login_required
