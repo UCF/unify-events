@@ -23,7 +23,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a class="object-modify" href="{% url 'calendar-delete' pk=current_calendar.id %}"><i class="icon-trash"></i> Delete Calendar</a>
+                    <a class="calendar-delete" href="{% url 'calendar-delete' pk=current_calendar.id %}" data-object-title="{{ current_calendar.title }}"><i class="icon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>
@@ -134,7 +134,7 @@
                                     {% if event.event.created_from %}
                                         <i class="icon-share-alt"></i>
                                     {% endif %}
-                                    <a href="{% url 'event-update' event_id=event.event.id %}">
+                                    <a href="{% url 'event-update' pk=event.event.id %}">
                                         {% if event.event.canceled %}CANCELED:{% endif %} {{ event.title }}
                                     </a>
                                 </td>
@@ -177,14 +177,14 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
-                                                <a href="{% url 'event-update' event_id=event.event.id %}">
+                                                <a href="{% url 'event-update' pk=event.event.id %}">
                                                     <i class="icon-pencil"></i>
                                                     Edit Event
                                                 </a>
                                             </li>
                                             {% if not event.event.is_submit_to_main %}
                                             <li role="presentation">
-                                                <a href="{% url 'event-submit-to-main' event_id=event.event.id %}">
+                                                <a href="{% url 'event-submit-to-main' pk=event.event.id %}">
                                                     <i class="icon-star-empty"></i>
                                                     Suggest to Main Calendar
                                                 </a>
@@ -193,7 +193,7 @@
                                             {% with created_from=event.event.created_from user_calendars=request.user.calendars %}
                                                 {% if not created_from and event.event.calendar in user_calendars and event.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                                                     <li role="presentation">
-                                                        <a href="{% url 'event-cancel-uncancel' event_id=event.event.id %}">
+                                                        <a href="{% url 'event-cancel-uncancel' pk=event.event.id %}">
                                                             <i class="icon-ban-circle"></i>
                                                             {% if event.event.canceled %}
                                                                 Un-Cancel Event
@@ -206,7 +206,7 @@
                                             {% endwith %}
                                             {% if not event.event.has_instances %}
                                             <li role="presentation">
-                                                <a class="object-delete" href="{% url 'event-delete' event_id=event.event.id %}">
+                                                <a class="event-delete" href="{% url 'event-delete' pk=event.event.id %}" data-object-title="{{ event.event.title }}">
                                                     <i class="icon-trash"></i>
                                                     Delete Event
                                                 </a>
@@ -215,7 +215,7 @@
                                             <li class="divider"></li>
                                             {% if event.event.state != 1 %}
                                             <li role="presentation">
-                                                <a href="{% url 'event-post' event_id=event.event.id %}">
+                                                <a href="{% url 'event-post' pk=event.event.id %}">
                                                     <i class="icon-check"></i>
                                                     Add to Posted
                                                 </a>
@@ -223,7 +223,7 @@
                                             {% endif %}
                                             {% if event.event.state != 0 %}
                                             <li role="presentation">
-                                                <a href="{% url 'event-pend' event_id=event.event.id %}">
+                                                <a href="{% url 'event-pend' pk=event.event.id %}">
                                                     <i class="icon-inbox"></i>
                                                     Move to Pending
                                                 </a>
@@ -265,7 +265,22 @@
                 </div>
             </form>
 
-            {% pager paginator=events current_page=request.GET.page %}
+            {% pager events %}
+
+            <!-- Modal for Event/Calendar Deletion -->
+            <div class="modal hide fade" id="object-delete-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2>Delete <span class="object-type"></span>: <span class="alt"></span></h2>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this <span class="object-type"></span>? There is no undo!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger">Delete <span class="object-type"></span></a>
+                    <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                </div>
+            </div>
 
         </div>
         <aside class="span4 page-sidebar">

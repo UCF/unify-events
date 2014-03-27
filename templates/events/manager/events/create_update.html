@@ -6,12 +6,10 @@
 	{% spaceless %}
 	{{block.super}}
 	|
-	{% if mode == 'create' %}
-		Create Event
+	{% if object %}
+        Update Event
 	{% else %}
-		{% if mode == 'update' %}
-			Update Event
-		{% endif %}
+        Create Event
 	{% endif %}
 	{% endspaceless %}
 {% endblock %}
@@ -46,27 +44,25 @@
 {% endblock %}
 
 {% block content_title %}
-    {% if mode == 'create' %}
-        <h1 tabindex="0">Create an Event</h1>
-    {% elif mode == 'update' %}
+    {% if object %}
         <h1 tabindex="0">Update Event: <span class="alt">{{ event.title }}</span></h1>
+    {% else %}
+        <h1 tabindex="0">Create an Event</h1>
     {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if mode == 'create' %}
-        Use the form below to create a new one-time or recurring event. Please read the
-        <a target="_blank" href="#">event creation guidelines</a> before creating your event!
-    {% elif mode == 'update' %}
+    {% if object %}
         Use the form below to update the event "{{ event.title }}". Calendars subscribed to
         your event will be updated as well.
+    {% else %}
+        Use the form below to create a new one-time or recurring event. Please read the
+        <a target="_blank" href="#">event creation guidelines</a> before creating your event!
     {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if mode == 'create' %}
-        <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
-    {% elif mode == 'update' %}
+    {% if object %}
         <div class="row">
             <div class="span12">
                 <div class="pull-right">
@@ -87,48 +83,50 @@
             </div>
         </div>
         <form class="form-horizontal" action="{% url 'event-update' event_id=event.id %}" method="post" enctype="multipart/form-data">
+    {% else%}
+        <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
             <fieldset class="control-group large">
-                <label class="control-label {% if event_form.calendar.errors %}error{% endif %}" for="{{ event_form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ event_form.calendar.label }}</label>
+                <label class="control-label {% if form.calendar.errors %}error{% endif %}" for="{{ form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ form.calendar.label }}</label>
                 <p class="label-desc" id="help-label-calendar" tabindex="-1">Select an existing calendar to post this event to.</p>
                 <div class="controls">
                     <div class="row">
                         <div class="span4">
-                            {% render_field event_form.calendar class="span4" aria-describedby="help-label-calendar" %}
-                            {{ event_form.calendar.errors }}
+                            {% render_field form.calendar class="span4" aria-describedby="help-label-calendar" %}
+                            {{ form.calendar.errors }}
                         </div>
                         <div class="span4">
-                            <label class="checkbox" for="{{ event_form.submit_to_main.auto_id }}">
-                                {{ event_form.submit_to_main }}
+                            <label class="checkbox" for="{{ form.submit_to_main.auto_id }}">
+                                {{ form.submit_to_main }}
                                  <strong>Suggest for Main Calendar Approval</strong>
                             </label>
                         </div>
                     </div>
                 </div>
             </fieldset>
-            <fieldset class="control-group large {% if event_form.title.errors %}error{% endif %}">
-                <label class="control-label" for="{{ event_form.title.auto_id }}" tabindex="-1">{{ event_form.title.label }}</label>
+            <fieldset class="control-group large {% if form.title.errors %}error{% endif %}">
+                <label class="control-label" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
                 <p class="label-desc" id="help-label-title" tabindex="-1">
                     Be Brief. Be Bright. Be Done.
                     <br/>
                     (<a tabindex="-1" target="_blank" href="https://brand.ucf.edu/writing-style-guide/tips-for-writing-copy/">Need some tips?</a>)
                 </p>
                 <div class="controls">
-                    {% render_field event_form.title class="span8" aria-describedby="help-label-title" %}
-                    {{ event_form.title.errors }}
+                    {% render_field form.title class="span8" aria-describedby="help-label-title" %}
+                    {{ form.title.errors }}
                 </div>
             </fieldset>
-            <fieldset class="control-group large {% if event_form.state.errors %}error{% endif %}">
-                <label class="control-label" for="{{ event_form.state.auto_id }}" title="State" tabindex="-1">{{ event_form.state.label }}</label>
+            <fieldset class="control-group large {% if form.state.errors %}error{% endif %}">
+                <label class="control-label" for="{{ form.state.auto_id }}" title="State" tabindex="-1">{{ form.state.label }}</label>
                 <p class="label-desc" id="help-label-state" tabindex="-1">Select an event state.</p>
                 <div class="controls">
-                    {% render_field event_form.state aria-describedby="help-label-state" %}
-                    {{ event_form.state.errors }}
+                    {% render_field form.state aria-describedby="help-label-state" %}
+                    {{ form.state.errors }}
                 </div>
             </fieldset>
             {% if event.is_re_review %}
             <div class="pull-right">
-                <button id="copy_title" class="btn btn-info" data-copy-to="{{ event_form.title.auto_id }}">Copy</button>
+                <button id="copy_title" class="btn btn-info" data-copy-to="{{ form.title.auto_id }}">Copy</button>
             </div>
             <fieldset class="control-group large {% if event.created_from.title.errors %}error{% endif %}">
                 <label class="control-label" for="new_title" tabindex="-1">New Title</label>
@@ -139,17 +137,17 @@
                 </div>
             </fieldset>
             {% endif %}
-            <fieldset class="control-group large {% if event_form.description.errors %}error{% endif %}">
-                <label class="control-label" for="{{ event_form.description.auto_id }}" tabindex="-1">{{ event_form.description.label }}</label>
+            <fieldset class="control-group large {% if form.description.errors %}error{% endif %}">
+                <label class="control-label" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
                 <p class="label-desc" id="help-label-description" tabindex="-1">A description for your event.</p>
                 <div class="controls">
-                    {% render_field event_form.description id=event_form.description.auto_id class="span8 wysiwyg" title=event_form.description.label aria-describedby="help-label-description" %}
-                    {{ event_form.description.errors }}
+                    {% render_field form.description id=form.description.auto_id class="span8 wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
+                    {{ form.description.errors }}
                 </div>
             </fieldset>
             {% if event.is_re_review %}
             <div class="span1 pull-right">
-                <button id="copy_description" class="btn btn-info" data-copy-to="{{ event_form.description.auto_id }}">Copy</button>
+                <button id="copy_description" class="btn btn-info" data-copy-to="{{ form.description.auto_id }}">Copy</button>
             </div>
             <fieldset class="control-group large {% if event.created_from.description.errors %}error{% endif %}">
                 <label class="control-label" for="new_description" tabindex="-1">New Description</label>
@@ -164,28 +162,28 @@
                 <legend class="control-label" tabindex="-1">When &amp; Where</legend>
                 <p class="label-desc" tabindex="-1">When and where your event takes place, and how often it occurs.</p>
                 <div class="controls">
-                    {% for form in event_instance_formset %}
+                    {% for ei_form in event_instance_formset %}
                     <div class="row cloneable" data-form-prefix="event_instance">
-                        {{ form.id }}
+                        {{ ei_form.id }}
                         <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
                         <div class="span7">
                             <div class="whenwhere-wrap">
                                 <div class="row">
-                                    <div class="span3 whenwhere-start {% if form.start.errors %}error{% endif %}">
-                                        <label class="label-inner" for="{{ form.start.auto_id }}_0" alt="Start Date">Start Date</label>
-                                        <label class="label-inner" for="{{ form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
-                                        {{ form.start }}
-                                        {% if form.start.errors %}
+                                    <div class="span3 whenwhere-start {% if ei_form.start.errors %}error{% endif %}">
+                                        <label class="label-inner" for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
+                                        <label class="label-inner" for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
+                                        {{ ei_form.start }}
+                                        {% if ei_form.start.errors %}
                                         <ul class="errorlist">
                                             <li>Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM</li>
                                         </ul>
                                         {% endif %}
                                     </div>
-                                    <div class="span3 whenwhere-end {% if form.end.errors %}error{% endif %}">
-                                        <label class="label-inner" for="{{ form.end.auto_id }}_0" alt="End Date">End Date</label>
-                                        <label class="label-inner" for="{{ form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
-                                        {{ form.end }}
-                                        {% if form.end.errors %}
+                                    <div class="span3 whenwhere-end {% if ei_form.end.errors %}error{% endif %}">
+                                        <label class="label-inner" for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
+                                        <label class="label-inner" for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
+                                        {{ ei_form.end }}
+                                        {% if ei_form.end.errors %}
                                         <ul class="errorlist">
                                             <li>Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM</li>
                                         </ul>
@@ -194,57 +192,57 @@
                                 </div>
                                 <div class="row">
                                     <div class="span3 whenwhere-interval">
-                                        <label class="label-inner" for="{{ form.interval.auto_id }}">How often does it re-occur?</label>
-                                        {{ form.interval }}
-                                        {{ form.interval.errors }}
+                                        <label class="label-inner" for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
+                                        {{ ei_form.interval }}
+                                        {{ ei_form.interval.errors }}
                                     </div>
                                     <div class="span3 whenwhere-until">
-                                        <label class="label-inner" for="{{ form.until.auto_id }}">Re-occurs until...</label>
-                                        {{ form.until|add_class:"field-date" }}
-                                        {{ form.until.errors }}
+                                        <label class="label-inner" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
+                                        {{ ei_form.until|add_class:"field-date" }}
+                                        {{ ei_form.until.errors }}
                                     </div>
                                 </div>
                                 <hr />
                                 <div class="row">
                                     <div class="span3 location-search">
-                                        <label class="label-inner" for="{{ form.location.auto_id }}">Select a Location</label>
-                                        {{ form.location|add_class:"location-dropdown" }}
-                                        {{ form.location.errors }}
+                                        <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
+                                        {{ ei_form.location|add_class:"location-dropdown" }}
+                                        {{ ei_form.location.errors }}
                                     </div>
                                     <div class="span3 location-selected">
                                         <span class="location-selected-title">
-                                            {% if form.location.value %}
-                                                {{ locations|locations_title:form.location.value }}
+                                            {% if ei_form.location.value %}
+                                                {{ locations|locations_title:ei_form.location.value }}
                                             {% endif %}
                                         </span>
                                         <span class="location-selected-room">
-                                            {% if form.location.value %}
-                                                {{ locations|locations_room:form.location.value }}
+                                            {% if ei_form.location.value %}
+                                                {{ locations|locations_room:ei_form.location.value }}
                                             {% endif %}
                                         </span>
                                         <span class="location-selected-url">
-                                            {% if form.location.value %}
-                                            <a target="_blank" href="{{ locations|locations_url:form.location.value }}">
-                                                <i class="icon-external-link"></i>{{ locations|locations_url:form.location.value }}
+                                            {% if ei_form.location.value %}
+                                            <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
+                                                <i class="icon-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
                                             </a>
                                             {% endif %}
                                         </span>
                                         <div class="location-new-form">
-                                            <label class="label-inner" for="{{ form.new_location_title.auto_id }}">New Location Name</label>
-                                            {{ form.new_location_title }}
-                                            {{ form.new_location_title.errors }}
+                                            <label class="label-inner" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
+                                            {{ ei_form.new_location_title }}
+                                            {{ ei_form.new_location_title.errors }}
 
-                                            <label class="label-inner" for="{{ form.new_location_room.auto_id }}">New Location Room</label>
-                                            {{ form.new_location_room }}
-                                            {{ form.new_location_room.errors }}
+                                            <label class="label-inner" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                                            {{ ei_form.new_location_room }}
+                                            {{ ei_form.new_location_room.errors }}
 
-                                            <label class="label-inner" for="{{ form.new_location_url.auto_id }}">New Location Map URL</label>
-                                            {{ form.new_location_url }}
-                                            {{ form.new_location_url.errors }}
+                                            <label class="label-inner" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                                            {{ ei_form.new_location_url }}
+                                            {{ ei_form.new_location_url.errors }}
                                         </div>
                                         <div class="clone-delete-hiddenfield">
-                                            <label for="{{ form.DELETE.auto_id }}">Delete Instance: {{ form.start.value }} - {{ form.end.value }}</label>
-                                            {{ form.DELETE }}
+                                            <label for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
+                                            {{ ei_form.DELETE }}
                                         </div>
                                     </div>
                                 </div>
@@ -261,27 +259,27 @@
                 </div>
             </fieldset>
             {{ event_instance_formset.management_form }}
-            <fieldset class="control-group large {% if event_form.category.errors %}error{% endif %}">
-                <label class="control-label" for="{{ event_form.category.auto_id }}" tabindex="-1">Category</label>
+            <fieldset class="control-group large {% if form.category.errors %}error{% endif %}">
+                <label class="control-label" for="{{ form.category.auto_id }}" tabindex="-1">Category</label>
                 <p class="label-desc" id="help-label-category" tabindex="-1">Select a category to group this event under.</p>
                 <div class="controls">
-                    {% render_field event_form.category aria-describedby="help-label-category" %}
-                    {{ event_form.category.errors }}
+                    {% render_field form.category aria-describedby="help-label-category" %}
+                    {{ form.category.errors }}
                 </div>
             </fieldset>
-            <fieldset class="control-group large {% if event_form.tags.errors %}error{% endif %}">
-                <label class="control-label" for="{{ event_form.tags.auto_id }}" tabindex="-1">Tags</label>
+            <fieldset class="control-group large {% if form.tags.errors %}error{% endif %}">
+                <label class="control-label" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
                 <p class="label-desc" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</p>
                 <div class="controls">
                     <div class="row">
                         <div class="span4 tag-search">
-                            {% render_field event_form.tags aria_describedby="help-label-tags" %}
-                            {{ event_form.tags.errors }}
+                            {% render_field form.tags aria_describedby="help-label-tags" %}
+                            {{ form.tags.errors }}
                             <p class="help-text" tabindex="0">Type tags separated by commas in this field.  Tag phrases should be enclosed in double quotes; e.g. "My phrase".</p>
                         </div>
                         <div class="span4">
                             <ul id="event-tags-selected">
-                                {% if event_form.tags.value %}
+                                {% if form.tags.value %}
                                     {% for tag in event.tags.all %}
                                         <li data-tag-name="{{ tag.name }}">
                                             <a href="#" class="selected-remove" alt="Remove this tag">&times;</a>
@@ -299,30 +297,30 @@
                 <legend class="control-label" tabindex="-1">Contact Information</legend>
                 <p class="label-desc" tabindex="-1">Let users know how to get in touch with questions about your event.</p>
                 <div class="controls">
-                    <label class="label-inner {% if event_form.contact_name.errors %}error{% endif %}" for="{{ event_form.contact_name.auto_id }}">Contact Name</label>
-                    {{ event_form.contact_name }}
-                    {{ event_form.contact_name.errors }}
+                    <label class="label-inner {% if form.contact_name.errors %}error{% endif %}" for="{{ form.contact_name.auto_id }}">Contact Name</label>
+                    {{ form.contact_name }}
+                    {{ form.contact_name.errors }}
                     <div class="row">
                         <div class="span4">
-                            <label class="label-inner {% if event_form.contact_email.errors %}error{% endif %}" for="{{ event_form.contact_email.auto_id }}">Email</label>
-                            {{ event_form.contact_email }}
-                            {{ event_form.contact_email.errors }}
+                            <label class="label-inner {% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
+                            {{ form.contact_email }}
+                            {{ form.contact_email.errors }}
                         </div>
                         <div class="span4">
-                            <label class="label-inner {% if event_form.contact_phone.errors %}error{% endif %}" for="{{ event_form.contact_phone.auto_id }}">Phone Number</label>
-                            {{ event_form.contact_phone }}
-                            {{ event_form.contact_phone.errors }}
+                            <label class="label-inner {% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
+                            {{ form.contact_phone }}
+                            {{ form.contact_phone.errors }}
                         </div>
                     </div>
                 </div>
             </fieldset>
             <div class="control-group large">
                 <div class="controls">
-                    {% if mode == 'create' %}
-                        <button class="btn btn-primary" type="submit">Create Event</button>
-                    {% elif mode == 'update' %}
+                    {% if object %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
                         <a href="{% url 'dashboard' %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">Create Event</button>
                     {% endif %}
                 </div>
             </div>

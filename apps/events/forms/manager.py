@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms.models import inlineformset_factory
 from taggit.models import Tag
 from taggit.forms import TagField
 
@@ -138,6 +139,9 @@ class EventInstanceForm(forms.ModelForm):
     class Meta:
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location')
+
+
+EventInstanceFormSet = inlineformset_factory(Event, EventInstance, EventInstanceForm, extra=1)
 
 
 class EventCopyForm(forms.Form):
