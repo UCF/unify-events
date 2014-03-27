@@ -7,8 +7,11 @@ from events.models import State
 from events.views.manager import Dashboard
 from events.views.manager.event import EventCreate
 from events.views.manager.calendar import CalendarCreate
-from events.views.manager.calendar import CalendarUpdate
 from events.views.manager.calendar import CalendarDelete
+from events.views.manager.calendar import CalendarUpdate
+from events.views.manager.calendar import CalendarUserUpdate
+from events.views.manager.calendar import CalendarSubscriptionsUpdate
+from events.views.manager.calendar import CalendarList
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -40,13 +43,21 @@ urlpatterns += patterns('events.views.manager',
         view=login_required(CalendarCreate.as_view()),
         name='calendar-create'
     ),
+    url(r'^calendar/(?P<pk>\d+)/delete/?$',
+        view=login_required(CalendarDelete.as_view()),
+        name='calendar-delete'
+    ),
     url(r'^calendar/(?P<pk>\d+)/update/?$',
         view=login_required(CalendarUpdate.as_view()),
         name='calendar-update'
     ),
-    url(r'^calendar/(?P<pk>\d+)/delete/?$',
-        view=login_required(CalendarDelete.as_view()),
-        name='calendar-delete'
+    url(r'^calendar/(?P<pk>\d+)/update/users/?$',
+        view=login_required(CalendarUserUpdate.as_view()),
+        name='calendar-update-users'
+    ),
+    url(r'^calendar/(?P<pk>\d+)/update/subscriptions/?$',
+        view=login_required(CalendarSubscriptionsUpdate.as_view()),
+        name='calendar-update-subscriptions'
     ),
     url(r'^calendar/(?P<calendar_id>\d+)/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-calendar-state'),
     url(r'^calendar/(?P<calendar_id>\d+)/update/user/(?P<username>[\w]+)/(?P<role>[\w]+)?$', view='calendar.add_update_user', name='calendar-add-update-user'),
@@ -82,7 +93,10 @@ urlpatterns += patterns('events.views.manager',
     url(r'^category/(?P<category_from_id>\d+)/merge/(?P<category_to_id>\d+)', view='category.merge', name='category-merge'),
     url(r'^category/(?P<category_id>\d+)/delete', view='category.delete', name='category-delete'),
 
-    url(r'^all-calendars/?$', view='calendar.list', name='calendar-list'),
+    url(r'^all-calendars/?$',
+        view=login_required(CalendarList.as_view()),
+        name='calendar-list'
+    ),
 
     url(r'^profiles/', include('profiles.urls')),
 

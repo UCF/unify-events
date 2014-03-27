@@ -77,7 +77,7 @@
             </tbody>
         </table>
 
-        {% pager tags %}
+        {% pager paginator=tags current_page=request.GET.page %}
 
         <!-- Modal for Object Merge -->
         <div class="modal hide fade" id="object-merge-modal">

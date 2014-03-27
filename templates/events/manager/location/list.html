@@ -116,7 +116,7 @@
                     No locations found. Want to <a href="{% url location-create %}">create one?</a>
                 </div>
             {% endif %}
-                {% pager locations %}
+                {% pager paginator=locations current_page=request.GET.page %}
             </div>
         </div>
 {% endblock %}

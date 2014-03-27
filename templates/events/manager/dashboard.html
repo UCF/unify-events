@@ -265,7 +265,7 @@
                 </div>
             </form>
 
-            {% pager events %}
+            {% pager paginator=events current_page=request.GET.page %}
 
         </div>
         <aside class="span4 page-sidebar">

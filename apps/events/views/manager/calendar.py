@@ -13,6 +13,8 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import ListView
+from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
@@ -23,10 +25,31 @@ from events.forms.manager import CalendarForm
 log = logging.getLogger(__name__)
 
 
+class CalendarUserValidationMixin(object):
+    def check_user_permissions(self):
+        is_valid = True
+        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
+            is_valid = False
+        return is_valid
+
+    def get(self, request, *args, **kwargs):
+        if self.check_user_permissions():
+            return super(CalendarUserValidationMixin, self).get(self)
+        else:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+
+    def post(self, request, *args, **kwargs):
+        if self.check_user_permissions():
+            return super(CalendarUserValidationMixin, self).post(self)
+        else:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+
+
+
 class CalendarCreate(SuccessMessageMixin, CreateView):
     form_class = CalendarForm
     model = Calendar
-    success_message = "%(title)s was created successfully."
+    success_message = '%(title)s was created successfully.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/create.html'
 
@@ -49,45 +72,54 @@ class CalendarCreate(SuccessMessageMixin, CreateView):
         self.object.owner = self.request.user
         return super(CalendarCreate, self).form_valid(form)
 
-class CalendarUpdate(SuccessMessageMixin, UpdateView):
-    form_class = CalendarForm
-    model = Calendar
-    success_message = "%(title)s was updated successfully."
-    success_url = reverse_lazy('dashboard')
-    template_name = 'events/manager/calendar/update.html'
 
-class CalendarDelete(SuccessMessageMixin, DeleteView):
+class CalendarDelete(SuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
     model = Calendar
-    success_message = "Calendar was successfully deleted."
+    success_message = 'Calendar was successfully deleted.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/delete.html'
 
+
+class CalendarUpdate(SuccessMessageMixin, CalendarUserValidationMixin, UpdateView):
+    form_class = CalendarForm
+    model = Calendar
+    success_message = '%(title)s was updated successfully.'
+    template_name = 'events/manager/calendar/update.html'
+
+    # TODO: use SuccessUrlReverseKwargsMixin
+    def get_success_url(self):
+        return reverse_lazy('calendar-update', kwargs = {'pk' : self.object.pk, })
+
+
+class CalendarUserUpdate(DetailView):
+    # form_class = CalendarForm
+    model = Calendar
+    # success_message = 'Calendar users updated successfully.'
+    template_name = 'events/manager/calendar/update/update-users.html'
+
+    # # TODO: use SuccessUrlReverseKwargsMixin
+    # def get_success_url(self):
+    #     return reverse_lazy('calendar-update-users', kwargs = {'pk' : self.object.pk, })
+
+
+class CalendarSubscriptionsUpdate(DetailView):
+    model = Calendar
+    template_name = 'events/manager/calendar/update/update-subscriptions.html'
+
+
+class CalendarList(ListView):
+    context_object_name = 'calendars'
+    model = Calendar
+    paginate_by = 25
+    template_name = 'events/manager/calendar/list.html'
+
     def get(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
-            return HttpResponseForbidden('You cannot delete the specified calendar.')
-        return super(CalendarDelete, self).get(self)
-
-    def post(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
-            return HttpResponseForbidden('You cannot delete the specified calendar.')
-        return super(CalendarDelete, self).post(self)
+        if request.user.is_superuser:
+            return super(CalendarList, self).get(self)
+        else:
+            return HttpResponseForbidden('You do not have permission to access this page.')
 
 
-@login_required
-def delete(request, calendar_id):
-    calendar = get_object_or_404(Calendar, pk=calendar_id)
-
-    if not request.user.is_superuser and calendar not in request.user.owned_calendars.all():
-        return HttpResponseForbidden('You cannot delete the specified calendar.')
-
-    try:
-        calendar.delete()
-    except Exception, e:
-        log.error(str(e))
-        messages.error(request, 'Deleting calendar failed.')
-    else:
-        messages.success(request, 'Calendar successfully deleted.')
-    return HttpResponseRedirect(reverse('dashboard'))
 
 @login_required
 def add_update_user(request, calendar_id, username, role):

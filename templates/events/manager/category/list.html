@@ -85,7 +85,7 @@
             </tbody>
         </table>
         
-        {% pager categories %}
+        {% pager paginator=categories current_page=request.GET.page %}
         
         {% else %}
             <div class="well well-empty">
