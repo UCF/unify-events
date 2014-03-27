@@ -1,7 +1,7 @@
-from django.forms.models import BaseModelFormSet
+from django.forms.models import BaseInlineFormSet
 
 
-class RequiredModelFormSet(BaseModelFormSet):
+class RequiredModelFormSet(BaseInlineFormSet):
     """
     Forces model form set to have atleast one entry
     """

@@ -4,6 +4,7 @@ from django.forms.models import inlineformset_factory
 from taggit.models import Tag
 from taggit.forms import TagField
 
+from core.forms import RequiredModelFormSet
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
@@ -141,7 +142,12 @@ class EventInstanceForm(forms.ModelForm):
         fields = ('start', 'end', 'interval', 'until', 'location')
 
 
-EventInstanceFormSet = inlineformset_factory(Event, EventInstance, EventInstanceForm, extra=1)
+EventInstanceFormSet = inlineformset_factory(Event,
+                                             EventInstance,
+                                             form=EventInstanceForm,
+                                             formset=RequiredModelFormSet,
+                                             extra=1,
+                                             max_num=12)
 
 
 class EventCopyForm(forms.Form):
