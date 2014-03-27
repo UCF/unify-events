@@ -1,0 +1,40 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_title_icon %}
+    <i class="icon-pencil" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+    <form action="{% block content_form_action %}{% endblock %}" method="post" class="object-modify-form" id="{% block content_form_id %}{% endblock %}">
+        <div class="modal-body-content">
+            {% block content_form_body %}{% endblock %}
+        </div>
+        <div class="modal-footer-content">
+            {% block content_form_footer %}
+            {% endblock %}
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}

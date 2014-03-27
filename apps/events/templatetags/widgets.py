@@ -109,23 +109,24 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
 
 
 @register.simple_tag
-def pager(objects):
+def pager(paginator, current_page):
     """
-    Creates Bootstrap pagination links for a Paginator object list.
+    Creates Bootstrap pagination links for a Paginator.
     Page range is 10.
     """
-
-    if not objects.paginator:
-        raise Exception("Object passed is not a Paginator object")
+    # Account for paginator.Page passed as paginator object
+    # TODO: remove this when CBVs w/pagination are converted
+    if 'paginator' in paginator.__dict__:
+        paginator = paginator.paginator
 
     range_length = 10
-    if range_length > objects.paginator.num_pages:
-        range_length = objects.paginator.num_pages
+    if range_length > paginator.num_pages:
+        range_length = paginator.num_pages
 
     # Calculate range of pages to return
     range_length -= 1
-    range_min = max(objects.number - (range_length / 2), 1)
-    range_max = min(objects.number + (range_length / 2), objects.paginator.num_pages)
+    range_min = max(paginator.count - (range_length / 2), 1)
+    range_max = min(paginator.count + (range_length / 2), paginator.num_pages)
     range_diff = range_max - range_min
     if range_diff < range_length:
         shift = range_length - range_diff
@@ -136,10 +137,16 @@ def pager(objects):
 
     page_range = range(range_min, range_max + 1)
 
+    # If current_page is not set, set it to 1
+    if not current_page:
+        current_page = 1
+    else:
+        current_page = int(current_page)
 
     context = {
         'range': page_range,
-        'objects': objects
+        'paginator': paginator,
+        'current_page': current_page
     }
 
     template = loader.get_template('events/widgets/pager.html')

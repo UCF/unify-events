@@ -2,7 +2,6 @@
     {% if use_pagers %}
     <ul class="pager">
         <!-- Pager links go to the 1st day of the previous/next month -->
-        <!-- TODO: add data attributes that specify the current calendar slug, manager/frontend view, and current month/year to build prev/next ajax urls -->
         {% if is_manager %}
             {% if not calendar %}
                 <li class="previous">
