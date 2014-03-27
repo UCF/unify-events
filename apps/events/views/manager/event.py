@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 
 from core.forms import RequiredModelFormSet
 from events.forms.manager import EventCopyForm
@@ -70,7 +71,8 @@ class EventCreate(CreateView):
 
     def post(self, request, *args, **kwargs):
         """
-        Set the event creator
+        Checks the form and formset validity and user permissions on
+        the calendar the event will be created for.
         """
         self.object = None
         form_class = self.get_form_class()
@@ -87,8 +89,8 @@ class EventCreate(CreateView):
 
     def form_valid(self, form, event_instance_formset):
         """
-        Called if all forms are valid. Creates an event instance
-        and redirects to success url.
+        Called if all forms are valid. Sets event creator.
+        Creates an event instance and redirects to success url.
         """
         form.instance.creator = self.request.user
         self.object = form.save()
@@ -97,6 +99,95 @@ class EventCreate(CreateView):
 
         # Import to main calendar if requested
         if form.cleaned_data['submit_to_main']:
+            get_main_calendar().import_event(self.object)
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, event_instance_formset):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  event_instance_formset=event_instance_formset))
+
+
+class EventUpdate(UpdateView):
+    model = Event
+    form_class = EventForm
+    prefix = 'event'
+    template_name = 'events/manager/events/create_update.html'
+    success_url = '/manager/'
+
+    def get_initial(self):
+        """
+        Set the set of calendars the user can select from
+        """
+        initial = super(EventUpdate, self).get_initial()
+        initial['user_calendars'] = self.request.user.calendars
+        return initial
+
+    def get_context_data(self, **kwargs):
+        """
+        Default the context data
+        """
+        context = super(EventUpdate, self).get_context_data(**kwargs)
+
+        ctx = {
+               'locations': Location.objects.all(),
+               'tags': Tag.objects.all()
+        }
+        ctx.update(context)
+
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles the GET request and instantiates the object for
+        the form and inline formsets.
+        """
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        # Remove extra form and set related object to get all event instances
+        EventInstanceFormSet.extra = 0
+        event_instance_formset = EventInstanceFormSet(instance=self.object,
+                                                      queryset=self.object.event_instances.filter(parent=None))
+        return self.render_to_response(self.get_context_data(form=form,
+                                                             event_instance_formset=event_instance_formset))
+
+    def post(self, request, *args, **kwargs):
+        """
+        Checks the form and formset validity and user permissions on
+        the calendar the event will be created for.
+        """
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        event_instance_formset = EventInstanceFormSet(data=self.request.POST,
+                                                      instance=self.object)
+        if form.is_valid() and event_instance_formset.is_valid():
+            # Can user add an event to this calendar?
+            if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+                return HttpResponseForbidden('You cannot add an event to this calendar.')
+
+            return self.form_valid(form, event_instance_formset)
+        else:
+            return self.form_invalid(form, event_instance_formset)
+
+    def form_valid(self, form, event_instance_formset):
+        """
+        Called if all forms are valid. Creates an event instance
+        and redirects to success url.
+        """
+        form.instance.creator = self.request.user
+        self.object = form.save()
+        event_instance_formset.save()
+
+        # Import to main calendar if requested and is NOT already submitted to main calendar
+        if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
             get_main_calendar().import_event(self.object)
 
         return HttpResponseRedirect(self.get_success_url())

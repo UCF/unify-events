@@ -68,7 +68,7 @@
                 <div class="pull-right">
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
                         {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
-                            <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' event_id=event.id %}">
+                            <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' pk=event.pk %}">
                                 <i class="icon-ban-circle"></i>
                             {% if event.canceled %}
                                 Un-Cancel Event
@@ -78,11 +78,11 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="btn btn-danger event-delete" href="{% url 'event-delete' event_id=event.id %}"><i class="icon-trash"></i> Delete Event</a>
+                    <a class="btn btn-danger event-delete" href="{% url 'event-delete' pk=event.pk %}"><i class="icon-trash"></i> Delete Event</a>
                 </div>
             </div>
         </div>
-        <form class="form-horizontal" action="{% url 'event-update' event_id=event.id %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'event-update' pk=event.pk %}" method="post" enctype="multipart/form-data">
     {% else%}
         <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
