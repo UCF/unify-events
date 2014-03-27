@@ -30,6 +30,7 @@ log = logging.getLogger(__name__)
 class EventCreate(CreateView):
     model = Event
     form_class = EventForm
+    prefix = 'event'
     template_name = 'events/manager/events/create_update.html'
     success_url = '/manager/'
 
