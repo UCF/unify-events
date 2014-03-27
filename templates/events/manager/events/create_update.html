@@ -17,7 +17,7 @@
 {% block header_scripts %}
 <script type="text/javascript">
     var eventLocations = {
-    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
+    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.pk }}", "url": "{{ location.url }}" },{% endfor %}
     };
     var eventTags = [
     {% for tag in tags %}"{{ tag.name }}",{% endfor %}
