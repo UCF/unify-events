@@ -265,7 +265,7 @@
                 </div>
             </form>
 
-            {% pager events %}
+            {% pager events current_page=request.GET.page %}
 
             <!-- Modal for Event/Calendar Deletion -->
             <div class="modal hide fade" id="object-delete-modal">
