@@ -476,7 +476,9 @@ var cloneableFieldsets = function() {
                     .find('input, textarea, select, label')
                     .each(function () {
                         updateElementIndex(this, prefix, formCount);
-                        $(this).val('');
+                        if (!$(this).is('select')) {
+                            $(this).val('');
+                        }
                 });
 
                 // Add an event handler for the delete item/form link
