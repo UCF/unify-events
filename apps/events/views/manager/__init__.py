@@ -67,7 +67,7 @@ class Dashboard(TemplateView) :
         ctx['dates']['today'] = date.today()
         if all(x in ctx for x in ('year', 'month', 'day')):
             try:
-                ctx['dates']['relative'] = date(int(year), int(month), int(day))
+                ctx['dates']['relative'] = date(int(ctx.get('year')), int(ctx.get('month')), int(ctx.get('day')))
                 ctx['day_view'] = True
             except ValueError: # bad day/month/year vals provided
                 ctx['dates']['relative'] = ctx['dates']['today']
