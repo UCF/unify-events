@@ -73,7 +73,7 @@ class CalendarCreate(SuccessMessageMixin, CreateView):
         return super(CalendarCreate, self).form_valid(form)
 
 
-class CalendarDelete(SuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
+class CalendarDelete(DeleteSuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
     model = Calendar
     success_message = 'Calendar was successfully deleted.'
     success_url = reverse_lazy('dashboard')
