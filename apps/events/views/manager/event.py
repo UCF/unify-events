@@ -179,13 +179,15 @@ class EventUpdate(UpdateView):
         Checks the form and formset validity and user permissions on
         the calendar the event will be created for.
         """
-        # Can user add an event to this calendar?
-        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-            return HttpResponseForbidden('You cannot add an event to this calendar.')
 
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot add an event to this calendar.')
+
         event_instance_formset = EventInstanceFormSet(data=self.request.POST,
                                                       instance=self.object)
         if form.is_valid() and event_instance_formset.is_valid():
@@ -247,8 +249,8 @@ class EventDelete(DeleteSuccessMessageMixin, DeleteView):
 
 
 @login_required
-def update_state(request, event_id=None, state=None):
-    event = get_object_or_404(Event, pk=event_id)
+def update_state(request, pk=None, state=None):
+    event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot modify the state for the specified event.')
@@ -265,8 +267,8 @@ def update_state(request, event_id=None, state=None):
 
 
 @login_required
-def submit_to_main(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
+def submit_to_main(request, pk=None):
+    event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot modify the specified event.')
