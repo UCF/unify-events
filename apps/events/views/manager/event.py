@@ -49,7 +49,7 @@ class EventCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         """
-        Default the context data
+        Get additional context data.
         """
         context = super(EventCreate, self).get_context_data(**kwargs)
 
@@ -140,13 +140,15 @@ class EventUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         """
-        Default the context data
+        Get additional context data.
         """
         context = super(EventUpdate, self).get_context_data(**kwargs)
 
         ctx = {
                'locations': Location.objects.all(),
-               'tags': Tag.objects.all()
+               'tags': Tag.objects.all(),
+               # Needed to determine whether to show the cancel/un-cancel button
+               'posted_state': State.posted
         }
         ctx.update(context)
 
@@ -161,6 +163,10 @@ class EventUpdate(UpdateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
+
         # Remove extra form and set related object to get all event instances
         EventInstanceFormSet.extra = 0
         event_instance_formset = EventInstanceFormSet(instance=self.object,
@@ -173,16 +179,18 @@ class EventUpdate(UpdateView):
         Checks the form and formset validity and user permissions on
         the calendar the event will be created for.
         """
+
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot add an event to this calendar.')
+
         event_instance_formset = EventInstanceFormSet(data=self.request.POST,
                                                       instance=self.object)
         if form.is_valid() and event_instance_formset.is_valid():
-            # Can user add an event to this calendar?
-            if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-                return HttpResponseForbidden('You cannot add an event to this calendar.')
-
             return self.form_valid(form, event_instance_formset)
         else:
             return self.form_invalid(form, event_instance_formset)
@@ -230,10 +238,19 @@ class EventDelete(DeleteSuccessMessageMixin, DeleteView):
     success_url = '/manager/'
     success_message = 'Event was successfully deleted.'
 
+    def delete(self, request, *args, **kwargs):
+        """
+        Ensure the user has the permissions to delete the event
+        """
+        if not self.request.user.is_superuser and self.get_object().calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot delete the specified event.')
+
+        return super(EventDelete, self).delete(request, *args, **kwargs)
+
 
 @login_required
-def update_state(request, event_id=None, state=None):
-    event = get_object_or_404(Event, pk=event_id)
+def update_state(request, pk=None, state=None):
+    event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot modify the state for the specified event.')
@@ -250,8 +267,8 @@ def update_state(request, event_id=None, state=None):
 
 
 @login_required
-def submit_to_main(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
+def submit_to_main(request, pk=None):
+    event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot modify the specified event.')
@@ -364,8 +381,8 @@ def bulk_action(request):
 
 
 @login_required
-def cancel_uncancel(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
+def cancel_uncancel(request, pk=None):
+    event = get_object_or_404(Event, pk=pk)
 
     # Get original event
     original_event = event
@@ -393,23 +410,6 @@ def cancel_uncancel(request, event_id=None):
 
         messages.success(request, message)
     return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
-
-
-@login_required
-def delete(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
-
-    if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        return HttpResponseForbidden('You cannot delete the specified event.')
-
-    try:
-        event.delete()
-    except Exception, e:
-        log(str(e))
-        messages.error(request, 'Deleting event failed.')
-    else:
-        messages.success(request, 'Event successfully deleted.')
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
