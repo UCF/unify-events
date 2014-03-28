@@ -14,6 +14,10 @@ from events.views.manager.calendar import CalendarUpdate
 from events.views.manager.calendar import CalendarUserUpdate
 from events.views.manager.calendar import CalendarSubscriptionsUpdate
 from events.views.manager.calendar import CalendarList
+from events.views.manager.location import LocationCreateView
+from events.views.manager.location import LocationDeleteView
+from events.views.manager.location import LocationListView
+from events.views.manager.location import LocationUpdateView
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -77,10 +81,11 @@ urlpatterns += patterns('events.views.manager',
         name='manager-all-calendars-day-listing'
     ),
 
-    url(r'^location/?$', view='location.list', name='location-list'),
-    url(r'^location/create/?$', view='location.create_update', name='location-create'),
-    url(r'^location/(?P<location_id>\d+)/update', view='location.create_update', name='location-update'),
-    url(r'^location/(?P<state>[\w]+)?$', view='location.list', name='location-state'),
+    url(r'^location/?$', login_required(LocationListView.as_view()), name='location-list'),
+    url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='location-create'),
+    url(r'^location/(?P<pk>\d+)/update', login_required(LocationUpdateView.as_view()), name='location-update'),
+    url(r'^location/(?P<pk>\d+)/delete', login_required(LocationDeleteView.as_view()), name='location-delete'),
+    url(r'^location/(?P<state>[\w]+)?$', login_required(LocationListView.as_view()), name='location-state'),
     url(r'^location/bulk-action/', view='location.bulk_action', name='location-bulk-action'),
 
     url(r'^tag/?$', view='tag.list', name='tag-list'),

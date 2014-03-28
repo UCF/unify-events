@@ -1,87 +1,88 @@
 import logging
 
-from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import ListView
+from django.views.generic import DetailView
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
+from core.views import DeleteSuccessMessageMixin
+from core.views import SuperUserRequiredMixin
 from events.forms.manager import LocationForm
 from events.models import Location
 
 log = logging.getLogger(__name__)
 
 
-@login_required
-def list(request, state=None):
-    """
-    View for listing out the locations.
-    """
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot views locations.')
+class LocationListView(SuperUserRequiredMixin, ListView):
+    context_object_name = 'locations'
+    model = Location
+    paginate_by = 25
+    template_name = 'events/manager/location/list.html'
 
-    ctx = {
-        'state': None,
-        'locations': None,
-        'review_count': Location.objects.filter(reviewed=False).count(),
-    }
+    def get_context_data(self, **kwargs):
+        """
+        Add review count and state to context.
+        """
+        context = super(LocationListView, self).get_context_data(**kwargs)
 
-    tmpl = 'events/manager/location/list.html'
+        context['review_count'] = Location.objects.filter(reviewed=False).count()
 
-    if state is not None and state in ['review', 'approved']:
-        ctx['state'] = state
-        if state == 'review':
-            ctx['locations'] = Location.objects.filter(reviewed=False)
-        else:
-            ctx['locations'] = Location.objects.filter(reviewed=True)
-    else:
-        ctx['locations'] = Location.objects.all()
+        context['state'] = None
+        if 'state' in self.kwargs and self.kwargs.get('state'):
+            context['state'] = self.kwargs.get('state')
 
-    # Pagination
-    if ctx['locations'] is not None:
-        paginator = Paginator(ctx['locations'], 20)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['locations'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['locations'] = paginator.page(1)
-        except EmptyPage:
-            ctx['locations'] = paginator.page(paginator.num_pages)
+        return context
 
-    return TemplateView.as_view(request, tmpl, ctx)
 
-@login_required
-def create_update(request, location_id=None):
-    """
-    View for creating and updating the location.
-    """
-    ctx = {'location': None, 'form': None, 'mode': 'create'}
-    tmpl = 'events/manager/location/create_update.html'
+    def get_queryset(self):
+        """
+        Filter query to specific location state.
+        """
+        queryset = super(LocationListView, self).get_queryset()
 
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot create/modify a location.')
+        state = self.kwargs.get('state')
+        if state and state in ['review', 'approved']:
+            if state == 'review':
+                queryset = queryset.filter(reviewed=False)
+            else:
+                queryset = queryset.filter(reviewed=True)
 
-    if location_id:
-        ctx['mode'] = 'update'
-        ctx['location'] = get_object_or_404(Location, pk=location_id)
+        return queryset
 
-    if request.method == 'POST':
-        ctx['form'] = LocationForm(request.POST, instance=ctx['location'])
-        if ctx['form'].is_valid():
-            try:
-                ctx['form'].save()
-            except Exception, e:
-                log.error(str(e))
-                messages.error(request, 'Saving location failed.')
-            return HttpResponseRedirect(reverse('location-list'))
-    else:
-        ctx['form'] = LocationForm(instance=ctx['location'])
-    return TemplateView.as_view(request, tmpl, ctx)
+
+class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Location
+    template_name = 'events/manager/location/create_update.html'
+    success_url = reverse_lazy('location-list')
+    success_message = '%(title)s was created successfully.'
+
+
+class LocationUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Location
+    template_name = 'events/manager/location/create_update.html'
+    success_url = reverse_lazy('location-list')
+    success_message = '%(title)s was updated successfully.'
+
+
+class LocationDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+    model = Location
+    template_name = 'events/manager/location/delete.html'
+    success_url = reverse_lazy('location-list')
+    success_message = '%(title)s was deleted successfully.'
+
 
 @login_required
 def bulk_action(request):

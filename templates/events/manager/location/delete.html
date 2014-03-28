@@ -1,0 +1,29 @@
+{% extends 'events/manager/modify-object.html' %}
+{% load widget_tweaks %}
+
+{% block content_title_icon %}
+    <i class="icon-trash" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>Delete Calendar: <span class="alt">{{ location.title }}</span></h1>
+{% endblock %}
+
+{% block content_form_action %}
+    {% url 'location-delete' pk=location.id %}
+{% endblock %}
+
+{% block content_form_id %}location-delete{% endblock %}
+
+{% block content_form_body %}
+    <p>Are you sure you want to delete this location? There is no undo!</p>
+{% endblock %}
+
+{% block content_form_footer %}
+    <button type="submit" class="btn btn-danger">Delete Location</button>
+    <a href="{% url 'location-update' pk=location.id %}" class="btn" data-dismiss="modal">Cancel</a>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}

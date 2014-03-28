@@ -53,10 +53,10 @@
 {% endblock %}
 
 {% block content_body %}
-	{% if mode == 'create' %}
-		<form class="form-horizontal" action="{% url location-create %}" method="post" enctype="multipart/form-data">
-	{% elif mode == 'update' %}
-		<form class="form-horizontal" action="{% url location-update location_id=location.id %}" method="post" enctype="multipart/form-data">
+	{% if object %}
+        <form class="form-horizontal" action="{% url 'location-update' pk=location.id %}" method="post" enctype="multipart/form-data">
+    {% else %}
+        <form class="form-horizontal" action="{% url 'location-create' %}" method="post" enctype="multipart/form-data">
 	{% endif %}
             {{ form.non_field_errors }}
             {{ form.title.errors }}
@@ -93,11 +93,11 @@
             </div>
             <div class="control-group large">
                 <div class="controls">
-                    {% if mode == 'create' %}
-                        <button class="btn btn-primary" type="submit">Create Location</button>
-                    {% elif mode == 'update' %}
+                    {% if object %}
                         <button class="btn btn-primary" type="submit">Update Location</button>
-                        <a href="{% url location-list %}" class="btn">Cancel</a>
+                        <a href="{% url 'location-list' %}" class="btn">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">Create Location</button>
                     {% endif %}
                 </div>
             </div>
