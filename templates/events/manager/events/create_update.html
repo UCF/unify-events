@@ -17,7 +17,7 @@
 {% block header_scripts %}
 <script type="text/javascript">
     var eventLocations = {
-    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.id }}", "url": "{{ location.url }}" },{% endfor %}
+    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.pk }}", "url": "{{ location.url }}" },{% endfor %}
     };
     var eventTags = [
     {% for tag in tags %}"{{ tag.name }}",{% endfor %}
@@ -68,7 +68,7 @@
                 <div class="pull-right">
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
                         {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
-                            <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' event_id=event.id %}">
+                            <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' pk=event.pk %}">
                                 <i class="icon-ban-circle"></i>
                             {% if event.canceled %}
                                 Un-Cancel Event
@@ -78,11 +78,11 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="btn btn-danger event-delete" href="{% url 'event-delete' event_id=event.id %}"><i class="icon-trash"></i> Delete Event</a>
+                    <a class="btn btn-danger event-delete" href="{% url 'event-delete' pk=event.pk %}"><i class="icon-trash"></i> Delete Event</a>
                 </div>
             </div>
         </div>
-        <form class="form-horizontal" action="{% url 'event-update' event_id=event.id %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'event-update' pk=event.pk %}" method="post" enctype="multipart/form-data">
     {% else%}
         <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
@@ -163,7 +163,7 @@
                 <p class="label-desc" tabindex="-1">When and where your event takes place, and how often it occurs.</p>
                 <div class="controls">
                     {% for ei_form in event_instance_formset %}
-                    <div class="row cloneable" data-form-prefix="event_instance">
+                    <div class="row cloneable" data-form-prefix="event_instances">
                         {{ ei_form.id }}
                         <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
                         <div class="span7">

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from events.models import State
 from events.views.manager import Dashboard
 from events.views.manager.event import EventCreate
+from events.views.manager.event import EventUpdate
 from events.views.manager.calendar import CalendarCreate
 from events.views.manager.calendar import CalendarDelete
 from events.views.manager.calendar import CalendarUpdate
@@ -30,7 +31,7 @@ urlpatterns += patterns('events.views.manager',
     url(r'^search/event/?', view='search_event', name='search-event'),
 
     url(r'^event/(?P<pk>\d+)/copy', view='event.copy', name='event-copy'),
-    url(r'^event/(?P<pk>\d+)/update', view='event.create_update', name='event-update'),
+    url(r'^event/(?P<pk>\d+)/update', login_required(EventUpdate.as_view()), name='event-update'),
     url(r'^event/(?P<pk>\d+)/submit-to-main', view='event.submit_to_main', name='event-submit-to-main'),
     url(r'^event/(?P<pk>\d+)/post', view='event.update_state', name='event-post', kwargs={'state':State.posted}),
     url(r'^event/(?P<pk>\d+)/pend', view='event.update_state', name='event-pend', kwargs={'state':State.pending}),

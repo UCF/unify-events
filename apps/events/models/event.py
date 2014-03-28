@@ -220,6 +220,8 @@ class Event(TimeCreatedModified):
         if state is None:
             state = self.state
 
+        # TODO change creator to be the person who initiated the copy
+        # not the creator of the previous event
         copy = Event(creator=self.creator,
                      created_from=created_from,
                      state=state,
@@ -326,7 +328,7 @@ class EventInstance(TimeCreatedModified):
             rule = self.get_rrule()
             duration = self.end - self.start
             for event_date in list(rule)[1:]:
-                instance = EventInstance(event=self.event,
+                instance = EventInstance(event_id=self.event_id,
                                          parent=self,
                                          start=event_date,
                                          end=event_date + duration,
