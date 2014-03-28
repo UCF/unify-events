@@ -49,7 +49,7 @@ class EventCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         """
-        Default the context data
+        Get additional context data.
         """
         context = super(EventCreate, self).get_context_data(**kwargs)
 
@@ -140,13 +140,15 @@ class EventUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         """
-        Default the context data
+        Get additional context data.
         """
         context = super(EventUpdate, self).get_context_data(**kwargs)
 
         ctx = {
                'locations': Location.objects.all(),
-               'tags': Tag.objects.all()
+               'tags': Tag.objects.all(),
+               # Needed to determine whether to show the canceled/un-cancel button
+               'posted_state': State.posted
         }
         ctx.update(context)
 
