@@ -22,13 +22,13 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li class="{{ state|yesno:',,active' }}">
-                    <a href="{% url location-state %}">All</a>
+                    <a href="{% url 'location-state' %}">All</a>
                 </li>
                 <li class="{% if state == 'review' %} active{% endif %}">
-                    <a href="{% url location-state state='review' %}">Review ({{ review_count }})</a>
+                    <a href="{% url 'location-state' state='review' %}">Review ({{ review_count }})</a>
                 </li>
                 <li class="{% if state == 'approved' %} active{% endif %}">
-                    <a href="{% url location-state state='approved' %}">Approved</a>
+                    <a href="{% url 'location-state' state='approved' %}">Approved</a>
                 </li>
             </ul>
         </div>
@@ -38,12 +38,12 @@
 {% block content_body %}
     <div class="row">
         <div class="span9 page-content">
-            <a class="btn btn-primary page-top-action" href="{% url location-create %}">
+            <a class="btn btn-primary page-top-action" href="{% url 'location-create' %}">
                 <i class="icon-plus"></i> Create New Location
             </a>
-                
+
             {% if locations %}
-                <form action="{% url location-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
+                <form action="{% url 'location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                     <div class="control-group">
                         <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                         <div class="controls">
@@ -77,7 +77,7 @@
                                     <input type="checkbox" name="location_ids" value="{{ location.id }}" />
                                 </td>
                                 <td class="location-title">
-                                    <a href="{% url location-update location_id=location.id %}">{{ location.title }}</a>
+                                    <a href="{% url 'location-update' pk=location.id %}">{{ location.title }}</a>
                                 </td>
                                 <td class="location-room">
                                     {{ location.room }}
@@ -93,7 +93,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="location-actions">
-                                    <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
+                                    <a class="btn btn-mini" href="{% url 'location-update' pk=location.id %}">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -113,10 +113,10 @@
                 </form>
             {% else %}
                 <div class="well well-empty">
-                    No locations found. Want to <a href="{% url location-create %}">create one?</a>
+                    No locations found. Want to <a href="{% url 'location-create' %}">create one?</a>
                 </div>
             {% endif %}
-                {% pager paginator=locations current_page=request.GET.page %}
+                {% pager paginator=paginator current_page=request.GET.page %}
             </div>
         </div>
 {% endblock %}
