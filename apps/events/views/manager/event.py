@@ -159,6 +159,10 @@ class EventUpdate(UpdateView):
         Handles the GET request and instantiates the object for
         the form and inline formsets.
         """
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
+
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -175,16 +179,16 @@ class EventUpdate(UpdateView):
         Checks the form and formset validity and user permissions on
         the calendar the event will be created for.
         """
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot add an event to this calendar.')
+
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         event_instance_formset = EventInstanceFormSet(data=self.request.POST,
                                                       instance=self.object)
         if form.is_valid() and event_instance_formset.is_valid():
-            # Can user add an event to this calendar?
-            if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-                return HttpResponseForbidden('You cannot add an event to this calendar.')
-
             return self.form_valid(form, event_instance_formset)
         else:
             return self.form_invalid(form, event_instance_formset)
@@ -231,6 +235,15 @@ class EventDelete(DeleteSuccessMessageMixin, DeleteView):
     template_name = 'events/manager/events/delete.html'
     success_url = '/manager/'
     success_message = 'Event was successfully deleted.'
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Ensure the user has the permissions to delete the event
+        """
+        if not self.request.user.is_superuser and self.get_object().calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot delete the specified event.')
+
+        return super(EventDelete, self).delete(request, *args, **kwargs)
 
 
 @login_required
@@ -395,23 +408,6 @@ def cancel_uncancel(request, pk=None):
 
         messages.success(request, message)
     return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
-
-
-@login_required
-def delete(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
-
-    if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        return HttpResponseForbidden('You cannot delete the specified event.')
-
-    try:
-        event.delete()
-    except Exception, e:
-        log(str(e))
-        messages.error(request, 'Deleting event failed.')
-    else:
-        messages.success(request, 'Event successfully deleted.')
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
 
 
 @login_required
