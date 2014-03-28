@@ -366,8 +366,8 @@ def bulk_action(request):
 
 
 @login_required
-def cancel_uncancel(request, event_id=None):
-    event = get_object_or_404(Event, pk=event_id)
+def cancel_uncancel(request, pk=None):
+    event = get_object_or_404(Event, pk=pk)
 
     # Get original event
     original_event = event
