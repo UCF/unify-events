@@ -8,6 +8,12 @@ from events.views.manager import Dashboard
 from events.views.manager.event import EventCreate
 from events.views.manager.event import EventDelete
 from events.views.manager.event import EventUpdate
+from events.views.manager.calendar import CalendarCreate
+from events.views.manager.calendar import CalendarDelete
+from events.views.manager.calendar import CalendarUpdate
+from events.views.manager.calendar import CalendarUserUpdate
+from events.views.manager.calendar import CalendarSubscriptionsUpdate
+from events.views.manager.calendar import CalendarList
 from events.views.manager.category import CategoryCreate
 from events.views.manager.category import CategoryUpdate
 from events.views.manager.category import CategoryDelete
