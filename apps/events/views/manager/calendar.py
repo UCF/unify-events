@@ -22,6 +22,7 @@ from django.views.generic import DeleteView
 from core.views import SuccessUrlReverseKwargsMixin
 from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
+from core.views import DeleteSuccessMessageMixin
 
 from events.models import Calendar
 from events.forms.manager import CalendarForm
@@ -60,7 +61,7 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         return super(CalendarCreate, self).form_valid(form)
 
 
-class CalendarDelete(SuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
+class CalendarDelete(DeleteSuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
     model = Calendar
     success_message = 'Calendar was successfully deleted.'
     success_url = reverse_lazy('dashboard')

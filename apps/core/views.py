@@ -1,4 +1,5 @@
 from django.http import HttpResponseForbidden
+from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 
 
@@ -47,3 +48,23 @@ class SuperUserRequiredMixin(object):
             return HttpResponseForbidden('You do not have permission to access this page.')
         else:
             return super(SuperUserRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+class DeleteSuccessMessageMixin(object):
+    """
+    Give the ability to display success messages
+    for the DeleteView class.
+    """
+    success_message = None
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Set success message if one exists.
+        """
+        httpResponse = super(DeleteSuccessMessageMixin, self).delete(request, *args, **kwargs)
+        success_message = self.get_success_message()
+        if success_message:
+            messages.success(self.request, success_message)
+        return httpResponse
+
+    def get_success_message(self):
+        return self.success_message

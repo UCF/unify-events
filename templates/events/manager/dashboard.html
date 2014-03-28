@@ -206,7 +206,7 @@
                                             {% endwith %}
                                             {% if not event.event.has_instances %}
                                             <li role="presentation">
-                                                <a class="object-delete" href="{% url 'event-delete' pk=event.event.id %}">
+                                                <a class="object-modify" href="{% url 'event-delete' pk=event.event.id %}">
                                                     <i class="icon-trash"></i>
                                                     Delete Event
                                                 </a>

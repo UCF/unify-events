@@ -504,10 +504,13 @@ var cloneableFieldsets = function() {
                     .find('input, textarea, select, label')
                     .each(function () {
                         updateElementIndex(this, prefix, formCount);
-                        if ($(this).is('select')) {
-                            $(this).find('option:first').attr('selected', 'selected');
+                        var element = $(this);
+                        if (element.is('select')) {
+                            if (element.attr('id').indexOf('interval') >= 0) {
+                                element.find('option:first').attr('selected', 'selected');
+                            }
                         } else {
-                            $(this).val('');
+                            element.val('');
                         }
                 });
 
