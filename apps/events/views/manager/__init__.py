@@ -43,6 +43,8 @@ class Dashboard(TemplateView) :
             'current_calendar': None,
             'rereview_count': None,
             'pending_count': None,
+            # Needed to determine whether to show the cancel/un-cancel button
+            'posted_state': State.posted,
             'state': 'posted',
             'events': None,
             'dates': {

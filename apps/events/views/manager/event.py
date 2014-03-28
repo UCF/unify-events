@@ -147,7 +147,7 @@ class EventUpdate(UpdateView):
         ctx = {
                'locations': Location.objects.all(),
                'tags': Tag.objects.all(),
-               # Needed to determine whether to show the canceled/un-cancel button
+               # Needed to determine whether to show the cancel/un-cancel button
                'posted_state': State.posted
         }
         ctx.update(context)
