@@ -19,6 +19,7 @@ from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 
+from core.views import DeleteSuccessMessageMixin
 from events.models import Calendar
 from events.forms.manager import CalendarForm
 
