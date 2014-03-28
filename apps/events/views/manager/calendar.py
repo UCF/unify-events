@@ -19,6 +19,10 @@ from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 
+from core.views import SuccessUrlReverseKwargsMixin
+from core.views import FirstLoginTemplateMixin
+from core.views import SuperUserRequiredMixin
+
 from events.models import Calendar
 from events.forms.manager import CalendarForm
 
@@ -26,43 +30,26 @@ log = logging.getLogger(__name__)
 
 
 class CalendarUserValidationMixin(object):
-    def check_user_permissions(self):
-        is_valid = True
+    """
+    Require that the user accessing the calendar is either a superuser
+    or owns the requested calendar.
+
+    Return 403 Forbidden if false.
+    """
+    def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
-            is_valid = False
-        return is_valid
-
-    def get(self, request, *args, **kwargs):
-        if self.check_user_permissions():
-            return super(CalendarUserValidationMixin, self).get(self)
-        else:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
-
-    def post(self, request, *args, **kwargs):
-        if self.check_user_permissions():
-            return super(CalendarUserValidationMixin, self).post(self)
         else:
-            return HttpResponseForbidden('You cannot modify the specified calendar.')
+            return super(CalendarUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
 
-class CalendarCreate(SuccessMessageMixin, CreateView):
+class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was created successfully.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/create.html'
-
-    def get_template_names(self):
-        """
-        Display the First Login calendar creation template if necessary
-        """
-        if len(self.request.user.calendars.all()) == 0 and self.request.user.first_login:
-            tmpl = ['events/manager/firstlogin/calendar_create.html']
-        else:
-            tmpl = [self.template_name]
-
-        return tmpl
 
     def form_valid(self, form):
         """
@@ -80,15 +67,12 @@ class CalendarDelete(SuccessMessageMixin, CalendarUserValidationMixin, DeleteVie
     template_name = 'events/manager/calendar/delete.html'
 
 
-class CalendarUpdate(SuccessMessageMixin, CalendarUserValidationMixin, UpdateView):
+class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarUserValidationMixin, UpdateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was updated successfully.'
     template_name = 'events/manager/calendar/update.html'
-
-    # TODO: use SuccessUrlReverseKwargsMixin
-    def get_success_url(self):
-        return reverse_lazy('calendar-update', kwargs = {'pk' : self.object.pk, })
+    success_view_name = 'calendar-update'
 
 
 class CalendarUserUpdate(DetailView):
@@ -107,17 +91,11 @@ class CalendarSubscriptionsUpdate(DetailView):
     template_name = 'events/manager/calendar/update/update-subscriptions.html'
 
 
-class CalendarList(ListView):
+class CalendarList(SuperUserRequiredMixin, ListView):
     context_object_name = 'calendars'
     model = Calendar
     paginate_by = 25
     template_name = 'events/manager/calendar/list.html'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_superuser:
-            return super(CalendarList, self).get(self)
-        else:
-            return HttpResponseForbidden('You do not have permission to access this page.')
 
 
 
@@ -216,24 +194,3 @@ def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
     return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)) + '#subscriptions')
-
-@login_required
-def list(request):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You do not have permission to access this page.')
-
-    ctx = {'calendars': Calendar.objects.all()}
-    tmpl = 'events/manager/calendar/list.html'
-
-    # Pagination
-    if ctx['calendars'] is not None:
-        paginator = Paginator(ctx['calendars'], 20)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['calendars'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['calendars'] = paginator.page(1)
-        except EmptyPage:
-            ctx['calendars'] = paginator.page(paginator.num_pages)
-
-    return TemplateView.as_view(request, tmpl, ctx)
