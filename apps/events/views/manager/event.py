@@ -159,13 +159,13 @@ class EventUpdate(UpdateView):
         Handles the GET request and instantiates the object for
         the form and inline formsets.
         """
-        # Can user add an event to this calendar?
-        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified event.')
-
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot modify the specified event.')
 
         # Remove extra form and set related object to get all event instances
         EventInstanceFormSet.extra = 0
