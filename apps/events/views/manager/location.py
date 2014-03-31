@@ -66,6 +66,7 @@ class LocationListView(SuperUserRequiredMixin, ListView):
 class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
     success_message = '%(title)s was created successfully.'
 
@@ -73,6 +74,7 @@ class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView
 class LocationUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
     success_message = '%(title)s was updated successfully.'
 
