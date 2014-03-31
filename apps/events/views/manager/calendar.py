@@ -101,8 +101,8 @@ class CalendarList(SuperUserRequiredMixin, ListView):
 
 
 @login_required
-def add_update_user(request, calendar_id, username, role):
-    calendar = get_object_or_404(Calendar, pk=calendar_id)
+def add_update_user(request, pk, username, role):
+    calendar = get_object_or_404(Calendar, pk=pk)
 
     if not request.user.is_superuser and calendar not in request.user.editable_calendars:
         return HttpResponseForbidden('You cannot add/update users to the specified calendar.')
@@ -121,15 +121,15 @@ def add_update_user(request, calendar_id, username, role):
         return HttpResponseForbidden('Not a legitimate role value.')
 
     calendar.save()
-    url_name = 'calendar-update'
+    url_name = 'calendar-update-users'
     if request.user == user and role == 'editor' and not request.user.is_superuser:
         url_name = 'dashboard'
 
-    return HttpResponseRedirect(reverse(url_name, kwargs={'calendar_id': calendar_id}))
+    return HttpResponseRedirect(reverse(url_name, kwargs={'pk': pk}))
 
 @login_required
-def delete_user(request, calendar_id, username):
-    calendar = get_object_or_404(Calendar, pk=calendar_id)
+def delete_user(request, pk, username):
+    calendar = get_object_or_404(Calendar, pk=pk)
 
     if not request.user.is_superuser and calendar not in request.user.editable_calendars:
         return HttpResponseForbidden('You cannot delete a user from this calendar.')
@@ -138,11 +138,11 @@ def delete_user(request, calendar_id, username):
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
-    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+    return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
 
 @login_required
-def reassign_ownership(request, calendar_id, username):
-    calendar = get_object_or_404(Calendar, pk=calendar_id)
+def reassign_ownership(request, pk, username):
+    calendar = get_object_or_404(Calendar, pk=pk)
 
     if not request.user.is_superuser and calendar not in request.user.owned_calendars.all():
         return HttpResponseForbidden('You cannot reassign ownership for this calendar.')
@@ -153,12 +153,12 @@ def reassign_ownership(request, calendar_id, username):
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
-    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)))
+    return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
 
 @login_required
-def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=None):
+def subscribe_to_calendar(request, pk=None, subscribing_calendar_id=None):
     try:
-        calendar = Calendar.objects.get(pk=calendar_id)
+        calendar = Calendar.objects.get(pk=pk)
         subscribing_calendar = Calendar.objects.get(pk=subscribing_calendar_id)
     except Calendar.DoesNotExist:
         return HttpResponseNotFound('One of the specified calendars does not exist.')
@@ -174,12 +174,12 @@ def subscribe_to_calendar(request, calendar_id=None, subscribing_calendar_id=Non
             messages.error(request, 'Adding calendar to subscribing list failed.')
         else:
             messages.success(request, 'Calendar successfully subscribed to.')
-    return HttpResponseRedirect(reverse('calendar-update', args=(subscribing_calendar_id,)) + '#subscriptions')
+    return HttpResponseRedirect(reverse('calendar-update-subscriptions', args=(subscribing_calendar_id,)) + '#subscriptions')
 
 @login_required
-def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=None):
+def unsubscribe_from_calendar(request, pk=None, subscribed_calendar_id=None):
     try:
-        calendar = Calendar.objects.get(pk=calendar_id)
+        calendar = Calendar.objects.get(pk=pk)
         subscribed_calendar = Calendar.objects.get(pk=subscribed_calendar_id)
     except Calendar.DoesNotExist:
         return HttpResponseNotFound('One of the specified calendars does not exist.')
@@ -194,4 +194,4 @@ def unsubscribe_from_calendar(request, calendar_id=None, subscribed_calendar_id=
             messages.error(request, 'Removing subscribed calendar failed.')
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
-    return HttpResponseRedirect(reverse('calendar-update', args=(calendar_id,)) + '#subscriptions')
+    return HttpResponseRedirect(reverse('calendar-update-subscriptions', args=(pk,)) + '#subscriptions')

@@ -50,15 +50,15 @@
             <ul class="nav nav-tabs">
             {% if current_calendar %}
                 <li class="{% if state == 'posted' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' calendar_id=current_calendar.id state='posted' %}">Posted</a>
+                    <a href="{% url 'dashboard-calendar-state' pk=current_calendar.id state='posted' %}">Posted</a>
                 </li>
                 {% if current_calendar.is_main_calendar and current_calendar in user.editable_calendars or current_calendar.is_main_calendar and user.is_superuser %}
                 <li class="{% if state == 'rereview' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' calendar_id=current_calendar.id state='rereview' %}">Re-Review ({{ rereview_count }})</a>
+                    <a href="{% url 'dashboard-calendar-state' pk=current_calendar.id state='rereview' %}">Re-Review ({{ rereview_count }})</a>
                 </li>
                 {% endif %}
                 <li class="{% if state == 'pending' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' calendar_id=current_calendar.id state='pending' %}">Pending ({{ pending_count }})</a>
+                    <a href="{% url 'dashboard-calendar-state' pk=current_calendar.id state='pending' %}">Pending ({{ pending_count }})</a>
                 </li>
             {% else %}
                 <li class="{% if state == 'posted' %} active{% endif %}">

@@ -81,8 +81,8 @@ class Dashboard(TemplateView) :
 
         # Get events from calendar(s)
         events = None
-        if self.kwargs.get('calendar_id'):
-            current_calendar = get_object_or_404(Calendar, pk=self.kwargs.get('calendar_id'))
+        if self.kwargs.get('pk'):
+            current_calendar = get_object_or_404(Calendar, pk=self.kwargs.get('pk'))
             if not self.request.user.is_superuser and current_calendar not in self.request.user.calendars:
                 return HttpResponseNotFound('You do not have permission to access this calendar.')
             ctx['current_calendar'] = current_calendar
