@@ -8,12 +8,13 @@ from django.template import TemplateDoesNotExist
 from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.utils.decorators import classonlymethod
 
 from time import gmtime, time
 from events.models import *
-from events.functions import format_to_mimetype
+from core.utils import format_to_mimetype
 from core.views import MultipleFormatTemplateViewMixin
 from events.templatetags import widgets
 from dateutil.relativedelta import relativedelta

@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls import patterns
 from django.conf.urls import url
 
-from events.views.calendar import tag
 from events.views.calendar import EventsByTagList
 
 

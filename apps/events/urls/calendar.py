@@ -10,8 +10,6 @@ from events.views.calendar import named_listing
 from events.views.calendar import day_listing
 from events.views.calendar import range_listing
 from events.views.calendar import week_listing
-from events.views.calendar import tag
-from events.views.calendar import category
 from events.views.calendar import TodayEventCalendarListView
 from events.views.calendar import EventsByCategoryList
 from events.views.calendar import EventsByTagList
