@@ -24,7 +24,6 @@ from events.models import Event
 from events.models import get_all_users_future_events
 from events.models import get_range_users_events
 from events.models import State
-from events.functions import format_to_mimetype
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

@@ -10,10 +10,12 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic import TemplateView
 from django.views.generic import ListView
+from django.utils.decorators import classonlymethod
 
 from time import gmtime, time
 from events.models import *
-from events.functions import format_to_mimetype
+from core.utils import format_to_mimetype
+from core.views import MultipleFormatTemplateViewMixin
 from events.templatetags import widgets
 from dateutil.relativedelta import relativedelta
 from ordereddict import OrderedDict
@@ -21,27 +23,10 @@ from ordereddict import OrderedDict
 import settings
 
 
-class EventDetailView(DetailView):
+class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     context_object_name = 'event_instance'
     model = EventInstance
     template_name = 'events/frontend/event-single/event.'
-
-    def get_template_names(self):
-        """
-        Return the template name based on the format requested.
-        """
-        format = self.kwargs['format']
-        if not format:
-            format = 'html'
-        return [self.template_name + format]
-
-    def render_to_response(self, context, **kwargs):
-        """
-        Set the mimetype of the response based on the format.
-        """
-        return super(EventDetailView, self).render_to_response(context,
-                                                               content_type=format_to_mimetype(self.kwargs['format']),
-                                                               **kwargs)
 
 
 def listing(url_params, calendar, start, end, format=None, extra_context=None):

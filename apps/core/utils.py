@@ -27,3 +27,16 @@ def pre_save_slug(sender, **kwargs):
     """
     instance = kwargs['instance']
     instance.slug = generate_unique_slug(instance.title, sender)
+
+
+def format_to_mimetype(format):
+    """Provides a mapping between frontend document formats and mimetypes to be
+    returned with the resulting response.
+    """
+    return {
+        'json' : 'application/json',
+        'rss'  : 'application/rss+xml',
+        'html' : 'text/html',
+        'xml'  : 'text/xml',
+        'ics'  : 'text/calendar',
+    }.get(format, 'text/html')
