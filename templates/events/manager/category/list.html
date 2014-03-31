@@ -19,7 +19,7 @@
         <a class="btn btn-primary page-top-action" href="{% url 'category-create' %}">
             <i class="icon-plus"></i> Create New Category
         </a>
-        
+
         <table class="table table-striped table-hover manager-item-table">
             <thead>
                 <tr>
@@ -42,7 +42,7 @@
                         <span class="category-label {{ category.slug }}">{{ category.color }}</span>
                     </td>
                     <td class="category-actions">
-                        
+
                         <div class="btn-group">
                             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                                 Select
@@ -84,15 +84,15 @@
             {% endfor %}
             </tbody>
         </table>
-        
+
         {% pager paginator=paginator current_page=request.GET.page %}
-        
+
         {% else %}
             <div class="well well-empty">
                 No categories found. Want to <a href="{% url 'category-create' %}">create one?</a>
             </div>
         {% endif %}
-        
+
         <!-- Modal for Object Merge -->
         <div class="modal hide fade" id="object-merge-modal">
             <div class="modal-header">
@@ -111,7 +111,7 @@
                 </p>
                 <select id="new-object-select">
                     <option value="">Select an Existing Category</option>
-                    {% for category in categories %}
+                    {% for category in category_list %}
                     <option value="{{ category.id }}">{{ category.title }}</option>
                     {% endfor %}
                 </select>

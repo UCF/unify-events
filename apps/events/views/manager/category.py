@@ -65,6 +65,16 @@ class CategoryList(SuperUserRequiredMixin, ListView):
     paginate_by = 25
     template_name = 'events/manager/category/list.html'
 
+    def get_context_data(self, **kwargs):
+        """
+        Add location list to context.
+        """
+        context = super(CategoryList, self).get_context_data(**kwargs)
+
+        context['category_list'] = Categories.objects.all()
+
+        return context
+
 
 
 @login_required
