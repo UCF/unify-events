@@ -12,17 +12,17 @@ from events.views.calendar import range_listing
 from events.views.calendar import week_listing
 from events.views.calendar import tag
 from events.views.calendar import category
-
 from events.views.calendar import TodayEventCalendarListView
 from events.views.calendar import EventsByCategoryList
 from events.views.calendar import EventsByTagList
+from events.views.calendar import EventDetailView
 
 
 urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
-    url(r'^(?P<calendar>[\w-]+)/event-(?P<instance_id>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
-        view=event,
+    url(r'^(?P<calendar>[\w-]+)/event-(?P<pk>[\d]+)/([\w-]+/)?(\.(?P<format>[\w]+))?$',
+        EventDetailView.as_view(),
         name='event'
     ),
 

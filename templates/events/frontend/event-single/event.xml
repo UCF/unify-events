@@ -1,12 +1,12 @@
     <event>
-        <id>{{ event.event.id }}</id>
-        <event_id>{{ event.id }}</event_id>
-		<title>{{ event.title }}</title>
+        <id>{{ event_instance.event.id }}</id>
+        <event_id>{{ event_instance.id }}</event_id>
+		<title>{{ event_instance.title }}</title>
 		<subtitle></subtitle>
-		<start_date>{{ event.start|date:'r' }}</start_date>
-		<end_date>{{ event.end|date:'r' }}</end_date>
-		<location>{{ event.location.title }}</location>
-		<room>{{ event.location.room }}</room>
+		<start_date>{{ event_instance.start|date:'r' }}</start_date>
+		<end_date>{{ event_instance.end|date:'r' }}</end_date>
+		<location>{{ event_instance.location.title }}</location>
+		<room>{{ event_instance.location.room }}</room>
 
 		<address>
 			<building></building>
@@ -23,7 +23,7 @@
 			<location_type></location_type>
 			<location_hours></location_hours>
 			<location_phone></location_phone>
-			<location_website>{{ event.location.url }}</location_website>
+			<location_website>{{ event_instance.location.url }}</location_website>
 			<directions></directions>
 			<map_link></map_link>
 			<additional_public_info></additional_public_info>
@@ -34,20 +34,20 @@
 		</languages>
 		<event_transparency></event_transparency>
 
-		<description>{{ event.event.description|escape }}</description>
+		<description>{{ event_instance.event.description|escape }}</description>
 		<short_description></short_description>
 
 		<refreshments></refreshments>
 		<webpages>
 			<webpage>
 				<title>Event Instance url</title>
-				<url>http://{{ request.get_host }}{{ event.get_absolute_url }}</url>
+				<url>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</url>
 			</webpage>
 		</webpages>
 
-		<contact_person>{{ event.event.contact_name }}</contact_person>
-		<contact_email>{{ event.event.contact_email }}</contact_email>
-		<contact_phone>{{ event.event.contact_phone }}</contact_phone>
+		<contact_person>{{ event_instance.event.contact_name }}</contact_person>
+		<contact_email>{{ event_instance.event.contact_email }}</contact_email>
+		<contact_phone>{{ event_instance.event.contact_phone }}</contact_phone>
 
 		<status>Happening As Scheduled</status>
 		<classification>Public</classification>

@@ -7,13 +7,14 @@ from django.http import Http404, HttpResponse
 from django.template import TemplateDoesNotExist
 from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
-
 from django.views.generic import TemplateView
 from django.views.generic import ListView
+from django.utils.decorators import classonlymethod
 
 from time import gmtime, time
 from events.models import *
 from events.functions import format_to_mimetype
+from core.views import MultipleFormatTemplateViewMixin
 from events.templatetags import widgets
 from dateutil.relativedelta import relativedelta
 from ordereddict import OrderedDict
@@ -21,27 +22,10 @@ from ordereddict import OrderedDict
 import settings
 
 
-def event(request, calendar, instance_id, format=None):
-    """
-    Event instance page that serves as the public interface for events.
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-    try:
-        event = calendar.event_instances.get(pk=instance_id)
-    except EventInstance.DoesNotExist:
-        raise Http404
-
-    format = format or 'html'
-    template = 'events/frontend/event-single/event.' + format
-    context = {
-        'calendar': calendar,
-        'event': event,
-    }
-
-    try:
-        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
+class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
+    context_object_name = 'event_instance'
+    model = EventInstance
+    template_name = 'events/frontend/event-single/event.'
 
 
 def listing(url_params, calendar, start, end, format=None, extra_context=None):
@@ -405,5 +389,3 @@ class EventsByCategoryList(ListView):
             events = events.filter(event__created_from__isnull=True)
         
         return events
-
-

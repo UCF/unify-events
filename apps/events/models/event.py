@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -356,11 +357,9 @@ class EventInstance(TimeCreatedModified):
         """
         Generate permalink for this object
         """
-        from django.core.urlresolvers import reverse
-
         return reverse('event', kwargs={
             'calendar': self.event.calendar.slug,
-            'instance_id': self.id,
+            'pk': self.id,
         }) + self.event.slug + '/'
 
     def save(self, *args, **kwargs):

@@ -2,6 +2,8 @@ from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 
+from core.utils import format_to_mimetype
+
 
 class SuccessUrlReverseKwargsMixin(object):
     """
@@ -19,6 +21,7 @@ class SuccessUrlReverseKwargsMixin(object):
         for keyword in self.copy_kwargs:
             kwargs[keyword] = self.kwargs[keyword]
         return reverse_lazy(self.success_view_name, kwargs=kwargs)
+
 
 class FirstLoginTemplateMixin(object):
     """
@@ -38,6 +41,7 @@ class FirstLoginTemplateMixin(object):
 
         return tmpl
 
+
 class SuperUserRequiredMixin(object):
     """
     Require that the user accessing the view is a superuser.
@@ -48,6 +52,7 @@ class SuperUserRequiredMixin(object):
             return HttpResponseForbidden('You do not have permission to access this page.')
         else:
             return super(SuperUserRequiredMixin, self).dispatch(request, *args, **kwargs)
+
 
 class DeleteSuccessMessageMixin(object):
     """
@@ -68,3 +73,29 @@ class DeleteSuccessMessageMixin(object):
 
     def get_success_message(self):
         return self.success_message
+
+
+class MultipleFormatTemplateViewMixin(object):
+    """
+    Returns a template name based on template_name and
+    the url parameter of format.
+    """
+    template_name = None
+
+
+    def get_template_names(self):
+        """
+        Return the template name based on the format requested.
+        """
+        format = self.kwargs['format']
+        if not format:
+            format = 'html'
+        return [self.template_name + format]
+
+    def render_to_response(self, context, **kwargs):
+        """
+        Set the mimetype of the response based on the format.
+        """
+        return super(MultipleFormatTemplateViewMixin, self).render_to_response(context,
+                                                                               content_type=format_to_mimetype(self.kwargs['format']),
+                                                                               **kwargs)
