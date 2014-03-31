@@ -231,7 +231,7 @@
                                             {% endif %}
                                             <li class="divider"></li>
                                             <li role="presentation">
-                                                <a href="{% url 'event' calendar=event.event.calendar.slug instance_id=event.id %}{{ event.event.slug }}">
+                                                <a href="{% url 'event' calendar=event.event.calendar.slug pk=event.id %}{{ event.event.slug }}">
                                                     <i class="icon-circle-arrow-right"></i>
                                                     Live View
                                                 </a>

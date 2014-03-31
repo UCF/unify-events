@@ -7,7 +7,7 @@ from django.http import Http404, HttpResponse
 from django.template import TemplateDoesNotExist
 from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
-
+from django.views.generic import DetailView
 from django.views.generic import TemplateView
 from django.views.generic import ListView
 
@@ -21,27 +21,27 @@ from ordereddict import OrderedDict
 import settings
 
 
-def event(request, calendar, instance_id, format=None):
-    """
-    Event instance page that serves as the public interface for events.
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-    try:
-        event = calendar.event_instances.get(pk=instance_id)
-    except EventInstance.DoesNotExist:
-        raise Http404
+class EventDetailView(DetailView):
+    context_object_name = 'event_instance'
+    model = EventInstance
+    template_name = 'events/frontend/event-single/event.'
 
-    format = format or 'html'
-    template = 'events/frontend/event-single/event.' + format
-    context = {
-        'calendar': calendar,
-        'event': event,
-    }
+    def get_template_names(self):
+        """
+        Return the template name based on the format requested.
+        """
+        format = self.kwargs['format']
+        if not format:
+            format = 'html'
+        return [self.template_name + format]
 
-    try:
-        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
+    def render_to_response(self, context, **kwargs):
+        """
+        Set the mimetype of the response based on the format.
+        """
+        return super(EventDetailView, self).render_to_response(context,
+                                                               content_type=format_to_mimetype(self.kwargs['format']),
+                                                               **kwargs)
 
 
 def listing(url_params, calendar, start, end, format=None, extra_context=None):
