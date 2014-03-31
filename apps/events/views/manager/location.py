@@ -34,7 +34,7 @@ class LocationListView(SuperUserRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         """
-        Add review count and state to context.
+        Add review count, state and full location list to context.
         """
         context = super(LocationListView, self).get_context_data(**kwargs)
 
@@ -44,8 +44,9 @@ class LocationListView(SuperUserRequiredMixin, ListView):
         if 'state' in self.kwargs and self.kwargs.get('state'):
             context['state'] = self.kwargs.get('state')
 
-        return context
+        context['location_list'] = Location.objects.all()
 
+        return context
 
     def get_queryset(self):
         """
@@ -66,6 +67,7 @@ class LocationListView(SuperUserRequiredMixin, ListView):
 class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
     success_message = '%(title)s was created successfully.'
 
@@ -73,6 +75,7 @@ class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView
 class LocationUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
     success_message = '%(title)s was updated successfully.'
 
@@ -81,7 +84,17 @@ class LocationDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, Dele
     model = Location
     template_name = 'events/manager/location/delete.html'
     success_url = reverse_lazy('location-list')
-    success_message = '%(title)s was deleted successfully.'
+    success_message = 'Location was deleted successfully.'
+
+    def post(self, request, *args, **kwargs):
+        """
+        Do not allow the location to be deleted if events
+        are assigned to it.
+        """
+        location = self.get_object()
+        if location.event_instances.count() > 0:
+            return HttpResponseForbidden('This location has events assigned to it and cannot be deleted.')
+        return self.delete(request, *args, **kwargs)
 
 
 @login_required
@@ -162,4 +175,35 @@ def bulk_action(request):
             messages.success(request, message)
 
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    raise Http404
+
+
+@login_required
+def merge(request, location_from_id=None, location_to_id=None):
+    """
+    View for merging the location into another location.
+    """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot perform this action.')
+
+    if location_from_id and location_to_id:
+        location_from = get_object_or_404(Location, pk=location_from_id)
+        location_to = get_object_or_404(Location, pk=location_to_id)
+
+        event_instances = location_from.event_instances.filter(parent=None)
+        if event_instances.count() > 0:
+            try:
+                for event_instance in event_instances:
+                    event_instance.location = location_to
+                    event_instance.save()
+                location_from.delete()
+            except Exception, e:
+                log.error(str(e))
+                messages.error(request, 'Merging location failed.')
+            else:
+                messages.success(request, 'Location successfully merged.')
+        else:
+            messages.error(request, 'Cannot merge this location: location has no events. Delete this location instead of merging.')
+        return HttpResponseRedirect(reverse('location-list'))
+
     raise Http404

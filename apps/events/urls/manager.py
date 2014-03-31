@@ -22,6 +22,10 @@ from events.views.manager.location import LocationCreateView
 from events.views.manager.location import LocationDeleteView
 from events.views.manager.location import LocationListView
 from events.views.manager.location import LocationUpdateView
+from events.views.manager.tag import TagCreateView
+from events.views.manager.tag import TagDeleteView
+from events.views.manager.tag import TagListView
+from events.views.manager.tag import TagUpdateView
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -92,15 +96,16 @@ urlpatterns += patterns('events.views.manager',
     url(r'^location/?$', login_required(LocationListView.as_view()), name='location-list'),
     url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='location-create'),
     url(r'^location/(?P<pk>\d+)/update', login_required(LocationUpdateView.as_view()), name='location-update'),
+    url(r'^location/(?P<location_from_id>\d+)/merge/(?P<location_to_id>\d+)', view='location.merge', name='location-merge'),
     url(r'^location/(?P<pk>\d+)/delete', login_required(LocationDeleteView.as_view()), name='location-delete'),
     url(r'^location/(?P<state>[\w]+)?$', login_required(LocationListView.as_view()), name='location-state'),
     url(r'^location/bulk-action/', view='location.bulk_action', name='location-bulk-action'),
 
-    url(r'^tag/?$', view='tag.list', name='tag-list'),
-    url(r'^tag/create/?$', view='tag.create_update', name='tag-create'),
-    url(r'^tag/(?P<tag_id>\d+)/update/?$', view='tag.create_update', name='tag-update'),
+    url(r'^tag/?$', login_required(TagListView.as_view()), name='tag-list'),
+    url(r'^tag/create/?$', login_required(TagCreateView.as_view()), name='tag-create'),
+    url(r'^tag/(?P<pk>\d+)/update/?$', login_required(TagUpdateView.as_view()), name='tag-update'),
     url(r'^tag/(?P<tag_from_id>\d+)/merge/(?P<tag_to_id>\d+)', view='tag.merge', name='tag-merge'),
-    url(r'^tag/(?P<tag_id>\d+)/delete', view='tag.delete', name='tag-delete'),
+    url(r'^tag/(?P<pk>\d+)/delete', login_required(TagDeleteView.as_view()), name='tag-delete'),
 
     url(r'^category/create/?$',
         view=login_required(CategoryCreate.as_view()),

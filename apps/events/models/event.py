@@ -281,7 +281,7 @@ class EventInstance(TimeCreatedModified):
 
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    location = models.ForeignKey('Location', blank=True, null=True, related_name='location');
+    location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances');
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)

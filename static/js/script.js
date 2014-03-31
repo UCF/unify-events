@@ -94,7 +94,7 @@ var toggleModalModifyObject = function() {
 var toggleModalMergeObject = function() {
     var modal = $('#object-merge-modal');
 
-    $('.category-merge, .tag-merge').click(function(e) {
+    $('.category-merge, .tag-merge, .location-merge').click(function(e) {
         e.preventDefault();
 
         var objectTitle = $(this).attr('data-object-title'),
