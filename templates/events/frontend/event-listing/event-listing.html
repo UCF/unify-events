@@ -14,7 +14,7 @@
         <ul class="event-list">
         {% for event in date.list %}
             <li class="vevent {{ event.event.category.slug }}">
-                <a class="event-content url" href="{% url event event.event.calendar.slug event.id %}{{ event.event.slug }}">
+                <a class="event-content url" href="{% url 'event' event.event.calendar.slug event.id %}{{ event.event.slug }}">
                     <!-- if img -->
                     <!--<img src="" alt="image" title="image" />-->
                     <!-- endif -->

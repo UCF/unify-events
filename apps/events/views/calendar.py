@@ -337,58 +337,73 @@ def paginated_listing(request, template, context, format=None):
         raise Http404
 
 
-def tag(request, tag, calendar=None, format=None):
+class EventsByTagList(ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
 
     TODO: move this view?
     """
-    # FUN TIMES: doing a deep relationship filter to event__tags__name__in fails.
-    # https://github.com/alex/django-taggit/issues/84
-    parent_events = Event.objects.filter(tags__name__in=[tag])
-    events = EventInstance.objects.filter(event__in=parent_events, end__gt=datetime.now())
-    if calendar:
-        calendar = get_object_or_404(Calendar, slug=calendar)
-        events = events.filter(event__calendar=calendar)
-    else:
-        events = events.filter(event__created_from__isnull=True)
+    context_object_name = 'events'
+    model = Event
+    paginate_by = 25
+    template_name = 'events/frontend/tag/tag.html'
 
-    format = format or 'html'
-    template = 'events/frontend/tag/tag.' + format
-    context = {
-        'tag': tag,
-        'calendar': calendar,
-        'events': events,
-        'format': format,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(EventsByTagList, self).get_context_data()
+        context['tag'] = self.kwargs['tag']
+        return context
 
-    return paginated_listing(request, template, context, format)
+    def get_queryset(self):
+        kwargs = self.kwargs
+        tag = kwargs['tag']
+        events = EventInstance.objects.filter(event__tags__name__in=[tag])
+
+        if 'calendar' not in kwargs:
+            calendar = None
+        else:
+            calendar = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+
+        if calendar:
+            events = events.filter(event__calendar=calendar)
+        else:
+            events = events.filter(event__created_from__isnull=True)
+        
+        return events
 
 
-def category(request, category, calendar=None, format=None):
+class EventsByCategoryList(ListView):
     """
-    Page that lists all upcoming events categorized with the
-    given category.
+    Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
 
     TODO: move this view?
     """
-    category = get_object_or_404(Category, slug=category)
-    events = EventInstance.objects.filter(event__category=category.id)
-    if calendar:
-        calendar = get_object_or_404(Calendar, slug=calendar)
-        events = events.filter(event__calendar=calendar)
-    else:
-        events = events.filter(event__created_from__isnull=True)
+    context_object_name = 'events'
+    model = Event
+    paginate_by = 25
+    template_name = 'events/frontend/category/category.html'
 
-    format = format or 'html'
-    template = 'events/frontend/category/category.' + format
-    context = {
-        'category': category,
-        'calendar': calendar,
-        'events': events,
-        'format': format,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(EventsByCategoryList, self).get_context_data()
+        context['category'] = get_object_or_404(Category, slug=self.kwargs['category'])
+        return context
 
-    return paginated_listing(request, template, context, format)
+    def get_queryset(self):
+        kwargs = self.kwargs
+        category = kwargs['category']
+        events = EventInstance.objects.filter(event__category__slug=category)
+
+        if 'calendar' not in kwargs:
+            calendar = None
+        else:
+            calendar = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+
+        if calendar:
+            events = events.filter(event__calendar=calendar)
+        else:
+            events = events.filter(event__created_from__isnull=True)
+        
+        return events
+
+

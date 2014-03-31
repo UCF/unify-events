@@ -14,6 +14,8 @@ from events.views.calendar import tag
 from events.views.calendar import category
 
 from events.views.calendar import TodayEventCalendarListView
+from events.views.calendar import EventsByCategoryList
+from events.views.calendar import EventsByTagList
 
 
 urlpatterns = patterns('events.views.calendar',
@@ -50,13 +52,13 @@ urlpatterns = patterns('events.views.calendar',
 
     # http://events.ucf.edu/calendar/athletics/tag/tag-name
     url(r'^(?P<calendar>[\w-]+)/tag/(?P<tag>[\w-]+)/(\.(?P<format>[\w]+))?$',
-        view=tag,
-        name="tag-by-calendar"
+        view=EventsByTagList.as_view(),
+        name='tag-by-calendar'
     ),
 
     # http://events.ucf.edu/calendar/athletics/category/category-name
     url(r'^(?P<calendar>[\w-]+)/category/(?P<category>[\w-]+)/(\.(?P<format>[\w]+))?$',
-        view=category,
-        name="category-by-calendar"
+        view=EventsByCategoryList.as_view(),
+        name='category-by-calendar'
     ),
 )

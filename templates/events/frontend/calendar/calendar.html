@@ -31,7 +31,7 @@
             </ul>
         </li>
         <li>
-            <a href="{% url 'dashboard' calendar_id=calendar.id %}">Manager View</a>
+            <a href="{% url 'dashboard' pk=calendar.id %}">Manager View</a>
         </li>
         {% endif %}
         {% if user.editable_calendars.all.count == 1 and user.editable_calendars.all.0.id == calendar.id %}
