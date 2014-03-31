@@ -131,7 +131,7 @@
                                 {% if user.calendars %}
                                     {% for calendar in user.calendars %}
                                         <li role="presentation"{% if current_calendar == calendar %} class="selected"{% endif %}>
-                                            <a href="{% url 'dashboard' calendar_id=calendar.id %}" class="name">
+                                            <a href="{% url 'dashboard' pk=calendar.id %}" class="name">
                                                 <i class="icon-calendar"></i> {{ calendar.title }}
                                             </a>
                                         </li>

@@ -91,8 +91,8 @@
                         <td class="calendar-access-username">{{ editor.username }}</td>
                         <td class="calendar-access-role">Editor</td>
                         <td class="calendar-access-actions">
-                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' calendar_id=calendar.id username=editor.username role="admin" %}"><i class="icon-circle-arrow-up"></i> Make Admin</a>
-                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' calendar_id=calendar.id username=editor.username %}"><i class="icon-remove-sign"></i> Remove User</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' pk=calendar.id username=editor.username role="admin" %}"><i class="icon-circle-arrow-up"></i> Make Admin</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' pk=calendar.id username=editor.username %}"><i class="icon-remove-sign"></i> Remove User</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -118,7 +118,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <a href="{% url 'calendar-reassign-ownership' calendar_id=calendar.id username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
+                    <a href="{% url 'calendar-reassign-ownership' pk=calendar.id username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
                     <a href="#" data-dismiss="modal" class="btn">Cancel</a>
                 </div>
             </div>
