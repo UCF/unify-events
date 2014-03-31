@@ -14,6 +14,10 @@ from events.views.manager.calendar import CalendarUpdate
 from events.views.manager.calendar import CalendarUserUpdate
 from events.views.manager.calendar import CalendarSubscriptionsUpdate
 from events.views.manager.calendar import CalendarList
+from events.views.manager.category import CategoryCreate
+from events.views.manager.category import CategoryUpdate
+from events.views.manager.category import CategoryDelete
+from events.views.manager.category import CategoryList
 from events.views.manager.location import LocationCreateView
 from events.views.manager.location import LocationDeleteView
 from events.views.manager.location import LocationListView
@@ -84,6 +88,10 @@ urlpatterns += patterns('events.views.manager',
         login_required(Dashboard.as_view()),
         name='manager-all-calendars-day-listing'
     ),
+    url(r'^all-calendars/?$',
+        view=login_required(CalendarList.as_view()),
+        name='calendar-list'
+    ),
 
     url(r'^location/?$', login_required(LocationListView.as_view()), name='location-list'),
     url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='location-create'),
@@ -98,15 +106,25 @@ urlpatterns += patterns('events.views.manager',
     url(r'^tag/(?P<tag_from_id>\d+)/merge/(?P<tag_to_id>\d+)', view='tag.merge', name='tag-merge'),
     url(r'^tag/(?P<pk>\d+)/delete', login_required(TagDeleteView.as_view()), name='tag-delete'),
 
-    url(r'^category/?$', view='category.list', name='category-list'),
-    url(r'^category/create/?$', view='category.create_update', name='category-create'),
-    url(r'^category/(?P<category_id>\d+)/update', view='category.create_update', name='category-update'),
-    url(r'^category/(?P<category_from_id>\d+)/merge/(?P<category_to_id>\d+)', view='category.merge', name='category-merge'),
-    url(r'^category/(?P<category_id>\d+)/delete', view='category.delete', name='category-delete'),
-
-    url(r'^all-calendars/?$',
-        view=login_required(CalendarList.as_view()),
-        name='calendar-list'
+    url(r'^category/create/?$',
+        view=login_required(CategoryCreate.as_view()),
+        name='category-create'
+    ),
+    url(r'^category/(?P<pk>\d+)/update/?$',
+        view=login_required(CategoryUpdate.as_view()),
+        name='category-update'
+    ),
+    url(r'^category/(?P<pk>\d+)/delete/?$',
+        view=login_required(CategoryDelete.as_view()),
+        name='category-delete'
+    ),
+    url(r'^category/?$',
+        view=login_required(CategoryList.as_view()),
+        name='category-list'
+    ),
+    url(r'^category/(?P<category_from_id>\d+)/merge/(?P<category_to_id>\d+)',
+        view='category.merge',
+        name='category-merge'
     ),
 
     url(r'^profiles/', include('profiles.urls')),

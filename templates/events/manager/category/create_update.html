@@ -5,12 +5,10 @@
     {% spaceless %}
     {{ block.super }}
     |
-    {% if mode == 'create' %}
-        Create Category
+    {% if object %}
+        Update Category
     {% else %}
-        {% if mode == 'update' %}
-            Update Category
-        {% endif %}
+        Create Category
     {% endif %}
     {% endspaceless %}
 {% endblock %}
@@ -34,26 +32,26 @@
 {% endblock %}
 
 {% block content_title %}
-    {% if mode == 'create' %}
-        <h1>Create a Category</h1>
-    {% elif mode == 'update' %}
+    {% if object %}
         <h1>Update Category: <span class="alt">{{ category.title }}</span></h1>
+    {% else %}
+        <h1>Create a Category</h1>
     {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if mode == 'create' %}
-        Use the form below to create a new category.
-    {% elif mode == 'update' %}
+    {% if object %}
         Use the form below to update the category "{{ category.title }}". Events with this category will be updated with these changes.
+    {% else %}
+        Use the form below to create a new category.       
     {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if mode == 'create' %}
-        <form class="form-horizontal" action="{% url category-create %}" method="post" enctype="multipart/form-data">
-    {% elif mode == 'update' %}
-        <form class="form-horizontal" action="{% url category-update category_id=category.id %}" method="post" enctype="multipart/form-data">
+    {% if object %}
+        <form class="form-horizontal" action="{% url 'category-update' pk=category.id %}" method="post" enctype="multipart/form-data">
+    {% else %}
+        <form class="form-horizontal" action="{% url 'category-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
             {{ form.non_field_errors }}
             {{ form.title.errors }}
@@ -73,11 +71,11 @@
             </div>
             <div class="control-group large">
                 <div class="controls">
-                    {% if mode == 'create' %}
-                        <button class="btn btn-primary" type="submit">Create Category</button>
-                    {% elif mode == 'update' %}
+                    {% if object %}
                         <button class="btn btn-primary" type="submit">Update Category</button>
-                        <a href="{% url category-list %}" class="btn">Cancel</a>
+                        <a href="{% url 'category-list' %}" class="btn">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">Create Category</button>
                     {% endif %}
                 </div>
             </div>

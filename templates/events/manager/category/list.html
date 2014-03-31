@@ -16,7 +16,7 @@
 <div class="row">
     <div class="span9 page-content">
         {% if categories %}
-        <a class="btn btn-primary page-top-action" href="{% url category-create %}">
+        <a class="btn btn-primary page-top-action" href="{% url 'category-create' %}">
             <i class="icon-plus"></i> Create New Category
         </a>
         
@@ -33,7 +33,7 @@
             {% for category in categories %}
                 <tr>
                     <td class="category-title">
-                        <a href="{% url category-update category_id=category.id %}">{{ category.title }}</a>
+                        <a href="{% url 'category-update' pk=category.id %}">{{ category.title }}</a>
                     </td>
                     <td class="category-events">
                         {{ category.events.count }}
@@ -50,21 +50,21 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li role="presentation">
-                                    <a href="{% url category-update category_id=category.id %}">
+                                    <a href="{% url 'category-update' pk=category.id %}">
                                         <i class="icon-pencil"></i>
                                         Edit Category
                                     </a>
                                 </li>
                                 {% if category.events.count > 0 %}
                                 <li role="presentation">
-                                    <a class="category-merge" href="{% url category-merge category_from_id=category.id category_to_id=1 %}" data-object-title="{{ category.title }}">
+                                    <a class="category-merge" href="{% url 'category-merge' category_from_id=category.id category_to_id=1 %}" data-object-title="{{ category.title }}">
                                         <i class="icon-resize-small"></i>
                                         Merge Category
                                     </a>
                                 </li>
                                 {% else %}
                                 <li role="presentation">
-                                    <a class="object-delete" href="{% url category-delete category_id=category.id %}" data-object-type="category" data-object-title="{{ category.title }}">
+                                    <a class="object-modify" href="{% url 'category-delete' pk=category.id %}">
                                         <i class="icon-trash"></i>
                                         Delete Category
                                     </a>
@@ -72,7 +72,7 @@
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li role="presentation">
-                                    <a href="{% url category category=category.slug %}">
+                                    <a href="{% url 'category' category=category.slug %}">
                                         <i class="icon-circle-arrow-right"></i>
                                         Live View
                                     </a>
@@ -85,11 +85,11 @@
             </tbody>
         </table>
         
-        {% pager paginator=categories current_page=request.GET.page %}
+        {% pager paginator=paginator current_page=request.GET.page %}
         
         {% else %}
             <div class="well well-empty">
-                No categories found. Want to <a href="{% url category-create %}">create one?</a>
+                No categories found. Want to <a href="{% url 'category-create' %}">create one?</a>
             </div>
         {% endif %}
         
@@ -118,21 +118,6 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary">Merge Category</a>
-                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
-            </div>
-        </div>
-        
-        <!-- Modal for Object Deletion -->
-        <div class="modal hide fade" id="object-delete-modal">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2>Delete <span class="object-type"></span>: <span class="alt"></span></h2>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this <span class="object-type"></span>? There is no undo!</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-danger">Delete <span class="object-type"></span></a>
                 <a href="#" data-dismiss="modal" class="btn">Cancel</a>
             </div>
         </div>
