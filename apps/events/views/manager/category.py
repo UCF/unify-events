@@ -71,7 +71,7 @@ class CategoryList(SuperUserRequiredMixin, ListView):
         """
         context = super(CategoryList, self).get_context_data(**kwargs)
 
-        context['category_list'] = Categories.objects.all()
+        context['category_list'] = Category.objects.all()
 
         return context
 
