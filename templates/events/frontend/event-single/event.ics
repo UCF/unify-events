@@ -1,6 +1,3 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//UNIFY
 BEGIN:VEVENT
 UID:http://{{ request.get_host }}{{ event_instance.get_absolute_url }}
 DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
@@ -9,4 +6,3 @@ DTEND:{{ event_instance.end|date:"Ymd\THis" }}
 SUMMARY:{{ event_instance.title|linebreaksbr }}
 DESCRIPTION:{{ event_instance.event.description|linebreaksbr }}
 END:VEVENT
-END:VCALENDAR

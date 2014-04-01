@@ -25,7 +25,7 @@
 {% block content_body %}
     <div class="row">
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
-            {% include 'events/frontend/event-listing/event-listing.html' %}
+            {% include 'events/frontend/event-listing/listing.html' %}
             
             {% pager paginator=paginator current_page=request.GET.page %}
         </div>

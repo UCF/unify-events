@@ -66,11 +66,11 @@ def listing(url_params, calendar, start, end, format=None, extra_context=None):
 
     if param_iswidget == 'true':
         if param_monthwidget == 'true':
-            template = 'events/frontend/calendar/listing/listing-widget-month.html'
+            template = 'events/frontend/calendar/calendar-type/listing-widget-month.html'
         else:
-            template = 'events/frontend/calendar/listing/listing-widget-list.html'
+            template = 'events/frontend/calendar/calendar-type/listing-widget-list.html'
     else:
-        template = 'events/frontend/calendar/listing/listing.' + (format or 'html')
+        template = 'events/frontend/calendar/calendar.' + (format or 'html')
 
     context = {
         'start': start,
@@ -156,7 +156,7 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
 
 class TodayEventCalendarListView(MultipleFormatTemplateViewMixin, ListView):
     model = EventInstance
-    template_name = 'events/frontend/calendar/listing/listing.'
+    template_name = 'events/frontend/calendar/calendar.'
 
     def get_context_data(self, **kwargs):
         """

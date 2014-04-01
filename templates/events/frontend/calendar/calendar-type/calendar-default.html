@@ -3,7 +3,7 @@
 <div class="row">
     <div class="span8 sidebarfix page-content" id="calendar-events-week">
         <h2>{{ list_title }}</h2><!-- TODO: use proper context -->
-        {% include 'events/frontend/event-listing/event-listing.html' %}
+        {% include 'events/frontend/event-listing/listing.html' %}
     </div>
     <aside class="span4 page-sidebar" id="calendar-events-sidebar">
         {% calendar_widget calendars=calendar is_manager=0 year=start.year month=start.month day=start %}
