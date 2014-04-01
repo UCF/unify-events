@@ -99,14 +99,22 @@
                 </tbody>
             </table>
             <!-- Reassign ownership modal -->
-            {% if calendar in user.owned_calendars.all %}
+            {% if user.is_superuser or calendar in user.owned_calendars.all %}
             <div class="modal hide fade" id="calendar-reassign-ownership">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h2>Reassign Ownership of Calendar: <span class="alt">{{ calendar.title }}</span></h2>
                 </div>
                 <div class="modal-body">
-                    <p>You are about to reassign ownership of this calendar to an existing user.  You will be reassigned as an Admin.</p>
+                    <p>
+                        You are about to reassign ownership of this calendar to an existing user.<br/>
+                        {% if user.is_superuser and not calendar in user.owned_calendars.all %}
+                        The owner of this calendar 
+                        {% else %}
+                        You 
+                        {% endif %}
+                        will be reassigned as an Admin.
+                    </p>
                     <select id="new-owner-select">
                         <option value="">Select a User</option>
                         {% for admin in calendar.admins.all %}

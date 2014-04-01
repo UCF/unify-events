@@ -1,23 +1,14 @@
-<?xml version="1.0"?>
-<rss version="2.0" xmlns:ucfevent="http://events.ucf.edu">
-	<channel>
-		<title>{{ event_instance.event.calendar.title }}</title>
-		<link>{{ request.build_absolute_uri }}</link>
-		<description>{{ event_instance.event.calendar.title }}{% if list_title %} - {{ list_title }}{% endif %}</description>
-		<lastBuildDate>{% now "r" %}</lastBuildDate>
-		<item>
-			<title>{{ event_instance.title }}</title>
-			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
-			<description><![CDATA[{{ event_instance.event.description|escape }}]]></description>
-			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
-			<guid>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</guid>
-			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
-			<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
-			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
-			<ucfevent:location>
-				<ucfevent:name><![CDATA[{{ event_instance.location.title }}]]></ucfevent:name>
-				<ucfevent:mapurl><![CDATA[{{ event_instance.location.url }}]]></ucfevent:mapurl>
-			</ucfevent:location>
-		</item>
-	</channel>
-</rss>
+<item>
+	<title>{{ event_instance.title }}</title>
+	<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
+	<description><![CDATA[{{ event_instance.event.description|escape }}]]></description>
+	<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
+	<guid>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</guid>
+	<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
+	<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
+	<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
+	<ucfevent:location>
+		<ucfevent:name><![CDATA[{{ event_instance.location.title }}]]></ucfevent:name>
+		<ucfevent:mapurl><![CDATA[{{ event_instance.location.url }}]]></ucfevent:mapurl>
+	</ucfevent:location>
+</item>

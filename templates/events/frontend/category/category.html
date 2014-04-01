@@ -3,7 +3,7 @@
 {% load widgets %}
 
 {% block meta %}
-        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}.rss" />
+        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}/rss" />
 {% endblock %}
 
 {% block content_title_icon %}
@@ -25,7 +25,7 @@
 {% block content_body %}
     <div class="row">
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
-            {% include 'events/frontend/event-listing/event-listing.html' %}
+            {% include 'events/frontend/event-listing/listing.html' %}
             
             {% pager paginator=paginator current_page=request.GET.page %}
         </div>
