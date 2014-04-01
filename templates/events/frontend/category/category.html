@@ -3,7 +3,7 @@
 {% load widgets %}
 
 {% block meta %}
-        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}.rss" />
+        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}/rss" />
 {% endblock %}
 
 {% block content_title_icon %}

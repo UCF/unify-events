@@ -154,9 +154,9 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     return listing(request, calendar, start, end, format, extra_context)
 
 
-class TodayEventCalendarListView(ListView):
+class TodayEventCalendarListView(MultipleFormatTemplateViewMixin, ListView):
     model = EventInstance
-    template_name = 'events/frontend/calendar/listing/listing.html'
+    template_name = 'events/frontend/calendar/listing/listing.'
 
     def get_context_data(self, **kwargs):
         """
@@ -322,7 +322,7 @@ def paginated_listing(request, template, context, format=None):
         raise Http404
 
 
-class EventsByTagList(ListView):
+class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
@@ -332,7 +332,7 @@ class EventsByTagList(ListView):
     context_object_name = 'events'
     model = Event
     paginate_by = 25
-    template_name = 'events/frontend/tag/tag.html'
+    template_name = 'events/frontend/tag/tag.'
 
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()
@@ -357,7 +357,7 @@ class EventsByTagList(ListView):
         return events
 
 
-class EventsByCategoryList(ListView):
+class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
@@ -367,7 +367,7 @@ class EventsByCategoryList(ListView):
     context_object_name = 'events'
     model = Event
     paginate_by = 25
-    template_name = 'events/frontend/category/category.html'
+    template_name = 'events/frontend/category/category.'
 
     def get_context_data(self, **kwargs):
         context = super(EventsByCategoryList, self).get_context_data()

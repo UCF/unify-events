@@ -7,7 +7,7 @@ from events.views.calendar import EventsByTagList
 
 urlpatterns = patterns('events.views.tag',
     # http://events.ucf.edu/tag/tag-name
-    url(r'^(?P<tag>[\w-]+)/(\.(?P<format>[\w]+))?$',
+    url(r'^(?P<tag>[\w-]+)/(?P<format>[\w]+)?$',
         view=EventsByTagList.as_view(),
         name='tag'
     ),

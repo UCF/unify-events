@@ -12,33 +12,33 @@
         {% endif %}
         
         <ul class="event-list">
-        {% for event in date.list %}
-            <li class="vevent {{ event.event.category.slug }}">
-                <a class="event-content url" href="{% url 'event' event.event.calendar.slug event.id %}{{ event.event.slug }}">
+        {% for event_instance in date.list %}
+            <li class="vevent {{ event_instance.event.category.slug }}">
+                <a class="event-content url" href="{% url 'event' event_instance.event.calendar.slug event_instance.id %}{{ event_instance.event.slug }}">
                     <!-- if img -->
                     <!--<img src="" alt="image" title="image" />-->
                     <!-- endif -->
                     <h4>
-                        <span class="summary">{{ event.title }}</span>
-                        {% if event.is_recurring %}
+                        <span class="summary">{{ event_instance.title }}</span>
+                        {% if event_instance.is_recurring %}
                         <i class="icon-repeat"></i>
                         <span class="recurring">(Recurring Event)</span>
                         {% endif %}
                     </h4>
-                    <span class="location">{{ event.location }}</span>
+                    <span class="location">{{ event_instance.location }}</span>
                     <span class="description">
-                        {{ event.event.description|striptags|truncatewords:160 }}
+                        {{ event_instance.event.description|striptags|truncatewords:160 }}
                     </span>
                     <time class="dtstart" datetime="{{ event.start|date:"cZ" }}">
-                        {% if event.start.time %}
-                            {{ event.start|date:"f a" }}
+                        {% if event_instance.start.time %}
+                            {{ event_instance.start|date:"f a" }}
                         {% else %}
                             All Day
                         {% endif %}
-                        <span class="value-title" title="{{ event.start|date:"cZ" }}"></span>
+                        <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
                     </time>
                 </a>
-                <span class="category {{ event.event.category.slug }}">{{ event.event.category.title }}</span>
+                <span class="category {{ event_instance.event.category.slug }}">{{ event_instance.event.category.title }}</span>
             </li>
         {% endfor %}
         </ul>

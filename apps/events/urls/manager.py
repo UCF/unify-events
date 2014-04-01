@@ -80,11 +80,11 @@ urlpatterns += patterns('events.views.manager',
     url(r'^calendar/(?P<pk>\d+)/unsubscribe-from/(?P<subscribed_calendar_id>\d+)?$', view='calendar.unsubscribe_from_calendar', name='calendar-unsubscribe'),
     url(r'^calendar/(?P<subscribing_calendar_id>\d+)/subscribe-to/(?P<calendar_id>\d+)?$', view='calendar.subscribe_to_calendar', name='calendar-subscribe'),
     url(r'^calendar/(?P<pk>\d+)/?$', login_required(Dashboard.as_view()), name='dashboard'),
-    url(r'^calendar/(?P<pk>\d+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
+    url(r'^calendar/(?P<pk>\d+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/?$',
         login_required(Dashboard.as_view()),
         name='manager-day-listing'
     ),
-    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$',
+    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/?$',
         login_required(Dashboard.as_view()),
         name='manager-all-calendars-day-listing'
     ),

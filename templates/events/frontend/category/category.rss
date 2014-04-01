@@ -4,19 +4,19 @@
 		<title>{{ calendar.title }}</title>
 		<link>{{ request.build_absolute_uri }}</link>
 		<description>{% if calendar %}{{ calendar.title }}: by Category "{{ category.title }}"{% else %}Event Category: "{{ category.title }}"{% endif %}</description>
-		<lastBuildDate>{% now "r" %}</lastBuildDate>{% for event in events %}
+		<lastBuildDate>{% now "r" %}</lastBuildDate>{% for event_instance in events %}
 		<item>
-			<title>{{ event.title }}</title>
-			<link>http://{{ request.get_host }}{{ event.get_absolute_url }}</link>
-			<description><![CDATA[{{ event.event.description|escape }}]]></description>
-			<pubDate>{{ event.start|date:"r" }}</pubDate>
-			<guid>http://{{ request.get_host }}{{ event.get_absolute_url }}</guid>
-			<ucfevent:type>{% if event.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
-			<ucfevent:startdate>{{ event.start|date:"r" }}</ucfevent:startdate>
-			<ucfevent:enddate>{{ event.end|date:"r" }}</ucfevent:enddate>
+			<title>{{ event_instance.title }}</title>
+			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
+			<description><![CDATA[{{ event_instance.event.description|escape }}]]></description>
+			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
+			<guid>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</guid>
+			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
+			<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
+			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
 			<ucfevent:location>
-				<ucfevent:name><![CDATA[{{ event.location.title }}]]></ucfevent:name>
-				<ucfevent:mapurl><![CDATA[{{ event.location.url }}]]></ucfevent:mapurl>
+				<ucfevent:name><![CDATA[{{ event_instance.location.title }}]]></ucfevent:name>
+				<ucfevent:mapurl><![CDATA[{{ event_instance.location.url }}]]></ucfevent:mapurl>
 			</ucfevent:location>
 		</item>{% endfor %}
 	</channel>
