@@ -38,7 +38,7 @@ class CalendarUserValidationMixin(object):
     Return 403 Forbidden if false.
     """
     def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_object() not in self.request.user.owned_calendars.all():
+        if not self.request.user.is_superuser and self.get_object() not in self.request.user.editable_calendars.all():
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
             return super(CalendarUserValidationMixin, self).dispatch(request, *args, **kwargs)
@@ -76,7 +76,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
     success_view_name = 'calendar-update'
 
 
-class CalendarUserUpdate(DetailView):
+class CalendarUserUpdate(CalendarUserValidationMixin, DetailView):
     # form_class = CalendarForm
     model = Calendar
     # success_message = 'Calendar users updated successfully.'
@@ -87,7 +87,7 @@ class CalendarUserUpdate(DetailView):
     #     return reverse_lazy('calendar-update-users', kwargs = {'pk' : self.object.pk, })
 
 
-class CalendarSubscriptionsUpdate(DetailView):
+class CalendarSubscriptionsUpdate(CalendarUserValidationMixin, DetailView):
     model = Calendar
     template_name = 'events/manager/calendar/update/update-subscriptions.html'
 
@@ -138,7 +138,11 @@ def delete_user(request, pk, username):
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
-    return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
+
+    if request.user == user:
+        return HttpResponseRedirect(reverse('dashboard'))
+    else:
+        return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
 
 @login_required
 def reassign_ownership(request, pk, username):
