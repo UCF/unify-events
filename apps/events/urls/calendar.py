@@ -10,10 +10,12 @@ from events.views.calendar import named_listing
 from events.views.calendar import day_listing
 from events.views.calendar import range_listing
 from events.views.calendar import week_listing
-from events.views.calendar import TodayEventCalendarListView
+from events.views.calendar import DayEventsListView
 from events.views.calendar import EventsByCategoryList
 from events.views.calendar import EventsByTagList
 from events.views.calendar import EventDetailView
+from events.views.calendar import MonthEventsListView
+from events.views.calendar import WeekEventsListView
 
 
 urlpatterns = patterns('events.views.calendar',
@@ -28,11 +30,11 @@ urlpatterns = patterns('events.views.calendar',
     # http://events.ucf.edu/calendar/athletics/2010.json
     # http://events.ucf.edu/calendar/athletics/2010/01
     # http://events.ucf.edu/calendar/athletics/2010/01/10.rss
-    url(r'^(?P<calendar>[\w-]+)/(\.(?P<format>[\w]+))?$', view=TodayEventCalendarListView.as_view(), name='calendar'),
+    url(r'^(?P<calendar>[\w-]+)/(\.(?P<format>[\w]+))?$', view=DayEventsListView.as_view(), name='calendar'),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="year-listing"),
-    url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="month-listing"),
-    url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', view=auto_listing, name="day-listing"),
-    url(r'^(?P<calendar>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', view=week_listing, name='week-listing'),
+    url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(\.(?P<format>[\w]+))?$', MonthEventsListView.as_view(), name="month-listing"),
+    url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', DayEventsListView.as_view(), name="day-listing"),
+    url(r'^(?P<calendar>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(\.(?P<format>[\w]+))?$', WeekEventsListView.as_view(), name='week-listing'),
 
     # http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
     url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(\.(?P<format>[\w]+))?$',

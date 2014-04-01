@@ -29,64 +29,19 @@ class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     template_name = 'events/frontend/event-single/event.'
 
 
-def listing(url_params, calendar, start, end, format=None, extra_context=None):
+def listing(calendar, start, end):
     """
-    Outputs a listing of events defined by a calendar and a range of dates.
-    Format of this list is controlled by the optional format argument, ie. html,
-    rss, json, etc.
+    Get events for the given calendar within the given time range.
     """
-    # Check for GET params (backwards compatibility with old events widget)
-    param_format = url_params.get('format', '')
-    param_limit = url_params.get('limit', '')
-    param_calendar = url_params.get('calendar_id', '')
-    param_monthwidget = url_params.get('monthwidget', '')
-    param_iswidget = url_params.get('is_widget', '')
-
-    # Get specified calendar. GET param will override any
-    # previously defined calendar.
-    if param_calendar != '':
-        calendar = get_object_or_404(Calendar, id=param_calendar)
-    else:
-        calendar = get_object_or_404(Calendar, slug=calendar)
+    calendar = get_object_or_404(Calendar, slug=calendar)
 
     events = calendar.range_event_instances(start, end)
     events = events.order_by('start')
 
-    # Narrow down events by limit, if necessary.
-    if param_limit != '':
-        try:
-            events = events[:param_limit]
-        except:
-            pass
-
-    # Modify format value. GET param will override any
-    # previously defined format.
-    if param_format != '':
-        format = param_format
-
-    if param_iswidget == 'true':
-        if param_monthwidget == 'true':
-            template = 'events/frontend/calendar/listing/listing-widget-month.html'
-        else:
-            template = 'events/frontend/calendar/listing/listing-widget-list.html'
-    else:
-        template = 'events/frontend/calendar/listing/listing.' + (format or 'html')
-
-    context = {
-        'start': start,
-        'end': end,
-        'format': format,
-        'calendar': calendar,
-        'events': events,
-    }
-
-    if extra_context is not None:
-        context.update(extra_context)
-
-    return context
+    return events
 
 
-def auto_listing(request, calendar, year=None, month=None, day=None, format=None, extra_context=None):
+def auto_listing(calendar, year=None, month=None, day=None):
     """
     Generates an event listing for the defined, year, month, day, or today.
     """
@@ -101,23 +56,12 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
     except ValueError:
         raise Http404
 
-    if type(extra_context) is not dict:
-        extra_context = dict()
-
     # Define start and end dates
     try:
         start = datetime(year, month or 1, day or 1)
 
         if month is None:
             end = datetime(year + 1, 1, 1)
-            if 'list_type' not in extra_context:
-                extra_context['list_type'] = 'year'
-            if 'list_title' not in extra_context:
-                    extra_context['list_title'] = 'Events by Year: %s' % (year)
-            if 'all_years' not in extra_context:
-                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
-            if 'all_months' not in extra_context:
-                extra_context['all_months'] = range(1, 13)
         elif day is None:
             roll = month > 11  # Check for December to January rollover
             end = datetime(
@@ -125,51 +69,253 @@ def auto_listing(request, calendar, year=None, month=None, day=None, format=None
                 month + 1 if not roll else 1,
                 1
             )
-            if 'list_type' not in extra_context:
-                extra_context['list_type'] = 'month'
-            if 'list_title' not in extra_context:
-                extra_context['list_title'] = 'Events by Month: %s' % (start.strftime("%B %Y"))
-            if 'all_months' not in extra_context:
-                extra_context['all_months'] = OrderedDict([
-                    ('January', '01'),
-                    ('February', '02'),
-                    ('March', '03'),
-                    ('April', '04'),
-                    ('May', '05'),
-                    ('June', '06'),
-                    ('July', '07'),
-                    ('August', '08'),
-                    ('September', '09'),
-                    ('October', '10'),
-                    ('November', '11'),
-                    ('December', '12')
-                ])
-            if 'all_years' not in extra_context:
-                extra_context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
         else:
             end = start + timedelta(days=1) - timedelta(seconds=1)
     except ValueError:
         raise Http404
 
-    return listing(request, calendar, start, end, format, extra_context)
+    return listing(calendar, start, end)
 
 
-class TodayEventCalendarListView(ListView):
+class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
+    """
+    Generic events listing view based on the start date and end date.
+    """
+
     model = EventInstance
-    template_name = 'events/frontend/calendar/listing/listing.html'
+    context_object_name = 'event_instances'
+    template_name = 'events/frontend/calendar/listing/listing.'
+
+    day = None
+    month = None
+    year = None
+    start_date = None
+    end_date = None
+    list_title = None
+    calendar = None
+
+    def get_queryset(self):
+        """
+        Get events for the given day. If no day is provide then
+        return the current day's events.
+        """
+        start_date = self.get_start_date()
+        end_date = self.get_end_date()
+        calendar = self.get_calendar()
+        events = calendar.range_event_instances(start_date, end_date)
+        events = events.order_by('start')
+        self.queryset =  events
+        return events
+
+    def get_calendar(self):
+        """
+        Get the calendar based on the url parameter 'calendar'.
+        """
+        calendar = self.calendar
+        if calendar is None:
+            calendar_slug = self.kwargs.get('calendar')
+            if calendar_slug is None:
+                # Value is none return right away since no calendar was provided.
+                return calendar_slug
+            else:
+                calendar = get_object_or_404(Calendar, slug=calendar_slug)
+
+            self.calendar = calendar
+
+        return calendar
+
+    def _get_date_by_parameter(self, param):
+        """
+        Use get_day_month_year to these values.
+        Returns the date values (int) from url parameters.
+        """
+        if param in ['day', 'month', 'year']:
+            date_value = getattr(self, param)
+            if date_value is None:
+                date_param = self.kwargs.get(param)
+                if date_param is None:
+                    # Value is None so return right away no date url parameter was provided.
+                    return date_param
+                else:
+                    date_value = int(date_param)
+
+                setattr(self, param, date_value)
+            return date_value
+        else:
+            raise AttributeError('Param is not a date parameter (day, month, or year).')
+
+    def get_day_month_year(self):
+        """
+        Return a tuple of day, month and year. Return current day
+        if no url parameters are provided.
+        """
+        day = self._get_date_by_parameter('day')
+        month = self._get_date_by_parameter('month')
+        year = self._get_date_by_parameter('year')
+
+        if day is month is year is None:
+            # Default to current day if nothing is provided
+            self.day = day = datetime.now().day
+            self.month = month = datetime.now().month
+            self.year = year = datetime.now().year
+
+        return (day, month, year)
+
+    def get_start_date(self):
+        """
+        Returns the start date or creates an start date based on the url parameters.
+        """
+        start_date = self.start_date
+        if not self.start_date:
+            day_month_year = self.get_day_month_year()
+            start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+            self.start_date = start_date
+        return start_date
+
+    def get_end_date(self):
+        """
+        Returns the end date or creates an end date based on the url parameters.
+        """
+        if self.end_date:
+            end_date = self.end_date
+        else:
+            raise ImproperlyConfigured("'%s' must define 'end_date'"
+                                       % self.__class__.__name__)
+
+        return end_date
 
     def get_context_data(self, **kwargs):
         """
         Main calendar page, displaying an aggregation of events such as upcoming
         events, featured events, etc.
         """
-        context = super(TodayEventCalendarListView, self).get_context_data(**kwargs)
+        context = super(CalendarEventsListView, self).get_context_data(**kwargs)
+        context['list_title'] = self.list_title
+        context['calendar'] = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+        context['start'] = self.get_start_date()
+        context['end'] = self.get_end_date()
+        return context
 
-        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        end = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
-        return listing(self.kwargs, self.kwargs.get('calendar'), start, end, self.kwargs.get('format'), {
-            'list_title': 'Today\'s Events',
-        })
+
+class DayEventsListView(CalendarEventsListView):
+    """
+    Events listing for a day.
+    """
+
+    list_title = 'Events by Day'
+
+    def get_end_date(self):
+        """
+        Returns the end date that is one day past today.
+        """
+        start_date = self.get_start_date()
+        end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+        self.end_date = end_date
+
+        return end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Overrides the list title if the events are from today.
+        """
+        context = super(DayEventsListView, self).get_context_data(**kwargs)
+        start_date = self.get_start_date()
+
+        if start_date.date() == datetime.today().date():
+            context['list_title'] = 'Today\'s Events'
+        elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
+            context['list_title'] = 'Tomorrow\'s Events'
+
+        return context
+
+
+class WeekEventsListView(CalendarEventsListView):
+    """
+    Events listing for a week.
+    """
+
+    def get_end_date(self):
+        """
+        Returns the end date that is one day past today.
+        """
+        start_date = self.get_start_date()
+        end_date = start_date + timedelta(weeks=1)
+        self.end_date = end_date
+
+        return end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Dynamically set the list title for the week
+        """
+        context = super(WeekEventsListView, self).get_context_data(**kwargs)
+        raise Exception
+        start_date = self.get_start_date()
+        context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
+
+        return context
+
+
+class MonthEventsListView(CalendarEventsListView):
+    """
+    Events listing for a month.
+    """
+
+    def get_end_date(self):
+        """
+        Returns the end date that is one day past today.
+        """
+        start_date = self.get_start_date()
+        day_month_year = self.get_day_month_year()
+        day = day_month_year[0]
+        month = day_month_year[1]
+        year = day_month_year[2]
+
+        roll = month > 11  # Check for December to January rollover
+        end_date = datetime(
+            year + 1 if roll else year,
+            month + 1 if not roll else 1,
+            1
+        )
+        self.end_date = end_date
+
+        return end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Dynamically set the list title for the week
+        """
+        context = super(MonthEventsListView, self).get_context_data(**kwargs)
+        start_date = self.get_start_date()
+        context['list_title'] = 'Events by Month: %s' % (start_date.strftime("%B %Y"))
+
+        return context
+
+
+class YearEventsListView(CalendarEventsListView):
+    """
+    Events listing for a year.
+    """
+
+    def get_end_date(self):
+        """
+        Returns the end date that is one day past today.
+        """
+        start_date = self.get_start_date()
+        end_date = datetime(start_date.date().year + 1, 1, 1)
+        self.end_date = end_date
+
+        return end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Dynamically set the list title for the week
+        """
+        context = super(YearEventsListView, self).get_context_data(**kwargs)
+        start_date = self.get_start_date()
+        context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%B %Y"))
+
+        return context
 
 
 def week_listing(request, calendar, year, month, day, format=None):
@@ -353,7 +499,7 @@ class EventsByTagList(ListView):
             events = events.filter(event__calendar=calendar)
         else:
             events = events.filter(event__created_from__isnull=True)
-        
+
         return events
 
 
@@ -388,5 +534,5 @@ class EventsByCategoryList(ListView):
             events = events.filter(event__calendar=calendar)
         else:
             events = events.filter(event__created_from__isnull=True)
-        
+
         return events
