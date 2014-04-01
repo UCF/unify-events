@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 from django.contrib.auth.decorators import login_required
@@ -51,6 +52,7 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
     success_message = '%(title)s was created successfully.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/create.html'
+    first_login_template_name = 'events/manager/firstlogin/calendar_create.html'
 
     def form_valid(self, form):
         """
@@ -59,6 +61,23 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         self.object = form.save()
         self.object.owner = self.request.user
         return super(CalendarCreate, self).form_valid(form)
+
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Force User.first_login to be false so that the next request to the 
+        Dashboard or Settings does not loop back through the "First Login" check
+        """
+        template = self.get_template_names()
+        self.request.user.last_login = datetime.now()
+        self.request.user.save()
+
+        response_kwargs.setdefault('content_type', self.content_type)
+        return self.response_class(
+            request = self.request,
+            template = template,
+            context = context,
+            **response_kwargs
+        )
 
 
 class CalendarDelete(DeleteSuccessMessageMixin, CalendarUserValidationMixin, DeleteView):

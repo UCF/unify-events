@@ -46,10 +46,6 @@ class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
 
         if form.is_valid():
             if request.user.first_login:
-                request.user.last_login = datetime.now()
-                request.user.save()
-
-            if request.user.first_login:
                 return HttpResponseRedirect(reverse_lazy('calendar-create'))
             else:
                 return self.form_valid(form)
