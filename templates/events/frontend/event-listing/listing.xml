@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <events xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="UCBCNEvents_1.9.xsd">
-{% for event_instance in events %}
+{% for event_instance in event_instances %}
 	{% include 'events/frontend/event-single/event.xml' %}
 {% endfor %}
 </events>

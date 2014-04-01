@@ -5,6 +5,6 @@
 		<link>{{ request.build_absolute_uri }}</link>
 		<description>{{ calendar.title }}{% if list_title %} - {{ list_title }}{% endif %}</description>
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
-		{% for event_instance in events %}{% include 'events/frontend/event-single/event.rss' %}{% endfor %}
+		{% for event_instance in event_instances %}{% include 'events/frontend/event-single/event.rss' %}{% endfor %}
 	</channel>
 </rss>
