@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from events.views.calendar import auto_listing
+from events.views.calendar import DayEventsListView
 
 admin.autodiscover()
 
@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^category/', include('events.urls.category')),
     url(r'^tag/', include('events.urls.tag')),
     # TODO: replace with CBV
-    url(r'^$', view=auto_listing, kwargs={'calendar': settings.FRONT_PAGE_CALENDAR_SLUG}),
+    url(r'^$', DayEventsListView.as_view(), kwargs={'calendar': settings.FRONT_PAGE_CALENDAR_SLUG}),
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'for-developers/$', TemplateView.as_view(template_name='events/static/for-developers.html'), name='for-developers'),
     # TODO: production-ready static file delivery

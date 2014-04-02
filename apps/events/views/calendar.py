@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import View
 from django.utils.decorators import classonlymethod
 
 from time import gmtime, time
@@ -29,63 +30,14 @@ class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     template_name = 'events/frontend/event-single/event.'
 
 
-def listing(calendar, start, end):
-    """
-    Get events for the given calendar within the given time range.
-    """
-    calendar = get_object_or_404(Calendar, slug=calendar)
-
-    events = calendar.range_event_instances(start, end)
-    events = events.order_by('start')
-
-    return events
-
-
-def auto_listing(calendar, year=None, month=None, day=None):
-    """
-    Generates an event listing for the defined, year, month, day, or today.
-    """
-    # Default if no date is defined
-    if year is month is day is None:
-        return todays_listing(request, calendar)
-
-    try:  # Convert applicable arguments to integer
-        year = int(year) if year is not None else year
-        month = int(month) if month is not None else month
-        day = int(day) if day is not None else day
-    except ValueError:
-        raise Http404
-
-    # Define start and end dates
-    try:
-        start = datetime(year, month or 1, day or 1)
-
-        if month is None:
-            end = datetime(year + 1, 1, 1)
-        elif day is None:
-            roll = month > 11  # Check for December to January rollover
-            end = datetime(
-                year + 1 if roll else year,
-                month + 1 if not roll else 1,
-                1
-            )
-        else:
-            end = start + timedelta(days=1) - timedelta(seconds=1)
-    except ValueError:
-        raise Http404
-
-    return listing(calendar, start, end)
-
-
 class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
     """
     Generic events listing view based on the start date and end date.
     """
-
     model = EventInstance
     context_object_name = 'event_instances'
     template_name = 'events/frontend/calendar/calendar.'
-
+    list_type = None
     day = None
     month = None
     year = None
@@ -114,6 +66,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         calendar = self.calendar
         if calendar is None:
             calendar_slug = self.kwargs.get('calendar')
+            args = self.kwargs
             if calendar_slug is None:
                 # Value is none return right away since no calendar was provided.
                 return calendar_slug
@@ -191,9 +144,10 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         """
         context = super(CalendarEventsListView, self).get_context_data(**kwargs)
         context['list_title'] = self.list_title
-        context['calendar'] = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+        context['calendar'] = self.get_calendar()
         context['start'] = self.get_start_date()
         context['end'] = self.get_end_date()
+        context['list_type'] = self.list_type
         return context
 
 
@@ -201,8 +155,8 @@ class DayEventsListView(CalendarEventsListView):
     """
     Events listing for a day.
     """
-
     list_title = 'Events by Day'
+    list_type = 'day'
 
     def get_end_date(self):
         """
@@ -233,6 +187,17 @@ class WeekEventsListView(CalendarEventsListView):
     """
     Events listing for a week.
     """
+    def get_start_date(self):
+        """
+        Returns the start of the week as the start date.
+        """
+        start_date = self.start_date
+        if not start_date:
+            start_date = super(WeekEventsListView, self).get_start_date()
+            start_date = start_date - timedelta(days=start_date.weekday())
+            self.start_date = start_date
+
+        return start_date
 
     def get_end_date(self):
         """
@@ -249,9 +214,12 @@ class WeekEventsListView(CalendarEventsListView):
         Dynamically set the list title for the week
         """
         context = super(WeekEventsListView, self).get_context_data(**kwargs)
-        raise Exception
         start_date = self.get_start_date()
-        context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
+        end_date = self.get_end_date()
+        if start_date <= datetime.now() and end_date >= datetime.now():
+            context['list_title'] = 'Events This Week.'
+        else:
+            context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
 
         return context
 
@@ -260,6 +228,7 @@ class MonthEventsListView(CalendarEventsListView):
     """
     Events listing for a month.
     """
+    list_type = 'month'
 
     def get_end_date(self):
         """
@@ -287,7 +256,29 @@ class MonthEventsListView(CalendarEventsListView):
         """
         context = super(MonthEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
-        context['list_title'] = 'Events by Month: %s' % (start_date.strftime("%B %Y"))
+        now = datetime.now()
+        if start_date.month == now.month and start_date.year == now.year:
+            context['list_title'] = 'Events This Month.'
+        else:
+            context['list_title'] = 'Events by Month: %s' % (start_date.strftime("%B %Y"))
+
+        if 'all_months' not in context:
+                context['all_months'] = OrderedDict([
+                    ('January', '01'),
+                    ('February', '02'),
+                    ('March', '03'),
+                    ('April', '04'),
+                    ('May', '05'),
+                    ('June', '06'),
+                    ('July', '07'),
+                    ('August', '08'),
+                    ('September', '09'),
+                    ('October', '10'),
+                    ('November', '11'),
+                    ('December', '12')
+                ])
+        if 'all_years' not in context:
+            context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
 
         return context
 
@@ -296,6 +287,7 @@ class YearEventsListView(CalendarEventsListView):
     """
     Events listing for a year.
     """
+    list_type = 'year'
 
     def get_end_date(self):
         """
@@ -313,50 +305,48 @@ class YearEventsListView(CalendarEventsListView):
         """
         context = super(YearEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
-        context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%B %Y"))
+        if start_date.year == datetime.now().year:
+            context['list_title'] = 'Events This Year.'
+        else:
+            context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%B %Y"))
+
+        if 'all_years' not in context:
+            context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
+        if 'all_months' not in context:
+            context['all_months'] = range(1, 13)
 
         return context
-
-
-def week_listing(request, calendar, year, month, day, format=None):
-    """
-    Outputs a listing of the weeks event that the defined day belongs to.
-    """
-    try:  # Convert applicable arguments to integer
-        year = int(year) if year is not None else year
-        month = int(month) if month is not None else month
-        day = int(day) if day is not None else day
-    except ValueError:
-        raise Http404
-
-    try:
-        day = datetime(year, month, day)
-    except ValueError:
-        raise Http404
-
-    start = day - timedelta(days=day.weekday())
-    end = start + timedelta(weeks=1)
-    return listing(request, calendar, start, end, format, {
-        'list_title': 'Events on Week of %s %s' % (start.strftime("%B"), start.day),
-    })
 
 
 def named_listing(request, calendar, type, format=None):
     """
     Handles named event listings, such as today, this-month, or this-year.
     """
-    f = {
-        'today': todays_listing,
-        'tomorrow': tomorrows_listing,
-        'this-month': months_listing,
-        'this-week': weeks_listing,
-        'this-year': years_listing,
+    c = {
+        'today': DayEventsListView,
+        'tomorrow': DayEventsListView,
+        'this-week': WeekEventsListView,
+        'this-month': MonthEventsListView,
+        'this-year': YearEventsListView,
     }.get(type, None)
-    if f is not None:
-        return f(request, calendar, format)
+    if c is not None:
+        today = datetime.today()
+        day = today.day
+        month = today.month
+        year = today.year
+
+        if c == MonthEventsListView or c == YearEventsListView:
+            day = None
+
+        if c == YearEventsListView:
+            month = None
+
+        view = c.as_view(day=day, month=month, year=year)
+        return view(request, calendar=calendar, format=format)
     raise Http404
 
 
+# TODO replace with Class Based Views
 def range_listing(request, calendar, start, end, format=None):
     """
     Generates an event listing for the date ranges provided through start
@@ -372,100 +362,6 @@ def range_listing(request, calendar, start, end, format=None):
             end.strftime("%B"), end.day,
         ),
     })
-
-
-def day_listing(request, calendar, year, month, day, format=None):
-    """
-    Generates event listing for any single day
-    """
-    # Default if no date is defined
-    if year is month is day is None:
-        year = date.now().year
-        month = date.now().month
-        day = date.now().day
-
-    return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'Events by Day',
-        'list_type': 'day',
-    })
-
-
-def todays_listing(request, calendar, format=None):
-    """
-    Generates event listing for the current day
-    """
-    now = gmtime()
-    year, month, day = now.tm_year, now.tm_mon, now.tm_mday
-    return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'Today',
-    })
-
-
-def tomorrows_listing(request, calendar, format=None):
-    """
-    Generates event listing for tomorrows events
-    """
-    now = gmtime(time() + 86400)
-    year, month, day = now.tm_year, now.tm_mon, now.tm_mday
-    return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'Tomorrow',
-    })
-
-
-def weeks_listing(request, calendar, format=None):
-    """
-    Generates an event list for this weeks events
-    """
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    start = today - timedelta(days=today.weekday())
-    end = start + timedelta(weeks=1)
-    return listing(request, calendar, start, end, format, {
-        'list_title': 'Events This Week',
-        'list_type': 'week',
-    })
-
-
-def months_listing(request, calendar, format=None):
-    """
-    Generate event list for the current month
-    """
-    now = gmtime()
-    year, month, day = now.tm_year, now.tm_mon, None
-    return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'Events This Month',
-        'list_type': 'month',
-    })
-
-
-def years_listing(request, calendar, format=None):
-    """
-    Generate event listing for this year
-    """
-    now = gmtime()
-    year, month, day = now.tm_year, None, None
-    return auto_listing(request, calendar, year, month, day, format, {
-        'list_title': 'Events This Year',
-        'list_type': 'year',
-    })
-
-
-def paginated_listing(request, template, context, format=None):
-    """
-    Generate a paginated list of events.
-    """
-    paginator = Paginator(context['events'], 20)
-    page = request.GET.get('page', 1)
-    try:
-        context['events'] = paginator.page(page)
-    except PageNotAnInteger:
-        context['events'] = paginator.page(1)
-    except EmptyPage:
-        context['events'] = paginator.page(paginator.num_pages)
-
-    try:
-        return TemplateView.as_view(request, template, context, mimetype=format_to_mimetype(format))
-    except TemplateDoesNotExist:
-        raise Http404
 
 
 class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
