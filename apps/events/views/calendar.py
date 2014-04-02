@@ -187,6 +187,9 @@ class WeekEventsListView(CalendarEventsListView):
     """
     Events listing for a week.
     """
+    list_title = 'Events by Week'
+    list_type = 'week'
+
     def get_start_date(self):
         """
         Returns the start of the week as the start date.
