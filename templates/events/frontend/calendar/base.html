@@ -38,7 +38,7 @@
         {% elif user.editable_calendars.all.count > 0 %}
         <li class="divider">|</li>
         <li>
-            <a class="calendar-subscribe" data-toggle="modal" href="{% url 'calendar-subscribe' calendar_id=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}">Subscribe to Calendar</a>
+            <a class="calendar-subscribe" data-toggle="modal" href="{% url 'calendar-subscribe' pk=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}">Subscribe to Calendar</a>
         </li>
         {% endif %}
     </ul>

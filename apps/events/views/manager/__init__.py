@@ -29,8 +29,7 @@ from events.models import State
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
-class Dashboard(TemplateView) :
-
+class Dashboard(TemplateView):
     template_name = 'events/manager/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -123,6 +122,18 @@ class Dashboard(TemplateView) :
                 ctx['events'] = paginator.page(paginator.num_pages)
 
         return ctx
+
+
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Make sure the user checks their profile when they
+        log in for the first time
+        """
+        if self.request.user.first_login:
+            return HttpResponseRedirect(reverse('profile-settings'))
+        else:
+            return super(Dashboard, self).render_to_response(context, **response_kwargs)
+
 
 
 @login_required

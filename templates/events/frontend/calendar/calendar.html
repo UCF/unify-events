@@ -59,7 +59,7 @@
             </select>
         </div>
         <div class="modal-footer">
-            <a href="{% url 'calendar-subscribe' calendar_id=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}" class="btn btn-primary">Subscribe</a>
+            <a href="{% url 'calendar-subscribe' pk=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}" class="btn btn-primary">Subscribe</a>
             <a href="#" data-dismiss="modal" class="btn">Cancel</a>
         </div>
     </div>
