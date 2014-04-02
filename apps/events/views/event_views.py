@@ -46,6 +46,15 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
     list_title = None
     calendar = None
 
+    def is_js_widget(self):
+        """
+        Determine whether or not the view should accomodate for JS Widget-related
+        query parameters and manipulate the view accordingly.
+        """
+        if self.request.GET.get('is_widget') == 'true':
+            return True
+        return False
+
     def get_queryset(self):
         """
         Get events for the given day. If no day is provide then
@@ -56,14 +65,26 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date)
         events = events.order_by('start')
-        self.queryset =  events
+
+        # Backwards compatibility with JS Widget
+        if self.is_js_widget():
+            limit = self.request.GET.get('limit')
+            if limit and self.request.GET.get('monthwidget') != 'true':
+                self.paginate_by = int(limit)
+
+        self.queryset = events
         return events
 
     def get_calendar(self):
         """
         Get the calendar based on the url parameter 'calendar'.
         """
-        calendar = self.calendar
+        # Backwards compatibility with JS Widget
+        if self.is_js_widget():
+            calendar = get_object_or_404(Calendar, pk=self.request.GET.get('calendar_id'))
+        else:
+            calendar = self.calendar
+
         if calendar is None:
             calendar_slug = self.kwargs.get('calendar')
             args = self.kwargs
@@ -119,21 +140,47 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         Returns the start date or creates an start date based on the url parameters.
         """
         start_date = self.start_date
-        if not self.start_date:
-            day_month_year = self.get_day_month_year()
-            start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+        if not start_date:
+            # Backwards compatibility with JS Widget
+            if self.is_js_widget():
+                # Attempt to set start_date as the 1st day of the month with the 
+                # params provided.  Default list widget should set start_date to now.
+                if self.request.GET.get('monthwidget') == 'true':
+                    year = self.request.GET.get('year', datetime.now().year)
+                    month = self.request.GET.get('month', datetime.now().month)
+                    if year and month:
+                        year = int(year)
+                        month = int(month)
+                        start_date = datetime(year, month, 1)
+                    else:
+                        start_date = datetime.now()
+                        start_date = datetime.combine(datetime(start_date.year, start_date.month, 1), datetime.max.time())
+                else:
+                    start_date = datetime.now()
+            else:
+                day_month_year = self.get_day_month_year()
+                start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+            
             self.start_date = start_date
+
         return start_date
 
     def get_end_date(self):
         """
         Returns the end date or creates an end date based on the url parameters.
         """
-        if self.end_date:
-            end_date = self.end_date
-        else:
-            raise ImproperlyConfigured("'%s' must define 'end_date'"
-                                       % self.__class__.__name__)
+        end_date = self.end_date
+        if not end_date:
+            # Backwards compatibility with JS Widget
+            if self.is_js_widget():
+                start_date = self.get_start_date()
+                # Set end date to last day of the month (relative to start_date) for
+                # monthwidget.  Just use +1 month from start_date for default list widget.
+                if self.request.GET.get('monthwidget') == 'true':
+                    end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1) - timedelta(days=1)
+                    end_date = datetime.combine(end_date, datetime.max.time())
+                else:
+                    end_date = start_date + relativedelta(months=1)
 
         return end_date
 
@@ -148,7 +195,25 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         context['start'] = self.get_start_date()
         context['end'] = self.get_end_date()
         context['list_type'] = self.list_type
+
+        # Backwards compatibility with JS Widget
+        context['param_limit'] = self.request.GET.get('limit')
+        context['param_calendar'] = self.request.GET.get('calendar_id')
+        context['param_monthwidget'] = self.request.GET.get('monthwidget')
+        context['param_iswidget'] = self.request.GET.get('is_widget')
+        context['param_month'] = self.request.GET.get('month')
+        context['param_year'] = self.request.GET.get('year')
+
         return context
+
+    def get_template_names(self):
+        if self.is_js_widget():
+            if self.request.GET.get('monthwidget') == 'true':
+                return ['events/frontend/calendar/calendar-type/calendar-widget-month.html']
+            else:
+                return ['events/frontend/calendar/calendar-type/calendar-widget-list.html']
+        else:
+            return super(CalendarEventsListView, self).get_template_names()
 
 
 class DayEventsListView(CalendarEventsListView):
@@ -162,9 +227,11 @@ class DayEventsListView(CalendarEventsListView):
         """
         Returns the end date that is one day past today.
         """
-        start_date = self.get_start_date()
-        end_date = datetime.combine(start_date, datetime.max.time())
-        self.end_date = end_date
+        end_date = super(DayEventsListView, self).get_end_date()
+        if not end_date:
+            start_date = self.get_start_date()
+            end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+            self.end_date = end_date
 
         return end_date
 

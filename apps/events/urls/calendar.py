@@ -2,18 +2,18 @@ from django.conf import settings
 from django.conf.urls import patterns
 from django.conf.urls import url
 
-from events.views.calendar import named_listing
-from events.views.calendar import range_listing
-from events.views.calendar import DayEventsListView
-from events.views.calendar import EventsByCategoryList
-from events.views.calendar import EventsByTagList
-from events.views.calendar import EventDetailView
-from events.views.calendar import MonthEventsListView
-from events.views.calendar import WeekEventsListView
-from events.views.calendar import YearEventsListView
+from events.views.event_views import named_listing
+from events.views.event_views import range_listing
+from events.views.event_views import DayEventsListView
+from events.views.event_views import EventsByCategoryList
+from events.views.event_views import EventsByTagList
+from events.views.event_views import EventDetailView
+from events.views.event_views import MonthEventsListView
+from events.views.event_views import WeekEventsListView
+from events.views.event_views import YearEventsListView
 
 
-urlpatterns = patterns('events.views.calendar',
+urlpatterns = patterns('events.views.event_views',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
     url(r'^(?P<calendar>[\w-]+)/event-(?P<pk>[\d]+)/([\w-]+/)?(?P<format>[\w]+)?$',
