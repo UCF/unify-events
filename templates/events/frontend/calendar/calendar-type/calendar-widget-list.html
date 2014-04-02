@@ -11,7 +11,7 @@
     <body>
         <div class="events">
             <h4 class="upcoming-header">Upcoming Events</h4>
-            {% if events %}
+            {% if event_instances %}
             <table class="eventlisting">
                 <thead>
                     <th class="date" scope="col">
@@ -22,7 +22,7 @@
                     </th>
                 </thead>
                 <tbody>
-                {% for event_instance in events %}
+                {% for event_instance in event_instances %}
                     <tr class="vevent{% cycle ' alt' '' %}">
                         <td class="date">
                             {{ event_instance.start|date:"M j h:i a" }}
