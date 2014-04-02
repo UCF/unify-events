@@ -62,10 +62,10 @@ class Dashboard(TemplateView):
         ctx.update(context)
 
         # Date navigation
-        ctx['dates']['today'] = date.today()
+        ctx['dates']['today'] = datetime.today()
         if all(x in ctx for x in ('year', 'month', 'day')):
             try:
-                ctx['dates']['relative'] = date(int(ctx.get('year')), int(ctx.get('month')), int(ctx.get('day')))
+                ctx['dates']['relative'] = datetime(int(ctx.get('year')), int(ctx.get('month')), int(ctx.get('day')))
                 ctx['day_view'] = True
             except ValueError: # bad day/month/year vals provided
                 ctx['dates']['relative'] = ctx['dates']['today']
@@ -97,7 +97,7 @@ class Dashboard(TemplateView):
             ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
             ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
             if ctx['day_view']:
-                events = get_range_users_events(self.request.user, ctx['dates']['relative'], ctx['dates']['relative'])
+                events = get_range_users_events(self.request.user, ctx['dates']['relative'], ctx['dates']['relative'] + timedelta(days=1) - timedelta(seconds=1))
             else:
                 events = get_all_users_future_events(self.request.user)
 

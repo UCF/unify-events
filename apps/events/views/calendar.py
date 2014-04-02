@@ -163,7 +163,7 @@ class DayEventsListView(CalendarEventsListView):
         Returns the end date that is one day past today.
         """
         start_date = self.get_start_date()
-        end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+        end_date = datetime.combine(start_date, datetime.max.time())
         self.end_date = end_date
 
         return end_date
@@ -204,7 +204,7 @@ class WeekEventsListView(CalendarEventsListView):
         Returns the end date that is one day past today.
         """
         start_date = self.get_start_date()
-        end_date = start_date + timedelta(weeks=1)
+        end_date = datetime.combine(start_date + timedelta(weeks=1), datetime.max.time())
         self.end_date = end_date
 
         return end_date
@@ -229,6 +229,7 @@ class MonthEventsListView(CalendarEventsListView):
     Events listing for a month.
     """
     list_type = 'month'
+    list_title = 'Events This Month.'
 
     def get_end_date(self):
         """
@@ -257,9 +258,7 @@ class MonthEventsListView(CalendarEventsListView):
         context = super(MonthEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
         now = datetime.now()
-        if start_date.month == now.month and start_date.year == now.year:
-            context['list_title'] = 'Events This Month.'
-        else:
+        if start_date.month != now.month or start_date.year != now.year:
             context['list_title'] = 'Events by Month: %s' % (start_date.strftime("%B %Y"))
 
         if 'all_months' not in context:
@@ -288,6 +287,7 @@ class YearEventsListView(CalendarEventsListView):
     Events listing for a year.
     """
     list_type = 'year'
+    list_title = 'Events This Year.'
 
     def get_end_date(self):
         """
@@ -305,9 +305,7 @@ class YearEventsListView(CalendarEventsListView):
         """
         context = super(YearEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
-        if start_date.year == datetime.now().year:
-            context['list_title'] = 'Events This Year.'
-        else:
+        if start_date.year != datetime.now().year:
             context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%B %Y"))
 
         if 'all_years' not in context:
