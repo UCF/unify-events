@@ -78,3 +78,7 @@ FRONT_PAGE_CALENDAR_SLUG = ''
 # How many days' worth of events should be displayed
 # on the primary Calendar frontend view.
 CALENDAR_MAIN_DAYS = 7
+
+# The first day of the week for month calendar generation.
+# 0 is Monday, 6 is Sunday.
+FIRST_DAY_OF_WEEK = 6
