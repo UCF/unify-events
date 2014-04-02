@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from events.views.calendar import DayEventsListView
+from events.views.event_views import DayEventsListView
 
 admin.autodiscover()
 
