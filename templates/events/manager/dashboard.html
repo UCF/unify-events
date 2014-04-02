@@ -83,6 +83,7 @@
         <div class="span8 sidebarfix page-content">
 
             <form action="{% url 'event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
+                {% csrf_token %}
                 <div class="control-group">
                     <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                     <div class="controls">

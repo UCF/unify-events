@@ -329,7 +329,7 @@ var userSearchTypeahead = function() {
     var performSearch = function(query) {
         $.ajax({
             url: 'http://' + HTTPHOST + '/manager/search/user/' + query,
-            type: 'post',
+            type: 'get',
             success: function(response) {
                 displayResults(response);
             },

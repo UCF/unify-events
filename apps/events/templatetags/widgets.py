@@ -59,7 +59,7 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
 
     # Get a date range by which we will fetch events
     start = this_month_cal.keys()[0]
-    end = this_month_cal.keys()[-1]
+    end = datetime.combine(this_month_cal.keys()[-1], datetime.max.time())
 
     # Fetch events; group them by date
     calendar = None

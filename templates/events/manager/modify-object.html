@@ -25,6 +25,7 @@
 
 {% block content_body %}
     <form action="{% block content_form_action %}{% endblock %}" method="post" class="object-modify-form" id="{% block content_form_id %}{% endblock %}">
+        {% csrf_token %}
         <div class="modal-body-content">
             {% block content_form_body %}{% endblock %}
         </div>

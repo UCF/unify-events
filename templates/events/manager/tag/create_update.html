@@ -55,6 +55,7 @@
     {% else %}
         <form class="form-horizontal" action="{% url 'tag-create' %}" method="post">
     {% endif %}
+            {% csrf_token %}
             {{ form.non_field_errors }}
             {{ form.name.errors }}
             <div class="control-group large">

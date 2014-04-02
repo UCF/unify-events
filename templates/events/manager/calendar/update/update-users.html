@@ -109,9 +109,9 @@
                     <p>
                         You are about to reassign ownership of this calendar to an existing user.<br/>
                         {% if user.is_superuser and not calendar in user.owned_calendars.all %}
-                        The owner of this calendar 
+                        The owner of this calendar
                         {% else %}
-                        You 
+                        You
                         {% endif %}
                         will be reassigned as an Admin.
                     </p>
