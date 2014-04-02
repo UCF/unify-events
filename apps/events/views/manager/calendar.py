@@ -64,7 +64,7 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
 
     def render_to_response(self, context, **response_kwargs):
         """
-        Force User.first_login to be false so that the next request to the 
+        Force User.first_login to be false so that the next request to the
         Dashboard or Settings does not loop back through the "First Login" check
         """
         template = self.get_template_names()
@@ -93,6 +93,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
     success_message = '%(title)s was updated successfully.'
     template_name = 'events/manager/calendar/update.html'
     success_view_name = 'calendar-update'
+    copy_kwargs = ['pk']
 
 
 class CalendarUserUpdate(CalendarUserValidationMixin, DetailView):

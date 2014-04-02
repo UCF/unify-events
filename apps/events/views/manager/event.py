@@ -263,7 +263,7 @@ def update_state(request, pk=None, state=None):
         messages.error(request, 'Saving event failed.')
     else:
         messages.success(request, 'Event successfully updated.')
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+        return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
 @login_required
@@ -283,7 +283,7 @@ def submit_to_main(request, pk=None):
     else:
         messages.success(request, 'Event successfully updated.')
 
-    return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': event.calendar.id}))
+    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
 @login_required
@@ -409,28 +409,27 @@ def cancel_uncancel(request, pk=None):
             message = 'Event successfully canceled.'
 
         messages.success(request, message)
-    return HttpResponseRedirect(reverse('dashboard', kwargs={'calendar_id': original_event.calendar.id}))
+    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': original_event.calendar.id}))
 
 
 @login_required
-def copy(request, event_id=None):
-    ctx = {'event': None, 'form': None}
+def copy(request, pk=None):
     tmpl = 'events/manager/events/copy.html'
 
-    ctx['event'] = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(Event, pk=pk)
 
-    if not request.user.is_superuser and ctx['event'].calendar not in request.user.calendars:
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot copy the specified event.')
 
-    user_calendars = request.user.calendars.exclude(pk=ctx['event'].calendar.id)
+    user_calendars = request.user.calendars.exclude(pk=event.calendar.id)
 
     if request.method == 'POST':
-        ctx['form'] = EventCopyForm(request.POST, calendars=user_calendars)
-        if ctx['form'].is_valid():
+        form = EventCopyForm(request.POST, calendars=user_calendars)
+        if form.is_valid():
             error = False
-            for calendar in ctx['form'].cleaned_data['calendars']:
+            for calendar in form.cleaned_data['calendars']:
                 try:
-                    ctx['event'].copy(calendar=calendar)
+                    event.copy(calendar=calendar)
                 except Exception:
                     messages.error(request, 'Unable to copy even to %s' % calendar.title)
                     error = True
@@ -438,5 +437,6 @@ def copy(request, event_id=None):
                 messages.success(request, 'Event successfully copied.')
             return HttpResponseRedirect(reverse('dashboard'))
     else:
-        ctx['form'] = EventCopyForm(calendars=user_calendars)
-    return TemplateView.as_view(request, tmpl, ctx)
+        form = EventCopyForm(calendars=user_calendars)
+    view = TemplateView.as_view(template_name=tmpl)
+    return view(request, event=event, form=form)

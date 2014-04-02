@@ -86,6 +86,7 @@
     {% else%}
         <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
+            {% csrf_token %}
             <fieldset class="control-group large">
                 <label class="control-label {% if form.calendar.errors %}error{% endif %}" for="{{ form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ form.calendar.label }}</label>
                 <p class="label-desc" id="help-label-calendar" tabindex="-1">Select an existing calendar to post this event to.</p>

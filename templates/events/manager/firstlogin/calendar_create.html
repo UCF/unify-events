@@ -40,6 +40,7 @@
                     </strong>
                 </p>
                 <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
+                    {% csrf_token %}
                     <div class="control-group">
                        <label class="control-label" for="id_title">Calendar Name</label>
                        <div class="controls">

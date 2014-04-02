@@ -58,6 +58,7 @@
     {% else %}
         <form class="form-horizontal" action="{% url 'location-create' %}" method="post" enctype="multipart/form-data">
 	{% endif %}
+            {% csrf_token %}
             {{ form.non_field_errors }}
             {{ form.title.errors }}
             <div class="control-group large">

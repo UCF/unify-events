@@ -43,7 +43,7 @@
     {% if object %}
         Use the form below to update the category "{{ category.title }}". Events with this category will be updated with these changes.
     {% else %}
-        Use the form below to create a new category.       
+        Use the form below to create a new category.
     {% endif %}
 {% endblock %}
 
@@ -53,6 +53,7 @@
     {% else %}
         <form class="form-horizontal" action="{% url 'category-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
+            {% csrf_token %}
             {{ form.non_field_errors }}
             {{ form.title.errors }}
             <div class="control-group large">

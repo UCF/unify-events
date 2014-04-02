@@ -61,6 +61,7 @@
     <div class="row page-content">
         <div class="span9" id="calendar-info">
             <form action="{% url 'calendar-update' pk=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
+                {% csrf_token %}
                 <h2>Calendar Info</h2>
                 <div class="control-group large">
                    <label class="control-label" for="id_title">Calendar Name</label>
