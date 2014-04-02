@@ -82,20 +82,22 @@ class MultipleFormatTemplateViewMixin(object):
     """
     template_name = None
 
-
     def get_template_names(self):
         """
         Return the template name based on the format requested.
         """
-        format = self.kwargs['format']
-        if not format:
+        if not 'format' in self.kwargs or self.kwargs['format'] is None:
             format = 'html'
+        else:
+            format = self.kwargs['format']
         return [self.template_name + format]
 
     def render_to_response(self, context, **kwargs):
         """
         Set the mimetype of the response based on the format.
         """
+        if not 'format' in self.kwargs:
+            self.kwargs['format'] = 'html'
         return super(MultipleFormatTemplateViewMixin, self).render_to_response(context,
                                                                                content_type=format_to_mimetype(self.kwargs['format']),
                                                                                **kwargs)
