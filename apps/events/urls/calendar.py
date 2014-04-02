@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls import patterns
 from django.conf.urls import url
 
-# TODO this will all get replaced
 from events.views.calendar import named_listing
 from events.views.calendar import range_listing
 from events.views.calendar import DayEventsListView
@@ -32,6 +31,7 @@ urlpatterns = patterns('events.views.calendar',
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?P<format>[\w]+)?$', DayEventsListView.as_view(), name="day-listing"),
     url(r'^(?P<calendar>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?P<format>[\w]+)?$', WeekEventsListView.as_view(), name='week-listing'),
 
+    # TODO replace with list view?
     # http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
     url(r'^(?P<calendar>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(?P<format>[\w]+)?$',
         view=range_listing,

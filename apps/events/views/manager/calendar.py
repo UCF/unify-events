@@ -97,14 +97,9 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
 
 
 class CalendarUserUpdate(CalendarUserValidationMixin, DetailView):
-    # form_class = CalendarForm
     model = Calendar
-    # success_message = 'Calendar users updated successfully.'
+    success_message = 'Calendar users updated successfully.'
     template_name = 'events/manager/calendar/update/update-users.html'
-
-    # # TODO: use SuccessUrlReverseKwargsMixin
-    # def get_success_url(self):
-    #     return reverse_lazy('calendar-update-users', kwargs = {'pk' : self.object.pk, })
 
 
 class CalendarSubscriptionsUpdate(CalendarUserValidationMixin, DetailView):
@@ -117,7 +112,6 @@ class CalendarList(SuperUserRequiredMixin, ListView):
     model = Calendar
     paginate_by = 25
     template_name = 'events/manager/calendar/list.html'
-
 
 
 @login_required

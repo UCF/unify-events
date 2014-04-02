@@ -22,7 +22,7 @@ from util import LDAPHelper
 from events.models import Calendar
 from events.models import Event
 from events.models import get_all_users_future_events
-from events.models import get_range_users_events
+from events.models import get_events_by_range
 from events.models import State
 
 
@@ -97,7 +97,7 @@ class Dashboard(TemplateView):
             ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
             ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
             if ctx['day_view']:
-                events = get_range_users_events(self.request.user, ctx['dates']['relative'], ctx['dates']['relative'] + timedelta(days=1) - timedelta(seconds=1))
+                events = get_events_by_range(ctx['dates']['relative'], ctx['dates']['relative'] + timedelta(days=1) - timedelta(seconds=1), user=self.request.user)
             else:
                 events = get_all_users_future_events(self.request.user)
 

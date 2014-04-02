@@ -48,7 +48,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
-                                        <a href="{% url 'dashboard' calendar_id=calendar.id %}">
+                                        <a href="{% url 'dashboard' pk=calendar.id %}">
                                             <i class="icon-calendar-empty"></i>
                                             Manage Events
                                         </a>
@@ -75,7 +75,7 @@
             </table>
 
             {% pager paginator=paginator current_page=request.GET.page %}
-                
+
             {% else %}
             <div class="well well-empty">
                 No calendars found. Want to <a href="{% url 'calendar-create' %}">create one?</a>

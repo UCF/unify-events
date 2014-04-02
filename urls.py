@@ -15,7 +15,6 @@ urlpatterns = patterns('',
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^category/', include('events.urls.category')),
     url(r'^tag/', include('events.urls.tag')),
-    # TODO: replace with CBV
     url(r'^$', DayEventsListView.as_view(), kwargs={'calendar': settings.FRONT_PAGE_CALENDAR_SLUG}),
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'for-developers/$', TemplateView.as_view(template_name='events/static/for-developers.html'), name='for-developers'),

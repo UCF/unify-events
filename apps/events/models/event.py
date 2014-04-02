@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django_bleach.models import BleachField
@@ -36,21 +37,24 @@ def get_all_users_future_events(user):
     return events
 
 
-def get_range_users_events(user, start, end):
+def get_events_by_range(start, end, calendar=None, user=None):
     """
-    Retrieves a range of events for the given user
-
-    TODO: condense this into a more basic function?
-    (Calendar.range_event_instances uses similar filters)
+    Retrieves a range of events for the given calendar or user's calendars.
     """
-    from django.db.models import Q
     during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
     starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
     ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
     current = Q(start__lte=start) & Q(end__gte=end)
     _filter = during | starts_before | ends_after | current
 
-    return EventInstance.objects.filter(_filter, event__calendar__in=list(user.calendars.all()))
+    if calendar:
+        calendars = [calendar]
+    elif user:
+        calendars = list(user.calendars.all())
+    else:
+        raise AttributeError('Either a calendar or user must be supplied.')
+
+    return EventInstance.objects.filter(_filter, event__calendar__in=calendars)
 
 
 class State:
@@ -221,8 +225,6 @@ class Event(TimeCreatedModified):
         if state is None:
             state = self.state
 
-        # TODO change creator to be the person who initiated the copy
-        # not the creator of the previous event
         copy = Event(creator=self.creator,
                      created_from=created_from,
                      state=state,
