@@ -1,7 +1,7 @@
 {% load humanize %}
 {% load widgets %}
 <div class="row">
-    <div class="span8 sidebarfix page-content" id="{% block page_content_id %}{% endblock %}">
+    <div class="span8 sidebarfix page-content" id="{% block page_content_id %}calendar-events-default{% endblock %}">
         <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
         {% include 'events/frontend/event-listing/listing.html' %}
         {% pager paginator=paginator current_page=request.GET.page %}
