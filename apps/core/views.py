@@ -86,7 +86,13 @@ class MultipleFormatTemplateViewMixin(object):
         """
         Return the template name based on the format requested.
         """
-        if not 'format' in self.kwargs or self.kwargs['format'] is None:
+        if self.request.GET.get('format') is not None:
+            # Backwards compatibility with UNL events
+            if self.request.GET.get('format') == 'hcalendar':
+                format = 'ics'
+            else:
+                format = self.request.GET.get('format')
+        elif not 'format' in self.kwargs or self.kwargs['format'] is None:
             format = 'html'
         else:
             format = self.kwargs['format']
@@ -96,7 +102,13 @@ class MultipleFormatTemplateViewMixin(object):
         """
         Set the mimetype of the response based on the format.
         """
-        if not 'format' in self.kwargs:
+        if self.request.GET.get('format') is not None:
+            # Backwards compatibility with UNL events
+            if self.request.GET.get('format') == 'hcalendar':
+                self.kwargs['format'] = 'ics'
+            else:
+                self.kwargs['format'] = self.request.GET.get('format')
+        elif not 'format' in self.kwargs:
             self.kwargs['format'] = 'html'
         return super(MultipleFormatTemplateViewMixin, self).render_to_response(context,
                                                                                content_type=format_to_mimetype(self.kwargs['format']),

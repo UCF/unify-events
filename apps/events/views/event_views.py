@@ -79,8 +79,11 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         """
         Get the calendar based on the url parameter 'calendar'.
         """
-        # Backwards compatibility with JS Widget
-        if self.is_js_widget():
+        # Backwards compatibility with JS Widget and UNL events system urls.
+        # Use 'calendar_id' query param if is_js_widget() is true or if the
+        # current calendar is the front page calendar (i.e. we're at www.ucf.edu/events/)
+        # and the 'calendar_id' query param is set.
+        if self.is_js_widget() or self.request.GET.get('calendar_id') is not None and self.kwargs.get('calendar') == settings.FRONT_PAGE_CALENDAR_SLUG:
             calendar = get_object_or_404(Calendar, pk=self.request.GET.get('calendar_id'))
         else:
             calendar = self.calendar
@@ -224,6 +227,28 @@ class DayEventsListView(CalendarEventsListView):
     list_title = 'Events by Day'
     list_type = 'day'
 
+    def is_upcoming(self):
+        """
+        Check for a url query param of 'upcoming' for backwards compatibility
+        with UNL events system url structure
+        """
+        if self.request.GET.get('upcoming') is not None and self.get_start_date().date() == datetime.now().date():
+            return True
+        return False
+
+    def get_queryset(self):
+        # Backwards compatibility with old events system
+        # (Accomodate for requests to "../?upcoming=upcoming")
+        if self.is_upcoming():
+            calendar = self.get_calendar()
+            events = calendar.future_event_instances().order_by('start')
+            self.paginate_by = 25
+            self.list_type = 'upcoming'
+            self.queryset = events
+            return events
+        else:
+            return super(DayEventsListView, self).get_queryset()
+
     def get_end_date(self):
         """
         Returns the end date that is one day past today.
@@ -243,10 +268,15 @@ class DayEventsListView(CalendarEventsListView):
         context = super(DayEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
 
-        if start_date.date() == datetime.today().date():
-            context['list_title'] = 'Today\'s Events'
-        elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
-            context['list_title'] = 'Tomorrow\'s Events'
+        # Backwards compatibility with old events system
+        # (Accomodate for requests to "../?upcoming=upcoming")
+        if self.is_upcoming():
+            context['list_title'] = 'Upcoming Events'
+        else:
+            if start_date.date() == datetime.today().date():
+                context['list_title'] = 'Today\'s Events'
+            elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
+                context['list_title'] = 'Tomorrow\'s Events'
 
         return context
 
@@ -388,6 +418,26 @@ class YearEventsListView(CalendarEventsListView):
         return context
 
 
+class UpcomingEventsListView(CalendarEventsListView):
+    """
+    Events listing for a calendar's upcoming events with
+    no specified range (return up to the 'paginate_by' value.)
+    """
+    paginate_by = 25
+    list_type = 'upcoming'
+    list_title = 'Upcoming Events'
+
+    def get_queryset(self):
+        """
+        Get all future events.
+        """
+        calendar = self.get_calendar()
+        events = calendar.future_event_instances().order_by('start')
+
+        self.queryset = events
+        return events
+
+
 def named_listing(request, calendar, type, format=None):
     """
     Handles named event listings, such as today, this-month, or this-year.
@@ -398,6 +448,7 @@ def named_listing(request, calendar, type, format=None):
         'this-week': WeekEventsListView,
         'this-month': MonthEventsListView,
         'this-year': YearEventsListView,
+        'upcoming': UpcomingEventsListView,
     }.get(type, None)
     if c is not None:
         today = datetime.today()
