@@ -15,16 +15,16 @@ from events.views.event_views import YearEventsListView
 
 urlpatterns = patterns('events.views.event_views',
     # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu
-    # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu.rss
+    # http://events.ucf.edu/calendar/athletics/event-20404/football-ucf-at-fsu/rss
     url(r'^(?P<calendar>[\w-]+)/event-(?P<pk>[\d]+)/([\w-]+/)?(?P<format>[\w]+)?$',
         EventDetailView.as_view(),
         name='event'
     ),
 
     # http://events.ucf.edu/calendar/athletics
-    # http://events.ucf.edu/calendar/athletics/2010.json
+    # http://events.ucf.edu/calendar/athletics/2010/json
     # http://events.ucf.edu/calendar/athletics/2010/01
-    # http://events.ucf.edu/calendar/athletics/2010/01/10.rss
+    # http://events.ucf.edu/calendar/athletics/2010/01/10/rss
     url(r'^(?P<calendar>[\w-]+)/(?P<format>[\w]+)?$', view=DayEventsListView.as_view(), name='calendar'),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<format>[\w]+)?$', YearEventsListView.as_view(), name="year-listing"),
     url(r'^(?P<calendar>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<format>[\w]+)?$', MonthEventsListView.as_view(), name="month-listing"),
