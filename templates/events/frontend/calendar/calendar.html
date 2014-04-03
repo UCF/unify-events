@@ -17,6 +17,9 @@
                 <li{% if list_type == 'year' %} class="active"{% endif %}>
                     <a href="{% url 'named-listing' calendar.slug "this-year" %}">Year View</a>
                 </li>
+                <li{% if list_type == 'upcoming' %} class="active"{% endif %}>
+                    <a href="{% url 'named-listing' calendar.slug "upcoming" %}">Upcoming</a>
+                </li>
             </ul>
         </div>
     </div>
