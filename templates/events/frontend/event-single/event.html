@@ -76,12 +76,12 @@ vevent
             </span>
     		<h3>Category</h3>
     		<span class="event-meta-category category-text {{ event_instance.event.category.slug }}">
-    		    <a href="{% url 'category' category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
+    		    <a href="{% url 'category' category_pk=event_instance.event.category.pk category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
     		</span>
     		<h3>Tags</h3>
     		<span class="event-meta-tags">
     	        {% for tag in event_instance.event.tags.all %}
-                <a href="{% url 'tag' tag=tag.slug %}">{{ tag }}</a>
+                <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
                 {% endfor %}
     		</span>
     	</div>

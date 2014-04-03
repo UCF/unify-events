@@ -40,13 +40,13 @@ urlpatterns = patterns('events.views.event_views',
     ),
 
     # http://events.ucf.edu/calendar/athletics/tag/tag-name
-    url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/tag/(?P<tag>[\w-]+)/(feed\.(?P<format>[\w]+))?$',
+    url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/tag/(?P<tag_pk>\d+)/(?P<tag>[\w-]+)/(feed\.(?P<format>[\w]+))?$',
         view=EventsByTagList.as_view(),
         name='tag-by-calendar'
     ),
 
     # http://events.ucf.edu/calendar/athletics/category/category-name
-    url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/category/(?P<category>[\w-]+)/(feed\.(?P<format>[\w]+))?$',
+    url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/category/(?P<category_pk>\d+)/(?P<category>[\w-]+)/(feed\.(?P<format>[\w]+))?$',
         view=EventsByCategoryList.as_view(),
         name='category-by-calendar'
     ),

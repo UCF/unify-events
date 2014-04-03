@@ -1,17 +1,18 @@
 MODULE = __import__(__name__)
 
+from datetime import date, timedelta
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.http import Http404, HttpResponse
 from django.template import TemplateDoesNotExist
-from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import View
 from django.utils.decorators import classonlymethod
+from taggit.models import Tag
 
 from time import gmtime, time
 from events.models import *
@@ -542,7 +543,12 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()
-        context['tag'] = self.kwargs['tag']
+        context['tag'] = get_object_or_404(Tag, pk=self.kwargs['tag_pk'])
+
+        if 'pk' in self.kwargs:
+            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
+            context['calendar'] = calendar
+
         return context
 
     def get_queryset(self):
@@ -575,7 +581,12 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EventsByCategoryList, self).get_context_data()
-        context['category'] = get_object_or_404(Category, slug=self.kwargs['category'])
+        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'])
+
+        if 'pk' in self.kwargs:
+            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
+            context['calendar'] = calendar
+
         return context
 
     def get_queryset(self):
@@ -586,7 +597,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
         if 'pk' not in kwargs:
             calendar = None
         else:
-            calendar = get_object_or_404(Calendar, slug=self.kwargs['pk'])
+            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
 
         if calendar:
             events = events.filter(event__calendar=calendar)

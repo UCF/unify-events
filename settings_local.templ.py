@@ -73,8 +73,7 @@ LDAP_NET_SEARCH_SIZELIMIT = 5
 USER_SEARCHLIMIT = 5
 
 # Calendar Displayed on the Front Page
-FRONT_PAGE_CALENDAR_SLUG = ''
-FRONT_PAGE_CALENDAR_PK= 1
+FRONT_PAGE_CALENDAR_PK = 1
 
 # How many days' worth of events should be displayed
 # on the primary Calendar frontend view.
