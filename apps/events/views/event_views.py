@@ -30,21 +30,123 @@ class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
-    """
-    Generic events listing view based on the start date and end date.
-    """
+class CalendarEventsBaseListView(ListView):
     model = EventInstance
     context_object_name = 'event_instances'
-    template_name = 'events/frontend/calendar/calendar.'
-    list_type = None
+    paginate_by = 25
+    calendar = None
     day = None
     month = None
     year = None
     start_date = None
     end_date = None
+
+    def get_calendar(self):
+        """
+        Get the calendar based on the url parameter 'calendar'.
+        """
+        calendar = self.calendar
+
+        if not calendar:
+            pk = self.kwargs.get('pk')
+            args = self.kwargs
+            if pk is None:
+                # Value is none return right away since no calendar was provided.
+                return pk
+            else:
+                calendar = get_object_or_404(Calendar, pk=pk)
+
+            self.calendar = calendar
+
+        return calendar
+
+    def _get_date_by_parameter(self, param):
+        """
+        Use get_day_month_year to these values.
+        Returns the date values (int) from url parameters.
+        """
+        if param in ['day', 'month', 'year']:
+            date_value = getattr(self, param)
+            if date_value is None:
+                date_param = self.kwargs.get(param)
+                if date_param is None:
+                    # Value is None so return right away no date url parameter was provided.
+                    return date_param
+                else:
+                    date_value = int(date_param)
+
+                setattr(self, param, date_value)
+            return date_value
+        else:
+            raise AttributeError('Param is not a date parameter (day, month, or year).')
+
+    def is_date_selected(self):
+        """
+        Determine if a date was selected.
+        """
+        day = self.kwargs.get('day')
+        month = self.kwargs.get('month')
+        year = self.kwargs.get('year')
+
+        if day is month is year is None:
+            return False
+        else:
+            return True
+
+
+    def get_day_month_year(self):
+        """
+        Return a tuple of day, month and year. Return current day
+        if no url parameters are provided.
+        """
+        day = self._get_date_by_parameter('day')
+        month = self._get_date_by_parameter('month')
+        year = self._get_date_by_parameter('year')
+
+        if day is month is year is None:
+            # Default to current day if nothing is provided
+            self.day = day = datetime.now().day
+            self.month = month = datetime.now().month
+            self.year = year = datetime.now().year
+
+        return (day, month, year)
+
+    def get_start_date(self):
+        """
+        Returns the start date or creates an start date based on the url parameters.
+        """
+        start_date = self.start_date
+        if not start_date:
+            day_month_year = self.get_day_month_year()
+            start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+
+        self.start_date = start_date
+        return start_date
+
+    def get_end_date(self):
+        """
+        Return the end date.
+        """
+        return self.end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Set the calendar in the context.
+        """
+        context = super(CalendarEventsBaseListView, self).get_context_data(**kwargs)
+        context['calendar'] = self.get_calendar()
+        context['start_date'] = self.get_start_date()
+        context['end_date'] = self.get_end_date()
+        return context
+
+
+class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBaseListView):
+    """
+    Generic events listing view for the frontend.
+    """
+    template_name = 'events/frontend/calendar/calendar.'
+    list_type = None
     list_title = None
-    calendar = None
 
     def is_js_widget(self):
         """
@@ -77,92 +179,36 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
 
     def get_calendar(self):
         """
-        Get the calendar based on the url parameter 'calendar'.
+        Overrides the calendar if requesting the widget.
         """
-        # Backwards compatibility with JS Widget and UNL events system urls.
-        # Use 'calendar_id' query param if is_js_widget() is true or if the
-        # current calendar is the front page calendar (i.e. we're at www.ucf.edu/events/)
-        # and the 'calendar_id' query param is set.
-        if self.is_js_widget() or self.request.GET.get('calendar_id') is not None and self.kwargs.get('calendar') == settings.FRONT_PAGE_CALENDAR_SLUG:
-            calendar = get_object_or_404(Calendar, pk=self.request.GET.get('calendar_id'))
-        else:
-            calendar = self.calendar
+        calendar = self.calendar
 
         if calendar is None:
-            calendar_slug = self.kwargs.get('calendar')
-            args = self.kwargs
-            if calendar_slug is None:
-                # Value is none return right away since no calendar was provided.
-                return calendar_slug
+            # Backwards compatibility with JS Widget and UNL events system urls.
+            # Use 'calendar_id' query param if is_js_widget() is true or if the
+            # current calendar is the front page calendar (i.e. we're at www.ucf.edu/events/)
+            # and the 'calendar_id' query param is set.
+            if self.is_js_widget() or self.request.GET.get('calendar_id') is not None and self.kwargs.get('pk') == settings.FRONT_PAGE_CALENDAR_PK:
+                calendar = get_object_or_404(Calendar, pk=self.request.GET.get('calendar_id'))
             else:
-                calendar = get_object_or_404(Calendar, slug=calendar_slug)
+                calendar = super(CalendarEventsListView, self).get_calendar()
 
             self.calendar = calendar
 
         return calendar
 
-    def _get_date_by_parameter(self, param):
-        """
-        Use get_day_month_year to these values.
-        Returns the date values (int) from url parameters.
-        """
-        if param in ['day', 'month', 'year']:
-            date_value = getattr(self, param)
-            if date_value is None:
-                date_param = self.kwargs.get(param)
-                if date_param is None:
-                    # Value is None so return right away no date url parameter was provided.
-                    return date_param
-                else:
-                    date_value = int(date_param)
-
-                setattr(self, param, date_value)
-            return date_value
-        else:
-            raise AttributeError('Param is not a date parameter (day, month, or year).')
-
-    def get_day_month_year(self):
-        """
-        Return a tuple of day, month and year. Return current day
-        if no url parameters are provided.
-        """
-        day = self._get_date_by_parameter('day')
-        month = self._get_date_by_parameter('month')
-        year = self._get_date_by_parameter('year')
-
-        if day is month is year is None:
-            # Default to current day if nothing is provided
-            self.day = day = datetime.now().day
-            self.month = month = datetime.now().month
-            self.year = year = datetime.now().year
-
-        return (day, month, year)
-
     def get_start_date(self):
         """
-        Returns the start date or creates an start date based on the url parameters.
+        Overrides the start date if requesting the widget in month mode.
         """
         start_date = self.start_date
         if not start_date:
+            start_date = super(CalendarEventsListView, self).get_start_date()
             # Backwards compatibility with JS Widget
-            if self.is_js_widget():
-                # Attempt to set start_date as the 1st day of the month with the
-                # params provided.  Default list widget should set start_date to now.
-                if self.request.GET.get('monthwidget') == 'true':
-                    year = self.request.GET.get('year', datetime.now().year)
-                    month = self.request.GET.get('month', datetime.now().month)
-                    if year and month:
-                        year = int(year)
-                        month = int(month)
-                        start_date = datetime(year, month, 1)
-                    else:
-                        start_date = datetime.now()
-                        start_date = datetime.combine(datetime(start_date.year, start_date.month, 1), datetime.max.time())
-                else:
-                    start_date = datetime.now()
-            else:
-                day_month_year = self.get_day_month_year()
-                start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+            # Attempt to set start_date as the 1st day of the month with the
+            # params provided.
+            if self.is_js_widget() and self.request.GET.get('monthwidget') == 'true':
+                start_date = datetime(start_date.date().year, start_date.date().month, 1)
 
             self.start_date = start_date
 
@@ -170,9 +216,9 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
 
     def get_end_date(self):
         """
-        Returns the end date or creates an end date based on the url parameters.
+        Overrides the end date if requesting the widget in month mode
         """
-        end_date = self.end_date
+        end_date = super(CalendarEventsListView, self).get_end_date()
         if not end_date:
             # Backwards compatibility with JS Widget
             if self.is_js_widget():
@@ -185,6 +231,8 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
                 else:
                     end_date = start_date + relativedelta(months=1)
 
+                self.end_date = end_date
+
         return end_date
 
     def get_context_data(self, **kwargs):
@@ -194,9 +242,6 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         """
         context = super(CalendarEventsListView, self).get_context_data(**kwargs)
         context['list_title'] = self.list_title
-        context['calendar'] = self.get_calendar()
-        context['start'] = self.get_start_date()
-        context['end'] = self.get_end_date()
         context['list_type'] = self.list_type
 
         # Backwards compatibility with JS Widget
@@ -438,7 +483,7 @@ class UpcomingEventsListView(CalendarEventsListView):
         return events
 
 
-def named_listing(request, calendar, type, format=None):
+def named_listing(request, pk, slug, type, format=None):
     """
     Handles named event listings, such as today, this-month, or this-year.
     """
@@ -463,7 +508,7 @@ def named_listing(request, calendar, type, format=None):
             month = None
 
         view = c.as_view(day=day, month=month, year=year)
-        return view(request, calendar=calendar, format=format)
+        return view(request, pk=pk, slug=slug, format=format)
     raise Http404
 
 
@@ -490,7 +535,7 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
     """
-    context_object_name = 'events'
+    context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
@@ -505,10 +550,10 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
         tag = kwargs['tag']
         events = EventInstance.objects.filter(event__tags__name__in=[tag])
 
-        if 'calendar' not in kwargs:
+        if 'pk' not in kwargs:
             calendar = None
         else:
-            calendar = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
 
         if calendar:
             events = events.filter(event__calendar=calendar)
@@ -523,7 +568,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
     """
-    context_object_name = 'events'
+    context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
@@ -538,10 +583,10 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
         category = kwargs['category']
         events = EventInstance.objects.filter(event__category__slug=category)
 
-        if 'calendar' not in kwargs:
+        if 'pk' not in kwargs:
             calendar = None
         else:
-            calendar = get_object_or_404(Calendar, slug=self.kwargs['calendar'])
+            calendar = get_object_or_404(Calendar, slug=self.kwargs['pk'])
 
         if calendar:
             events = events.filter(event__calendar=calendar)

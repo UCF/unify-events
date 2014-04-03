@@ -6,16 +6,16 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="{% url 'calendar-update-users' pk=calendar.id %}">Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' pk=calendar.id %}">Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.id %}">Subscriptions</a>
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
-            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.id %}">
+            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
                 <i class="icon-trash"></i>Delete Calendar
             </a>
         </div>
@@ -40,7 +40,7 @@
                     <option value="editor" selected>Editor</option>
                 </select>
                 <input type="hidden" id="id_username" value="">
-                <a class="btn" id="add-user-submit" href="#" data-url="{% url 'calendar-add-update-user' pk=calendar.id username="username" role="role" %}">Add User</a>
+                <a class="btn" id="add-user-submit" href="#" data-url="{% url 'calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">Add User</a>
             </form>
 
             <h3>Users With Access to this Calendar</h3>
@@ -78,8 +78,8 @@
                             <a class="btn btn-mini" href="#calendar-demote-self-editor" data-toggle="modal"><i class="icon-circle-arrow-down"></i> Make Editor</a>
                             <a class="btn btn-mini" href="#calendar-remove-self" data-toggle="modal"><i class="icon-remove-sign"></i> Remove User</a>
                             {% else %}
-                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' pk=calendar.id username=admin.username role="editor" %}"><i class="icon-circle-arrow-down"></i> Make Editor</a>
-                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' pk=calendar.id username=admin.username %}"><i class="icon-remove-sign"></i> Remove User</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}"><i class="icon-circle-arrow-down"></i> Make Editor</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' pk=calendar.pk username=admin.username %}"><i class="icon-remove-sign"></i> Remove User</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -91,8 +91,8 @@
                         <td class="calendar-access-username">{{ editor.username }}</td>
                         <td class="calendar-access-role">Editor</td>
                         <td class="calendar-access-actions">
-                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' pk=calendar.id username=editor.username role="admin" %}"><i class="icon-circle-arrow-up"></i> Make Admin</a>
-                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' pk=calendar.id username=editor.username %}"><i class="icon-remove-sign"></i> Remove User</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="icon-circle-arrow-up"></i> Make Admin</a>
+                            <a class="btn btn-mini" href="{% url 'calendar-delete-user' pk=calendar.pk username=editor.username %}"><i class="icon-remove-sign"></i> Remove User</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -126,7 +126,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <a href="{% url 'calendar-reassign-ownership' pk=calendar.id username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
+                    <a href="{% url 'calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
                     <a href="#" data-dismiss="modal" class="btn">Cancel</a>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <a href="{% url 'calendar-add-update-user' pk=calendar.id username=user role='editor' %}" class="btn btn-danger">Continue</a>
+                    <a href="{% url 'calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger">Continue</a>
                     <a href="#" data-dismiss="modal" class="btn">Cancel</a>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <a href="{% url 'calendar-delete-user' pk=calendar.id username=user %}" class="btn btn-primary">Continue</a>
+                    <a href="{% url 'calendar-delete-user' pk=calendar.pk username=user %}" class="btn btn-primary">Continue</a>
                     <a href="#" data-dismiss="modal" class="btn">Cancel</a>
                 </div>
             </div>

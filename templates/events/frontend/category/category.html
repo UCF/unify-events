@@ -3,7 +3,7 @@
 {% load widgets %}
 
 {% block meta %}
-        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}/rss" />
+        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' slug=calendar.slug category=category.slug %}{% else %}{% url 'category' category=category.slug %}{% endif %}/rss" />
 {% endblock %}
 
 {% block content_title_icon %}
@@ -13,7 +13,7 @@
 {% block content_title %}
     <h1>
         {% if calendar %}
-        <a href="{% url 'category-by-calendar' calendar=calendar.slug category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'category-by-calendar' slug=calendar.slug category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% else %}
         <a href="{% url 'category' category=category.slug %}">Event Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% endif %}
@@ -26,7 +26,7 @@
     <div class="row">
         <div class="span8 sidebarfix page-content" id="calendar-events-week">
             {% include 'events/frontend/event-listing/listing.html' %}
-            
+
             {% pager paginator=paginator current_page=request.GET.page %}
         </div>
         <aside class="span4 page-sidebar" id="calendar-events-sidebar">

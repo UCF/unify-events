@@ -130,8 +130,11 @@ urlpatterns += patterns('events.views.manager',
 
     url(r'^profiles/', include('profiles.urls')),
 
+    #TODO do we need _date/?
     url(r'^date/(?P<_date>[\w-]+)/calendar/(?P<calendar_id>\d+)', login_required(Dashboard.as_view()), name='dashboard'),
     url(r'^date/(?P<_date>[\w-]+)/?$', login_required(Dashboard.as_view()), name='dashboard'),
+    # ^^^^
+
     url(r'^$', login_required(Dashboard.as_view()), name='dashboard'),
     url(r'^state/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-state'),
 )

@@ -12,17 +12,17 @@ vevent
 
 {% block content_title %}
     <h1>
-        <a class="summary url" href="{% url 'event' calendar=event_instance.event.calendar.slug pk=event_instance.id %}">{{ event_instance.event.title }}</a>
+        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{{ event_instance.event.title }}</a>
     </h1>
     {% if user.is_authenticated %}
     <ul class="edit-options">
     	{% if event_instance.event.calendar in user.editable_calendars.all %}
     	<li>
-    		<a href="{% url 'event-update' pk=event_instance.event.id %}"><i class="icon-pencil"></i>Edit</a>
+    		<a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="icon-pencil"></i>Edit</a>
     	</li>
     	{% else %}
     	<li>
-    		<a href="{% url 'event-copy' pk=event_instance.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+    		<a href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
     	</li>
     	{% endif %}
     </ul>
@@ -72,7 +72,7 @@ vevent
     	<div class="well" id="event-meta">
     	    <h3>On Calendar</h3>
             <span class="event-meta-calendar">
-                <a href="{% url 'calendar' calendar=event_instance.event.calendar.slug %}">{{ event_instance.event.calendar.title }}</a>
+                <a href="{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}">{{ event_instance.event.calendar.title }}</a>
             </span>
     		<h3>Category</h3>
     		<span class="event-meta-category category-text {{ event_instance.event.category.slug }}">

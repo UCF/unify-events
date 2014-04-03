@@ -6,16 +6,16 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li>
-                    <a href="{% url 'calendar-update-users' pk=calendar.id %}">Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' pk=calendar.id %}">Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
                 </li>
                 <li class="active">
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.id %}">Subscriptions</a>
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
-            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.id %}">
+            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
                 <i class="icon-trash"></i>Delete Calendar
             </a>
         </div>
@@ -56,7 +56,7 @@
                                 {% endif %}
                             </td>
                             <td class="calendar-subscriptions-actions">
-                                <a class="btn btn-mini" href="{% url 'calendar-unsubscribe' pk=calendar.id subscribed_calendar_id=sub_cal.id %}"><i class="icon-remove-sign"></i> Unsubscribe</a>
+                                <a class="btn btn-mini" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="icon-remove-sign"></i> Unsubscribe</a>
                             </td>
                         </tr>
                         {% endfor %}

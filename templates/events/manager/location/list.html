@@ -75,10 +75,10 @@
                             <tr>
                                 <td class="field-bulk-select">
                                     <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                    <input type="checkbox" name="location_ids" value="{{ location.id }}" />
+                                    <input type="checkbox" name="location_ids" value="{{ location.pk }}" />
                                 </td>
                                 <td class="location-title">
-                                    <a href="{% url 'location-update' pk=location.id %}">{{ location.title }}</a>
+                                    <a href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
                                 </td>
                                 <td class="location-room">
                                     {{ location.room }}
@@ -101,21 +101,21 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
-                                                <a href="{% url 'location-update' pk=location.id %}">
+                                                <a href="{% url 'location-update' pk=location.pk %}">
                                                     <i class="icon-pencil"></i>
                                                     Edit Location
                                                 </a>
                                             </li>
                                             {% if location.event_instances.count > 0 %}
                                             <li role="presentation">
-                                                <a class="location-merge" href="{% url 'location-merge' location_from_id=location.id location_to_id=1 %}" data-object-title="{{ location.title }}">
+                                                <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
                                                     <i class="icon-resize-small"></i>
                                                     Merge Location
                                                 </a>
                                             </li>
                                             {% else %}
                                             <li role="presentation">
-                                                <a class="object-modify" href="{% url 'location-delete' pk=location.id %}">
+                                                <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
                                                     <i class="icon-trash"></i>
                                                     Delete Location
                                                 </a>
@@ -166,7 +166,7 @@
                         <select id="new-object-select">
                             <option value="">Select an Existing Location</option>
                             {% for location in location_list %}
-                            <option value="{{ location.id }}">{{ location.title }}</option>
+                            <option value="{{ location.pk }}">{{ location.title }}</option>
                             {% endfor %}
                         </select>
                     </div>

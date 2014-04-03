@@ -20,7 +20,7 @@
 			{{form.non_field_errors}}
 			{{form.errors}}
 		{% endfor %}
-		<form action="{% url 'event-copy' pk=event.id %}" method="post">
+		<form action="{% url 'event-copy' pk=event.pk %}" method="post">
             {% csrf_token %}
 			<p>{{form.calendars.label_tag}}</p>
 			<p>{{form.calendars}}</p>

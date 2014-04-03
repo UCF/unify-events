@@ -1,7 +1,7 @@
 {% load humanize %}
 
 {% if event_instances %}
-    {% regroup event_instances by start|date:"l, F j" as dates %}
+    {% regroup event_instances by start_date|date:"l, F j" as dates %}
     {% for date in dates %}
         {% if date.list.0.start|naturalday == "today" %} <!-- Can't compare to date.grouper, so get 1st event's start date -->
             <h3>Today: <span class="alt">{{ date.grouper }}</span></h3>
@@ -14,7 +14,7 @@
         <ul class="event-list">
         {% for event_instance in date.list %}
             <li class="event {{ event_instance.event.category.slug }}">
-                <a class="event-content url" href="{% url 'event' event_instance.event.calendar.slug event_instance.id %}{{ event_instance.event.slug }}">
+                <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
                     <!-- if img -->
                     <!--<img src="" alt="image" title="image" />-->
                     <!-- endif -->

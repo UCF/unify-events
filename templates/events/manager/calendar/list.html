@@ -30,7 +30,7 @@
                 {% for calendar in calendars %}
                     <tr>
                         <td class="calendar-title">
-                            <a href="{% url 'calendar-update' pk=calendar.id %}">{{ calendar.title }}</a>
+                            <a href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
                         </td>
                         <td class="calendar-owner">
                             {{ calendar.owner.username }}<br/>
@@ -48,20 +48,20 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
-                                        <a href="{% url 'dashboard' pk=calendar.id %}">
+                                        <a href="{% url 'dashboard' pk=calendar.pk %}">
                                             <i class="icon-calendar-empty"></i>
                                             Manage Events
                                         </a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="{% url 'calendar-update' pk=calendar.id %}">
+                                        <a href="{% url 'calendar-update' pk=calendar.pk %}">
                                             <i class="icon-pencil"></i>
                                             Edit Calendar
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li role="presentation">
-                                        <a href="{% url 'calendar' calendar=calendar.slug %}">
+                                        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
                                             <i class="icon-circle-arrow-right"></i>
                                             Live View
                                         </a>

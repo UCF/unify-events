@@ -17,7 +17,7 @@ def get_main_calendar():
     """
     Retrieve the main calendar
     """
-    return Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+    return Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
 
 def calendars(self):
@@ -55,7 +55,7 @@ class Calendar(TimeCreatedModified):
     @property
     def is_main_calendar(self):
         is_main = False
-        if self.slug == settings.FRONT_PAGE_CALENDAR_SLUG:
+        if self.pk == settings.FRONT_PAGE_CALENDAR_PK:
             is_main = True
 
         return is_main
@@ -119,7 +119,8 @@ class Calendar(TimeCreatedModified):
         Generate permalink for this object
         """
         return reverse('calendar', kwargs={
-            'calendar': self.slug,
+            'pk': self.pk,
+            'slug': self.slug,
         })
 
     def import_event(self, event):

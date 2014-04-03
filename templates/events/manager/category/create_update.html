@@ -49,7 +49,7 @@
 
 {% block content_body %}
     {% if object %}
-        <form class="form-horizontal" action="{% url 'category-update' pk=category.id %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'category-update' pk=category.pk %}" method="post" enctype="multipart/form-data">
     {% else %}
         <form class="form-horizontal" action="{% url 'category-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}

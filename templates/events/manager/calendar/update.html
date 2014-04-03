@@ -23,7 +23,7 @@
     <h1>Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
     <ul class="edit-options">
         <li>
-            <a href="{% url 'calendar' calendar=calendar.slug %}">Live View</a>
+            <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Live View</a>
         </li>
     </ul>
 {% endblock %}
@@ -31,7 +31,7 @@
 {% block content_subheader %}
     <div class="row">
         <div class="span12 subtitle-backlink-wrap">
-            <a class="subtitle-backlink" href="{% url 'dashboard' pk=calendar.id %}">&laquo; Back to Manager View</a>
+            <a class="subtitle-backlink" href="{% url 'dashboard' pk=calendar.pk %}">&laquo; Back to Manager View</a>
         </div>
     </div>
 {% endblock %}
@@ -41,16 +41,16 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li>
-                    <a href="{% url 'calendar-update-users' pk=calendar.id %}">Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                 </li>
                 <li class="active">
-                    <a href="{% url 'calendar-update' pk=calendar.id %}">Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.id %}">Subscriptions</a>
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
-            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.id %}">
+            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
                 <i class="icon-trash"></i>Delete Calendar
             </a>
         </div>
@@ -60,7 +60,7 @@
 {% block content_body %}
     <div class="row page-content">
         <div class="span9" id="calendar-info">
-            <form action="{% url 'calendar-update' pk=calendar.id %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
+            <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
                 {% csrf_token %}
                 <h2>Calendar Info</h2>
                 <div class="control-group large">

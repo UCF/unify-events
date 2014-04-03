@@ -2,43 +2,43 @@
 {% load humanize %}
 
 {% block meta %}
-		<link rel="alternate" type="application/rss+xml" title="{{ calendar.title }}'s RSS Feed" href="{% url 'calendar' calendar.slug %}/rss" />
+		<link rel="alternate" type="application/rss+xml" title="{{ calendar.title }}'s RSS Feed" href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}/rss" />
 {% endblock %}
 
 {% block content_title %}
     <h1>
-        <a href="{% url 'calendar' calendar.slug %}">{{ calendar.title }}</a>
+        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
     {% if user.is_authenticated %}
     <ul class="edit-options">
         {% if calendar in user.editable_calendars.all or user.is_superuser %}
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.id %}">Edit <b class="caret"></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li>
-                    <a href="{% url 'calendar-update-users' pk=calendar.id %}"><i class="icon-group"></i> Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="icon-group"></i> Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' pk=calendar.id %}"><i class="icon-info-sign"></i> Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="icon-info-sign"></i> Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.id %}"><i class="icon-share-alt"></i> Subscriptions</a>
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="icon-share-alt"></i> Subscriptions</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.id %}"><i class="icon-trash"></i> Delete Calendar</a>
+                    <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="icon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="{% url 'dashboard' pk=calendar.id %}">Manager View</a>
+            <a href="{% url 'dashboard' pk=calendar.pk %}">Manager View</a>
         </li>
         {% endif %}
-        {% if user.editable_calendars.all.count == 1 and user.editable_calendars.all.0.id == calendar.id %}
+        {% if user.editable_calendars.all.count == 1 and user.editable_calendars.all.0.pk == calendar.pk %}
         {% elif user.editable_calendars.all.count > 0 %}
         <li class="divider">|</li>
         <li>
-            <a class="calendar-subscribe" data-toggle="modal" href="{% url 'calendar-subscribe' pk=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}">Subscribe to Calendar</a>
+            <a class="calendar-subscribe" data-toggle="modal" href="{% url 'calendar-subscribe' pk=calendar.pk subscribing_calendar_id=user.calendars.all.0.pk %}">Subscribe to Calendar</a>
         </li>
         {% endif %}
     </ul>

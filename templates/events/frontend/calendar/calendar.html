@@ -6,19 +6,19 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
-                    <a href="{% url 'calendar' calendar.slug %}">Day View</a>
+                    <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
                 </li>
                 <li{% if list_type == 'week' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' calendar.slug "this-week" %}">Week View</a>
+                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
                 </li>
                 <li{% if list_type == 'month' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' calendar.slug "this-month" %}">Month View</a>
+                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
                 </li>
                 <li{% if list_type == 'year' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' calendar.slug "this-year" %}">Year View</a>
+                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
                 </li>
                 <li{% if list_type == 'upcoming' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' calendar.slug "upcoming" %}">Upcoming</a>
+                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
                 </li>
             </ul>
         </div>
@@ -57,14 +57,14 @@
             <select id="new-subscription-select">
                 <option value="">Select a Calendar</option>
                 {% for mycal in user.calendars.all %}
-                    {% if mycal.id != calendar.id  %}
-                    <option value="{{ mycal.id }}">{{ mycal.title }}</option>
+                    {% if mycal.pk != calendar.pk  %}
+                    <option value="{{ mycal.pk }}">{{ mycal.title }}</option>
                     {% endif %}
                 {% endfor %}
             </select>
         </div>
         <div class="modal-footer">
-            <a href="{% url 'calendar-subscribe' pk=calendar.id subscribing_calendar_id=user.calendars.all.0.id %}" class="btn btn-primary">Subscribe</a>
+            <a href="{% url 'calendar-subscribe' pk=calendar.pk subscribing_calendar_id=user.calendars.all.0.pk %}" class="btn btn-primary">Subscribe</a>
             <a href="#" data-dismiss="modal" class="btn">Cancel</a>
         </div>
     </div>
