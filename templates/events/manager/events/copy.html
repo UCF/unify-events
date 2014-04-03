@@ -1,33 +1,48 @@
-{% extends 'events/manager/base.html' %}
-{% block footer_scripts %}
-	{{block.super}}
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#event_instance_add')
-				.click(function() {
-					extend_formset('#instances > li:last', 'event_instance');
-					return false;
-				});
-		})
-	</script>
+{% extends 'events/manager/modify-object.html' %}
+{% load widget_tweaks %}
+
+{% block content_title_icon %}
+    <i class="icon-copy" id="page-title-icon"></i>
 {% endblock %}
-{% block content_body %}
-	<h2>Copy {{event.title}}</h2>
-	<div id="event-copy" class="span-24">
-		{{event_form.non_field_errors}}
-		{{event_form.errors}}
-		{% for form in event_formset %}
-			{{form.non_field_errors}}
-			{{form.errors}}
-		{% endfor %}
-		<form action="{% url 'event-copy' pk=event.pk %}" method="post">
-            {% csrf_token %}
-			<p>{{form.calendars.label_tag}}</p>
-			<p>{{form.calendars}}</p>
-			<p>
-				{% csrf_token %}
-				<button type="submit">Copy</button>
-			</p>
-		</form>
-	</div>
+
+{% block content_title %}
+    <h1>Copy Event: <span class="alt">{{ event.title }}</span></h1>
+{% endblock %}
+
+{% block content_form_action %}
+    {% url 'event-copy' pk=event.pk %}
+{% endblock %}
+
+{% block content_form_id %}event-copy{% endblock %}
+
+{% block content_form_body %}
+    {% csrf_token %}
+    <p>
+    	Select one or more calendars below to copy this event to.
+    </p>
+    <p>
+    	Use CTRL + Shift to select more than one calendar (or CMD + Shift on a Mac.)
+    </p>
+	<label for="{{ form.calendars.auto_id }}" class="control-label">
+		<strong>{{ form.calendars.label }}</strong>
+	</label>
+    {{ form.calendars }}
+{% endblock %}
+
+{% block content_form_footer %}
+    <button class="btn btn-primary" type="submit">Copy Event to Calendar(s)</button>
+    <a href="{% url 'event' pk=event.id calendar=event.calendar.slug %}" class="btn" data-dismiss="modal">Cancel</a>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{block.super}}
+    <script type="text/javascript">
+    	$().ready(function() {
+    		$('#event_instance_add')
+    			.click(function() {
+    				extend_formset('#instances > li:last', 'event_instance');
+    				return false;
+    			});
+    	})
+    </script>
 {% endblock %}

@@ -81,10 +81,12 @@ class MultipleFormatTemplateViewMixin(object):
     the url parameter of format.
     """
     template_name = None
+    available_formats = ['html', 'json', 'xml', 'rss', 'ics']
 
-    def get_template_names(self):
+    def get_format(self):
         """
-        Return the template name based on the format requested.
+        Determine the page format passed in the URL. Fall back to html
+        if nothing is set.
         """
         if self.request.GET.get('format') is not None:
             # Backwards compatibility with UNL events
@@ -92,24 +94,25 @@ class MultipleFormatTemplateViewMixin(object):
                 format = 'ics'
             else:
                 format = self.request.GET.get('format')
-        elif not 'format' in self.kwargs or self.kwargs['format'] is None:
-            format = 'html'
-        else:
+        elif self.kwargs['format'] in self.available_formats:
             format = self.kwargs['format']
+        else:
+            format = 'html'
+
+        return format
+
+    def get_template_names(self):
+        """
+        Return the template name based on the format requested.
+        """
+        format = self.get_format()
         return [self.template_name + format]
 
     def render_to_response(self, context, **kwargs):
         """
         Set the mimetype of the response based on the format.
         """
-        if self.request.GET.get('format') is not None:
-            # Backwards compatibility with UNL events
-            if self.request.GET.get('format') == 'hcalendar':
-                self.kwargs['format'] = 'ics'
-            else:
-                self.kwargs['format'] = self.request.GET.get('format')
-        elif not 'format' in self.kwargs:
-            self.kwargs['format'] = 'html'
+        self.kwargs['format'] = self.get_format()
         return super(MultipleFormatTemplateViewMixin, self).render_to_response(context,
                                                                                content_type=format_to_mimetype(self.kwargs['format']),
                                                                                **kwargs)

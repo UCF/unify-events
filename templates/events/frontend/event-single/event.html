@@ -22,7 +22,7 @@ vevent
     	</li>
     	{% else %}
     	<li>
-    		<a href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
+    		<a class="object-modify" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
     	</li>
     	{% endif %}
     </ul>
