@@ -23,12 +23,14 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if list_type == 'month' %}
+    {% if list_type == 'day' %}
+        {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
+    {% elif list_type == 'week' %}
+        {% include 'events/frontend/calendar/calendar-type/calendar-week.html' %}
+    {% elif list_type == 'month' %}
         {% include 'events/frontend/calendar/calendar-type/calendar-month.html' %}
     {% elif list_type == 'year' %}
         {% include 'events/frontend/calendar/calendar-type/calendar-year.html' %}
-    {% elif list_type == 'day' %}
-        {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
     {% else %}
         {% include 'events/frontend/calendar/calendar-type/calendar-default.html' %}
     {% endif %}

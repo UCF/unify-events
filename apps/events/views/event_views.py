@@ -220,6 +220,7 @@ class DayEventsListView(CalendarEventsListView):
     """
     Events listing for a day.
     """
+    paginate_by = 25
     list_title = 'Events by Day'
     list_type = 'day'
 
@@ -254,6 +255,7 @@ class WeekEventsListView(CalendarEventsListView):
     """
     Events listing for a week.
     """
+    paginate_by = 25
     list_title = 'Events by Week'
     list_type = 'week'
 
