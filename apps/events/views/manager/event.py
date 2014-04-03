@@ -417,10 +417,6 @@ def copy(request, pk=None):
     tmpl = 'events/manager/events/copy.html'
 
     event = get_object_or_404(Event, pk=pk)
-
-    if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        return HttpResponseForbidden('You cannot copy the specified event.')
-
     user_calendars = request.user.calendars.exclude(pk=event.calendar.id)
 
     if request.method == 'POST':
@@ -428,14 +424,22 @@ def copy(request, pk=None):
         if form.is_valid():
             error = False
             for calendar in form.cleaned_data['calendars']:
-                try:
-                    event.copy(calendar=calendar)
-                except Exception:
-                    messages.error(request, 'Unable to copy even to %s' % calendar.title)
+                if not request.user.is_superuser and calendar not in request.user.editable_calendars:
+                    messages.error(request, 'You cannot copy the specified event to the calendar %s' % calendar.title)
                     error = True
+                else:
+                    try:
+                        event.copy(calendar=calendar)
+                    except Exception:
+                        messages.error(request, 'Unable to copy event to %s' % calendar.title)
+                        error = True
             if not error:
                 messages.success(request, 'Event successfully copied.')
             return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            messages.error(request, 'Something went wrong when trying to copy to one of the selected calendars. Please try again.')
+            error = True
+            return HttpResponseRedirect(reverse('event-copy', kwargs={'pk': event.id}))
     else:
         form = EventCopyForm(calendars=user_calendars)
     view = TemplateView.as_view(template_name=tmpl)
