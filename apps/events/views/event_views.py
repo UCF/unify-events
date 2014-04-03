@@ -146,7 +146,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
         if not start_date:
             # Backwards compatibility with JS Widget
             if self.is_js_widget():
-                # Attempt to set start_date as the 1st day of the month with the 
+                # Attempt to set start_date as the 1st day of the month with the
                 # params provided.  Default list widget should set start_date to now.
                 if self.request.GET.get('monthwidget') == 'true':
                     year = self.request.GET.get('year', datetime.now().year)
@@ -163,7 +163,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, ListView):
             else:
                 day_month_year = self.get_day_month_year()
                 start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
-            
+
             self.start_date = start_date
 
         return start_date
@@ -489,8 +489,6 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
-
-    TODO: move this view?
     """
     context_object_name = 'events'
     model = Event
@@ -524,8 +522,6 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
-
-    TODO: move this view?
     """
     context_object_name = 'events'
     model = Event

@@ -93,8 +93,6 @@ class Command(BaseCommand):
                                           contact_email=old_contact_email,
                                           contact_phone=old_contact_phone)
 
-                        # TODO - images
-
                         # Statuses: pending, posted, archived
                         state = None
                         if old_calendar_event.status == 'pending':
