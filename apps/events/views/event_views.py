@@ -490,7 +490,7 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
     """
-    context_object_name = 'events'
+    context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
@@ -503,7 +503,7 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         tag = kwargs['tag']
-        events = EventInstance.objects.filter(event__tags__name__in=[tag])
+        events = EventInstance.objects.filter(event__tags__name__in=[tag], end__gte=datetime.now())
 
         if 'calendar' not in kwargs:
             calendar = None
@@ -523,7 +523,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
     """
-    context_object_name = 'events'
+    context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
@@ -536,7 +536,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         category = kwargs['category']
-        events = EventInstance.objects.filter(event__category__slug=category)
+        events = EventInstance.objects.filter(event__category__slug=category, end__gte=datetime.now())
 
         if 'calendar' not in kwargs:
             calendar = None
