@@ -227,6 +227,7 @@ class Event(TimeCreatedModified):
 
         copy = Event(creator=self.creator,
                      created_from=created_from,
+                     canceled=self.canceled,
                      state=state,
                      title=self.title,
                      description=self.description,
