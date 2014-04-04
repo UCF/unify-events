@@ -1,7 +1,7 @@
 {% load humanize %}
-
+{{ start_date }}
 {% if event_instances %}
-    {% regroup event_instances by start_date|date:"l, F j" as dates %}
+    {% regroup event_instances by start|date:"l, F j" as dates %}
     {% for date in dates %}
         {% if date.list.0.start|naturalday == "today" %} <!-- Can't compare to date.grouper, so get 1st event's start date -->
             <h3>Today: <span class="alt">{{ date.grouper }}</span></h3>
