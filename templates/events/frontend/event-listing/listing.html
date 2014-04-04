@@ -1,5 +1,4 @@
 {% load humanize %}
-{{ start_date }}
 {% if event_instances %}
     {% regroup event_instances by start|date:"l, F j" as dates %}
     {% for date in dates %}
