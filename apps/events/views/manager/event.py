@@ -2,29 +2,22 @@ import logging
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
-from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
-from django.forms.models import modelformset_factory
 from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.views.generic import DeleteView
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
-from core.forms import RequiredModelFormSet
 from core.views import DeleteSuccessMessageMixin
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
-from events.forms.manager import EventInstanceForm
 from events.forms.manager import EventInstanceFormSet
 from events.models import get_main_calendar
 from events.models import Event
-from events.models import EventInstance
 from events.models import Location
 from events.models import State
 from taggit.models import Tag

@@ -1,28 +1,17 @@
 MODULE = __import__(__name__)
 
 from datetime import date, timedelta
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
-from django.http import Http404, HttpResponse
-from django.template import TemplateDoesNotExist
+
+from dateutil.relativedelta import relativedelta
+from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic import View
-from django.utils.decorators import classonlymethod
+from ordereddict import OrderedDict
 from taggit.models import Tag
 
-from time import gmtime, time
 from events.models import *
-from core.utils import format_to_mimetype
 from core.views import MultipleFormatTemplateViewMixin
-from events.templatetags import widgets
-from dateutil.relativedelta import relativedelta
-from ordereddict import OrderedDict
-
-import settings
 
 
 class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):

@@ -1,20 +1,19 @@
 from datetime import date
 from datetime import datetime
-from dateutil import rrule
-import calendar as calgenerator
-import itertools
 
+from dateutil.relativedelta import relativedelta
+from dateutil import rrule
 from django import template
 from django.http import Http404
 from django.template import Context
 from django.template import loader
-from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from dateutil.relativedelta import relativedelta
+import itertools
 from ordereddict import OrderedDict
 
 from events.models import Calendar
+import calendar as calgenerator
 
 register = template.Library()
 

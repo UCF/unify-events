@@ -5,9 +5,6 @@ from django.contrib.auth.decorators import login_required
 
 from events.models import State
 from events.views.manager import Dashboard
-from events.views.manager.event import EventCreate
-from events.views.manager.event import EventDelete
-from events.views.manager.event import EventUpdate
 from events.views.manager.calendar import CalendarCreate
 from events.views.manager.calendar import CalendarDelete
 from events.views.manager.calendar import CalendarUpdate
@@ -18,6 +15,9 @@ from events.views.manager.category import CategoryCreate
 from events.views.manager.category import CategoryUpdate
 from events.views.manager.category import CategoryDelete
 from events.views.manager.category import CategoryList
+from events.views.manager.event import EventCreate
+from events.views.manager.event import EventDelete
+from events.views.manager.event import EventUpdate
 from events.views.manager.location import LocationCreateView
 from events.views.manager.location import LocationDeleteView
 from events.views.manager.location import LocationListView

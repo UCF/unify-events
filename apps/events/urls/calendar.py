@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.conf.urls import patterns
 from django.conf.urls import url
 
@@ -7,7 +6,6 @@ from events.views.event_views import range_listing
 from events.views.event_views import DayEventsListView
 from events.views.event_views import EventsByCategoryList
 from events.views.event_views import EventsByTagList
-from events.views.event_views import EventDetailView
 from events.views.event_views import MonthEventsListView
 from events.views.event_views import WeekEventsListView
 from events.views.event_views import YearEventsListView
