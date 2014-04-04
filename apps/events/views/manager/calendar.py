@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 class CalendarUserValidationMixin(object):
     """
     Require that the user accessing the calendar is either a superuser
-    or owns the requested calendar.
+    or is a user assigned to the calendar.
 
     Return 403 Forbidden if false.
     """
@@ -42,10 +42,31 @@ class CalendarUserValidationMixin(object):
         else:
             calendar = None
 
-        if not self.request.user.is_superuser and calendar is not None and calendar not in self.request.user.editable_calendars.all():
+        if not self.request.user.is_superuser and calendar is not None and calendar not in self.request.user.calendars.all():
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
             return super(CalendarUserValidationMixin, self).dispatch(request, *args, **kwargs)
+
+
+class CalendarAdminUserValidationMixin(object):
+    """
+    Require that the user accessing the calendar is either a superuser
+    or is capable of editing the calendar.
+
+    Return 403 Forbidden if false.
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(super(CalendarAdminUserValidationMixin, self), 'get_calendar'):
+            calendar = self.get_calendar()
+        elif hasattr(super(CalendarAdminUserValidationMixin, self), 'get_object'):
+            calendar = self.get_object()
+        else:
+            calendar = None
+
+        if not self.request.user.is_superuser and calendar is not None and calendar not in self.request.user.editable_calendars.all():
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+        else:
+            return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
 
@@ -83,14 +104,14 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         )
 
 
-class CalendarDelete(DeleteSuccessMessageMixin, CalendarUserValidationMixin, DeleteView):
+class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin, DeleteView):
     model = Calendar
     success_message = 'Calendar was successfully deleted.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/delete.html'
 
 
-class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarUserValidationMixin, UpdateView):
+class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was updated successfully.'
@@ -99,13 +120,13 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
     copy_kwargs = ['pk']
 
 
-class CalendarUserUpdate(CalendarUserValidationMixin, DetailView):
+class CalendarUserUpdate(CalendarAdminUserValidationMixin, DetailView):
     model = Calendar
     success_message = 'Calendar users updated successfully.'
     template_name = 'events/manager/calendar/update/update-users.html'
 
 
-class CalendarSubscriptionsUpdate(CalendarUserValidationMixin, DetailView):
+class CalendarSubscriptionsUpdate(CalendarAdminUserValidationMixin, DetailView):
     model = Calendar
     template_name = 'events/manager/calendar/update/update-subscriptions.html'
 
