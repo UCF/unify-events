@@ -64,9 +64,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for day, events in cal.items %}
+                {% for day, event_instances in cal.items %}
                     {% if forloop.counter|add:"-1"|divisibleby:7 %}<tr class="week">{% endif %}
-                        <td class="day{% if events %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
+                        <td class="day{% if event_instances %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
                             {% if is_manager %}
                                 {% if not calendar %}
                                     <a href="{% url 'manager-all-calendars-day-listing' day.year day.month day.day %}">
