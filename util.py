@@ -1,7 +1,8 @@
-from django.conf import settings
-import logging
-import ldap
 import base64
+import logging
+
+from django.conf import settings
+import ldap
 
 
 class LDAPHelper(object):
@@ -74,10 +75,10 @@ class LDAPHelper(object):
     def search(cls, connection, filter_params, filter_string='cn=%s', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
         try:
             ldap_filter = filter_string % filter_params
-            result_id = connection.search_ext(settings.LDAP_NET_BASE_DN, 
-                                              ldap.SCOPE_SUBTREE, 
-                                              ldap_filter, 
-                                              None, 
+            result_id = connection.search_ext(settings.LDAP_NET_BASE_DN,
+                                              ldap.SCOPE_SUBTREE,
+                                              ldap_filter,
+                                              None,
                                               sizelimit=sizelimit)
         except ldap.LDAPError, e:
             raise LDAPHelper.UnableToSearch(e)
