@@ -2,7 +2,7 @@
 {% load humanize %}
 
 {% block meta %}
-<link rel="alternate" type="application/rss+xml" title="{{ calendar.title }}'s RSS Feed" href="{{ request.build_absolute_uri }}feed.rss" />
+<link rel="alternate" type="application/rss+xml" title="{{ calendar.title }}'s {{ list_title }} RSS Feed" href="{{ request.build_absolute_uri }}feed.rss" />
 {% endblock %}
 
 {% block content_title %}
