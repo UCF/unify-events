@@ -1,7 +1,6 @@
 from django.core.exceptions import MiddlewareNotUsed
 from django.core.management import call_command
-from django.conf            import settings
-import re
+from django.conf import settings
 
 
 class Minifier:

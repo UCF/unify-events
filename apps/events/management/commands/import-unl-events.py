@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -19,7 +21,7 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import State
-import logging
+
 
 # Connect to LDAP and bind for searching later
 ldap = LDAPHelper()

@@ -1,5 +1,5 @@
 from django.db import models
-from decimal import Decimal
+
 
 def error(m):
 	import logging

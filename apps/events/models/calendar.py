@@ -8,8 +8,8 @@ from django.db.models.signals import pre_save
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
-from events.models.event import get_events_by_range
 import events.models
+from events.models.event import get_events_by_range
 import settings
 
 
