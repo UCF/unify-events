@@ -94,7 +94,7 @@ class MultipleFormatTemplateViewMixin(object):
                 format = 'ics'
             else:
                 format = self.request.GET.get('format')
-        elif self.kwargs['format'] in self.available_formats:
+        elif 'format' in self.kwargs and self.kwargs['format'] in self.available_formats:
             format = self.kwargs['format']
         else:
             format = 'html'
