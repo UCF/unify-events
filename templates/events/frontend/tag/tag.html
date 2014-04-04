@@ -15,7 +15,7 @@
         {% if calendar %}
         <a href="{% url 'tag-by-calendar' pk=calendar.pk slug=calendar.slug tag_pk=tag.pk tag=tag.slug %}">{{ calendar.title }}: <span class="alt">by Tag <em>&ldquo;{{ tag }}&rdquo;</em></span></a>
         {% else %}
-        <a href="{% url 'tag' tag_pk=tag.pk tag=tag %}">Event Tag: <span class="alt"><em>&ldquo;{{ tag }}&rdquo;</em></span></a>
+        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">Event Tag: <span class="alt"><em>&ldquo;{{ tag }}&rdquo;</em></span></a>
         {% endif %}
     </h1>
 {% endblock %}

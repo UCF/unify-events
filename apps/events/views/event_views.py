@@ -567,8 +567,8 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
 
     def get_queryset(self):
         kwargs = self.kwargs
-        tag = kwargs['tag']
-        events = EventInstance.objects.filter(event__tags__name__in=[tag], end__gte=datetime.now())
+        tag_pk = kwargs['tag_pk']
+        events = EventInstance.objects.filter(event__tags__pk=tag_pk, end__gte=datetime.now())
 
         if 'pk' not in kwargs:
             calendar = None
@@ -605,8 +605,8 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
 
     def get_queryset(self):
         kwargs = self.kwargs
-        category = kwargs['category']
-        events = EventInstance.objects.filter(event__category__slug=category, end__gte=datetime.now())
+        category_pk = kwargs['category_pk']
+        events = EventInstance.objects.filter(event__category__pk=category_pk, end__gte=datetime.now())
 
         if 'pk' not in kwargs:
             calendar = None

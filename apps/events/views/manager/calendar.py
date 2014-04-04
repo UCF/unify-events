@@ -41,7 +41,7 @@ class CalendarUserValidationMixin(object):
             calendar = self.get_object()
         else:
             calendar = None
-            
+
         if not self.request.user.is_superuser and calendar is not None and calendar not in self.request.user.editable_calendars.all():
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
