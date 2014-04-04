@@ -187,6 +187,31 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
         return calendar
 
+    def _get_date_by_parameter(self, param):
+        """
+        Checks param against self.kwargs or request.GET if
+        requesting the widget.
+        """
+        if self.is_js_widget():
+            if param in ['day', 'month', 'year']:
+                date_value = getattr(self, param)
+                if date_value is None:
+                    # Check either kwargs or GET param for backwards compatibility
+                    # with JS Widget
+                    date_param = self.kwargs.get(param) or self.request.GET.get(param)
+                    if date_param is None:
+                        # Value is None so return right away no date url parameter was provided.
+                        return date_param
+                    else:
+                        date_value = int(date_param)
+
+                    setattr(self, param, date_value)
+                return date_value
+            else:
+                raise AttributeError('Param is not a date parameter (day, month, or year).')
+        else:
+            return super(CalendarEventsListView, self)._get_date_by_parameter(param)
+
     def get_start_date(self):
         """
         Overrides the start date if requesting the widget in month mode.

@@ -9,7 +9,7 @@
 		var settings = $.extend({
 			'url'         : 'http://events.ucf.edu',
 			'calendar_id' : 1,
-			'limit'       : 5
+			'limit'       : 4
 		}, options);
 		
 		var data = {
@@ -68,9 +68,8 @@
 			}
 			if(settings.year || settings.month){
 				var d  = new Date();
-				data.y = (settings.year) ? settings.year : d.getFullYear();
-				data.m = (settings.month) ? settings.month : d.getMonth();
-				url = url + 'calendar/' + settings.calendar_id + '/' + data.y + '/' + data.m + '/';
+				data.year = (settings.year) ? settings.year : d.getFullYear();
+				data.month = (settings.month) ? settings.month : d.getMonth() + 1;
 			}
 			
 			var Browser = {
