@@ -47,7 +47,7 @@
                         {% for sub_cal in calendar.subscriptions.all %}
                         <tr>
                             <td class="calendar-subscriptions-name">
-                                <a href="{% url 'calendar' sub_cal.slug %}">{{ sub_cal.title }}</a>
+                                <a href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
                             </td>
                             <td class="calendar-subscriptions-owner">
                                 {{ sub_cal.owner }}
@@ -91,7 +91,7 @@
                         {% for sub_cal in calendar.subscribing_calendars.all %}
                         <tr>
                             <td class="calendar-subscriptions-name">
-                                <a href="{% url 'calendar' sub_cal.slug %}">{{ sub_cal.title }}</a>
+                                <a href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
                             </td>
                             <td class="calendar-subscriptions-owner">{{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})</td>
                         </tr>
