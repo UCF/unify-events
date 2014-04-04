@@ -170,7 +170,7 @@ class Event(TimeCreatedModified):
             original_event = self.created_from
 
         try:
-            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=original_event)
+            event = Event.objects.get(calendar__pk=settings.FRONT_PAGE_CALENDAR_PK, created_from=original_event)
         except Event.DoesNotExist:
             # The event has not been submitted to the main calendar
             pass
@@ -360,9 +360,9 @@ class EventInstance(TimeCreatedModified):
         Generate permalink for this object
         """
         return reverse('event', kwargs={
-            'calendar': self.event.calendar.slug,
             'pk': self.id,
-        }) + self.event.slug + '/'
+            'slug': self.event.slug
+        })
 
     def save(self, *args, **kwargs):
         """

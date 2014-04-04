@@ -18,10 +18,8 @@ from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 
-from core.views import SuccessUrlReverseKwargsMixin
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
-
 from events.forms.manager import CategoryForm
 from events.models import Category
 from events.models import Event

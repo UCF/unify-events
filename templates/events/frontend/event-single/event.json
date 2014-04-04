@@ -1,6 +1,6 @@
 {
-	"event_id": "{{ event_instance.event.id }}",
-	"id": "{{ event_instance.id }}",
+	"event_id": "{{ event_instance.event.pk }}",
+	"id": "{{ event_instance.pk }}",
 	"title": "{{ event_instance.title|escapejs }}",
 	"subtitle": null,
 	"description": "{{ event_instance.event.description|escapejs }}",

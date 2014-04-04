@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'event-delete' pk=event.id %}
+    {% url 'event-delete' pk=event.pk %}
 {% endblock %}
 
 {% block content_form_id %}event-delete{% endblock %}
@@ -21,7 +21,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-danger">Delete Event</button>
-    <a href="{% url 'event-update' pk=event.id %}" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'event-update' pk=event.pk %}" class="btn" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

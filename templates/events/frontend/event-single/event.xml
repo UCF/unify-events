@@ -1,6 +1,6 @@
     <event>
-        <id>{{ event_instance.event.id }}</id>
-        <event_id>{{ event_instance.id }}</event_id>
+        <id>{{ event_instance.event.pk }}</id>
+        <event_id>{{ event_instance.pk }}</event_id>
 		<title>{{ event_instance.title }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>

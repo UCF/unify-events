@@ -51,7 +51,7 @@
 
 {% block content_body %}
     {% if object %}
-        <form class="form-horizontal" action="{% url 'tag-update' pk=tag.id %}" method="post">
+        <form class="form-horizontal" action="{% url 'tag-update' pk=tag.pk %}" method="post">
     {% else %}
         <form class="form-horizontal" action="{% url 'tag-create' %}" method="post">
     {% endif %}

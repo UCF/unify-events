@@ -18,10 +18,8 @@ from django.views.generic import TemplateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
-from core.views import SuccessUrlReverseKwargsMixin
 from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
-
 from profiles.models import Profile
 from profiles.forms import UserForm, ProfileForm
 

@@ -33,7 +33,7 @@
             {% for category in categories %}
                 <tr>
                     <td class="category-title">
-                        <a href="{% url 'category-update' pk=category.id %}">{{ category.title }}</a>
+                        <a href="{% url 'category-update' pk=category.pk %}">{{ category.title }}</a>
                     </td>
                     <td class="category-events">
                         {{ category.events.count }}
@@ -50,21 +50,21 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li role="presentation">
-                                    <a href="{% url 'category-update' pk=category.id %}">
+                                    <a href="{% url 'category-update' pk=category.pk %}">
                                         <i class="icon-pencil"></i>
                                         Edit Category
                                     </a>
                                 </li>
                                 {% if category.events.count > 0 %}
                                 <li role="presentation">
-                                    <a class="category-merge" href="{% url 'category-merge' category_from_id=category.id category_to_id=1 %}" data-object-title="{{ category.title }}">
+                                    <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}">
                                         <i class="icon-resize-small"></i>
                                         Merge Category
                                     </a>
                                 </li>
                                 {% else %}
                                 <li role="presentation">
-                                    <a class="object-modify" href="{% url 'category-delete' pk=category.id %}">
+                                    <a class="object-modify" href="{% url 'category-delete' pk=category.pk %}">
                                         <i class="icon-trash"></i>
                                         Delete Category
                                     </a>
@@ -112,7 +112,7 @@
                 <select id="new-object-select">
                     <option value="">Select an Existing Category</option>
                     {% for category in category_list %}
-                    <option value="{{ category.id }}">{{ category.title }}</option>
+                    <option value="{{ category.pk }}">{{ category.title }}</option>
                     {% endfor %}
                 </select>
             </div>
