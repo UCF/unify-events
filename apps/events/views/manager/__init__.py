@@ -26,12 +26,13 @@ from events.models import get_all_users_future_events
 from events.models import get_events_by_range
 from events.models import State
 from events.views.event_views import CalendarEventsBaseListView
+from events.views.manager.calendar import CalendarUserValidationMixin
 
 
 MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
-class Dashboard(CalendarEventsBaseListView):
+class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
     template_name = 'events/manager/dashboard.html'
 
     def get_end_date(self):

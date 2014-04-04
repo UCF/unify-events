@@ -39,7 +39,14 @@ class CalendarUserValidationMixin(object):
     Return 403 Forbidden if false.
     """
     def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_object() not in self.request.user.editable_calendars.all():
+        if hasattr(super(CalendarUserValidationMixin, self), 'get_calendar'):
+            calendar = self.get_calendar()
+        elif hasattr(super(CalendarUserValidationMixin, self), 'get_object'):
+            calendar = self.get_object()
+        else:
+            calendar = None
+            
+        if not self.request.user.is_superuser and calendar is not None and calendar not in self.request.user.editable_calendars.all():
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
             return super(CalendarUserValidationMixin, self).dispatch(request, *args, **kwargs)
