@@ -42,7 +42,7 @@ class Calendar(TimeCreatedModified):
     Calendar
     """
     title = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, unique=True, blank=True)
+    slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
     editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)

@@ -87,7 +87,7 @@ class Event(TimeCreatedModified):
     state = models.SmallIntegerField(choices=State.choices, default=State.posted)
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, blank=True)
     description = BleachField(blank=True, null=True)
     contact_name = models.CharField(max_length=64)
     contact_email = models.EmailField(max_length=128)

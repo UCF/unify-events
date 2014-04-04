@@ -1,22 +1,25 @@
 from django.template.defaultfilters import slugify
 
 
-def generate_unique_slug(title, clazz):
+def generate_unique_slug(title, clazz, unique):
     """
     Generate a unique slug for the given class
     """
-    slug_cnt = 0
-    slug = orig_slug = slugify(title)
-    is_unique_slug = False
-    while not is_unique_slug:
-        try:
-            clazz.objects.get(slug=slug)
-            # Slug is not unique so try the next one
-            slug_cnt += 1
-            slug = orig_slug + '-' + str(slug_cnt)
-        except clazz.DoesNotExist:
-            # No object exists with this slug so use it!
-            is_unique_slug = True
+    slug = slugify(title)
+
+    if unique:
+        slug_cnt = 0
+        orig_slug = slug
+        is_unique_slug = False
+        while not is_unique_slug:
+            try:
+                clazz.objects.get(slug=slug)
+                # Slug is not unique so try the next one
+                slug_cnt += 1
+                slug = orig_slug + '-' + str(slug_cnt)
+            except clazz.DoesNotExist:
+                # No object exists with this slug so use it!
+                is_unique_slug = True
 
     return slug
 
@@ -26,7 +29,15 @@ def pre_save_slug(sender, **kwargs):
     Generate a slug before the object is saved
     """
     instance = kwargs['instance']
-    instance.slug = generate_unique_slug(instance.title, sender)
+    instance.slug = generate_unique_slug(instance.title, sender, False)
+
+
+def pre_save_unique_slug(sender, **kwargs):
+    """
+    Generate a slug before the object is saved
+    """
+    instance = kwargs['instance']
+    instance.slug = generate_unique_slug(instance.title, sender, True)
 
 
 def format_to_mimetype(format):
