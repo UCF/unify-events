@@ -136,7 +136,7 @@
                                         <i class="icon-share-alt"></i>
                                     {% endif %}
                                     <a href="{% url 'event-update' pk=event_instance.event.pk %}">
-                                        {% if event_instance.event.canceled %}CANCELED:{% endif %} {{ event_instance.title }}
+                                        {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}
                                     </a>
                                 </td>
                                 <td class="event-time">
