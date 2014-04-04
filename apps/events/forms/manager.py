@@ -2,16 +2,15 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from taggit.models import Tag
-from taggit.forms import TagField
 
 from core.forms import RequiredModelFormSet
+from events.forms.fields import InlineLDAPSearchField
+from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
-from events.forms.fields import InlineLDAPSearchField
-from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 
 class CalendarForm(forms.ModelForm):

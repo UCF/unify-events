@@ -1,27 +1,20 @@
-from datetime import datetime
 import logging
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
-
-from django.views.generic import TemplateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
-from profiles.models import Profile
-from profiles.forms import UserForm, ProfileForm
+from profiles.forms import UserForm
 
 log = logging.getLogger(__name__)
 

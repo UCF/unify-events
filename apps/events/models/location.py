@@ -1,6 +1,7 @@
-from django.db import models
 import urlparse
 import re
+
+from django.db import models
 
 from core.models import TimeCreatedModified
 

@@ -16,6 +16,7 @@ urlpatterns = patterns(
         view=login_required(ProfileUpdate.as_view()),
         name='profile-settings',
     ),
+    #TODO do these belong here anymore
     # url(r'^$', view='list', name='profile-list'),
     # url(r'^settings/$', view='settings', name='profile-settings'),
     url(r'^user/(?P<user_id>\d+)/demote', view='update_permissions', name='profile-demote', kwargs={'permissions':False}),
