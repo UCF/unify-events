@@ -72,7 +72,7 @@
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li role="presentation">
-                                    <a href="{% url 'category' category=category.slug %}">
+                                    <a href="{% url 'category' category_pk=category.pk category=category.slug %}">
                                         <i class="icon-circle-arrow-right"></i>
                                         Live View
                                     </a>
