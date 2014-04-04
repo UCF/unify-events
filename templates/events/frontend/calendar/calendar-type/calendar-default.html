@@ -7,7 +7,7 @@
         {% pager paginator=paginator current_page=request.GET.page %}
     </div>
     <aside class="span4 page-sidebar" id="calendar-events-sidebar">
-        {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date %}
+        {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}
 
         <h2>Subscribe</h2>
         feed download links

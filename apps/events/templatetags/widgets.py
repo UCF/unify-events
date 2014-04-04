@@ -19,14 +19,14 @@ register = template.Library()
 
 
 @register.simple_tag
-def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small', use_pagers=True):
+def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
     if calendars is "" and is_manager is 0:
         raise Http404
 
-    if isinstance(calendars, unicode):
-        calendars = get_object_or_404(Calendar, slug=calendars)
+    if pk:
+        calendars = get_object_or_404(Calendar, pk=pk)
 
     if day is None or day is "":
         relative_day = None

@@ -1,10 +1,10 @@
 {% load widgets %}
 {% if view == 'manager' %}
     {% if calendar_slug %}
-        {% calendar_widget calendars=calendar_slug is_manager=1 year=year month=month day=day size=size %}
+        {% calendar_widget pk=pk calendars=calendar_slug is_manager=1 year=year month=month day=day size=size %}
     {% else %}
         {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=year month=month day=day size=size %}
     {% endif %}
 {% else %}
-    {% calendar_widget calendars=calendar_slug is_manager=0 year=year month=month day=day size=size %}
+    {% calendar_widget pk=pk calendars=calendar_slug is_manager=0 year=year month=month day=day size=size %}
 {% endif %}
