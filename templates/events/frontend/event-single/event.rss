@@ -1,5 +1,5 @@
 <item>
-	<title>{{ event_instance.title }}</title>
+	<title>{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</title>
 	<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
 	<description><![CDATA[{{ event_instance.event.description|escape }}]]></description>
 	<pubDate>{{ event_instance.start|date:"r" }}</pubDate>

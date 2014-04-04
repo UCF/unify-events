@@ -1,7 +1,7 @@
 {
 	"event_id": "{{ event_instance.event.pk }}",
 	"id": "{{ event_instance.pk }}",
-	"title": "{{ event_instance.title|escapejs }}",
+	"title": "{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escapejs }}",
 	"subtitle": null,
 	"description": "{{ event_instance.event.description|escapejs }}",
 	"location": "{{ event_instance.location.title|escapejs }}: {{ event_instance.location.room|escapejs }}",

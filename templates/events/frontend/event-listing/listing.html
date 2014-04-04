@@ -18,7 +18,7 @@
                     <!--<img src="" alt="image" title="image" />-->
                     <!-- endif -->
                     <h4>
-                        <span class="summary">{{ event_instance.title }}</span>
+                        <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
                         {% if event_instance.is_recurring %}
                         <i class="icon-repeat"></i>
                         <span class="recurring">(Recurring Event)</span>

@@ -1,7 +1,7 @@
     <event>
         <id>{{ event_instance.event.pk }}</id>
         <event_id>{{ event_instance.pk }}</event_id>
-		<title>{{ event_instance.title }}</title>
+		<title>{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
 		<end_date>{{ event_instance.end|date:'r' }}</end_date>
@@ -49,6 +49,6 @@
 		<contact_email>{{ event_instance.event.contact_email }}</contact_email>
 		<contact_phone>{{ event_instance.event.contact_phone }}</contact_phone>
 
-		<status>Happening As Scheduled</status>
+		<status>{% if event_instance.event.canceled %}Canceled{% else %}Happening As Scheduled{% endif %}</status>
 		<classification>Public</classification>
 	</event>

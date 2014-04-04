@@ -12,7 +12,7 @@ vevent
 
 {% block content_title %}
     <h1>
-        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{{ event_instance.event.title }}</a>
+        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
     </h1>
     {% if user.is_authenticated %}
     <ul class="edit-options">
