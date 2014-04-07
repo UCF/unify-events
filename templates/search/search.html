@@ -1,6 +1,7 @@
 {% extends 'events/frontend/base.html' %}
 {% load widgets %}
 {% load widget_tweaks %}
+{% load highlight %}
 
 {% block content_title_icon %}
 <i class="icon-search" id="page-title-icon"></i>
@@ -36,7 +37,7 @@
                     <h2>{{ model.grouper }}</h2>
                         {% for result in model.list %}
                             <p>
-                                <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a><br/>
+                                <a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a><br/>
                                 {% if model.grouper == 'Events' %}
                                     TAGS:
                                     {% for tag in result.object.tags.all %}
