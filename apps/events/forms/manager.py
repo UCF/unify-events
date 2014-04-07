@@ -1,20 +1,21 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms.models import inlineformset_factory
 from taggit.models import Tag
-from taggit.forms import TagField
 
+from core.forms import RequiredModelFormSet
+from events.forms.fields import InlineLDAPSearchField
+from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
-from events.forms.fields import InlineLDAPSearchField
-from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 
 class CalendarForm(forms.ModelForm):
     """
-    For for the Calendar
+    Form for the Calendar
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
 
@@ -28,7 +29,8 @@ class EventForm(forms.ModelForm):
     Form for an Event
     """
     def __init__(self, *args, **kwargs):
-        user_calendars = kwargs.pop('user_calendars')
+        initial = kwargs.pop('initial')
+        user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
 
@@ -94,17 +96,21 @@ class EventInstanceForm(forms.ModelForm):
     new_location_room = forms.CharField(required=False)
     new_location_url = forms.URLField(required=False)
 
-    def clean_new_location_url(self):
-        """
-        Ensure data is entered for new event instance locations
-        """
-        new_location_title = self.cleaned_data.get('new_location_title')
-        new_location_url = self.cleaned_data.get('new_location_url')
+    def clean(self):
+        cleaned_data = super(EventInstanceForm, self).clean()
 
-        if new_location_title:
-            if not new_location_url:
-                raise forms.ValidationError('URL needs to be provided for new locations')
-        return new_location_url
+        location = cleaned_data.get('location')
+        new_location_title = cleaned_data.get('new_location_title')
+        new_location_url = cleaned_data.get('new_location_url')
+
+        if not location:
+            if new_location_title:
+                if not new_location_url:
+                    self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
+            else:
+                self._errors['location'] = self.error_class(['No location was specified'])
+
+        return cleaned_data
 
     def save(self, commit=False):
         """
@@ -114,7 +120,8 @@ class EventInstanceForm(forms.ModelForm):
         location = self.cleaned_data.get('location')
         new_location_title = self.cleaned_data.get('new_location_title')
         new_location_room = self.cleaned_data.get('new_location_room')
-        if new_location_title:
+        new_location_url = self.cleaned_data.get('new_location_url')
+        if not location:
             location_query = Location.objects.filter(title=new_location_title, room=new_location_room)
             if location_query.count():
                 location = location_query[0]
@@ -122,19 +129,24 @@ class EventInstanceForm(forms.ModelForm):
                 location = Location()
                 location.title = new_location_title
                 location.room = new_location_room
-                location.url = self.cleaned_data.get('new_location_url')
+                location.url = new_location_url
                 location.save()
             self.instance.location = location
-        else:
-            if not location:
-                raise forms.ValidationError('No existing or new location has been selected')
 
-        e = super(EventInstanceForm, self).save(commit=commit)
-        return e
+        event_instance = super(EventInstanceForm, self).save(commit=commit)
+        return event_instance
 
     class Meta:
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location')
+
+
+EventInstanceFormSet = inlineformset_factory(Event,
+                                             EventInstance,
+                                             form=EventInstanceForm,
+                                             formset=RequiredModelFormSet,
+                                             extra=1,
+                                             max_num=12)
 
 
 class EventCopyForm(forms.Form):

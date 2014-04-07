@@ -5,11 +5,11 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from taggit.managers import TaggableManager
-
 from django_bleach.models import BleachField
+from taggit.managers import TaggableManager
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
@@ -37,21 +37,24 @@ def get_all_users_future_events(user):
     return events
 
 
-def get_range_users_events(user, start, end):
+def get_events_by_range(start, end, calendar=None, user=None):
     """
-    Retrieves a range of events for the given user
-
-    TODO: condense this into a more basic function?
-    (Calendar.range_event_instances uses similar filters)
+    Retrieves a range of events for the given calendar or user's calendars.
     """
-    from django.db.models import Q
     during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
     starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
     ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
     current = Q(start__lte=start) & Q(end__gte=end)
     _filter = during | starts_before | ends_after | current
 
-    return EventInstance.objects.filter(_filter, event__calendar__in=list(user.calendars.all()))
+    if calendar:
+        calendars = [calendar]
+    elif user:
+        calendars = list(user.calendars.all())
+    else:
+        raise AttributeError('Either a calendar or user must be supplied.')
+
+    return EventInstance.objects.filter(_filter, event__calendar__in=calendars)
 
 
 class State:
@@ -84,10 +87,10 @@ class Event(TimeCreatedModified):
     state = models.SmallIntegerField(choices=State.choices, default=State.posted)
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, blank=True)
     description = BleachField(blank=True, null=True)
-    contact_name = models.CharField(max_length=64, blank=True, null=True)
-    contact_email = models.EmailField(max_length=128, blank=True, null=True)
+    contact_name = models.CharField(max_length=64)
+    contact_email = models.EmailField(max_length=128)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events')
     tags = TaggableManager()
@@ -167,7 +170,7 @@ class Event(TimeCreatedModified):
             original_event = self.created_from
 
         try:
-            event = Event.objects.get(calendar__slug=settings.FRONT_PAGE_CALENDAR_SLUG, created_from=original_event)
+            event = Event.objects.get(calendar__pk=settings.FRONT_PAGE_CALENDAR_PK, created_from=original_event)
         except Event.DoesNotExist:
             # The event has not been submitted to the main calendar
             pass
@@ -224,6 +227,7 @@ class Event(TimeCreatedModified):
 
         copy = Event(creator=self.creator,
                      created_from=created_from,
+                     canceled=self.canceled,
                      state=state,
                      title=self.title,
                      description=self.description,
@@ -290,7 +294,7 @@ class EventInstance(TimeCreatedModified):
 
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    location = models.ForeignKey('Location', blank=True, null=True, related_name='location');
+    location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances');
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
@@ -337,7 +341,7 @@ class EventInstance(TimeCreatedModified):
             rule = self.get_rrule()
             duration = self.end - self.start
             for event_date in list(rule)[1:]:
-                instance = EventInstance(event=self.event,
+                instance = EventInstance(event_id=self.event_id,
                                          parent=self,
                                          start=event_date,
                                          end=event_date + duration,
@@ -366,9 +370,9 @@ class EventInstance(TimeCreatedModified):
         Generate permalink for this object
         """
         return reverse('event', kwargs={
-            'calendar': self.event.calendar.slug,
-            'instance_id': self.id,
-        }) + self.event.slug + '/'
+            'pk': self.id,
+            'slug': self.event.slug
+        })
 
     def save(self, *args, **kwargs):
         """

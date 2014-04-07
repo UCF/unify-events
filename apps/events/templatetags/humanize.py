@@ -1,7 +1,7 @@
 from django import template
+from django.conf import settings
 from django.template import loader, Context
 from django.utils.safestring import mark_safe
-from django.conf import settings
 
 register = template.Library()
 

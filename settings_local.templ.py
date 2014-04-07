@@ -39,7 +39,21 @@ DATABASES = {
         'HOST': '',
         # Set to empty string for default. Not used with sqlite3.
         'PORT': '',
-    }
+    },
+    # 'unlevents': {
+    #     # postgresql_psycopg2, postgresql, mysql, sqlite3, oracle
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     # Or path to database file if using sqlite3.
+    #     'NAME': '',
+    #     # Not used with sqlite3.
+    #     'USER': '',
+    #     # Not used with sqlite3.
+    #     'PASSWORD': '',
+    #     # Set to empty string for localhost. Not used with sqlite3.
+    #     'HOST': '',
+    #     # Set to empty string for default. Not used with sqlite3.
+    #     'PORT': '',
+    # }
 }
 
 # NET Domain LDAP CONFIG
@@ -59,8 +73,12 @@ LDAP_NET_SEARCH_SIZELIMIT = 5
 USER_SEARCHLIMIT = 5
 
 # Calendar Displayed on the Front Page
-FRONT_PAGE_CALENDAR_SLUG = ''
+FRONT_PAGE_CALENDAR_PK = 1
 
 # How many days' worth of events should be displayed
 # on the primary Calendar frontend view.
 CALENDAR_MAIN_DAYS = 7
+
+# The first day of the week for month calendar generation.
+# 0 is Monday, 6 is Sunday.
+FIRST_DAY_OF_WEEK = 6

@@ -1,12 +1,8 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//UNIFY
 BEGIN:VEVENT
-UID:http://{{ request.get_host }}{{ event.get_absolute_url }}
-DTSTAMP:{{ event.start|date:"Ymd\THis" }}
-DTSTART:{{ event.start|date:"Ymd\THis" }}
-DTEND:{{ event.end|date:"Ymd\THis" }}
-SUMMARY:{{ event.title|linebreaksbr }}
-DESCRIPTION:{{ event.event.description|linebreaksbr }}
+UID:http://{{ request.get_host }}{{ event_instance.get_absolute_url }}
+DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
+DTSTART:{{ event_instance.start|date:"Ymd\THis" }}
+DTEND:{{ event_instance.end|date:"Ymd\THis" }}
+SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title|linebreaksbr }}
+DESCRIPTION:{{ event_instance.event.description|linebreaksbr }}
 END:VEVENT
-END:VCALENDAR

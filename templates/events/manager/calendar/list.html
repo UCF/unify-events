@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
+{% load widgets %}
 
 {% block content_title %}
     <h1>All Calendars</h1>
@@ -29,11 +30,15 @@
                 {% for calendar in calendars %}
                     <tr>
                         <td class="calendar-title">
-                            <a href="{% url calendar-update calendar_id=calendar.id %}">{{ calendar.title }}</a>
+                            <a href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
                         </td>
                         <td class="calendar-owner">
                             {{ calendar.owner.username }}<br/>
-                            ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
+                            {% if calendar.owner.first_name and calendar.owner.last_name %}
+                                ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
+                            {% else %}
+                                (n/a)
+                            {% endif %}
                         </td>
                         <td class="calendar-actions">
                             <div class="btn-group">
@@ -43,20 +48,20 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
-                                        <a href="{% url dashboard calendar_id=calendar.id %}">
+                                        <a href="{% url 'dashboard' pk=calendar.pk %}">
                                             <i class="icon-calendar-empty"></i>
                                             Manage Events
                                         </a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="{% url calendar-update calendar_id=calendar.id %}">
+                                        <a href="{% url 'calendar-update' pk=calendar.pk %}">
                                             <i class="icon-pencil"></i>
                                             Edit Calendar
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li role="presentation">
-                                        <a href="{% url calendar calendar=calendar.slug %}">
+                                        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
                                             <i class="icon-circle-arrow-right"></i>
                                             Live View
                                         </a>
@@ -68,38 +73,12 @@
                 {% endfor %}
                 </tbody>
             </table>
-            
-            <div class="pagination">
-                <ul>
-                    {% if calendars.has_previous %}
-                    <li>
-                        <a href="?page={{ calendars.previous_page_number }}">&laquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&laquo;</a>
-                    </li>
-                    {% endif %}
-                    {% for page in calendars.paginator.page_range %}
-                    <li{% if page == calendars.number %} class="active"{% endif %}>
-                        <a href="?page={{ page }}">{{ page }}</a>
-                    </li>
-                    {% endfor %}
-                    {% if calendars.has_next %}
-                    <li>
-                        <a href="?page={{ calendars.next_page_number }}">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#">&raquo;</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-                
+
+            {% pager paginator=paginator current_page=request.GET.page %}
+
             {% else %}
             <div class="well well-empty">
-                No calendars found. Want to <a href="{% url calendar-create %}">create one?</a>
+                No calendars found. Want to <a href="{% url 'calendar-create' %}">create one?</a>
             </div>
             {% endif %}
         </div>

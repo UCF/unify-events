@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -19,7 +21,7 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import State
-import logging
+
 
 # Connect to LDAP and bind for searching later
 ldap = LDAPHelper()
@@ -69,9 +71,29 @@ class Command(BaseCommand):
                         elif old_event.subtitle is not None and len(old_event.title + ' - ' + old_event.subtitle) < 255:
                             old_title += ' - ' + old_event.subtitle
 
-                        new_event = Event(title=old_title,description=old_event.description,calendar=new_calendar)
+                        old_contact_name = old_event.listingcontactname
+                        if not old_contact_name:
+                            old_contact_name = calendar_creator.first_name
 
-                        # TODO - images
+                        # check to see if the contact name is too long
+                        if len(old_contact_name) > 64:
+                            old_contact_name = old_contact_name[0:63]
+
+                        old_contact_email = old_event.listingcontactemail
+                        if not old_contact_email:
+                            if calendar_creator.email:
+                                old_contact_email = calendar_creator.email
+                            else:
+                                old_contact_email = 'webcom@ucf.edu'
+
+                        old_contact_phone = old_event.listingcontactphone
+
+                        new_event = Event(title=old_title,
+                                          description=old_event.description,
+                                          calendar=new_calendar,
+                                          contact_name=old_contact_name,
+                                          contact_email=old_contact_email,
+                                          contact_phone=old_contact_phone)
 
                         # Statuses: pending, posted, archived
                         state = None
@@ -104,18 +126,26 @@ class Command(BaseCommand):
                                     new_instance.start = old_instance.starttime
                                     new_instance.end   = old_instance.endtime
 
-                                    if old_instance.location_id is not None:
-                                        # Location
-                                        try:
-                                            old_location = UNLLocation.objects.get(id=old_instance.location_id)
-                                        except UNLLocation.DoesNotExist:
-                                            logging.info('UNL event instance location not in UNL Location table: %d' % old_instance.location_id)
-                                        else:
-                                            if old_location.name is not None:
-                                                try:
-                                                    new_instance.location = Location.objects.get(title__iexact=old_location.name)
-                                                except Location.DoesNotExist:
-                                                    logging.error('No Location for UNL Location %s' % old_location.name)
+                                    old_location_id = old_instance.location_id
+                                    if not old_location_id:
+                                        old_location_id = 1
+
+                                    # Location
+                                    try:
+                                        old_location = UNLLocation.objects.get(id=old_location_id)
+                                    except UNLLocation.DoesNotExist:
+                                        logging.info('UNL event instance location not in UNL Location table: %d' % old_location_id)
+                                    else:
+                                        if old_location.name:
+                                            # check to see if the location name is too long
+                                            old_locatin_name = old_location.name
+                                            if len(old_locatin_name) > 256:
+                                                old_locatin_name = old_locatin_name[0:256]
+
+                                            try:
+                                                new_instance.location = Location.objects.get(title__iexact=old_locatin_name)
+                                            except Location.DoesNotExist:
+                                                logging.error('No Location for UNL Location %s' % old_locatin_name)
 
                                     try:
                                         new_instance.save()
@@ -175,13 +205,19 @@ class Command(BaseCommand):
     def create_locations(self):
         LOCATION_NAMES = []
         for name,mapurl,room in UNLLocation.objects.values_list('name','mapurl','room'):
-            if name is not None and name.lower() not in LOCATION_NAMES:
-                LOCATION_NAMES.append(name.lower())
-                new_location = Location(title=name, url=mapurl, room=room)
-                try:
-                    new_location.save()
-                except Exception, e:
-                    logging.error('Unable to save location %s: %s' % (name, str(e)))
+
+            if name:
+                # check to see if the location name is too long
+                if len(name) > 256:
+                    name = name[0:256]
+
+                if name.lower() not in LOCATION_NAMES:
+                    LOCATION_NAMES.append(name.lower())
+                    new_location = Location(title=name, url=mapurl, room=room)
+                    try:
+                        new_location.save()
+                    except Exception, e:
+                        logging.error('Unable to save location %s: %s' % (name, str(e)))
 
     def get_create_user(self,username):
 

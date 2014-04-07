@@ -1,87 +1,60 @@
-from datetime import datetime
 import logging
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
-from django.views.generic.simple import direct_to_template
+from django.views.generic import ListView
+from django.views.generic import UpdateView
 
-from profiles.models import Profile
-
-from profiles.forms import UserForm, ProfileForm
+from core.views import FirstLoginTemplateMixin
+from core.views import SuperUserRequiredMixin
+from profiles.forms import UserForm
 
 log = logging.getLogger(__name__)
 
-@login_required
-def settings(request):
-    ctx = {'forms': {'user': None, 'profile': None}, 'first_login': request.user.first_login}
-    if request.user.first_login:
-        tmpl = 'events/manager/firstlogin/profile.html'
-    else:
-        tmpl = 'events/manager/profiles/profile.html'
 
-    if request.method == 'POST':
-        ctx['forms']['user'] = UserForm(request.POST,
-                                        instance=request.user,
-                                        prefix='user')
-        ctx['forms']['profile'] = ProfileForm(request.POST,
-                                              instance=request.user.profile,
-                                              prefix='profile')
-        if ctx['forms']['user'].is_valid() and ctx['forms']['profile'].is_valid():
-            try:
-                ctx['forms']['user'].save()
-                ctx['forms']['profile'].save()
+class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
+    form_class = UserForm
+    model = User
+    success_message = 'Profile was updated successfully.'
+    success_url = reverse_lazy('profile-settings')
+    template_name = 'events/manager/profiles/profile.html'
+    first_login_template_name = 'events/manager/firstlogin/profile.html'
 
-                # Update the last login time otherwise
-                # the user will continue to get redirected
-                # here.
-                if ctx['first_login']:
-                    request.user.last_login = datetime.now()
-                    request.user.save()
-            except Exception, e:
-                log.error('Saving failed: %s ' + str(e))
-                messages.error(request, 'Saving user profile failed.')
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            if request.user.first_login:
+                return HttpResponseRedirect(reverse_lazy('calendar-create'))
             else:
-                messages.success(request, 'Saving user profile succeeded.')
-                if ctx['first_login'] or request.user.owned_calendars.count() == 0:
-                    return HttpResponseRedirect(reverse('calendar-create'))
-                else:
-                    return HttpResponseRedirect(reverse('dashboard'))
-    else:
-        ctx['forms']['user'] = UserForm(instance=request.user, prefix='user')
-        ctx['forms']['profile'] = ProfileForm(instance=request.user.profile, prefix='profile')
+                return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
-    return direct_to_template(request, tmpl, ctx)
 
-@login_required
-def list(request):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You do not have permission to access this page.')
+class ProfileList(SuperUserRequiredMixin, ListView):
+    context_object_name = 'users'
+    model = User
+    paginate_by = 25
+    template_name = 'events/manager/profiles/list.html'
 
-    ctx = {
-        'users': User.objects.all().order_by('-is_superuser', 'last_name'),
-    }
-    tmpl = 'events/manager/profiles/list.html'
+    def get_queryset(self):
+        queryset = super(ProfileList, self).get_queryset()
+        return queryset.order_by('-is_superuser', 'last_name')
 
-    # Pagination
-    if ctx['users'] is not None:
-        paginator = Paginator(ctx['users'], 20)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['users'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['users'] = paginator.page(1)
-        except EmptyPage:
-            ctx['users'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
 
 @login_required
 def update_permissions(request, user_id=None, permissions=False):
@@ -95,7 +68,7 @@ def update_permissions(request, user_id=None, permissions=False):
     else:
         if not request.user.is_superuser:
             return HttpResponseForbidden('You cannot modify the specified user.')
-        if permissions is False and User.objects.filter(is_superuser=True).count() < 2:
+        if not permissions and User.objects.filter(is_superuser=True).count() < 2:
             return HttpResponseForbidden('You cannot demote this user; no more superusers would be left!')
 
         try:
@@ -108,7 +81,9 @@ def update_permissions(request, user_id=None, permissions=False):
         else:
             messages.success(request, 'User permissions successfully updated.')
 
-    if request.user.is_superuser:
+    # The request user is not updated with changes that have been made to the modified user.
+    # This requires a check to see if the usernames match and whether they have superuser permissions.
+    if request.user.username != modified_user.username or (request.user.username == modified_user.username and modified_user.is_superuser):
         return HttpResponseRedirect(reverse('profile-list'))
     else:
         return HttpResponseRedirect(reverse('dashboard'))

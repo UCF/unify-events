@@ -1,0 +1,66 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="span12">
+                <div class="alert">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_title_icon %}
+    <i class="icon-plus" id="page-title-icon"></i>
+{% endblock %}
+
+{% block content_title %}
+    <h1>Create a Calendar</h1>
+{% endblock %}
+
+{% block content_subheader %}
+    <div class="row">
+        <div class="span12">
+            <h2 class="page-subtitle">
+                Use the form below to create a new calendar. Note that you can only
+                own or be an editor on up to five (5) calendars at a time.
+            </h2>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_body %}
+    <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
+        {% csrf_token %}
+        <div class="control-group large">
+           <label class="control-label" for="id_name">Calendar Name</label>
+           <div class="controls">
+           {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+           </div>
+        </div>
+        <div class="control-group large">
+           <label class="control-label" for="id_description">Description</label>
+           <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+           <div class="controls">
+           {{ form.description|add_class:"span5" }}
+           </div>
+        </div>
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        <div class="control-group large">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">Create Calendar</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}

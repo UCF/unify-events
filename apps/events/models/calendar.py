@@ -9,6 +9,7 @@ from django.db.models.signals import pre_save
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 import events.models
+from events.models.event import get_events_by_range
 import settings
 
 
@@ -16,7 +17,7 @@ def get_main_calendar():
     """
     Retrieve the main calendar
     """
-    return Calendar.objects.get(slug=settings.FRONT_PAGE_CALENDAR_SLUG)
+    return Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
 
 def calendars(self):
@@ -41,10 +42,9 @@ class Calendar(TimeCreatedModified):
     Calendar
     """
     title = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, unique=True, blank=True)
+    slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
-    # TODO: possibly make Permission model (m2m on Calendar) user, permission
     editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', null=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', null=True, symmetrical=False)
@@ -55,7 +55,7 @@ class Calendar(TimeCreatedModified):
     @property
     def is_main_calendar(self):
         is_main = False
-        if self.slug == settings.FRONT_PAGE_CALENDAR_SLUG:
+        if self.pk == settings.FRONT_PAGE_CALENDAR_PK:
             is_main = True
 
         return is_main
@@ -102,13 +102,7 @@ class Calendar(TimeCreatedModified):
         Retrieve all the instances that are within the start and end date,
         including subscribed event instances
         """
-        during = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=start) & Q(end__lte=end)
-        starts_before = Q(start__lte=start) & Q(end__gte=start) & Q(end__lte=end)
-        ends_after = Q(start__gte=start) & Q(start__lte=end) & Q(end__gte=end)
-        current = Q(start__lte=start) & Q(end__gte=end)
-        _filter = during | starts_before | ends_after | current
-
-        return self.event_instances.filter(_filter)
+        return get_events_by_range(start, end, self)
 
     @property
     def archived_event_instances(self):
@@ -125,7 +119,8 @@ class Calendar(TimeCreatedModified):
         Generate permalink for this object
         """
         return reverse('calendar', kwargs={
-            'calendar': self.slug,
+            'pk': self.pk,
+            'slug': self.slug,
         })
 
     def import_event(self, event):

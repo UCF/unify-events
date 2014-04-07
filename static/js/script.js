@@ -24,39 +24,67 @@ var autoOpenTagByAnchor = function() {
 };
 
 /**
- * Toggle 'Delete Single Event/Calendar' modal
- * TODO: generalize modal toggling for object actions
+ * Toggle Generic Object modification/deletion modal.
+ *
+ * Populates modal contents with the static form specified
+ * in the toggle link's 'href' attribute.
  **/
-var toggleModalDeleteObject = function() {
-    $('.event-delete, .calendar-delete, .object-delete').click(function(e) {
+var toggleModalModifyObject = function() {
+    $('.object-modify').click(function(e) {
         e.preventDefault();
 
-        var objectType = '';
-        if ($(this).hasClass('event-delete')) {
-            objectType = 'event';
-        }
-        else if ($(this).hasClass('calendar-delete')) {
-            objectType = 'calendar';
-        }
-        else {
-            objectType = $(this).attr('data-object-type');
-        }
+        var deleteBtn = $(this),
+            staticPgUrl = deleteBtn.attr('href'),
+            modal = $('#object-modify-modal');
 
-        var modal       = $('#object-delete-modal'),
-            eventTitle  = $(this).attr('data-object-title'),
-            deleteURL   = $(this).attr('href');
+        if (modal) {
+            $.ajax({
+                url: staticPgUrl,
+                timeout: 600 // allow 6 seconds to pass before failing the ajax request
+            })
+                .done(function(html) {
+                    // Assign returned html to some element so we can traverse the dom successfully
+                    var markup = $('<div />');
+                    markup.html(html);
 
-        modal
-            .find('span.object-type')
-                .text(objectType)
-                .end()
-            .find('h2 span.alt')
-                .text(eventTitle)
-                .end()
-            .find('.modal-footer a.btn-danger')
-                .attr('href', deleteURL)
-                .end()
-            .modal('show');
+                    var modalTitle = '',
+                        modalBody = '',
+                        modalFooter = '';
+
+                    // Grab data from the requested page. Check it to make sure it's not
+                    // an error message or something we don't want
+                    if (markup.find('.object-modify-form').length > 0) {
+                        modalTitle = markup.find('h1').html();
+                        modalBody = markup.find('.modal-body-content').html();
+                        modalFooter = markup.find('.modal-footer-content').html();
+                    }
+                    else {
+                        modalTitle = 'Error';
+                        modalBody = '<p>You do not have access to this content.</p>';
+                        modalFooter = '<a class="btn" data-dismiss="modal" href="#">Close</a>';
+                    }
+
+                    modal
+                        .find('h2')
+                            .html(modalTitle)
+                            .end()
+                        .find('form')
+                            .attr('action', staticPgUrl)
+                            .end()
+                        .find('.modal-body')
+                            .html(modalBody)
+                            .end()
+                        .find('.modal-footer')
+                            .html(modalFooter)
+                            .end()
+                        .modal('show');
+                })
+                .fail(function() {
+                    // Just redirect to the static modify/delete page for the object
+                    window.location = staticPgUrl;
+                });
+        }
+        else { window.location = staticPgUrl; }
     });
 };
 
@@ -66,9 +94,9 @@ var toggleModalDeleteObject = function() {
 var toggleModalMergeObject = function() {
     var modal = $('#object-merge-modal');
 
-    $('.category-merge, .tag-merge').click(function(e) {
+    $('.category-merge, .tag-merge, .location-merge').click(function(e) {
         e.preventDefault();
-        
+
         var objectTitle = $(this).attr('data-object-title'),
             mergeURL    = $(this).attr('href');
 
@@ -124,7 +152,7 @@ var toggleModalMergeObject = function() {
 var calendarSliders = function() {
     $('body').on('click', '.calendar-slider ul.pager li a', function(e) {
         e.preventDefault();
-        
+
         var slider = $(this).parents('.calendar-slider');
         $.get($(this).attr('data-ajax-link'), function(data) {
             slider.replaceWith(data);
@@ -148,52 +176,38 @@ var inputTypeSupport = function(type) {
 
 /**
  * Date/Timepicker Init.
- * Use built-in HTML5 date/time <input>'s, where available.
- * Fall back to Bootstrap datepicker/jQuery timepicker plugins.
+ * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
 var initiateDatePickers = function(field) {
-    if (inputTypeSupport('date')) {
-        field.attr('type', 'date');
-    }
-    else {
-        // Wrap field in wrapper div; add icon
-        if (field.parent().hasClass('bootstrap-datepicker') === false) {
-            field
-                .wrap('<div class="bootstrap-datepicker" />')
-                .parent()
-                .append('<i class="icon-calendar" />');
-        }
-
+    // Wrap field in wrapper div; add icon
+    if (field.parent().hasClass('bootstrap-datepicker') === false) {
         field
-            .datepicker({
-                format: 'mm/dd/yyyy'
-            });
+            .wrap('<div class="bootstrap-datepicker" />')
+            .parent()
+            .append('<i class="icon-calendar" />');
     }
+
+    field
+        .datepicker({
+            format: 'mm/dd/yyyy'
+        });
 };
 var initiateTimePickers = function(field) {
-    if (inputTypeSupport('time')) {
-        field
-            .each(function() {
-                $(this).attr('type', 'time');
-            });
-    }
-    else {
-        field
-            .each(function(){
-                // Wrap each timepicker input if this field isn't a clone
-                if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
-                    $(this)
-                        .wrap('<div class="bootstrap-timepicker" />')
-                        .parent()
-                        .append('<i class="icon-time" />');
-                }
-            })
-            .timepicker({
-                'scrollDefaultNow': true,
-                'timeFormat': 'h:i A',
-                'step': 15
-            });
-    }
+    field
+        .each(function(){
+            // Wrap each timepicker input if this field isn't a clone
+            if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
+                $(this)
+                    .wrap('<div class="bootstrap-timepicker" />')
+                    .parent()
+                    .append('<i class="icon-time" />');
+            }
+        })
+        .timepicker({
+            'scrollDefaultNow': true,
+            'timeFormat': 'h:i A',
+            'step': 15
+        });
 };
 
 
@@ -315,7 +329,7 @@ var userSearchTypeahead = function() {
     var performSearch = function(query) {
         $.ajax({
             url: 'http://' + HTTPHOST + '/manager/search/user/' + query,
-            type: 'post',
+            type: 'get',
             success: function(response) {
                 displayResults(response);
             },
@@ -490,10 +504,17 @@ var cloneableFieldsets = function() {
                     .find('input, textarea, select, label')
                     .each(function () {
                         updateElementIndex(this, prefix, formCount);
-                        $(this).val('');
+                        var element = $(this);
+                        if (element.is('select')) {
+                            if (element.attr('id').indexOf('interval') >= 0) {
+                                element.find('option:first').attr('selected', 'selected');
+                            }
+                        } else {
+                            element.val('');
+                        }
                 });
 
-                // Add an event handler for the delete item/form link 
+                // Add an event handler for the delete item/form link
                 $(row).find('.remove-instance').click(function () {
                     return deleteForm(this, prefix);
                 });
@@ -562,7 +583,7 @@ var calendarSubscribeModal = function() {
             e.preventDefault();
             modal.modal('show');
         });
-        
+
         submitBtn.click(function() {
             var newSubscriber = $('#new-subscription-select').val(),
                 url = submitBtn.attr('href');
@@ -605,9 +626,14 @@ var eventLocationsSearch = function(locationDropdowns) {
             // Hide dropdown
             dropdown.hide();
 
-            // Hide new location form
-            var locationNewForm = locationRow.find('.location-new-form');
-            locationNewForm.hide();
+            /**
+             * Hide new location form if creating a new event instance
+             * by checking whether the title field is empty. Display
+             * location form if there something is in the title field.
+             **/
+            if (!locationNewForm.children('input[name*="-new_location_title"]').val()) {
+                locationNewForm.hide();
+            }
 
             // Add content to cloner btn
             cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
@@ -916,7 +942,7 @@ eventTagging = function() {
             var matchesFound = false;
             var matches = [];
 
-            for (var i = 0; i < eventTags.length; i++) {    
+            for (var i = 0; i < eventTags.length; i++) {
                 var tagName = eventTags[i];
                 if (tagName.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                     // Push comboname to autocomplete suggestions list
@@ -960,7 +986,7 @@ eventTagging = function() {
         tagAutocomplete.on('keyup focus', function(event) {
             clearTimeout(timer);
             var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
-            
+
             // Execute a search for a non-empty field val.
             // Searches eventLocations object (created in template.)
             if (query !== '') {
@@ -1058,7 +1084,7 @@ eventTagging = function() {
             }
             taglist
                 .val(newval)
-                .attr(newval);    
+                .attr(newval);
         }
 
         $('.selected-remove').on('click', function(event) {
@@ -1068,6 +1094,39 @@ eventTagging = function() {
     }
 };
 
+/**
+ * Toggle 'demote' modal
+ **/
+var toggleModalUserDemote = function() {
+    var modal = $('#user-demote-modal');
+
+    $('.demote-self').click(function(e) {
+        e.preventDefault();
+
+        var userName  = $(this).attr('data-user-name'),
+            demoteURL = $(this).attr('href');
+
+        /* Insert user name in modal text */
+        modal
+            .find('h2 span.alt')
+                .text(userName)
+                .end()
+            .find('.modal-footer a.btn-danger')
+                .attr('href', demoteURL)
+                .end()
+            .modal('show');
+    });
+
+    var submitBtn = modal.find('.modal-footer a.btn:first-child');
+    submitBtn.click(function() {
+        var newObject = $('#new-object-select').val(),
+            url = submitBtn.attr('href');
+        if (newObject !== '') {
+            url = url.replace(/merge\/[A-Za-z0-9]+$/, 'merge/' + newObject);
+            submitBtn.attr('href', url);
+        }
+    });
+};
 
 /**
  * Update frontend calendar month view month/year form
@@ -1098,8 +1157,9 @@ var updateMonthviewDropdown = function() {
 $(document).ready(function() {
     bulkSelectAll();
     autoOpenTagByAnchor();
-    toggleModalDeleteObject();
+    toggleModalModifyObject();
     toggleModalMergeObject();
+    toggleModalUserDemote();
     calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));

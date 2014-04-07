@@ -1,11 +1,10 @@
 {% load widgets %}
-
-{% if params.view == 'manager' %}
-    {% if params.calendar_slug %}
-        {% calendar_widget calendars=params.calendar_slug is_manager=1 year=params.year month=params.month day=params.day size=params.size %}
+{% if view == 'manager' %}
+    {% if calendar_slug %}
+        {% calendar_widget pk=pk calendars=calendar_slug is_manager=1 year=year month=month day=day size=size %}
     {% else %}
-        {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=params.year month=params.month day=params.day size=params.size %}
+        {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=year month=month day=day size=size %}
     {% endif %}
 {% else %}
-    {% calendar_widget calendars=params.calendar_slug is_manager=0 year=params.year month=params.month day=params.day size=params.size %}
+    {% calendar_widget pk=pk calendars=calendar_slug is_manager=0 year=year month=month day=day size=size %}
 {% endif %}

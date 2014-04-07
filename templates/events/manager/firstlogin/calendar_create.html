@@ -31,7 +31,7 @@
                 <p>
                     To create or subscribe to events, you'll need a calendar to put them in.
                     If you know you'll be added to an existing calendar later, you can
-                    <a href="{% url dashboard %}">skip this step</a>.  You will have limited access to the
+                    <a href="{% url 'dashboard' %}">skip this step</a>.  You will have limited access to the
                     events system until you're added to a calendar.
                     <br/>
                     <strong>
@@ -39,9 +39,10 @@
                         button to skip this step and make one later.
                     </strong>
                 </p>
-                <form action="{% url calendar-create %}" method="post" id="calendar-create" class="form-horizontal">
+                <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
+                    {% csrf_token %}
                     <div class="control-group">
-                       <label class="control-label" for="id_name">Calendar Name</label>
+                       <label class="control-label" for="id_title">Calendar Name</label>
                        <div class="controls">
                        {{ form.title }}
                        </div>
@@ -58,7 +59,7 @@
                                 {{field}}
                             {% endfor %}
                             <button class="btn btn-primary" type="submit">Create Calendar</button>
-                            <a class="btn" href="{% url dashboard %}">Skip</a>
+                            <a class="btn" href="{% url 'dashboard' %}">Skip</a>
                         </div>
                     </div>
                 </form>
