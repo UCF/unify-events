@@ -1,27 +1,38 @@
 # Unify Events
 
 ## Setup
-1. Install Open-LDAP developement headers (debian: openldap-dev, rhel: openldap-devel)
-2. Ensure your environment has virtualenv and pip installed for python
-3. Create virtual environment
-4. cd to the new virtual environment
-5. Clone repo to subdirectory (ex. git clone <url> src)
-6. Activate virtual environment
+1. Install Elasticsearch on your server (tested with v1.1.0) (http://www.elasticsearch.org/overview/elkdownloads/).  Requires at least Java 6.
+	- via Homebrew: `brew install elasticsearch`
+2. Start Elasticsearch
+	- Unix: `bin/elasticsearch`
+	- Windows: `bin/elasticsearch.bat`
+	- See Linux service docs:
+		- http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html
+		- http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
+
+3. Install Open-LDAP developement headers (debian: openldap-dev, rhel: openldap-devel)
+4. Ensure your environment has virtualenv and pip installed for python
+5. Create virtual environment
+6. cd to the new virtual environment
+7. Clone repo to subdirectory (ex. git clone <url> src)
+8. Activate virtual environment
 
         source bin/activate
-7. Install requirements
+9. Install requirements
 
         pip install -r src/requirements.txt
-8. Setup local settings using the local_settings.templ.py file
-9. Setup apache/python.wsgi using apache/python.templ.wsgi
-10. python manage.py syncdb
+10. Setup local settings using the local_settings.templ.py file
+11. Setup apache/python.wsgi using apache/python.templ.wsgi
+12. Sync the database
+		
+		python manage.py syncdb
 
 ## Import
-4. cd to the new virtual environment src folder
-6. Activate virtual environment
+1. cd to the new virtual environment src folder
+2. Activate virtual environment
 
         source ../bin/activate
-7. Add old events database information to local_settings.py under DATABASES name 'unlevents'
+3. Add old events database information to local_settings.py under DATABASES name 'unlevents'
 4. Run import command
 
         python manage.py import-unl-events
