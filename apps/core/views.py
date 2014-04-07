@@ -5,6 +5,13 @@ from django.core.urlresolvers import reverse_lazy
 from core.utils import format_to_mimetype
 
 
+def esi_template(request):
+    """
+    Returns ESI code if not in DEBUG mode.
+    """
+    return render_to_response(path, {}, context_instance=RequestContext(request))
+
+
 class SuccessUrlReverseKwargsMixin(object):
     """
     Mixin used to do reverse url lookups
