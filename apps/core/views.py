@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from core.utils import format_to_mimetype
 
 
-def esi_template(request):
+def esi_template(request, path):
     """
     Returns ESI code if not in DEBUG mode.
     """
