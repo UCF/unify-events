@@ -22,13 +22,13 @@
         <div class="span12">
             <ul class="nav nav-tabs">
                 <li class="{{ state|yesno:',,active' }}">
-                    <a href="{% url location-state %}">All</a>
+                    <a href="{% url 'location-state' %}">All</a>
                 </li>
                 <li class="{% if state == 'review' %} active{% endif %}">
-                    <a href="{% url location-state state='review' %}">Review ({{ review_count }})</a>
+                    <a href="{% url 'location-state' state='review' %}">Review ({{ review_count }})</a>
                 </li>
                 <li class="{% if state == 'approved' %} active{% endif %}">
-                    <a href="{% url location-state state='approved' %}">Approved</a>
+                    <a href="{% url 'location-state' state='approved' %}">Approved</a>
                 </li>
             </ul>
         </div>
@@ -38,12 +38,13 @@
 {% block content_body %}
     <div class="row">
         <div class="span9 page-content">
-            <a class="btn btn-primary page-top-action" href="{% url location-create %}">
+            <a class="btn btn-primary page-top-action" href="{% url 'location-create' %}">
                 <i class="icon-plus"></i> Create New Location
             </a>
-                
+
             {% if locations %}
-                <form action="{% url location-bulk-action %}" class="form-horizontal bulk-action-form" method="post">
+                <form action="{% url 'location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
+                    {% csrf_token %}
                     <div class="control-group">
                         <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                         <div class="controls">
@@ -74,10 +75,10 @@
                             <tr>
                                 <td class="field-bulk-select">
                                     <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                    <input type="checkbox" name="location_ids" value="{{ location.id }}" />
+                                    <input type="checkbox" name="location_ids" value="{{ location.pk }}" />
                                 </td>
                                 <td class="location-title">
-                                    <a href="{% url location-update location_id=location.id %}">{{ location.title }}</a>
+                                    <a href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
                                 </td>
                                 <td class="location-room">
                                     {{ location.room }}
@@ -93,7 +94,35 @@
                                     {% endif %}
                                 </td>
                                 <td class="location-actions">
-                                    <a class="btn btn-mini" href="{% url location-update location_id=location.id %}">Edit</a>
+                                    <div class="btn-group">
+                                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                            Select
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li role="presentation">
+                                                <a href="{% url 'location-update' pk=location.pk %}">
+                                                    <i class="icon-pencil"></i>
+                                                    Edit Location
+                                                </a>
+                                            </li>
+                                            {% if location.event_instances.count > 0 %}
+                                            <li role="presentation">
+                                                <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
+                                                    <i class="icon-resize-small"></i>
+                                                    Merge Location
+                                                </a>
+                                            </li>
+                                            {% else %}
+                                            <li role="presentation">
+                                                <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
+                                                    <i class="icon-trash"></i>
+                                                    Delete Location
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -113,10 +142,39 @@
                 </form>
             {% else %}
                 <div class="well well-empty">
-                    No locations found. Want to <a href="{% url location-create %}">create one?</a>
+                    No locations found. Want to <a href="{% url 'location-create' %}">create one?</a>
                 </div>
             {% endif %}
-                {% pager locations %}
+                {% pager paginator=paginator current_page=request.GET.page %}
+
+                <!-- Modal for Object Merge -->
+                <div class="modal hide fade" id="object-merge-modal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2>Merge Location: <span class="alt"></span></h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            You are about to merge this location with another existing location. Merging this location
+                            will assign any events that are currently assigned with this location to the location that
+                            you select below.
+                        </p>
+                        <p>
+                            Note: <em>The location you're merging will be <strong>deleted</strong> once you merge it.</em>
+                            There is no undo!
+                        </p>
+                        <select id="new-object-select">
+                            <option value="">Select an Existing Location</option>
+                            {% for location in location_list %}
+                            <option value="{{ location.pk }}">{{ location.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-primary">Merge Location</a>
+                        <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>
 {% endblock %}

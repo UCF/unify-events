@@ -1,5 +1,1 @@
-[
-	{% for event in events %}
-		{% include "events/frontend/event-single/event.json" %}{% if not forloop.last %},{% endif %}
-	{% endfor %}
-]
+{% include 'events/frontend/event-listing/listing.json' %}

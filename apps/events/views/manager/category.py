@@ -1,76 +1,73 @@
 import logging
 
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.generic.simple import direct_to_template
+from django.views.generic import ListView
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
+from core.views import SuperUserRequiredMixin
+from core.views import DeleteSuccessMessageMixin
 from events.forms.manager import CategoryForm
 from events.models import Category
-from events.models import Event
 
 log = logging.getLogger(__name__)
 
 
-@login_required
-def list(request):
-    """
-    View for listing out categories.
-    """
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot view the category manager.')
+class CategoryCreate(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    form_class = CategoryForm
+    model = Category
+    success_message = '%(title)s was created successfully.'
+    success_url = reverse_lazy('category-list')
+    template_name = 'events/manager/category/create_update.html'
 
-    ctx = {'categories': None}
-    tmpl = 'events/manager/category/list.html'
 
-    ctx['categories'] = Category.objects.all()
+class CategoryUpdate(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = CategoryForm
+    model = Category
+    success_message = '%(title)s was updated successfully.'
+    success_url = reverse_lazy('category-list')
+    template_name = 'events/manager/category/create_update.html'
 
-    # Pagination
-    if ctx['categories'] is not None:
-        paginator = Paginator(ctx['categories'], 20)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['categories'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['categories'] = paginator.page(1)
-        except EmptyPage:
-            ctx['categories'] = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, tmpl, ctx)
+class CategoryDelete(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+    form_class = CategoryForm
+    model = Category
+    success_message = 'Category was deleted successfully.'
+    success_url = reverse_lazy('category-list')
+    template_name = 'events/manager/category/delete.html'
 
-@login_required
-def create_update(request, category_id=None):
-    """
-    View for creating and updating the category.
-    """
-    ctx = {'category': None, 'form': None, 'mode': 'create'}
-    tmpl = 'events/manager/category/create_update.html'
+    def post(self, request, *args, **kwargs):
+        category = self.get_object()
+        if category.events.count() > 0:
+            return HttpResponseForbidden('This category has events assigned to it and cannot be deleted.')
+        return self.delete(request, *args, **kwargs)
 
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot create/modify a category.')
 
-    if category_id:
-        ctx['mode'] = 'update'
-        ctx['category'] = get_object_or_404(Category, pk=category_id)
+class CategoryList(SuperUserRequiredMixin, ListView):
+    context_object_name = 'categories'
+    model = Category
+    paginate_by = 25
+    template_name = 'events/manager/category/list.html'
 
-    if request.method == 'POST':
-        ctx['form'] = CategoryForm(request.POST, instance=ctx['category'])
-        if ctx['form'].is_valid():
-            try:
-                ctx['form'].save()
-            except Exception, e:
-                log.error(str(e))
-                messages.error(request, 'Saving category failed.')
-            return HttpResponseRedirect(reverse('category-list'))
-    else:
-        ctx['form'] = CategoryForm(instance=ctx['category'])
-    return direct_to_template(request, tmpl, ctx)
+    def get_context_data(self, **kwargs):
+        """
+        Add location list to context.
+        """
+        context = super(CategoryList, self).get_context_data(**kwargs)
+
+        context['category_list'] = Category.objects.all()
+
+        return context
+
+
 
 @login_required
 def merge(request, category_from_id=None, category_to_id=None):
@@ -101,19 +98,3 @@ def merge(request, category_from_id=None, category_to_id=None):
         return HttpResponseRedirect(reverse('category-list'))
 
     raise Http404
-
-@login_required
-def delete(request, category_id=None):
-    category = get_object_or_404(Category, pk=category_id)
-
-    if not request.user.is_superuser or category.events.count() > 0:
-        return HttpResponseForbidden('You cannot delete the specified category.')
-
-    try:
-        category.delete()
-    except Exception, e:
-        log(str(e))
-        messages.error(request, 'Deleting category failed.')
-    else:
-        messages.success(request, 'Category successfully deleted.')
-        return HttpResponseRedirect(reverse('category-list'))

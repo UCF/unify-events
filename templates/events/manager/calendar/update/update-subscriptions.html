@@ -1,0 +1,116 @@
+{% extends 'events/manager/calendar/update.html' %}
+{% load widget_tweaks %}
+
+{% block content_tabs %}
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+                </li>
+                <li>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+                </li>
+            </ul>
+            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
+                <i class="icon-trash"></i>Delete Calendar
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_body %}
+    <div class="row page-content">
+        <div class="span9" id="subscriptions">
+
+            <h2>Subscriptions</h2>
+
+            <h3>Your Subscribed Calendars</h3>
+            <p>
+                Below are calendars that <em>{{ calendar.title }}</em> is currently subscribed to.
+                Events from the calendars listed below will automatically publish to your calendar and receive updates from the original when they are made.
+            </p>
+            {% if calendar.subscriptions.all %}
+            <div>
+                <table class="table table-striped table-hover" id="manager-calendar-your-subscriptions">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name">Calendar Name</th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                            <th class="calendar-subscriptions-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscriptions.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">
+                                {{ sub_cal.owner }}
+                                {% if sub_cal.owner.first_name and sub_cal.owner.last_name %}
+                                    ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})
+                                {% endif %}
+                            </td>
+                            <td class="calendar-subscriptions-actions">
+                                <a class="btn btn-mini" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="icon-remove-sign"></i> Unsubscribe</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <p>
+                    <strong><em>This calendar is currently not subscribed to any other calendars.</em></strong>
+                </p>
+                <p>
+                    To subscribe to a calendar, go to that calendar's event list and click the "Subscribe" link at the top of the page, next to the calendar title.
+                </p>
+            </div>
+            {% endif %}
+
+            <h3>Subscribing Calendars</h3>
+            <p>
+                Below are calendars that are subscribed to <em>{{ calendar.title }}</em>.  These calendars will automatically receive copies of events you publish.
+            </p>
+            {% if calendar.subscribing_calendars %}
+            <div>
+                <table class="table table-striped table-hover" id="manager-calendar-subscribing-cals">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name">Calendar Name</th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscribing_calendars.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">{{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <p>
+                    <strong><em>No calendars are currently subscribed to this calendar.</em></strong>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}

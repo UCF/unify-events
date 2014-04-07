@@ -1,33 +1,32 @@
 from datetime import date
 from datetime import datetime
-from dateutil import rrule
-import calendar as calgenerator
-import itertools
 
+from dateutil.relativedelta import relativedelta
+from dateutil import rrule
 from django import template
 from django.http import Http404
 from django.template import Context
 from django.template import loader
-from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from dateutil.relativedelta import relativedelta
+import itertools
 from ordereddict import OrderedDict
 
 from events.models import Calendar
+import calendar as calgenerator
 
 register = template.Library()
 
 
 @register.simple_tag
-def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small', use_pagers=True):
+def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
     if calendars is "" and is_manager is 0:
         raise Http404
 
-    if isinstance(calendars, unicode):
-        calendars = get_object_or_404(Calendar, slug=calendars)
+    if pk:
+        calendars = get_object_or_404(Calendar, pk=pk)
 
     if day is None or day is "":
         relative_day = None
@@ -59,7 +58,7 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
 
     # Get a date range by which we will fetch events
     start = this_month_cal.keys()[0]
-    end = this_month_cal.keys()[-1]
+    end = datetime.combine(this_month_cal.keys()[-1], datetime.max.time())
 
     # Fetch events; group them by date
     calendar = None
@@ -109,23 +108,24 @@ def calendar_widget(calendars, year, month, day=None, is_manager=0, size='small'
 
 
 @register.simple_tag
-def pager(objects):
+def pager(paginator, current_page):
     """
-    Creates Bootstrap pagination links for a Paginator object list.
+    Creates Bootstrap pagination links for a Paginator.
     Page range is 10.
     """
-
-    if not objects.paginator:
-        raise Exception("Object passed is not a Paginator object")
+    # Account for paginator.Page passed as paginator object
+    # TODO: remove this when CBVs w/pagination are converted
+    if 'paginator' in paginator.__dict__:
+        paginator = paginator.paginator
 
     range_length = 10
-    if range_length > objects.paginator.num_pages:
-        range_length = objects.paginator.num_pages
+    if range_length > paginator.num_pages:
+        range_length = paginator.num_pages
 
     # Calculate range of pages to return
     range_length -= 1
-    range_min = max(objects.number - (range_length / 2), 1)
-    range_max = min(objects.number + (range_length / 2), objects.paginator.num_pages)
+    range_min = max(paginator.count - (range_length / 2), 1)
+    range_max = min(paginator.count + (range_length / 2), paginator.num_pages)
     range_diff = range_max - range_min
     if range_diff < range_length:
         shift = range_length - range_diff
@@ -136,10 +136,16 @@ def pager(objects):
 
     page_range = range(range_min, range_max + 1)
 
+    # If current_page is not set, set it to 1
+    if not current_page:
+        current_page = 1
+    else:
+        current_page = int(current_page)
 
     context = {
         'range': page_range,
-        'objects': objects
+        'paginator': paginator,
+        'current_page': current_page
     }
 
     template = loader.get_template('events/widgets/pager.html')

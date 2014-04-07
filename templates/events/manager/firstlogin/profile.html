@@ -45,23 +45,24 @@
                 <strong>Please review your personal information and
                 confirm that it is correct.</strong>
             </p>
-            <form action="{% url profile-settings %}" method="post" class="form-horizontal">
+            <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
+                {% csrf_token %}
                 <div class="control-group">
                     <label class="control-label" for="id_user-first_name">First Name</label>
                     <div class="controls">
-                        {{ forms.user.first_name }}
+                        {{ form.first_name }}
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="id_user-last_name">Last Name</label>
                     <div class="controls">
-                        {{ forms.user.last_name }}
+                        {{ form.last_name }}
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="id_user-email">Email</label>
                     <div class="controls">
-                        {{ forms.user.email }}
+                        {{ form.email }}
                     </div>
                 </div>
                 <div class="control-group">

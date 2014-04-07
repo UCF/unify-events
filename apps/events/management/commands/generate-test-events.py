@@ -1,10 +1,13 @@
+from datetime import datetime, timedelta
+from random import randint, choice
+
+from django.contrib.auth.models import User
+from django.contrib.webdesign import lorem_ipsum
 from django.core.management.base import BaseCommand
-from django.core.management      import call_command
-from events.models               import Calendar, Event, EventInstance, Tag, Location
-from django.contrib.auth.models  import User
-from django.contrib.webdesign    import lorem_ipsum
-from datetime                    import datetime, timedelta
-from random                      import randint, choice
+from django.core.management import call_command
+
+from events.models import Calendar, Event, EventInstance, Tag, Location
+
 
 lorem_ipsum.words_cust = lambda: lorem_ipsum.words(randint(3, 10), False).title()
 

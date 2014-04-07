@@ -7,7 +7,7 @@ os.environ['LANG'] = 'en_US.UTF-8'
 PROJECT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER = os.path.join(PROJECT_FOLDER, 'apps')
 INC_FOLDER = os.path.join(PROJECT_FOLDER, 'third-party')
-ROOT_URLCONF = os.path.basename(PROJECT_FOLDER) + '.urls'
+ROOT_URLCONF = 'urls'
 MINIFY = False
 
 LOGIN_URL = 'login'
@@ -41,6 +41,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )

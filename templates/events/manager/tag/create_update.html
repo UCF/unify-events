@@ -34,27 +34,28 @@
 {% endblock %}
 
 {% block content_title %}
-    {% if mode == 'create' %}
-        <h1>Create a Tag</h1>
-    {% elif mode == 'update' %}
+    {% if object %}
         <h1>Update Tag: <span class="alt">{{ tag.name }}</span></h1>
+    {% else %}
+        <h1>Create a Tag</h1>
     {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if mode == 'create' %}
-        Use the form below to create a new tag.
-    {% elif mode == 'update' %}
+    {% if object %}
         Use the form below to update the tag "{{ tag.name }}". Events with this tag will be updated with these changes.
+    {% else %}
+        Use the form below to create a new tag.
     {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if mode == 'create' %}
-        <form class="form-horizontal" action="{% url tag-create %}" method="post">
-    {% elif mode == 'update' %}
-        <form class="form-horizontal" action="{% url tag-update tag_id=tag.id %}" method="post">
+    {% if object %}
+        <form class="form-horizontal" action="{% url 'tag-update' pk=tag.pk %}" method="post">
+    {% else %}
+        <form class="form-horizontal" action="{% url 'tag-create' %}" method="post">
     {% endif %}
+            {% csrf_token %}
             {{ form.non_field_errors }}
             {{ form.name.errors }}
             <div class="control-group large">
@@ -65,11 +66,11 @@
             </div>
             <div class="control-group large">
                 <div class="controls">
-                    {% if mode == 'create' %}
-                        <button class="btn btn-primary" type="submit">Create Tag</button>
-                    {% elif mode == 'update' %}
+                    {% if object %}
                         <button class="btn btn-primary" type="submit">Update Tag</button>
-                        <a href="{% url tag-list %}" class="btn">Cancel</a>
+                        <a href="{% url 'tag-list' %}" class="btn">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">Create Tag</button>
                     {% endif %}
                 </div>
             </div>

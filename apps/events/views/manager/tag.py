@@ -2,73 +2,60 @@ import logging
 
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
-from django.views.generic.simple import direct_to_template
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 from taggit.models import Tag
-from events.models import Event
 
+from core.views import DeleteSuccessMessageMixin
+from core.views import SuperUserRequiredMixin
 from events.forms.manager import TagForm
+from events.models import Event
 
 log = logging.getLogger(__name__)
 
 
-@login_required
-def list(request):
-    """
-    View for listing out tags.
-    """
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot view the tag manager.')
+class TagListView(SuperUserRequiredMixin, ListView):
+    context_object_name = 'tags'
+    model = Tag
+    paginate_by = 25
+    template_name = 'events/manager/tag/list.html'
 
-    ctx = {'tags': None}
-    tmpl = 'events/manager/tag/list.html'
+    def get_queryset(self):
+        queryset = super(TagListView, self).get_queryset()
+        return queryset.annotate(event_count=Count('taggit_taggeditem_items'))
 
-    ctx['tags'] = Tag.objects.annotate(event_count=Count('taggit_taggeditem_items')).order_by('name')
 
-    # Pagination
-    if ctx['tags'] is not None:
-        paginator = Paginator(ctx['tags'], 20)
-        page = request.GET.get('page', 1)
-        try:
-            ctx['tags'] = paginator.page(page)
-        except PageNotAnInteger:
-            ctx['tags'] = paginator.page(1)
-        except EmptyPage:
-            ctx['tags'] = paginator.page(paginator.num_pages)
+class TagCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Tag
+    template_name = 'events/manager/tag/create_update.html'
+    form_class = TagForm
+    success_url = reverse_lazy('tag-list')
+    success_message = '%(name)s was created successfully.'
 
-    return direct_to_template(request, tmpl, ctx)
 
-@login_required
-def create_update(request, tag_id=None):
-    ctx = {'form': None, 'mode': 'create', 'tag': None}
-    tmpl = 'events/manager/tag/create_update.html'
+class TagUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Tag
+    template_name = 'events/manager/tag/create_update.html'
+    success_url = reverse_lazy('tag-list')
+    form_class = TagForm
+    success_message = '%(name)s was created successfully.'
 
-    if tag_id is not None:
-        ctx['mode'] = 'update'
-        ctx['tag'] = get_object_or_404(Tag, pk=tag_id)
 
-        if not request.user.is_superuser:
-            return HttpResponseForbidden('You cannot modify the specified tag.')
-    else:
-        if not request.user.is_superuser:
-            return HttpResponseForbidden('You cannot create a tag.')
+class TagDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+    model = Tag
+    template_name = 'events/manager/tag/delete.html'
+    success_url = reverse_lazy('tag-list')
+    success_message = 'Tag deleted successfully.'
 
-    if request.method == 'POST':
-        ctx['form'] = TagForm(request.POST, instance=ctx['tag'])
-        if ctx['form'].is_valid():
-            tag = ctx['form'].save()
-        return HttpResponseRedirect(reverse('tag-list'))
-    else:
-        ctx['form'] = TagForm(instance=ctx['tag'])
-
-    return direct_to_template(request, tmpl, ctx)
 
 @login_required
 def merge(request, tag_from_id=None, tag_to_id=None):
@@ -96,19 +83,3 @@ def merge(request, tag_from_id=None, tag_to_id=None):
         return HttpResponseRedirect(reverse('tag-list'))
 
     raise Http404
-
-@login_required
-def delete(request, tag_id=None):
-    tag = get_object_or_404(Tag, pk=tag_id)
-
-    if not request.user.is_superuser:
-        return HttpResponseForbidden('You cannot delete the specified tag.')
-
-    try:
-        tag.delete()
-    except Exception, e:
-        log(str(e))
-        messages.error(request, 'Deleting tag failed.')
-    else:
-        messages.success(request, 'Tag successfully deleted.')
-        return HttpResponseRedirect(reverse('tag-list'))
