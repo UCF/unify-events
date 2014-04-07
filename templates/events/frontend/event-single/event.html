@@ -7,22 +7,22 @@ vevent
 
 {% block content_title_icon %}
 <i class="icon-calendar-empty" id="page-title-icon"></i>
-<span class="event-icon-date">{{ event.start|date:"j" }}</span>
+<span class="event-icon-date">{{ event_instance.start|date:"j" }}</span>
 {% endblock %}
 
 {% block content_title %}
     <h1>
-        <a class="summary url" href="{% url event calendar=calendar.slug instance_id=event.id %}">{{ event.event.title }}</a>
+        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
     </h1>
     {% if user.is_authenticated %}
     <ul class="edit-options">
-    	{% if event.event.calendar in user.editable_calendars.all %}
+    	{% if event_instance.event.calendar in user.editable_calendars.all %}
     	<li>
-    		<a href="{% url event-update event_id=event.event.id %}"><i class="icon-pencil"></i>Edit</a>
+    		<a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="icon-pencil"></i>Edit</a>
     	</li>
     	{% else %}
     	<li>
-    		<a href="{% url event-copy event_id=event.event.id %}"><i class="icon-share-alt"></i>Add Event To</a>
+    		<a class="object-modify" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
     	</li>
     	{% endif %}
     </ul>
@@ -37,11 +37,11 @@ vevent
 
     	<!-- TODO: image here, once we get images going... -->
 
-    	{{ event.event.description|bleach }}
+    	{{ event_instance.event.description|bleach }}
 
     	<hr />
 
-        {% if event.event.has_instances %}
+        {% if event_instance.event.has_instances %}
     	<h2>Full Schedule</h2>
     	<div>
     	   <table class="table table-striped">
@@ -52,7 +52,7 @@ vevent
                 </tr>
             </thead>
             <tbody>
-                {% for instance in event.event.event_instances.all %}
+                {% for instance in event_instance.event.event_instances.all %}
                 <tr>
                     <td>{{ instance.start|date:"F j" }}</td>
                     <td>
@@ -72,16 +72,16 @@ vevent
     	<div class="well" id="event-meta">
     	    <h3>On Calendar</h3>
             <span class="event-meta-calendar">
-                <a href="{% url calendar calendar=event.event.calendar.slug %}">{{ event.event.calendar.title }}</a>
+                <a href="{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}">{{ event_instance.event.calendar.title }}</a>
             </span>
     		<h3>Category</h3>
-    		<span class="event-meta-category category-text {{ event.event.category.slug }}">
-    		    <a href="{% url category category=event.event.category.slug %}">{{ event.event.category.title }}</a>
+    		<span class="event-meta-category category-text {{ event_instance.event.category.slug }}">
+    		    <a href="{% url 'category' category_pk=event_instance.event.category.pk category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
     		</span>
     		<h3>Tags</h3>
     		<span class="event-meta-tags">
-    	        {% for tag in event.event.tags.all %}
-                <a href="{% url tag tag=tag.slug %}">{{ tag }}</a>
+    	        {% for tag in event_instance.event.tags.all %}
+                <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
                 {% endfor %}
     		</span>
     	</div>
@@ -91,12 +91,12 @@ vevent
 
     	<h2>Happening on</h2>
     	<span class="event-single-datetime">
-    	    {{ event.start|date:"l," }}<br/>{{ event.start|date:"F j" }}
-    	    <span class="dtstart"><span class="value-title" title="{{ event.start|date:"c" }}"></span></span>
+    	    {{ event_instance.start|date:"l," }}<br/>{{ event_instance.start|date:"F j" }}
+    	    <span class="dtstart"><span class="value-title" title="{{ event_instance.start|date:"c" }}"></span></span>
     	</span>
-    	{% if event.start|date:"H:i" != "00:00" %}
+    	{% if event_instance.start|date:"H:i" != "00:00" %}
     	<span class="event-single-subheader event-single-attime">at</span>
-    	<span class="event-single-datetime">{{ event.start|date:"P" }}</span>
+    	<span class="event-single-datetime">{{ event_instance.start|date:"P" }}</span>
     	{% endif %}
 
     	{% comment %}
@@ -109,19 +109,19 @@ vevent
     	{% endcomment %}
 
     	<span class="event-single-subheader event-single-until">
-        	{% if event.start == event.end %}<!-- TODO: remove this in favor of the more specific 'same day' check -->
+        	{% if event_instance.start == event_instance.end %}<!-- TODO: remove this in favor of the more specific 'same day' check -->
         	All Day
-        	{% elif event.start|date:"omd" == event.end|date:"omd" and event.start|date:"H:i" == "00:00" and event.end|date:"H:i" == "23:59" %}
+        	{% elif event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
         	All Day
-        	{% elif event.start|date:"omd" == event.end|date:"omd" and event.start|date:"H:i" != event.end|date:"H:i" %}
-        	until {{ event.end|date:"P" }}
+        	{% elif event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" != event_instance.end|date:"H:i" %}
+        	until {{ event_instance.end|date:"P" }}
         	{% else %}
-        	until {{ event.end|date:"l, F j" }}
-        	    {% if event.end|date:"H:i" != "00:00" and event.end|date:"H:i" != "23:59" %}
-        	    at {{ event.end|date:"P" }}
+        	until {{ event_instance.end|date:"l, F j" }}
+        	    {% if event_instance.end|date:"H:i" != "00:00" and event_instance.end|date:"H:i" != "23:59" %}
+        	    at {{ event_instance.end|date:"P" }}
         	    {% endif %}
         	{% endif %}
-    	   <span class="dtend"><span class="value-title" title="{{ event.end|date:"c" }}"></span></span>
+    	   <span class="dtend"><span class="value-title" title="{{ event_instance.end|date:"c" }}"></span></span>
     	</span>
 
     	{% comment %}
@@ -134,15 +134,15 @@ vevent
     	   (more than one recurrence rule)
     	{% endcomment %}
 
-    	{% if event.is_recurring %}
+    	{% if event_instance.is_recurring %}
     	   <span class="event-single-subheader event-single-occurring">
     	       Occuring
-    	       {% if event.interval != 0 and event.event.get_all_parent_instances.count == 1 %}
-    	           {{ event.get_rrule_name }}
+    	       {% if event_instance.interval != 0 and event_instance.event.get_all_parent_instances.count == 1 %}
+    	           {{ event_instance.get_rrule_name }}
     	       {% endif %}
-    	       until<br/>{{ event.event.get_last_instance.end|date:"l, F j" }}
-    	       {% if event.event.get_last_instance.end|date:"H:i" != "00:00" and event.event.get_last_instance.end|date:"H:i" != "23:59" %}
-    	           at {{ event.event.get_last_instance.end|date:"P" }}
+    	       until<br/>{{ event_instance.event.get_last_instance.end|date:"l, F j" }}
+    	       {% if event_instance.event.get_last_instance.end|date:"H:i" != "00:00" and event_instance.event.get_last_instance.end|date:"H:i" != "23:59" %}
+    	           at {{ event_instance.event.get_last_instance.end|date:"P" }}
                {% endif %}
     	   </span>
         {% endif %}
@@ -155,16 +155,16 @@ vevent
     	<hr />
 -->
         <div class="location vcard">
-            <h2 class="alt">Located at {% if event.event.has_instances %}*{% endif %}</h2>
-            <span class="event-location-title fn org">{{ event.location.title }}</span>
-            {% if event.location.get_map_widget_url %}
-            <iframe class="event-location-widget" frameborder="0" src="{{ event.location.get_map_widget_url }}" style="border:none;width:300px;height:300px"></iframe>
+            <h2 class="alt">Located at {% if event_instance.event.has_instances %}*{% endif %}</h2>
+            <span class="event-location-title fn org">{{ event_instance.location.title }}</span>
+            {% if event_instance.location.get_map_widget_url %}
+            <iframe class="event-location-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}" style="border:none;width:300px;height:300px"></iframe>
             {% else %}
             <span class="event-location-url url">
-                <i class="icon-globe"></i> <a href="{{ event.location.url }}">Website</a>
+                <i class="icon-globe"></i> <a href="{{ event_instance.location.url }}">Website</a>
             </span>
             {% endif %}
-            {% if event.event.has_instances %}
+            {% if event_instance.event.has_instances %}
             <span class="event-location-note">
                 *This event occurs on multiple dates/times. This event takes place at this location on this date.
             </span>
@@ -174,16 +174,16 @@ vevent
         <hr />
 
         <h2 class="alt">Contact</h2>
-        <div class="event-contact-wrap{% if event.event.contact_name %} vcard{% endif %}">
-            {% if event.event.contact_name and event.event.contact_phone and event.event.contact_email %}
-                {% if event.event.contact_name %}
-                <span class="event-contact-name fn">{{ event.event.contact_name }}</span>
+        <div class="event-contact-wrap{% if event_instance.event.contact_name %} vcard{% endif %}">
+            {% if event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
+                {% if event_instance.event.contact_name %}
+                <span class="event-contact-name fn">{{ event_instance.event.contact_name }}</span>
                 {% endif %}
-                {% if event.event.contact_phone %}
-                <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event.event.contact_phone }}">{{ event.event.contact_phone }}</a></span>
+                {% if event_instance.event.contact_phone %}
+                <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
                 {% endif %}
-                {% if event.event.contact_email %}
-                <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event.event.contact_email }}">{{ event.event.contact_email }}</a></span>
+                {% if event_instance.event.contact_email %}
+                <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
                 {% endif %}
             {% else %}
             <em>No contact information available.</em>

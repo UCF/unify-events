@@ -25,16 +25,3 @@ def chunk(i, c_size):
     import math
     chunks = int(math.ceil(len(i) / float(c_size)))
     return [i[c * c_size : c * c_size + c_size] for c in range(0, chunks)]
-
-
-def format_to_mimetype(format):
-    """Provides a mapping between frontend document formats and mimetypes to be
-    returned with the resulting response.
-    """
-    return {
-        'json' : 'application/json',
-        'rss'  : 'application/rss+xml',
-        'html' : 'text/html',
-        'xml'  : 'text/xml',
-        'ics'  : 'text/calendar',
-    }.get(format, 'text/html')

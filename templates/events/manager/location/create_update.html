@@ -37,27 +37,28 @@
 {% endblock %}
 
 {% block content_title %}
-    {% if mode == 'create' %}
-        <h1>Create an Location</h1>
-    {% elif mode == 'update' %}
+    {% if object %}
         <h1>Update Location: <span class="alt">{{ location.title }}</span></h1>
+    {% else %}
+        <h1>Create an Location</h1>
     {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if mode == 'create' %}
-        Use the form below to create a new location
-    {% elif mode == 'update' %}
+    {% if object %}
         Use the form below to update the location "{{ location.title }}". Events with this location will be updated with these changes.
+    {% else %}
+        Use the form below to create a new location
     {% endif %}
 {% endblock %}
 
 {% block content_body %}
-	{% if mode == 'create' %}
-		<form class="form-horizontal" action="{% url location-create %}" method="post" enctype="multipart/form-data">
-	{% elif mode == 'update' %}
-		<form class="form-horizontal" action="{% url location-update location_id=location.id %}" method="post" enctype="multipart/form-data">
+	{% if object %}
+        <form class="form-horizontal" action="{% url 'location-update' pk=location.pk %}" method="post" enctype="multipart/form-data">
+    {% else %}
+        <form class="form-horizontal" action="{% url 'location-create' %}" method="post" enctype="multipart/form-data">
 	{% endif %}
+            {% csrf_token %}
             {{ form.non_field_errors }}
             {{ form.title.errors }}
             <div class="control-group large">
@@ -93,11 +94,11 @@
             </div>
             <div class="control-group large">
                 <div class="controls">
-                    {% if mode == 'create' %}
-                        <button class="btn btn-primary" type="submit">Create Location</button>
-                    {% elif mode == 'update' %}
+                    {% if object %}
                         <button class="btn btn-primary" type="submit">Update Location</button>
-                        <a href="{% url location-list %}" class="btn">Cancel</a>
+                        <a href="{% url 'location-list' %}" class="btn">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">Create Location</button>
                     {% endif %}
                 </div>
             </div>

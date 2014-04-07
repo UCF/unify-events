@@ -1,0 +1,7 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//UNIFY
+{% for event_instance in event_instances %}
+{% include 'events/frontend/event-single/event.ics' %}
+{% endfor %}
+END:VCALENDAR

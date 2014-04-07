@@ -1,12 +1,12 @@
 {
-	"event_id": "{{ event.event.id }}",
-	"id": "{{ event.id }}",
-	"title": "{{ event.title|escapejs }}",
+	"event_id": "{{ event_instance.event.pk }}",
+	"id": "{{ event_instance.pk }}",
+	"title": "{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escapejs }}",
 	"subtitle": null,
-	"description": "{{ event.event.description|escapejs }}",
-	"location": "{{ event.location.title|escapejs }}: {{ event.location.room|escapejs }}",
-	"location_url": "{{ event.location.url|escapejs }}",
-	"starts": "{{ event.start|date:'r' }}",
-	"ends": "{{ event.end|date:'r' }}",
-	"ongoing": "{{ event.event.has_instances }}"
+	"description": "{{ event_instance.event.description|escapejs }}",
+	"location": "{{ event_instance.location.title|escapejs }}: {{ event_instance.location.room|escapejs }}",
+	"location_url": "{{ event_instance.location.url|escapejs }}",
+	"starts": "{{ event_instance.start|date:'r' }}",
+	"ends": "{{ event_instance.end|date:'r' }}",
+	"ongoing": "{{ event_instance.event.has_instances }}"
 }

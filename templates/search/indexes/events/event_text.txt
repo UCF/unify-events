@@ -1,0 +1,5 @@
+{{ object.title }}
+{{ object.calendar }}
+{{ object.description }}
+{{ object.category }}
+{{ object.tags }}

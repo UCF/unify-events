@@ -1,20 +1,21 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms.models import inlineformset_factory
 from taggit.models import Tag
-from taggit.forms import TagField
 
+from core.forms import RequiredModelFormSet
+from events.forms.fields import InlineLDAPSearchField
+from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
-from events.forms.fields import InlineLDAPSearchField
-from events.forms.widgets import BootstrapSplitDateTimeWidget
 
 
 class CalendarForm(forms.ModelForm):
     """
-    For for the Calendar
+    Form for the Calendar
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
 
@@ -28,7 +29,8 @@ class EventForm(forms.ModelForm):
     Form for an Event
     """
     def __init__(self, *args, **kwargs):
-        user_calendars = kwargs.pop('user_calendars')
+        initial = kwargs.pop('initial')
+        user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
 
@@ -137,6 +139,14 @@ class EventInstanceForm(forms.ModelForm):
     class Meta:
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location')
+
+
+EventInstanceFormSet = inlineformset_factory(Event,
+                                             EventInstance,
+                                             form=EventInstanceForm,
+                                             formset=RequiredModelFormSet,
+                                             extra=1,
+                                             max_num=12)
 
 
 class EventCopyForm(forms.Form):
