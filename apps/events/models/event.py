@@ -257,9 +257,9 @@ class Event(TimeCreatedModified):
         Generate permalink for this object
         """
         return reverse('event', kwargs={
-            'calendar': self.calendar.slug,
-            'instance_id': self.event_instances.all()[0].id,
-        }) + self.slug + '/'
+            'slug': self.slug,
+            'pk': self.pk,
+        })
 
     def __str__(self):
         return self.title
