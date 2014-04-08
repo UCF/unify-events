@@ -2,9 +2,7 @@
 {% load humanize %}
 {% load widgets %}
 
-{% block meta %}
-        <link rel="alternate" type="application/rss+xml" title="Events By Category: {{ category.title }} RSS Feed" href="{% if calendar %}{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}{% else %}{% url 'category' category_pk=category.pk category=category.slug %}{% endif %}feed.rss" />
-{% endblock %}
+{% block meta_alt_title %}Events By Category: '{{ category.title }}' {{ block.super }}{% endblock %}
 
 {% block content_title_icon %}
 <i class="icon-tag" id="page-title-icon"></i>
@@ -30,8 +28,8 @@
             {% pager paginator=paginator current_page=request.GET.page %}
         </div>
         <aside class="span4 page-sidebar" id="calendar-events-sidebar">
-            <h2>Subscribe</h2>
-            feed download links
+            <h2>Feeds</h2>
+            {% feed_btns url=request.build_absolute_uri %}
         </aside>
     </div>
 {% endblock %}

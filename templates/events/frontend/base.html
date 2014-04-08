@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block meta %}
+<link rel="alternate" type="application/rss+xml" title="{% block meta_alt_title %}RSS Feed{% endblock %}" href="{{ request.build_absolute_uri }}{% if request.build_absolute_uri|slice:"-1:"|last != "/" %}/{% endif %}feed.rss" />
+{% endblock %}
+
 {% block content %}
 <section id="calendar-base" class="container {% block content_section_classes %}{% endblock %}">
     {% block content_header %}

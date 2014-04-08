@@ -2,6 +2,8 @@
 {% load bleach_tags %}
 {% load widgets %}
 
+{% block meta_alt_title %}'{{ event_instance.title }}' {{ block.super }}{% endblock %}
+
 {% block content_section_classes %}
 vevent
 {% endblock %}
