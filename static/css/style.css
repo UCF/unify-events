@@ -896,19 +896,19 @@ nav li#create-event {
     padding: 6px 18px; }
     /* line 996, ../sass/style.scss */
     .feeds-list a.ical {
-      background-position: 12px -23px; }
+      background-position: 13px -23px; }
     /* line 997, ../sass/style.scss */
     .feeds-list a.outlook {
-      background-position: 12px -57px; }
+      background-position: 13px -57px; }
     /* line 998, ../sass/style.scss */
     .feeds-list a.rss {
-      background-position: 12px 7px; }
+      background-position: 13px 7px; }
     /* line 999, ../sass/style.scss */
     .feeds-list a.xml {
-      background-position: 12px -119px; }
+      background-position: 13px -119px; }
     /* line 1000, ../sass/style.scss */
     .feeds-list a.json {
-      background-position: 12px -91px; }
+      background-position: 13px -91px; }
 
 /**
  * Footer
