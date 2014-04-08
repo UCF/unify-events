@@ -854,7 +854,7 @@ nav li#create-event {
 .social a {
   background-image: url("../../static/img/social-share.png");
   background-repeat: no-repeat;
-  text-indent: 100%;
+  text-indent: 200%;
   white-space: nowrap;
   overflow: hidden;
   display: block;
