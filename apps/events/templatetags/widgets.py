@@ -1,5 +1,6 @@
 from datetime import date
 from datetime import datetime
+import urllib
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -149,6 +150,38 @@ def pager(paginator, current_page):
     }
 
     template = loader.get_template('events/widgets/pager.html')
+    html = template.render(Context(context))
+
+    return html
+
+
+@register.simple_tag
+def feed_btns(url):
+    """
+    Generates feed buttons (ics/json/rss/xml) based off of a given URL.
+    """
+    context = {
+        'url': url
+    }
+
+    template = loader.get_template('events/widgets/feed-btns.html')
+    html = template.render(Context(context))
+
+    return html
+
+
+@register.simple_tag
+def social_btns(url, page_title):
+    """
+    Generates social sharing buttons based off of a given URL.
+    """
+    context = {
+        'url': url,
+        'page_title': page_title,
+        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title)
+    }
+
+    template = loader.get_template('events/widgets/social-btns.html')
     html = template.render(Context(context))
 
     return html

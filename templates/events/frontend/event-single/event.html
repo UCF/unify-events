@@ -1,5 +1,6 @@
 {% extends 'events/frontend/base.html' %}
 {% load bleach_tags %}
+{% load widgets %}
 
 {% block content_section_classes %}
 vevent
@@ -149,11 +150,11 @@ vevent
 
 
         <hr />
-<!--
-    	<h2>Social Stuff Here...</h2>
+
+    	{% social_btns url=request.build_absolute_uri page_title=event_instance.event.title %}
 
     	<hr />
--->
+
         <div class="location vcard">
             <h2 class="alt">Located at {% if event_instance.event.has_instances %}*{% endif %}</h2>
             <span class="event-location-title fn org">{{ event_instance.location.title }}</span>
@@ -189,6 +190,11 @@ vevent
             <em>No contact information available.</em>
             {% endif %}
         </div>
+
+        <hr />
+
+        <h2>Feeds</h2>
+        {% feed_btns url=request.build_absolute_uri %}
     </aside>
 </div>
 {% endblock %}
