@@ -143,8 +143,8 @@ urlpatterns += patterns('events.views.manager',
 
 # Search-related URLs
 urlpatterns += patterns('haystack.views',
-    url(r'^search/$', search_view_factory(
+    url(r'^search/$', login_required(search_view_factory(
         view_class=ManagerSearchView,
-    ), name='haystack_search_manager'),
+    )), name='haystack_search_manager'),
 )
 

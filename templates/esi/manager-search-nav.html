@@ -1,0 +1,10 @@
+{% if user.is_authenticated %}
+<ul class="nav nav-tabs">
+    <li class="{% if not manager_search %} active{% endif %}">
+        <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">Search All Calendars and Events</a>
+    </li>
+    <li class="{% if manager_search %} active{% endif %}">
+        <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
+    </li>
+</ul>
+{% endif %}

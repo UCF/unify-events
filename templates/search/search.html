@@ -1,7 +1,7 @@
 {% extends 'events/frontend/base.html' %}
 {% load widgets %}
 {% load widget_tweaks %}
-{% load highlight %}
+{% load core_tags %}
 
 {% block content_title_icon %}
 <i class="icon-search" id="page-title-icon"></i>
@@ -22,16 +22,7 @@
 {% block content_body %}
 <div class="row">
     <div class="span12 page-content" id="search">
-        {% if user.is_authenticated %}
-        <ul class="nav nav-tabs">
-            <li class="{% if not manager_search %} active{% endif %}">
-                <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">Search All Calendars and Events</a>
-            </li>
-            <li class="{% if manager_search %} active{% endif %}">
-                <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
-            </li>
-        </ul>
-        {% endif %}
+        {% include_esi_template 'esi/manager-search-nav.html' %}
 
         <form method="GET" action=".">
             {{ form.q.label }}
@@ -53,7 +44,7 @@
                         <h2>{{ model.grouper }}</h2>
                             {% for result in model.list %}
                                 <p>
-                                    <a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a><br/>
+                                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a><br/>
                                     {% if model.grouper == 'Events' %}
                                         TAGS:
                                         {% for tag in result.object.tags.all %}
