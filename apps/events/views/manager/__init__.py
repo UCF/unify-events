@@ -69,12 +69,15 @@ class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
                 events = get_all_users_future_events(self.request.user)
 
         # get the state filter
-        state_id = State.get_id(self.kwargs.get('state'))
-        if state_id is None:
-            state_id = State.get_id('posted')
+        if self.kwargs.get('state') == 'subscribed' and events:
+            events = events.filter(event__state=State.get_id('posted'), event__created_from__isnull=False)
+        else:
+            state_id = State.get_id(self.kwargs.get('state'))
+            if state_id is None:
+                state_id = State.get_id('posted')
 
-        if events:
-            events = events.filter(event__state=state_id)
+            if events:
+                events = events.filter(event__state=state_id)
 
         self.queryset = events
         return events
@@ -107,7 +110,9 @@ class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
 
         # get the state filter
         state_id = State.get_id(self.kwargs.get('state'))
-        if state_id is not None:
+        if state_id is None and self.kwargs.get('state') == 'subscribed':
+            ctx['state'] = 'subscribed'
+        elif state_id is not None:
             ctx['state'] = self.kwargs.get('state')
 
         return ctx
