@@ -160,6 +160,9 @@ def feed_btns(url):
     """
     Generates feed buttons (ics/json/rss/xml) based off of a given URL.
     """
+    if url.endswith('/') == False:
+        url = url + '/'
+
     context = {
         'url': url
     }

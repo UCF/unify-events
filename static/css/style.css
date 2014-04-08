@@ -1286,41 +1286,44 @@ ul.event-list-condensed {
   #event-single-sidebar .event-single-occurring {
     margin-top: 20px; }
   /* line 1408, ../sass/style.scss */
+  #event-single-sidebar .event-contact {
+    overflow: hidden; }
+  /* line 1412, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
-  #event-single-sidebar .event-contact-wrap {
+  #event-single-sidebar .event-contact-info {
     display: block;
     float: left;
     width: 50%;
     clear: right; }
-  /* line 1416, ../sass/style.scss */
+  /* line 1420, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
-  #event-single-sidebar .event-contact-wrap span {
+  #event-single-sidebar .event-contact-info span {
     margin-bottom: 5px; }
-  /* line 1421, ../sass/style.scss */
+  /* line 1425, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-name {
     font-weight: bold; }
-  /* line 1426, ../sass/style.scss */
+  /* line 1430, ../sass/style.scss */
   #event-single-sidebar i {
     color: #8d8d8d; }
-  /* line 1430, ../sass/style.scss */
+  /* line 1434, ../sass/style.scss */
   #event-single-sidebar .event-location-widget {
     margin-top: 10px;
     margin-bottom: -10px; }
-  /* line 1434, ../sass/style.scss */
+  /* line 1438, ../sass/style.scss */
   #event-single-sidebar .event-location-note {
     font-size: 12px;
     line-height: 16px;
     margin-top: 20px; }
 
 /* Body - Meta Information */
-/* line 1440, ../sass/style.scss */
+/* line 1444, ../sass/style.scss */
 #event-meta {
   overflow: hidden; }
-  /* line 1443, ../sass/style.scss */
+  /* line 1447, ../sass/style.scss */
   #event-meta > * {
     margin-bottom: 10px; }
-  /* line 1447, ../sass/style.scss */
+  /* line 1451, ../sass/style.scss */
   #event-meta h3 {
     display: block;
     float: left;
@@ -1328,7 +1331,7 @@ ul.event-list-condensed {
     clear: left;
     font-weight: normal;
     margin-top: 10px; }
-  /* line 1456, ../sass/style.scss */
+  /* line 1460, ../sass/style.scss */
   #event-meta .event-meta-calendar,
   #event-meta .event-meta-category,
   #event-meta .event-meta-tags {
@@ -1340,7 +1343,7 @@ ul.event-list-condensed {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px; }
-  /* line 1469, ../sass/style.scss */
+  /* line 1473, ../sass/style.scss */
   #event-meta .event-meta-tags a {
     display: block;
     width: auto;
@@ -1358,7 +1361,7 @@ ul.event-list-condensed {
  * Create/Update Event
  **/
 /* When/Where */
-/* line 1489, ../sass/style.scss */
+/* line 1493, ../sass/style.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -1367,32 +1370,32 @@ ul.event-list-condensed {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 1497, ../sass/style.scss */
+/* line 1501, ../sass/style.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 1502, ../sass/style.scss */
+/* line 1506, ../sass/style.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 1509, ../sass/style.scss */
+/* line 1513, ../sass/style.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 1514, ../sass/style.scss */
+/* line 1518, ../sass/style.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 1518, ../sass/style.scss */
+/* line 1522, ../sass/style.scss */
 .whenwhere-end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 1524, ../sass/style.scss */
+/* line 1528, ../sass/style.scss */
 .whenwhere-start label,
 .whenwhere-end label {
   display: block;
@@ -1402,18 +1405,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 1534, ../sass/style.scss */
+/* line 1538, ../sass/style.scss */
 .cloner {
   position: relative; }
-  /* line 1537, ../sass/style.scss */
+  /* line 1541, ../sass/style.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 1540, ../sass/style.scss */
+    /* line 1544, ../sass/style.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 1547, ../sass/style.scss */
+  /* line 1551, ../sass/style.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -1421,7 +1424,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 1556, ../sass/style.scss */
+  /* line 1560, ../sass/style.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -1429,25 +1432,25 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 1565, ../sass/style.scss */
+/* line 1569, ../sass/style.scss */
 .remove-instance {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   float: right;
   padding: 8px 14px; }
 
-/* line 1571, ../sass/style.scss */
+/* line 1575, ../sass/style.scss */
 .remove-instance:hover ~ div > .whenwhere-wrap,
 .remove-instance:focus ~ div > .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 1577, ../sass/style.scss */
+/* line 1581, ../sass/style.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 1582, ../sass/style.scss */
+/* line 1586, ../sass/style.scss */
 .location-new-btn {
   position: absolute;
   bottom: 2px;
@@ -1456,18 +1459,18 @@ label[for*="-location-autocomplete"] {
   padding-right: 16px;
   border-radius: 4px 20px 20px 4px; }
 
-/* line 1591, ../sass/style.scss */
+/* line 1595, ../sass/style.scss */
 .location-suggestions li.selected a,
 #id_event-tags-suggestions li.selected a {
   background-color: #3979fc;
   background-image: linear-gradient(to bottom, #4380fc, #2a6ffc);
   color: #fff !important; }
 
-/* line 1598, ../sass/style.scss */
+/* line 1602, ../sass/style.scss */
 .location-selected {
   position: relative; }
 
-/* line 1602, ../sass/style.scss */
+/* line 1606, ../sass/style.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -1477,14 +1480,14 @@ label[for*="-location-autocomplete"] {
   right: -16px;
   color: #A8A8A8; }
 
-/* line 1613, ../sass/style.scss */
+/* line 1617, ../sass/style.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1617, ../sass/style.scss */
+/* line 1621, ../sass/style.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1623, ../sass/style.scss */
+/* line 1627, ../sass/style.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -1492,12 +1495,12 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 90%; }
 
-/* line 1631, ../sass/style.scss */
+/* line 1635, ../sass/style.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1636, ../sass/style.scss */
+/* line 1640, ../sass/style.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -1509,7 +1512,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1648, ../sass/style.scss */
+  /* line 1652, ../sass/style.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -1522,7 +1525,7 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1661, ../sass/style.scss */
+    /* line 1665, ../sass/style.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
@@ -1531,7 +1534,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1674, ../sass/style.scss */
+/* line 1678, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;

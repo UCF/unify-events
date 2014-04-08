@@ -174,21 +174,23 @@ vevent
 
         <hr />
 
-        <h2 class="alt">Contact</h2>
-        <div class="event-contact-wrap{% if event_instance.event.contact_name %} vcard{% endif %}">
-            {% if event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
-                {% if event_instance.event.contact_name %}
-                <span class="event-contact-name fn">{{ event_instance.event.contact_name }}</span>
+        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %}">
+            <h2 class="alt">Contact</h2>
+            <div class="event-contact-info">
+                {% if event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
+                    {% if event_instance.event.contact_name %}
+                    <span class="event-contact-name fn">{{ event_instance.event.contact_name }}</span>
+                    {% endif %}
+                    {% if event_instance.event.contact_phone %}
+                    <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    {% endif %}
+                    {% if event_instance.event.contact_email %}
+                    <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    {% endif %}
+                {% else %}
+                <em>No contact information available.</em>
                 {% endif %}
-                {% if event_instance.event.contact_phone %}
-                <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
-                {% endif %}
-                {% if event_instance.event.contact_email %}
-                <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
-                {% endif %}
-            {% else %}
-            <em>No contact information available.</em>
-            {% endif %}
+            </div>
         </div>
 
         <hr />
