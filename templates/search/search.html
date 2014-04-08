@@ -9,58 +9,75 @@
 
 {% block content_title %}
 <h1>
+    <a href="{{ request.build_absolute_uri }}">
     {% if not query %}
-    <a href="#">Search</a>
+    Search
     {% else %}
-    <a href="#">Search Results For: <span class="alt"><em>&ldquo;{{ query }}&rdquo;</em></span></a>
+    Search Results For: <span class="alt"><em>&ldquo;{{ query }}&rdquo;</em></span>
     {% endif %}
+    </a>
 </h1>
 {% endblock %}
 
 {% block content_body %}
 <div class="row">
-    <div class="span9 page-content" id="search">
+    <div class="span12 page-content" id="search">
+        {% if user.is_authenticated %}
+        <ul class="nav nav-tabs">
+            <li class="{% if not manager_search %} active{% endif %}">
+                <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">Search All Calendars and Events</a>
+            </li>
+            <li class="{% if manager_search %} active{% endif %}">
+                <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
+            </li>
+        </ul>
+        {% endif %}
 
         <form method="GET" action=".">
             {{ form.q.label }}
             {{ form.q|add_class:"search-query" }}
+            {% if not manager_search %}
             <br/>
             {{ form.models.label }}
             {{ form.models }}
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>    
-            
-            {% if query %}
-                {% with page.object_list as results %}
-                    {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}
-                    {% for model in grouped_objects %}
-                    <h2>{{ model.grouper }}</h2>
-                        {% for result in model.list %}
-                            <p>
-                                <a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a><br/>
-                                {% if model.grouper == 'Events' %}
-                                    TAGS:
-                                    {% for tag in result.object.tags.all %}
-                                    <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
-                                    {% empty %}
-                                    No tags found.
-                                    {% endfor %}
-                                    <br/>
-                                    CATEGORY:
-                                    <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
-                                {% endif %}
-                            </p>
-                        {% endfor %}
-                    {% empty %}
-                        <p>No results found.</p>
-                    {% endfor %}
-                {% endwith %}
-                {% pager paginator=paginator current_page=request.GET.page %}
-            {% else %}
-                {# Show some example queries to run, maybe query syntax, something else? #}
-                Search for something!
             {% endif %}
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
 
+        <div class="row">
+            <div class="span9">
+                {% if query %}
+                    {% with page.object_list as results %}
+                        {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}
+                        {% for model in grouped_objects %}
+                        <h2>{{ model.grouper }}</h2>
+                            {% for result in model.list %}
+                                <p>
+                                    <a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a><br/>
+                                    {% if model.grouper == 'Events' %}
+                                        TAGS:
+                                        {% for tag in result.object.tags.all %}
+                                        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
+                                        {% empty %}
+                                        No tags found.
+                                        {% endfor %}
+                                        <br/>
+                                        CATEGORY:
+                                        <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
+                                    {% endif %}
+                                </p>
+                            {% endfor %}
+                        {% empty %}
+                            <p>No results found.</p>
+                        {% endfor %}
+                    {% endwith %}
+                    {% pager paginator=paginator current_page=request.GET.page %}
+                {% else %}
+                    {# Show some example queries to run, maybe query syntax, something else? #}
+                    Search for something!
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

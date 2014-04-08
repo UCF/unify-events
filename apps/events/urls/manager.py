@@ -2,6 +2,7 @@ from django.conf.urls import include
 from django.conf.urls import patterns
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
+from haystack.views import search_view_factory
 
 from events.models import State
 from events.views.manager import Dashboard
@@ -22,6 +23,7 @@ from events.views.manager.location import LocationCreateView
 from events.views.manager.location import LocationDeleteView
 from events.views.manager.location import LocationListView
 from events.views.manager.location import LocationUpdateView
+from events.views.manager.search import ManagerSearchView
 from events.views.manager.tag import TagCreateView
 from events.views.manager.tag import TagDeleteView
 from events.views.manager.tag import TagListView
@@ -138,3 +140,11 @@ urlpatterns += patterns('events.views.manager',
     url(r'^$', login_required(Dashboard.as_view()), name='dashboard'),
     url(r'^state/(?P<state>[\w]+)?$', login_required(Dashboard.as_view()), name='dashboard-state'),
 )
+
+# Search-related URLs
+urlpatterns += patterns('haystack.views',
+    url(r'^search/$', search_view_factory(
+        view_class=ManagerSearchView,
+    ), name='haystack_search_manager'),
+)
+

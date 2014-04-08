@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^event/', include('events.urls.event_urls')),
     url(r'^category/', include('events.urls.category')),
     url(r'^tag/', include('events.urls.tag')),
-    url(r'^$', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}),
+    url(r'^$', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='home'),
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'for-developers/$', TemplateView.as_view(template_name='events/static/for-developers.html'), name='for-developers'),
     # TODO: production-ready static file delivery
