@@ -428,7 +428,7 @@ def copy(request, pk=None):
                         error = True
             if not error:
                 messages.success(request, 'Event successfully copied.')
-            return HttpResponseRedirect(reverse('dashboard'))
+            return HttpResponseRedirect(reverse('dashboard-state', kwargs={'state': 'subscribed'}))
         else:
             messages.error(request, 'Something went wrong when trying to copy to one of the selected calendars. Please try again.')
             error = True

@@ -31,7 +31,7 @@
 
 {% block content_form_footer %}
     <button class="btn btn-primary" type="submit">Copy Event to Calendar(s)</button>
-    <a href="{% url 'event' pk=event.id calendar=event.calendar.slug %}" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'event' pk=event.id slug=event.calendar.slug %}" class="btn" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}
