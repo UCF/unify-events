@@ -1,18 +1,8 @@
 {% load widgets %}
-<ul class="feeds-list">
-    <li class="ical">
-        <a href="{{ url }}feed.ics">Apple iCal</a>
-    </li>
-    <li class="outlook">
-        <a href="{{ url }}feed.ics">Microsoft Outlook</a>
-    </li>
-    <li class="rss">
-        <a href="{{ url }}feed.rss">RSS</a>
-    </li>
-    <li class="xml">
-        <a href="{{ url }}feed.xml">XML</a>
-    </li>
-    <li class="json">
-        <a href="{{ url }}feed.json">JSON</a>
-    </li>
-</ul>
+<div class="feeds-list btn-group">
+    <a class="rss btn btn-primary" href="{{ url }}feed.rss">RSS</a>
+    <a class="xml btn btn-primary" href="{{ url }}feed.xml">XML</a>
+    <a class="json btn btn-primary" href="{{ url }}feed.json">JSON</a>
+    <a class="ical btn btn-primary" href="{{ url }}feed.ics">Apple iCal</a>
+    <a class="outlook btn btn-primary" href="{{ url }}feed.ics">Microsoft Outlook</a>
+</div>

@@ -955,26 +955,51 @@ nav {
 /**
  * Sidebars
  **/
-.social { overflow: hidden; }
-.social a {
-    background-image: url('../../static/img/social-share.png');
-    background-repeat: no-repeat;
-    text-indent: 200%;
-    white-space: nowrap;
+.social {
     overflow: hidden;
-    display: block;
-    float: left;
-    height: 20px;
-    margin-right: 4px;
-    width: 70px;
-    height: 31px;
+
+    a {
+        background-image: url('../../static/img/social-share.png');
+        background-repeat: no-repeat;
+        text-indent: 200%;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        float: left;
+        height: 20px;
+        margin-right: 4px;
+        width: 70px;
+        height: 31px;
+
+        &.share-twitter { background-position: -71px 0; }
+        &.share-twitter:hover { background-position: -71px -31px; }
+        &.share-facebook { background-position: 0 0; }
+        &.share-facebook:hover { background-position: 0 -31px; }
+        &.share-googleplus { background-position: -142px 0; }
+        &.share-googleplus:hover { background-position: -142px -31px; }
+    }
 }
-.social .share-twitter { background-position: -71px 0; }
-.social .share-twitter:hover { background-position: -71px -31px; }
-.social .share-facebook { background-position: 0 0; }
-.social .share-facebook:hover { background-position: 0 -31px; }
-.social .share-googleplus { background-position: -142px 0; }
-.social .share-googleplus:hover { background-position: -142px -31px; }
+
+.feeds-list {
+    margin-left: 0;
+
+    a {
+        text-indent: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 25px;
+        background-image: url('../../static/img/feeds.png');
+        background-repeat: no-repeat;
+        padding: 6px 18px;
+
+        &.ical { background-position: 12px -23px; }
+        &.outlook { background-position: 12px -57px; }
+        &.rss { background-position: 12px 7px; }
+        &.xml { background-position: 12px -119px; }
+        &.json { background-position: 12px -91px; }
+    }
+}
 
 /**
  * Footer
