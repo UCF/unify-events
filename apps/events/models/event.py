@@ -54,7 +54,7 @@ def get_events_by_range(start, end, calendar=None, user=None):
     else:
         raise AttributeError('Either a calendar or user must be supplied.')
 
-    return EventInstance.objects.filter(_filter, event__calendar__in=calendars)
+    return EventInstance.objects.filter(_filter, event__calendar__in=calendars).order_by('start')
 
 
 class State:

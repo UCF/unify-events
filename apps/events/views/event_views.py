@@ -155,7 +155,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         calendar = self.get_calendar()
-        events = calendar.range_event_instances(start_date, end_date)
+        events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
         events = events.order_by('start')
 
         # Backwards compatibility with JS Widget
@@ -169,7 +169,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
     def get_calendar(self):
         """
-        Overrides the calendar if requesting the widget.
+        Overrides the calendar if requesting the JS widget.
         """
         calendar = self.calendar
 
@@ -190,7 +190,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
     def _get_date_by_parameter(self, param):
         """
         Checks param against self.kwargs or request.GET if
-        requesting the widget.
+        requesting the JS widget.
         """
         if self.is_js_widget():
             if param in ['day', 'month', 'year']:
@@ -214,7 +214,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
     def get_start_date(self):
         """
-        Overrides the start date if requesting the widget in month mode.
+        Overrides the start date if requesting the JS widget in month mode.
         """
         start_date = self.start_date
         if not start_date:
@@ -231,7 +231,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
     def get_end_date(self):
         """
-        Overrides the end date if requesting the widget in month mode
+        Overrides the end date if requesting the JS widget in month mode
         """
         end_date = super(CalendarEventsListView, self).get_end_date()
         if not end_date:
@@ -301,7 +301,7 @@ class DayEventsListView(CalendarEventsListView):
         # (Accomodate for requests to "../?upcoming=upcoming")
         if self.is_upcoming():
             calendar = self.get_calendar()
-            events = calendar.future_event_instances().order_by('start')
+            events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))
             self.paginate_by = 25
             self.list_type = 'upcoming'
             self.queryset = events
@@ -492,7 +492,7 @@ class UpcomingEventsListView(CalendarEventsListView):
         Get all future events.
         """
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start')
+        events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))
 
         self.queryset = events
         return events
@@ -568,7 +568,10 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         tag_pk = kwargs['tag_pk']
-        events = EventInstance.objects.filter(event__tags__pk=tag_pk, end__gte=datetime.now())
+        events = EventInstance.objects.filter(event__tags__pk=tag_pk, 
+                                              end__gte=datetime.now(), 
+                                              event__state=State.get_id('posted')
+                                              )
 
         if 'pk' not in kwargs:
             calendar = None
@@ -606,7 +609,10 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         category_pk = kwargs['category_pk']
-        events = EventInstance.objects.filter(event__category__pk=category_pk, end__gte=datetime.now())
+        events = EventInstance.objects.filter(event__category__pk=category_pk, 
+                                              end__gte=datetime.now(),
+                                              event__state=State.get_id('posted')
+                                              )
 
         if 'pk' not in kwargs:
             calendar = None

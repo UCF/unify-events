@@ -14,6 +14,7 @@ import itertools
 from ordereddict import OrderedDict
 
 from events.models import Calendar
+from events.models import State
 import calendar as calgenerator
 
 register = template.Library()
@@ -61,15 +62,15 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
     start = this_month_cal.keys()[0]
     end = datetime.combine(this_month_cal.keys()[-1], datetime.max.time())
 
-    # Fetch events; group them by date
+    # Fetch posted events; group them by date
     calendar = None
     events = list()
     if (isinstance(calendars, Calendar)):
-        events.extend(calendars.range_event_instances(start, end).order_by('start'))
+        events.extend(calendars.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
         calendar = calendars
     else:
         for cal in calendars:
-            events.extend(cal.range_event_instances(start, end).order_by('start'))
+            events.extend(cal.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
 
     for event in events:
         event_date = event.start.date()
