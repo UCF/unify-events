@@ -11,7 +11,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^search/', include('haystack.urls')),
     url(r'^manager/', include('events.urls.manager')),
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^event/', include('events.urls.event_urls')),
@@ -30,6 +29,15 @@ urlpatterns = patterns('',
 
 handler500 = TemplateView.as_view(template_name='events/static/500.html')
 handler404 = TemplateView.as_view(template_name='events/static/404.html')
+
+if settings.SEARCH_ENABLED:
+    urlpatterns += patterns('',
+        url(r'^search/', include('haystack.urls')),
+    )
+else:
+    urlpatterns += patterns('',
+        url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
+    )
 
 # TODO: if settings.DEBUG:
 urlpatterns += patterns('',

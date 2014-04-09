@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import patterns
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from haystack.views import search_view_factory
 
 from events.models import State
 from events.views.manager import Dashboard
@@ -23,11 +23,14 @@ from events.views.manager.location import LocationCreateView
 from events.views.manager.location import LocationDeleteView
 from events.views.manager.location import LocationListView
 from events.views.manager.location import LocationUpdateView
-from events.views.manager.search import ManagerSearchView
 from events.views.manager.tag import TagCreateView
 from events.views.manager.tag import TagDeleteView
 from events.views.manager.tag import TagListView
 from events.views.manager.tag import TagUpdateView
+
+if settings.SEARCH_ENABLED:
+    from haystack.views import search_view_factory
+    from events.views.manager.search import ManagerSearchView
 
 urlpatterns = patterns('',
                        url(r'^login/$',
@@ -142,9 +145,13 @@ urlpatterns += patterns('events.views.manager',
 )
 
 # Search-related URLs
-urlpatterns += patterns('haystack.views',
-    url(r'^search/$', login_required(search_view_factory(
-        view_class=ManagerSearchView,
-    )), name='haystack_search_manager'),
-)
-
+if settings.SEARCH_ENABLED:
+    urlpatterns += patterns('haystack.views',
+        url(r'^search/$', login_required(search_view_factory(
+            view_class=ManagerSearchView,
+        )), name='haystack_search_manager'),
+    )
+else:
+    urlpatterns += patterns('events.views.manager',
+        url(r'^search/$', login_required(Dashboard.as_view()), name='haystack_search_manager'),
+    )

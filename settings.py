@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'django_bleach'
 )
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -154,18 +155,23 @@ STATIC_ROOT = ''
 STATIC_URL = '/media/'
 
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'unify_events_haystack',
-    },
-}
-# Enables updating of models with an associated SearchIndex
-# when that model is saved or deleted.
-# TODO: replace w/cron job for fewer index rebuilds:
-# http://django-haystack.readthedocs.org/en/v2.1.0/tutorial.html#reindex
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+if SEARCH_ENABLED:
+    HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+            'URL': 'http://127.0.0.1:9200/',
+            'INDEX_NAME': 'unify_events_haystack',
+        },
+    }
+    # Enables updating of models with an associated SearchIndex
+    # when that model is saved or deleted.
+    # TODO: replace w/cron job for fewer index rebuilds:
+    # http://django-haystack.readthedocs.org/en/v2.1.0/tutorial.html#reindex
+    HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+else:
+    HAYSTACK_CONNECTIONS = {
+        'default': {},
+    }
 
 
 # Settings for django-bleach, which sanitizes input from

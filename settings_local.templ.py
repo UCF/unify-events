@@ -82,3 +82,8 @@ CALENDAR_MAIN_DAYS = 7
 # The first day of the week for month calendar generation.
 # 0 is Monday, 6 is Sunday.
 FIRST_DAY_OF_WEEK = 6
+
+# Enables the search bar in the base template and sets up
+# Haystack configuration. Turn off when debugging if
+# Elasticsearch is not set up yet.
+SEARCH_ENABLED = True
