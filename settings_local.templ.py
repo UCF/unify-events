@@ -4,8 +4,8 @@ ADMINS = (
     #('Your Name', 'your_email@domain.com'),
 )
 
-# Minify JS and CSS.  Modifies MEDIA_URL and generates a minified assets folder
-MINIFY = False
+# Determine if in Development mode. Used for things like ESIs.
+DEV_MODE = False
 
 LOGIN_URL = '/manager/login'
 LOGOUT_URL = '/manager/logout'
