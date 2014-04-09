@@ -4,10 +4,6 @@
 
 {% block meta_alt_title %}Events By Tag: '{{ category.title }}' {{ block.super }}{% endblock %}
 
-{% block meta %}
-<link rel="alternate" type="application/rss+xml" title="Events By Tag: {{ tag.name }} RSS Feed" href="{{ request.build_absolute_uri }}feed.rss" />
-{% endblock %}
-
 {% block content_title_icon %}
 <i class="icon-tags" id="page-title-icon"></i>
 {% endblock %}
