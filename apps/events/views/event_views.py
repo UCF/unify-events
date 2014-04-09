@@ -157,7 +157,6 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
-        events = events.order_by('start')
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
