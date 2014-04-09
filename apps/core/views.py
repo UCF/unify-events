@@ -1,6 +1,8 @@
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from core.utils import format_to_mimetype
 
