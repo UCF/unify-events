@@ -12,6 +12,7 @@ from taggit.models import Tag
 
 from events.models import *
 from core.views import MultipleFormatTemplateViewMixin
+from settings_local import FIRST_DAY_OF_WEEK
 
 
 class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
@@ -355,10 +356,13 @@ class WeekEventsListView(CalendarEventsListView):
         """
         start_date = self.start_date
         if not start_date:
-            start_date = super(WeekEventsListView, self).get_start_date()
-            start_date = start_date - timedelta(days=start_date.weekday())
-            self.start_date = start_date
+            relative_date = super(WeekEventsListView, self).get_start_date()
+            if relative_date.weekday() == FIRST_DAY_OF_WEEK:
+                start_date = relative_date
+            else:
+                start_date = relative_date + relativedelta(weekday=FIRST_DAY_OF_WEEK, weeks=-1)
 
+            self.start_date = start_date
         return start_date
 
     def get_end_date(self):
