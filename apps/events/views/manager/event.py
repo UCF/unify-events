@@ -5,6 +5,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.views.generic import DeleteView
@@ -99,8 +100,9 @@ class EventCreate(CreateView):
             get_main_calendar().import_event(self.object)
 
         # Copy event for subscribed calendars
-        for subscribed_calendar in self.object.calendar.subscribed_calendars.all():
-            subscribed_calendar.import_event(self.object)
+        if self.object.state == State.posted:
+            for subscribed_calendar in self.object.calendar.subscribed_calendars.all():
+                subscribed_calendar.import_event(self.object)
 
         messages.success(self.request, 'Event successfully saved')
         return HttpResponseRedirect(self.get_success_url())
@@ -203,9 +205,27 @@ class EventUpdate(UpdateView):
         if any(s in form.changed_data for s in ['description', 'title']):
             is_main_rereview = True
 
-        # Updates the copied versions if the original event is updated
-        for copied_event in self.object.duplicated_to.all():
-            copy = copied_event.pull_updates(is_main_rereview)
+        copied_events = self.object.duplicated_to.all()
+        if self.object.state != State.posted:
+            # If original event has a state other than POSTED then deleted the duplicated events
+            for copied_event in copied_events:
+                copied_event.delete()
+        else:
+            # Updates the copied versions if the original event is updated
+            for copied_event in self.object.duplicated_to.all():
+                copy = copied_event.pull_updates(is_main_rereview)
+
+            # Check to see if the event needs to be Created/Posted for any subscribed calendars
+            for subscribed_calendar in self.object.calendar.subscribed_calendars.all():
+                try:
+                    copied = subscribed_calendar.events.get(created_from=self.object)
+                except Event.DoesNotExist:
+                    # Does not exist so import the event
+                    subscribed_calendar.import_event(self.object)
+                except MultipleObjectsReturned:
+                    # Found multiple objects...should never happen but pass since
+                    # there is atleast one event copied don't do anything.
+                    pass
 
         # Import to main calendar if requested and is NOT already submitted to main calendar
         if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:

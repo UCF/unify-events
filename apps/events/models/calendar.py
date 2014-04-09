@@ -78,7 +78,7 @@ class Calendar(TimeCreatedModified):
         """
         Copy all future events to a new calendar.
         """
-        events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None).distinct()
+        events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None, state=State.posted).distinct()
         for event in events:
             calendar.import_event(event)
 
