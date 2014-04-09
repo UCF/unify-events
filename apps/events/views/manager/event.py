@@ -17,6 +17,7 @@ from core.views import DeleteSuccessMessageMixin
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceFormSet
+from events.functions import update_subscriptions
 from events.models import get_main_calendar
 from events.models import Event
 from events.models import Location
@@ -95,14 +96,15 @@ class EventCreate(CreateView):
         event_instance_formset.instance = self.object
         event_instance_formset.save()
 
-        # Import to main calendar if requested
+        # Import to main calendar if requested and state is posted
         if form.cleaned_data['submit_to_main']:
-            get_main_calendar().import_event(self.object)
+            if self.object.state == State.posted:
+                get_main_calendar().import_event(self.object)
+                messages.success(self.request, 'Event successfully submitted to the Main calendar.')
+            else:
+                messages.error(self.request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
 
-        # Copy event for subscribed calendars
-        if self.object.state == State.posted:
-            for subscribed_calendar in self.object.calendar.subscribed_calendars.all():
-                subscribed_calendar.import_event(self.object)
+        update_subscriptions(self.object)
 
         messages.success(self.request, 'Event successfully saved')
         return HttpResponseRedirect(self.get_success_url())
@@ -205,31 +207,18 @@ class EventUpdate(UpdateView):
         if any(s in form.changed_data for s in ['description', 'title']):
             is_main_rereview = True
 
-        copied_events = self.object.duplicated_to.all()
-        if self.object.state != State.posted:
-            # If original event has a state other than POSTED then deleted the duplicated events
-            for copied_event in copied_events:
-                copied_event.delete()
-        else:
-            # Updates the copied versions if the original event is updated
-            for copied_event in self.object.duplicated_to.all():
-                copy = copied_event.pull_updates(is_main_rereview)
-
-            # Check to see if the event needs to be Created/Posted for any subscribed calendars
-            for subscribed_calendar in self.object.calendar.subscribed_calendars.all():
-                try:
-                    copied = subscribed_calendar.events.get(created_from=self.object)
-                except Event.DoesNotExist:
-                    # Does not exist so import the event
-                    subscribed_calendar.import_event(self.object)
-                except MultipleObjectsReturned:
-                    # Found multiple objects...should never happen but pass since
-                    # there is atleast one event copied don't do anything.
-                    pass
-
-        # Import to main calendar if requested and is NOT already submitted to main calendar
+        # Import to main calendar if posted, is requested and
+        # is NOT already submitted to main calendar
         if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
-            get_main_calendar().import_event(self.object)
+            if self.object.state == State.posted:
+                get_main_calendar().import_event(self.object)
+                messages.success(self.request, 'Event successfully submitted to the Main calendar.')
+            else:
+                messages.error(self.request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
+        elif self.object.is_submit_to_main and self.object.state != State.posted:
+            messages.info(self.request, 'Event was removed from the Main calendar since the event is not posted on your calendar.')
+
+        update_subscriptions(self.object, is_main_rereview)
 
         messages.success(self.request, 'Event successfully saved')
         return HttpResponseRedirect(self.get_success_url())
@@ -275,6 +264,12 @@ def update_state(request, pk=None, state=None):
         log(str(e))
         messages.error(request, 'Saving event failed.')
     else:
+
+        if event.is_submit_to_main and event.state != State.posted:
+            messages.info(request, 'Event was removed from the Main calendar since the event is not posted on your calendar.')
+
+        update_subscriptions(event)
+
         messages.success(request, 'Event successfully updated.')
         return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
@@ -286,15 +281,20 @@ def submit_to_main(request, pk=None):
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         return HttpResponseForbidden('You cannot modify the specified event.')
 
-    if not event.is_submit_to_main:
-        get_main_calendar().import_event(event)
-    try:
-        event.save()
-    except Exception, e:
-        log.error(str(e))
-        messages.error(request, 'Saving event failed.')
+    if event.state == State.posted:
+        if not event.is_submit_to_main:
+            get_main_calendar().import_event(event)
+            try:
+                event.save()
+            except Exception, e:
+                log.error(str(e))
+                messages.error(request, 'Saving event failed.')
+            else:
+                messages.success(request, 'Event successfully updated.')
+        else:
+            messages.warning(request, 'Event has already submitted to the Main calendar.')
     else:
-        messages.success(request, 'Event successfully updated.')
+        messages.error(request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
 
     return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 

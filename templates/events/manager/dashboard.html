@@ -95,9 +95,9 @@
                     <div class="controls">
                         <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
                             <option>Select Action...</option>
-                            <option value="submit-to-main">Suggest to Main Calendar</option>
-                            <option value="posted">Add to Posted</option>
-                            <option value="pending">Move to Pending</option>
+                            {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
+                            {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
+                            {% if state != 'pending' %}<option value="pending">Move to Pending</option>{% endif %}
                             <option value="delete">Delete</option>
                         </select>
                     </div>
@@ -189,7 +189,7 @@
                                                     Edit Event
                                                 </a>
                                             </li>
-                                            {% if not event_instance.event.is_submit_to_main %}
+                                            {% if not event_instance.event.is_submit_to_main and state != 'pending' %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-submit-to-main' pk=event_instance.event.pk %}">
                                                     <i class="icon-star-empty"></i>
@@ -263,9 +263,9 @@
                     <div class="controls">
                         <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
                             <option>Select Action...</option>
-                            <option value="submit-to-main">Suggest to Main Calendar</option>
-                            <option value="posted">Add to Posted</option>
-                            <option value="pending">Move to Pending</option>
+                            {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
+                            {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
+                            {% if state != 'pending' %}<option value="pending">Move to Pending</option>{% endif %}
                             <option value="delete">Delete</option>
                         </select>
                     </div>
