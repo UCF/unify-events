@@ -1,4 +1,5 @@
 from datetime import datetime
+import copy
 
 from dateutil import rrule
 from django.contrib.auth.models import User
@@ -55,6 +56,45 @@ def get_events_by_range(start, end, calendar=None, user=None):
         raise AttributeError('Either a calendar or user must be supplied.')
 
     return EventInstance.objects.filter(_filter, event__calendar__in=calendars).order_by('start')
+
+
+def map_event_range(start, end, events):
+    """
+    Processes a given set of EventInstances so that instances that fall within
+    a range of dates are treated as a new instance per day within the start 
+    and end date specified.
+    Useful for listing all possible events that fall on a given set of days
+    (i.e. week/month views.)
+    """
+    days = list(rrule.rrule(rrule.DAILY, dtstart=start, until=end))
+    mapped_events = []
+
+    for event in events:
+        if event.start.date() is not event.end.date():
+            duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
+            for day in duration:
+                event_by_day = copy.deepcopy(event)
+
+                # Set all-day event instance datetimes in a duration.
+                # All day events should have 00:00 as start time and 23:59 as end time.
+                if event.start.date() != day.date() and event.end.date() != day.date():
+                    event_by_day.start = datetime.combine(day, datetime.min.time())
+                    event_by_day.end = datetime.combine(day, datetime.max.time())
+                # Set the last day's start time in a duration
+                elif event.start.date() != day.date() and event.end.date() == day.date():
+                    event_by_day.start = datetime.combine(day, datetime.min.time())
+                    event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
+
+                if day in days:
+                    mapped_events.append(event_by_day)
+        else:
+            if event.start in days:
+                mapped_events.append(event)
+
+    mapped_events.sort(key=lambda x: (x.start.time(), x.end.time()))
+
+    return mapped_events
+
 
 
 class State:

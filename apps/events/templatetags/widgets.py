@@ -1,7 +1,6 @@
 from datetime import date
 from datetime import datetime
 import urllib
-import copy
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -16,6 +15,7 @@ from ordereddict import OrderedDict
 
 from events.models import Calendar
 from events.models import State
+from events.models.event import map_event_range
 import calendar as calgenerator
 
 register = template.Library()
@@ -73,43 +73,11 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
             events.extend(cal.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
 
     # Assign event to all days the event falls on.
+    events = map_event_range(start, end, events)
     for event in events:
-        if event.start.date() is not event.end.date():
-            duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
-            for day in duration:
-                # Reassign instance day/times when using the larger widget
-                if size != 'small':
-                    event_by_day = copy.deepcopy(event)
-                    all_day_on_day = False
-
-                    # Set all-day event instance datetimes in a duration.
-                    # All day events should have 00:00 as start time and 23:59 as end time.
-                    if event.start.date() != day.date() and event.end.date() != day.date():
-                        all_day_on_day = True
-                        event_by_day.start = datetime.combine(day, datetime.min.time())
-                        event_by_day.end = datetime.combine(day, datetime.max.time())
-                    # Set the last day's start time in a duration
-                    elif event.start.date() != day.date() and event.end.date() == day.date() and not event.parent:
-                        event_by_day.start = datetime.combine(day, datetime.min.time())
-                        event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
-
-                    if day.date() in month_calendar_map[this_month].keys():
-                        if all_day_on_day:
-                            month_calendar_map[this_month][day.date()][:0] = [event_by_day]
-                        else:
-                            month_calendar_map[this_month][day.date()].append(event_by_day)
-                else:
-                    month_calendar_map[this_month][day.date()].append(event)
-        else:
-            if event.start.date() in month_calendar_map[this_month].keys():
-                month_calendar_map[this_month][event.start.date()].append(event)
-
-    # Resort the map's events for each day if they've been modified.
-    if size != 'small':
-        for day in month_calendar_map[this_month].items():
-            if day[1]:
-                day[1].sort(key=lambda x: (x.start.time(), x.end.time()))
-
+        if event.start.date() in month_calendar_map[this_month].keys():
+            month_calendar_map[this_month][event.start.date()].append(event)
+            
 
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
