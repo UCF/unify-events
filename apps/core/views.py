@@ -7,11 +7,11 @@ from django.template import RequestContext
 from core.utils import format_to_mimetype
 
 
-def esi_template(request, path):
+def esi_template(request, path, **kwargs):
     """
     Returns ESI code if not in DEBUG mode.
     """
-    return render_to_response(path, {}, context_instance=RequestContext(request))
+    return render_to_response(path, **kwargs, context_instance=RequestContext(request))
 
 
 class SuccessUrlReverseKwargsMixin(object):
