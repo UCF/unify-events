@@ -2,7 +2,6 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 
 from events.views.event_views import named_listing
-from events.views.event_views import range_listing
 from events.views.event_views import DayEventsListView
 from events.views.event_views import EventsByCategoryList
 from events.views.event_views import EventsByTagList
