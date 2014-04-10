@@ -1,0 +1,1 @@
+{% if user.is_authenticated %}{% for calendar in user.editable_calendars.all %}{{ calendar.pk }},{% endfor %}{% endif %}
