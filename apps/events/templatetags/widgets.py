@@ -58,12 +58,11 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
     # Create map of month and day/event list.
     month_calendar_map = dict({this_month: this_month_cal})
 
-
     # Get a date range by which we will fetch events
     start = this_month_cal.keys()[0]
     end = datetime.combine(this_month_cal.keys()[-1], datetime.max.time())
 
-    # Fetch posted events; group them by date
+    # Fetch posted events within our date range.
     calendar = None
     events = list()
     if (isinstance(calendars, Calendar)):
@@ -73,24 +72,24 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
         for cal in calendars:
             events.extend(cal.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
 
+    # Assign event to all days the event falls on.
     for event in events:
-        # Assign event to all days the event falls on
         if event.start.date() is not event.end.date():
             duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
             for day in duration:
-                # Only reassign instance day/times when using the larger widget
+                # Reassign instance day/times when using the larger widget
                 if size != 'small':
                     event_by_day = copy.deepcopy(event)
                     all_day_on_day = False
 
                     # Set all-day event instance datetimes in a duration.
-                    # All day events should appear first in the day's event list.
+                    # All day events should have 00:00 as start time and 23:59 as end time.
                     if event.start.date() != day.date() and event.end.date() != day.date():
                         all_day_on_day = True
                         event_by_day.start = datetime.combine(day, datetime.min.time())
                         event_by_day.end = datetime.combine(day, datetime.max.time())
-                    # Set the last day's date in a duration
-                    elif event.start.date() != day.date and event.end.date() == day.date() and not event.is_recurring:
+                    # Set the last day's start time in a duration
+                    elif event.start.date() != day.date() and event.end.date() == day.date() and not event.parent:
                         event_by_day.start = datetime.combine(day, datetime.min.time())
                         event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
 
@@ -105,6 +104,13 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
             if event.start.date() in month_calendar_map[this_month].keys():
                 month_calendar_map[this_month][event.start.date()].append(event)
 
+    # Resort the map's events for each day if they've been modified.
+    if size != 'small':
+        for day in month_calendar_map[this_month].items():
+            if day[1]:
+                day[1].sort(key=lambda x: (x.start.time(), x.end.time()))
+
+
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
         'is_manager': is_manager,
@@ -117,7 +123,6 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
         'calendar_map': month_calendar_map,
         'use_pagers': use_pagers,
     }
-
 
     if size == 'small':
         template = loader.get_template('events/widgets/calendar-sidebar.html')

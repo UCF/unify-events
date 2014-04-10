@@ -34,9 +34,9 @@
                             <time>
                                 {% if event_instance.start.time and event_instance.end.time %}
                                     {{ event_instance.start|date:"f a" }}
-                                {% elif not event_instance.start.time and event_instance.end|date:"H:i" == "23:59" %}
+                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
                                     All Day
-                                {% elif not event_instance.start.time and event_instance.end|date:"H:i" != "23:59" %}
+                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
                                     until {{ event_instance.end|date:"f a" }}
                                 {% else %}
                                     All Day
