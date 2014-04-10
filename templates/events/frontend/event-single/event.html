@@ -18,7 +18,7 @@ vevent
     <h1>
         <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
     </h1>
-    {% include_esi_template 'esi/event-single-options.html' %}
+    {% include_esi_template template='esi/event-single-options.html' view_name='esi-event' pk=event_instance.event.pk %}
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}

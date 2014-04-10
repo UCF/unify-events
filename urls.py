@@ -24,7 +24,11 @@ urlpatterns = patterns('',
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', TemplateView.as_view(template_name='events/widgets/calendar-by-url.html'), name='calendar-widget'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<pk>\d+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', TemplateView.as_view(template_name='events/widgets/calendar-by-url.html'), name='calendar-widget-by-calendar'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', TemplateView.as_view(template_name='events/widgets/calendar-by-url.html'), name='calendar-widget-by-calendar'),
+
+    # Currently not using https://github.com/mrfunyon/django-esi because of such a small subset of alternate urls
     url(r'^esi/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
+    url(r'^esi/event/(?P<pk>\d+)/template/(?P<path>.*)', view='core.views.esi_event', name='esi-event'),
+    url(r'^esi/calendar/(?P<pk>\d+)/template/(?P<path>.*)', view='core.views.esi_calendar', name='esi-calendar'),
 )
 
 handler500 = TemplateView.as_view(template_name='events/static/500.html')
