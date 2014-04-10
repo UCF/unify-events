@@ -9,9 +9,17 @@ from core.utils import format_to_mimetype
 
 def esi_template(request, path, **kwargs):
     """
-    Returns ESI code if not in DEBUG mode.
+    Returns ESI code if not in DEV mode.
     """
-    return render_to_response(path, **kwargs, context_instance=RequestContext(request))
+    return render_to_response(path, kwargs, RequestContext(request))
+
+
+def esi_event(request, path, pk):
+    """
+    Returns ESI with the event instance.
+    """
+    event = get_object_or_404(Event, pk=pk)
+    return esi_template(request, path, event=event)
 
 
 class SuccessUrlReverseKwargsMixin(object):

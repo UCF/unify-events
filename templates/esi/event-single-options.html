@@ -1,12 +1,12 @@
 {% if user.is_authenticated %}
 <ul class="edit-options">
-	{% if event_instance.event.calendar in user.editable_calendars.all %}
+	{% if event.calendar in user.editable_calendars.all %}
 	<li>
-		<a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="icon-pencil"></i>Edit</a>
+		<a href="{% url 'event-update' pk=event.pk %}"><i class="icon-pencil"></i>Edit</a>
 	</li>
 	{% elif user.editable_calendars.count > 0 %}
 	<li>
-		<a class="object-modify" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
+		<a class="object-modify" href="{% url 'event-copy' pk=event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
 	</li>
 	{% endif %}
 </ul>

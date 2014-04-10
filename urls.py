@@ -27,7 +27,7 @@ urlpatterns = patterns('',
 
     # Currently not using https://github.com/mrfunyon/django-esi because of such a small subset of alternate urls
     url(r'^esi/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
-    url(r'^esi/event/(?P<pk>\d+)/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
+    url(r'^esi/event/(?P<pk>\d+)/template/(?P<path>.*)', view='core.views.esi_event', name='esi-event'),
 )
 
 handler500 = TemplateView.as_view(template_name='events/static/500.html')
