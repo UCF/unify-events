@@ -158,7 +158,8 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
-        events = map_event_range(start_date, end_date, events)
+        if self.get_format() == 'html':
+            events = map_event_range(start_date, end_date, events)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
@@ -504,9 +505,11 @@ class UpcomingEventsListView(CalendarEventsListView):
         """
         calendar = self.get_calendar()
         events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))[:25]
-        start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-        end_date = datetime.combine(events[24].start.date(), datetime.max.time())
-        events = map_event_range(start_date, end_date, events)[:25]
+
+        if self.get_format() == 'html':
+            start_date = datetime.combine(events[0].start.date(), datetime.min.time())
+            end_date = datetime.combine(events[24].start.date(), datetime.max.time())
+            events = map_event_range(start_date, end_date, events)[:25]
 
         self.queryset = events
         return events
