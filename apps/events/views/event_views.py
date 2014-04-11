@@ -2,6 +2,7 @@ MODULE = __import__(__name__)
 
 from datetime import date, timedelta
 
+from dateutil import rrule
 from dateutil.relativedelta import relativedelta
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -157,6 +158,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+        events = map_event_range(start_date, end_date, events)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
@@ -327,6 +329,7 @@ class DayEventsListView(CalendarEventsListView):
         """
         context = super(DayEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
+        start_date_str = start_date.strftime('%B %d, %Y')
 
         # Backwards compatibility with old events system
         # (Accomodate for requests to "../?upcoming=upcoming")
@@ -337,6 +340,8 @@ class DayEventsListView(CalendarEventsListView):
                 context['list_title'] = 'Today\'s Events'
             elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
                 context['list_title'] = 'Tomorrow\'s Events'
+            else:
+                context['list_title'] = context['list_title'] + ': ' + start_date_str
 
         return context
 
@@ -379,12 +384,15 @@ class WeekEventsListView(CalendarEventsListView):
         Dynamically set the list title for the week
         """
         context = super(WeekEventsListView, self).get_context_data(**kwargs)
+
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         if start_date <= datetime.now() and end_date >= datetime.now():
             context['list_title'] = 'Events This Week.'
         else:
             context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
+        if 'date_range' not in context:
+            context['date_range'] = list(rrule.rrule(rrule.DAILY, dtstart=start_date, until=end_date))
 
         return context
 
@@ -486,16 +494,19 @@ class UpcomingEventsListView(CalendarEventsListView):
     Events listing for a calendar's upcoming events with
     no specified range (return up to the 'paginate_by' value.)
     """
-    paginate_by = 25
+    paginate_by = None
     list_type = 'upcoming'
     list_title = 'Upcoming Events'
 
     def get_queryset(self):
         """
-        Get all future events.
+        Get the first 25 future events.
         """
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))
+        events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))[:25]
+        start_date = datetime.combine(events[0].start.date(), datetime.min.time())
+        end_date = datetime.combine(events[24].start.date(), datetime.max.time())
+        events = map_event_range(start_date, end_date, events)[:25]
 
         self.queryset = events
         return events

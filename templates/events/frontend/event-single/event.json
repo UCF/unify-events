@@ -8,5 +8,5 @@
 	"location_url": "{{ event_instance.location.url|escapejs }}",
 	"starts": "{{ event_instance.start|date:'r' }}",
 	"ends": "{{ event_instance.end|date:'r' }}",
-	"ongoing": "{{ event_instance.event.has_instances }}"
+	"ongoing": {% if event_instance.event.has_instances or event_instance.start.date != event_instance.end.date or event_instance.start|date:"H:i" == "00:00" or event_instance.end|date:"H:i" == "23:59" %}"True"{% else %}"False"{% endif %}
 }

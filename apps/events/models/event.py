@@ -65,6 +65,8 @@ def map_event_range(start, end, events):
     and end date specified.
     Useful for listing all possible events that fall on a given set of days
     (i.e. week/month views.)
+
+    NOTE: This function returns a list, NOT a queryset!
     """
     days = list(rrule.rrule(rrule.DAILY, dtstart=start, until=end))
     mapped_events = []
@@ -75,6 +77,9 @@ def map_event_range(start, end, events):
             for day in duration:
                 event_by_day = copy.deepcopy(event)
 
+                # Set the first day's end date/time to the start date/time, but at 23:59.
+                if event.start.date() == day.date() and event.end.date() != day.date():
+                    event_by_day.end = datetime.combine(day, datetime.max.time())
                 # Set all-day event instance datetimes in a duration.
                 # All day events should have 00:00 as start time and 23:59 as end time.
                 if event.start.date() != day.date() and event.end.date() != day.date():
@@ -91,7 +96,7 @@ def map_event_range(start, end, events):
             if event.start in days:
                 mapped_events.append(event)
 
-    mapped_events.sort(key=lambda x: (x.start.time(), x.end.time()))
+    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), x.end.time()))
 
     return mapped_events
 

@@ -1,7 +1,56 @@
-{% extends 'events/frontend/calendar/calendar-type/calendar-default.html' %}
 {% load humanize %}
 {% load widgets %}
+<div class="row">
+    <div class="span8 sidebarfix page-content" id="calendar-events-day">
+        <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
+        {% if event_instances %}
+	        <ul class="event-list">
+            {% for event_instance in event_instances %}
+                <li class="event {{ event_instance.event.category.slug }}">
+                    <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
+                        <!-- if img -->
+                        <!--<img src="" alt="image" title="image" />-->
+                        <!-- endif -->
+                        <h4>
+                            <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
+                            {% if event_instance.is_recurring %}
+                            <i class="icon-repeat"></i>
+                            <span class="recurring">(Recurring Event)</span>
+                            {% endif %}
+                        </h4>
+                        <span class="location">{{ event_instance.location }}</span>
+                        <span class="description">
+                            {{ event_instance.event.description|striptags|truncatewords:160 }}
+                        </span>
+                        <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
+                            {% if event_instance.start.time and event_instance.end.time %}
+                                {{ event_instance.start|date:"f a" }}
+                            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
+                                All Day
+                            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
+                                until {{ event_instance.end|date:"f a" }}
+                            {% else %}
+                                All Day
+                            {% endif %}
+                            <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
+                        </time>
+                    </a>
+                    <span class="category {{ event_instance.event.category.slug }}">{{ event_instance.event.category.title }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+	    {% else %}
+	    	<p>No events found.</p>
+	    {% endif %}
+        {% pager paginator=paginator current_page=request.GET.page %}
+    </div>
+    <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+        {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}
 
-{% block page_content_id %}calendar-events-day{% endblock %}
+        <h2>Feeds</h2>
+        {% feed_btns url=request.build_absolute_uri %}
 
-{% block list_title %}{{ list_title }}{% endblock %}
+        <h2>Toggle Categories</h2>
+        category toggles here...
+    </aside>
+</div>
