@@ -2,7 +2,6 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 
 from events.views.event_views import named_listing
-from events.views.event_views import range_listing
 from events.views.event_views import DayEventsListView
 from events.views.event_views import EventsByCategoryList
 from events.views.event_views import EventsByTagList
@@ -21,13 +20,6 @@ urlpatterns = patterns('events.views.event_views',
     url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(feed\.(?P<format>[\w]+))?$', MonthEventsListView.as_view(), name='month-listing'),
     url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(feed\.(?P<format>[\w]+))?$', DayEventsListView.as_view(), name='day-listing'),
     url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(feed\.(?P<format>[\w]+))?$', WeekEventsListView.as_view(), name='week-listing'),
-
-    # TODO replace with list view?
-    # http://events.ucf.edu/calendar/athletics/from/2010-01-02/to/2010-02-02
-    url(r'^(?P<pk>\d+)/(?P<slug>[\w-]+)/from/(?P<start>[\w-]+)/to/(?P<end>[\w-]+)/(feed\.(?P<format>[\w]+))?$',
-        view=range_listing,
-        name='range-listing'
-    ),
 
     # http://events.ucf.edu/calendar/athletics/this-year
     # http://events.ucf.edu/calendar/athletics/today

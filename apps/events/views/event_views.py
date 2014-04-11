@@ -541,24 +541,6 @@ def named_listing(request, pk, slug, type, format=None):
     raise Http404
 
 
-# TODO replace with Class Based Views
-def range_listing(request, calendar, start, end, format=None):
-    """
-    Generates an event listing for the date ranges provided through start
-    and end.
-    """
-    from datetime import datetime
-    date = lambda d: datetime(*[int(i) for i in d.split('-')])
-    start = date(start)
-    end = date(end) + timedelta(days=1) - timedelta(seconds=1)
-    return listing(request, calendar, start, end, format, {
-        'list_title': 'Events on %s %s through %s %s' % (
-            start.strftime("%B"), start.day,
-            end.strftime("%B"), end.day,
-        ),
-    })
-
-
 class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
@@ -582,8 +564,8 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         tag_pk = kwargs['tag_pk']
-        events = EventInstance.objects.filter(event__tags__pk=tag_pk, 
-                                              end__gte=datetime.now(), 
+        events = EventInstance.objects.filter(event__tags__pk=tag_pk,
+                                              end__gte=datetime.now(),
                                               event__state=State.get_id('posted')
                                               )
 
@@ -623,7 +605,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         kwargs = self.kwargs
         category_pk = kwargs['category_pk']
-        events = EventInstance.objects.filter(event__category__pk=category_pk, 
+        events = EventInstance.objects.filter(event__category__pk=category_pk,
                                               end__gte=datetime.now(),
                                               event__state=State.get_id('posted')
                                               )

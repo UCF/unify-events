@@ -120,6 +120,11 @@ class State:
         id_lookup = dict((v,k) for k,v in cls.choices)
         return id_lookup.get(value)
 
+    @classmethod
+    def get_string(cls, id):
+        id_lookup = dict((k,v) for k,v in cls.choices)
+        return id_lookup.get(id)
+
 
 class Event(TimeCreatedModified):
     """
@@ -197,7 +202,7 @@ class Event(TimeCreatedModified):
         Returns the State of an Event's copied Event on the Main Calendar.
         """
         main_status = None
-        if self.calendar.id != events.models.get_main_calendar().id:
+        if self.calendar.pk != events.models.get_main_calendar().pk:
             main_event = self.get_main_event()
             if main_event:
                 main_status = main_event.state

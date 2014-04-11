@@ -1,36 +1,17 @@
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from core.utils import format_to_mimetype
-from events.models import Calendar
-from events.models import Event
 
 
-def esi_template(request, path, **kwargs):
+def esi_template(request, path):
     """
     Returns ESI code if not in DEV mode.
     """
-    return render_to_response(path, kwargs, RequestContext(request))
-
-
-def esi_event(request, path, pk):
-    """
-    Returns ESI with the event.
-    """
-    event = get_object_or_404(Event, pk=pk)
-    return esi_template(request, path, event=event)
-
-
-def esi_calendar(request, path, pk):
-    """
-    Returns ESI with the calendar.
-    """
-    event = get_object_or_404(Calendar, pk=pk)
-    return esi_template(request, path, calendar=calendar)
+    return render_to_response(path, {}, RequestContext(request))
 
 
 class SuccessUrlReverseKwargsMixin(object):
