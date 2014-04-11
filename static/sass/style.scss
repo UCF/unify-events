@@ -1364,7 +1364,7 @@ ul {
 }
 
 /**
- * Frontend Events by Category, Tag, Term 
+ * Frontend Events by Category, Tag, Term
  **/
 #term-events ul.event-list li .event-content .dtstart {
     background-color: transparent;
@@ -1715,6 +1715,11 @@ label[for*="-location-autocomplete"] {
             background-color: #EE5F5B;
         }
     }
+}
+
+/* Contact information */
+#add-user-contact-info {
+    margin-bottom: 10px;
 }
 
 /**
