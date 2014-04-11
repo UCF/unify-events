@@ -10,6 +10,44 @@ var bulkSelectAll = function() {
 };
 
 /**
+ * Bulk action submit.
+ **/
+var bulkActionSubmit = function() {
+    var bulkActionSelects = $('#bulk-action_0, #bulk-action_1');
+    bulkActionSelects.removeAttr('onchange');
+    $('#bulk-action_0, #bulk-action_1').change(function() {
+        var bulkForm = this.form
+            actionInput = $(this),
+            actionInputValue = actionInput.find('option:selected'),
+            eventsSelected = $('input:checkbox:checked[name="event_ids"]'),
+            recurringEvents = false;
+
+        if (actionInputValue.val() == 'delete') {
+            eventsSelected.each(function(index, element) {
+                var checkbox = $(this);
+
+                if (parseInt(checkbox.attr('data-event-instance-count')) > 1) {
+                    recurringEvents = true;
+                    return false;
+                }
+            });
+
+            if (recurringEvents) {
+                bulkEventDeleteModal = $('#bulk-event-delete-modal');
+                bulkEventDeleteModal.find('#bulk-event-delete-btn').click(function() {
+                    bulkForm.submit();
+                })
+                bulkEventDeleteModal.modal();
+            } else {
+                bulkForm.submit();
+            }
+        } else {
+            bulkForm.submit();
+        }
+    })
+}
+
+/**
  * Activate active nav tab when anchor is specified in url
  **/
 var autoOpenTagByAnchor = function() {
@@ -1156,6 +1194,7 @@ var updateMonthviewDropdown = function() {
 
 $(document).ready(function() {
     bulkSelectAll();
+    bulkActionSubmit();
     autoOpenTagByAnchor();
     toggleModalModifyObject();
     toggleModalMergeObject();
