@@ -1232,7 +1232,8 @@ ul {
                 margin-bottom: 0;
             }
 
-            .location {
+            .location,
+            .calendar {
                 color: #666;
                 font-size: 13px;
                 margin-bottom: 5px;
@@ -1361,6 +1362,27 @@ ul {
 #calendar-events-year h2 {
     text-align: center;
 }
+
+/**
+ * Frontend Events by Category, Tag, Term 
+ **/
+#term-events ul.event-list li .event-content .dtstart {
+    background-color: transparent;
+    width: 100%;
+    position: static;
+    text-align: left;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 15px 0 0 0;
+}
+#term-events ul.event-list li .event-content .location,
+#term-events ul.event-list li .event-content .calendar {
+    margin-right: 0;
+}
+#term-events ul.event-list li .event-content .calendar {
+    padding-top: 10px;
+}
+
 
 /**
  * Frontend Single Event

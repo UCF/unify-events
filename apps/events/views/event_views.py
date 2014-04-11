@@ -392,8 +392,6 @@ class WeekEventsListView(CalendarEventsListView):
             context['list_title'] = 'Events This Week.'
         else:
             context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
-        if 'date_range' not in context:
-            context['date_range'] = list(rrule.rrule(rrule.DAILY, dtstart=start_date, until=end_date))
 
         return context
 
