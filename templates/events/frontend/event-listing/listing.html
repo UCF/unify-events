@@ -2,28 +2,42 @@
 
 {% if event_instances %}
     {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
+
+    {% if not start_date %}
+    <ul class="event-list">
+    {% endif %}
+
     {% for day in dates %}
+        {% if start_date %}
         <h3>{{ day.grouper }}</h3>
         <ul class="event-list">
+        {% endif %}
+
         {% for event_instance in day.list %}
             <li class="event {{ event_instance.event.category.slug }}">
                 <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
                     <!-- if img -->
                     <!--<img src="" alt="image" title="image" />-->
                     <!-- endif -->
-                    <h4>
+                    {% if start_date %}<h4>{% else %}<h3>{% endif %}
                         <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
                         {% if event_instance.is_recurring %}
                         <i class="icon-repeat"></i>
                         <span class="recurring">(Recurring Event)</span>
                         {% endif %}
-                    </h4>
+                        {% if start_date %}</h4>{% else %}</h3>{% endif %}
                     <span class="location">{{ event_instance.location }}</span>
                     <span class="description">
                         {{ event_instance.event.description|striptags|truncatewords:160 }}
                     </span>
                     <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
+                        {% if not start_time %}
+                            on {{ event_instance.start.date }}
+                        {% endif %}
                         {% if event_instance.start.time and event_instance.end.time %}
+                            {% if not start_time %}
+                            at 
+                            {% endif %}
                             {{ event_instance.start|date:"f a" }}
                         {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
                             All Day
@@ -34,12 +48,30 @@
                         {% endif %}
                         <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
                     </time>
+                    {% if not start_date %}
+                    <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
+                        until {{ event_instance.end }}
+                    </time>
+                    {% endif %}
+                    {% if not calendar %}
+                    <span class="calendar">
+                        <i class="icon-calendar"></i> On calendar "{{ event_instance.event.calendar.title }}"
+                    </span>
+                    {% endif %}
                 </a>
                 <span class="category {{ event_instance.event.category.slug }}">{{ event_instance.event.category.title }}</span>
             </li>
         {% endfor %}
+
+        {% if start_date %}
         </ul>
+        {% endif %}
     {% endfor %}
+
+    {% if not start_date %}
+    </ul>
+    {% endif %}
+
 {% else %}
 <p>No events found.</p>
 {% endif %}

@@ -13,7 +13,7 @@
         {% if calendar %}
         <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% else %}
-        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">Event Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">Events By Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% endif %}
     </h1>
 {% endblock %}
@@ -22,7 +22,7 @@
 
 {% block content_body %}
     <div class="row">
-        <div class="span8 sidebarfix page-content" id="calendar-events-week">
+        <div class="span8 sidebarfix page-content" id="term-events">
             {% include 'events/frontend/event-listing/listing.html' %}
 
             {% pager paginator=paginator current_page=request.GET.page %}
