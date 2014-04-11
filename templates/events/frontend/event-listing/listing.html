@@ -31,11 +31,11 @@
                         {{ event_instance.event.description|striptags|truncatewords:160 }}
                     </span>
                     <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
-                        {% if not start_time %}
+                        {% if not start_date %}
                             on {{ event_instance.start.date }}
                         {% endif %}
                         {% if event_instance.start.time and event_instance.end.time %}
-                            {% if not start_time %}
+                            {% if not start_date %}
                             at 
                             {% endif %}
                             {{ event_instance.start|date:"f a" }}
