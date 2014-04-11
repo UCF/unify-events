@@ -37,7 +37,6 @@ def update_subscriptions(event, is_main_rereview=False):
     """
     copied_events = event.duplicated_to.all()
     if event.state != State.posted:
-        # raise Exception
         # If original event has a state other than POSTED then deleted the duplicated events
         for copied_event in copied_events:
             copied_event.delete()

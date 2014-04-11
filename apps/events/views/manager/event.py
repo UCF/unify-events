@@ -250,52 +250,70 @@ class EventDelete(DeleteSuccessMessageMixin, DeleteView):
         return super(EventDelete, self).delete(request, *args, **kwargs)
 
 
-@login_required
-def update_state(request, pk=None, state=None):
+def update_event_state(request, pk=None, state=None):
+    """
+    Update the state of the event.
+    """
     event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        return HttpResponseForbidden('You cannot modify the state for the specified event.')
-
-    event.state = state
-    try:
-        event.save()
-    except Exception, e:
-        log(str(e))
-        messages.error(request, 'Saving event failed.')
+        messages.error(request, 'You cannot modify the state for Event %s.' % event.title)
     else:
+        event.state = state
+        try:
+            event.save()
+        except Exception, e:
+            log(str(e))
+            messages.error(request, 'Unable to set Event %(1)s to %(2)s.' % {"1": event.title, "2": State.get_string(state)})
+        else:
+            if event.is_submit_to_main and event.state != State.posted:
+                messages.info(request, 'Event %s was removed from the Main calendar since the event is not posted on your calendar.' % event.title)
 
-        if event.is_submit_to_main and event.state != State.posted:
-            messages.info(request, 'Event was removed from the Main calendar since the event is not posted on your calendar.')
+            update_subscriptions(event)
 
-        update_subscriptions(event)
+            messages.success(request, 'Successfully updated Event %(1)s to %(2)s.' % {"1": event.title, "2": State.get_string(state)})
 
-        messages.success(request, 'Event successfully updated.')
-        return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
+    return event
+
+
+def submit_event_to_main(request, pk=None):
+    """
+    Submite the event to the main calendar.
+    """
+    event = get_object_or_404(Event, pk=pk)
+
+    if not request.user.is_superuser and event.calendar not in request.user.calendars:
+        messages.error(request, 'You cannot submit Event %s to the main calendar.' % event.title)
+    else:
+        if event.state == State.posted:
+            if not event.is_submit_to_main:
+                try:
+                    get_main_calendar().import_event(event)
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
+                else:
+                    messages.success(request, 'Event %s was successfully submitted to the main calendar.' % event.title)
+            else:
+                messages.warning(request, 'Event %s has already submitted to the Main calendar.' % event.title)
+        else:
+            messages.error(request, 'Event %s can not be submitted to the Main calendar unless it is Posted on your calendar.' % event.title)
+
+    return event
+
+
+@login_required
+def update_state(request, pk=None, state=None):
+    """
+    View to update the state of the event.
+    """
+    event = update_event_state(request, pk, state)
+    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
 @login_required
 def submit_to_main(request, pk=None):
-    event = get_object_or_404(Event, pk=pk)
-
-    if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        return HttpResponseForbidden('You cannot modify the specified event.')
-
-    if event.state == State.posted:
-        if not event.is_submit_to_main:
-            get_main_calendar().import_event(event)
-            try:
-                event.save()
-            except Exception, e:
-                log.error(str(e))
-                messages.error(request, 'Saving event failed.')
-            else:
-                messages.success(request, 'Event successfully updated.')
-        else:
-            messages.warning(request, 'Event has already submitted to the Main calendar.')
-    else:
-        messages.error(request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
-
+    event = submit_event_to_main(request, pk)
     return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
@@ -334,34 +352,16 @@ def bulk_action(request):
                 messages.error(request, 'You do not have permissions to modify Event %s' % event.title)
                 continue
 
-            if action == 'submit-to-main' and not event.is_submit_to_main:
-                # Submit all Events to Main Calendar
-                try:
-                    get_main_calendar().import_event(event)
-                except Exception, e:
-                    log.error(str(e))
-                    messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
+            if action == 'submit-to-main':
+                submit_event_to_main(request, event_id)
 
             elif action == 'posted':
-                # Set all Events to Posted
-                try:
-                    event.state = State.posted
-                    event.save()
-                except Exception, e:
-                    log.error(str(e))
-                    messages.error(request, 'Unable to set Event %s to Posted.' % event.title)
+                update_event_state(request, event_id, State.posted)
 
             elif action == 'pending':
-                # Set all Events to Pending
-                try:
-                    event.state = State.pending
-                    event.save()
-                except Exception, e:
-                    log.error(str(e))
-                    messages.error(request, 'Unable to move Event %s to Pending.' % event.title)
+                update_event_state(request, event_id, State.pending)
 
             elif action == 'delete':
-                # Delete all Events
                 try:
                     event.delete()
                 except Exception, e:
