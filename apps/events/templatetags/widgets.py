@@ -15,7 +15,7 @@ from ordereddict import OrderedDict
 
 from events.models import Calendar
 from events.models import State
-from events.models.event import blah
+from events.models.event import map_event_range
 import calendar as calgenerator
 
 register = template.Library()
