@@ -1193,6 +1193,20 @@ var updateMonthviewDropdown = function() {
     });
 };
 
+/**
+ * Sets the event contact information to the current user.
+ **/
+ var eventContactInfo = function() {
+    $('#add-user-contact-info').click(function(event) {
+        var button = $(this);
+        event.preventDefault();
+        if (usersFullName && usersEmail) {
+            $('#id_event-contact_name').val(usersFullName);
+            $('#id_event-contact_email').val(usersEmail);
+        }
+    });
+ }
+
 
 
 $(document).ready(function() {
@@ -1218,4 +1232,5 @@ $(document).ready(function() {
     eventLocationsSearch($('select.location-dropdown'));
     eventTagging();
     updateMonthviewDropdown();
+    eventContactInfo();
 });

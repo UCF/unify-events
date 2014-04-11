@@ -1245,7 +1245,7 @@ ul.event-list-condensed {
   text-align: center; }
 
 /**
- * Frontend Events by Category, Tag, Term 
+ * Frontend Events by Category, Tag, Term
  **/
 /* line 1369, ../sass/style.scss */
 #term-events ul.event-list li .event-content .dtstart {
@@ -1575,11 +1575,16 @@ label[for*="-location-autocomplete"] {
       text-decoration: none;
       background-color: #EE5F5B; }
 
+/* Contact information */
+/* line 1721, ../sass/style.scss */
+#add-user-contact-info {
+  margin-bottom: 10px; }
+
 /**
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1725, ../sass/style.scss */
+/* line 1730, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;

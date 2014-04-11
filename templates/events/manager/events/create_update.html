@@ -298,6 +298,7 @@
                 <legend class="control-label" tabindex="-1">Contact Information</legend>
                 <p class="label-desc" tabindex="-1">Let users know how to get in touch with questions about your event.</p>
                 <div class="controls">
+                    <a id="add-user-contact-info" href="#" class="btn btn-primary">Use Your Contact Info</a>
                     <label class="label-inner {% if form.contact_name.errors %}error{% endif %}" for="{{ form.contact_name.auto_id }}">Contact Name</label>
                     {{ form.contact_name }}
                     {{ form.contact_name.errors }}
@@ -326,4 +327,12 @@
                 </div>
             </div>
         </form>
+{% endblock %}
+
+{% block footer_scripts %}
+<script type="text/javascript">
+    var usersFullName = '{{ user.get_full_name}}';
+    var usersEmail = '{{ user.email }}';
+</script>
+{{ block.super}}
 {% endblock %}
