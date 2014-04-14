@@ -230,8 +230,11 @@ var initiateDatePickers = function(field) {
 
     field
         .datepicker({
-            format: 'mm/dd/yyyy'
-        });
+            format: 'mm/dd/yyyy',
+        })
+        .on('changeDate', function(ev) {
+            $(this).datepicker('hide');
+        })
 };
 var initiateTimePickers = function(field) {
     field
