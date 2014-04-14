@@ -127,6 +127,20 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/delete.html'
 
+    def delete(self, request, *args, **kwargs):
+        """
+        Prevent deletion of the Main Calendar.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        main_calendar = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK)
+        
+        if self.object == main_calendar:
+            messages.error(self.request, 'This calendar cannot be deleted.')
+            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+        else:
+            return super(CalendarDelete, self).delete(self, request, *args, **kwargs)
+
 
 class CalendarUpdate(UniqueMainCalendarTitleMixin, SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
     form_class = CalendarForm
