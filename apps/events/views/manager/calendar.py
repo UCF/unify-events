@@ -21,6 +21,7 @@ from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
 
+from settings_local import FRONT_PAGE_CALENDAR_PK
 from events.models import Calendar
 from events.forms.manager import CalendarForm
 
@@ -84,7 +85,14 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         """
         self.object = form.save()
         self.object.owner = self.request.user
-        return super(CalendarCreate, self).form_valid(form)
+        title = form.cleaned_data['title']
+        main_title = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK).title
+
+        if title.lower() == main_title.lower():
+            messages.error(self.request, 'A calendar with this title cannot be created. Please use a different calendar title and try again.')
+            return super(CalendarCreate, self).form_invalid(form)
+        else:
+            return super(CalendarCreate, self).form_valid(form)
 
     def render_to_response(self, context, **response_kwargs):
         """
