@@ -375,7 +375,7 @@ class WeekEventsListView(CalendarEventsListView):
         Returns the end date that is one day past today.
         """
         start_date = self.get_start_date()
-        end_date = datetime.combine(start_date + timedelta(weeks=1), datetime.max.time())
+        end_date = datetime.combine(start_date + timedelta(days=6), datetime.max.time())
         self.end_date = end_date
 
         return end_date
