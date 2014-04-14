@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import DeleteView
 from django.views.generic import CreateView
@@ -295,7 +296,7 @@ def submit_event_to_main(request, pk=None):
                 else:
                     messages.success(request, 'Event %s was successfully submitted to the main calendar.' % event.title)
             else:
-                messages.warning(request, 'Event %s has already submitted to the Main calendar.' % event.title)
+                messages.warning(request, 'Event %s has already been submitted to the Main calendar.' % event.title)
         else:
             messages.error(request, 'Event %s can not be submitted to the Main calendar unless it is Posted on your calendar.' % event.title)
 
@@ -435,19 +436,38 @@ def copy(request, pk=None):
     if request.method == 'POST':
         form = EventCopyForm(request.POST, calendars=user_calendars)
         if form.is_valid():
-            error = False
             for calendar in form.cleaned_data['calendars']:
+                error = False
                 if not request.user.is_superuser and calendar not in request.user.editable_calendars:
-                    messages.error(request, 'You cannot copy the specified event to the calendar %s' % calendar.title)
+                    messages.error(request, 'You cannot copy the specified event to the calendar %s.' % calendar.title)
                     error = True
                 else:
                     try:
-                        event.copy(calendar=calendar)
-                    except Exception:
-                        messages.error(request, 'Unable to copy event to %s' % calendar.title)
-                        error = True
-            if not error:
-                messages.success(request, 'Event successfully copied.')
+                        # Check against both the current event's pk and its original, if it exists.
+                        # Prevents copies more than one level deep.
+                        if event.created_from:
+                            created_from = event.created_from.pk
+                        else:
+                            created_from = event.pk
+                        original_event_pks = list(set([event.pk, created_from]))
+
+                        pk = Q(pk__in=original_event_pks)
+                        created_from = Q(created_from__in=original_event_pks)
+                        _filter = pk | created_from
+
+                        existing_event = Event.objects.get(_filter, calendar=calendar.pk)
+
+                        if existing_event:
+                            messages.error(request, 'This event already exists on the calendar %s and was skipped.' % calendar.title)
+                            error = True
+                    except Event.DoesNotExist:
+                        try:
+                            event.copy(calendar=calendar)
+                        except Exception:
+                            messages.error(request, 'Unable to copy event to %s' % calendar.title)
+                            error = True
+                if not error:
+                    messages.success(request, 'Event successfully copied to calendar %s.' % calendar.title)
             return HttpResponseRedirect(reverse('dashboard-state', kwargs={'state': 'subscribed'}))
         else:
             messages.error(request, 'Something went wrong when trying to copy to one of the selected calendars. Please try again.')

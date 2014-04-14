@@ -134,7 +134,7 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin
         self.object = self.get_object()
         success_url = self.get_success_url()
         main_calendar = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK)
-        
+
         if self.object == main_calendar:
             messages.error(self.request, 'This calendar cannot be deleted.')
             return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
