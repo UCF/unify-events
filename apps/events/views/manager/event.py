@@ -438,7 +438,7 @@ def copy(request, pk=None):
         if form.is_valid():
             for calendar in form.cleaned_data['calendars']:
                 error = False
-                if not request.user.is_superuser and calendar not in request.user.editable_calendars:
+                if not request.user.is_superuser and calendar not in request.user.calendars:
                     messages.error(request, 'You cannot copy the specified event to the calendar %s.' % calendar.title)
                     error = True
                 else:
