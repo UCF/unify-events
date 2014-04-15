@@ -51,18 +51,21 @@
                     <label class="control-label" for="id_user-first_name">First Name</label>
                     <div class="controls">
                         {{ form.first_name }}
+                        {{ form.first_name.errors }}
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="id_user-last_name">Last Name</label>
                     <div class="controls">
                         {{ form.last_name }}
+                        {{ form.last_name.errors }}
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="id_user-email">Email</label>
                     <div class="controls">
                         {{ form.email }}
+                        {{ form.email.errors }}
                     </div>
                 </div>
                 <div class="control-group">

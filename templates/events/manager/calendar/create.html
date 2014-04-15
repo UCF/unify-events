@@ -38,17 +38,19 @@
     <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
         {% csrf_token %}
         <div class="control-group large">
-           <label class="control-label" for="id_name">Calendar Name</label>
-           <div class="controls">
-           {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
-           </div>
+            <label class="control-label" for="id_name">Calendar Name</label>
+            <div class="controls">
+                {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                {{ form.title.errors }}
+            </div>
         </div>
         <div class="control-group large">
-           <label class="control-label" for="id_description">Description</label>
-           <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-           <div class="controls">
-           {{ form.description|add_class:"span5" }}
-           </div>
+            <label class="control-label" for="id_description">Description</label>
+            <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+            <div class="controls">
+                {{ form.description|add_class:"span5" }}
+                {{ form.description.errors }}
+            </div>
         </div>
         {% for field in form.hidden_fields %}
             {{ field }}

@@ -55,19 +55,19 @@
     {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
-            {{ form.title.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
                 <div class="controls">
                     {{ form.title }}
+                    {{ form.title.errors }}
                 </div>
             </div>
-            {{ form.color.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.url.auto_id }}">{{ form.color.label }}</label>
                 <p class="label-desc">A color to represent this category in the front-end interface. Standard hex values are recommended.</p>
                 <div class="controls">
                     {{ form.color }}
+                    {{ form.color.errors }}
                 </div>
             </div>
             <div class="control-group large">

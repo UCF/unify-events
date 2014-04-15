@@ -45,18 +45,20 @@
                        <label class="control-label" for="id_title">Calendar Name</label>
                        <div class="controls">
                        {{ form.title }}
+                       {{ form.title.errors }}
                        </div>
                     </div>
                     <div class="control-group">
                        <label class="control-label" for="id_description">Calendar Description</label>
                        <div class="controls">
                        {{ form.description }}
+                       {{ form.description.errors }}
                        </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             {% for field in form.hidden_fields %}
-                                {{field}}
+                                {{ field }}
                             {% endfor %}
                             <button class="btn btn-primary" type="submit">Create Calendar</button>
                             <a class="btn" href="{% url 'dashboard' %}">Skip</a>

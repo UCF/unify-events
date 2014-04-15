@@ -57,11 +57,11 @@
     {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
-            {{ form.name.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
                 <div class="controls">
                     {{ form.name }}
+                    {{ form.name.errors }}
                 </div>
             </div>
             <div class="control-group large">

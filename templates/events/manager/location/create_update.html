@@ -60,36 +60,36 @@
 	{% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
-            {{ form.title.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
                 <p class="label-desc">Be Brief. Be Bright. Be Done.</p>
                 <div class="controls">
                     {{ form.title }}
+                    {{ form.title.errors }}
                 </div>
             </div>
-            {{ form.room.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
                 <p class="label-desc">A more specific place within the location like a room, hall, etc.</p>
                 <div class="controls">
                     {{ form.room }}
+                    {{ form.room.errors }}
                 </div>
             </div>
-            {{ form.url.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
                 <p class="label-desc">A map url of the location (http://map.ucf.edu or http://maps.google.com)</p>
                 <div class="controls">
                     {{ form.url }}
+                    {{ form.url.errors }}
                 </div>
             </div>
-            {{ form.reviewed.errors }}
             <div class="control-group large">
                 <label class="control-label" for="{{ form.url.auto_id }}">{{ form.reviewed.label }}</label>
                 <p class="label-desc">Is this location acceptable?</p>
                 <div class="controls">
                     {{ form.reviewed }}
+                    {{ form.reviewed.errors }}
                 </div>
             </div>
             <div class="control-group large">
