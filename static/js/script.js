@@ -219,25 +219,42 @@ var inputTypeSupport = function(type) {
  * Date/Timepicker Init.
  * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
-var initiateDatePickers = function(field) {
-    // Wrap field in wrapper div; add icon
-    if (field.parent().hasClass('bootstrap-datepicker') === false) {
-        field
-            .wrap('<div class="bootstrap-datepicker" />')
-            .parent()
-            .append('<i class="icon-calendar" />');
-    }
+var initiateDatePickers = function(fields) {
+    fields.each(function() {
+        var field = $(this);
 
-    field
-        .datepicker({
-            format: 'mm/dd/yyyy',
-        })
-        .on('changeDate', function(ev) {
-            $(this).datepicker('hide');
-        })
+        // Wrap field in wrapper div; add icon
+        if (field.parent().hasClass('bootstrap-datepicker') === false) {
+            field
+                .wrap('<div class="bootstrap-datepicker" />')
+                .parent()
+                .append('<i class="icon-calendar" />');
+        }
+
+        var fieldParent = field.parent().parent();
+        var siblingDateField = fieldParent.siblings().find('.' + field.attr('class'));
+
+        field
+            .datepicker({
+                format: 'mm/dd/yyyy',
+                autoclose: true,
+                todayHighlight: true
+            })
+            .on('changeDate', function(e) {
+                // Look for a nearby related start/end date field.  Apply
+                // fixed start/end dates to the opposing fields, if possible.
+                if (siblingDateField.length && fieldParent.hasClass('start')) {
+                    siblingDateField.datepicker('setStartDate', e.date);
+                }
+                else if (siblingDateField.length && fieldParent.hasClass('end')) {
+                    siblingDateField.datepicker('setEndDate', e.date);
+                }
+            });
+    });
+
 };
-var initiateTimePickers = function(field) {
-    field
+var initiateTimePickers = function(fields) {
+    fields
         .each(function(){
             // Wrap each timepicker input if this field isn't a clone
             if ($(this).parent().hasClass('bootstrap-timepicker') === false) {

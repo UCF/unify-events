@@ -1434,15 +1434,15 @@ label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
 /* line 1569, ../sass/style.scss */
-.whenwhere-end,
+.whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
 /* line 1575, ../sass/style.scss */
-.whenwhere-start label,
-.whenwhere-end label {
+.whenwhere.start label,
+.whenwhere.end label {
   display: block;
   width: auto;
   float: left;
