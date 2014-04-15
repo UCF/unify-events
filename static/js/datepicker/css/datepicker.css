@@ -109,6 +109,9 @@
 .datepicker td.active:hover.active {
   background-color: #003399 \9;
 }
+.datepicker td.today {
+  text-decoration: underline;
+}
 .datepicker td span {
   display: block;
   width: 46px;
