@@ -478,7 +478,7 @@ class YearEventsListView(CalendarEventsListView):
         context = super(YearEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
         if start_date.year != datetime.now().year:
-            context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%B %Y"))
+            context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%Y"))
 
         if 'all_years' not in context:
             context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
