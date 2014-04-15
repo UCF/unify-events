@@ -25,7 +25,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
 
 class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    description = indexes.CharField(model_attr='description')
+    description = indexes.CharField(model_attr='description', null=True)
 
     def get_model(self):
         return Calendar
