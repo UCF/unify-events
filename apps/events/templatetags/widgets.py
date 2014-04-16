@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import datetime
 import urllib
+from urlparse import urlparse, urlunparse, parse_qs
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -136,17 +137,29 @@ def pager(paginator, current_page, url):
 
     page_range = range(range_min, range_max + 1)
 
-    # Check the current page url; if a query param exists,
-    # add '&' at end; otherwise, add '?'
-    if '?' in url:
+    # Separate out query params. Remove 'page' param
+    # from url if it exists.
+    url_parsed = urlparse(url)
+    query = parse_qs(url_parsed.query)
+
+    if query:
+        query.pop('page', None)
+        url_parsed = url_parsed._replace(query=urllib.urlencode(query, True))
+
+    url = urlunparse(url_parsed)
+
+    # Check against query with removed 'page' param.
+    # Prep url for use in pager template.
+    if query:
         url = url + '&'
     else:
         url = url + '?'
 
+
     context = {
         'range': page_range,
         'paginator': paginator,
-        'current_page': current_page,
+        'current_page': paginator.page(current_page),
         'url': url
     }
 
