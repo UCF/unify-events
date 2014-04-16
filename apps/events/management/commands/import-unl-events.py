@@ -88,6 +88,9 @@ class Command(BaseCommand):
 
                         old_contact_phone = old_event.listingcontactphone
 
+                        if not old_event.description:
+                            old_event.description = 'No description provided.'
+
                         new_event = Event(title=old_title,
                                           description=old_event.description,
                                           calendar=new_calendar,

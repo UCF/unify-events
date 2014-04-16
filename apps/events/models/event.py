@@ -61,7 +61,7 @@ def get_events_by_range(start, end, calendar=None, user=None):
 def map_event_range(start, end, events):
     """
     Processes a given set of EventInstances so that instances that fall within
-    a range of dates are treated as a new instance per day within the start 
+    a range of dates are treated as a new instance per day within the start
     and end date specified.
     Useful for listing all possible events that fall on a given set of days
     (i.e. week/month views.)
@@ -138,7 +138,7 @@ class Event(TimeCreatedModified):
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, blank=True)
-    description = BleachField(blank=True, null=True)
+    description = BleachField()
     contact_name = models.CharField(max_length=64)
     contact_email = models.EmailField(max_length=128)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
