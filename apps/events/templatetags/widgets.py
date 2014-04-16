@@ -103,7 +103,7 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
 
 
 @register.simple_tag
-def pager(paginator, current_page):
+def pager(paginator, current_page, url):
     """
     Creates Bootstrap pagination links for a Paginator.
     Page range is 10.
@@ -137,10 +137,18 @@ def pager(paginator, current_page):
     else:
         current_page = int(current_page)
 
+    # Check the current page url; if a query param exists,
+    # add '&' at end; otherwise, add '?'
+    if '?' in url:
+        url = url + '&'
+    else:
+        url = url + '?'
+
     context = {
         'range': page_range,
         'paginator': paginator,
-        'current_page': current_page
+        'current_page': current_page,
+        'url': url
     }
 
     template = loader.get_template('events/widgets/pager.html')
