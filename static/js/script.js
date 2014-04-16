@@ -353,7 +353,8 @@ var userSearchTypeahead = function() {
         resultList.children('li').remove();
         // Display the list of successful results
         var results = response;
-        for (i=0; i<results.length; i++) {
+        var max = Math.min(results.length, 10);
+        for (i=0; i<max; i++) {
             var result = results[i],
             // Results are a list: first_name, last_name, username
                 firstname = result[0],
