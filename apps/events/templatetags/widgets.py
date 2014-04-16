@@ -109,7 +109,6 @@ def pager(paginator, current_page, url):
     Page range is 10.
     """
     # Account for paginator.Page passed as paginator object
-    # TODO: remove this when CBVs w/pagination are converted
     if 'paginator' in paginator.__dict__:
         paginator = paginator.paginator
 
@@ -117,10 +116,16 @@ def pager(paginator, current_page, url):
     if range_length > paginator.num_pages:
         range_length = paginator.num_pages
 
+    # If current_page is not set, set it to 1
+    if not current_page:
+        current_page = 1
+    else:
+        current_page = int(current_page)
+
     # Calculate range of pages to return
     range_length -= 1
-    range_min = max(paginator.count - (range_length / 2), 1)
-    range_max = min(paginator.count + (range_length / 2), paginator.num_pages)
+    range_min = max(current_page - (range_length / 2), 1)
+    range_max = min(current_page + (range_length / 2), paginator.num_pages)
     range_diff = range_max - range_min
     if range_diff < range_length:
         shift = range_length - range_diff
@@ -130,12 +135,6 @@ def pager(paginator, current_page, url):
             range_max += shift
 
     page_range = range(range_min, range_max + 1)
-
-    # If current_page is not set, set it to 1
-    if not current_page:
-        current_page = 1
-    else:
-        current_page = int(current_page)
 
     # Check the current page url; if a query param exists,
     # add '&' at end; otherwise, add '?'
