@@ -3,6 +3,7 @@
 ## Setup
 1. Install Elasticsearch on your server (tested with v1.1.0) (http://www.elasticsearch.org/overview/elkdownloads/).  Requires at least Java 6.
 	- via Homebrew: `brew install elasticsearch`
+	- via apt/yum: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-repositories.html
 2. Start Elasticsearch
 	- Unix: `bin/elasticsearch`
 	- Windows: `bin/elasticsearch.bat`
@@ -26,6 +27,9 @@
 12. Sync the database
 		
 		python manage.py syncdb
+13. Rebuild the search index
+
+		python manage.py rebuild_index
 
 ## Import
 1. cd to the new virtual environment src folder
