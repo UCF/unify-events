@@ -200,7 +200,6 @@ $field-date-time-width: 70%;
     margin-right: 10px; margin-bottom: 8px !important;
 }
 
-
 .field-time {
     width: $field-date-time-width;
     margin-right: 0;
@@ -216,10 +215,6 @@ textarea {
 
 select option {
     padding-top: 3px; padding-bottom: 3px;
-}
-
-.typeahead {
-    margin-top: 0;
 }
 
 label.error,
@@ -283,6 +278,24 @@ ul {
                 margin-left: -20px;
             }
         }
+    }
+    &.autocomplete-suggestion-list {
+        max-width: 300px;
+        overflow: hidden;
+
+        li {
+            &.selected {
+                background-color: #3979fc;
+                background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
+
+                a {
+                    color: #fff !important;
+                }
+            }
+            a {
+                white-space: normal;
+            }
+        }   
     }
 }
 
@@ -1637,13 +1650,6 @@ label[for*="-location-autocomplete"] {
     padding-left: 12px;
     padding-right: 16px;
     border-radius: 4px 20px 20px 4px;
-}
-
-.location-suggestions li.selected a,
-#id_event-tags-suggestions li.selected a {
-    background-color: #3979fc;
-    background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
-    color: #fff !important;
 }
 
 .location-selected {

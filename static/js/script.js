@@ -332,7 +332,7 @@ var initiateReReviewCopy = function() {
  **/
 var userSearchTypeahead = function() {
     var inputField = $('#id_add_user'),
-        resultList = inputField.next($('.typeahead.dropdown-menu')),
+        resultList = inputField.next($('.autocomplete-suggestion-list.dropdown-menu')),
         timer = null,
         delay = 700;
 
@@ -712,7 +712,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 locationNewBtn = $('<a class="location-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
                 locationNewBtn.insertAfter(locationAutocomplete).hide();
 
-                suggestionList = $('<ul class="dropdown-menu location-suggestions"></ul>');
+                suggestionList = $('<ul class="dropdown-menu location-suggestions autocomplete-suggestion-list"></ul>');
                 suggestionList.insertAfter(locationNewBtn).hide();
 
                 locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
@@ -738,12 +738,13 @@ var eventLocationsSearch = function(locationDropdowns) {
                 var matchesFound = false;
                 var matches = [];
 
+                var i = 0;
                 $.each(eventLocations, function(location, locationVals) {
-                    if (location.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                    if (locationVals['comboname'].toLowerCase().indexOf(query.toLowerCase()) > -1) {
                         // Push comboname to autocomplete suggestions list
                         matchesFound = true;
                         var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
-                        var link = $('<a tabindex="0" class="suggestion-link" href="#">' + location + '</a>');
+                        var link = $('<a tabindex="0" class="suggestion-link" href="#">' + locationVals.comboname + '</a>');
 
                         // Assign click event to link
                         link.on('click', function(event) {
@@ -753,6 +754,12 @@ var eventLocationsSearch = function(locationDropdowns) {
 
                         listItem.html(link);
                         matches.push(listItem);
+
+                        // Increment counter.  Max out at 10 results.
+                        i++;
+                        if (i == 10) {
+                            return false;
+                        }
                     }
                 });
                 if (matchesFound == true) {
@@ -981,7 +988,7 @@ eventTagging = function() {
 
         // Create a new textfield for autocompletion
         var tagAutocomplete = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
-        var suggestionList = $('<ul class="dropdown-menu" id="id_event-tags-suggestions"></ul>');
+        var suggestionList = $('<ul class="dropdown-menu autocomplete-suggestion-list" id="id_event-tags-suggestions"></ul>');
         var selectedTags = $('#event-tags-selected');
         tagAutocomplete.insertAfter(taglist);
         suggestionList.insertAfter(helpText);
@@ -1003,6 +1010,7 @@ eventTagging = function() {
             var matchesFound = false;
             var matches = [];
 
+            var j = 0;
             for (var i = 0; i < eventTags.length; i++) {
                 var tagName = eventTags[i];
                 if (tagName.toLowerCase().indexOf(query.toLowerCase()) > -1) {
@@ -1019,6 +1027,12 @@ eventTagging = function() {
 
                     listItem.html(link);
                     matches.push(listItem);
+
+                    // Increment counter.  Max out at 10 results.
+                    j++;
+                    if (j == 10) {
+                        return false;
+                    }
                 }
             }
             if (matchesFound == true) {
