@@ -17,10 +17,11 @@
 {% block header_scripts %}
 <script type="text/javascript">
     var eventLocations = {
-    {% for location in locations %}"{{ location.comboname }}": { "title": "{{ location.title }}", "room": "{{ location.room }}", "id": "{{ location.pk }}", "url": "{{ location.url }}" },{% endfor %}
+    {% for location in locations %}"{{ location.comboname|escapejs }}": { "title": "{{ location.title|escapejs }}", "room": "{{ location.room|escapejs }}", "id": "{{ location.pk|escapejs }}", "url": "{{ location.url|escapejs }}" },
+    {% endfor %}
     };
     var eventTags = [
-    {% for tag in tags %}"{{ tag.name }}",{% endfor %}
+    {% for tag in tags %}"{{ tag.name|escapejs }}",{% endfor %}
     ];
 </script>
 {% endblock %}
