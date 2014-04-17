@@ -90,12 +90,16 @@ class Calendar(TimeCreatedModified):
         for event in events:
             event.delete()
 
-    def future_event_instances(self):
+    def future_event_instances(self, include_ongoing=True):
         """
         Get all future event instances for this calendar, including
         subscribed event instances
         """
-        return self.event_instances.filter(end__gte=datetime.now())
+        if include_ongoing:
+            event_instances = self.event_instances.filter(end__gte=datetime.now())
+        else:
+            event_instances = self.event_instances.filter(start__gte=datetime.now())
+        return event_instances
 
     def range_event_instances(self, start, end):
         """

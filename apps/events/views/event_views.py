@@ -304,8 +304,14 @@ class DayEventsListView(CalendarEventsListView):
         # (Accomodate for requests to "../?upcoming=upcoming")
         if self.is_upcoming():
             calendar = self.get_calendar()
-            events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))
-            self.paginate_by = 25
+
+            events = calendar.future_event_instances(False).order_by('start').filter(event__state=State.posted)[:25]
+
+            if self.get_format() == 'html' and events:
+                start_date = datetime.combine(events[0].start.date(), datetime.min.time())
+                end_date = datetime.combine(events.reverse()[0].start.date(), datetime.max.time())
+                events = map_event_range(start_date, end_date, events)[:25]
+
             self.list_type = 'upcoming'
             self.queryset = events
             return events
@@ -502,7 +508,7 @@ class UpcomingEventsListView(CalendarEventsListView):
         Get the first 25 future events.
         """
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.get_id('posted'))[:25]
+        events = calendar.future_event_instances(False).order_by('start').filter(event__state=State.posted)[:25]
 
         if self.get_format() == 'html' and events:
             start_date = datetime.combine(events[0].start.date(), datetime.min.time())
