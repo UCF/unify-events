@@ -198,8 +198,6 @@ class EventUpdate(UpdateView):
         Called if all forms are valid. Creates an event instance
         and redirects to success url.
         """
-        form.instance.creator = self.request.user
-
         self.object = form.save()
         event_instance_formset.save()
 
