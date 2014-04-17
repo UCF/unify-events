@@ -52,12 +52,18 @@ vevent
             </thead>
             <tbody>
                 {% for instance in event_instance.event.event_instances.all %}
-                <tr>
-                    <td>{{ instance.start|date:"F j" }}</td>
+                <tr {% if instance.pk == event_instance.pk %}class="info"{% endif %}>
                     <td>
+                    <a href="{% url 'event' pk=instance.pk slug=event_instance.event.slug %}">{{ instance.start|date:"F j, Y, P" }}</a>
+                    </td>
+                    <td>
+                        {% if instance.location.url %}
                         <a href="{{ instance.location.url }}" target="_blank">
+                        {% endif %}
                             {{ instance.location.title }}{% if instance.location.room %}: {{ instance.location.room }}{% endif %}
+                        {% if instance.location.url %}
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

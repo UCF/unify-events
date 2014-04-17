@@ -1,0 +1,14 @@
+{% extends 'search/search.html' %}
+{% load widgets %}
+{% load widget_tweaks %}
+{% load core_tags %}
+
+{% block search_nav %}
+{% include_esi_template 'esi/manager-search-nav.html' %}
+
+<form method="GET" action=".">
+    {{ form.q.label }}
+    {{ form.q|add_class:"search-query" }}
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+{% endblock %}

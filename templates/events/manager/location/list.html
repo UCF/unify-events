@@ -145,7 +145,7 @@
                     No locations found. Want to <a href="{% url 'location-create' %}">create one?</a>
                 </div>
             {% endif %}
-                {% pager paginator=paginator current_page=request.GET.page %}
+                {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
 
                 <!-- Modal for Object Merge -->
                 <div class="modal hide fade" id="object-merge-modal">

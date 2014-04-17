@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import datetime
 import urllib
+from urlparse import urlparse, urlunparse, parse_qs
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -103,13 +104,12 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
 
 
 @register.simple_tag
-def pager(paginator, current_page):
+def pager(paginator, current_page, url):
     """
     Creates Bootstrap pagination links for a Paginator.
     Page range is 10.
     """
     # Account for paginator.Page passed as paginator object
-    # TODO: remove this when CBVs w/pagination are converted
     if 'paginator' in paginator.__dict__:
         paginator = paginator.paginator
 
@@ -117,10 +117,16 @@ def pager(paginator, current_page):
     if range_length > paginator.num_pages:
         range_length = paginator.num_pages
 
+    # If current_page is not set, set it to 1
+    if not current_page:
+        current_page = 1
+    else:
+        current_page = int(current_page)
+
     # Calculate range of pages to return
     range_length -= 1
-    range_min = max(paginator.count - (range_length / 2), 1)
-    range_max = min(paginator.count + (range_length / 2), paginator.num_pages)
+    range_min = max(current_page - (range_length / 2), 1)
+    range_max = min(current_page + (range_length / 2), paginator.num_pages)
     range_diff = range_max - range_min
     if range_diff < range_length:
         shift = range_length - range_diff
@@ -131,16 +137,30 @@ def pager(paginator, current_page):
 
     page_range = range(range_min, range_max + 1)
 
-    # If current_page is not set, set it to 1
-    if not current_page:
-        current_page = 1
+    # Separate out query params. Remove 'page' param
+    # from url if it exists.
+    url_parsed = urlparse(url)
+    query = parse_qs(url_parsed.query)
+
+    if query:
+        query.pop('page', None)
+        url_parsed = url_parsed._replace(query=urllib.urlencode(query, True))
+
+    url = urlunparse(url_parsed)
+
+    # Check against query with removed 'page' param.
+    # Prep url for use in pager template.
+    if query:
+        url = url + '&'
     else:
-        current_page = int(current_page)
+        url = url + '?'
+
 
     context = {
         'range': page_range,
         'paginator': paginator,
-        'current_page': current_page
+        'current_page': paginator.page(current_page),
+        'url': url
     }
 
     template = loader.get_template('events/widgets/pager.html')

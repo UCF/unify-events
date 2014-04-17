@@ -306,9 +306,11 @@ class Event(TimeCreatedModified):
         """
         Generate permalink for this object
         """
+        # Get the first event instance's pk
+        instance = self.event_instances.all()[0]
         return reverse('event', kwargs={
             'slug': self.slug,
-            'pk': self.pk,
+            'pk': instance.pk,
         })
 
     def __str__(self):

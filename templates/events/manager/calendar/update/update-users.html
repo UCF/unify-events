@@ -32,8 +32,8 @@
             <label for="id_add_user">Search for user</label>
             <label for="id_add_role">Select a role</label>
             <form class="form-inline" id="manager-calendar-add-user">
-                <input id="id_add_user" class="span4 typeahead user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url 'search-user' %}">
-                <ul class="typeahead dropdown-menu">
+                <input id="id_add_user" class="span4 user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url 'search-user' %}">
+                <ul class="autocomplete-suggestion-list dropdown-menu">
                 </ul>
                 <select id="id_add_role" class="span2">
                     <option value="admin">Admin</option>

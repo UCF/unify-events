@@ -74,7 +74,7 @@
                 </tbody>
             </table>
 
-            {% pager paginator=paginator current_page=request.GET.page %}
+            {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
 
             {% else %}
             <div class="well well-empty">

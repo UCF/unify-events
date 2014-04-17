@@ -42,7 +42,7 @@
 	    {% else %}
 	    	<p>No events found.</p>
 	    {% endif %}
-        {% pager paginator=paginator current_page=request.GET.page %}
+        {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
     </div>
     <aside class="span4 page-sidebar" id="calendar-events-sidebar">
         {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}

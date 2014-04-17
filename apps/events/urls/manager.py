@@ -149,6 +149,7 @@ if settings.SEARCH_ENABLED:
     urlpatterns += patterns('haystack.views',
         url(r'^search/$', login_required(search_view_factory(
             view_class=ManagerSearchView,
+            template='search/manager-search.html'
         )), name='haystack_search_manager'),
     )
 else:

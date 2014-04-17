@@ -5,7 +5,7 @@
         <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
         {% include 'events/frontend/event-listing/listing.html' %}
         {% if list_type != 'upcoming' %}
-        {% pager paginator=paginator current_page=request.GET.page %}
+        {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         {% endif %}
     </div>
     <aside class="span4 page-sidebar" id="calendar-events-sidebar">

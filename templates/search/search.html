@@ -22,7 +22,8 @@
 {% block content_body %}
 <div class="row">
     <div class="span12 page-content" id="search">
-        {% include_esi_template 'esi/manager-search-nav.html' %}
+        {% block search_nav %}
+        {% include_esi_template 'esi/search-nav.html' %}
 
         <form method="GET" action=".">
             {{ form.q.label }}
@@ -34,6 +35,7 @@
             {% endif %}
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
+        {% endblock %}
 
         <div class="row">
             <div class="span9">
@@ -62,7 +64,7 @@
                             <p>No results found.</p>
                         {% endfor %}
                     {% endwith %}
-                    {% pager paginator=paginator current_page=request.GET.page %}
+                    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
                 {% else %}
                     {# Show some example queries to run, maybe query syntax, something else? #}
                     Search for something!
