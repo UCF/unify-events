@@ -16,8 +16,3 @@ class ManagerSearchView(SearchView):
         results = super(ManagerSearchView, self).get_results()
         results = results.models(Event).filter(calendar__in=self.request.user.editable_calendars)
         return results
-
-    def extra_context(self):
-        extra = super(ManagerSearchView, self).extra_context()
-        extra['manager_search'] = True
-        return extra

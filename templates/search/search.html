@@ -22,7 +22,8 @@
 {% block content_body %}
 <div class="row">
     <div class="span12 page-content" id="search">
-        {% include_esi_template 'esi/manager-search-nav.html' %}
+        {% block search_nav %}
+        {% include_esi_template 'esi/search-nav.html' %}
 
         <form method="GET" action=".">
             {{ form.q.label }}
@@ -34,6 +35,7 @@
             {% endif %}
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
+        {% endblock %}
 
         <div class="row">
             <div class="span9">

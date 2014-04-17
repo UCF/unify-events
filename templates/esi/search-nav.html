@@ -1,9 +1,9 @@
 {% if user.is_authenticated %}
 <ul class="nav nav-tabs">
-    <li>
+    <li class="active">
         <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">Search All Calendars and Events</a>
     </li>
-    <li class="active">
+    <li>
         <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
     </li>
 </ul>
