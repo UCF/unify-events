@@ -299,6 +299,15 @@ ul {
     }
 }
 
+.autocomplete-new-btn {
+    position: absolute;
+    bottom: 2px;
+    right: -16px;
+    padding-left: 12px;
+    padding-right: 16px;
+    border-radius: 4px 20px 20px 4px;
+}
+
 /* Date/Timepicker overrides */
 $bootstrap-dtp-position: relative;
 $bootstrap-dtp-i-position: absolute;
@@ -1643,13 +1652,10 @@ label[for*="-location-autocomplete"] {
     position: relative;
 }
 
-.location-new-btn {
-    position: absolute;
-    bottom: 2px;
-    right: -16px;
-    padding-left: 12px;
-    padding-right: 16px;
-    border-radius: 4px 20px 20px 4px;
+.tag-search .autocomplete-new-btn {
+    top: 0;
+    right: 66px;
+    bottom: auto;
 }
 
 .location-selected {

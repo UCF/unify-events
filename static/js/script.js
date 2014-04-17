@@ -710,7 +710,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />');
                 locationAutocomplete.insertAfter(dropdown);
 
-                locationNewBtn = $('<a class="location-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
+                locationNewBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
                 locationNewBtn.insertAfter(locationAutocomplete).hide();
 
                 suggestionList = $('<ul class="dropdown-menu location-suggestions autocomplete-suggestion-list"></ul>');
@@ -721,7 +721,7 @@ var eventLocationsSearch = function(locationDropdowns) {
             }
             else {
                 locationAutocomplete = dropdown.siblings('.location-autocomplete');
-                locationNewBtn = dropdown.siblings('.location-new-btn');
+                locationNewBtn = dropdown.siblings('.autocomplete-new-btn');
                 suggestionList = dropdown.siblings('.location-suggestions');
                 locationRemoveBtn = locationRow.find('.location-selected-remove');
             }
@@ -994,6 +994,11 @@ eventTagging = function() {
         tagAutocomplete.insertAfter(taglist);
         suggestionList.insertAfter(helpText);
 
+        // Create "Add Tag" button for new tags
+        tagNewBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="icon-plus"></i></a>');
+        tagNewBtn.insertAfter(tagAutocomplete).hide();
+        
+
         // Handle a form validation error, where new tags are saved in
         // the hidden taglist field but are not yet saved + populated
         // in the selectedTags list
@@ -1045,6 +1050,8 @@ eventTagging = function() {
             }
             else {
                 suggestionList.hide();
+                // Show the 'create new tag' button
+                tagNewBtn.show();
             }
         }
 
@@ -1144,6 +1151,9 @@ eventTagging = function() {
 
             // Empty the current autocomplete field value
             tagAutocomplete.val('');
+
+            // Hide stuff we don't need
+            tagNewBtn.hide();
         };
 
         var removeTag = function(listItem) {
@@ -1166,6 +1176,13 @@ eventTagging = function() {
         $('.selected-remove').on('click', function(event) {
             event.preventDefault();
             removeTag($(this).parent('li'));
+        });
+
+        // Handle new location creation
+        tagNewBtn.on('click', function(event) {
+            event.preventDefault();
+            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+            addTag($('<li data-tag-name="'+ query +'"><a tabindex="0" class="suggestion-link" href="#">'+ query +'</a></li>'));
         });
     }
 };
