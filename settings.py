@@ -44,7 +44,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UrlPatters'
+    'core.middleware.UrlPatterns'
 )
 
 AUTHENTICATION_BACKENDS = (
