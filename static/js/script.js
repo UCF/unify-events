@@ -744,7 +744,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                     if (locationVals['comboname'].toLowerCase().indexOf(query.toLowerCase()) > -1) {
                         // Push comboname to autocomplete suggestions list
                         matchesFound = true;
-                        var listItem = $('<li data-location-id="' + locationVals.id + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
+                        var listItem = $('<li data-location-id="' + location + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
                         var link = $('<a tabindex="0" class="suggestion-link" href="#">' + locationVals.comboname + '</a>');
 
                         // Assign click event to link
