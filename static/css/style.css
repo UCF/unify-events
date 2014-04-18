@@ -265,7 +265,7 @@ ul.autocomplete-suggestion-list {
 /* line 302, ../sass/style.scss */
 .autocomplete-new-btn {
   position: absolute;
-  bottom: 2px;
+  bottom: auto;
   right: -16px;
   padding-left: 12px;
   padding-right: 16px;
@@ -1515,16 +1515,19 @@ label[for*="-location-autocomplete"] {
   position: relative; }
 
 /* line 1655, ../sass/style.scss */
+.location-search .autocomplete-new-btn {
+  top: 25px; }
+
+/* line 1658, ../sass/style.scss */
 .tag-search .autocomplete-new-btn {
   top: 0;
-  right: 66px;
-  bottom: auto; }
+  right: 66px; }
 
-/* line 1661, ../sass/style.scss */
+/* line 1663, ../sass/style.scss */
 .location-selected {
   position: relative; }
 
-/* line 1665, ../sass/style.scss */
+/* line 1667, ../sass/style.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -1534,14 +1537,14 @@ label[for*="-location-autocomplete"] {
   right: -16px;
   color: #A8A8A8; }
 
-/* line 1676, ../sass/style.scss */
+/* line 1678, ../sass/style.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1680, ../sass/style.scss */
+/* line 1682, ../sass/style.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1686, ../sass/style.scss */
+/* line 1688, ../sass/style.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -1549,12 +1552,12 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 90%; }
 
-/* line 1694, ../sass/style.scss */
+/* line 1696, ../sass/style.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1699, ../sass/style.scss */
+/* line 1701, ../sass/style.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -1566,7 +1569,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1711, ../sass/style.scss */
+  /* line 1713, ../sass/style.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -1579,13 +1582,13 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1724, ../sass/style.scss */
+    /* line 1726, ../sass/style.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
 /* Contact information */
-/* line 1733, ../sass/style.scss */
+/* line 1735, ../sass/style.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
 
@@ -1593,7 +1596,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1742, ../sass/style.scss */
+/* line 1744, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;

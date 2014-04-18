@@ -301,7 +301,7 @@ ul {
 
 .autocomplete-new-btn {
     position: absolute;
-    bottom: 2px;
+    bottom: auto;
     right: -16px;
     padding-left: 12px;
     padding-right: 16px;
@@ -1652,10 +1652,12 @@ label[for*="-location-autocomplete"] {
     position: relative;
 }
 
+.location-search .autocomplete-new-btn {
+    top: 25px;
+}
 .tag-search .autocomplete-new-btn {
     top: 0;
     right: 66px;
-    bottom: auto;
 }
 
 .location-selected {
