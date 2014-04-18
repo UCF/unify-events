@@ -19,7 +19,7 @@ var bulkActionSubmit = function() {
         var bulkForm = this.form
             actionInput = $(this),
             actionInputValue = actionInput.find('option:selected'),
-            eventsSelected = $('input:checkbox:checked[name="event_ids"]'),
+            eventsSelected = $('input:checkbox:checked[name="object_ids"]'),
             recurringEvents = false;
 
         if (!actionInputValue.attr('value') || !eventsSelected.length) {

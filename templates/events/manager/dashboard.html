@@ -124,7 +124,7 @@
                             <tr>
                                 <td class="field-bulk-select">
                                     <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                    <input type="checkbox" name="event_ids" value="{{ event_instance.event.pk }}" data-event-instance-count="{{ event_instance.event.event_instances.count }}" />
+                                    <input type="checkbox" name="object_ids" value="{{ event_instance.event.pk }}" data-event-instance-count="{{ event_instance.event.event_instances.count }}" />
                                 </td>
                                 {% if not calendar.is_main_calendar %}
                                 <td class="field-recommended">

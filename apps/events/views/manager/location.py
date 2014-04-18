@@ -111,7 +111,7 @@ def bulk_action(request):
             return HttpResponseRedirect(request.META.HTTP_REFERER)
 
         # remove duplicates
-        location_ids = request.POST.getlist('location_ids')
+        location_ids = request.POST.getlist('object_ids')
 
         for location_id in location_ids:
             try:

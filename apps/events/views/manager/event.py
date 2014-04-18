@@ -335,7 +335,7 @@ def bulk_action(request):
             return HttpResponseRedirect(request.META.HTTP_REFERER)
 
         # remove duplicates
-        event_ids = list(set(request.POST.getlist('event_ids', [])))
+        event_ids = list(set(request.POST.getlist('object_ids', [])))
 
         for event_id in event_ids:
             try:

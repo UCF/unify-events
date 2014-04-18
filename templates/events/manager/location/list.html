@@ -75,7 +75,7 @@
                             <tr>
                                 <td class="field-bulk-select">
                                     <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
-                                    <input type="checkbox" name="location_ids" value="{{ location.pk }}" />
+                                    <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
                                 </td>
                                 <td class="location-title">
                                     <a href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
