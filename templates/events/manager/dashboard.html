@@ -8,7 +8,7 @@
     </h1>
     {% if calendar %}
     <ul class="edit-options">
-        {% if calendar in user.editable_calendars.all or user.is_superuser %}
+        {% if calendar in user.calendars.all or user.is_superuser %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -52,7 +52,7 @@
                 <li class="{% if state == 'posted' %} active{% endif %}">
                     <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='posted' %}">Posted</a>
                 </li>
-                {% if calendar.is_main_calendar and calendar in user.editable_calendars or calendar.is_main_calendar and user.is_superuser %}
+                {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
                 <li class="{% if state == 'rereview' %} active{% endif %}">
                     <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='rereview' %}">Re-Review ({{ rereview_count }})</a>
                 </li>
@@ -274,7 +274,7 @@
             {% if calendar %}
                 {% calendar_widget calendars=calendar is_manager=1 year=start_date.year month=start_date.month day=start_date %}
             {% else %}
-                {% calendar_widget calendars=user.editable_calendars.all is_manager=1 year=start_date.year month=start_date.month day=start_date %}
+                {% calendar_widget calendars=user.calendars.all is_manager=1 year=start_date.year month=start_date.month day=start_date %}
             {% endif %}
         </aside>
     </section>
