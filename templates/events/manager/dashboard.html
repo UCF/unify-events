@@ -8,7 +8,7 @@
     </h1>
     {% if calendar %}
     <ul class="edit-options">
-        {% if calendar in user.calendars.all or user.is_superuser %}
+        {% if calendar in user.editable_calendars.all or user.is_superuser %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
