@@ -363,6 +363,9 @@ var userSearchTypeahead = function() {
                 firstname = option.attr('data-first-name') || '';
                 lastname = option.attr('data-last-name') || '',
                 name = option.text();
+            if ($.trim(name).length < 1) {
+                name = username + ' (name n/a)';
+            }
             if (
                 ((lastname.toLowerCase().indexOf(query.toLowerCase()) > -1 || firstname.toLowerCase().indexOf(query.toLowerCase()) > -1) || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
                 $.inArray(username, existingUsers()) === -1
