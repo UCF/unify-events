@@ -1,3 +1,3 @@
-[submodule "static/bootstrap"]
-	path = static/bootstrap
+[submodule "static_files/bootstrap"]
+	path = static_files/bootstrap
 	url = https://github.com/UCF/bootstrap.git
