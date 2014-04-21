@@ -1,4 +1,4 @@
-min/
+static/
 *.pyc
 *.sqlite3
 settings_local.py
