@@ -126,30 +126,3 @@ class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
             return HttpResponseRedirect(reverse('profile-settings'))
         else:
             return super(Dashboard, self).render_to_response(context, **response_kwargs)
-
-
-
-@login_required
-def search_user(request, firstname, lastname=None):
-    results = []
-
-    if lastname:
-        user_qs = User.objects.filter(first_name__startswith=firstname, last_name__startswith=lastname)
-    else:
-        # Search first or last if only firstname is given
-        user_qs = User.objects.filter(Q(first_name__startswith=firstname) | Q(last_name__startswith=firstname))
-
-    # Limit the size of the results and only return the needed User attributes
-    if len(user_qs):
-        results = list(user_qs.values_list('first_name', 'last_name', 'username')[:settings.USER_SEARCHLIMIT])
-
-    return HttpResponse(simplejson.dumps(results), mimetype='application/json')
-
-
-@login_required
-def search_event(request):
-    query = request.GET.get('query', '')
-    results = []
-    if query != '':
-        results = Event.objects.filter(Q(title__icontains=query)|Q(description__icontains=query))
-    return dashboard(request, search_results=results)

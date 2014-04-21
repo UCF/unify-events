@@ -1162,7 +1162,8 @@ td.event-actions .btn {
 
 #users-permissions {
     label[for="id_add_user"],
-    label[for="id_add_role"] {
+    label[for="id_role"],
+    label[for="id_username_d"] {
         width: 0;
         height: 0;
         display: block;

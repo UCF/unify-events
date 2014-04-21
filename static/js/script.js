@@ -331,10 +331,17 @@ var initiateReReviewCopy = function() {
  * User search typeahead
  **/
 var userSearchTypeahead = function() {
-    var inputField = $('#id_add_user'),
-        resultList = inputField.next($('.autocomplete-suggestion-list.dropdown-menu')),
+    var autocompleteField = $('#id_add_user'),
+        dropdown = $('#id_username_d'),
+        usernameField = $('#id_username'),
+        suggestionList = autocompleteField.next($('.autocomplete-suggestion-list.dropdown-menu')),
         timer = null,
         delay = 700;
+
+    // Enable autocomplete field. Hide dropdown.
+    dropdown.hide();
+    autocompleteField.show();
+    $('label[for="id_username"]').attr('for', autocompleteField.attr('name'));
 
     // Get all existing users in user list
     var existingUsers = function() {
@@ -345,69 +352,162 @@ var userSearchTypeahead = function() {
         return array;
     };
 
-    // Show retrieved results in a list below the input field
-    var displayResults = function(response) {
-        // Kill any previous input field styling
-        inputField.removeClass('warning success');
-        // Remove any existing results
-        resultList.children('li').remove();
-        // Display the list of successful results
-        var results = response;
-        var max = Math.min(results.length, 10);
-        for (i=0; i<max; i++) {
-            var result = results[i],
-            // Results are a list: first_name, last_name, username
-                firstname = result[0],
-                lastname = result[1],
-                username = result[2];
-            // Add result to list if username is not in list of existing calendar users
-            if ($.inArray(username, existingUsers()) === -1) {
-                resultList
-                    .append('<li data-first_name="' + firstname + '" data-last_name="' + lastname + '" data-username="' + username + '"><a href="#">' + firstname + ' ' + lastname + ' (' + username + ')</a></li>')
-                    .show();
-            }
-        }
-        // Assign click event to new list items
-        resultList
-            .find('li > a')
-            .click(function(e) {
-                e.preventDefault();
-                var result = $(this).parent('li'),
-                    username = result.attr('data-username');
-                // Populate hidden field values; force triggering of 'change' action
-                $('#id_username')
-                    .val(username)
-                    .trigger('change');
-                // Update the input field; make it look successful
-                inputField
-                    .val(firstname + ' ' + lastname)
-                    .addClass('success');
-                // Hide the result list
-                resultList.hide();
-            });
-    };
-
     // Execute a search
     var performSearch = function(query) {
-        $.ajax({
-            url: 'http://' + HTTPHOST + '/manager/search/user/' + query,
-            type: 'get',
-            success: function(response) {
-                displayResults(response);
-            },
-            error: function() {
-                // Give the user a visual response that nothing came back
-                inputField.addClass('warning');
-                $('#id_username').val('');
-                resultList.children('li').remove();
+        var matchesFound = false;
+        var matches = [];
+        var i = 0;
+        $.each($('#id_username_d > option'), function() {
+            var option = $(this),
+                username = option.val(),
+                firstname = option.attr('data-first-name') || '';
+                lastname = option.attr('data-last-name') || '',
+                name = option.text();
+            if (
+                ((lastname.toLowerCase().indexOf(query.toLowerCase()) > -1 || firstname.toLowerCase().indexOf(query.toLowerCase()) > -1) || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
+                $.inArray(username, existingUsers()) === -1
+            ) {
+                // Push name to autocomplete suggestions list
+                matchesFound = true;
+                var listItem = $('<li data-name="' + name + '" data-username="' + username + '"></li>');
+                var link = $('<a tabindex="0" class="suggestion-link" href="#">' + name + '</a>');
+
+                // Assign click event to link
+                link.on('click', function(event) {
+                    event.preventDefault();
+                    selectSuggestion(listItem);
+                });
+
+                listItem.html(link);
+                matches.push(listItem);
+
+                // Increment counter if the user has not provided a combination of
+                // first and last name.  Max out at 10 results.
+                if (!query.indexOf(' ') > -1) {
+                    i++;
+                    if (i == 10) {
+                        return false;
+                    }
+                }
             }
         });
+        if (matchesFound) {
+            // Append matches to list
+            $.each(matches, function(index, val) {
+                val.appendTo(suggestionList);
+            });
+            suggestionList.show();
+        }
+        else {
+            suggestionList.hide();
+        }
+    };
+
+    // Prevent form submission via enter keypress in any autocomplete field
+    dropdown.parents('form').on('submit', function(event) {
+        if (autocompleteField.is(':focus')) {
+            return false;
+        }
+    });
+
+    // Handle typing into search field
+    var timer = null;
+    var delay = 300;
+
+    autocompleteField.on('keyup focus', function(event) {
+        clearTimeout(timer);
+        var query = autocompleteField.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+
+        // Execute a search for a non-empty field val.
+        if (query !== '') {
+            // Detect standard alphanumeric chars (and onfocus event)
+            if (
+                (event.type == 'focus') ||
+                (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44)
+            ) {
+                timer = setTimeout(function() {
+                    suggestionList.empty();
+                    performSearch(query);
+                }, delay);
+            }
+            // If user typed a non-alphanumeric key, check for up/down strokes
+            else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
+                if (suggestionList.children().length > 0) {
+                    var selected = suggestionList.children('.selected');
+                    var newselected = null;
+                    if (event.keyCode == 39 || event.keyCode == 40) {
+                        // Right or down key press. Move down one list item.
+                        // Check if a list item is highlighted yet or not
+                        if (selected.length > 0) {
+                            newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
+                        }
+                        else {
+                            newselected = suggestionList.children('li').first();
+                        }
+                    }
+                    else if (event.keyCode == 37 || event.keyCode == 38) {
+                        // Left or up key press. Move up one list item
+                        if (selected.length > 0) {
+                            newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
+                        }
+                        else {
+                            newselected = suggestionList.children('li').last();
+                        }
+                    }
+                    // Change css class to show traversal of selected items
+                    selected.removeClass('selected');
+                    newselected.addClass('selected');
+                    // Update autocompleteField, hidden usernameField values
+                    usernameField.val(newselected.attr('data-username'));
+                    autocompleteField.val(newselected.text());
+                }
+            }
+            // If user hit enter on the autocomplete field, select the query
+            else if (event.type == 'keyup' && event.keyCode == 13) {
+                // We can only select existing suggestions that are currently highlighted
+                if (suggestionList.children().length > 0) {
+                    var selected = suggestionList.children('.selected');
+                    if (selected.length < 1) {
+                        selectSuggestion(suggestionList.children('li').first());
+                    }
+                    else {
+                        selectSuggestion(selected.first());
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        // Remove suggestion list if user emptied the field
+        else {
+            suggestionList.empty().hide();
+        }
+    });
+
+    var selectSuggestion = function(listItem) {
+        // Remove any existing set location value
+        unselectSuggestion();
+
+        // Hide autocomplete suggestions
+        suggestionList.empty().hide();
+
+        // Assign the hidden field's value
+        usernameField.val(listItem.attr('data-username'));
+
+        // Fill the current autocomplete field value
+        autocompleteField.val(listItem.attr('data-name'));
+    };
+
+    var unselectSuggestion = function() {
+        autocompleteField.val('');
+        usernameField.val('');
     };
 
     // Handle typing into search field
-    inputField.keyup(function() {
+    autocompleteField.keyup(function() {
         clearTimeout(timer);
-        var query = inputField.val();
+        var query = autocompleteField.val();
         timer = setTimeout(function() {
             // Execute a search for a non-empty field val
             if (query !== '') {
@@ -415,7 +515,7 @@ var userSearchTypeahead = function() {
             }
             // Remove an existing username value if the user cleared a name
             else {
-                $('#id_username').val('');
+                unselectSuggestion();
             }
         }, delay);
     });
@@ -439,7 +539,7 @@ var userAddValidation = function() {
         if (
             $('#id_add_user').val() === '' ||
             $('#id_username').val() === '' ||
-            $('#id_add_role').val() === ''
+            $('#id_role').val() === ''
         ){
             addBtn
                 .addClass('disabled')
@@ -462,11 +562,11 @@ var userAddValidation = function() {
     addBtn.click(function(e) {
         if ($(this).hasClass('disabled') === false) {
             var form = $('#manager-calendar-add-user'),
-                url = addBtn.attr('data-url'),
+                url = form.attr('action'),
                 username = $('#id_username').val(),
                 role = $('#id_add_role').val();
             url = url.replace('/username/role', '/' + username + '/' + role);
-            addBtn.attr('href', url);
+            form.attr('action', url);
         }
     });
 };

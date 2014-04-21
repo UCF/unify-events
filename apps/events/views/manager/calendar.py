@@ -156,6 +156,19 @@ class CalendarUserUpdate(CalendarAdminUserValidationMixin, DetailView):
     success_message = 'Calendar users updated successfully.'
     template_name = 'events/manager/calendar/update/update-users.html'
 
+    def get_context_data(self, **kwargs):
+        """
+        Get additional context data.
+        """
+        context = super(CalendarUserUpdate, self).get_context_data(**kwargs)
+
+        ctx = {
+            'users': User.objects.all(),
+        }
+        ctx.update(context)
+
+        return ctx
+
 
 class CalendarSubscriptionsUpdate(CalendarAdminUserValidationMixin, DetailView):
     model = Calendar
@@ -176,7 +189,17 @@ def add_update_user(request, pk, username, role):
     if not request.user.is_superuser and calendar not in request.user.editable_calendars:
         return HttpResponseForbidden('You cannot add/update users to the specified calendar.')
 
-    user = get_object_or_404(User, username=username)
+    # Try to use GET params, if they're available.
+    if not username or not User.objects.filter(username=username).exists() or username == 'username':
+        user = get_object_or_404(User, username=request.GET.get('username_d'))
+    else:
+        user = get_object_or_404(User, username=username)
+
+    get_role = request.GET.get('role')
+    if not role and get_role == 'admin' or get_role == 'editor':
+        role = get_role
+
+    # Update user...
     if user == calendar.owner:
         return HttpResponseForbidden('Cannot give Owner a different role through this request.')
 

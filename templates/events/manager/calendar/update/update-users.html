@@ -29,18 +29,23 @@
             <h2>Users &amp; Permissions</h2>
 
             <h3>Add New User</h3><!-- Only show this section for admins and owners -->
-            <label for="id_add_user">Search for user</label>
-            <label for="id_add_role">Select a role</label>
-            <form class="form-inline" id="manager-calendar-add-user">
-                <input id="id_add_user" class="span4 user-search" type="text" placeholder="Search by first, last name" name="add_user" data-source="{% url 'search-user' %}">
+            <label for="id_username_d">Search a user</label>
+            <label for="id_role">Select a role</label>
+            <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
+                <select id="id_username_d" name="username_d">
+                    {% for user in users %}
+                    <option value="{{ user.username|escapejs }}" data-first-name="{{ user.first_name|escapejs }}" data-last-name="{{ user.last_name|escapejs }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+                <input id="id_add_user" style="display:none;" class="span4 user-search" type="text" autocomplete="off" placeholder="Search by first, last name" name="add_user">
                 <ul class="autocomplete-suggestion-list dropdown-menu">
                 </ul>
-                <select id="id_add_role" class="span2">
+                <select id="id_role" class="span2" name="role">
                     <option value="admin">Admin</option>
                     <option value="editor" selected>Editor</option>
                 </select>
                 <input type="hidden" id="id_username" value="">
-                <a class="btn" id="add-user-submit" href="#" data-url="{% url 'calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">Add User</a>
+                <button class="btn" id="add-user-submit">Add User</button>
             </form>
 
             <h3>Users With Access to this Calendar</h3>
