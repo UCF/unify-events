@@ -29,7 +29,7 @@ def format_event_list(events, calendar):
         events = date_event_map[date]
         heading = prefix + date.strftime('%A, %B ') + str(date.day)
         date_lists.append(template.render(Context({
-            'MEDIA_URL': settings.MEDIA_URL,
+            'STATIC_URL': settings.STATIC_URL,
             'events': events,
             'heading': heading,
             'heading_tag': 'h3',
@@ -39,7 +39,7 @@ def format_event_list(events, calendar):
     # No events were provided, so we output empty results
     if not len(date_lists):
         date_lists.append(template.render(Context({
-            'MEDIA_URL': settings.MEDIA_URL,
+            'STATIC_URL': settings.STATIC_URL,
             'events': None,
             'heading': 'No events found',
             'heading_tag': 'p',

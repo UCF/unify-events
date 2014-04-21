@@ -27,6 +27,9 @@ baseurlpatterns = patterns('',
     url(r'^esi/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
 )
 
+# Add static file location for debug
+baseurlpatterns += staticfiles_urlpatterns()
+
 urlpatterns = patterns('',
     (r'^', include(baseurlpatterns)),
 )
@@ -42,14 +45,3 @@ else:
     urlpatterns += patterns('',
         url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
     )
-
-# TODO: if settings.DEBUG:
-urlpatterns += patterns('',
-    (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
-        'django.views.static.serve',
-        {
-            'document_root': settings.MEDIA_ROOT,
-            'show_indexes' : True,
-        }
-    ),
-)

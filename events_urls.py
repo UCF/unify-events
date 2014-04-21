@@ -25,14 +25,3 @@ else:
     urlpatterns += patterns('',
         url(r'^events/search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
     )
-
-# TODO: if settings.DEBUG:
-urlpatterns += patterns('',
-    (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
-        'django.views.static.serve',
-        {
-            'document_root': settings.MEDIA_ROOT,
-            'show_indexes' : True,
-        }
-    ),
-)

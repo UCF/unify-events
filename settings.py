@@ -137,6 +137,45 @@ FILE_UPLOAD_PATH = 'uploads'
 
 DATABASE_ROUTERS = ['unlevents.dbrouter.UNLEventsRouter']
 
+TEMPLATE_DEBUG = DEBUG
+TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
+TEMPLATE_DIRS = (TEMPL_FOLDER, )
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/var/www/example.com/media/"
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://example.com/media/", "http://media.example.com/"
+MEDIA_URL = '/media/'
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/var/www/example.com/static/"
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
+STATIC_URL = '/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT, 'static_files'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
 try:
     from settings_local import *
 except ImportError:
@@ -145,16 +184,6 @@ except ImportError:
         'Local settings file was not found. ' +
         'Ensure settings_local.py exists in project root.'
     )
-
-
-TEMPLATE_DEBUG = DEBUG
-TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
-MEDIA_ROOT = os.path.join(PROJECT_FOLDER, 'static')
-TEMPLATE_DIRS = (TEMPL_FOLDER, )
-
-STATIC_ROOT = ''
-STATIC_URL = '/media/'
-
 
 if SEARCH_ENABLED:
     HAYSTACK_CONNECTIONS = {
