@@ -336,7 +336,7 @@ var userSearchTypeahead = function() {
         usernameField = $('#id_username'),
         suggestionList = autocompleteField.next($('.autocomplete-suggestion-list.dropdown-menu')),
         timer = null,
-        delay = 700;
+        delay = 300;
 
     // Enable autocomplete field. Hide dropdown.
     dropdown.hide();
@@ -413,7 +413,6 @@ var userSearchTypeahead = function() {
 
     // Handle typing into search field
     var timer = null;
-    var delay = 300;
 
     autocompleteField.on('keyup focus', function(event) {
         clearTimeout(timer);
@@ -512,8 +511,7 @@ var userSearchTypeahead = function() {
  * (Don't allow new users to be submitted w/o valid name, role)
  **/
 var userAddValidation = function() {
-    var addBtn = $('#add-user-submit'),
-        inputField = $('#id_add_user');
+    var addBtn = $('#add-user-submit');
 
     // Click handler for easy toggling of link enable/disable
     var handler = function(e) {
@@ -540,7 +538,7 @@ var userAddValidation = function() {
 
     // Handle load, on form change events
     toggleAddBtn();
-    $('#id_add_user, #id_username, #id_add_role').change(function() {
+    $('#id_add_user, #id_username, #id_role').change(function() {
         toggleAddBtn();
     });
 
