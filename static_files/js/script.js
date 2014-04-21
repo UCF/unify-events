@@ -366,8 +366,9 @@ var userSearchTypeahead = function() {
             if ($.trim(name).length < 1) {
                 name = username + ' (name n/a)';
             }
-            if (
-                ((lastname.toLowerCase().indexOf(query.toLowerCase()) > -1 || firstname.toLowerCase().indexOf(query.toLowerCase()) > -1) || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
+
+            // Check full names and NIDs first (give more specific strings priority.)
+            if ((name.toLowerCase().indexOf(query.toLowerCase()) > -1 || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
                 $.inArray(username, existingUsers()) === -1
             ) {
                 // Push name to autocomplete suggestions list
@@ -384,13 +385,10 @@ var userSearchTypeahead = function() {
                 listItem.html(link);
                 matches.push(listItem);
 
-                // Increment counter if the user has not provided a combination of
-                // first and last name.  Max out at 10 results.
-                if (!query.indexOf(' ') > -1) {
-                    i++;
-                    if (i == 10) {
-                        return false;
-                    }
+                // Increment counter.  Max out at 10 results.
+                i++;
+                if (i == 10) {
+                    return false;
                 }
             }
         });
@@ -423,7 +421,6 @@ var userSearchTypeahead = function() {
 
         // Execute a search for a non-empty field val.
         if (query !== '') {
-            // Detect standard alphanumeric chars (and onfocus event)
             if (
                 (event.type == 'focus') ||
                 (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44)
@@ -435,10 +432,10 @@ var userSearchTypeahead = function() {
             }
             // If user typed a non-alphanumeric key, check for up/down strokes
             else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
-                if (suggestionList.children().length > 0) {
+                if (suggestionList.children().length > 0 && suggestionList.is(':visible')) {
                     var selected = suggestionList.children('.selected');
                     var newselected = null;
-                    if (event.keyCode == 39 || event.keyCode == 40) {
+                    if (event.keyCode == 40) {
                         // Right or down key press. Move down one list item.
                         // Check if a list item is highlighted yet or not
                         if (selected.length > 0) {
@@ -448,8 +445,8 @@ var userSearchTypeahead = function() {
                             newselected = suggestionList.children('li').first();
                         }
                     }
-                    else if (event.keyCode == 37 || event.keyCode == 38) {
-                        // Left or up key press. Move up one list item
+                    else if (event.keyCode == 38) {
+                        // Up key press. Move up one list item
                         if (selected.length > 0) {
                             newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
                         }
@@ -457,12 +454,13 @@ var userSearchTypeahead = function() {
                             newselected = suggestionList.children('li').last();
                         }
                     }
+                    else if (event.keyCode == 39 || event.keyCode == 37) {
+                        // Left/right key press; do nothing
+                        return;
+                    }
                     // Change css class to show traversal of selected items
                     selected.removeClass('selected');
                     newselected.addClass('selected');
-                    // Update autocompleteField, hidden usernameField values
-                    usernameField.val(newselected.attr('data-username'));
-                    autocompleteField.val(newselected.text());
                 }
             }
             // If user hit enter on the autocomplete field, select the query
@@ -484,7 +482,8 @@ var userSearchTypeahead = function() {
         }
         // Remove suggestion list if user emptied the field
         else {
-            suggestionList.empty().hide();
+            unselectSuggestion();
+            suggestionList.hide();
         }
     });
 
@@ -505,23 +504,7 @@ var userSearchTypeahead = function() {
     var unselectSuggestion = function() {
         autocompleteField.val('');
         usernameField.val('');
-    };
-
-    // Handle typing into search field
-    autocompleteField.keyup(function() {
-        clearTimeout(timer);
-        var query = autocompleteField.val();
-        timer = setTimeout(function() {
-            // Execute a search for a non-empty field val
-            if (query !== '') {
-                performSearch(query);
-            }
-            // Remove an existing username value if the user cleared a name
-            else {
-                unselectSuggestion();
-            }
-        }, delay);
-    });
+    }
 };
 
 /**
