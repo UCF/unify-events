@@ -367,7 +367,7 @@ var userSearchTypeahead = function() {
                 name = username + ' (name n/a)';
             }
 
-            // Check full names and NIDs first (give more specific strings priority.)
+            // Check full names and NIDs.
             if ((name.toLowerCase().indexOf(query.toLowerCase()) > -1 || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
                 $.inArray(username, existingUsers()) === -1
             ) {
