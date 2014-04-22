@@ -269,6 +269,8 @@
                     </div>
                 </div>
             </form>
+
+            {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         </div>
         <aside class="span4 page-sidebar">
             {% if calendar %}
