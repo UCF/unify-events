@@ -73,86 +73,90 @@ i + a:not(.btn) {
 .dropdown li i {
   padding-right: 6px; }
 
-/* line 86, ../sass/style.scss */
-.dropdown-menu li i {
-  padding-right: 6px; }
-/* line 92, ../sass/style.scss */
-.dropdown-menu > li > a {
-  color: #333 !important; }
+/* line 84, ../sass/style.scss */
+.dropdown-menu {
+  max-height: 250px;
+  overflow-y: scroll; }
+  /* line 89, ../sass/style.scss */
+  .dropdown-menu li i {
+    padding-right: 6px; }
   /* line 95, ../sass/style.scss */
-  .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-    color: #fff !important; }
+  .dropdown-menu > li > a {
+    color: #333 !important; }
+    /* line 98, ../sass/style.scss */
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+      color: #fff !important; }
 
 /* Modals */
-/* line 103, ../sass/style.scss */
+/* line 106, ../sass/style.scss */
 .modal h2 {
   font-weight: bold;
   line-height: 30px; }
-  /* line 106, ../sass/style.scss */
+  /* line 109, ../sass/style.scss */
   .modal h2 .alt {
     font-weight: 300; }
 
-/* line 111, ../sass/style.scss */
+/* line 114, ../sass/style.scss */
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize; }
 
 /* Pagination */
-/* line 117, ../sass/style.scss */
+/* line 120, ../sass/style.scss */
 .pagination {
   text-align: center;
   margin-top: 30px; }
-  /* line 120, ../sass/style.scss */
+  /* line 123, ../sass/style.scss */
   .pagination a {
     color: #fff !important; }
 
 /* Wells */
-/* line 126, ../sass/style.scss */
+/* line 129, ../sass/style.scss */
 .well-empty {
   padding: 60px 30px; }
 
 /* Forms */
-/* line 132, ../sass/style.scss */
+/* line 135, ../sass/style.scss */
 form.form-horizontal {
   margin: 20px 0 30px 0; }
-/* line 136, ../sass/style.scss */
+/* line 139, ../sass/style.scss */
 form.form-tabbed, form.form-tabbed .tab-content .tab-pane h2 {
   margin-top: 0; }
-/* line 141, ../sass/style.scss */
+/* line 144, ../sass/style.scss */
 form p.help-text {
   font-size: 11px;
   font-style: italic;
   line-height: 18px;
   color: #888;
   padding-top: 8px; }
-  /* line 143, ../sass/style.scss */
+  /* line 146, ../sass/style.scss */
   form p.help-text + .dropdown-menu {
     top: 30px; }
 
-/* line 150, ../sass/style.scss */
+/* line 153, ../sass/style.scss */
 .form-horizontal .control-label {
   font-weight: bold; }
-/* line 154, ../sass/style.scss */
+/* line 157, ../sass/style.scss */
 .form-horizontal legend.control-label {
   border: 0px solid transparent;
   color: #333;
   margin-bottom: 5px;
   line-height: 20px; }
-/* line 163, ../sass/style.scss */
+/* line 166, ../sass/style.scss */
 .form-horizontal .control-group.large .control-label {
   font-size: 18px;
   text-indent: -1px;
   width: 200px; }
-/* line 169, ../sass/style.scss */
+/* line 172, ../sass/style.scss */
 .form-horizontal .control-group.large .controls {
   margin-left: 220px; }
-/* line 174, ../sass/style.scss */
+/* line 177, ../sass/style.scss */
 .form-horizontal .control-group .controls > .row {
   margin-top: 5px;
   display: inline-block;
   /* req'd for .rows in .controls to clear properly */ }
 
-/* line 181, ../sass/style.scss */
+/* line 184, ../sass/style.scss */
 .label-desc {
   display: block;
   float: left;
@@ -163,34 +167,34 @@ form p.help-text {
   line-height: 16px;
   color: #8d8d8d; }
 
-/* line 192, ../sass/style.scss */
+/* line 195, ../sass/style.scss */
 .control-group.large .label-desc {
   width: 200px; }
 
-/* line 198, ../sass/style.scss */
+/* line 201, ../sass/style.scss */
 .field-date {
   width: 70%;
   margin-right: 10px;
   margin-bottom: 8px !important; }
 
-/* line 203, ../sass/style.scss */
+/* line 206, ../sass/style.scss */
 .field-time {
   width: 70%;
   margin-right: 0; }
-  /* line 207, ../sass/style.scss */
+  /* line 210, ../sass/style.scss */
   .field-time + .add-on {
     display: none; }
 
-/* line 212, ../sass/style.scss */
+/* line 215, ../sass/style.scss */
 textarea {
   height: 175px; }
 
-/* line 216, ../sass/style.scss */
+/* line 219, ../sass/style.scss */
 select option {
   padding-top: 3px;
   padding-bottom: 3px; }
 
-/* line 220, ../sass/style.scss */
+/* line 223, ../sass/style.scss */
 label.error,
 div.error label,
 .control-group.error .control-label,
@@ -198,7 +202,7 @@ div.error label,
 .control-group.error .help-inline {
   color: #EE5F5B; }
 
-/* line 228, ../sass/style.scss */
+/* line 231, ../sass/style.scss */
 input.error,
 textarea.error,
 select.error,
@@ -210,7 +214,7 @@ div.error textarea,
   border: 1px solid #EE5F5B;
   color: #B71713; }
 
-/* line 241, ../sass/style.scss */
+/* line 244, ../sass/style.scss */
 ul.errorlist {
   background: none repeat scroll 0 0 #EE5F5B;
   border-radius: 4px;
@@ -221,7 +225,7 @@ ul.errorlist {
   padding: 10px;
   position: relative;
   max-width: 220px; }
-  /* line 252, ../sass/style.scss */
+  /* line 255, ../sass/style.scss */
   ul.errorlist:before {
     content: "";
     width: 0;
@@ -232,37 +236,37 @@ ul.errorlist {
     position: absolute;
     top: -5px;
     left: 10px; }
-  /* line 264, ../sass/style.scss */
+  /* line 267, ../sass/style.scss */
   ul.errorlist li {
     margin-top: 5px;
     text-indent: 0;
     padding-left: 20px; }
-    /* line 269, ../sass/style.scss */
+    /* line 272, ../sass/style.scss */
     ul.errorlist li:first-child {
       margin-top: 0; }
-    /* line 273, ../sass/style.scss */
+    /* line 276, ../sass/style.scss */
     ul.errorlist li:before {
       font-family: "FontAwesome";
       content: "";
       float: left;
       width: 20px;
       margin-left: -20px; }
-/* line 282, ../sass/style.scss */
+/* line 285, ../sass/style.scss */
 ul.autocomplete-suggestion-list {
   max-width: 300px;
   overflow: hidden; }
-  /* line 287, ../sass/style.scss */
+  /* line 290, ../sass/style.scss */
   ul.autocomplete-suggestion-list li.selected {
     background-color: #3979fc;
     background-image: linear-gradient(to bottom, #4380fc, #2a6ffc); }
-    /* line 291, ../sass/style.scss */
+    /* line 294, ../sass/style.scss */
     ul.autocomplete-suggestion-list li.selected a {
       color: #fff !important; }
-  /* line 295, ../sass/style.scss */
+  /* line 298, ../sass/style.scss */
   ul.autocomplete-suggestion-list li a {
     white-space: normal; }
 
-/* line 302, ../sass/style.scss */
+/* line 305, ../sass/style.scss */
 .autocomplete-new-btn {
   position: absolute;
   bottom: auto;
@@ -272,70 +276,70 @@ ul.autocomplete-suggestion-list {
   border-radius: 4px 20px 20px 4px; }
 
 /* Date/Timepicker overrides */
-/* line 317, ../sass/style.scss */
+/* line 320, ../sass/style.scss */
 .bootstrap-datepicker {
   position: relative; }
-  /* line 320, ../sass/style.scss */
+  /* line 323, ../sass/style.scss */
   .bootstrap-datepicker i {
     position: absolute;
     right: 60px;
     bottom: 15px;
     color: #cccccc; }
 
-/* line 328, ../sass/style.scss */
+/* line 331, ../sass/style.scss */
 .bootstrap-timepicker {
   position: relative; }
-  /* line 331, ../sass/style.scss */
+  /* line 334, ../sass/style.scss */
   .bootstrap-timepicker input {
     border-radius: 4px; }
-  /* line 335, ../sass/style.scss */
+  /* line 338, ../sass/style.scss */
   .bootstrap-timepicker i {
     position: absolute;
     right: 60px;
     bottom: 7px;
     color: #cccccc; }
 
-/* line 344, ../sass/style.scss */
+/* line 347, ../sass/style.scss */
 .datepicker:before, .datepicker:after {
   border-left: 0;
   border-right: 0;
   border-bottom: 0; }
-/* line 351, ../sass/style.scss */
+/* line 354, ../sass/style.scss */
 .datepicker td.active, .datepicker td.active:hover,
 .datepicker td span.active {
   background-image: none;
   background-color: #ffc904 !important;
   text-shadow: 0 0 0 transparent;
   font-weight: bold; }
-/* line 361, ../sass/style.scss */
+/* line 364, ../sass/style.scss */
 .datepicker td,
 .datepicker th,
 .datepicker td span {
   border-radius: 0; }
 
-/* line 368, ../sass/style.scss */
+/* line 371, ../sass/style.scss */
 .ui-timepicker-wrapper {
   -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
   border-radius: 4px; }
 
 /** WYSIWYG overrides **/
-/* line 375, ../sass/style.scss */
+/* line 378, ../sass/style.scss */
 ul.wysihtml5-toolbar {
   display: inline-block; }
-  /* line 378, ../sass/style.scss */
+  /* line 381, ../sass/style.scss */
   ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
     background-color: #8D8D8D;
     box-shadow: 0 2px 0 0 #4d4d4d inset, 0 2px 0 0 #8d8d8d; }
-  /* line 383, ../sass/style.scss */
+  /* line 386, ../sass/style.scss */
   ul.wysihtml5-toolbar span.current-font,
   ul.wysihtml5-toolbar a[data-wysihtml5-command="italic"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command="underline"] {
     font-weight: normal; }
-  /* line 389, ../sass/style.scss */
+  /* line 392, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
     color: #333; }
-  /* line 393, ../sass/style.scss */
+  /* line 396, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"],
@@ -344,60 +348,60 @@ ul.wysihtml5-toolbar {
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] {
     font-weight: bold;
     color: #333; }
-  /* line 403, ../sass/style.scss */
+  /* line 406, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"] {
     letter-spacing: -1px;
     line-height: 40px; }
-  /* line 410, ../sass/style.scss */
+  /* line 413, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h4"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h5"],
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] {
     line-height: 20px; }
-  /* line 416, ../sass/style.scss */
+  /* line 419, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h1"] {
     font-size: 36px; }
-  /* line 420, ../sass/style.scss */
+  /* line 423, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h2"] {
     font-size: 30px; }
-  /* line 424, ../sass/style.scss */
+  /* line 427, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h3"] {
     font-size: 24.5px; }
-  /* line 428, ../sass/style.scss */
+  /* line 431, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h4"] {
     font-size: 17.5px; }
-  /* line 432, ../sass/style.scss */
+  /* line 435, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h5"] {
     font-size: 14px; }
-  /* line 436, ../sass/style.scss */
+  /* line 439, ../sass/style.scss */
   ul.wysihtml5-toolbar a[data-wysihtml5-command-value="h6"] {
     font-size: 11.9px; }
-  /* line 440, ../sass/style.scss */
+  /* line 443, ../sass/style.scss */
   ul.wysihtml5-toolbar a:hover {
     color: #fff; }
 
 /* Calendar Sliders */
-/* line 447, ../sass/style.scss */
+/* line 450, ../sass/style.scss */
 .calendar-slider {
   position: relative;
   z-index: 1; }
-  /* line 450, ../sass/style.scss */
+  /* line 453, ../sass/style.scss */
   .calendar-slider .pager {
     margin: 0;
     position: relative;
     z-index: 2; }
-    /* line 453, ../sass/style.scss */
+    /* line 456, ../sass/style.scss */
     .calendar-slider .pager li {
       position: absolute;
       top: 15px; }
-      /* line 456, ../sass/style.scss */
+      /* line 459, ../sass/style.scss */
       .calendar-slider .pager li.previous {
         left: 0; }
-      /* line 460, ../sass/style.scss */
+      /* line 463, ../sass/style.scss */
       .calendar-slider .pager li.next {
         right: 0; }
-      /* line 464, ../sass/style.scss */
+      /* line 467, ../sass/style.scss */
       .calendar-slider .pager li .carousel-control {
         font-size: 14px;
         height: 26px;
@@ -408,38 +412,38 @@ ul.wysihtml5-toolbar {
         opacity: 1;
         margin: 0;
         float: none; }
-        /* line 475, ../sass/style.scss */
+        /* line 478, ../sass/style.scss */
         .calendar-slider .pager li .carousel-control > i {
           padding-right: 0; }
-        /* line 479, ../sass/style.scss */
+        /* line 482, ../sass/style.scss */
         .calendar-slider .pager li .carousel-control > span {
           width: 0;
           height: 0;
           text-indent: -9999px;
           display: block;
           line-height: 0; }
-  /* line 491, ../sass/style.scss */
+  /* line 494, ../sass/style.scss */
   .calendar-slider .item h2 {
     text-align: center;
     font-size: 21px;
     line-height: 36px;
     margin-bottom: 0; }
-  /* line 495, ../sass/style.scss */
+  /* line 498, ../sass/style.scss */
   .calendar-slider .item .table {
     border-collapse: separate;
     border-spacing: 3px; }
-    /* line 498, ../sass/style.scss */
+    /* line 501, ../sass/style.scss */
     .calendar-slider .item .table th,
     .calendar-slider .item .table td {
       border-top: 0;
       text-align: center; }
-    /* line 503, ../sass/style.scss */
+    /* line 506, ../sass/style.scss */
     .calendar-slider .item .table td {
       background: #f1f1f1;
       font-size: 18px;
       line-height: 18px;
       padding: 0; }
-      /* line 509, ../sass/style.scss */
+      /* line 512, ../sass/style.scss */
       .calendar-slider .item .table td a {
         font-weight: bold;
         color: #8d8d8d;
@@ -447,20 +451,20 @@ ul.wysihtml5-toolbar {
         padding: 11px 8px;
         position: relative;
         z-index: 1; }
-        /* line 517, ../sass/style.scss */
+        /* line 520, ../sass/style.scss */
         .calendar-slider .item .table td a:hover {
           background: #fffbe9;
           text-decoration: none; }
-      /* line 522, ../sass/style.scss */
+      /* line 525, ../sass/style.scss */
       .calendar-slider .item .table td.active {
         background: #fcc904; }
-        /* line 525, ../sass/style.scss */
+        /* line 528, ../sass/style.scss */
         .calendar-slider .item .table td.active a {
           color: #fff; }
-          /* line 528, ../sass/style.scss */
+          /* line 531, ../sass/style.scss */
           .calendar-slider .item .table td.active a:hover {
             background-color: #daad00; }
-      /* line 535, ../sass/style.scss */
+      /* line 538, ../sass/style.scss */
       .calendar-slider .item .table td.hasevents a:after {
         content: "";
         display: block;
@@ -473,24 +477,24 @@ ul.wysihtml5-toolbar {
         border-width: 0 0 10px 10px;
         border-color: transparent transparent #daae00 transparent;
         z-index: 2; }
-      /* line 549, ../sass/style.scss */
+      /* line 552, ../sass/style.scss */
       .calendar-slider .item .table td.muted {
         background-color: #fff; }
-        /* line 552, ../sass/style.scss */
+        /* line 555, ../sass/style.scss */
         .calendar-slider .item .table td.muted a {
           color: #e2e2e2; }
-          /* line 554, ../sass/style.scss */
+          /* line 557, ../sass/style.scss */
           .calendar-slider .item .table td.muted a:hover {
             color: #8d8d8d; }
-      /* line 559, ../sass/style.scss */
+      /* line 562, ../sass/style.scss */
       .calendar-slider .item .table td.hasevents.muted a:after {
         border-color: transparent transparent #EFDB97 transparent; }
-      /* line 563, ../sass/style.scss */
+      /* line 566, ../sass/style.scss */
       .calendar-slider .item .table td.today a {
         text-decoration: underline; }
 
 /* Calendar Grids */
-/* line 574, ../sass/style.scss */
+/* line 577, ../sass/style.scss */
 .calendar-grid-labels > span {
   width: 14.285%;
   font-size: 18px;
@@ -501,12 +505,12 @@ ul.wysihtml5-toolbar {
   float: left;
   padding: 10px 0; }
 
-/* line 585, ../sass/style.scss */
+/* line 588, ../sass/style.scss */
 .calendar-grid {
   width: 100%;
   list-style-type: none;
   margin-left: 0; }
-  /* line 591, ../sass/style.scss */
+  /* line 594, ../sass/style.scss */
   .calendar-grid > li {
     width: 14.285%;
     height: 130px;
@@ -516,10 +520,10 @@ ul.wysihtml5-toolbar {
     border-bottom: 4px solid #fff;
     overflow: hidden;
     position: relative; }
-    /* line 601, ../sass/style.scss */
+    /* line 604, ../sass/style.scss */
     .calendar-grid > li:hover {
       overflow: visible; }
-    /* line 606, ../sass/style.scss */
+    /* line 609, ../sass/style.scss */
     .calendar-grid > li > a.event-expander {
       display: block;
       position: absolute;
@@ -531,16 +535,16 @@ ul.wysihtml5-toolbar {
       cursor: default;
       text-align: center;
       color: #fff; }
-      /* line 618, ../sass/style.scss */
+      /* line 621, ../sass/style.scss */
       .calendar-grid > li > a.event-expander:hover {
         display: none; }
-      /* line 622, ../sass/style.scss */
+      /* line 625, ../sass/style.scss */
       .calendar-grid > li > a.event-expander > span.help-text {
         text-indent: -9999px;
         display: block;
         width: 0;
         height: 0; }
-      /* line 629, ../sass/style.scss */
+      /* line 632, ../sass/style.scss */
       .calendar-grid > li > a.event-expander > span.icon-text {
         display: block;
         border-left: 2px solid #fff;
@@ -548,7 +552,7 @@ ul.wysihtml5-toolbar {
         background-color: #d4d4d4;
         height: 100%;
         line-height: 20px; }
-    /* line 640, ../sass/style.scss */
+    /* line 643, ../sass/style.scss */
     .calendar-grid > li > div {
       background-color: #f1f1f1;
       height: 100px;
@@ -558,7 +562,7 @@ ul.wysihtml5-toolbar {
       border-left: 2px solid #fff;
       border-right: 2px solid #fff;
       padding-top: 30px; }
-      /* line 650, ../sass/style.scss */
+      /* line 653, ../sass/style.scss */
       .calendar-grid > li > div:after {
         /* Add some faux padding btwn the edge of the li and its child div */
         content: "";
@@ -570,15 +574,15 @@ ul.wysihtml5-toolbar {
         height: 6px;
         background-color: #f1f1f1;
         z-index: 10; }
-      /* line 662, ../sass/style.scss */
+      /* line 665, ../sass/style.scss */
       .calendar-grid > li > div > ul {
         position: absolute;
         left: 0; }
-        /* line 666, ../sass/style.scss */
+        /* line 669, ../sass/style.scss */
         .calendar-grid > li > div > ul > li {
           padding: 0 8px;
           width: 114px; }
-      /* line 671, ../sass/style.scss */
+      /* line 674, ../sass/style.scss */
       .calendar-grid > li > div > a.date {
         font-size: 24px;
         font-weight: 400;
@@ -588,10 +592,10 @@ ul.wysihtml5-toolbar {
         top: 0;
         left: 0;
         z-index: 3; }
-        /* line 681, ../sass/style.scss */
+        /* line 684, ../sass/style.scss */
         .calendar-grid > li > div > a.date > span {
           display: none; }
-      /* line 686, ../sass/style.scss */
+      /* line 689, ../sass/style.scss */
       .calendar-grid > li > div > .holiday {
         font-size: 12px;
         font-weight: 500;
@@ -599,51 +603,51 @@ ul.wysihtml5-toolbar {
         display: block;
         line-height: 14px;
         padding: 8px 8px 0 8px; }
-    /* line 696, ../sass/style.scss */
+    /* line 699, ../sass/style.scss */
     .calendar-grid > li:hover > div {
       width: auto;
       z-index: 10;
       overflow: visible; }
-      /* line 701, ../sass/style.scss */
+      /* line 704, ../sass/style.scss */
       .calendar-grid > li:hover > div > a.date {
         color: #fcc904; }
-      /* line 705, ../sass/style.scss */
+      /* line 708, ../sass/style.scss */
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
         width: 200px;
         box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3); }
-        /* line 710, ../sass/style.scss */
+        /* line 713, ../sass/style.scss */
         .calendar-grid > li:hover > div > ul > li {
           width: 184px; }
-      /* line 715, ../sass/style.scss */
+      /* line 718, ../sass/style.scss */
       .calendar-grid > li:hover > div:after {
         display: none; }
-    /* line 718, ../sass/style.scss */
+    /* line 721, ../sass/style.scss */
     .calendar-grid > li.muted > div {
       background-color: #fff; }
-      /* line 721, ../sass/style.scss */
+      /* line 724, ../sass/style.scss */
       .calendar-grid > li.muted > div:after {
         background-color: #fff; }
-      /* line 725, ../sass/style.scss */
+      /* line 728, ../sass/style.scss */
       .calendar-grid > li.muted > div > a.date {
         color: #e2e2e2; }
-    /* line 731, ../sass/style.scss */
+    /* line 734, ../sass/style.scss */
     .calendar-grid > li.today > div > a.date {
       background-color: #a8a8a8;
       color: #fff;
       font-weight: bold; }
-    /* line 737, ../sass/style.scss */
+    /* line 740, ../sass/style.scss */
     .calendar-grid > li.today:hover > div > a.date {
       background-color: #fcc904; }
 
 /**
  * Utility
  **/
-/* line 748, ../sass/style.scss */
+/* line 751, ../sass/style.scss */
 .fullwidth {
   width: 100%; }
 
-/* line 749, ../sass/style.scss */
+/* line 752, ../sass/style.scss */
 .label-hidden {
   line-height: 0;
   text-indent: -9999px;
@@ -651,32 +655,32 @@ ul.wysihtml5-toolbar {
   height: 1px;
   display: block; }
 
-/* line 750, ../sass/style.scss */
+/* line 753, ../sass/style.scss */
 .label-inner {
   font-size: 16px;
   color: #8d8d8d;
   font-weight: 300; }
 
-/* line 752, ../sass/style.scss */
+/* line 755, ../sass/style.scss */
 .sidebarfix > * {
   /* This does dumb things to tables. Wrap tables in a div to accomodate */
   padding-right: 10px; }
-/* line 756, ../sass/style.scss */
+/* line 759, ../sass/style.scss */
 .sidebarfix > .modal {
   padding-right: 0; }
-/* line 760, ../sass/style.scss */
+/* line 763, ../sass/style.scss */
 .sidebarfix > hr {
   padding-right: 0;
   margin-right: 10px; }
-/* line 764, ../sass/style.scss */
+/* line 767, ../sass/style.scss */
 .sidebarfix > .well {
   padding-right: 20px;
   margin-right: 10px; }
-/* line 768, ../sass/style.scss */
+/* line 771, ../sass/style.scss */
 .sidebarfix > .well-empty {
   padding-right: 30px; }
 
-/* line 773, ../sass/style.scss */
+/* line 776, ../sass/style.scss */
 .recurring {
   /* Helper text for designating recurring events */
   width: 0;
@@ -687,10 +691,10 @@ ul.wysihtml5-toolbar {
 /**
  * Header
  **/
-/* line 783, ../sass/style.scss */
+/* line 786, ../sass/style.scss */
 header {
   padding-top: 15px; }
-  /* line 786, ../sass/style.scss */
+  /* line 789, ../sass/style.scss */
   header #header-title {
     font-size: 36px;
     line-height: 40px;
@@ -698,10 +702,10 @@ header {
     letter-spacing: -1px;
     margin: 10px 0;
     display: block; }
-    /* line 794, ../sass/style.scss */
+    /* line 797, ../sass/style.scss */
     header #header-title .alt {
       font-weight: 300; }
-  /* line 799, ../sass/style.scss */
+  /* line 802, ../sass/style.scss */
   header form.form-search {
     padding-top: 19px;
     float: right; }
@@ -709,29 +713,29 @@ header {
 /**
  * Main Navigation (subheader)
  **/
-/* line 807, ../sass/style.scss */
+/* line 810, ../sass/style.scss */
 #navwrap {
   background: #f1f1f1; }
 
-/* line 811, ../sass/style.scss */
+/* line 814, ../sass/style.scss */
 #navinner {
   padding: 10px 0; }
 
-/* line 816, ../sass/style.scss */
+/* line 819, ../sass/style.scss */
 nav .user {
   float: left;
   padding-right: 30px;
   padding-top: 5px;
   padding-bottom: 5px; }
-  /* line 822, ../sass/style.scss */
+  /* line 825, ../sass/style.scss */
   nav .user .user i {
     color: #8d8d8d; }
-/* line 827, ../sass/style.scss */
+/* line 830, ../sass/style.scss */
 nav #actions-primary,
 nav #actions-secondary {
   list-style-type: none;
   margin: 0; }
-  /* line 832, ../sass/style.scss */
+  /* line 835, ../sass/style.scss */
   nav #actions-primary > li,
   nav #actions-secondary > li {
     float: left;
@@ -739,30 +743,30 @@ nav #actions-secondary {
     padding-top: 5px;
     padding-bottom: 5px;
     position: relative; }
-/* line 841, ../sass/style.scss */
+/* line 844, ../sass/style.scss */
 nav #actions-primary {
   float: left; }
-/* line 846, ../sass/style.scss */
+/* line 849, ../sass/style.scss */
 nav #actions-primary > li > i {
   color: #4380fc;
   font-size: 16px; }
-/* line 850, ../sass/style.scss */
+/* line 853, ../sass/style.scss */
 nav #actions-primary > li > span.label {
   position: absolute;
   left: 25px;
   top: -3px; }
-/* line 855, ../sass/style.scss */
+/* line 858, ../sass/style.scss */
 nav #actions-secondary {
   float: right; }
-  /* line 858, ../sass/style.scss */
+  /* line 861, ../sass/style.scss */
   nav #actions-secondary > li > i {
     color: #8d8d8d;
     font-size: 16px; }
-/* line 863, ../sass/style.scss */
+/* line 866, ../sass/style.scss */
 nav li#create-event {
   border-left: 3px solid #e1e1e1;
   margin-left: 15px; }
-  /* line 867, ../sass/style.scss */
+  /* line 870, ../sass/style.scss */
   nav li#create-event .icon-circle-wrap {
     float: left;
     margin-right: 6px; }
@@ -770,83 +774,83 @@ nav li#create-event {
 /**
  * Alert Messages
  **/
-/* line 877, ../sass/style.scss */
+/* line 880, ../sass/style.scss */
 #messages {
   margin: 10px 0 0 0; }
 
 /**
  * Page Tabs
  **/
-/* line 884, ../sass/style.scss */
+/* line 887, ../sass/style.scss */
 .nav.nav-tabs {
   margin-bottom: 5px; }
 
 /**
  * Page Titles
  **/
-/* line 891, ../sass/style.scss */
+/* line 894, ../sass/style.scss */
 #page-title-wrap {
   position: relative;
   margin-top: 10px; }
-  /* line 895, ../sass/style.scss */
+  /* line 898, ../sass/style.scss */
   #page-title-wrap h1 {
     display: block;
     float: left;
     margin-bottom: 10px; }
-  /* line 901, ../sass/style.scss */
+  /* line 904, ../sass/style.scss */
   #page-title-wrap .edit-options {
     list-style-type: none;
     float: left;
     margin-top: 15px;
     margin-left: 10px; }
-    /* line 907, ../sass/style.scss */
+    /* line 910, ../sass/style.scss */
     #page-title-wrap .edit-options > li {
       float: left;
       margin-left: 10px; }
-      /* line 910, ../sass/style.scss */
+      /* line 913, ../sass/style.scss */
       #page-title-wrap .edit-options > li > a {
         font-weight: bold;
         color: #a8a8a8; }
-        /* line 913, ../sass/style.scss */
+        /* line 916, ../sass/style.scss */
         #page-title-wrap .edit-options > li > a > .caret {
           border-top: 4px solid #a8a8a8; }
 
-/* line 921, ../sass/style.scss */
+/* line 924, ../sass/style.scss */
 #page-title-icon {
   position: absolute;
   top: 10px;
   left: -48px;
   font-size: 36px;
   color: #a8a8a8; }
-  /* line 928, ../sass/style.scss */
+  /* line 931, ../sass/style.scss */
   #page-title-icon.icon-plus {
     top: 13px; }
-  /* line 932, ../sass/style.scss */
+  /* line 935, ../sass/style.scss */
   #page-title-icon.icon-cog {
     top: 12px; }
 
 /**
  * Page Subtitles
  **/
-/* line 940, ../sass/style.scss */
+/* line 943, ../sass/style.scss */
 .page-subtitle {
   line-height: 28px;
   color: #8d8d8d;
   margin-top: 0;
   margin-bottom: 20px; }
 
-/* line 947, ../sass/style.scss */
+/* line 950, ../sass/style.scss */
 .subtitle-backlink-wrap {
   margin-top: -5px;
   margin-bottom: 25px; }
-  /* line 951, ../sass/style.scss */
+  /* line 954, ../sass/style.scss */
   .subtitle-backlink-wrap .subtitle-backlink {
     font-weight: bold; }
 
 /**
  * Login/Initial Setup
  **/
-/* line 959, ../sass/style.scss */
+/* line 962, ../sass/style.scss */
 .popout {
   padding: 10px 20px 20px 20px;
   margin-top: 30px;
@@ -858,17 +862,17 @@ nav li#create-event {
 /**
  * Page Content - General
  **/
-/* line 972, ../sass/style.scss */
+/* line 975, ../sass/style.scss */
 .page-content .page-top-action {
   margin: 20px 0; }
 
 /**
  * Sidebars
  **/
-/* line 980, ../sass/style.scss */
+/* line 983, ../sass/style.scss */
 .social {
   overflow: hidden; }
-  /* line 983, ../sass/style.scss */
+  /* line 986, ../sass/style.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -881,29 +885,29 @@ nav li#create-event {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 996, ../sass/style.scss */
+    /* line 999, ../sass/style.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 997, ../sass/style.scss */
+    /* line 1000, ../sass/style.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 998, ../sass/style.scss */
+    /* line 1001, ../sass/style.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 999, ../sass/style.scss */
+    /* line 1002, ../sass/style.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 1000, ../sass/style.scss */
+    /* line 1003, ../sass/style.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 1001, ../sass/style.scss */
+    /* line 1004, ../sass/style.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 1005, ../sass/style.scss */
+/* line 1008, ../sass/style.scss */
 .feeds-list {
   margin-left: 0; }
-  /* line 1008, ../sass/style.scss */
+  /* line 1011, ../sass/style.scss */
   .feeds-list a {
     text-indent: 50px;
     white-space: nowrap;
@@ -913,33 +917,33 @@ nav li#create-event {
     background-image: url("../../static/img/feeds.png");
     background-repeat: no-repeat;
     padding: 6px 18px; }
-    /* line 1018, ../sass/style.scss */
+    /* line 1021, ../sass/style.scss */
     .feeds-list a.ical {
       background-position: 13px -23px; }
-    /* line 1019, ../sass/style.scss */
+    /* line 1022, ../sass/style.scss */
     .feeds-list a.outlook {
       background-position: 13px -57px; }
-    /* line 1020, ../sass/style.scss */
+    /* line 1023, ../sass/style.scss */
     .feeds-list a.rss {
       background-position: 13px 7px; }
-    /* line 1021, ../sass/style.scss */
+    /* line 1024, ../sass/style.scss */
     .feeds-list a.xml {
       background-position: 13px -119px; }
-    /* line 1022, ../sass/style.scss */
+    /* line 1025, ../sass/style.scss */
     .feeds-list a.json {
       background-position: 13px -91px; }
 
 /**
  * Footer
  **/
-/* line 1029, ../sass/style.scss */
+/* line 1032, ../sass/style.scss */
 footer {
   margin: 40px 0; }
-  /* line 1032, ../sass/style.scss */
+  /* line 1035, ../sass/style.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 1036, ../sass/style.scss */
+    /* line 1039, ../sass/style.scss */
     footer ul li {
       display: block;
       float: left;
@@ -949,13 +953,13 @@ footer {
 /**
  * Static Pages
  **/
-/* line 1049, ../sass/style.scss */
+/* line 1052, ../sass/style.scss */
 #static-base h3 {
   margin-top: 20px; }
-/* line 1053, ../sass/style.scss */
+/* line 1056, ../sass/style.scss */
 #static-base h2 + h3 {
   margin-top: 10px; }
-/* line 1057, ../sass/style.scss */
+/* line 1060, ../sass/style.scss */
 #static-base .page-sidebar strong {
   margin-bottom: 5px;
   display: block; }
@@ -965,18 +969,18 @@ footer {
  **/
 /** Title **/
 /** Event List **/
-/* line 1070, ../sass/style.scss */
+/* line 1073, ../sass/style.scss */
 .form-horizontal.bulk-action-form {
   margin-bottom: 20px; }
-  /* line 1073, ../sass/style.scss */
+  /* line 1076, ../sass/style.scss */
   .form-horizontal.bulk-action-form .control-label {
     width: 85px;
     font-weight: 400; }
-  /* line 1077, ../sass/style.scss */
+  /* line 1080, ../sass/style.scss */
   .form-horizontal.bulk-action-form .controls {
     margin-left: 95px; }
 
-/* line 1083, ../sass/style.scss */
+/* line 1086, ../sass/style.scss */
 label[for="bulk-select"],
 th#thead-recommend,
 td.field-bulk-select label,
@@ -986,47 +990,47 @@ td.field-recommended > span {
   line-height: 1px;
   margin: 0; }
 
-/* line 1092, ../sass/style.scss */
+/* line 1095, ../sass/style.scss */
 #bulk-select-all,
 td.field-bulk-select input {
   margin-top: -4px; }
 
-/* line 1097, ../sass/style.scss */
+/* line 1100, ../sass/style.scss */
 th.field-recommended,
 td.field-recommended {
   text-align: center; }
 
-/* line 1102, ../sass/style.scss */
+/* line 1105, ../sass/style.scss */
 td.event-actions .btn {
   margin-top: -4px; }
 
-/* line 1107, ../sass/style.scss */
+/* line 1110, ../sass/style.scss */
 .manager-item-table .field-bulk-select {
   width: 5%; }
-/* line 1108, ../sass/style.scss */
+/* line 1111, ../sass/style.scss */
 .manager-item-table .field-recommended {
   width: 8%; }
-/* line 1109, ../sass/style.scss */
+/* line 1112, ../sass/style.scss */
 .manager-item-table .event-title {
   width: 42%; }
-/* line 1110, ../sass/style.scss */
+/* line 1113, ../sass/style.scss */
 .manager-item-table .event-time {
   width: 29%; }
-/* line 1111, ../sass/style.scss */
+/* line 1114, ../sass/style.scss */
 .manager-item-table .event-actions {
   width: 16%; }
-/* line 1113, ../sass/style.scss */
+/* line 1116, ../sass/style.scss */
 .manager-item-table .recurrences-toggle {
   display: block;
   font-size: 11px;
   font-weight: bold;
   color: #777; }
-/* line 1119, ../sass/style.scss */
+/* line 1122, ../sass/style.scss */
 .manager-item-table .recurrences {
   display: none;
   font-size: 12px;
   line-height: 16px; }
-  /* line 1124, ../sass/style.scss */
+  /* line 1127, ../sass/style.scss */
   .manager-item-table .recurrences .archived-instance {
     text-decoration: line-through;
     color: #888; }
@@ -1034,7 +1038,7 @@ td.event-actions .btn {
 /**
  * Create/Update Calendar
  **/
-/* line 1134, ../sass/style.scss */
+/* line 1137, ../sass/style.scss */
 #manager-calendar-delete {
   float: right;
   position: relative;
@@ -1046,7 +1050,7 @@ td.event-actions .btn {
  * Edit Calendar
  **/
 /* Users & Permissions */
-/* line 1147, ../sass/style.scss */
+/* line 1150, ../sass/style.scss */
 #users-permissions > h2,
 #subscriptions > h2 {
   width: 0;
@@ -1055,7 +1059,7 @@ td.event-actions .btn {
   text-indent: -9999px;
   margin: 0; }
 
-/* line 1155, ../sass/style.scss */
+/* line 1158, ../sass/style.scss */
 #users-permissions > h3,
 #subscriptions > h3 {
   /* Look like h2 */
@@ -1064,7 +1068,7 @@ td.event-actions .btn {
   line-height: 40px;
   margin: 0; }
 
-/* line 1164, ../sass/style.scss */
+/* line 1167, ../sass/style.scss */
 #users-permissions label[for="id_add_user"],
 #users-permissions label[for="id_role"],
 #users-permissions label[for="id_username_d"] {
@@ -1072,26 +1076,26 @@ td.event-actions .btn {
   height: 0;
   display: block;
   text-indent: -9999px; }
-/* line 1172, ../sass/style.scss */
+/* line 1176, ../sass/style.scss */
 #users-permissions label[for="id_add_role"] + .form-inline {
   margin-bottom: 30px; }
-/* line 1176, ../sass/style.scss */
+/* line 1180, ../sass/style.scss */
 #users-permissions .calendar-access-username {
   font-weight: bold; }
 
-/* line 1181, ../sass/style.scss */
+/* line 1185, ../sass/style.scss */
 #manager-calendar-add-user {
   position: relative; }
 
 /* Calendar Info */
-/* line 1187, ../sass/style.scss */
+/* line 1191, ../sass/style.scss */
 #calendar-info h2 {
   margin-top: 0; }
-/* line 1191, ../sass/style.scss */
+/* line 1195, ../sass/style.scss */
 #calendar-info button {
   margin-top: 70px; }
 
-/* line 1196, ../sass/style.scss */
+/* line 1200, ../sass/style.scss */
 #calendar-update {
   margin-bottom: 0; }
 
@@ -1100,19 +1104,19 @@ td.event-actions .btn {
  * Frontend Single Calendar
  **/
 /* General */
-/* line 1209, ../sass/style.scss */
+/* line 1213, ../sass/style.scss */
 ul.event-list {
   margin-bottom: 30px;
   list-style-type: none;
   margin-left: 0; }
-/* line 1210, ../sass/style.scss */
+/* line 1214, ../sass/style.scss */
 ul.event-list li {
   background-color: #f1f1f1;
   position: relative;
   margin-bottom: 5px;
   padding: 5px 0 20px 30px;
   overflow: auto; }
-  /* line 1217, ../sass/style.scss */
+  /* line 1221, ../sass/style.scss */
   ul.event-list li:after {
     /* Because border-left on the li ignores z-index? */
     content: "";
@@ -1122,21 +1126,21 @@ ul.event-list li {
     height: 100%;
     width: 30px;
     background-color: #666; }
-  /* line 1227, ../sass/style.scss */
+  /* line 1231, ../sass/style.scss */
   ul.event-list li:hover {
     background-color: #fffbe9; }
-    /* line 1229, ../sass/style.scss */
+    /* line 1233, ../sass/style.scss */
     ul.event-list li:hover .event-content {
       text-decoration: none; }
-      /* line 1232, ../sass/style.scss */
+      /* line 1236, ../sass/style.scss */
       ul.event-list li:hover .event-content h5 {
         color: #7c6b27; }
-  /* line 1238, ../sass/style.scss */
+  /* line 1242, ../sass/style.scss */
   ul.event-list li .event-content {
     display: block;
     margin-left: 20px;
     padding-right: 20px; }
-  /* line 1243, ../sass/style.scss */
+  /* line 1247, ../sass/style.scss */
   ul.event-list li .event-content img {
     display: block;
     float: left;
@@ -1144,12 +1148,12 @@ ul.event-list li {
     height: 100px;
     background-color: #666;
     margin: 0 20px 5px 0; }
-  /* line 1252, ../sass/style.scss */
+  /* line 1256, ../sass/style.scss */
   ul.event-list li .event-content h5 {
     /* Room for event time */
     margin-right: 100px;
     margin-bottom: 0; }
-  /* line 1257, ../sass/style.scss */
+  /* line 1261, ../sass/style.scss */
   ul.event-list li .event-content .location,
   ul.event-list li .event-content .calendar {
     color: #666;
@@ -1158,12 +1162,12 @@ ul.event-list li {
     display: block;
     margin-right: 100px;
     /* Room for event time */ }
-  /* line 1266, ../sass/style.scss */
+  /* line 1270, ../sass/style.scss */
   ul.event-list li .event-content .description {
     display: block;
     font-size: 12px;
     line-height: 18px; }
-  /* line 1272, ../sass/style.scss */
+  /* line 1276, ../sass/style.scss */
   ul.event-list li .event-content .dtstart {
     display: block;
     position: absolute;
@@ -1175,7 +1179,7 @@ ul.event-list li {
     font-size: 20px;
     font-weight: 300;
     text-align: right; }
-  /* line 1286, ../sass/style.scss */
+  /* line 1290, ../sass/style.scss */
   ul.event-list li .category {
     position: absolute;
     left: 0;
@@ -1195,12 +1199,12 @@ ul.event-list li {
     -moz-transform: rotate(270deg);
     -ms-transform: rotate(270deg);
     transform: rotate(270deg); }
-/* line 1311, ../sass/style.scss */
+/* line 1315, ../sass/style.scss */
 ul.event-list-condensed {
   margin: 8px 0 0 0;
   list-style-type: none;
   width: 100%; }
-  /* line 1316, ../sass/style.scss */
+  /* line 1320, ../sass/style.scss */
   ul.event-list-condensed li {
     text-overflow: ellipsis;
     width: 114px;
@@ -1208,17 +1212,17 @@ ul.event-list-condensed {
     overflow: hidden;
     font-size: 11px;
     line-height: 23px; }
-    /* line 1324, ../sass/style.scss */
+    /* line 1328, ../sass/style.scss */
     ul.event-list-condensed li time {
       font-weight: bold; }
 
 /* Day, Week View */
-/* line 1332, ../sass/style.scss */
+/* line 1336, ../sass/style.scss */
 #calendar-events-day h2,
 #calendar-events-week h2 {
   margin-bottom: 20px; }
 
-/* line 1337, ../sass/style.scss */
+/* line 1341, ../sass/style.scss */
 #calendar-events-day h3,
 #calendar-events-week h3 {
   font-size: 20px;
@@ -1226,7 +1230,7 @@ ul.event-list-condensed {
   font-weight: 300; }
 
 /* Month View */
-/* line 1345, ../sass/style.scss */
+/* line 1349, ../sass/style.scss */
 #calendar-events-month h2 {
   margin: 0;
   width: 0;
@@ -1234,40 +1238,40 @@ ul.event-list-condensed {
   display: block;
   text-indent: -9999px; }
 
-/* line 1353, ../sass/style.scss */
+/* line 1357, ../sass/style.scss */
 #calendar-events-month h3 {
   text-align: center;
   font-size: 24.5px;
   line-height: 40px; }
 
-/* line 1359, ../sass/style.scss */
+/* line 1363, ../sass/style.scss */
 #month-toggle {
   margin: 15px 0 0 0;
   width: 280px;
   position: relative;
   top: 0;
   left: 0; }
-  /* line 1366, ../sass/style.scss */
+  /* line 1370, ../sass/style.scss */
   #month-toggle label {
     width: 0;
     height: 0;
     text-indent: -9999px; }
-  /* line 1373, ../sass/style.scss */
+  /* line 1377, ../sass/style.scss */
   #month-toggle select#id_year {
     width: 68px; }
-  /* line 1377, ../sass/style.scss */
+  /* line 1381, ../sass/style.scss */
   #month-toggle select#id_month {
     width: 107px; }
 
 /* Year View */
-/* line 1384, ../sass/style.scss */
+/* line 1388, ../sass/style.scss */
 #calendar-events-year h2 {
   text-align: center; }
 
 /**
  * Frontend Events by Category, Tag, Term
  **/
-/* line 1391, ../sass/style.scss */
+/* line 1395, ../sass/style.scss */
 #term-events ul.event-list li .event-content .dtstart {
   background-color: transparent;
   width: 100%;
@@ -1277,12 +1281,12 @@ ul.event-list-condensed {
   font-weight: normal;
   padding: 15px 0 0 0; }
 
-/* line 1400, ../sass/style.scss */
+/* line 1404, ../sass/style.scss */
 #term-events ul.event-list li .event-content .location,
 #term-events ul.event-list li .event-content .calendar {
   margin-right: 0; }
 
-/* line 1404, ../sass/style.scss */
+/* line 1408, ../sass/style.scss */
 #term-events ul.event-list li .event-content .calendar {
   padding-top: 10px; }
 
@@ -1290,14 +1294,14 @@ ul.event-list-condensed {
  * Frontend Single Event
  **/
 /* General - Body, Sidebar */
-/* line 1414, ../sass/style.scss */
+/* line 1418, ../sass/style.scss */
 #event-single-sidebar span,
 #event-single-sidebar h2 {
   display: block;
   width: 100%;
   margin-top: 0; }
 
-/* line 1421, ../sass/style.scss */
+/* line 1425, ../sass/style.scss */
 #event-single h2,
 #event-single-sidebar h2,
 #event-single .event-single-subheader,
@@ -1306,19 +1310,19 @@ ul.event-list-condensed {
   font-size: 17.5px;
   line-height: 20px; }
 
-/* line 1430, ../sass/style.scss */
+/* line 1434, ../sass/style.scss */
 #event-single h2.alt,
 #event-single-sidebar h2.alt {
   width: 50%;
   float: left; }
 
-/* line 1436, ../sass/style.scss */
+/* line 1440, ../sass/style.scss */
 #event-single hr,
 #event-single-sidebar hr {
   border-width: 3px 0; }
 
 /* Title icon date */
-/* line 1442, ../sass/style.scss */
+/* line 1446, ../sass/style.scss */
 #page-title-wrap .event-icon-date {
   display: block;
   width: 28px;
@@ -1333,62 +1337,62 @@ ul.event-list-condensed {
   text-align: center; }
 
 /* Sidebar */
-/* line 1457, ../sass/style.scss */
+/* line 1461, ../sass/style.scss */
 #event-single-sidebar {
   position: relative; }
-  /* line 1460, ../sass/style.scss */
+  /* line 1464, ../sass/style.scss */
   #event-single-sidebar .event-single-datetime {
     font-size: 30px;
     line-height: 30px;
     letter-spacing: -0.5px;
     margin-top: 0; }
-  /* line 1467, ../sass/style.scss */
+  /* line 1471, ../sass/style.scss */
   #event-single-sidebar .event-single-attime {
     margin-bottom: 7px;
     margin-top: 5px; }
-  /* line 1472, ../sass/style.scss */
+  /* line 1476, ../sass/style.scss */
   #event-single-sidebar .event-single-until,
   #event-single-sidebar .event-single-occurring {
     margin-top: 20px; }
-  /* line 1477, ../sass/style.scss */
+  /* line 1481, ../sass/style.scss */
   #event-single-sidebar .event-contact {
     overflow: hidden; }
-  /* line 1481, ../sass/style.scss */
+  /* line 1485, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info {
     display: block;
     float: left;
     width: 50%;
     clear: right; }
-  /* line 1489, ../sass/style.scss */
+  /* line 1493, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info span {
     margin-bottom: 5px; }
-  /* line 1494, ../sass/style.scss */
+  /* line 1498, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-name {
     font-weight: bold; }
-  /* line 1499, ../sass/style.scss */
+  /* line 1503, ../sass/style.scss */
   #event-single-sidebar i {
     color: #8d8d8d; }
-  /* line 1503, ../sass/style.scss */
+  /* line 1507, ../sass/style.scss */
   #event-single-sidebar .event-location-widget {
     margin-top: 10px;
     margin-bottom: -10px; }
-  /* line 1507, ../sass/style.scss */
+  /* line 1511, ../sass/style.scss */
   #event-single-sidebar .event-location-note {
     font-size: 12px;
     line-height: 16px;
     margin-top: 20px; }
 
 /* Body - Meta Information */
-/* line 1513, ../sass/style.scss */
+/* line 1517, ../sass/style.scss */
 #event-meta {
   overflow: hidden; }
-  /* line 1516, ../sass/style.scss */
+  /* line 1520, ../sass/style.scss */
   #event-meta > * {
     margin-bottom: 10px; }
-  /* line 1520, ../sass/style.scss */
+  /* line 1524, ../sass/style.scss */
   #event-meta h3 {
     display: block;
     float: left;
@@ -1396,7 +1400,7 @@ ul.event-list-condensed {
     clear: left;
     font-weight: normal;
     margin-top: 10px; }
-  /* line 1529, ../sass/style.scss */
+  /* line 1533, ../sass/style.scss */
   #event-meta .event-meta-calendar,
   #event-meta .event-meta-category,
   #event-meta .event-meta-tags {
@@ -1408,7 +1412,7 @@ ul.event-list-condensed {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px; }
-  /* line 1542, ../sass/style.scss */
+  /* line 1546, ../sass/style.scss */
   #event-meta .event-meta-tags a {
     display: block;
     width: auto;
@@ -1426,7 +1430,7 @@ ul.event-list-condensed {
  * Create/Update Event
  **/
 /* When/Where */
-/* line 1562, ../sass/style.scss */
+/* line 1566, ../sass/style.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -1435,32 +1439,32 @@ ul.event-list-condensed {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 1570, ../sass/style.scss */
+/* line 1574, ../sass/style.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 1575, ../sass/style.scss */
+/* line 1579, ../sass/style.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 1582, ../sass/style.scss */
+/* line 1586, ../sass/style.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 1587, ../sass/style.scss */
+/* line 1591, ../sass/style.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 1591, ../sass/style.scss */
+/* line 1595, ../sass/style.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 1597, ../sass/style.scss */
+/* line 1601, ../sass/style.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -1470,18 +1474,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 1607, ../sass/style.scss */
+/* line 1611, ../sass/style.scss */
 .cloner {
   position: relative; }
-  /* line 1610, ../sass/style.scss */
+  /* line 1614, ../sass/style.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 1613, ../sass/style.scss */
+    /* line 1617, ../sass/style.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 1620, ../sass/style.scss */
+  /* line 1624, ../sass/style.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -1489,7 +1493,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 1629, ../sass/style.scss */
+  /* line 1633, ../sass/style.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -1497,38 +1501,38 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 1638, ../sass/style.scss */
+/* line 1642, ../sass/style.scss */
 .remove-instance {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   float: right;
   padding: 8px 14px; }
 
-/* line 1644, ../sass/style.scss */
+/* line 1648, ../sass/style.scss */
 .remove-instance:hover ~ div > .whenwhere-wrap,
 .remove-instance:focus ~ div > .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 1650, ../sass/style.scss */
+/* line 1654, ../sass/style.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 1655, ../sass/style.scss */
+/* line 1659, ../sass/style.scss */
 .location-search .autocomplete-new-btn {
   top: 25px; }
 
-/* line 1658, ../sass/style.scss */
+/* line 1662, ../sass/style.scss */
 .tag-search .autocomplete-new-btn {
   top: 0;
   right: 66px; }
 
-/* line 1663, ../sass/style.scss */
+/* line 1667, ../sass/style.scss */
 .location-selected {
   position: relative; }
 
-/* line 1667, ../sass/style.scss */
+/* line 1671, ../sass/style.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -1538,14 +1542,14 @@ label[for*="-location-autocomplete"] {
   right: -16px;
   color: #A8A8A8; }
 
-/* line 1678, ../sass/style.scss */
+/* line 1682, ../sass/style.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1682, ../sass/style.scss */
+/* line 1686, ../sass/style.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1688, ../sass/style.scss */
+/* line 1692, ../sass/style.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -1553,12 +1557,12 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 90%; }
 
-/* line 1696, ../sass/style.scss */
+/* line 1700, ../sass/style.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1701, ../sass/style.scss */
+/* line 1705, ../sass/style.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -1570,7 +1574,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1713, ../sass/style.scss */
+  /* line 1717, ../sass/style.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -1583,13 +1587,13 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1726, ../sass/style.scss */
+    /* line 1730, ../sass/style.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
 /* Contact information */
-/* line 1735, ../sass/style.scss */
+/* line 1739, ../sass/style.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
 
@@ -1597,7 +1601,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1744, ../sass/style.scss */
+/* line 1748, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;

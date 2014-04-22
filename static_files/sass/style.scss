@@ -82,6 +82,9 @@ $dropdown-i-padding: 6px;
 }
 
 .dropdown-menu {
+    max-height: 250px;
+    overflow-y: scroll;
+
     li {
         i {
             padding-right: $dropdown-i-padding;
