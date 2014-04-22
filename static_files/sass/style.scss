@@ -1123,6 +1123,11 @@ td.event-actions .btn {
         display: none;
         font-size: 12px;
         line-height: 16px;
+        margin-left: 0;
+        padding-left: 12px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-height: 250px;
 
         .archived-instance {
             text-decoration: line-through;
