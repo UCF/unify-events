@@ -2899,6 +2899,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/static_files\/css\/style.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/css\/style.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/static_files\/events-widget\/demo-calendar.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -3136,6 +3145,17 @@
 		"outputAbbreviatedPath": "\/static_files\/js\/jonthornton-jquery-timepicker\/README.html",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
+		},
+	"\/static_files\/js\/min\/script-ck.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/js\/min\/script-ck.js",
+		"outputAbbreviatedPath": "\/static_files\/js\/min\/min\/script-ck-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		},
 	"\/static_files\/js\/placeholders.min.js": {
 		"fileType": 64,

@@ -34,7 +34,7 @@
             <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
                 <select id="id_username_d" name="username_d">
                     {% for user in users %}
-                    <option value="{{ user.username|escapejs }}" data-first-name="{{ user.first_name|escapejs }}" data-last-name="{{ user.last_name|escapejs }}" {% if user in calendar.admins or user in calendar.editors or user == calendar.owner %}disabled="disabled"{% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+                    <option value="{{ user.username|escapejs }}" {% if user in calendar.admins or user in calendar.editors or user == calendar.owner %}disabled="disabled"{% endif %}>{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</option>
                     {% endfor %}
                 </select>
                 <input id="id_add_user" style="display:none;" class="span4 user-search" type="text" autocomplete="off" placeholder="Search by first, last name or NID" name="add_user">
@@ -44,7 +44,6 @@
                     <option value="admin">Admin</option>
                     <option value="editor" selected>Editor</option>
                 </select>
-                <input type="hidden" id="id_username" value="">
                 <button class="btn" id="add-user-submit">Add User</button>
             </form>
 

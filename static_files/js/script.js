@@ -328,206 +328,139 @@ var initiateReReviewCopy = function() {
 };
 
 /**
- * User search typeahead
+ * Generic autocomplete class.
+ * Methods can be overridden before calling init to customize data parsing.
  **/
-var userSearchTypeahead = function() {
-    var autocompleteField = $('#id_add_user'),
-        dropdown = $('#id_username_d'),
-        usernameField = $('#id_username'),
-        suggestionList = autocompleteField.next($('.autocomplete-suggestion-list.dropdown-menu')),
-        timer = null,
-        delay = 300;
+var selectFieldAutocomplete = function(autocompleteField, dataField) {
+    this.autocompleteField = autocompleteField, // jQuery object of the <input> field to perform autocomplete on
+    this.dataField = dataField,                 // jQuery object of the <select> field of options to search against and submit when the form is submitted.
+    this.form = dataField.parents('form'),      // The autocomplete <form>
+    this.searchableTerms = [],                  // Array used by Bootstrap typeahead to search queries against. Should contain only strings.
+    this.mappedData = {},                       // Complete objects that represent searchable data
+    this.selection = null;                      // The current selected autocomplete value
 
-    // Enable autocomplete field. Hide dropdown.
-    dropdown.hide();
-    autocompleteField.show();
-    $('label[for="id_username"]').attr('for', autocompleteField.attr('name'));
+    // Function that performs pre-search setup; i.e. shows/hides various fields.
+    this.setupForm = function() {
+        return;
+    }
 
-    // Get all existing users in user list
-    var existingUsers = function() {
-        var array = [];
-        $('.calendar-access-username:not("th")').each(function() {
-            array.push($(this).html());
-        });
-        return array;
-    };
-
-    // Execute a search
-    var performSearch = function(query) {
-        var matchesFound = false;
-        var matches = [];
-        var i = 0;
-        $.each($('#id_username_d > option'), function() {
-            var option = $(this),
-                username = option.val(),
-                firstname = option.attr('data-first-name') || '';
-                lastname = option.attr('data-last-name') || '',
-                name = option.text();
-            if ($.trim(name).length < 1) {
-                name = username + ' (name n/a)';
+    // Prevent form submission via enter keypress in autocomplete field
+    this.preventFormSubmission = function() {
+        var self = this;
+        self.form.on('submit', function(event) {
+            if (self.autocompleteField.is(':focus')) {
+                return false;
             }
+        });
+    }
 
-            // Check full names and NIDs.
-            if ((name.toLowerCase().indexOf(query.toLowerCase()) > -1 || (username.toLowerCase().indexOf(query.toLowerCase()) > -1)) &&
-                $.inArray(username, existingUsers()) === -1
-            ) {
-                // Push name to autocomplete suggestions list
-                matchesFound = true;
-                var listItem = $('<li data-name="' + name + '" data-username="' + username + '"></li>');
-                var link = $('<a tabindex="0" class="suggestion-link" href="#">' + name + '</a>');
-
-                // Assign click event to link
-                link.on('click', function(event) {
-                    event.preventDefault();
-                    selectSuggestion(listItem);
-                });
-
-                listItem.html(link);
-                matches.push(listItem);
-
-                // Increment counter.  Max out at 10 results.
-                i++;
-                if (i == 10) {
-                    return false;
+    // Clear hidden field value if autocomplete field is cleared.
+    this.checkEmptyValues = function() {
+        var self = this;
+        self.autocompleteField.on('keyup focus', function(event) {
+            if (!self.autocompleteField.val()) {
+                self.autocompleteField.trigger('change');
+                if (self.dataField.is('select')) {
+                    self.dataField.children('option:selected').removeAttr('selected');
+                    self.dataField.children('option:selected').prop('selected', false);
                 }
+                self.dataField.val('');
             }
         });
-        if (matchesFound) {
-            // Append matches to list
-            $.each(matches, function(index, val) {
-                val.appendTo(suggestionList);
+    }
+
+    // Set searchableTerms array and mappedData values.
+    // Must be overridden if dataField is not a <select> field.
+    this.setSearchTerms = function() {
+        var self = this;
+        if (self.dataField.is('select')) {
+            $.each(self.dataField.children('option:not([disabled])'), function() {
+                var option = $(this),
+                    key = option.val(),
+                    val = option.text();
+                if ($.trim(val).length < 1) {
+                    val = key + ' (name n/a)';
+                }
+
+                self.mappedData[val] = key;
+                self.searchableTerms.push(val);
             });
-            suggestionList.show();
         }
-        else {
-            suggestionList.hide();
-        }
-    };
+    }
 
-    // Prevent form submission via enter keypress in any autocomplete field
-    dropdown.parents('form').on('submit', function(event) {
-        if (autocompleteField.is(':focus')) {
-            return false;
-        }
-    });
+    // Function to pass to Bootstrap Typeahead's 'source' method.
+    this.typeaheadSource = function(query, process) {
+        var self = this;
+        return process(self.searchableTerms);
+    }
 
-    // Handle typing into search field
-    var timer = null;
+    // Function to pass to Bootstrap Typeahead's 'updater' method.
+    // Must be overridden if dataField is not a <select> field.
+    // This function must return 'item'.
+    this.typeaheadUpdater = function(item) {
+        var self = this;
+        self.selection = self.mappedData[item];
+        self.dataField.val(self.selection);
+        self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
+        self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+        return item;
+    }
 
-    autocompleteField.on('keyup focus', function(event) {
-        clearTimeout(timer);
-        var query = autocompleteField.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+    this.init = function() {
+        var self = this;
+        self.setupForm();
+        self.preventFormSubmission();
+        self.checkEmptyValues();
+        self.setSearchTerms();
 
-        // Execute a search for a non-empty field val.
-        if (query !== '') {
-            if (
-                (event.type == 'focus') ||
-                (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44)
-            ) {
-                timer = setTimeout(function() {
-                    suggestionList.empty();
-                    performSearch(query);
-                }, delay);
+        self.autocompleteField.typeahead({
+            source: function(query, process) {
+                self.typeaheadSource(query, process);
+            },
+            items: 10,
+            minLength: 2,
+            updater: function(item) {
+                var item = self.typeaheadUpdater(item);
+                return item;
             }
-            // If user typed a non-alphanumeric key, check for up/down strokes
-            else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
-                if (suggestionList.children().length > 0 && suggestionList.is(':visible')) {
-                    var selected = suggestionList.children('.selected');
-                    var newselected = null;
-                    if (event.keyCode == 40) {
-                        // Right or down key press. Move down one list item.
-                        // Check if a list item is highlighted yet or not
-                        if (selected.length > 0) {
-                            newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
-                        }
-                        else {
-                            newselected = suggestionList.children('li').first();
-                        }
-                    }
-                    else if (event.keyCode == 38) {
-                        // Up key press. Move up one list item
-                        if (selected.length > 0) {
-                            newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
-                        }
-                        else {
-                            newselected = suggestionList.children('li').last();
-                        }
-                    }
-                    else if (event.keyCode == 39 || event.keyCode == 37) {
-                        // Left/right key press; do nothing
-                        return;
-                    }
-                    // Change css class to show traversal of selected items
-                    selected.removeClass('selected');
-                    newselected.addClass('selected');
-                }
-            }
-            // If user hit enter on the autocomplete field, select the query
-            else if (event.type == 'keyup' && event.keyCode == 13) {
-                // We can only select existing suggestions that are currently highlighted
-                if (suggestionList.children().length > 0) {
-                    var selected = suggestionList.children('.selected');
-                    if (selected.length < 1) {
-                        selectSuggestion(suggestionList.children('li').first());
-                    }
-                    else {
-                        selectSuggestion(selected.first());
-                    }
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        // Remove suggestion list if user emptied the field
-        else {
-            unselectSuggestion();
-            suggestionList.hide();
-        }
-    });
-
-    var selectSuggestion = function(listItem) {
-        // Remove any existing set location value
-        unselectSuggestion();
-
-        // Hide autocomplete suggestions
-        suggestionList.empty().hide();
-
-        // Assign the hidden field's value
-        usernameField.val(listItem.attr('data-username'));
-
-        // Fill the current autocomplete field value
-        autocompleteField
-            .val(listItem.attr('data-name'))
-            .trigger('change');
-    };
-
-    var unselectSuggestion = function() {
-        autocompleteField
-            .val('')
-            .trigger('change');
-        usernameField.val('');
+        });
     }
 };
 
-/**
- * Add new user front-end validation
- * (Don't allow new users to be submitted w/o valid name, role)
- **/
-var userAddValidation = function() {
-    var addBtn = $('#add-user-submit');
 
-    // Click handler for easy toggling of link enable/disable
+/**
+ * User search typeahead + form validation
+ **/
+var userSearchTypeahead = function() {
+    var autocompleteField = $('#id_add_user'),
+        usersField = $('#id_username_d'),
+        roleField = $('#id_role'),
+        form = usersField.parents('form'),
+        addBtn = form.find('button');
+
+    // Initiate autocomplete form
+    var autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
+    autocomplete.setupForm = function() {
+        var self = this;
+        // Enable autocomplete field. Hide data field.
+        if (self.dataField.is(':visible')) {
+            self.dataField.hide();
+            self.autocompleteField.show();
+            $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
+        }
+    }
+    autocomplete.init();
+
+    // Form validation (don't allow new users to be submitted w/o valid name, role)
     var handler = function(e) {
         e.preventDefault();
     };
 
-    // Check for changes in input values; toggle button
     var toggleAddBtn = function() {
         if (
-            $('#id_add_user').val() === '' ||
-            $('#id_username').val() === '' ||
-            $('#id_role').val() === ''
+            autocompleteField.val() === '' ||
+            usersField.val() === '' ||
+            roleField.val() === ''
         ){
             addBtn
                 .addClass('disabled')
@@ -542,22 +475,24 @@ var userAddValidation = function() {
 
     // Handle load, on form change events
     toggleAddBtn();
-    $('#id_add_user, #id_username, #id_role').on('change', function() {
-        toggleAddBtn();
+    $([autocompleteField, usersField, roleField]).each(function() {
+        $(this).on('change', function() {
+            toggleAddBtn();
+        });
     });
 
     // Handle form submit
     addBtn.click(function(e) {
         if ($(this).hasClass('disabled') === false) {
-            var form = $('#manager-calendar-add-user'),
-                url = form.attr('action'),
-                username = $('#id_username').val(),
-                role = $('#id_add_role').val();
+            var url = form.attr('action'),
+                username = usersField.children('option:selected').val(),
+                role = roleField.val();
             url = url.replace('/username/role', '/' + username + '/' + role);
             form.attr('action', url);
         }
     });
-};
+}
+
 
 /**
  * Clone fieldsets of a form; auto-increment field IDs as necessary.
@@ -1364,7 +1299,6 @@ $(document).ready(function() {
     initiateDisabledWysiwyg($('textarea.wysiwyg.disabled-wysiwyg'));
     initiateReReviewCopy();
     userSearchTypeahead();
-    userAddValidation();
     cloneableFieldsets();
     calendarOwnershipModal();
     calendarSubscribeModal();
