@@ -497,11 +497,15 @@ var userSearchTypeahead = function() {
         usernameField.val(listItem.attr('data-username'));
 
         // Fill the current autocomplete field value
-        autocompleteField.val(listItem.attr('data-name'));
+        autocompleteField
+            .val(listItem.attr('data-name'))
+            .trigger('change');
     };
 
     var unselectSuggestion = function() {
-        autocompleteField.val('');
+        autocompleteField
+            .val('')
+            .trigger('change');
         usernameField.val('');
     }
 };
@@ -538,7 +542,7 @@ var userAddValidation = function() {
 
     // Handle load, on form change events
     toggleAddBtn();
-    $('#id_add_user, #id_username, #id_role').change(function() {
+    $('#id_add_user, #id_username, #id_role').on('change', function() {
         toggleAddBtn();
     });
 
