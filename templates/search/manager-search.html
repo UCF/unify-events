@@ -4,7 +4,10 @@
 {% load core_tags %}
 
 {% block search_nav %}
-{% include_esi_template 'esi/manager-search-nav.html' %}
+
+{% with 'q='|add:request.GET.q as params %}
+{% include_esi_template 'esi/manager-search-nav.html' params %}
+{% endwith %}
 
 <form method="GET" action=".">
     {{ form.q.label }}
