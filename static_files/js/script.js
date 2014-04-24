@@ -471,7 +471,7 @@ var userSearchTypeahead = function() {
         var toggleAddBtn = function() {
             if (
                 self.autocompleteField.val() === '' ||
-                self.dataField.val() === '' ||
+                !self.dataField.val() ||
                 self.roleField.val() === ''
             ){
                 self.addBtn
@@ -1074,7 +1074,9 @@ eventTagging = function() {
         return '';
     }
 
-    autocomplete.init();
+    if (eventTags) {
+        autocomplete.init();
+    }
 };
 
 /**
