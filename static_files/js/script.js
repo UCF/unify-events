@@ -454,13 +454,42 @@ var userSearchTypeahead = function() {
     // Initiate autocomplete form
     var autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
     autocomplete.roleField = roleField;
+    autocomplete.addBtn = addBtn;
 
     autocomplete.setupForm = function() {
         var self = this;
+
         // Enable autocomplete field. Hide data field.
         self.dataField.hide();
         self.autocompleteField.show();
         $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
+
+        // Handle form validation (don't allow new users to be submitted w/o valid name, role)
+        var handler = function(e) {
+            e.preventDefault();
+        };
+        var toggleAddBtn = function() {
+            if (
+                self.autocompleteField.val() === '' ||
+                self.dataField.val() === '' ||
+                self.roleField.val() === ''
+            ){
+                self.addBtn
+                    .addClass('disabled')
+                    .bind('click', handler);
+            }
+            else {
+                self.addBtn
+                    .removeClass('disabled')
+                    .unbind('click', handler);
+            }
+        };
+        toggleAddBtn();
+        $([self.autocompleteField, self.dataField, self.roleField]).each(function() {
+            $(this).on('change', function() {
+                toggleAddBtn();
+            });
+        });
     }
     autocomplete.onFormSubmission = function() {
         var self = this;
@@ -478,36 +507,6 @@ var userSearchTypeahead = function() {
         });
     }
     autocomplete.init();
-
-    // Form validation (don't allow new users to be submitted w/o valid name, role)
-    var handler = function(e) {
-        e.preventDefault();
-    };
-
-    var toggleAddBtn = function() {
-        if (
-            autocompleteField.val() === '' ||
-            usersField.val() === '' ||
-            roleField.val() === ''
-        ){
-            addBtn
-                .addClass('disabled')
-                .bind('click', handler);
-        }
-        else {
-            addBtn
-                .removeClass('disabled')
-                .unbind('click', handler);
-        }
-    };
-
-    // Handle load, on form change events
-    toggleAddBtn();
-    $([autocompleteField, usersField, roleField]).each(function() {
-        $(this).on('change', function() {
-            toggleAddBtn();
-        });
-    });
 }
 
 
