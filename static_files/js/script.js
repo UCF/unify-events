@@ -1044,6 +1044,9 @@ eventTagging = function() {
                 return false;
             }
             else {
+                if (self.autocompleteField.val() !== '') {
+                    self.selectedTagsArray.push(self.autocompleteField.val());
+                }
                 // Push the final value of selectedTagsArray to dataField's value
                 var selectedTagsStr = autocomplete.selectedTagsArray.toString();
                 autocomplete.dataField
