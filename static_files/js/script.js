@@ -458,11 +458,9 @@ var userSearchTypeahead = function() {
     autocomplete.setupForm = function() {
         var self = this;
         // Enable autocomplete field. Hide data field.
-        if (self.dataField.is(':visible')) {
-            self.dataField.hide();
-            self.autocompleteField.show();
-            $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
-        }
+        self.dataField.hide();
+        self.autocompleteField.show();
+        $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
     }
     autocomplete.onFormSubmission = function() {
         var self = this;
@@ -522,6 +520,9 @@ var cloneableFieldsets = function() {
             cloneable = cloneableWrap.children(':first'),
             cloneBtn = cloneableWrap.parent().find('.cloner'),
             prefix = cloneable.attr('data-form-prefix');
+
+        // Add content to cloner btn
+        cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
 
         // Update the index in the ID, name, or 'for' attr of the form element
         var updateElementIndex = function(element, prefix, index) {
@@ -717,283 +718,185 @@ var toggleEventListRecurrences = function() {
 var eventLocationsSearch = function(locationDropdowns) {
     if (locationDropdowns.length > 0) {
         locationDropdowns.each(function() {
-            var dropdown = $(this),
-                autocompleteId = dropdown.attr('id') + '-autocomplete',
-                locationCloneParent = dropdown.parents('.cloneable'),
-                cloneBtn = locationCloneParent.parents('.control-group').find('.cloner'),
-                locationRow = dropdown.parent('.location-search').parent('.row'),
+            var locationsField = $(this), // 'dropdown'
+                autocompleteId = locationsField.attr('id') + '-autocomplete',
+                autocompleteField = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />'),
+                locationRow = locationsField.parent('.location-search').parent('.row'),
                 locationTitleSpan = locationRow.find('.location-selected-title'),
                 locationRoomSpan = locationRow.find('.location-selected-room'),
                 locationUrlSpan = locationRow.find('.location-selected-url'),
-                locationNewForm = locationRow.find('.location-new-form');
+                newLocationForm = locationRow.find('.location-new-form');
 
-            // Hide dropdown
-            dropdown.hide();
+            var autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
-            /**
-             * Hide new location form if creating a new event instance
-             * by checking whether the title field is empty. Display
-             * location form if there something is in the title field.
-             **/
-            if (!locationNewForm.children('input[name*="-new_location_title"]').val()) {
-                locationNewForm.hide();
-            }
+            autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
+            autocomplete.removeBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
+            autocomplete.locationRow = locationRow;
+            autocomplete.locationTitleSpan = locationTitleSpan;
+            autocomplete.locationRoomSpan = locationRoomSpan;
+            autocomplete.locationUrlSpan = locationUrlSpan;
+            autocomplete.newLocationForm = newLocationForm;
 
-            // Add content to cloner btn
-            cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
+            // Custom function that displays the New Location form fields
+            // and populates it with the location name typed in the autocomplete field.
+            autocomplete.createNewLocation = function(item) {
+                var self = this;
 
-            // Create search as you type field + other elements, if necessary
-            var locationAutocomplete = null,
-                locationNewBtn = null,
-                suggestionList = null,
-                locationRemoveBtn = null;
-
-            if (dropdown.siblings('.location-autocomplete').length < 1) {
-                locationAutocomplete = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />');
-                locationAutocomplete.insertAfter(dropdown);
-
-                locationNewBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
-                locationNewBtn.insertAfter(locationAutocomplete).hide();
-
-                suggestionList = $('<ul class="dropdown-menu location-suggestions autocomplete-suggestion-list"></ul>');
-                suggestionList.insertAfter(locationNewBtn).hide();
-
-                locationRemoveBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
-                locationRemoveBtn.insertBefore(locationTitleSpan);
-            }
-            else {
-                locationAutocomplete = dropdown.siblings('.location-autocomplete');
-                locationNewBtn = dropdown.siblings('.autocomplete-new-btn');
-                suggestionList = dropdown.siblings('.location-suggestions');
-                locationRemoveBtn = locationRow.find('.location-selected-remove');
-            }
-
-            // Reassign dropdown label to autocomplete field
-            dropdown.siblings('label[for*="-location"]').attr('for', autocompleteId);
-
-            // Hide location remove btn if necessary
-            if (dropdown.val() == '' && $.trim(locationTitleSpan.text()) == '') {
-                locationRemoveBtn.hide();
-            }
-
-            // Perform a search + show suggestion list
-            var autocompleteSearch = function(query) {
-                var matchesFound = false;
-                var matches = [];
-
-                var i = 0;
-                $.each(eventLocations, function(location, locationVals) {
-                    if (locationVals['comboname'].toLowerCase().indexOf(query.toLowerCase()) > -1) {
-                        // Push comboname to autocomplete suggestions list
-                        matchesFound = true;
-                        var listItem = $('<li data-location-id="' + location + '" data-location-title="' + locationVals.title + '" data-location-room="' + locationVals.room + '" data-location-url="' + locationVals.url + '"></li>');
-                        var link = $('<a tabindex="0" class="suggestion-link" href="#">' + locationVals.comboname + '</a>');
-
-                        // Assign click event to link
-                        link.on('click', function(event) {
-                            event.preventDefault();
-                            selectSuggestion(listItem);
-                        });
-
-                        listItem.html(link);
-                        matches.push(listItem);
-
-                        // Increment counter.  Max out at 10 results.
-                        i++;
-                        if (i == 10) {
-                            return false;
-                        }
-                    }
-                });
-                if (matchesFound == true) {
-                    // Append matches to list
-                    $.each(matches, function(index, val) {
-                        val.appendTo(suggestionList);
-                    });
-                    suggestionList.show();
-                }
-                else {
-                    suggestionList.hide();
-                    // Show the 'create new location' button
-                    locationNewBtn.show();
-                }
-            }
-
-            // Prevent form submission via enter keypress in any autocomplete field
-            dropdown.parents('form').on('submit', function(event) {
-                if ($('.location-autocomplete').is(':focus')) {
-                    return false;
-                }
-            });
-
-            // Handle typing into search field
-            var timer = null;
-            var delay = 300;
-
-            locationAutocomplete.on('keyup focus', function(event) {
-                clearTimeout(timer);
-                //var query = locationAutocomplete.val().replace(/\W/g, '');
-                var query = locationAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
-
-                // Execute a search for a non-empty field val.
-                // Searches eventLocations object (created in template.)
-                if (query !== '') {
-                    // Detect standard alphanumeric chars (and onfocus event)
-                    if (
-                        (event.type == 'focus') ||
-                        (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44)
-                    ) {
-                        timer = setTimeout(function() {
-                            suggestionList.empty();
-                            autocompleteSearch(query);
-                        }, delay);
-                    }
-                    // If user typed a non-alphanumeric key, check for up/down strokes
-                    else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
-                        if (suggestionList.children().length > 0) {
-                            var selected = suggestionList.children('.selected');
-                            var newselected = null;
-                            if (event.keyCode == 40) {
-                                // Move down one list item. Check if a list item is highlighted yet or not
-                                if (selected.length > 0) {
-                                    newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
-                                }
-                                else {
-                                    newselected = suggestionList.children('li').first();
-                                }
-                            }
-                            else if (event.keyCode == 38) {
-                                // Move up one list item
-                                if (selected.length > 0) {
-                                    newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
-                                }
-                                else {
-                                    newselected = suggestionList.children('li').last();
-                                }
-                            }
-                            else if (event.keyCode == 39 || event.keyCode == 37) {
-                                // Left/right key press; do nothing
-                                return;
-                            }
-                            selected.removeClass('selected');
-                            newselected.addClass('selected');
-                            locationAutocomplete.val(newselected.attr('data-location-title'));
-                        }
-                    }
-                    // If user hit enter on the autocomplete field, select the query
-                    else if (event.type == 'keyup' && event.keyCode == 13) {
-                        // We can only select existing locations that are currently highlighted
-                        if (suggestionList.children().length > 0) {
-                            var selected = suggestionList.children('.selected');
-                            if (selected.length < 1) {
-                                selectSuggestion(suggestionList.children('li').first());
-                            }
-                            else {
-                                selectSuggestion(selected.first());
-                            }
-                        }
-                        // Try to create a new location if no suggestions are found
-                        else {
-                            createNewLocation();
-                        }
-                    }
-                }
-                // Remove suggestion list if user emptied the field
-                else {
-                    suggestionList.empty().hide();
-                }
-            });
-
-            var selectSuggestion = function(listItem) {
                 // Remove any existing set location value
-                unselectSuggestion();
-                removeNewLocation(locationRemoveBtn);
-
-                // Display new values to the user
-                locationTitleSpan.text(listItem.attr('data-location-title')).show();
-                locationRoomSpan.text(listItem.attr('data-location-room')).show();
-                locationUrlSpan.html('<a href="' + listItem.attr('data-location-url') + '"><i class="icon-external-link"></i> ' + listItem.attr('data-location-url') + '</a>').show();
-
-                // Hide autocomplete suggestions
-                suggestionList.empty().hide();
-
-                // Assign the hidden dropdown's value
-                dropdown
-                    .children('option[selected="selected"]')
-                        .attr('selected', false)
-                        .end()
-                    .children('option[value="' + listItem.attr('data-location-id') + '"]')
-                        .attr('selected', true);
-                dropdown.get(0).selectedIndex = dropdown.children('option[value="' + listItem.attr('data-location-id') + '"]').val();
-
-                // Show the location delete btn
-                locationRemoveBtn.show();
-
-                // Empty the current autocomplete field value
-                locationAutocomplete.val('');
-            };
-
-            var unselectSuggestion = function() {
-                //$(locationTitleSpan, locationRoomSpan, locationUrlSpan).text('').hide();
-                locationTitleSpan.text('').hide();
-                locationRoomSpan.text('').hide();
-                locationUrlSpan.text('').hide();
-                dropdown
-                    .children('option[selected="selected"]')
-                        .attr('selected', false)
-                        .end()
-                    .children('option[value=""]')
-                        .attr('selected', true);
-                locationRemoveBtn.hide();
-            };
-
-            var createNewLocation = function() {
-                // Remove any existing set location value
-                unselectSuggestion();
-                removeNewLocation();
+                self.removeLocation();
 
                 // Show New Location form fields; populate Name field w/autocomplete field val
-                locationNewForm
+                self.newLocationForm
                     .show()
                     .children('input[name*="-new_location_title"]')
-                        .val(locationAutocomplete.val());
+                        .val(item);
 
-                // Show location delete btn
-                locationRemoveBtn.show();
-
-                // Hide stuff we don't need
-                suggestionList.empty().hide();
-                locationNewBtn.hide();
-
-                // Empty autocomplete field val
-                locationAutocomplete.val('');
+                self.removeBtn.show();
+                self.addBtn.hide();
+                self.autocompleteField.val('');
             }
 
-            var removeNewLocation = function() {
-                locationNewForm
+            // Custom function for removing selected location data.
+            // This function updates self.dataField's value.
+            autocomplete.removeLocation = function() {
+                var self = this;
+
+                // Clear previously selected data displayed to user
+                self.locationTitleSpan.text('').hide();
+                self.locationRoomSpan.text('').hide();
+                self.locationUrlSpan.text('').hide();
+
+                // Clear values previously set in new location form
+                self.newLocationForm
                     .hide()
                     .children('input')
                         .val('');
-                locationRemoveBtn.hide();
+
+                // Update self.dataField
+                self.dataField
+                    .children('option[selected="selected"]')
+                        .attr('selected', false)
+                        .prop('selected', false)
+                        .end()
+                    .children('option[value=""]')
+                        .attr('selected', true)
+                        .prop('selected', true)
+
+                self.removeBtn.hide();
             }
 
-            // Handle removal of a selected suggestion
-            locationRemoveBtn.on('click', function(event) {
-                event.preventDefault();
-                unselectSuggestion();
-                removeNewLocation();
-            });
+            autocomplete.setupForm = function() {
+                var self = this;
 
-            // Handle new location creation
-            locationNewBtn.on('click', function(event) {
-                event.preventDefault();
-                createNewLocation();
-            });
+                // Destroy any existing dynamic form elements that were cloned.
+                self.locationRow.find('.' + self.addBtn.attr('class')).remove();
+                self.locationRow.find('.' + self.removeBtn.attr('class')).remove();
+                self.locationRow.find('#' + self.autocompleteField.attr('id')).remove();
 
-            // Stupid selectedIndex fix for cloned location values
-            if (locationCloneParent.hasClass('clone')) {
-                dropdown.get(0).selectedIndex = dropdown.children('option[selected="selected"]').val();
+                // Enable autocomplete field. Hide data field.
+                self.dataField.hide();
+                self.autocompleteField
+                    .insertAfter(self.dataField)
+                    .show();
+                $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
+
+                // Insert other dynamic form elements.
+                self.addBtn
+                    .insertAfter(self.autocompleteField)
+                    .hide();
+                self.removeBtn
+                    .insertBefore(self.locationTitleSpan);
+
+                // Hide new location form if creating a new event instance
+                // by checking whether the title field is empty. Display
+                // location form if there something is in the title field.
+                if (!self.newLocationForm.children('input[name*="-new_location_title"]').val()) {
+                    self.newLocationForm.hide();
+                }
+
+                // Hide removeBtn on load, if necessary
+                if (self.dataField.val() == '' && $.trim(self.locationTitleSpan.text()) == '') {
+                    self.removeBtn.hide();
+                }
+
+                // Handle removal of a selected suggestion
+                self.removeBtn.on('click', function(event) {
+                    event.preventDefault();
+                    self.removeLocation();
+                });
+
+                // Handle new location creation
+                self.addBtn.on('click', function(event) {
+                    event.preventDefault();
+                    self.createNewLocation();
+                });
+                self.autocompleteField.on('keyup focus', function(event) {
+                    // TODO: better way of determining if a match has been found?
+                    var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
+                    var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
+                    
+                    // Show addBtn if no match is found and the user didn't type Enter or a comma.
+                    if (self.autocompleteField.val() !== '') {
+                        if (!matchFound && (event.type == 'keyup' && event.keyCode !== 13 && event.keyCode !== 188)) {
+                            self.addBtn.show();
+                        }
+                        // Create a new tag if the user didn't find a match,
+                        // but entered either a comma or Enter
+                        else if (
+                            (!matchFound && (event.type == 'keyup' && event.keyCode == 13)) ||
+                            (event.type == 'keyup' && event.keyCode == 188)
+                        ) {
+                            // Add the tag to the tag list.  Taggit handles creation of new
+                            // or assignment of existing tags
+                            var item = self.autocompleteField.val();
+                            self.createNewLocation(item);
+                            self.addBtn.hide();
+                        }
+                    }
+                    // Make sure the addBtn is hidden otherwise.
+                    else {
+                        self.addBtn.hide();
+                    }
+                });
+
+                // Stupid selectedIndex fix for cloned location values
+                if (self.dataField.parents('.cloneable').hasClass('clone')) {
+                    self.dataField.get(0).selectedIndex = self.dataField.children('option[selected="selected"]').val();
+                }
             }
+
+            autocomplete.typeaheadUpdater = function(item) {
+                var self = this;
+
+                // Remove any existing selected location
+                self.removeLocation();
+
+                // Update current selection
+                self.selection = self.mappedData[item];
+                self.dataField.val(self.selection);
+                self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
+                self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+
+                var selectedData = eventLocations[self.selection];
+
+                // Display new values to the user
+                self.locationTitleSpan
+                    .text(selectedData['title'])
+                    .show();
+                self.locationRoomSpan
+                    .text(selectedData['room'])
+                    .show();
+                self.locationUrlSpan
+                    .html('<a href="' + selectedData['url'] + '"><i class="icon-external-link"></i> ' + selectedData['url'] + '</a>')
+                    .show();
+
+                self.removeBtn.show();
+                self.addBtn.hide();
+
+                return '';
+            }
+
+            autocomplete.init(); 
         });
     }
 };
