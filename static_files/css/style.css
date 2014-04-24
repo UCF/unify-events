@@ -75,7 +75,7 @@ i + a:not(.btn) {
 
 /* line 84, ../sass/style.scss */
 .dropdown-menu {
-  max-height: 250px;
+  max-height: 270px;
   overflow-y: scroll; }
   /* line 89, ../sass/style.scss */
   .dropdown-menu li i {
