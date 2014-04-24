@@ -828,7 +828,8 @@ var eventLocationsSearch = function(locationDropdowns) {
                 // Handle new location creation
                 self.addBtn.on('click', function(event) {
                     event.preventDefault();
-                    self.createNewLocation();
+                    var item = self.autocompleteField.val();
+                    self.createNewLocation(item);
                 });
                 self.autocompleteField.on('keyup focus', function(event) {
                     // TODO: better way of determining if a match has been found?
