@@ -281,14 +281,6 @@
                         </div>
                         <div class="span4">
                             <ul id="event-tags-selected">
-                                {% if form.tags.value %}
-                                    {% for tag in event.tags.all %}
-                                        <li data-tag-name="{{ tag.name }}">
-                                            <a href="#" class="selected-remove" alt="Remove this tag">&times;</a>
-                                            {{ tag.name }}
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
                             </ul>
                         </div>
                     </div>

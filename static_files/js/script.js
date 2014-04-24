@@ -328,7 +328,8 @@ var initiateReReviewCopy = function() {
 };
 
 /**
- * Generic autocomplete class.
+ * Generic autocomplete class that searches string values from an existing
+ * <select> field, or other data, and updates that field as suggestions are found.
  * Methods can be overridden before calling init to customize data parsing.
  **/
 var selectFieldAutocomplete = function(autocompleteField, dataField) {
@@ -345,7 +346,7 @@ var selectFieldAutocomplete = function(autocompleteField, dataField) {
     }
 
     // Prevent form submission via enter keypress in autocomplete field
-    this.preventFormSubmission = function() {
+    this.onFormSubmission = function() {
         var self = this;
         self.form.on('submit', function(event) {
             if (self.autocompleteField.is(':focus')) {
@@ -394,31 +395,43 @@ var selectFieldAutocomplete = function(autocompleteField, dataField) {
         return process(self.searchableTerms);
     }
 
+    // Function to pass to Bootstrap Typeahead's 'matcher' method.
+    this.typeaheadMatcher = function(item, query) {
+        if (item.toLowerCase().indexOf(query.trim().toLowerCase()) != -1) {
+            return true;
+        }
+    }
+
     // Function to pass to Bootstrap Typeahead's 'updater' method.
-    // Must be overridden if dataField is not a <select> field.
-    // This function must return 'item'.
+    // This function must return 'item' to keep autocompleteField populated.
     this.typeaheadUpdater = function(item) {
         var self = this;
         self.selection = self.mappedData[item];
         self.dataField.val(self.selection);
-        self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
-        self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+        if (self.dataField.is('select')) {
+            self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
+            self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+        }
         return item;
     }
 
     this.init = function() {
         var self = this;
         self.setupForm();
-        self.preventFormSubmission();
+        self.onFormSubmission();
         self.checkEmptyValues();
         self.setSearchTerms();
 
         self.autocompleteField.typeahead({
+            items: 10,
+            minLength: 2,
             source: function(query, process) {
                 self.typeaheadSource(query, process);
             },
-            items: 10,
-            minLength: 2,
+            matcher: function(item) {
+                var query = this.query;
+                return self.typeaheadMatcher(item, query);
+            },
             updater: function(item) {
                 var item = self.typeaheadUpdater(item);
                 return item;
@@ -440,6 +453,8 @@ var userSearchTypeahead = function() {
 
     // Initiate autocomplete form
     var autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
+    autocomplete.roleField = roleField;
+
     autocomplete.setupForm = function() {
         var self = this;
         // Enable autocomplete field. Hide data field.
@@ -448,6 +463,21 @@ var userSearchTypeahead = function() {
             self.autocompleteField.show();
             $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
         }
+    }
+    autocomplete.onFormSubmission = function() {
+        var self = this;
+        self.form.on('submit', function(event) {
+            if (self.autocompleteField.is(':focus')) {
+                return false;
+            }
+            else if (self.form.find('button').hasClass('disabled') === false) {
+                var url = self.form.attr('action'),
+                    username = self.dataField.children('option:selected').val(),
+                    role = self.roleField.val();
+                url = url.replace('/username/role', '/' + username + '/' + role);
+                self.form.attr('action', url);
+            }
+        });
     }
     autocomplete.init();
 
@@ -479,17 +509,6 @@ var userSearchTypeahead = function() {
         $(this).on('change', function() {
             toggleAddBtn();
         });
-    });
-
-    // Handle form submit
-    addBtn.click(function(e) {
-        if ($(this).hasClass('disabled') === false) {
-            var url = form.attr('action'),
-                username = usersField.children('option:selected').val(),
-                role = roleField.val();
-            url = url.replace('/username/role', '/' + username + '/' + role);
-            form.attr('action', url);
-        }
     });
 }
 
@@ -980,234 +999,176 @@ var eventLocationsSearch = function(locationDropdowns) {
 };
 
 /**
- * Search for and add tags to an event
+ * Search for and add tags to an event.
+ * Hidden data field value is updated with tag selections on form submit.
  **/
 eventTagging = function() {
-    if ($('#id_event-tags').length > 0) {
-        var taglist = $('#id_event-tags');
+    var autocompleteField = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />'),
+        tagsField = $('#id_event-tags'),
+        addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="icon-plus"></i></a>'),
+        selectedTagsList = $('#event-tags-selected'),
+        form = tagsField.parents('form');
 
-        // Hide existing taglist
-        taglist.hide();
+    // Initiate autocomplete form
+    var autocomplete = new selectFieldAutocomplete(autocompleteField, tagsField);
 
-        // Make sure all values in taglist field are enclosed in quotes
-        var existingTaglistVal = taglist.val();
-        if (existingTaglistVal !== '') {
-            var vals = existingTaglistVal.split(',');
-            for (var i = 0; i < vals.length; i++) {
-                vals[i] = vals[i].trim();
-                if (vals[i].charAt(0) !== '"') {
-                    vals[i] = '"' + vals[i] + '"';
-                }
-            }
-            vals = vals.join(',');
-            // rejoin
-            taglist
-                .val(vals)
-                .attr('value', vals);
-        }
+    autocomplete.addBtn = addBtn;
+    autocomplete.selectedTagsList = selectedTagsList;
+    // Create an array of chosen tags to add to the event on form submit
+    autocomplete.selectedTagsArray = [];
 
-        // Update helptext
-        var helpText = taglist.siblings('.help-text');
-        helpText.text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
-
-        // Create a new textfield for autocompletion
-        var tagAutocomplete = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
-        var suggestionList = $('<ul class="dropdown-menu autocomplete-suggestion-list" id="id_event-tags-suggestions"></ul>');
-        var selectedTags = $('#event-tags-selected');
-        tagAutocomplete.insertAfter(taglist);
-        suggestionList.insertAfter(helpText);
-
-        // Create "Add Tag" button for new tags
-        tagNewBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="icon-plus"></i></a>');
-        tagNewBtn.insertAfter(tagAutocomplete).hide();
-        
-
-        // Handle a form validation error, where new tags are saved in
-        // the hidden taglist field but are not yet saved + populated
-        // in the selectedTags list
-        if (taglist.val() !== '' && selectedTags.children().length < 1) {
-            // Strip wrapper quotes, separate by comma and remove empty vals
-            var tagArray = taglist.val().replace(/\"/g, '').split(',').filter(Boolean);
-            $.each(tagArray, function(key, val) {
-                selectedTags
-                    .append('<li data-tag-name="'+ val +'"><a href="#" class="selected-remove" alt="Remove this tag">&times;</a>'+ val +'</li>')
-            });
-        }
-
-        // Perform a search + show suggestion list
-        var autocompleteSearch = function(query) {
-            var matchesFound = false;
-            var matches = [];
-
-            var j = 0;
-            for (var i = 0; i < eventTags.length; i++) {
-                var tagName = eventTags[i];
-                if (tagName.toLowerCase().indexOf(query.toLowerCase()) > -1) {
-                    // Push comboname to autocomplete suggestions list
-                    matchesFound = true;
-                    var listItem = $('<li data-tag-name="' + tagName + '"></li>');
-                    var link = $('<a tabindex="0" class="suggestion-link" href="#">' + tagName + '</a>');
-
-                    // Assign click event to link
-                    link.on('click', function(event) {
-                        event.preventDefault();
-                        addTag($(this).parent('li'));
-                    });
-
-                    listItem.html(link);
-                    matches.push(listItem);
-
-                    // Increment counter.  Max out at 10 results.
-                    j++;
-                    if (j == 10) {
-                        return false;
-                    }
-                }
-            }
-            if (matchesFound == true) {
-                // Append matches to list
-                $.each(matches, function(index, val) {
-                    val.appendTo(suggestionList);
-                });
-                suggestionList.show();
-            }
-            else {
-                suggestionList.hide();
-                // Show the 'create new tag' button
-                tagNewBtn.show();
-            }
-        }
-
-        // Prevent form submission via enter keypress in any autocomplete field
-        taglist.parents('form').on('submit', function(event) {
-            if (tagAutocomplete.is(':focus')) {
-                return false;
-            }
+    // Custom function for populating self.selectedTagList with list items.
+    // To be used by self.typeaheadUpdater and when populating self.selectedTagList with
+    // existing self.dataField values.
+    // This function does NOT update self.dataField's value.
+    autocomplete.createTag = function(item) {
+        var self = this;
+        var removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">&times;</a>');
+        removeLink.on('click', function(event) {
+            event.preventDefault();
+            self.removeTag($(this).parent('li'));
         });
 
-        // Handle typing into search field
-        var timer = null;
-        var delay = 300;
+        var tagListItem = $('<li data-tag-name="'+ $.trim(item) +'">'+ $.trim(item) +'</li>');
+        tagListItem
+            .appendTo(self.selectedTagsList)
+            .prepend(removeLink);
 
-        tagAutocomplete.on('keyup focus', function(event) {
-            clearTimeout(timer);
-            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+        self.addBtn.hide();
+    }
 
-            // Execute a search for a non-empty field val.
-            // Searches eventLocations object (created in template.)
-            if (query !== '') {
-                // Detect standard alphanumeric chars (and onfocus event)
-                if (
-                    (event.type == 'focus') ||
-                    (event.type == 'keyup' && event.keyCode !== 8 && event.keyCode > 44 && event.keyCode !== 188)
+    // Custom function for removing selected tag list items.
+    // This function DOES update self.selectedTagsArray.
+    autocomplete.removeTag = function(listItem) {
+        var self = this;
+        self.selectedTagsList
+            .find(listItem)
+            .remove();
+
+        var item = listItem.attr('data-tag-name');
+        self.selectedTagsArray.splice($.inArray(item, self.selectedTagsArray), 1);
+    }
+
+    // Custom function that returns a 'clean' string value, after running through
+    // a regular expression to remove undesired characters
+    autocomplete.getCleanItemVal = function(item) {
+        return item.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+    }
+
+    autocomplete.setupForm = function() {
+        var self = this;
+        if (self.dataField.is(':visible')) {
+            // Get existing tags from self.dataField and push them to self.selectedTagsArray.
+            // Populate the selectedTagsList with existing tags.
+            var existingTaglistVal = '';
+            if (self.dataField.val()) {
+                existingTaglistVal = self.dataField.val();
+            }
+            else if (self.dataField.attr('value')) {
+                existingTaglistVal = self.dataField.attr('value');
+            }
+            if (existingTaglistVal !== '') {
+                var tagArray = existingTaglistVal.replace(/\"/g, '').split(',').filter(Boolean);
+                self.selectedTagsArray = self.selectedTagsArray.concat(tagArray);
+
+                if (self.selectedTagsList.children().length < 1) {
+                    $.each(tagArray, function(key, val) {
+                        self.createTag(val);
+                    });
+                }
+            }
+
+            // Enable autocomplete field. Hide data field.
+            self.dataField.hide();
+            self.autocompleteField
+                .insertAfter(self.dataField)
+                .show();
+            $('label[for="'+ self.dataField.attr('id') +'"]').attr('for', self.autocompleteField.attr('id'));
+
+            // Insert "Add Tag" btn onto page
+            self.addBtn
+                .insertAfter(self.autocompleteField)
+                .hide();
+
+            // Update help text
+            var helpText = self.dataField.siblings('.help-text');
+            helpText.text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
+        }
+
+        // Handle addBtn clicks
+        self.addBtn.on('click', function(event) {
+            event.preventDefault();
+            var item = self.getCleanItemVal(self.autocompleteField.val());
+            self.typeaheadUpdater(item);
+        });
+
+        // Handle non-suggestion new tag creation
+        self.autocompleteField.on('keyup focus', function(event) {
+            // TODO: better way of determining if a match has been found?
+            var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
+            var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
+            
+            // Show addBtn if no match is found and the user didn't type Enter or a comma.
+            if (self.autocompleteField.val() !== '') {
+                if (!matchFound && (event.type == 'keyup' && event.keyCode !== 13 && event.keyCode !== 188)) {
+                    self.addBtn.show();
+                }
+                // Create a new tag if the user didn't find a match,
+                // but entered either a comma or Enter
+                else if (
+                    (!matchFound && (event.type == 'keyup' && event.keyCode == 13)) ||
+                    (event.type == 'keyup' && event.keyCode == 188)
                 ) {
-                    timer = setTimeout(function() {
-                        suggestionList.empty();
-                        autocompleteSearch(query);
-                    }, delay);
-                }
-                // If user typed a non-alphanumeric key, check for up/down strokes
-                else if (event.type == 'keyup' && event.keyCode > 36 && event.keyCode < 41) {
-                    if (suggestionList.children().length > 0) {
-                        var selected = suggestionList.children('.selected');
-                        var newselected = null;
-                        if (event.keyCode == 40) {
-                            // Move down one list item. Check if a list item is highlighted yet or not
-                            if (selected.length > 0) {
-                                newselected = (selected.next('li').length !== 0) ? selected.next('li') : suggestionList.children('li').first();
-                            }
-                            else {
-                                newselected = suggestionList.children('li').first();
-                            }
-                        }
-                        else if (event.keyCode == 38) {
-                            // Move up one list item
-                            if (selected.length > 0) {
-                                newselected = (selected.prev('li').length !== 0) ? selected.prev('li') : suggestionList.children('li').last();
-                            }
-                            else {
-                                newselected = suggestionList.children('li').last();
-                            }
-                        }
-                        else if (event.keyCode == 39 || event.keyCode == 37) {
-                            // Left/right key press; do nothing
-                            return;
-                        }
-                        selected.removeClass('selected');
-                        newselected.addClass('selected');
-                        tagAutocomplete.val(newselected.attr('data-tag-name'));
-                    }
-                }
-                // If user hit enter or comma on the autocomplete field, select the query
-                else if (event.type == 'keyup' && (event.keyCode == 13 || event.keyCode == 188)) {
                     // Add the tag to the tag list.  Taggit handles creation of new
                     // or assignment of existing tags
-                    addTag($('<li data-tag-name="'+ query +'"><a tabindex="0" class="suggestion-link" href="#">'+ query +'</a></li>'));
+                    var item = self.getCleanItemVal(autocompleteField.val());
+                    self.typeaheadUpdater(item);
+                    self.addBtn.hide();
                 }
             }
-            // Remove suggestion list if user emptied the field
+            // Make sure the addBtn is hidden otherwise.
             else {
-                suggestionList.empty().hide();
+                self.addBtn.hide();
             }
-        });
-
-        var addTag = function(listItem) {
-            var removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">&times;</a>');
-            removeLink.on('click', function(event) {
-                event.preventDefault();
-                removeTag($(this).parent('li'));
-            });
-
-            var tagName = listItem.attr('data-tag-name');
-
-            // Display new values to the user
-            listItem.appendTo(selectedTags).prepend(removeLink);
-
-            // Hide autocomplete suggestions
-            suggestionList.empty().hide();
-
-            // Remove original suggestion link
-            listItem.find('.suggestion-link').replaceWith(tagName);
-
-            // Assign the hidden textfield's value
-            taglist.val(taglist.val() + '"' + tagName + '",');
-
-            // Empty the current autocomplete field value
-            tagAutocomplete.val('');
-
-            // Hide stuff we don't need
-            tagNewBtn.hide();
-        };
-
-        var removeTag = function(listItem) {
-            // Remove selected list item
-            selectedTags.find(listItem).remove();
-
-            // Remove from hidden textfield's value. Check for stray comma + remove if necessary
-            var newval = '';
-            if (taglist.val().indexOf('"' + listItem.attr('data-tag-name') + '",') > -1) {
-                newval = taglist.val().replace('"' + listItem.attr('data-tag-name') + '",', '');
-            }
-            else {
-                newval = taglist.val().replace('"' + listItem.attr('data-tag-name') + '"', '');
-            }
-            taglist
-                .val(newval)
-                .attr(newval);
-        }
-
-        $('.selected-remove').on('click', function(event) {
-            event.preventDefault();
-            removeTag($(this).parent('li'));
-        });
-
-        // Handle new location creation
-        tagNewBtn.on('click', function(event) {
-            event.preventDefault();
-            var query = tagAutocomplete.val().replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
-            addTag($('<li data-tag-name="'+ query +'"><a tabindex="0" class="suggestion-link" href="#">'+ query +'</a></li>'));
         });
     }
+
+    autocomplete.onFormSubmission = function() {
+        var self = this;
+        self.form.on('submit', function(event) {
+            if (self.autocompleteField.is(':focus')) {
+                return false;
+            }
+            else {
+                // Push the final value of selectedTagsArray to dataField's value
+                var selectedTagsStr = autocomplete.selectedTagsArray.toString();
+                autocomplete.dataField
+                    .val(selectedTagsStr)
+                    .attr('value', selectedTagsStr);
+            }
+        });
+    }
+
+    autocomplete.setSearchTerms = function() {
+        var self = this;
+        // eventTags is defined in manager/events/create_update.html
+        self.searchableTerms = eventTags;
+        $.each(eventTags, function(key, val) {
+            self.mappedData[val] = val;
+        });
+    }
+
+    autocomplete.typeaheadUpdater = function(item) {
+        var self = this;
+        self.selection = self.mappedData[item];
+        self.selectedTagsArray.push(item);
+        self.autocompleteField.val('');
+        self.createTag(item);
+
+        return '';
+    }
+
+    autocomplete.init();
 };
 
 /**
