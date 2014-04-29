@@ -25,11 +25,14 @@
 10. Setup local settings using the local_settings.templ.py file
 11. Setup apache/python.wsgi using apache/python.templ.wsgi
 12. Sync the database
-		
+
 		python manage.py syncdb
 13. Rebuild the search index
 
 		python manage.py rebuild_index
+14. Collect static files
+
+        python manage.py collectstatic -cl
 
 ## Import
 1. cd to the new virtual environment src folder
