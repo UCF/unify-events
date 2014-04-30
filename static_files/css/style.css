@@ -1298,15 +1298,34 @@ ul.event-list-condensed {
 /**
  * Frontend Single Event
  **/
-/* General - Body, Sidebar */
+/* General - Body */
 /* line 1423, ../sass/style.scss */
+#page-title-wrap .event-date {
+  clear: both;
+  margin-bottom: 20px; }
+  /* line 1427, ../sass/style.scss */
+  #page-title-wrap .event-date .event-single-date,
+  #page-title-wrap .event-date .event-single-time {
+    font-size: 20px; }
+  /* line 1431, ../sass/style.scss */
+  #page-title-wrap .event-date .event-single-date {
+    font-weight: bold;
+    color: #CC0000; }
+
+/* line 1438, ../sass/style.scss */
+#event-single .event-schedule {
+  max-height: 400px;
+  overflow-y: scroll; }
+
+/* General - Sidebar */
+/* line 1445, ../sass/style.scss */
 #event-single-sidebar span,
 #event-single-sidebar h2 {
   display: block;
   width: 100%;
   margin-top: 0; }
 
-/* line 1430, ../sass/style.scss */
+/* line 1452, ../sass/style.scss */
 #event-single h2,
 #event-single-sidebar h2,
 #event-single .event-single-subheader,
@@ -1315,19 +1334,19 @@ ul.event-list-condensed {
   font-size: 17.5px;
   line-height: 20px; }
 
-/* line 1439, ../sass/style.scss */
+/* line 1461, ../sass/style.scss */
 #event-single h2.alt,
 #event-single-sidebar h2.alt {
   width: 50%;
   float: left; }
 
-/* line 1445, ../sass/style.scss */
+/* line 1467, ../sass/style.scss */
 #event-single hr,
 #event-single-sidebar hr {
   border-width: 3px 0; }
 
 /* Title icon date */
-/* line 1451, ../sass/style.scss */
+/* line 1473, ../sass/style.scss */
 #page-title-wrap .event-icon-date {
   display: block;
   width: 28px;
@@ -1342,62 +1361,62 @@ ul.event-list-condensed {
   text-align: center; }
 
 /* Sidebar */
-/* line 1466, ../sass/style.scss */
+/* line 1488, ../sass/style.scss */
 #event-single-sidebar {
   position: relative; }
-  /* line 1469, ../sass/style.scss */
+  /* line 1491, ../sass/style.scss */
   #event-single-sidebar .event-single-datetime {
     font-size: 30px;
     line-height: 30px;
     letter-spacing: -0.5px;
     margin-top: 0; }
-  /* line 1476, ../sass/style.scss */
+  /* line 1498, ../sass/style.scss */
   #event-single-sidebar .event-single-attime {
     margin-bottom: 7px;
     margin-top: 5px; }
-  /* line 1481, ../sass/style.scss */
+  /* line 1503, ../sass/style.scss */
   #event-single-sidebar .event-single-until,
   #event-single-sidebar .event-single-occurring {
     margin-top: 20px; }
-  /* line 1486, ../sass/style.scss */
+  /* line 1508, ../sass/style.scss */
   #event-single-sidebar .event-contact {
     overflow: hidden; }
-  /* line 1490, ../sass/style.scss */
+  /* line 1512, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info {
     display: block;
     float: left;
     width: 50%;
     clear: right; }
-  /* line 1498, ../sass/style.scss */
+  /* line 1520, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info span {
     margin-bottom: 5px; }
-  /* line 1503, ../sass/style.scss */
+  /* line 1525, ../sass/style.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-name {
     font-weight: bold; }
-  /* line 1508, ../sass/style.scss */
+  /* line 1530, ../sass/style.scss */
   #event-single-sidebar i {
     color: #8d8d8d; }
-  /* line 1512, ../sass/style.scss */
+  /* line 1534, ../sass/style.scss */
   #event-single-sidebar .event-location-widget {
     margin-top: 10px;
     margin-bottom: -10px; }
-  /* line 1516, ../sass/style.scss */
+  /* line 1538, ../sass/style.scss */
   #event-single-sidebar .event-location-note {
     font-size: 12px;
     line-height: 16px;
     margin-top: 20px; }
 
 /* Body - Meta Information */
-/* line 1522, ../sass/style.scss */
+/* line 1544, ../sass/style.scss */
 #event-meta {
   overflow: hidden; }
-  /* line 1525, ../sass/style.scss */
+  /* line 1547, ../sass/style.scss */
   #event-meta > * {
     margin-bottom: 10px; }
-  /* line 1529, ../sass/style.scss */
+  /* line 1551, ../sass/style.scss */
   #event-meta h3 {
     display: block;
     float: left;
@@ -1405,7 +1424,7 @@ ul.event-list-condensed {
     clear: left;
     font-weight: normal;
     margin-top: 10px; }
-  /* line 1538, ../sass/style.scss */
+  /* line 1560, ../sass/style.scss */
   #event-meta .event-meta-calendar,
   #event-meta .event-meta-category,
   #event-meta .event-meta-tags {
@@ -1417,7 +1436,7 @@ ul.event-list-condensed {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px; }
-  /* line 1551, ../sass/style.scss */
+  /* line 1573, ../sass/style.scss */
   #event-meta .event-meta-tags a {
     display: block;
     width: auto;
@@ -1435,7 +1454,7 @@ ul.event-list-condensed {
  * Create/Update Event
  **/
 /* When/Where */
-/* line 1571, ../sass/style.scss */
+/* line 1593, ../sass/style.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -1444,32 +1463,32 @@ ul.event-list-condensed {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 1579, ../sass/style.scss */
+/* line 1601, ../sass/style.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 1584, ../sass/style.scss */
+/* line 1606, ../sass/style.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 1591, ../sass/style.scss */
+/* line 1613, ../sass/style.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 1596, ../sass/style.scss */
+/* line 1618, ../sass/style.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 1600, ../sass/style.scss */
+/* line 1622, ../sass/style.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 1606, ../sass/style.scss */
+/* line 1628, ../sass/style.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -1479,18 +1498,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 1616, ../sass/style.scss */
+/* line 1638, ../sass/style.scss */
 .cloner {
   position: relative; }
-  /* line 1619, ../sass/style.scss */
+  /* line 1641, ../sass/style.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 1622, ../sass/style.scss */
+    /* line 1644, ../sass/style.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 1629, ../sass/style.scss */
+  /* line 1651, ../sass/style.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -1498,7 +1517,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 1638, ../sass/style.scss */
+  /* line 1660, ../sass/style.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -1506,38 +1525,38 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 1647, ../sass/style.scss */
+/* line 1669, ../sass/style.scss */
 .remove-instance {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   float: right;
   padding: 8px 14px; }
 
-/* line 1653, ../sass/style.scss */
+/* line 1675, ../sass/style.scss */
 .remove-instance:hover ~ div > .whenwhere-wrap,
 .remove-instance:focus ~ div > .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 1659, ../sass/style.scss */
+/* line 1681, ../sass/style.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 1664, ../sass/style.scss */
+/* line 1686, ../sass/style.scss */
 .location-search .autocomplete-new-btn {
   top: 25px; }
 
-/* line 1667, ../sass/style.scss */
+/* line 1689, ../sass/style.scss */
 .tag-search .autocomplete-new-btn {
   top: 0;
   right: 66px; }
 
-/* line 1672, ../sass/style.scss */
+/* line 1694, ../sass/style.scss */
 .location-selected {
   position: relative; }
 
-/* line 1676, ../sass/style.scss */
+/* line 1698, ../sass/style.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -1547,14 +1566,14 @@ label[for*="-location-autocomplete"] {
   right: -16px;
   color: #A8A8A8; }
 
-/* line 1687, ../sass/style.scss */
+/* line 1709, ../sass/style.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1691, ../sass/style.scss */
+/* line 1713, ../sass/style.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1697, ../sass/style.scss */
+/* line 1719, ../sass/style.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -1562,12 +1581,12 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 90%; }
 
-/* line 1705, ../sass/style.scss */
+/* line 1727, ../sass/style.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1710, ../sass/style.scss */
+/* line 1732, ../sass/style.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -1579,7 +1598,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1722, ../sass/style.scss */
+  /* line 1744, ../sass/style.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -1592,13 +1611,13 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1735, ../sass/style.scss */
+    /* line 1757, ../sass/style.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
 /* Contact information */
-/* line 1744, ../sass/style.scss */
+/* line 1766, ../sass/style.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
 
@@ -1606,7 +1625,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1753, ../sass/style.scss */
+/* line 1775, ../sass/style.scss */
 .category-color span {
   display: block;
   padding: 0 5px;

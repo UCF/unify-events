@@ -1419,7 +1419,29 @@ ul {
  * Frontend Single Event
  **/
 
-/* General - Body, Sidebar */
+/* General - Body */
+#page-title-wrap .event-date {
+    clear: both;
+    margin-bottom: 20px;
+
+    .event-single-date,
+    .event-single-time {
+        font-size: 20px;
+    }
+    .event-single-date {
+        font-weight: bold;
+        color: #CC0000;
+    }
+}
+
+#event-single {
+    .event-schedule {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+}
+
+/* General - Sidebar */
 #event-single-sidebar span,
 #event-single-sidebar h2 {
     display: block;
