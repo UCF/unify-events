@@ -8,7 +8,7 @@ http_javascripts_path = "static/js"
 http_fonts_path = "static/fonts"
 
 css_dir = "static_files/css"
-sass_dir = "static_files/sass"
+sass_dir = "static_files/assets/sass"
 images_dir = "static_files/img"
 javascripts_dir = "static_files/js"
 fonts_dir = "static_files/fonts"
