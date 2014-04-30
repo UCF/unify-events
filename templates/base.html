@@ -39,15 +39,15 @@
         {% block pagehead %}
         <header class="container">
             <div class="row">
-                <div class="span7">
+                <div class="col-md-7">
                     <span id="header-title"><a href="{% url 'home' %}"><span class="alt">UCF</span> Events</a></span>
                 </div>
-                <div class="span5">
+                <div class="col-md-5">
                     <form class="form-search" method="GET" action="{% url 'haystack_search' %}">
-                        <div class="input-append">
+                        <div class="input-group">
                             <label class="label-hidden" for="q">Search events, calendars</label>
-                            <input type="text" class="span3 search-query" id="q" name="q" placeholder="Search events, calendars" />
-                            <button type="submit" class="btn">Search <i class="icon-search"></i></button>
+                            <input type="text" class="col-md-3 search-query" id="q" name="q" placeholder="Search events, calendars" />
+                            <button type="submit" class="btn">Search <i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </form>
                 </div>
@@ -59,9 +59,9 @@
         <div class="fullwidth" id="navwrap">
             <nav class="container">
                 <div class="row">
-                    <div class="span12" id="navinner">
+                    <div class="col-md-12" id="navinner">
                         <div class="user">
-                            <i class="icon-user"></i>
+                            <i class="glyphicon glyphicon-user"></i>
                             {% if user.is_authenticated %}
                             Hi, <strong>{{user.first_name}}</strong>
                             {% else %}
@@ -73,20 +73,20 @@
                         <ul id="actions-secondary">
                             {% if user.is_authenticated %}
                             <li>
-                                <i class="icon-cog"></i>
+                                <i class="glyphicon glyphicon-cog"></i>
                                 <a href="{% url 'profile-settings' %}">
                                     Settings
                                 </a>
                             </li>
                             <li>
-                                <i class="icon-power-off"></i>
+                                <i class="glyphicon glyphicon-power-off"></i>
                                 <a href="{% url 'accounts-logout' %}">
                                     Logout
                                 </a>
                             </li>
                             {% else %}
                             <li>
-                                <i class="icon-signin"></i>
+                                <i class="glyphicon glyphicon-signin"></i>
                                 <a href="{% url 'accounts-login' %}">
                                     Sign In
                                 </a>
@@ -126,11 +126,11 @@
         {% block footer %}
         <footer class="container">
             <div class="row">
-                <hr class="span12" />
-                <div class="span8">
+                <hr class="col-md-12" />
+                <div class="col-md-8">
                     &copy; University of Central Florida
                 </div>
-                <div class="span4">
+                <div class="col-md-4">
                     <ul>
                         <li>
                             <a href="{% url 'help' %}">Help &amp; Documentation</a>

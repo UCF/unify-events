@@ -5,7 +5,7 @@
 {% block meta_alt_title %}Events By Category: '{{ category.title }}' {{ block.super }}{% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-tag" id="page-title-icon"></i>
+<i class="glyphicon glyphicon-tag" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -22,12 +22,12 @@
 
 {% block content_body %}
     <div class="row">
-        <div class="span8 sidebarfix page-content" id="term-events">
+        <div class="col-md-8 sidebarfix page-content" id="term-events">
             {% include 'events/frontend/event-listing/listing.html' %}
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         </div>
-        <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+        <aside class="col-md-4 page-sidebar" id="calendar-events-sidebar">
             <h2>Feeds</h2>
             {% feed_btns url=request.build_absolute_uri %}
         </aside>

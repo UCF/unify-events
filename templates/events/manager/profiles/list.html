@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-group" id="page-title-icon"></i>
+<i class="glyphicon glyphicon-group" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -17,7 +17,7 @@
 
 {% block content_body %}
     <section class="row">
-        <div class="span9 page-content">
+        <div class="col-md-9 page-content">
         {% if users.count > 0 %}
             <table class="table table-striped table-hover manager-item-table">
                 <thead>
@@ -46,9 +46,9 @@
                         </td>
                         <td class="user-actions">
                             {% if theUser.is_superuser %}
-                            <a class="btn btn-mini{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="icon-circle-arrow-down"></i> Demote</a>
+                            <a class="btn btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Demote</a>
                             {% else %}
-                            <a class="btn btn-mini" href="{% url 'profile-promote' user_id=theUser.pk %}"><i class="icon-circle-arrow-up"></i> Make Superuser</a>
+                            <a class="btn btn-xs" href="{% url 'profile-promote' user_id=theUser.pk %}"><i class="glyphicon glyphicon-circle-arrow-up"></i> Make Superuser</a>
                             {% endif %}
                         </td>
                     </tr>

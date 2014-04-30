@@ -13,17 +13,17 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}">Edit <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li>
-                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="icon-group"></i> Users &amp; Permissions</a>
+                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="glyphicon glyphicon-group"></i> Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="icon-info-sign"></i> Calendar Info</a>
+                    <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="glyphicon glyphicon-info-sign"></i> Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="icon-share-alt"></i> Subscriptions</a>
+                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="glyphicon glyphicon-share-alt"></i> Subscriptions</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="icon-trash"></i> Delete Calendar</a>
+                    <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="glyphicon glyphicon-trash"></i> Delete Calendar</a>
                 </li>
             </ul>
         </li>
@@ -46,7 +46,7 @@
 {% block content_tabs %}
     {% if user.calendars.all > 0 %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
             {% if calendar %}
                 <li class="{% if state == 'posted' %} active{% endif %}">
@@ -86,11 +86,11 @@
 {% block content_body %}
     {% if user.calendars.count > 0 or user.is_superuser and calendar %}
     <section class="row">
-        <div class="span8 sidebarfix page-content">
+        <div class="col-md-8 sidebarfix page-content">
 
             <form action="{% url 'event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                 {% csrf_token %}
-                <div class="control-group">
+                <div class="form-group">
                     <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                     <div class="controls">
                         <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
@@ -112,7 +112,7 @@
                                     <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                 </th>
                                 {% if not calendar.is_main_calendar %}
-                                <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="icon-star-empty"></i></abbr></th>
+                                <th class="field-recommended"><abbr title="Main Calendar Recommendation Status"><i class="glyphicon glyphicon-star-empty"></i></abbr></th>
                                 {% endif %}
                                 <th class="event-title">Event Title</th>
                                 <th class="event-time">Date/Time</th>
@@ -130,16 +130,16 @@
                                 <td class="field-recommended">
                                     {% if not event_instance.calendar.is_main_calendar %}
                                         {% if event_instance.event.get_main_state == 0 %}
-                                            <abbr title="Pending Approval"><i class="icon-star-half-full"></i></abbr>
+                                            <abbr title="Pending Approval"><i class="glyphicon glyphicon-star-half-full"></i></abbr>
                                         {% elif event_instance.event.get_main_state == 1 %}
-                                            <abbr title="Approved for Main Calendar"><i class="icon-star"></i></abbr>
+                                            <abbr title="Approved for Main Calendar"><i class="glyphicon glyphicon-star"></i></abbr>
                                         {% endif %}
                                     {% endif %}
                                 </td>
                                 {% endif %}
                                 <td class="event-title">
                                     {% if event_instance.event.created_from %}
-                                        <i class="icon-share-alt"></i>
+                                        <i class="glyphicon glyphicon-share-alt"></i>
                                     {% endif %}
                                     <a href="{% url 'event-update' pk=event_instance.event.pk %}">
                                         {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}
@@ -152,7 +152,7 @@
                                         {{ event_instance.start|date:"M. d, Y" }}
                                     {% endif %}
                                     {% if event_instance.event.has_instances %}
-                                    <a href="#" class="recurrences-toggle"><i class="icon-expand-alt"></i>Show all times</a>
+                                    <a href="#" class="recurrences-toggle"><i class="glyphicon glyphicon-expand-alt"></i>Show all times</a>
                                     <ul class="recurrences">
                                         {% for instance in event_instance.event.event_instances.all %}
                                             {% if instance.start.time %}
@@ -178,21 +178,21 @@
                                 </td>
                                 <td class="event-actions">
                                     <div class="btn-group">
-                                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                        <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
                                             Select
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
                                                 <a href="{% url 'event-update' pk=event_instance.event.pk %}">
-                                                    <i class="icon-pencil"></i>
+                                                    <i class="glyphicon glyphicon-pencil"></i>
                                                     Edit Event
                                                 </a>
                                             </li>
                                             {% if not event_instance.event.is_submit_to_main and state != 'pending' %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-submit-to-main' pk=event_instance.event.pk %}">
-                                                    <i class="icon-star-empty"></i>
+                                                    <i class="glyphicon glyphicon-star-empty"></i>
                                                     Suggest to Main Calendar
                                                 </a>
                                             </li>
@@ -201,7 +201,7 @@
                                                 {% if not created_from and event_instance.event.calendar in user_calendars and event_instance.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                                                     <li role="presentation">
                                                         <a href="{% url 'event-cancel-uncancel' pk=event_instance.event.pk %}">
-                                                            <i class="icon-ban-circle"></i>
+                                                            <i class="glyphicon glyphicon-ban-circle"></i>
                                                             {% if event_instance.event.canceled %}
                                                                 Un-Cancel Event
                                                             {% else %}
@@ -213,7 +213,7 @@
                                             {% endwith %}
                                             <li role="presentation">
                                                 <a class="object-modify" href="{% url 'event-delete' pk=event_instance.event.pk %}">
-                                                    <i class="icon-trash"></i>
+                                                    <i class="glyphicon glyphicon-trash"></i>
                                                     Delete Event
                                                 </a>
                                             </li>
@@ -221,7 +221,7 @@
                                             {% if event_instance.event.state != 1 %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-post' pk=event_instance.event.pk %}">
-                                                    <i class="icon-check"></i>
+                                                    <i class="glyphicon glyphicon-check"></i>
                                                     Add to Posted
                                                 </a>
                                             </li>
@@ -229,7 +229,7 @@
                                             {% if event_instance.event.state != 0 %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-pend' pk=event_instance.event.pk %}">
-                                                    <i class="icon-inbox"></i>
+                                                    <i class="glyphicon glyphicon-inbox"></i>
                                                     Move to Pending
                                                 </a>
                                             </li>
@@ -237,7 +237,7 @@
                                             <li class="divider"></li>
                                             <li role="presentation">
                                                 <a href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-                                                    <i class="icon-circle-arrow-right"></i>
+                                                    <i class="glyphicon glyphicon-circle-arrow-right"></i>
                                                     Live View
                                                 </a>
                                             </li>
@@ -256,7 +256,7 @@
                     </div>
                 {% endif %}
 
-                <div class="control-group">
+                <div class="form-group">
                     <label for="bulk-action_1" class="control-label">Bulk Action:</label>
                     <div class="controls">
                         <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
@@ -272,7 +272,7 @@
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         </div>
-        <aside class="span4 page-sidebar">
+        <aside class="col-md-4 page-sidebar">
             {% if calendar %}
                 {% calendar_widget calendars=calendar is_manager=1 year=start_date.year month=start_date.month day=start_date %}
             {% else %}
@@ -302,7 +302,7 @@
     </div>
     {% else %}
      <section class="row">
-        <div class="span12 page-content">
+        <div class="col-md-12 page-content">
             <div class="well well-empty">
                 It doesn't look like you have any calendars.  Why not go <a href="{% url 'calendar-create' %}">create one?</a>
             </div>

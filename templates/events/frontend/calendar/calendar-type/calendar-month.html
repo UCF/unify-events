@@ -2,10 +2,10 @@
 {% load widgets %}
 
 <div class="row">
-    <div class="span12 page-content" id="calendar-events-month">
+    <div class="col-md-12 page-content" id="calendar-events-month">
         <h2>{{ list_title }}</h2>
         <div class="row">
-            <div class="span4">
+            <div class="col-md-4">
                 <form class="form-inline" id="month-toggle" method="GET" action="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
                     <label for="id_year">Switch Year</label>
                     <select id="id_year" name="year">
@@ -22,7 +22,7 @@
                     <button class="btn" type="submit">View</button>
                 </form>
             </div>
-            <div class="span4">
+            <div class="col-md-4">
                 <h3><span class="alt">{{ start_date|date:"F" }}</span> {{ start_date.year }}</h3>
             </div>
         </div>

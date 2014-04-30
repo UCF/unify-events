@@ -3,12 +3,12 @@
 {% block content_body %}
 
     <section class="row">
-        <div class="span8 offset2">
+        <div class="col-md-8 col-md-offset-2">
             <div class="popout">
                 <h1>Sign In</h1>
                 <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
                 {% if form.non_field_errors %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     <ul class="errors">
                         {% for error in form.non_field_errors %}
@@ -19,7 +19,7 @@
                 {% endif %}
                 <form class="form-horizontal" action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">
                     {% csrf_token %}
-                    <div class="control-group {% if form.password.errors %}error{% endif %}">
+                    <div class="form-group {% if form.password.errors %}error{% endif %}">
                         <label class="control-label" for="id_username">NID</label>
                         <div class="controls">
                             <input type="text" id="id_username" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
@@ -30,7 +30,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="control-group {% if form.password.errors %}error{% endif %}">
+                    <div class="form-group {% if form.password.errors %}error{% endif %}">
                         <label class="control-label" for="id_password">NID Password</label>
                         <div class="controls">
                             <input type="password" id="id_password" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
@@ -41,7 +41,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <div class="controls">
                             <input type="hidden" name="next" value="{{next}}" />
                             {% csrf_token %}
@@ -51,7 +51,7 @@
                 </form>
                 <div class="well">
                     <p>
-                        <span class="help-icon"><i class="icon-info-sign"></i></span>
+                        <span class="help-icon"><i class="glyphicon glyphicon-info-sign"></i></span>
                         If you are having trouble logging in, your NID password
                         may be expired.
                         <br/>

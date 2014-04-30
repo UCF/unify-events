@@ -4,7 +4,7 @@
     {{ block.super }}
     {% if form.non_field_errors %}
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                 <div class="alert">
                     <strong>Error: </strong>
                     {{form.non_field_errors}}
@@ -21,7 +21,7 @@
 
 {% block content_body %}
 	<div class="row">
-        <div class="span8 offset2 page-content">
+        <div class="col-md-8 col-md-offset-2 page-content">
             <div class="popout">
                 <h1><span class="alt">Step 2:</span> Create a Calendar</h1>
                 <div class="progress">
@@ -41,21 +41,21 @@
                 </p>
                 <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
                     {% csrf_token %}
-                    <div class="control-group">
+                    <div class="form-group">
                        <label class="control-label" for="id_title">Calendar Name</label>
                        <div class="controls">
                        {{ form.title }}
                        {{ form.title.errors }}
                        </div>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                        <label class="control-label" for="id_description">Calendar Description</label>
                        <div class="controls">
                        {{ form.description }}
                        {{ form.description.errors }}
                        </div>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <div class="controls">
                             {% for field in form.hidden_fields %}
                                 {{ field }}

@@ -10,8 +10,8 @@ vevent
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-calendar-empty" id="page-title-icon"></i>
-<span class="event-icon-date">{{ event_instance.start|date:"j" }}</span>
+<i class="glyphicon glyphicon-calendar-empty" id="page-title-icon"></i>
+<span class="event-glyphicon glyphicon-date">{{ event_instance.start|date:"j" }}</span>
 {% endblock %}
 
 {% block content_title %}
@@ -21,10 +21,10 @@ vevent
 
     <ul class="edit-options">
         <li class="hide" id="event-edit">
-            <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="icon-pencil"></i>Edit</a>
+            <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
         </li>
         <li>
-            <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="icon-share-alt"></i>Add Event To</a>
+            <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="glyphicon glyphicon-share-alt"></i>Add Event To</a>
         </li>
     </ul>
 
@@ -68,7 +68,7 @@ vevent
 
 {% block content_body %}
 <div class="row">
-    <div class="span8 sidebarfix page-content" id="event-single">
+    <div class="col-md-8 sidebarfix page-content" id="event-single">
 
     	{{ event_instance.event.description|bleach }}
 
@@ -130,14 +130,14 @@ vevent
     	</div>
 
     </div>
-    <aside class="span4 page-sidebar" id="event-single-sidebar">
+    <aside class="col-md-4 page-sidebar" id="event-single-sidebar">
 
         <div class="location vcard">
             <h2 class="alt">Location:</h2>
             <span class="event-location-title fn org">{{ event_instance.location.title }}</span>{% if event_instance.event.has_instances %}*{% endif %}
             
             <span class="event-location-url url">
-                <i class="icon-globe"></i> <a href="{{ event_instance.location.url }}">Website</a> (Moving this out of the sidebar moves it out of the location vcard!)
+                <i class="glyphicon glyphicon-globe"></i> <a href="{{ event_instance.location.url }}">Website</a> (Moving this out of the sidebar moves it out of the location vcard!)
             </span>
             {% endif %}
             {% if event_instance.event.has_instances %}
@@ -157,10 +157,10 @@ vevent
                     <span class="event-contact-name fn">{{ event_instance.event.contact_name }}</span>
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
-                    <span class="event-contact-phone tel"><i class="icon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    <span class="event-contact-phone tel"><i class="glyphicon glyphicon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
-                    <span class="event-contact-email email"><i class="icon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    <span class="event-contact-email email"><i class="glyphicon glyphicon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
                     {% endif %}
                 {% else %}
                 <em>No contact information available.</em>

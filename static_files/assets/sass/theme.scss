@@ -23,7 +23,7 @@ h2 {
     }
 }
 
-.icon-circle-wrap {
+.glyphicon.glyphicon-circle-wrap {
     display: block;
     width: 25px;
     height: 18px;
@@ -161,7 +161,7 @@ form {
         line-height: 20px;
     }
 
-    .control-group {
+    .form-group {
         &.large {
             .control-label {
                 font-size: 18px;
@@ -192,7 +192,7 @@ form {
     color: #8d8d8d;
 }
 
-.control-group.large .label-desc {
+.form-group.large .label-desc {
     width: 200px;
 }
 
@@ -207,7 +207,7 @@ $field-date-time-width: 70%;
     width: $field-date-time-width;
     margin-right: 0;
 
-    + .add-on {
+    + .input-group-addon {
         display: none;
     }
 }
@@ -222,9 +222,9 @@ select option {
 
 label.error,
 div.error label,
-.control-group.error .control-label,
-.control-group.error .help-block,
-.control-group.error .help-inline {
+.form-group.error .control-label,
+.form-group.error .help-block,
+.form-group.error .help-inline {
     color: #EE5F5B;
 }
 
@@ -233,9 +233,9 @@ textarea.error,
 select.error,
 div.error input,
 div.error textarea,
-.control-group.error input,
-.control-group.error select,
-.control-group.error textarea {
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
     border: 1px solid #EE5F5B;
     color: #B71713;
 }
@@ -629,7 +629,7 @@ $calendar-grid-width: 14.285%;
                     height: 0;
                 }
 
-                > span.icon-text {
+                > span.glyphicon.glyphicon-text {
                     display: block;
                     border-left: 2px solid #fff;
                     border-right: 2px solid #fff;
@@ -867,7 +867,7 @@ nav {
         border-left: 3px solid #e1e1e1;
         margin-left: 15px;
 
-        .icon-circle-wrap {
+        .glyphicon.glyphicon-circle-wrap {
             float: left;
             margin-right: 6px;
         }
@@ -928,11 +928,11 @@ nav {
     font-size: 36px;
     color: #a8a8a8;
 
-    &.icon-plus {
+    &.glyphicon.glyphicon-plus {
         top: 13px;
     }
 
-    &.icon-cog {
+    &.glyphicon.glyphicon-cog {
         top: 12px;
     }
 }

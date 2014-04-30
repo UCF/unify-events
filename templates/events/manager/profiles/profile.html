@@ -4,7 +4,7 @@
     {{ block.super }}
     {% if forms.user.non_field_errors %}
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                 <div class="alert">
                     <strong>Error: </strong>
                     {{forms.user.non_field_errors}}
@@ -14,7 +14,7 @@
     {% endif %}
     {% if forms.profile.non_field_errors %}
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                 <div class="alert">
                     <strong>Error: </strong>
                     {{forms.profile.non_field_errors}}
@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-cog" id="page-title-icon"></i>
+<i class="glyphicon glyphicon-cog" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -36,7 +36,7 @@
 
 {% block content_tabs %}
 <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#">My Profile</a>
@@ -50,28 +50,28 @@
 <h2>Edit Profile</h2>
 <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
     {% csrf_token %}
-    <div class="control-group">
+    <div class="form-group">
         <label class="control-label" for="id_user-first_name">First Name</label>
         <div class="controls">
             {{ form.first_name }}
             {{ form.first_name.errors }}
 		</div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
         <label class="control-label" for="id_user-last_name">Last Name</label>
         <div class="controls">
             {{ form.last_name }}
             {{ form.last_name.errors }}
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
         <label class="control-label" for="id_user-email">Email</label>
         <div class="controls">
             {{ form.email }}
             {{ form.email.errors }}
         </div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">Save Profile</button>
         </div>

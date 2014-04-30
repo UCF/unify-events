@@ -4,7 +4,7 @@
 {% load core_tags %}
 
 {% block content_title_icon %}
-<i class="icon-search" id="page-title-icon"></i>
+<i class="glyphicon glyphicon-search" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -21,7 +21,7 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="span12 page-content" id="search">
+    <div class="col-md-12 page-content" id="search">
         {% block search_nav %}
 
         {% with 'q='|add:request.GET.q as params %}
@@ -41,7 +41,7 @@
         {% endblock %}
 
         <div class="row">
-            <div class="span9">
+            <div class="col-md-9">
                 {% if query %}
                     {% with page.object_list as results %}
                         {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}

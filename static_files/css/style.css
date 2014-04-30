@@ -6289,7 +6289,7 @@ h2 {
     font-weight: bold; }
 
 /* line 26, ../assets/sass/theme.scss */
-.icon-circle-wrap {
+.glyphicon.glyphicon-circle-wrap {
   display: block;
   width: 25px;
   height: 18px;
@@ -6407,15 +6407,15 @@ form p.help-text {
   margin-bottom: 5px;
   line-height: 20px; }
 /* line 166, ../assets/sass/theme.scss */
-.form-horizontal .control-group.large .control-label {
+.form-horizontal .form-group.large .control-label {
   font-size: 18px;
   text-indent: -1px;
   width: 200px; }
 /* line 172, ../assets/sass/theme.scss */
-.form-horizontal .control-group.large .controls {
+.form-horizontal .form-group.large .controls {
   margin-left: 220px; }
 /* line 177, ../assets/sass/theme.scss */
-.form-horizontal .control-group .controls > .row {
+.form-horizontal .form-group .controls > .row {
   margin-top: 5px;
   display: inline-block;
   /* req'd for .rows in .controls to clear properly */ }
@@ -6432,7 +6432,7 @@ form p.help-text {
   color: #8d8d8d; }
 
 /* line 195, ../assets/sass/theme.scss */
-.control-group.large .label-desc {
+.form-group.large .label-desc {
   width: 200px; }
 
 /* line 201, ../assets/sass/theme.scss */
@@ -6446,7 +6446,7 @@ form p.help-text {
   width: 70%;
   margin-right: 0; }
   /* line 210, ../assets/sass/theme.scss */
-  .field-time + .add-on {
+  .field-time + .input-group-addon {
     display: none; }
 
 /* line 215, ../assets/sass/theme.scss */
@@ -6461,9 +6461,9 @@ select option {
 /* line 223, ../assets/sass/theme.scss */
 label.error,
 div.error label,
-.control-group.error .control-label,
-.control-group.error .help-block,
-.control-group.error .help-inline {
+.form-group.error .control-label,
+.form-group.error .help-block,
+.form-group.error .help-inline {
   color: #EE5F5B; }
 
 /* line 231, ../assets/sass/theme.scss */
@@ -6472,9 +6472,9 @@ textarea.error,
 select.error,
 div.error input,
 div.error textarea,
-.control-group.error input,
-.control-group.error select,
-.control-group.error textarea {
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
   border: 1px solid #EE5F5B;
   color: #B71713; }
 
@@ -6809,7 +6809,7 @@ ul.wysihtml5-toolbar {
         width: 0;
         height: 0; }
       /* line 632, ../assets/sass/theme.scss */
-      .calendar-grid > li > a.event-expander > span.icon-text {
+      .calendar-grid > li > a.event-expander > span.glyphicon.glyphicon-text {
         display: block;
         border-left: 2px solid #fff;
         border-right: 2px solid #fff;
@@ -7031,7 +7031,7 @@ nav li#create-event {
   border-left: 3px solid #e1e1e1;
   margin-left: 15px; }
   /* line 870, ../assets/sass/theme.scss */
-  nav li#create-event .icon-circle-wrap {
+  nav li#create-event .glyphicon.glyphicon-circle-wrap {
     float: left;
     margin-right: 6px; }
 
@@ -7087,10 +7087,10 @@ nav li#create-event {
   font-size: 36px;
   color: #a8a8a8; }
   /* line 931, ../assets/sass/theme.scss */
-  #page-title-icon.icon-plus {
+  #page-title-icon.glyphicon.glyphicon-plus {
     top: 13px; }
   /* line 935, ../assets/sass/theme.scss */
-  #page-title-icon.icon-cog {
+  #page-title-icon.glyphicon.glyphicon-cog {
     top: 12px; }
 
 /**

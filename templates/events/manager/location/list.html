@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="icon-map-marker" id="page-title-icon"></i>
+<i class="glyphicon glyphicon-map-marker" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -19,7 +19,7 @@
 
 {% block content_tabs %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li class="{{ state|yesno:',,active' }}">
                     <a href="{% url 'location-state' %}">All</a>
@@ -37,15 +37,15 @@
 
 {% block content_body %}
     <div class="row">
-        <div class="span9 page-content">
+        <div class="col-md-9 page-content">
             <a class="btn btn-primary page-top-action" href="{% url 'location-create' %}">
-                <i class="icon-plus"></i> Create New Location
+                <i class="glyphicon glyphicon-plus"></i> Create New Location
             </a>
 
             {% if locations %}
                 <form action="{% url 'location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                     {% csrf_token %}
-                    <div class="control-group">
+                    <div class="form-group">
                         <label for="bulk-action_0" class="control-label">Bulk Action:</label>
                         <div class="controls">
                             <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
@@ -95,28 +95,28 @@
                                 </td>
                                 <td class="location-actions">
                                     <div class="btn-group">
-                                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                        <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
                                             Select
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
                                                 <a href="{% url 'location-update' pk=location.pk %}">
-                                                    <i class="icon-pencil"></i>
+                                                    <i class="glyphicon glyphicon-pencil"></i>
                                                     Edit Location
                                                 </a>
                                             </li>
                                             {% if location.event_instances.count > 0 %}
                                             <li role="presentation">
                                                 <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
-                                                    <i class="icon-resize-small"></i>
+                                                    <i class="glyphicon glyphicon-resize-small"></i>
                                                     Merge Location
                                                 </a>
                                             </li>
                                             {% else %}
                                             <li role="presentation">
                                                 <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
-                                                    <i class="icon-trash"></i>
+                                                    <i class="glyphicon glyphicon-trash"></i>
                                                     Delete Location
                                                 </a>
                                             </li>
@@ -128,7 +128,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="control-group">
+                    <div class="form-group">
                         <label for="bulk-action_1" class="control-label">Bulk Action:</label>
                         <div class="controls">
                             <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">

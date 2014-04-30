@@ -1,7 +1,7 @@
 {% load humanize %}
 {% load widgets %}
 <div class="row">
-    <div class="span8 sidebarfix page-content" id="calendar-events-day">
+    <div class="col-md-8 sidebarfix page-content" id="calendar-events-day">
         <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
         {% if event_instances %}
 	        <ul class="event-list">
@@ -14,7 +14,7 @@
                         <h4>
                             <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
                             {% if event_instance.is_recurring %}
-                            <i class="icon-repeat"></i>
+                            <i class="glyphicon glyphicon-repeat"></i>
                             <span class="recurring">(Recurring Event)</span>
                             {% endif %}
                         </h4>
@@ -44,7 +44,7 @@
 	    {% endif %}
         {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
     </div>
-    <aside class="span4 page-sidebar" id="calendar-events-sidebar">
+    <aside class="col-md-4 page-sidebar" id="calendar-events-sidebar">
         {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}
 
         <h2>Feeds</h2>

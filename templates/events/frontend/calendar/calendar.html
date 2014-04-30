@@ -3,7 +3,7 @@
 
 {% block content_tabs %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
                     <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>

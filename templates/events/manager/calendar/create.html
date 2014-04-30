@@ -5,7 +5,7 @@
     {{ block.super }}
     {% if form.non_field_errors %}
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                 <div class="alert">
                     <strong>Error: </strong>
                     {{ form.non_field_errors }}
@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content_title_icon %}
-    <i class="icon-plus" id="page-title-icon"></i>
+    <i class="glyphicon glyphicon-plus" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -25,7 +25,7 @@
 
 {% block content_subheader %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <h2 class="page-subtitle">
                 Use the form below to create a new calendar. Note that you can only
                 own or be an editor on up to five (5) calendars at a time.
@@ -37,25 +37,25 @@
 {% block content_body %}
     <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
         {% csrf_token %}
-        <div class="control-group large">
+        <div class="form-group large">
             <label class="control-label" for="id_title">Calendar Name</label>
             <div class="controls">
-                {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                {{ form.title|add_class:"col-md-5"|attr:"placeholder:Enter a calendar name..." }}
                 {{ form.title.errors }}
             </div>
         </div>
-        <div class="control-group large">
+        <div class="form-group large">
             <label class="control-label" for="id_description">Description</label>
             <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
             <div class="controls">
-                {{ form.description|add_class:"span5" }}
+                {{ form.description|add_class:"col-md-5" }}
                 {{ form.description.errors }}
             </div>
         </div>
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
-        <div class="control-group large">
+        <div class="form-group large">
             <div class="controls">
                 <button type="submit" class="btn btn-primary">Create Calendar</button>
             </div>
