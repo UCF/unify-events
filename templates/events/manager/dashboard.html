@@ -108,7 +108,7 @@
                         <thead>
                             <tr>
                                 <th class="field-bulk-select">
-                                    <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                    <label class="sr-only" for="bulk-select-all">Select All</label>
                                     <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                 </th>
                                 {% if not calendar.is_main_calendar %}
@@ -123,7 +123,7 @@
                         {% for event_instance in event_instances %}
                             <tr>
                                 <td class="field-bulk-select">
-                                    <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                    <label class="sr-only" for="bulk-select">Bulk Action Select</label>
                                     <input type="checkbox" name="object_ids" value="{{ event_instance.event.pk }}" data-event-instance-count="{{ event_instance.event.event_instances.count }}" />
                                 </td>
                                 {% if not calendar.is_main_calendar %}

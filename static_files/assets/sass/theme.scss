@@ -42,12 +42,12 @@ h2 {
     margin-top: -2px;
 }
 
-form a:not([class]),
-.page-content a:not([class]),
-.page-sidebar a:not([class]) {
-    /* Add color to links that don't have a class assigned to them */
-    color: #3566C9;
-}
+// form a:not([class]),
+// .page-content a:not([class]),
+// .page-sidebar a:not([class]) {
+//     /* Add color to links that don't have a class assigned to them */
+//     color: #3566C9;
+// }
 
 a {
     &:not(.btn) > i {
@@ -721,7 +721,6 @@ $calendar-grid-width: 14.285%;
  * Utility
  **/
 .fullwidth { width: 100%; }
-.label-hidden { line-height: 0; text-indent: -9999px; width: 1px !important; height: 1px; display: block; }
 .label-inner { font-size: 16px; color: #8d8d8d; font-weight: 300; }
 .sidebarfix {
     > * {/* This does dumb things to tables. Wrap tables in a div to accomodate */

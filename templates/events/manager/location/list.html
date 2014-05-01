@@ -60,7 +60,7 @@
                         <thead>
                             <tr>
                                 <th class="field-bulk-select">
-                                    <label class="label-hidden" for="bulk-select-all">Select All</label>
+                                    <label class="sr-only" for="bulk-select-all">Select All</label>
                                     <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                 </th>
                                 <th class="location-title">Location Name</th>
@@ -74,7 +74,7 @@
                         {% for location in locations %}
                             <tr>
                                 <td class="field-bulk-select">
-                                    <label class="label-hidden" for="bulk-select">Bulk Action Select</label>
+                                    <label class="sr-only" for="bulk-select">Bulk Action Select</label>
                                     <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
                                 </td>
                                 <td class="location-title">
