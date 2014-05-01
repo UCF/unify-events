@@ -6554,7 +6554,7 @@ button.close {
   content: "\f013"; }
 
 /* line 24, ../assets/font-awesome-4.0.3/scss/_icons.scss */
-.fa-trash-o-o:before {
+.fa-trash-o:before {
   content: "\f014"; }
 
 /* line 25, ../assets/font-awesome-4.0.3/scss/_icons.scss */
@@ -7539,7 +7539,7 @@ button.close {
   content: "\f122"; }
 
 /* line 286, ../assets/font-awesome-4.0.3/scss/_icons.scss */
-.fa-star-half-o:before,
+.fa-star-half-empty:before,
 .fa-star-half-full:before,
 .fa-star-half-o:before {
   content: "\f123"; }
