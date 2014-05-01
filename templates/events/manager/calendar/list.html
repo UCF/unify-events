@@ -49,20 +49,20 @@
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
                                         <a href="{% url 'dashboard' pk=calendar.pk %}">
-                                            <i class="glyphicon glyphicon-calendar-empty"></i>
+                                            <i class="fa fa-calendar-o"></i>
                                             Manage Events
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="{% url 'calendar-update' pk=calendar.pk %}">
-                                            <i class="glyphicon glyphicon-pencil"></i>
+                                            <i class="fa fa-pencil"></i>
                                             Edit Calendar
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li role="presentation">
                                         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
-                                            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                                            <i class="fa fa-arrow-circle-right"></i>
                                             Live View
                                         </a>
                                     </li>

@@ -41,7 +41,7 @@
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="glyphicon glyphicon-pencil" id="page-title-icon"></i>
+<i class="fa fa-pencil" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -70,7 +70,7 @@
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
                         {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                             <a class="btn btn-warning" href="{% url 'event-cancel-uncancel' pk=event.pk %}">
-                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <i class="fa fa-ban"></i>
                             {% if event.canceled %}
                                 Un-Cancel Event
                             {% else %}
@@ -79,7 +79,7 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="btn btn-danger object-modify" href="{% url 'event-delete' pk=event.pk %}"><i class="glyphicon glyphicon-trash"></i> Delete Event</a>
+                    <a class="btn btn-danger object-modify" href="{% url 'event-delete' pk=event.pk %}"><i class="fa fa-trash-o"></i> Delete Event</a>
                 </div>
             </div>
         </div>
@@ -225,7 +225,7 @@
                                         <span class="location-selected-url">
                                             {% if ei_form.location.value %}
                                             <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
-                                                <i class="glyphicon glyphicon-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
+                                                <i class="fa fa-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
                                             </a>
                                             {% endif %}
                                         </span>

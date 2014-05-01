@@ -10,8 +10,8 @@ vevent
 {% endblock %}
 
 {% block content_title_icon %}
-<i class="glyphicon glyphicon-calendar-empty" id="page-title-icon"></i>
-<span class="event-glyphicon glyphicon-date">{{ event_instance.start|date:"j" }}</span>
+<i class="fa fa-calendar-o" id="page-title-icon"></i>
+<span class="event-fa fa-date">{{ event_instance.start|date:"j" }}</span>
 {% endblock %}
 
 {% block content_title %}
@@ -21,10 +21,10 @@ vevent
 
     <ul class="edit-options">
         <li class="hide" id="event-edit">
-            <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
+            <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
         </li>
         <li>
-            <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="glyphicon glyphicon-share-alt"></i>Add Event To</a>
+            <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
         </li>
     </ul>
 
@@ -137,7 +137,7 @@ vevent
             <span class="event-location-title fn org">{{ event_instance.location.title }}</span>{% if event_instance.event.has_instances %}*{% endif %}
             
             <span class="event-location-url url">
-                <i class="glyphicon glyphicon-globe"></i> <a href="{{ event_instance.location.url }}">Website</a> (Moving this out of the sidebar moves it out of the location vcard!)
+                <i class="fa fa-globe"></i> <a href="{{ event_instance.location.url }}">Website</a> (Moving this out of the sidebar moves it out of the location vcard!)
             </span>
             {% endif %}
             {% if event_instance.event.has_instances %}
@@ -157,10 +157,10 @@ vevent
                     <span class="event-contact-name fn">{{ event_instance.event.contact_name }}</span>
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
-                    <span class="event-contact-phone tel"><i class="glyphicon glyphicon-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    <span class="event-contact-phone tel"><i class="fa fa-phone"></i><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
-                    <span class="event-contact-email email"><i class="glyphicon glyphicon-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    <span class="event-contact-email email"><i class="fa fa-envelope"></i><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
                     {% endif %}
                 {% else %}
                 <em>No contact information available.</em>

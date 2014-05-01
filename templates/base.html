@@ -47,7 +47,7 @@
                         <div class="input-group">
                             <label class="label-hidden" for="q">Search events, calendars</label>
                             <input type="text" class="col-md-3 search-query" id="q" name="q" placeholder="Search events, calendars" />
-                            <button type="submit" class="btn">Search <i class="glyphicon glyphicon-search"></i></button>
+                            <button type="submit" class="btn">Search <i class="fa fa-search"></i></button>
                         </div>
                     </form>
                 </div>
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-md-12" id="navinner">
                         <div class="user">
-                            <i class="glyphicon glyphicon-user"></i>
+                            <i class="fa fa-user"></i>
                             {% if user.is_authenticated %}
                             Hi, <strong>{{user.first_name}}</strong>
                             {% else %}
@@ -73,20 +73,20 @@
                         <ul id="actions-secondary">
                             {% if user.is_authenticated %}
                             <li>
-                                <i class="glyphicon glyphicon-cog"></i>
+                                <i class="fa fa-cog"></i>
                                 <a href="{% url 'profile-settings' %}">
                                     Settings
                                 </a>
                             </li>
                             <li>
-                                <i class="glyphicon glyphicon-power-off"></i>
+                                <i class="fa fa-power-off"></i>
                                 <a href="{% url 'accounts-logout' %}">
                                     Logout
                                 </a>
                             </li>
                             {% else %}
                             <li>
-                                <i class="glyphicon glyphicon-signin"></i>
+                                <i class="fa fa-signin"></i>
                                 <a href="{% url 'accounts-login' %}">
                                     Sign In
                                 </a>

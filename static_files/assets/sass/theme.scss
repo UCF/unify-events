@@ -23,7 +23,7 @@ h2 {
     }
 }
 
-.glyphicon.glyphicon-circle-wrap {
+.fa.fa-circle-wrap {
     display: block;
     width: 25px;
     height: 18px;
@@ -629,7 +629,7 @@ $calendar-grid-width: 14.285%;
                     height: 0;
                 }
 
-                > span.glyphicon.glyphicon-text {
+                > span.fa.fa-text {
                     display: block;
                     border-left: 2px solid #fff;
                     border-right: 2px solid #fff;
@@ -867,7 +867,7 @@ nav {
         border-left: 3px solid #e1e1e1;
         margin-left: 15px;
 
-        .glyphicon.glyphicon-circle-wrap {
+        .fa.fa-circle-wrap {
             float: left;
             margin-right: 6px;
         }
@@ -928,11 +928,11 @@ nav {
     font-size: 36px;
     color: #a8a8a8;
 
-    &.glyphicon.glyphicon-plus {
+    &.fa.fa-plus {
         top: 13px;
     }
 
-    &.glyphicon.glyphicon-cog {
+    &.fa.fa-cog {
         top: 12px;
     }
 }

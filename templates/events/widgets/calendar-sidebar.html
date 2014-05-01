@@ -6,35 +6,35 @@
             {% if not calendar %}
                 <li class="previous">
                     <a class="carousel-control left" data-ajax-link="{% url 'calendar-widget' view='manager' size='small' year=last_month.year month=last_month.month %}" href="{% url 'manager-all-calendars-day-listing' year=last_month.year month=last_month.month day=last_month.day %}">
-                        <i class="glyphicon glyphicon-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
+                        <i class="fa fa-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
                     </a>
                 </li>
                 <li class="next">
                     <a class="carousel-control right next" data-ajax-link="{% url 'calendar-widget' view='manager' size='small' year=next_month.year month=next_month.month %}" href="{% url 'manager-all-calendars-day-listing' year=next_month.year month=next_month.month day=next_month.day %}">
-                        <i class="glyphicon glyphicon-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
+                        <i class="fa fa-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
                     </a>
                 </li>
             {% else %}
                 <li class="previous">
                     <a class="carousel-control left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='manager' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{% url 'manager-day-listing' pk=calendar.pk year=last_month.year month=last_month.month day=last_month.day %}">
-                        <i class="glyphicon glyphicon-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
+                        <i class="fa fa-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
                     </a>
                 </li>
                 <li class="next">
                     <a class="carousel-control right next" data-ajax-link="{% url 'calendar-widget-by-calendar' view='manager' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{% url 'manager-day-listing' pk=calendar.pk year=next_month.year month=next_month.month day=next_month.day %}">
-                        <i class="glyphicon glyphicon-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
+                        <i class="fa fa-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
                     </a>
                 </li>
             {% endif %}
         {% else %}
             <li class="previous">
                 <a class="carousel-control left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=last_month.year month=last_month.month %}">
-                    <i class="glyphicon glyphicon-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
+                    <i class="fa fa-chevron-left"></i><span>{{ last_month|date:"F" }}</span>
                 </a>
             </li>
             <li class="next">
                 <a class="carousel-control right next" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=next_month.year month=next_month.month %}">
-                    <i class="glyphicon glyphicon-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
+                    <i class="fa fa-chevron-right"></i><span>{{ next_month|date:"F" }}</span>
                 </a>
             </li>
         {% endif %}
