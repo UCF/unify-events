@@ -46,9 +46,9 @@
                 <form action="{% url 'location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="bulk-action_0" class="control-label">Bulk Action:</label>
-                        <div class="controls">
-                            <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
+                        <label for="bulk-action_0" class="control-label col-md-auto">Bulk Action:</label>
+                        <div class="controls col-md-6">
+                            <select id="bulk-action_0" class="form-control" name="bulk-action_0" onchange="this.form.submit()">
                                 <option>Select Action...</option>
                                 <option value="approve">Approve</option>
                                 <option value="review">Move to Review</option>
@@ -129,9 +129,9 @@
                         </tbody>
                     </table>
                     <div class="form-group">
-                        <label for="bulk-action_1" class="control-label">Bulk Action:</label>
-                        <div class="controls">
-                            <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
+                        <label for="bulk-action_1" class="control-label col-md-auto">Bulk Action:</label>
+                        <div class="controls col-md-6">
+                            <select id="bulk-action_1" class="form-control" name="bulk-action_1" onchange="this.form.submit()">
                                 <option>Select Action...</option>
                                 <option value="approve">Approve</option>
                                 <option value="review">Move to Review</option>

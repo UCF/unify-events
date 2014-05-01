@@ -226,9 +226,10 @@ var initiateDatePickers = function(fields) {
         // Wrap field in wrapper div; add icon
         if (field.parent().hasClass('bootstrap-datepicker') === false) {
             field
-                .wrap('<div class="bootstrap-datepicker" />')
+                .addClass('form-control')
+                .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
                 .parent()
-                .append('<i class="icon-calendar" />');
+                .append('<i class="fa fa-calendar" />');
         }
 
         var fieldParent = field.parent().parent();
@@ -259,9 +260,10 @@ var initiateTimePickers = function(fields) {
             // Wrap each timepicker input if this field isn't a clone
             if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
                 $(this)
-                    .wrap('<div class="bootstrap-timepicker" />')
+                    .addClass('form-control')
+                    .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
                     .parent()
-                    .append('<i class="icon-time" />');
+                    .append('<i class="fa fa-clock-o" />');
             }
         })
         .timepicker({
@@ -289,7 +291,7 @@ var initiateWysiwyg = function(textarea) {
                 // Make the 'Insert Link' button more obvious
                 $('ul.wysihtml5-toolbar')
                     .find('li a[data-wysihtml5-command="createLink"]')
-                        .html('<i class="icon-link"></i>')
+                        .html('<i class="fa fa-link"></i>')
                         .end()
                     .find('li.dropdown a')
                         .attr('tabindex', '-1');
@@ -521,7 +523,7 @@ var cloneableFieldsets = function() {
             prefix = cloneable.attr('data-form-prefix');
 
         // Add content to cloner btn
-        cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="icon-plus"></i></a>');
+        cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="fa fa-plus"></i></a>');
 
         // Update the index in the ID, name, or 'for' attr of the form element
         var updateElementIndex = function(element, prefix, index) {
@@ -541,7 +543,7 @@ var cloneableFieldsets = function() {
         var toggleRemoveBtn = function(prefix) {
             // Toggle the 'hidden' class off of each cloneable element
             // if there are more than one cloneables on the screen
-            if ($('#id_' + prefix + '-TOTAL_FORMS').val() == 1) {
+            if ($('#id_' + prefix + '-TOTAL_FORMS').val() == 1 || $('.cloneable').length < 2) {
                 cloneableWrap.find('.remove-instance').addClass('hidden');
             }
             else {
@@ -719,7 +721,7 @@ var eventLocationsSearch = function(locationDropdowns) {
         locationDropdowns.each(function() {
             var locationsField = $(this), // 'dropdown'
                 autocompleteId = locationsField.attr('id') + '-autocomplete',
-                autocompleteField = $('<input type="text" id="'+ autocompleteId +'" class="location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />'),
+                autocompleteField = $('<input type="text" id="'+ autocompleteId +'" class="form-control location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />'),
                 locationRow = locationsField.parent('.location-search').parent('.row'),
                 locationTitleSpan = locationRow.find('.location-selected-title'),
                 locationRoomSpan = locationRow.find('.location-selected-room'),
@@ -728,7 +730,7 @@ var eventLocationsSearch = function(locationDropdowns) {
 
             var autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
-            autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="icon-plus"></i></a>');
+            autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="fa fa-plus"></i></a>');
             autocomplete.removeBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
             autocomplete.locationRow = locationRow;
             autocomplete.locationTitleSpan = locationTitleSpan;
@@ -887,7 +889,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                     .text(selectedData['room'])
                     .show();
                 self.locationUrlSpan
-                    .html('<a href="' + selectedData['url'] + '"><i class="icon-external-link"></i> ' + selectedData['url'] + '</a>')
+                    .html('<a href="' + selectedData['url'] + '">' + selectedData['url'] + '</a>')
                     .show();
 
                 self.removeBtn.show();
@@ -906,9 +908,9 @@ var eventLocationsSearch = function(locationDropdowns) {
  * Hidden data field value is updated with tag selections on form submit.
  **/
 eventTagging = function() {
-    var autocompleteField = $('<input type="text" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />'),
+    var autocompleteField = $('<input type="text" class="form-control" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />'),
         tagsField = $('#id_event-tags'),
-        addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="icon-plus"></i></a>'),
+        addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="fa fa-plus"></i></a>'),
         selectedTagsList = $('#event-tags-selected'),
         form = tagsField.parents('form');
 

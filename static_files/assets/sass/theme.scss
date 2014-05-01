@@ -96,16 +96,6 @@ $dropdown-i-padding: 6px;
             padding-right: $dropdown-i-padding;
         }
     }
-
-    > li {
-        > a {
-            color: #333 !important;
-
-            &:hover, &:focus {
-                color: #fff !important;
-            }
-        }
-    }
 }
 
 /* Modals */
@@ -128,11 +118,8 @@ $dropdown-i-padding: 6px;
 
 /* Pagination */
 .pagination {
-    text-align: center; margin-top: 30px;
-
-    a {
-        color: #fff !important;
-    }
+    text-align: center;
+    margin-top: 30px;
 }
 
 /* Wells */
@@ -173,48 +160,30 @@ form {
 
     .form-group {
         &.large {
+            .control-label-group,
             .control-label {
                 font-size: 18px;
-                text-indent: -1px;
-                width: 200px;
-            }
-
-            .controls {
-                margin-left: 220px;
             }
         }
-
-        .controls > .row {
-            margin-top: 5px;
-            display: inline-block; /* req'd for .rows in .controls to clear properly */
+        .control-label-group {
+            text-align: right;
         }
     }
 }
 
 .label-desc {
-    display: block;
-    float: left;
-    width: 160px;
-    clear: left;
-    text-align: right;
     font-size: 12px;
     line-height: 16px;
     color: #8d8d8d;
 }
 
-.form-group.large .label-desc {
-    width: 200px;
-}
 
-$field-date-time-width: 70%;
-
-.field-date{
-    width: $field-date-time-width;
-    margin-right: 10px; margin-bottom: 8px !important;
+.field-date {
+    margin-right: 10px;
+    margin-bottom: 8px !important;
 }
 
 .field-time {
-    width: $field-date-time-width;
     margin-right: 0;
 
     + .input-group-addon {
@@ -297,14 +266,6 @@ ul {
         overflow: hidden;
 
         li {
-            &.selected {
-                background-color: #3979fc;
-                background-image: linear-gradient(to bottom, #4380FC, #2A6FFC);
-
-                a {
-                    color: #fff !important;
-                }
-            }
             a {
                 white-space: normal;
             }
@@ -315,45 +276,46 @@ ul {
 .autocomplete-new-btn {
     position: absolute;
     bottom: auto;
-    right: -16px;
+    top: 0;
+    right: 3px;
     padding-left: 12px;
-    padding-right: 16px;
-    border-radius: 4px 20px 20px 4px;
+    padding-right: 14px;
+    border-radius: 0 20px 20px 0;
 }
 
 /* Date/Timepicker overrides */
-$bootstrap-dtp-position: relative;
-$bootstrap-dtp-i-position: absolute;
-$bootstrap-dtp-i-right: 60px;
-$bootstrap-dtp-i-color: #ccc;
+$bootstrap-dtp-border-radius: 4px;
 
-.bootstrap-datepicker {
-    position: $bootstrap-dtp-position;
+.bootstrap-dtp {
+    position: relative;
+    clear: both;
+    background: #fff;
+    border-radius: $bootstrap-dtp-border-radius;
+
+    input {
+        position: relative;
+        z-index: 2;
+        background-color: transparent;
+    }
 
     i {
-        position: $bootstrap-dtp-i-position;
-        right: $bootstrap-dtp-i-right;
-        bottom: 15px;
-        color: $bootstrap-dtp-i-color;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        color: #ccc;
+        z-index: 1;
     }
 }
 
 .bootstrap-timepicker {
-    position: $bootstrap-dtp-position;
-
     input {
-        border-radius: 4px;
-    }
-
-    i {
-        position: $bootstrap-dtp-i-position;
-        right: $bootstrap-dtp-i-right;
-        bottom: 7px;
-        color: $bootstrap-dtp-i-color;
+        border-radius: $bootstrap-dtp-border-radius;
     }
 }
 
 .datepicker {
+    padding: 0 10px 5px 10px;
+
     &:before, &:after {
         border-left: 0;
         border-right: 0;
@@ -375,6 +337,12 @@ $bootstrap-dtp-i-color: #ccc;
     th,
     td span {
         border-radius: 0;
+    }
+
+    td span {
+        height: 40px;
+        line-height: 40px;
+        width: 38px;
     }
 }
 
@@ -488,14 +456,6 @@ ul.wysihtml5-toolbar {
                 > i {
                     padding-right: 0;
                 }
-
-                > span {
-                    width: 0;
-                    height: 0;
-                    text-indent: -9999px;
-                    display: block;
-                    line-height: 0;
-                }
             }
         }
     }
@@ -512,6 +472,9 @@ ul.wysihtml5-toolbar {
             td {
                 border-top: 0;
                 text-align: center;
+            }
+            th {
+                border-bottom: 0;
             }
             td {
                 background: #f1f1f1;
@@ -598,8 +561,7 @@ $calendar-grid-width: 14.285%;
 .calendar-grid {
     width: 100%;
     list-style-type: none;
-    margin-left: 0;
-
+    padding-left: 0;
 
     > li {
         width: $calendar-grid-width;
@@ -652,7 +614,7 @@ $calendar-grid-width: 14.285%;
 
         > div {
             background-color: #f1f1f1;
-            height: 100px;
+            height: 126px;
             overflow: hidden;
             position: relative;
             z-index: 2;
@@ -782,7 +744,18 @@ $calendar-grid-width: 14.285%;
         padding-right: 30px;
     }
 }
-
+.col-lg-auto,
+.col-md-auto,
+.col-sm-auto,
+.col-xs-auto {
+    /* Columns that only span the width of their children */
+    width: auto;
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
 .recurring { /* Helper text for designating recurring events */
     width: 0;
     height: 0;
@@ -1023,10 +996,10 @@ nav {
         white-space: nowrap;
         overflow: hidden;
         width: 10px;
-        height: 25px;
+        height: 40px;
         background-image: url('../../static/img/feeds.png');
         background-repeat: no-repeat;
-        padding: 6px 18px;
+        padding: 0 24px;
 
         &.ical { background-position: 13px -23px; }
         &.outlook { background-position: 13px -57px; }
@@ -1082,15 +1055,6 @@ footer {
 /** Event List **/
 .form-horizontal.bulk-action-form {
     margin-bottom: 20px;
-
-    .control-label {
-        width: 85px; font-weight: 400;
-    }
-
-    .controls {
-        margin-left: 95px;
-    }
-
 }
 
 label[for="bulk-select"],
@@ -1160,38 +1124,14 @@ td.event-actions .btn {
 /**
  * Edit Calendar
  **/
-
-/* Users & Permissions */
-#users-permissions > h2,
-#subscriptions > h2 {
-    width: 0;
-    height: 0;
-    display: block;
-    text-indent: -9999px;
-    margin: 0; }
-
-#users-permissions > h3,
-#subscriptions > h3 { /* Look like h2 */
-    font-size: 24.5px;
-    font-weight: 300;
-    line-height: 40px;
-    margin: 0;
+input#id_add_user {
+    width: 300px;
+}
+input#id_role {
+    width: 150px;
 }
 
 #users-permissions {
-    label[for="id_add_user"],
-    label[for="id_role"],
-    label[for="id_username_d"] {
-        width: 0;
-        height: 0;
-        display: block;
-        text-indent: -9999px;
-    }
-
-    label[for="id_add_role"] + .form-inline {
-        margin-bottom: 30px;
-    }
-
     .calendar-access-username {
         font-weight: bold;
     }
@@ -1199,16 +1139,13 @@ td.event-actions .btn {
 
 #manager-calendar-add-user {
     position: relative;
+    margin-bottom: 30px;
 }
 
 /* Calendar Info */
 #calendar-info {
     h2 {
         margin-top: 0;
-    }
-
-    button {
-        margin-top: 70px;
     }
 }
 
@@ -1382,19 +1319,13 @@ ul {
     top: 0;
     left: 0;
 
-    label {
-        width: 0;
-        height: 0;
-        text-indent: -9999px;
-    }
-
     select {
         &#id_year {
-            width: 68px;
+            width: 85px;
         }
 
         &#id_month {
-            width: 107px;
+            width: 125px;
         }
     }
 }
@@ -1670,20 +1601,21 @@ label[for*="-location-autocomplete"] {
     > a {
         position: absolute;
         top: 0;
-        right: -39px;
+        right: -25px;
         border-radius: 0 4px 4px 0;
-         padding: 8px 14px;
+        padding: 8px 14px;
      }
 }
 
 .remove-instance {
+    position: absolute;
+    right: -25px;
     border-radius: 0 4px 4px 0;
     font-size: 18px;
-    float: right;
     padding: 8px 14px;
 }
-.remove-instance:hover ~ div > .whenwhere-wrap,
-.remove-instance:focus ~ div > .whenwhere-wrap {
+.remove-instance:hover + .whenwhere-wrap,
+.remove-instance:focus + .whenwhere-wrap {
     background-color: #F2DEDE;
     border-color: #EE5F5B;
 }
@@ -1694,11 +1626,7 @@ label[for*="-location-autocomplete"] {
 }
 
 .location-search .autocomplete-new-btn {
-    top: 25px;
-}
-.tag-search .autocomplete-new-btn {
-    top: 0;
-    right: 66px;
+    top: 28px;
 }
 
 .location-selected {
@@ -1710,8 +1638,8 @@ label[for*="-location-autocomplete"] {
     font-size: 20px;
     padding: 0 6px 1px 6px;
     position: absolute;
-    top: 0;
-    right: -16px;
+    top: -6px;
+    right: 0;
     color: #A8A8A8;
 }
 
@@ -1731,7 +1659,12 @@ label[for*="-location-autocomplete"] {
 .location-selected-url {
     display: block;
     float: left;
-    width: 90%;
+    width: 100%;
+}
+
+.location-search .label-inner:first-child,
+.location-selected .label-inner:first-child {
+    margin-top: 0;
 }
 
 .clone-delete-hiddenfield {

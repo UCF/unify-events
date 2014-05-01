@@ -59,31 +59,33 @@
 
 {% block content_body %}
     <div class="row page-content">
-        <div class="col-md-9" id="calendar-info">
-            <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal form-tabbed col-md-9">
+        <div class="col-md-12" id="calendar-info">
+            <h2>Calendar Info</h2>
+            <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal">
                 {% csrf_token %}
-                <h2>Calendar Info</h2>
                 <div class="form-group large">
-                    <label class="control-label" for="id_title">Calendar Name</label>
-                    <div class="controls">
-                        {{ form.title|add_class:"col-md-5"|attr:"placeholder:Enter a calendar name..." }}
+                    <label class="control-label col-md-3" for="id_title">Calendar Name</label>
+                    <div class="controls col-md-6">
+                        {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
                         {{ form.title.errors }}
                     </div>
                 </div>
                 <div class="form-group large">
-                    <label class="control-label" for="id_description">Description</label>
-                    <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-                    <div class="controls">
-                        {{ form.description|add_class:"col-md-5" }}
+                    <div class="control-label-group col-md-3">
+                        <label class="control-label" for="id_description">Description</label>
+                        <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+                    </div>
+                    <div class="controls col-md-6">
+                        {{ form.description|add_class:"form-control" }}
                         {{ form.description.errors }}
                     </div>
                 </div>
                 {% for field in form.hidden_fields %}
                     {{ field }}
                 {% endfor %}
-                <div class="form-group large">
-                    <div class="controls">
-                        <button class="btn btn-primary" type="submit">Update Settings</button>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Update Settings</button>
                     </div>
                 </div>
             </form>

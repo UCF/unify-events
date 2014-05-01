@@ -7,25 +7,29 @@
         <div class="row">
             <div class="col-md-4">
                 <form class="form-inline" id="month-toggle" method="GET" action="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
-                    <label for="id_year">Switch Year</label>
-                    <select id="id_year" name="year">
+                    <label for="id_year" class="sr-only">Switch Year</label>
+                    <select id="id_year" name="year" class="form-control">
                         {% for year in all_years %}
                         <option{% if year == start_date.year %} selected{% endif %}>{{ year }}</option>
                         {% endfor %}
                     </select>
-                    <label for="id_month">Switch Month</label>
-                    <select id="id_month" name="month">
+                    <label for="id_month" class="sr-only">Switch Month</label>
+                    <select id="id_month" name="month" class="form-control">
                         {% for option, value in all_months.items %}
                         <option{% if value == start_date|date:"m" %} selected{% endif %} value="{{ value }}">{{ option }}</option>
                         {% endfor %}
                     </select>
-                    <button class="btn" type="submit">View</button>
+                    <button class="btn btn-default" type="submit">View</button>
                 </form>
             </div>
             <div class="col-md-4">
                 <h3><span class="alt">{{ start_date|date:"F" }}</span> {{ start_date.year }}</h3>
             </div>
         </div>
-        {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date size='large' %}
+        <div class="row">
+            <div class="col-md-12">
+                {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date size='large' %}
+            </div>
+        </div>
     </div>
 </div>

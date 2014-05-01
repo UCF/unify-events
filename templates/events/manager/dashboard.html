@@ -91,9 +91,9 @@
             <form action="{% url 'event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="bulk-action_0" class="control-label">Bulk Action:</label>
-                    <div class="controls">
-                        <select id="bulk-action_0" name="bulk-action_0" onchange="this.form.submit()">
+                    <label for="bulk-action_0" class="control-label col-md-auto">Bulk Action:</label>
+                    <div class="controls col-md-6">
+                        <select id="bulk-action_0" class="form-control" name="bulk-action_0" onchange="this.form.submit()">
                             <option>Select Action...</option>
                             {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
                             {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
@@ -257,9 +257,9 @@
                 {% endif %}
 
                 <div class="form-group">
-                    <label for="bulk-action_1" class="control-label">Bulk Action:</label>
-                    <div class="controls">
-                        <select id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
+                    <label for="bulk-action_1" class="control-label col-md-auto">Bulk Action:</label>
+                    <div class="controls col-md-6">
+                        <select class="form-control" id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
                             <option>Select Action...</option>
                             {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
                             {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
