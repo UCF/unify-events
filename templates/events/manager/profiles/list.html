@@ -59,19 +59,23 @@
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
 
             <!-- Modal for User Demote -->
-            <div class="modal hide fade" id="user-demote-modal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2>Demote self: <span class="alt"></span></h2>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        You are about demote yourself from administrative privleges. Once this is done you will no longer have access to the Admin Menu and any of its features.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-danger">Demote Self</a>
-                    <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+            <div class="modal hide fade" id="user-demote-modal" tabindex="-1" role="dialog" aria-labelledby="user-delete-modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title" id="user-demote-modal-label">Demote self: <span class="alt"></span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                You are about demote yourself from administrative privleges. Once this is done you will no longer have access to the Admin Menu and any of its features.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-danger">Demote Self</a>
+                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

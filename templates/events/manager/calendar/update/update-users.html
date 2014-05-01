@@ -104,75 +104,87 @@
             </table>
             <!-- Reassign ownership modal -->
             {% if user.is_superuser or calendar in user.owned_calendars.all %}
-            <div class="modal hide fade" id="calendar-reassign-ownership">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2>Reassign Ownership of Calendar: <span class="alt">{{ calendar.title }}</span></h2>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        You are about to reassign ownership of this calendar to an existing user.<br/>
-                        {% if user.is_superuser and not calendar in user.owned_calendars.all %}
-                        The owner of this calendar
-                        {% else %}
-                        You
-                        {% endif %}
-                        will be reassigned as an Admin.
-                    </p>
-                    <select id="new-owner-select">
-                        <option value="">Select a User</option>
-                        {% for admin in calendar.admins.all %}
-                        <option value="{{ admin.username }}">{{ admin.first_name }} {{ admin.last_name }} (Admin)</option>
-                        {% endfor %}
-                        {% for editor in calendar.editors.all %}
-                        <option value="{{ editor.username }}">{{ editor.first_name }} {{ editor.last_name }} (Editor)</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <a href="{% url 'calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
-                    <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+            <div class="modal fade" id="calendar-reassign-ownership" tabindex="-1" role="dialog" aria-labelledby="calendar-reassign-ownership-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title" id="calendar-reassign-ownership-label">Reassign Ownership of Calendar: <span class="alt">{{ calendar.title }}</span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                You are about to reassign ownership of this calendar to an existing user.<br/>
+                                {% if user.is_superuser and not calendar in user.owned_calendars.all %}
+                                The owner of this calendar
+                                {% else %}
+                                You
+                                {% endif %}
+                                will be reassigned as an Admin.
+                            </p>
+                            <select id="new-owner-select">
+                                <option value="">Select a User</option>
+                                {% for admin in calendar.admins.all %}
+                                <option value="{{ admin.username }}">{{ admin.first_name }} {{ admin.last_name }} (Admin)</option>
+                                {% endfor %}
+                                {% for editor in calendar.editors.all %}
+                                <option value="{{ editor.username }}">{{ editor.first_name }} {{ editor.last_name }} (Editor)</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
+                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endif %}
             <!-- Demote self to Editor modal -->
             {% if user in calendar.admins.all %}
-            <div class="modal hide fade" id="calendar-demote-self-editor">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2>Demote Self to Editor</h2>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        <strong>Warning:</strong> You are about to demote yourself to an Editor role.
-                        As an Editor, you will no longer have access to this calendar's management options
-                        and you will be redirected to your Dashboard when you click 'Continue'. Proceed?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <a href="{% url 'calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger">Continue</a>
-                    <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+            <div class="modal fade" id="calendar-demote-self-editor" tabindex="-1" role="dialog" aria-labelledby="calendar-demote-self-editor-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title" id="calendar-demote-self-editor-label">Demote Self to Editor</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <strong>Warning:</strong> You are about to demote yourself to an Editor role.
+                                As an Editor, you will no longer have access to this calendar's management options
+                                and you will be redirected to your Dashboard when you click 'Continue'. Proceed?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger">Continue</a>
+                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endif %}
             <!-- Remove self from calendar modal -->
             {% if user in calendar.admins.all %}
-            <div class="modal hide fade" id="calendar-remove-self">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2>Remove Self from Calendar</h2>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        <strong>Warning:</strong> You are about to remove yourself from this calendar.
-                        You will no longer be able to submit events to this calendar or access this
-                        calendar's management options. Clicking 'Continue' will redirect you to your
-                        Dashboard. Proceed?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <a href="{% url 'calendar-delete-user' pk=calendar.pk username=user %}" class="btn btn-primary">Continue</a>
-                    <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+            <div class="modal hide fade" id="calendar-remove-self" tabindex="-1" role="dialog" aria-labelledby="calendar-remove-self-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h2 class="modal-title" id="calendar-remove-self-label">Remove Self from Calendar</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <strong>Warning:</strong> You are about to remove yourself from this calendar.
+                                You will no longer be able to submit events to this calendar or access this
+                                calendar's management options. Clicking 'Continue' will redirect you to your
+                                Dashboard. Proceed?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'calendar-delete-user' pk=calendar.pk username=user %}" class="btn btn-primary">Continue</a>
+                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endif %}

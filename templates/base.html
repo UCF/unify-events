@@ -109,18 +109,22 @@
         {% endblock %}
 
         <!-- Generic Modal for Object Modification -->
-        <div class="modal hide fade" id="object-modify-modal">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2></h2>
+        <div class="modal fade" id="object-modify-modal" tabindex="-1" role="dialog" aria-labelledby="object-modify-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title" id="object-modify-modal-label"></h2>
+                    </div>
+                    <form action="" method="post" id="object-modify">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form action="" method="post" id="object-modify">
-                {% csrf_token %}
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                </div>
-            </form>
         </div>
 
         {% block footer %}

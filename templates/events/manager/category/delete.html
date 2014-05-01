@@ -21,7 +21,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-danger">Delete Category</button>
-    <a href="{% url 'category-update' pk=category.pk %}" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'category-update' pk=category.pk %}" class="btn btn-default" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

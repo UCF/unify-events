@@ -1,4 +1,10 @@
 /**
+ * Variables
+ **/
+$ucf-header-height: 50px;
+
+
+/**
  * Universal Styles
  **/
 
@@ -23,7 +29,7 @@ h2 {
     }
 }
 
-.fa.fa-circle-wrap {
+.icon-circle-wrap {
     display: block;
     width: 25px;
     height: 18px;
@@ -103,11 +109,15 @@ $dropdown-i-padding: 6px;
 }
 
 /* Modals */
-.modal h2 {
-    font-weight: bold; line-height: 30px;
+.modal {
+    padding-top: $ucf-header-height;
 
-    .alt {
-        font-weight: 300;
+    h2 {
+        font-weight: bold; line-height: 30px;
+
+        .alt {
+            font-weight: 300;
+        }
     }
 }
 
@@ -629,7 +639,7 @@ $calendar-grid-width: 14.285%;
                     height: 0;
                 }
 
-                > span.fa.fa-text {
+                > i.icon-text {
                     display: block;
                     border-left: 2px solid #fff;
                     border-right: 2px solid #fff;
@@ -867,7 +877,7 @@ nav {
         border-left: 3px solid #e1e1e1;
         margin-left: 15px;
 
-        .fa.fa-circle-wrap {
+        .icon-circle-wrap {
             float: left;
             margin-right: 6px;
         }

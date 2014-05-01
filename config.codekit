@@ -1509,6 +1509,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/static\/js\/min\/script-ck.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static\/js\/min\/script-ck.js",
+		"outputAbbreviatedPath": "\/static\/js\/min\/min\/script-ck-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/static\/js\/placeholders.min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -4221,6 +4232,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/static_files\/js\/bootstrap3-typeahead.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/js\/bootstrap3-typeahead.min.js",
+		"outputAbbreviatedPath": "\/static_files\/js\/min\/bootstrap3-typeahead.min-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/static_files\/js\/datepicker\/css\/datepicker.css": {
 		"fileType": 16,
 		"ignore": 1,
@@ -4396,6 +4418,17 @@
 		"outputAbbreviatedPath": "\/static_files\/js\/script.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/static_files\/js\/script.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/js\/script.min.js",
+		"outputAbbreviatedPath": "\/static_files\/js\/min\/script.min-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},

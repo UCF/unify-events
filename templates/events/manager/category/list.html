@@ -94,31 +94,35 @@
         {% endif %}
 
         <!-- Modal for Object Merge -->
-        <div class="modal hide fade" id="object-merge-modal">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2>Merge Category: <span class="alt"></span></h2>
-            </div>
-            <div class="modal-body">
-                <p>
-                    You are about to merge this category with another existing category. Merging this category
-                    will assign any events that are currently assigned with this category to the category that
-                    you select below.
-                </p>
-                <p>
-                    Note: <em>The category you're merging will be <strong>deleted</strong> once you merge it.</em>
-                    There is no undo!
-                </p>
-                <select id="new-object-select">
-                    <option value="">Select an Existing Category</option>
-                    {% for category in category_list %}
-                    <option value="{{ category.pk }}">{{ category.title }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary">Merge Category</a>
-                <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+        <div class="modal hide fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title" id="object-merge-modal-label">Merge Category: <span class="alt"></span></h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            You are about to merge this category with another existing category. Merging this category
+                            will assign any events that are currently assigned with this category to the category that
+                            you select below.
+                        </p>
+                        <p>
+                            Note: <em>The category you're merging will be <strong>deleted</strong> once you merge it.</em>
+                            There is no undo!
+                        </p>
+                        <select id="new-object-select">
+                            <option value="">Select an Existing Category</option>
+                            {% for category in category_list %}
+                            <option value="{{ category.pk }}">{{ category.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-primary">Merge Category</a>
+                        <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
