@@ -4393,9 +4393,9 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/static_files\/js\/script.js",
-		"outputAbbreviatedPath": "\/static_files\/js\/min\/script-ck.js",
+		"outputAbbreviatedPath": "\/static_files\/js\/script.min.js",
 		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
+		"outputPathIsSetByUser": 1,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
