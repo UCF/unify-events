@@ -95,7 +95,7 @@
                                 </td>
                                 <td class="location-actions">
                                     <div class="btn-group">
-                                        <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                             Select
                                             <span class="caret"></span>
                                         </a>
@@ -109,7 +109,7 @@
                                             {% if location.event_instances.count > 0 %}
                                             <li role="presentation">
                                                 <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
-                                                    <i class="fa fa-resize-small"></i>
+                                                    <i class="fa fa-compress"></i>
                                                     Merge Location
                                                 </a>
                                             </li>
@@ -172,7 +172,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-primary">Merge Location</a>
-                        <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                        <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
                     </div>
                 </div>
             </div>

@@ -56,7 +56,7 @@
                                 {% endif %}
                             </td>
                             <td class="calendar-subscriptions-actions">
-                                <a class="btn btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-remove-sign"></i> Unsubscribe</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-remove-sign"></i> Unsubscribe</a>
                             </td>
                         </tr>
                         {% endfor %}

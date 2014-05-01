@@ -44,7 +44,7 @@
                     <td class="category-actions">
 
                         <div class="btn-group">
-                            <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                 Select
                                 <span class="caret"></span>
                             </a>
@@ -58,7 +58,7 @@
                                 {% if category.events.count > 0 %}
                                 <li role="presentation">
                                     <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}">
-                                        <i class="fa fa-resize-small"></i>
+                                        <i class="fa fa-compress"></i>
                                         Merge Category
                                     </a>
                                 </li>
@@ -118,7 +118,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary">Merge Category</a>
-                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
             </div>
         </div>
     </div>

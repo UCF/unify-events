@@ -6,8 +6,8 @@
         {% if messages %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert fade in" id="messages">
-                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <div class="alert alert-info fade in" id="messages">
+                        <a class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
                         <strong>Message:</strong>
                         <ul>
                             {% for message in messages %}

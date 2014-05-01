@@ -8,11 +8,11 @@
                 <h1>Sign In</h1>
                 <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
                 {% if form.non_field_errors %}
-                <div class="alert alert-danger">
+                <div class="alert alert-error">
                     <strong>Error: </strong>
                     <ul class="errors">
                         {% for error in form.non_field_errors %}
-                        <li>{{error}}</li>
+                        <li>{{ error }}</li>
                         {% endfor %}
                     </ul>
                 </div>

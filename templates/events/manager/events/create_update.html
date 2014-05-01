@@ -31,7 +31,7 @@
     {% if form.non_field_errors %}
         <div class="row">
             <div class="col-md-12">
-                <div class="alert">
+                <div class="alert-error">
                     <strong>Error: </strong>
                     {{form.non_field_errors}}
                 </div>
@@ -313,7 +313,7 @@
                 <div class="controls">
                     {% if object %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
-                        <a href="{% url 'dashboard' %}" class="btn">Cancel</a> <!-- TODO: make this a back link? -->
+                        <a href="{% url 'dashboard' %}" class="btn btn-default">Cancel</a> <!-- TODO: make this a back link? -->
                     {% else %}
                         <button class="btn btn-primary" type="submit">Create Event</button>
                     {% endif %}

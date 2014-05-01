@@ -39,7 +39,7 @@
                     </td>
                     <td class="tag-actions">
                         <div class="btn-group">
-                            <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                 Select
                                 <span class="caret"></span>
                             </a>
@@ -52,7 +52,7 @@
                                 </li>
                                 <li role="presentation">
                                     <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}">
-                                        <i class="fa fa-resize-small"></i>
+                                        <i class="fa fa-compress"></i>
                                         Merge Tag
                                     </a>
                                 </li>
@@ -104,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary">Merge Tag</a>
-                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
             </div>
         </div>
     {% else %}
