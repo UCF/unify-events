@@ -1,26 +1,28 @@
 {% load widgets %}
-<ul class="pagination">
-    {% if current_page.has_previous %}
-    <li>
-        <a href="{{ url }}page={{ current_page.previous_page_number }}">&laquo;</a>
-    </li>
-    {% else %}
-    <li class="disabled">
-        <a href="#">&laquo;</a>
-    </li>
-    {% endif %}
-    {% for page in range %}
-    <li{% if page == current_page.number %} class="active"{% endif %}>
-        <a href="{{ url }}page={{ page }}">{{ page }}</a>
-    </li>
-    {% endfor %}
-    {% if current_page.has_next %}
-    <li>
-        <a href="{{ url }}page={{ current_page.next_page_number }}">&raquo;</a>
-    </li>
-    {% else %}
-    <li class="disabled">
-        <a href="#">&raquo;</a>
-    </li>
-    {% endif %}
-</ul>
+<div class="text-center">
+    <ul class="pagination">
+        {% if current_page.has_previous %}
+        <li>
+            <a href="{{ url }}page={{ current_page.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&laquo;</a>
+        </li>
+        {% endif %}
+        {% for page in range %}
+        <li{% if page == current_page.number %} class="active"{% endif %}>
+            <a href="{{ url }}page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+        {% if current_page.has_next %}
+        <li>
+            <a href="{{ url }}page={{ current_page.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

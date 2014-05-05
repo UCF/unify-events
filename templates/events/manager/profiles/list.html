@@ -46,7 +46,7 @@
                         </td>
                         <td class="user-actions">
                             {% if theUser.is_superuser %}
-                            <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-circle-arrow-down"></i> Demote</a>
+                            <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
                             {% else %}
                             <a class="btn btn-default btn-xs" href="{% url 'profile-promote' user_id=theUser.pk %}"><i class="fa fa-circle-arrow-up"></i> Make Superuser</a>
                             {% endif %}

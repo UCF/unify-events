@@ -67,6 +67,8 @@ i + a:not(.btn) {
     padding-left: 6px;
 }
 
+ul { padding-left: 0; }
+
 
 /* Dropdowns */
 $dropdown-i-padding: 6px;
@@ -113,7 +115,6 @@ $dropdown-i-padding: 6px;
 
 /* Pagination */
 .pagination {
-    text-align: center;
     margin-top: 30px;
 }
 
@@ -369,7 +370,8 @@ ul.wysihtml5-toolbar {
         margin: 0; position: relative; z-index: 2;
 
         li {
-            position: absolute; top: 15px;
+            position: absolute;
+            top: 22px;
 
             &.previous {
                 left: 0;
@@ -377,22 +379,6 @@ ul.wysihtml5-toolbar {
 
             &.next {
                 right: 0;
-            }
-
-            .carousel-control {
-                font-size: 14px;
-                height: 26px;
-                line-height: 26px;
-                padding: 0;
-                position: static;
-                height: auto;
-                opacity: 1;
-                margin: 0;
-                float: none;
-
-                > i {
-                    padding-right: 0;
-                }
             }
         }
     }
@@ -498,7 +484,6 @@ $calendar-grid-width: 14.285%;
 .calendar-grid {
     width: 100%;
     list-style-type: none;
-    padding-left: 0;
 
     > li {
         width: $calendar-grid-width;
@@ -584,7 +569,7 @@ $calendar-grid-width: 14.285%;
                 font-size: 24px;
                 font-weight: 400;
                 color: #8d8d8d;
-                padding: 8px 5px;
+                padding: 0 5px;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -601,7 +586,7 @@ $calendar-grid-width: 14.285%;
                 color: #8d8d8d;
                 display: block;
                 line-height: 14px;
-                padding: 8px 8px 0 8px;
+                padding: 12px 0 0 8px;
             }
         }
 
@@ -823,8 +808,8 @@ nav {
     .edit-options {
         list-style-type: none;
         float: left;
-        margin-top: 15px;
-        margin-left: 10px;
+        margin-top: 22px;
+        margin-left: 15px;
 
         > li {
             float: left; margin-left: 10px;
@@ -842,8 +827,8 @@ nav {
 
 #page-title-icon {
     position: absolute;
-    top: 10px;
-    left: -48px;
+    top: 20px;
+    left: -36px;
     font-size: 36px;
     color: #a8a8a8;
 
@@ -1098,7 +1083,11 @@ input#id_role {
 /* General */
 ul {
 
-    &.event-list { margin-bottom: 30px; list-style-type: none; margin-left: 0; }
+    &.event-list {
+        margin-bottom: 30px;
+        list-style-type: none;
+        margin-left: 0;
+    }
     &.event-list li {
         background-color: #f1f1f1;
         position: relative;
@@ -1201,9 +1190,9 @@ ul {
 
 
     &.event-list-condensed {
-        margin: 8px 0 0 0;
         list-style-type: none;
         width: 100%;
+        margin-top: 4px;
 
         li {
             text-overflow: ellipsis;
