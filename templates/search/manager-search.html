@@ -10,8 +10,17 @@
 {% endwith %}
 
 <form method="GET" action=".">
-    {{ form.q.label }}
-    {{ form.q|add_class:"search-query" }}
-    <button class="btn btn-primary" type="submit">Search</button>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
+                {{ form.q|add_class:"search-query form-control" }}
+
+                <div class="input-group-btn">
+                    <button tabindex="-1" class="btn btn-primary" type="button">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 {% endblock %}

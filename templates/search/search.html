@@ -25,14 +25,27 @@
         {% endwith %}
 
         <form method="GET" action=".">
-            {{ form.q.label }}
-            {{ form.q|add_class:"search-query" }}
-            {% if not manager_search %}
-            <br/>
-            {{ form.models.label }}
-            {{ form.models }}
-            {% endif %}
-            <button class="btn btn-primary" type="submit">Search</button>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
+                        {{ form.q|add_class:"search-query form-control" }}
+
+                        <div class="input-group-btn">
+                            <button tabindex="-1" class="btn btn-primary" type="button">Search</button>
+                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-form dropdown-menu-right" id="{{ form.models.auto_id }}" role="menu">
+                                {% for model in form.models %}
+                                <li>{{ model }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         {% endblock %}
 
