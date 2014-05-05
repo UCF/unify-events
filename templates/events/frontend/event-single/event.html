@@ -9,11 +9,6 @@
 vevent
 {% endblock %}
 
-{% block content_title_icon %}
-<i class="fa fa-calendar-o" id="page-title-icon"></i>
-<span class="event-icon icon-date">{{ event_instance.start|date:"j" }}</span>
-{% endblock %}
-
 {% block content_title %}
     <h1>
         <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
