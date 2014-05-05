@@ -31,15 +31,14 @@ h2 {
 
 .icon-circle-wrap {
     display: block;
-    width: 25px;
-    height: 18px;
-    padding-top: 5px;
-    border-radius: 25px;
-    box-shadow: 0 2px 0 0 #3566c9;
-    background-color: #4380fc;
+    width: 26px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    border-radius: 26px;
+    background-color: $brand-primary;
     color: #fff;
     text-align: center;
-    margin-top: -2px;
+    margin-top: -3px;
 }
 
 // form a:not([class]),
@@ -68,6 +67,10 @@ i + a:not(.btn) {
 }
 
 ul { padding-left: 0; }
+ul.errors,
+#messages ul {
+    padding-left: 15px;
+}
 
 
 /* Dropdowns */
@@ -88,9 +91,24 @@ $dropdown-i-padding: 6px;
     max-height: 270px;
     overflow-y: scroll;
 
+    &.dropdown-menu-form {
+        padding: 8px;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 4px;
+        }
+    }
+
     li {
         i {
             padding-right: $dropdown-i-padding;
+        }
+
+        &.dropdown-header {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 11px;
         }
     }
 }
@@ -698,6 +716,10 @@ header {
         margin: 10px 0;
         display: block;
 
+        a {
+            color: #333;
+        }
+
         .alt {
             font-weight: 300;
         }
@@ -715,65 +737,71 @@ header {
     background: #f1f1f1;
 }
 
-#navinner {
-    padding: 10px 0;
-}
-
 nav {
-    .user {
-        float: left;
-        padding-right: 30px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+    #navinner {
+        padding-top: 10px;
+        padding-bottom: 10px;
 
-        .user i {
-            color: #8d8d8d;
+        a,
+        a:hover {
+            color: #444;
         }
-    }
 
-    #actions-primary,
-    #actions-secondary {
-        list-style-type: none;
-        margin: 0;
-
-        > li {
+        .user {
             float: left;
-            padding-left: 15px;
+            padding-right: 30px;
             padding-top: 5px;
             padding-bottom: 5px;
-            position: relative;
-        }
-    }
 
-    #actions-primary {
-        float: left;
-    }
-
-    #actions-primary > li {
-        > i {
-            color: #4380fc; font-size: 16px;
+            .user i {
+                color: #8d8d8d;
+            }
         }
 
-        > span.label {
-            position: absolute; left: 25px; top: -3px;
+        #actions-primary,
+        #actions-secondary {
+            list-style-type: none;
+            margin: 0;
+
+            > li {
+                float: left;
+                padding-left: 15px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                position: relative;
+            }
         }
-    }
 
-    #actions-secondary {
-        float: right;
-
-        > li > i {
-            color: #8d8d8d; font-size: 16px;
-        }
-    }
-
-    li#create-event {
-        border-left: 3px solid #e1e1e1;
-        margin-left: 15px;
-
-        .icon-circle-wrap {
+        #actions-primary {
             float: left;
-            margin-right: 6px;
+        }
+
+        #actions-primary > li {
+            > i {
+                color: $brand-primary; font-size: 16px;
+            }
+
+            > span.label {
+                position: absolute; left: 25px; top: -3px;
+            }
+        }
+
+        #actions-secondary {
+            float: right;
+
+            > li > i {
+                color: #8d8d8d; font-size: 16px;
+            }
+        }
+
+        li#create-event {
+            border-left: 3px solid #e1e1e1;
+            margin-left: 15px;
+
+            .icon-circle-wrap {
+                float: left;
+                margin-right: 10px;
+            }
         }
     }
 }
@@ -829,7 +857,6 @@ nav {
  * Page Subtitles
  **/
 .page-subtitle {
-    line-height: 28px;
     color: #8d8d8d;
     margin-top: 0;
     margin-bottom: 20px;
@@ -1629,4 +1656,12 @@ label[for*="-location-autocomplete"] {
     padding: 0 5px;
     font-weight: bold;
     color: #fff;
+}
+
+/**
+ * Search Pages
+ **/
+#search form {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

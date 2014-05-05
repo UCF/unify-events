@@ -18,7 +18,7 @@
     {% if form.non_field_errors %}
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{ form.non_field_errors }}
                 </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="form-group large">
                 <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.url.auto_id }}">{{ form.color.label }}</label>
+                    <label class="control-label" for="{{ form.color.auto_id }}">{{ form.color.label }}</label>
                     <p class="label-desc">A color to represent this category in the front-end interface. Standard hex values are recommended.</p>
                 </div>
                 <div class="controls col-md-3">
@@ -72,7 +72,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     {% if object %}
                         <button class="btn btn-primary" type="submit">Update Category</button>
-                        <a href="{% url 'category-list' %}" class="btn">Cancel</a>
+                        <a href="{% url 'category-list' %}" class="btn btn-default">Cancel</a>
                     {% else %}
                         <button class="btn btn-primary" type="submit">Create Category</button>
                     {% endif %}

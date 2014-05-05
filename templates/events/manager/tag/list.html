@@ -76,7 +76,7 @@
         {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
 
         <!-- Modal for Object Merge -->
-        <div class="modal hide fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
+        <div class="modal fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -93,7 +93,7 @@
                             Note: <em>The tag you're merging will be <strong>deleted</strong> once you merge it.</em>
                             There is no undo!
                         </p>
-                        <select id="new-object-select">
+                        <select id="new-object-select" class="form-control">
                             <option value="">Select an Existing Tag</option>
                             {% for tag in tags %}
                             <option value="{{ tag.pk }}">{{ tag.name }}</option>

@@ -6,7 +6,7 @@
     {% if forms.user.non_field_errors %}
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{forms.user.non_field_errors}}
                 </div>
@@ -16,7 +16,7 @@
     {% if forms.profile.non_field_errors %}
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{forms.profile.non_field_errors}}
                 </div>
@@ -50,21 +50,21 @@
         <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
             {% csrf_token %}
             <div class="form-group">
-                <label class="control-label col-md-3" for="id_user-first_name">First Name</label>
+                <label class="control-label col-md-3" for="id_first_name">First Name</label>
                 <div class="controls col-md-5">
                     {{ form.first_name|add_class:"form-control" }}
                     {{ form.first_name.errors }}
         		</div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-3" for="id_user-last_name">Last Name</label>
+                <label class="control-label col-md-3" for="id_last_name">Last Name</label>
                 <div class="controls col-md-5">
                     {{ form.last_name|add_class:"form-control" }}
                     {{ form.last_name.errors }}
         		</div>
         	</div>
         	<div class="form-group">
-                <label class="control-label col-md-3" for="id_user-email">Email</label>
+                <label class="control-label col-md-3" for="id_email">Email</label>
                 <div class="controls col-md-5">
                     {{ form.email|add_class:"form-control" }}
                     {{ form.email.errors }}

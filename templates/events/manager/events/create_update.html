@@ -31,7 +31,7 @@
     {% if form.non_field_errors %}
         <div class="row">
             <div class="col-md-12">
-                <div class="alert-error">
+                <div class="alert-danger">
                     <strong>Error: </strong>
                     {{form.non_field_errors}}
                 </div>
@@ -216,7 +216,7 @@
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <div class="col-md-6 location-search">
+                                    <div class="col-md-6 location-search {% if ei_form.location.errors %}error{% endif %}">
                                         <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
                                         {{ ei_form.location|add_class:"location-dropdown" }}
                                         {{ ei_form.location.errors }}
@@ -240,15 +240,15 @@
                                             {% endif %}
                                         </span>
                                         <div class="location-new-form">
-                                            <label class="label-inner" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
+                                            <label class="label-inner {% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
                                             {{ ei_form.new_location_title|add_class:"form-control" }}
                                             {{ ei_form.new_location_title.errors }}
 
-                                            <label class="label-inner" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                                            <label class="label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
                                             {{ ei_form.new_location_room|add_class:"form-control" }}
                                             {{ ei_form.new_location_room.errors }}
 
-                                            <label class="label-inner" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                                            <label class="label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
                                             {{ ei_form.new_location_url|add_class:"form-control" }}
                                             {{ ei_form.new_location_url.errors }}
                                         </div>

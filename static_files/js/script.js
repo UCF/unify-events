@@ -216,6 +216,18 @@ var inputTypeSupport = function(type) {
 
 
 /**
+ * Add support for forms within Bootstrap .dropdown-menus.
+ **/
+var dropdownMenuForms = function() {
+    $('.dropdown-menu').on('click', function(e) {
+        if ($(this).hasClass('dropdown-menu-form')) {
+            e.stopPropagation();
+        }
+    });
+}
+
+
+/**
  * Date/Timepicker Init.
  * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
@@ -1184,6 +1196,7 @@ $(document).ready(function() {
     toggleModalModifyObject();
     toggleModalMergeObject();
     toggleModalUserDemote();
+    dropdownMenuForms();
     calendarSliders();
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
