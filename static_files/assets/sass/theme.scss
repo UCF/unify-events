@@ -68,7 +68,8 @@ i + a:not(.btn) {
 
 ul { padding-left: 0; }
 ul.errors,
-#messages ul {
+#messages ul,
+#static-base ul {
     padding-left: 15px;
 }
 
@@ -872,6 +873,7 @@ nav {
 
     .subtitle-backlink {
         font-weight: bold;
+        color: #a8a8a8;
     }
 }
 
@@ -1238,18 +1240,15 @@ ul {
 }
 
 /* Month View */
-#calendar-events-month h2 {
-    margin: 0;
-    width: 0;
-    height: 0;
-    display: block;
-    text-indent: -9999px;
-}
-
-#calendar-events-month h3 {
-    text-align: center;
-    font-size: 24.5px;
-    line-height: 40px;
+#calendar-events-month {
+    h2 {
+        text-align: center;
+        font-size: 24.5px;
+        line-height: 40px;
+    }
+    .calendar-large h2 {
+        display: none;
+    }
 }
 
 #month-toggle {
@@ -1348,21 +1347,6 @@ ul {
 #event-single hr,
 #event-single-sidebar hr {
     border-width: 3px 0;
-}
-
-/* Title icon date */
-#page-title-wrap .event-icon-date {
-    display: block;
-    width: 28px;
-    height: 20px;
-    position: absolute;
-    top: 23px;
-    left: -46px;
-    font-size: 18px;
-    line-height: 18px;
-    font-weight: bold;
-    color: #a8a8a8;
-    text-align: center;
 }
 
 /* Sidebar */

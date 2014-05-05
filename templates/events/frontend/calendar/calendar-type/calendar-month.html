@@ -3,7 +3,6 @@
 
 <div class="row">
     <div class="col-md-12 page-content" id="calendar-events-month">
-        <h2>{{ list_title }}</h2>
         <div class="row">
             <div class="col-md-4">
                 <form class="form-inline" id="month-toggle" method="GET" action="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
@@ -23,7 +22,7 @@
                 </form>
             </div>
             <div class="col-md-4">
-                <h3><span class="alt">{{ start_date|date:"F" }}</span> {{ start_date.year }}</h3>
+                <h2><span class="alt">{{ start_date|date:"F" }}</span> {{ start_date.year }}</h2>
             </div>
         </div>
         <div class="row">
