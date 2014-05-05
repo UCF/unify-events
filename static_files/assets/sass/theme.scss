@@ -69,16 +69,11 @@ i + a:not(.btn) {
 
 
 /* Dropdowns */
-.btn b.caret {
-    border-top: 4px solid #fff;
-}
-
 $dropdown-i-padding: 6px;
 
 .dropdown {
     &.open a.btn.dropdown-toggle {
         background-image: none;
-        box-shadow: 0 2px 0 0 #4D4D4D inset, 0 2px 0 0 #8D8D8D;
         outline: 0 none;
     }
 
@@ -354,14 +349,7 @@ $bootstrap-dtp-border-radius: 4px;
 
 /** WYSIWYG overrides **/
 ul.wysihtml5-toolbar {
-    display: inline-block;
-
-    a.btn.wysihtml5-command-active {
-        background-color: #8D8D8D;
-        box-shadow: 0 2px 0 0 #4d4d4d inset, 0 2px 0 0 #8d8d8d;
-    }
-
-    span.current-font,
+    a[data-wysihtml5-command="bold"],
     a[data-wysihtml5-command="italic"],
     a[data-wysihtml5-command="underline"] {
         font-weight: normal;
@@ -369,57 +357,6 @@ ul.wysihtml5-toolbar {
 
     a[data-wysihtml5-command-value="div"] {
         color: #333;
-    }
-
-    a[data-wysihtml5-command-value="h1"],
-    a[data-wysihtml5-command-value="h2"],
-    a[data-wysihtml5-command-value="h3"],
-    a[data-wysihtml5-command-value="h4"],
-    a[data-wysihtml5-command-value="h5"],
-    a[data-wysihtml5-command-value="h6"] {
-        font-weight: bold;
-        color: #333;
-    }
-
-    a[data-wysihtml5-command-value="h1"],
-    a[data-wysihtml5-command-value="h2"],
-    a[data-wysihtml5-command-value="h3"] {
-        letter-spacing: -1px;
-        line-height: 40px;
-    }
-
-    a[data-wysihtml5-command-value="h4"],
-    a[data-wysihtml5-command-value="h5"],
-    a[data-wysihtml5-command-value="h6"] {
-        line-height: 20px;
-    }
-
-    a[data-wysihtml5-command-value="h1"] {
-        font-size: 36px;
-    }
-
-    a[data-wysihtml5-command-value="h2"] {
-        font-size: 30px;
-    }
-
-    a[data-wysihtml5-command-value="h3"] {
-        font-size: 24.5px;
-    }
-
-    a[data-wysihtml5-command-value="h4"] {
-        font-size: 17.5px;
-    }
-
-    a[data-wysihtml5-command-value="h5"] {
-        font-size: 14px;
-    }
-
-    a[data-wysihtml5-command-value="h6"] {
-        font-size: 11.9px;
-    }
-
-    a:hover {
-        color: #fff;
     }
 }
 

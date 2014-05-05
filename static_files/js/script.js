@@ -279,22 +279,45 @@ var initiateTimePickers = function(fields) {
  **/
 var initiateWysiwyg = function(textarea) {
     textarea.wysihtml5({
-        "font-styles": true, // Font styling, e.g. h1, h2, etc. Default true
+        "font-styles": false, // Font styling, e.g. h1, h2, etc. Default true
         "emphasis": true, // Italics, bold, etc. Default true
         "lists": true, // (Un)ordered lists, e.g. Bullets, Numbers. Default true
         "html": false, // Button which allows you to edit the generated HTML. Default false
         "link": true, // Button to insert a link. Default true
         "image": false, // Button to insert an image. Default true,
         "color": false, // Button to change color of font
+        "size": 'md', // Button size like sm, xs etc.
         events: {
             "load": function() {
-                // Make the 'Insert Link' button more obvious
+                // Make the 'Insert Link' button more obvious;
+                // use fontawesome icons where possible
                 $('ul.wysihtml5-toolbar')
                     .find('li a[data-wysihtml5-command="createLink"]')
                         .html('<i class="fa fa-link"></i>')
                         .end()
                     .find('li.dropdown a')
-                        .attr('tabindex', '-1');
+                        .attr('tabindex', '-1')
+                        .end()
+                    .find('i.glyphicon-list')
+                        .attr('class', 'fa fa-list-ul')
+                        .end()
+                    .find('i.glyphicon-th-list')
+                        .attr('class', 'fa fa-list-ol')
+                        .end()
+                    .find('i.glyphicon-indent-left')
+                        .attr('class', 'fa fa-indent')
+                        .end()
+                    .find('i.glyphicon-indent-right')
+                        .attr('class', 'fa fa-outdent')
+                        .end()
+                    .find('li a[data-wysihtml5-command="bold"]')
+                        .html('<i class="fa fa-bold"></i>')
+                        .end()
+                    .find('li a[data-wysihtml5-command="italic"]')
+                        .html('<i class="fa fa-italic"></i>')
+                        .end()
+                    .find('li a[data-wysihtml5-command="underline"]')
+                        .html('<i class="fa fa-underline"></i>');
             }
         }
     });
@@ -360,8 +383,8 @@ var selectFieldAutocomplete = function(autocompleteField, dataField) {
     // Clear hidden field value if autocomplete field is cleared.
     this.checkEmptyValues = function() {
         var self = this;
-        self.autocompleteField.on('keyup focus', function(event) {
-            if (!self.autocompleteField.val()) {
+        self.autocompleteField.on('keyup', function(event) {
+            if (!self.autocompleteField.val() && (event.type == 'keyup' && (event.keyCode == 8 || event.keyCode == 46))) {
                 self.autocompleteField.trigger('change');
                 if (self.dataField.is('select')) {
                     self.dataField.children('option:selected').removeAttr('selected');
@@ -411,8 +434,10 @@ var selectFieldAutocomplete = function(autocompleteField, dataField) {
         self.selection = self.mappedData[item];
         self.dataField.val(self.selection);
         if (self.dataField.is('select')) {
-            self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
-            self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+            self.dataField
+                .children('option[value="'+ self.selection +'"]')
+                    .attr('selected', true)
+                    .prop('selected', true);
         }
         return item;
     }
@@ -776,12 +801,8 @@ var eventLocationsSearch = function(locationDropdowns) {
                 // Update self.dataField
                 self.dataField
                     .children('option[selected="selected"]')
-                        .attr('selected', false)
-                        .prop('selected', false)
-                        .end()
-                    .children('option[value=""]')
-                        .attr('selected', true)
-                        .prop('selected', true)
+                        .removeAttr('selected')
+                        .prop('selected', false);
 
                 self.removeBtn.hide();
             }
@@ -842,14 +863,13 @@ var eventLocationsSearch = function(locationDropdowns) {
                         if (!matchFound && (event.type == 'keyup' && event.keyCode !== 13 && event.keyCode !== 188)) {
                             self.addBtn.show();
                         }
-                        // Create a new tag if the user didn't find a match,
+                        // Create a new location if the user didn't find a match,
                         // but entered either a comma or Enter
                         else if (
                             (!matchFound && (event.type == 'keyup' && event.keyCode == 13)) ||
                             (event.type == 'keyup' && event.keyCode == 188)
                         ) {
-                            // Add the tag to the tag list.  Taggit handles creation of new
-                            // or assignment of existing tags
+                            // Add the location data to the New Location form
                             var item = self.autocompleteField.val();
                             self.createNewLocation(item);
                             self.addBtn.hide();
@@ -875,9 +895,11 @@ var eventLocationsSearch = function(locationDropdowns) {
 
                 // Update current selection
                 self.selection = self.mappedData[item];
-                self.dataField.val(self.selection);
-                self.dataField.children('option[value="'+ self.selection +'"]').attr('selected', true);
-                self.dataField.children('option[value="'+ self.selection +'"]').prop('selected', true);
+                self.dataField
+                    .val(self.selection)
+                    .children('option[value="'+ self.selection +'"]')
+                        .attr('selected', true)
+                        .prop('selected', true);
 
                 var selectedData = eventLocations[self.selection];
 
