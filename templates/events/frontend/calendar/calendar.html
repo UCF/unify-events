@@ -56,7 +56,7 @@
                         These settings can be changed at any time from the selected calendar
                         settings screen under the "Subscriptions" tab.
                     </p>
-                    <select id="new-subscription-select">
+                    <select class="form-control" id="new-subscription-select">
                         <option value="">Select a Calendar</option>
                         {% for mycal in user.calendars.all %}
                             {% if mycal.pk != calendar.pk  %}

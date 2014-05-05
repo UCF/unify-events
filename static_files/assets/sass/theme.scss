@@ -398,6 +398,10 @@ ul.wysihtml5-toolbar {
             &.next {
                 right: 0;
             }
+
+            i {
+                color: $brand-primary;
+            }
         }
     }
 

@@ -46,7 +46,7 @@
                         <option value="editor" selected>Editor</option>
                     </select>
                 </div>
-                <button class="btn btn-default" id="add-user-submit">Add User</button>
+                <button class="btn btn-primary" id="add-user-submit">Add User</button>
             </form>
 
             <h2>Users With Access to this Calendar</h2>
@@ -97,7 +97,7 @@
                         <td class="calendar-access-username">{{ editor.username }}</td>
                         <td class="calendar-access-role">Editor</td>
                         <td class="calendar-access-actions">
-                            <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-circle-arrow-up"></i> Make Admin</a>
+                            <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-arrow-circle-up"></i> Make Admin</a>
                             <a class="btn btn-default btn-xs" href="{% url 'calendar-delete-user' pk=calendar.pk username=editor.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
                         </td>
                     </tr>

@@ -2,6 +2,10 @@
 $icon-font-path: "/static/assets/bootstrap/assets/fonts/bootstrap/";
 $fa-font-path: "/static/assets/font-awesome-4.0.3/fonts/";
 
+$btn-default-color: #fff;
+$btn-default-bg: #aaa;
+$btn-default-border: #999;
+
 // Combine assets and our theme:
 @import "../bootstrap/assets/stylesheets/bootstrap";
 @import "../font-awesome-4.0.3/scss/font-awesome";
