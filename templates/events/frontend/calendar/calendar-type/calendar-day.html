@@ -15,7 +15,7 @@
                             <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
                             {% if event_instance.is_recurring %}
                             <i class="fa fa-repeat"></i>
-                            <span class="recurring">(Recurring Event)</span>
+                            <span class="sr-only">(Recurring Event)</span>
                             {% endif %}
                         </h4>
                         <span class="location">{{ event_instance.location }}</span>
