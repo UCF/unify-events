@@ -82,42 +82,36 @@ ul.errors,
 .panel-body { padding: 15px 30px; }
 
 /* Dropdowns */
-$dropdown-i-padding: 6px;
-
 .dropdown {
     &.open a.btn.dropdown-toggle {
         background-image: none;
         outline: 0 none;
     }
 
+    ul.dropdown-menu {
+        max-height: 270px;
+        overflow-y: scroll;
+
+        &.dropdown-menu-form {
+            padding: 8px;
+
+            input[type="checkbox"],
+            input[type="radio"] {
+                margin-right: 4px;
+            }
+        }
+
+        li {
+            &.dropdown-header {
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 11px;
+            }
+        }
+    }
+
     li i {
-        padding-right: $dropdown-i-padding;
-    }
-}
-
-.dropdown-menu {
-    max-height: 270px;
-    overflow-y: scroll;
-
-    &.dropdown-menu-form {
-        padding: 8px;
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            margin-right: 4px;
-        }
-    }
-
-    li {
-        i {
-            padding-right: $dropdown-i-padding;
-        }
-
-        &.dropdown-header {
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 11px;
-        }
+        padding-right: 6px;
     }
 }
 
@@ -133,7 +127,6 @@ $dropdown-i-padding: 6px;
         }
     }
 }
-
 .modal-header .object-type,
 .modal-footer .object-type {
     text-transform: capitalize;
@@ -158,13 +151,6 @@ form {
     &.form-tabbed,
     &.form-tabbed .tab-content .tab-pane h2 {
         margin-top: 0;
-    }
-
-    p.help-text {
-        font-size: 11px; font-style: italic; line-height: 18px; color: #888; padding-top: 8px;
-        + .dropdown-menu {
-            top: 30px;
-        }
     }
 }
 
@@ -197,6 +183,17 @@ form {
     font-size: 12px;
     line-height: 16px;
     color: #8d8d8d;
+}
+
+.help-block {
+    color: #888888;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4em;
+
+    & + .dropdown-menu {
+        top: 30px;
+    }
 }
 
 
@@ -519,7 +516,7 @@ $calendar-grid-width: 14.285%;
             overflow: visible;
         }
 
-        > a{
+        > a {
             &.event-expander {
                 display: block;
                 position: absolute;
@@ -536,14 +533,7 @@ $calendar-grid-width: 14.285%;
                     display: none;
                 }
 
-                > span.help-text {
-                    text-indent: -9999px;
-                    display: block;
-                    width: 0;
-                    height: 0;
-                }
-
-                > i.icon-text {
+                > .event-expander-icon {
                     display: block;
                     border-left: 2px solid #fff;
                     border-right: 2px solid #fff;

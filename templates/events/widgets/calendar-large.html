@@ -19,8 +19,8 @@
         <li class="day{% if events %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
             {% if event_instances %}
             <a class="event-expander" href="#">
-                <span class="help-text">Expand Events List</span>
-                <span class="icon-text"><i class="fa fa-chevron-sign-down"></i></span>
+                <span class="sr-only">Expand Events List</span>
+                <span class="event-expander-icon"><i class="fa fa-chevron-circle-down"></i></span>
             </a>
             {% endif %}
             <div>

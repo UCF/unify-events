@@ -8067,124 +8067,120 @@ ul.errors,
   padding: 15px 30px; }
 
 /* Dropdowns */
-/* line 88, ../assets/sass/theme.scss */
+/* line 86, ../assets/sass/theme.scss */
 .dropdown.open a.btn.dropdown-toggle {
   background-image: none;
   outline: 0 none; }
-/* line 93, ../assets/sass/theme.scss */
-.dropdown li i {
-  padding-right: 6px; }
-
-/* line 98, ../assets/sass/theme.scss */
-.dropdown-menu {
+/* line 91, ../assets/sass/theme.scss */
+.dropdown ul.dropdown-menu {
   max-height: 270px;
   overflow-y: scroll; }
-  /* line 102, ../assets/sass/theme.scss */
-  .dropdown-menu.dropdown-menu-form {
+  /* line 95, ../assets/sass/theme.scss */
+  .dropdown ul.dropdown-menu.dropdown-menu-form {
     padding: 8px; }
-    /* line 105, ../assets/sass/theme.scss */
-    .dropdown-menu.dropdown-menu-form input[type="checkbox"],
-    .dropdown-menu.dropdown-menu-form input[type="radio"] {
+    /* line 98, ../assets/sass/theme.scss */
+    .dropdown ul.dropdown-menu.dropdown-menu-form input[type="checkbox"],
+    .dropdown ul.dropdown-menu.dropdown-menu-form input[type="radio"] {
       margin-right: 4px; }
-  /* line 112, ../assets/sass/theme.scss */
-  .dropdown-menu li i {
-    padding-right: 6px; }
-  /* line 116, ../assets/sass/theme.scss */
-  .dropdown-menu li.dropdown-header {
+  /* line 105, ../assets/sass/theme.scss */
+  .dropdown ul.dropdown-menu li.dropdown-header {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 11px; }
+/* line 113, ../assets/sass/theme.scss */
+.dropdown li i {
+  padding-right: 6px; }
 
 /* Modals */
-/* line 125, ../assets/sass/theme.scss */
+/* line 119, ../assets/sass/theme.scss */
 .modal {
   padding-top: 50px; }
-  /* line 128, ../assets/sass/theme.scss */
+  /* line 122, ../assets/sass/theme.scss */
   .modal h2 {
     font-weight: bold;
     line-height: 30px; }
-    /* line 131, ../assets/sass/theme.scss */
+    /* line 125, ../assets/sass/theme.scss */
     .modal h2 .alt {
       font-weight: 300; }
 
-/* line 137, ../assets/sass/theme.scss */
+/* line 130, ../assets/sass/theme.scss */
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize; }
 
 /* Pagination */
-/* line 143, ../assets/sass/theme.scss */
+/* line 136, ../assets/sass/theme.scss */
 .pagination {
   margin-top: 30px; }
 
 /* Wells */
-/* line 148, ../assets/sass/theme.scss */
+/* line 141, ../assets/sass/theme.scss */
 .well-empty {
   padding: 60px 30px; }
 
 /* Forms */
-/* line 154, ../assets/sass/theme.scss */
+/* line 147, ../assets/sass/theme.scss */
 form.form-horizontal {
   margin: 20px 0 30px 0; }
-/* line 158, ../assets/sass/theme.scss */
+/* line 151, ../assets/sass/theme.scss */
 form.form-tabbed, form.form-tabbed .tab-content .tab-pane h2 {
   margin-top: 0; }
-/* line 163, ../assets/sass/theme.scss */
-form p.help-text {
-  font-size: 11px;
-  font-style: italic;
-  line-height: 18px;
-  color: #888;
-  padding-top: 8px; }
-  /* line 165, ../assets/sass/theme.scss */
-  form p.help-text + .dropdown-menu {
-    top: 30px; }
 
-/* line 172, ../assets/sass/theme.scss */
+/* line 158, ../assets/sass/theme.scss */
 .form-horizontal .control-label {
   font-weight: bold; }
-/* line 176, ../assets/sass/theme.scss */
+/* line 162, ../assets/sass/theme.scss */
 .form-horizontal legend.control-label {
   border: 0px solid transparent;
   color: #333;
   margin-bottom: 5px;
   line-height: 20px; }
-/* line 185, ../assets/sass/theme.scss */
+/* line 171, ../assets/sass/theme.scss */
 .form-horizontal .form-group.large .control-label-group,
 .form-horizontal .form-group.large .control-label {
   font-size: 18px; }
-/* line 190, ../assets/sass/theme.scss */
+/* line 176, ../assets/sass/theme.scss */
 .form-horizontal .form-group .control-label-group {
   text-align: right; }
 
-/* line 196, ../assets/sass/theme.scss */
+/* line 182, ../assets/sass/theme.scss */
 .label-desc {
   font-size: 12px;
   line-height: 16px;
   color: #8d8d8d; }
 
-/* line 203, ../assets/sass/theme.scss */
+/* line 188, ../assets/sass/theme.scss */
+.help-block {
+  color: #888888;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.4em; }
+  /* line 194, ../assets/sass/theme.scss */
+  .help-block + .dropdown-menu {
+    top: 30px; }
+
+/* line 200, ../assets/sass/theme.scss */
 .field-date {
   margin-right: 10px;
   margin-bottom: 8px !important; }
 
-/* line 208, ../assets/sass/theme.scss */
+/* line 205, ../assets/sass/theme.scss */
 .field-time {
   margin-right: 0; }
-  /* line 211, ../assets/sass/theme.scss */
+  /* line 208, ../assets/sass/theme.scss */
   .field-time + .input-group-addon {
     display: none; }
 
-/* line 216, ../assets/sass/theme.scss */
+/* line 213, ../assets/sass/theme.scss */
 textarea {
   height: 175px; }
 
-/* line 220, ../assets/sass/theme.scss */
+/* line 217, ../assets/sass/theme.scss */
 select option {
   padding-top: 3px;
   padding-bottom: 3px; }
 
-/* line 224, ../assets/sass/theme.scss */
+/* line 221, ../assets/sass/theme.scss */
 label.error,
 div.error label,
 .form-group.error .control-label,
@@ -8192,7 +8188,7 @@ div.error label,
 .form-group.error .help-inline {
   color: #EE5F5B; }
 
-/* line 232, ../assets/sass/theme.scss */
+/* line 229, ../assets/sass/theme.scss */
 input.error,
 textarea.error,
 select.error,
@@ -8204,7 +8200,7 @@ div.error textarea,
   border: 1px solid #EE5F5B;
   color: #B71713; }
 
-/* line 245, ../assets/sass/theme.scss */
+/* line 242, ../assets/sass/theme.scss */
 ul.errorlist {
   background: none repeat scroll 0 0 #EE5F5B;
   border-radius: 4px;
@@ -8215,7 +8211,7 @@ ul.errorlist {
   padding: 10px;
   position: relative;
   max-width: 220px; }
-  /* line 256, ../assets/sass/theme.scss */
+  /* line 253, ../assets/sass/theme.scss */
   ul.errorlist:before {
     content: "";
     width: 0;
@@ -8226,15 +8222,15 @@ ul.errorlist {
     position: absolute;
     top: -5px;
     left: 10px; }
-  /* line 268, ../assets/sass/theme.scss */
+  /* line 265, ../assets/sass/theme.scss */
   ul.errorlist li {
     margin-top: 5px;
     text-indent: 0;
     padding-left: 20px; }
-    /* line 273, ../assets/sass/theme.scss */
+    /* line 270, ../assets/sass/theme.scss */
     ul.errorlist li:first-child {
       margin-top: 0; }
-    /* line 277, ../assets/sass/theme.scss */
+    /* line 274, ../assets/sass/theme.scss */
     ul.errorlist li:before {
       font-family: "FontAwesome";
       content: "";
@@ -8242,7 +8238,7 @@ ul.errorlist {
       width: 20px;
       margin-left: -20px; }
 
-/* line 288, ../assets/sass/theme.scss */
+/* line 285, ../assets/sass/theme.scss */
 .autocomplete-new-btn {
   position: absolute;
   bottom: auto;
@@ -8253,18 +8249,18 @@ ul.errorlist {
   border-radius: 0 20px 20px 0; }
 
 /* Date/Timepicker overrides */
-/* line 301, ../assets/sass/theme.scss */
+/* line 298, ../assets/sass/theme.scss */
 .bootstrap-dtp {
   position: relative;
   clear: both;
   background: #fff;
   border-radius: 4px; }
-  /* line 307, ../assets/sass/theme.scss */
+  /* line 304, ../assets/sass/theme.scss */
   .bootstrap-dtp input {
     position: relative;
     z-index: 2;
     background-color: transparent; }
-  /* line 313, ../assets/sass/theme.scss */
+  /* line 310, ../assets/sass/theme.scss */
   .bootstrap-dtp i {
     position: absolute;
     right: 10px;
@@ -8272,100 +8268,100 @@ ul.errorlist {
     color: #ccc;
     z-index: 1; }
 
-/* line 323, ../assets/sass/theme.scss */
+/* line 320, ../assets/sass/theme.scss */
 .bootstrap-timepicker input {
   border-radius: 4px; }
 
-/* line 328, ../assets/sass/theme.scss */
+/* line 325, ../assets/sass/theme.scss */
 .datepicker {
   padding: 0 10px 5px 10px; }
-  /* line 331, ../assets/sass/theme.scss */
+  /* line 328, ../assets/sass/theme.scss */
   .datepicker:before, .datepicker:after {
     border-left: 0;
     border-right: 0;
     border-bottom: 0; }
-  /* line 338, ../assets/sass/theme.scss */
+  /* line 335, ../assets/sass/theme.scss */
   .datepicker td.active, .datepicker td.active:hover,
   .datepicker td span.active {
     background-image: none;
     background-color: #ffc904 !important;
     text-shadow: 0 0 0 transparent;
     font-weight: bold; }
-  /* line 348, ../assets/sass/theme.scss */
+  /* line 345, ../assets/sass/theme.scss */
   .datepicker td,
   .datepicker th,
   .datepicker td span {
     border-radius: 0; }
-  /* line 354, ../assets/sass/theme.scss */
+  /* line 351, ../assets/sass/theme.scss */
   .datepicker td span {
     height: 40px;
     line-height: 40px;
     width: 38px; }
 
-/* line 361, ../assets/sass/theme.scss */
+/* line 358, ../assets/sass/theme.scss */
 .ui-timepicker-wrapper {
   -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
   border-radius: 4px; }
 
 /** WYSIWYG overrides **/
-/* line 369, ../assets/sass/theme.scss */
+/* line 366, ../assets/sass/theme.scss */
 ul.wysihtml5-toolbar a[data-wysihtml5-command="bold"],
 ul.wysihtml5-toolbar a[data-wysihtml5-command="italic"],
 ul.wysihtml5-toolbar a[data-wysihtml5-command="underline"] {
   font-weight: normal; }
-/* line 375, ../assets/sass/theme.scss */
+/* line 372, ../assets/sass/theme.scss */
 ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
   color: #333; }
 
 /* Calendar Sliders */
-/* line 382, ../assets/sass/theme.scss */
+/* line 379, ../assets/sass/theme.scss */
 .calendar-slider {
   position: relative;
   z-index: 1; }
-  /* line 385, ../assets/sass/theme.scss */
+  /* line 382, ../assets/sass/theme.scss */
   .calendar-slider .pager {
     margin: 0;
     position: relative;
     z-index: 2; }
-    /* line 388, ../assets/sass/theme.scss */
+    /* line 385, ../assets/sass/theme.scss */
     .calendar-slider .pager li {
       position: absolute;
       top: 22px; }
-      /* line 392, ../assets/sass/theme.scss */
+      /* line 389, ../assets/sass/theme.scss */
       .calendar-slider .pager li.previous {
         left: 0; }
-      /* line 396, ../assets/sass/theme.scss */
+      /* line 393, ../assets/sass/theme.scss */
       .calendar-slider .pager li.next {
         right: 0; }
-      /* line 400, ../assets/sass/theme.scss */
+      /* line 397, ../assets/sass/theme.scss */
       .calendar-slider .pager li i {
         color: #428bca; }
-  /* line 407, ../assets/sass/theme.scss */
+  /* line 404, ../assets/sass/theme.scss */
   .calendar-slider .item h2 {
     text-align: center;
     font-size: 21px;
     line-height: 36px;
     margin-bottom: 0; }
-  /* line 411, ../assets/sass/theme.scss */
+  /* line 408, ../assets/sass/theme.scss */
   .calendar-slider .item .table {
     border-collapse: separate;
     border-spacing: 3px; }
-    /* line 414, ../assets/sass/theme.scss */
+    /* line 411, ../assets/sass/theme.scss */
     .calendar-slider .item .table th,
     .calendar-slider .item .table td {
       border-top: 0;
       text-align: center; }
-    /* line 419, ../assets/sass/theme.scss */
+    /* line 416, ../assets/sass/theme.scss */
     .calendar-slider .item .table th {
       border-bottom: 0; }
-    /* line 422, ../assets/sass/theme.scss */
+    /* line 419, ../assets/sass/theme.scss */
     .calendar-slider .item .table td {
       background: #f1f1f1;
       font-size: 18px;
       line-height: 18px;
       padding: 0; }
-      /* line 428, ../assets/sass/theme.scss */
+      /* line 425, ../assets/sass/theme.scss */
       .calendar-slider .item .table td a {
         font-weight: bold;
         color: #8d8d8d;
@@ -8373,20 +8369,20 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
         padding: 11px 8px;
         position: relative;
         z-index: 1; }
-        /* line 436, ../assets/sass/theme.scss */
+        /* line 433, ../assets/sass/theme.scss */
         .calendar-slider .item .table td a:hover {
           background: #fffbe9;
           text-decoration: none; }
-      /* line 441, ../assets/sass/theme.scss */
+      /* line 438, ../assets/sass/theme.scss */
       .calendar-slider .item .table td.active {
         background: #fcc904; }
-        /* line 444, ../assets/sass/theme.scss */
+        /* line 441, ../assets/sass/theme.scss */
         .calendar-slider .item .table td.active a {
           color: #fff; }
-          /* line 447, ../assets/sass/theme.scss */
+          /* line 444, ../assets/sass/theme.scss */
           .calendar-slider .item .table td.active a:hover {
             background-color: #daad00; }
-      /* line 454, ../assets/sass/theme.scss */
+      /* line 451, ../assets/sass/theme.scss */
       .calendar-slider .item .table td.hasevents a:after {
         content: "";
         display: block;
@@ -8399,24 +8395,24 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
         border-width: 0 0 10px 10px;
         border-color: transparent transparent #daae00 transparent;
         z-index: 2; }
-      /* line 468, ../assets/sass/theme.scss */
+      /* line 465, ../assets/sass/theme.scss */
       .calendar-slider .item .table td.muted {
         background-color: #fff; }
-        /* line 471, ../assets/sass/theme.scss */
+        /* line 468, ../assets/sass/theme.scss */
         .calendar-slider .item .table td.muted a {
           color: #e2e2e2; }
-          /* line 473, ../assets/sass/theme.scss */
+          /* line 470, ../assets/sass/theme.scss */
           .calendar-slider .item .table td.muted a:hover {
             color: #8d8d8d; }
-      /* line 478, ../assets/sass/theme.scss */
+      /* line 475, ../assets/sass/theme.scss */
       .calendar-slider .item .table td.hasevents.muted a:after {
         border-color: transparent transparent #EFDB97 transparent; }
-      /* line 482, ../assets/sass/theme.scss */
+      /* line 479, ../assets/sass/theme.scss */
       .calendar-slider .item .table td.today a {
         text-decoration: underline; }
 
 /* Calendar Grids */
-/* line 493, ../assets/sass/theme.scss */
+/* line 490, ../assets/sass/theme.scss */
 .calendar-grid-labels > span {
   width: 14.285%;
   font-size: 18px;
@@ -8427,11 +8423,11 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
   float: left;
   padding: 10px 0; }
 
-/* line 504, ../assets/sass/theme.scss */
+/* line 501, ../assets/sass/theme.scss */
 .calendar-grid {
   width: 100%;
   list-style-type: none; }
-  /* line 508, ../assets/sass/theme.scss */
+  /* line 505, ../assets/sass/theme.scss */
   .calendar-grid > li {
     width: 14.285%;
     height: 130px;
@@ -8441,10 +8437,10 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
     border-bottom: 4px solid #fff;
     overflow: hidden;
     position: relative; }
-    /* line 518, ../assets/sass/theme.scss */
+    /* line 515, ../assets/sass/theme.scss */
     .calendar-grid > li:hover {
       overflow: visible; }
-    /* line 523, ../assets/sass/theme.scss */
+    /* line 520, ../assets/sass/theme.scss */
     .calendar-grid > li > a.event-expander {
       display: block;
       position: absolute;
@@ -8456,24 +8452,18 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
       cursor: default;
       text-align: center;
       color: #fff; }
-      /* line 535, ../assets/sass/theme.scss */
+      /* line 532, ../assets/sass/theme.scss */
       .calendar-grid > li > a.event-expander:hover {
         display: none; }
-      /* line 539, ../assets/sass/theme.scss */
-      .calendar-grid > li > a.event-expander > span.help-text {
-        text-indent: -9999px;
-        display: block;
-        width: 0;
-        height: 0; }
-      /* line 546, ../assets/sass/theme.scss */
-      .calendar-grid > li > a.event-expander > i.icon-text {
+      /* line 536, ../assets/sass/theme.scss */
+      .calendar-grid > li > a.event-expander > .event-expander-icon {
         display: block;
         border-left: 2px solid #fff;
         border-right: 2px solid #fff;
         background-color: #d4d4d4;
         height: 100%;
         line-height: 20px; }
-    /* line 557, ../assets/sass/theme.scss */
+    /* line 547, ../assets/sass/theme.scss */
     .calendar-grid > li > div {
       background-color: #f1f1f1;
       height: 126px;
@@ -8483,7 +8473,7 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
       border-left: 2px solid #fff;
       border-right: 2px solid #fff;
       padding-top: 30px; }
-      /* line 567, ../assets/sass/theme.scss */
+      /* line 557, ../assets/sass/theme.scss */
       .calendar-grid > li > div:after {
         /* Add some faux padding btwn the edge of the li and its child div */
         content: "";
@@ -8495,15 +8485,15 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
         height: 6px;
         background-color: #f1f1f1;
         z-index: 10; }
-      /* line 579, ../assets/sass/theme.scss */
+      /* line 569, ../assets/sass/theme.scss */
       .calendar-grid > li > div > ul {
         position: absolute;
         left: 0; }
-        /* line 583, ../assets/sass/theme.scss */
+        /* line 573, ../assets/sass/theme.scss */
         .calendar-grid > li > div > ul > li {
           padding: 0 8px;
           width: 114px; }
-      /* line 588, ../assets/sass/theme.scss */
+      /* line 578, ../assets/sass/theme.scss */
       .calendar-grid > li > div > a.date {
         font-size: 24px;
         font-weight: 400;
@@ -8513,10 +8503,10 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
         top: 0;
         left: 0;
         z-index: 3; }
-        /* line 598, ../assets/sass/theme.scss */
+        /* line 588, ../assets/sass/theme.scss */
         .calendar-grid > li > div > a.date > span {
           display: none; }
-      /* line 603, ../assets/sass/theme.scss */
+      /* line 593, ../assets/sass/theme.scss */
       .calendar-grid > li > div > .holiday {
         font-size: 12px;
         font-weight: 500;
@@ -8524,76 +8514,76 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
         display: block;
         line-height: 14px;
         padding: 12px 0 0 8px; }
-    /* line 613, ../assets/sass/theme.scss */
+    /* line 603, ../assets/sass/theme.scss */
     .calendar-grid > li:hover > div {
       width: auto;
       z-index: 10;
       overflow: visible; }
-      /* line 618, ../assets/sass/theme.scss */
+      /* line 608, ../assets/sass/theme.scss */
       .calendar-grid > li:hover > div > a.date {
         color: #fcc904; }
-      /* line 622, ../assets/sass/theme.scss */
+      /* line 612, ../assets/sass/theme.scss */
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
         width: 200px;
         box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3); }
-        /* line 627, ../assets/sass/theme.scss */
+        /* line 617, ../assets/sass/theme.scss */
         .calendar-grid > li:hover > div > ul > li {
           width: 184px; }
-      /* line 632, ../assets/sass/theme.scss */
+      /* line 622, ../assets/sass/theme.scss */
       .calendar-grid > li:hover > div:after {
         display: none; }
-    /* line 635, ../assets/sass/theme.scss */
+    /* line 625, ../assets/sass/theme.scss */
     .calendar-grid > li.muted > div {
       background-color: #fff; }
-      /* line 638, ../assets/sass/theme.scss */
+      /* line 628, ../assets/sass/theme.scss */
       .calendar-grid > li.muted > div:after {
         background-color: #fff; }
-      /* line 642, ../assets/sass/theme.scss */
+      /* line 632, ../assets/sass/theme.scss */
       .calendar-grid > li.muted > div > a.date {
         color: #e2e2e2; }
-    /* line 648, ../assets/sass/theme.scss */
+    /* line 638, ../assets/sass/theme.scss */
     .calendar-grid > li.today > div > a.date {
       background-color: #a8a8a8;
       color: #fff;
       font-weight: bold; }
-    /* line 654, ../assets/sass/theme.scss */
+    /* line 644, ../assets/sass/theme.scss */
     .calendar-grid > li.today:hover > div > a.date {
       background-color: #fcc904; }
 
 /**
  * Utility
  **/
-/* line 665, ../assets/sass/theme.scss */
+/* line 655, ../assets/sass/theme.scss */
 .fullwidth {
   width: 100%; }
 
-/* line 666, ../assets/sass/theme.scss */
+/* line 656, ../assets/sass/theme.scss */
 .label-inner {
   font-size: 16px;
   color: #8d8d8d;
   font-weight: 300; }
 
-/* line 668, ../assets/sass/theme.scss */
+/* line 658, ../assets/sass/theme.scss */
 .sidebarfix > * {
   /* This does dumb things to tables. Wrap tables in a div to accomodate */
   padding-right: 10px; }
-/* line 672, ../assets/sass/theme.scss */
+/* line 662, ../assets/sass/theme.scss */
 .sidebarfix > .modal {
   padding-right: 0; }
-/* line 676, ../assets/sass/theme.scss */
+/* line 666, ../assets/sass/theme.scss */
 .sidebarfix > hr {
   padding-right: 0;
   margin-right: 10px; }
-/* line 680, ../assets/sass/theme.scss */
+/* line 670, ../assets/sass/theme.scss */
 .sidebarfix > .well {
   padding-right: 20px;
   margin-right: 10px; }
-/* line 684, ../assets/sass/theme.scss */
+/* line 674, ../assets/sass/theme.scss */
 .sidebarfix > .well-empty {
   padding-right: 30px; }
 
-/* line 688, ../assets/sass/theme.scss */
+/* line 678, ../assets/sass/theme.scss */
 .col-lg-auto,
 .col-md-auto,
 .col-sm-auto,
@@ -8606,7 +8596,7 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
   padding-right: 15px;
   position: relative; }
 
-/* line 700, ../assets/sass/theme.scss */
+/* line 690, ../assets/sass/theme.scss */
 .recurring {
   /* Helper text for designating recurring events */
   width: 0;
@@ -8617,10 +8607,10 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
 /**
  * Header
  **/
-/* line 710, ../assets/sass/theme.scss */
+/* line 700, ../assets/sass/theme.scss */
 header {
   padding-top: 15px; }
-  /* line 713, ../assets/sass/theme.scss */
+  /* line 703, ../assets/sass/theme.scss */
   header #header-title {
     font-size: 36px;
     line-height: 40px;
@@ -8628,13 +8618,13 @@ header {
     letter-spacing: -1px;
     margin: 10px 0;
     display: block; }
-    /* line 721, ../assets/sass/theme.scss */
+    /* line 711, ../assets/sass/theme.scss */
     header #header-title a {
       color: #333; }
-    /* line 725, ../assets/sass/theme.scss */
+    /* line 715, ../assets/sass/theme.scss */
     header #header-title .alt {
       font-weight: 300; }
-  /* line 730, ../assets/sass/theme.scss */
+  /* line 720, ../assets/sass/theme.scss */
   header form.form-search {
     padding-top: 19px;
     float: right; }
@@ -8642,33 +8632,33 @@ header {
 /**
  * Main Navigation (subheader)
  **/
-/* line 738, ../assets/sass/theme.scss */
+/* line 728, ../assets/sass/theme.scss */
 #navwrap {
   background: #f1f1f1; }
 
-/* line 743, ../assets/sass/theme.scss */
+/* line 733, ../assets/sass/theme.scss */
 nav #navinner {
   padding-top: 10px;
   padding-bottom: 10px; }
-  /* line 747, ../assets/sass/theme.scss */
+  /* line 737, ../assets/sass/theme.scss */
   nav #navinner a,
   nav #navinner a:hover {
     color: #444; }
-  /* line 752, ../assets/sass/theme.scss */
+  /* line 742, ../assets/sass/theme.scss */
   nav #navinner .user {
     float: left;
     padding-right: 30px;
     padding-top: 5px;
     padding-bottom: 5px; }
-    /* line 758, ../assets/sass/theme.scss */
+    /* line 748, ../assets/sass/theme.scss */
     nav #navinner .user .user i {
       color: #8d8d8d; }
-  /* line 763, ../assets/sass/theme.scss */
+  /* line 753, ../assets/sass/theme.scss */
   nav #navinner #actions-primary,
   nav #navinner #actions-secondary {
     list-style-type: none;
     margin: 0; }
-    /* line 768, ../assets/sass/theme.scss */
+    /* line 758, ../assets/sass/theme.scss */
     nav #navinner #actions-primary > li,
     nav #navinner #actions-secondary > li {
       float: left;
@@ -8676,30 +8666,30 @@ nav #navinner {
       padding-top: 5px;
       padding-bottom: 5px;
       position: relative; }
-  /* line 777, ../assets/sass/theme.scss */
+  /* line 767, ../assets/sass/theme.scss */
   nav #navinner #actions-primary {
     float: left; }
-  /* line 782, ../assets/sass/theme.scss */
+  /* line 772, ../assets/sass/theme.scss */
   nav #navinner #actions-primary > li > i {
     color: #428bca;
     font-size: 16px; }
-  /* line 786, ../assets/sass/theme.scss */
+  /* line 776, ../assets/sass/theme.scss */
   nav #navinner #actions-primary > li > span.label {
     position: absolute;
     left: 25px;
     top: -3px; }
-  /* line 791, ../assets/sass/theme.scss */
+  /* line 781, ../assets/sass/theme.scss */
   nav #navinner #actions-secondary {
     float: right; }
-    /* line 794, ../assets/sass/theme.scss */
+    /* line 784, ../assets/sass/theme.scss */
     nav #navinner #actions-secondary > li > i {
       color: #8d8d8d;
       font-size: 16px; }
-  /* line 799, ../assets/sass/theme.scss */
+  /* line 789, ../assets/sass/theme.scss */
   nav #navinner li#create-event {
     border-left: 3px solid #e1e1e1;
     margin-left: 15px; }
-    /* line 803, ../assets/sass/theme.scss */
+    /* line 793, ../assets/sass/theme.scss */
     nav #navinner li#create-event .icon-circle-wrap {
       float: left;
       margin-right: 10px; }
@@ -8707,61 +8697,61 @@ nav #navinner {
 /**
  * Alert Messages
  **/
-/* line 814, ../assets/sass/theme.scss */
+/* line 804, ../assets/sass/theme.scss */
 #messages {
   margin: 10px 0 0 0; }
 
 /**
  * Page Tabs
  **/
-/* line 821, ../assets/sass/theme.scss */
+/* line 811, ../assets/sass/theme.scss */
 .nav.nav-tabs {
   margin-bottom: 5px; }
 
 /**
  * Page Titles
  **/
-/* line 828, ../assets/sass/theme.scss */
+/* line 818, ../assets/sass/theme.scss */
 #page-title-wrap {
   position: relative;
   margin-top: 10px; }
-  /* line 832, ../assets/sass/theme.scss */
+  /* line 822, ../assets/sass/theme.scss */
   #page-title-wrap h1 {
     display: block;
     float: left;
     margin-bottom: 10px; }
-  /* line 838, ../assets/sass/theme.scss */
+  /* line 828, ../assets/sass/theme.scss */
   #page-title-wrap .edit-options {
     list-style-type: none;
     float: left;
     margin-top: 22px;
     margin-left: 15px; }
-    /* line 844, ../assets/sass/theme.scss */
+    /* line 834, ../assets/sass/theme.scss */
     #page-title-wrap .edit-options > li {
       float: left;
       margin-left: 10px; }
-      /* line 847, ../assets/sass/theme.scss */
+      /* line 837, ../assets/sass/theme.scss */
       #page-title-wrap .edit-options > li > a {
         font-weight: bold;
         color: #a8a8a8; }
-        /* line 850, ../assets/sass/theme.scss */
+        /* line 840, ../assets/sass/theme.scss */
         #page-title-wrap .edit-options > li > a > .caret {
           border-top: 4px solid #a8a8a8; }
 
 /**
  * Page Subtitles
  **/
-/* line 861, ../assets/sass/theme.scss */
+/* line 851, ../assets/sass/theme.scss */
 .page-subtitle {
   color: #8d8d8d;
   margin-top: 0;
   margin-bottom: 20px; }
 
-/* line 867, ../assets/sass/theme.scss */
+/* line 857, ../assets/sass/theme.scss */
 .subtitle-backlink-wrap {
   margin-top: -5px;
   margin-bottom: 25px; }
-  /* line 871, ../assets/sass/theme.scss */
+  /* line 861, ../assets/sass/theme.scss */
   .subtitle-backlink-wrap .subtitle-backlink {
     font-weight: bold;
     color: #a8a8a8; }
@@ -8769,17 +8759,17 @@ nav #navinner {
 /**
  * Page Content - General
  **/
-/* line 881, ../assets/sass/theme.scss */
+/* line 871, ../assets/sass/theme.scss */
 .page-content .page-top-action {
   margin: 20px 0; }
 
 /**
  * Sidebars
  **/
-/* line 889, ../assets/sass/theme.scss */
+/* line 879, ../assets/sass/theme.scss */
 .social {
   overflow: hidden; }
-  /* line 892, ../assets/sass/theme.scss */
+  /* line 882, ../assets/sass/theme.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -8792,29 +8782,29 @@ nav #navinner {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 905, ../assets/sass/theme.scss */
+    /* line 895, ../assets/sass/theme.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 906, ../assets/sass/theme.scss */
+    /* line 896, ../assets/sass/theme.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 907, ../assets/sass/theme.scss */
+    /* line 897, ../assets/sass/theme.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 908, ../assets/sass/theme.scss */
+    /* line 898, ../assets/sass/theme.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 909, ../assets/sass/theme.scss */
+    /* line 899, ../assets/sass/theme.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 910, ../assets/sass/theme.scss */
+    /* line 900, ../assets/sass/theme.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 914, ../assets/sass/theme.scss */
+/* line 904, ../assets/sass/theme.scss */
 .feeds-list {
   margin-left: 0; }
-  /* line 917, ../assets/sass/theme.scss */
+  /* line 907, ../assets/sass/theme.scss */
   .feeds-list a {
     text-indent: 50px;
     white-space: nowrap;
@@ -8824,33 +8814,33 @@ nav #navinner {
     background-image: url("../../static/img/feeds.png");
     background-repeat: no-repeat;
     padding: 0 24px; }
-    /* line 927, ../assets/sass/theme.scss */
+    /* line 917, ../assets/sass/theme.scss */
     .feeds-list a.ical {
       background-position: 13px -23px; }
-    /* line 928, ../assets/sass/theme.scss */
+    /* line 918, ../assets/sass/theme.scss */
     .feeds-list a.outlook {
       background-position: 13px -57px; }
-    /* line 929, ../assets/sass/theme.scss */
+    /* line 919, ../assets/sass/theme.scss */
     .feeds-list a.rss {
       background-position: 13px 7px; }
-    /* line 930, ../assets/sass/theme.scss */
+    /* line 920, ../assets/sass/theme.scss */
     .feeds-list a.xml {
       background-position: 13px -119px; }
-    /* line 931, ../assets/sass/theme.scss */
+    /* line 921, ../assets/sass/theme.scss */
     .feeds-list a.json {
       background-position: 13px -91px; }
 
 /**
  * Footer
  **/
-/* line 938, ../assets/sass/theme.scss */
+/* line 928, ../assets/sass/theme.scss */
 footer {
   margin: 40px 0; }
-  /* line 941, ../assets/sass/theme.scss */
+  /* line 931, ../assets/sass/theme.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 945, ../assets/sass/theme.scss */
+    /* line 935, ../assets/sass/theme.scss */
     footer ul li {
       display: block;
       float: left;
@@ -8860,13 +8850,13 @@ footer {
 /**
  * Static Pages
  **/
-/* line 958, ../assets/sass/theme.scss */
+/* line 948, ../assets/sass/theme.scss */
 #static-base h3 {
   margin-top: 20px; }
-/* line 962, ../assets/sass/theme.scss */
+/* line 952, ../assets/sass/theme.scss */
 #static-base h2 + h3 {
   margin-top: 10px; }
-/* line 966, ../assets/sass/theme.scss */
+/* line 956, ../assets/sass/theme.scss */
 #static-base .page-sidebar strong {
   margin-bottom: 5px;
   display: block; }
@@ -8876,11 +8866,11 @@ footer {
  **/
 /** Title **/
 /** Event List **/
-/* line 979, ../assets/sass/theme.scss */
+/* line 969, ../assets/sass/theme.scss */
 .form-horizontal.bulk-action-form {
   margin-bottom: 20px; }
 
-/* line 983, ../assets/sass/theme.scss */
+/* line 973, ../assets/sass/theme.scss */
 label[for="bulk-select"],
 th#thead-recommend,
 td.field-bulk-select label,
@@ -8890,42 +8880,42 @@ td.field-recommended > span {
   line-height: 1px;
   margin: 0; }
 
-/* line 992, ../assets/sass/theme.scss */
+/* line 982, ../assets/sass/theme.scss */
 #bulk-select-all,
 td.field-bulk-select input {
   margin-top: -4px; }
 
-/* line 997, ../assets/sass/theme.scss */
+/* line 987, ../assets/sass/theme.scss */
 th.field-recommended,
 td.field-recommended {
   text-align: center; }
 
-/* line 1002, ../assets/sass/theme.scss */
+/* line 992, ../assets/sass/theme.scss */
 td.event-actions .btn {
   margin-top: -4px; }
 
-/* line 1007, ../assets/sass/theme.scss */
+/* line 997, ../assets/sass/theme.scss */
 .manager-item-table .field-bulk-select {
   width: 5%; }
-/* line 1008, ../assets/sass/theme.scss */
+/* line 998, ../assets/sass/theme.scss */
 .manager-item-table .field-recommended {
   width: 8%; }
-/* line 1009, ../assets/sass/theme.scss */
+/* line 999, ../assets/sass/theme.scss */
 .manager-item-table .event-title {
   width: 42%; }
-/* line 1010, ../assets/sass/theme.scss */
+/* line 1000, ../assets/sass/theme.scss */
 .manager-item-table .event-time {
   width: 29%; }
-/* line 1011, ../assets/sass/theme.scss */
+/* line 1001, ../assets/sass/theme.scss */
 .manager-item-table .event-actions {
   width: 16%; }
-/* line 1013, ../assets/sass/theme.scss */
+/* line 1003, ../assets/sass/theme.scss */
 .manager-item-table .recurrences-toggle {
   display: block;
   font-size: 11px;
   font-weight: bold;
   color: #777; }
-/* line 1019, ../assets/sass/theme.scss */
+/* line 1009, ../assets/sass/theme.scss */
 .manager-item-table .recurrences {
   display: none;
   font-size: 12px;
@@ -8935,7 +8925,7 @@ td.event-actions .btn {
   overflow-y: scroll;
   overflow-x: hidden;
   max-height: 250px; }
-  /* line 1029, ../assets/sass/theme.scss */
+  /* line 1019, ../assets/sass/theme.scss */
   .manager-item-table .recurrences .archived-instance {
     text-decoration: line-through;
     color: #888; }
@@ -8943,7 +8933,7 @@ td.event-actions .btn {
 /**
  * Create/Update Calendar
  **/
-/* line 1039, ../assets/sass/theme.scss */
+/* line 1029, ../assets/sass/theme.scss */
 #manager-calendar-delete {
   float: right;
   position: relative;
@@ -8954,29 +8944,29 @@ td.event-actions .btn {
 /**
  * Edit Calendar
  **/
-/* line 1050, ../assets/sass/theme.scss */
+/* line 1040, ../assets/sass/theme.scss */
 input#id_add_user {
   width: 300px; }
 
-/* line 1053, ../assets/sass/theme.scss */
+/* line 1043, ../assets/sass/theme.scss */
 input#id_role {
   width: 150px; }
 
-/* line 1058, ../assets/sass/theme.scss */
+/* line 1048, ../assets/sass/theme.scss */
 #users-permissions .calendar-access-username {
   font-weight: bold; }
 
-/* line 1063, ../assets/sass/theme.scss */
+/* line 1053, ../assets/sass/theme.scss */
 #manager-calendar-add-user {
   position: relative;
   margin-bottom: 30px; }
 
 /* Calendar Info */
-/* line 1070, ../assets/sass/theme.scss */
+/* line 1060, ../assets/sass/theme.scss */
 #calendar-info h2 {
   margin-top: 0; }
 
-/* line 1075, ../assets/sass/theme.scss */
+/* line 1065, ../assets/sass/theme.scss */
 #calendar-update {
   margin-bottom: 0; }
 
@@ -8985,19 +8975,19 @@ input#id_role {
  * Frontend Single Calendar
  **/
 /* General */
-/* line 1088, ../assets/sass/theme.scss */
+/* line 1078, ../assets/sass/theme.scss */
 ul.event-list {
   margin-bottom: 30px;
   list-style-type: none;
   margin-left: 0; }
-/* line 1093, ../assets/sass/theme.scss */
+/* line 1083, ../assets/sass/theme.scss */
 ul.event-list li {
   background-color: #f1f1f1;
   position: relative;
   margin-bottom: 5px;
   padding: 5px 0 20px 30px;
   overflow: auto; }
-  /* line 1100, ../assets/sass/theme.scss */
+  /* line 1090, ../assets/sass/theme.scss */
   ul.event-list li:after {
     /* Because border-left on the li ignores z-index? */
     content: "";
@@ -9007,21 +8997,21 @@ ul.event-list li {
     height: 100%;
     width: 30px;
     background-color: #666; }
-  /* line 1110, ../assets/sass/theme.scss */
+  /* line 1100, ../assets/sass/theme.scss */
   ul.event-list li:hover {
     background-color: #fffbe9; }
-    /* line 1112, ../assets/sass/theme.scss */
+    /* line 1102, ../assets/sass/theme.scss */
     ul.event-list li:hover .event-content {
       text-decoration: none; }
-      /* line 1115, ../assets/sass/theme.scss */
+      /* line 1105, ../assets/sass/theme.scss */
       ul.event-list li:hover .event-content h5 {
         color: #7c6b27; }
-  /* line 1121, ../assets/sass/theme.scss */
+  /* line 1111, ../assets/sass/theme.scss */
   ul.event-list li .event-content {
     display: block;
     margin-left: 20px;
     padding-right: 20px; }
-  /* line 1126, ../assets/sass/theme.scss */
+  /* line 1116, ../assets/sass/theme.scss */
   ul.event-list li .event-content img {
     display: block;
     float: left;
@@ -9029,12 +9019,12 @@ ul.event-list li {
     height: 100px;
     background-color: #666;
     margin: 0 20px 5px 0; }
-  /* line 1135, ../assets/sass/theme.scss */
+  /* line 1125, ../assets/sass/theme.scss */
   ul.event-list li .event-content h5 {
     /* Room for event time */
     margin-right: 100px;
     margin-bottom: 0; }
-  /* line 1140, ../assets/sass/theme.scss */
+  /* line 1130, ../assets/sass/theme.scss */
   ul.event-list li .event-content .location,
   ul.event-list li .event-content .calendar {
     color: #666;
@@ -9043,12 +9033,12 @@ ul.event-list li {
     display: block;
     margin-right: 100px;
     /* Room for event time */ }
-  /* line 1149, ../assets/sass/theme.scss */
+  /* line 1139, ../assets/sass/theme.scss */
   ul.event-list li .event-content .description {
     display: block;
     font-size: 12px;
     line-height: 18px; }
-  /* line 1155, ../assets/sass/theme.scss */
+  /* line 1145, ../assets/sass/theme.scss */
   ul.event-list li .event-content .dtstart {
     display: block;
     position: absolute;
@@ -9060,7 +9050,7 @@ ul.event-list li {
     font-size: 20px;
     font-weight: 300;
     text-align: right; }
-  /* line 1169, ../assets/sass/theme.scss */
+  /* line 1159, ../assets/sass/theme.scss */
   ul.event-list li .category {
     position: absolute;
     left: 0;
@@ -9080,12 +9070,12 @@ ul.event-list li {
     -moz-transform: rotate(270deg);
     -ms-transform: rotate(270deg);
     transform: rotate(270deg); }
-/* line 1194, ../assets/sass/theme.scss */
+/* line 1184, ../assets/sass/theme.scss */
 ul.event-list-condensed {
   list-style-type: none;
   width: 100%;
   margin-top: 4px; }
-  /* line 1199, ../assets/sass/theme.scss */
+  /* line 1189, ../assets/sass/theme.scss */
   ul.event-list-condensed li {
     text-overflow: ellipsis;
     width: 114px;
@@ -9093,17 +9083,17 @@ ul.event-list-condensed {
     overflow: hidden;
     font-size: 11px;
     line-height: 23px; }
-    /* line 1207, ../assets/sass/theme.scss */
+    /* line 1197, ../assets/sass/theme.scss */
     ul.event-list-condensed li time {
       font-weight: bold; }
 
 /* Day, Week View */
-/* line 1215, ../assets/sass/theme.scss */
+/* line 1205, ../assets/sass/theme.scss */
 #calendar-events-day h2,
 #calendar-events-week h2 {
   margin-bottom: 20px; }
 
-/* line 1220, ../assets/sass/theme.scss */
+/* line 1210, ../assets/sass/theme.scss */
 #calendar-events-day h3,
 #calendar-events-week h3 {
   font-size: 20px;
@@ -9111,38 +9101,38 @@ ul.event-list-condensed {
   font-weight: 300; }
 
 /* Month View */
-/* line 1229, ../assets/sass/theme.scss */
+/* line 1219, ../assets/sass/theme.scss */
 #calendar-events-month h2 {
   text-align: center;
   font-size: 24.5px;
   line-height: 40px; }
-/* line 1234, ../assets/sass/theme.scss */
+/* line 1224, ../assets/sass/theme.scss */
 #calendar-events-month .calendar-large h2 {
   display: none; }
 
-/* line 1239, ../assets/sass/theme.scss */
+/* line 1229, ../assets/sass/theme.scss */
 #month-toggle {
   margin: 15px 0 0 0;
   width: 280px;
   position: relative;
   top: 0;
   left: 0; }
-  /* line 1247, ../assets/sass/theme.scss */
+  /* line 1237, ../assets/sass/theme.scss */
   #month-toggle select#id_year {
     width: 85px; }
-  /* line 1251, ../assets/sass/theme.scss */
+  /* line 1241, ../assets/sass/theme.scss */
   #month-toggle select#id_month {
     width: 125px; }
 
 /* Year View */
-/* line 1258, ../assets/sass/theme.scss */
+/* line 1248, ../assets/sass/theme.scss */
 #calendar-events-year h2 {
   text-align: center; }
 
 /**
  * Frontend Events by Category, Tag, Term
  **/
-/* line 1265, ../assets/sass/theme.scss */
+/* line 1255, ../assets/sass/theme.scss */
 #term-events ul.event-list li .event-content .dtstart {
   background-color: transparent;
   width: 100%;
@@ -9152,12 +9142,12 @@ ul.event-list-condensed {
   font-weight: normal;
   padding: 15px 0 0 0; }
 
-/* line 1274, ../assets/sass/theme.scss */
+/* line 1264, ../assets/sass/theme.scss */
 #term-events ul.event-list li .event-content .location,
 #term-events ul.event-list li .event-content .calendar {
   margin-right: 0; }
 
-/* line 1278, ../assets/sass/theme.scss */
+/* line 1268, ../assets/sass/theme.scss */
 #term-events ul.event-list li .event-content .calendar {
   padding-top: 10px; }
 
@@ -9165,33 +9155,33 @@ ul.event-list-condensed {
  * Frontend Single Event
  **/
 /* General - Body */
-/* line 1288, ../assets/sass/theme.scss */
+/* line 1278, ../assets/sass/theme.scss */
 #page-title-wrap .event-date {
   clear: both;
   margin-bottom: 20px; }
-  /* line 1292, ../assets/sass/theme.scss */
+  /* line 1282, ../assets/sass/theme.scss */
   #page-title-wrap .event-date .event-single-date,
   #page-title-wrap .event-date .event-single-time {
     font-size: 20px; }
-  /* line 1296, ../assets/sass/theme.scss */
+  /* line 1286, ../assets/sass/theme.scss */
   #page-title-wrap .event-date .event-single-date {
     font-weight: bold;
     color: #CC0000; }
 
-/* line 1303, ../assets/sass/theme.scss */
+/* line 1293, ../assets/sass/theme.scss */
 #event-single .event-schedule {
   max-height: 400px;
   overflow-y: scroll; }
 
 /* General - Sidebar */
-/* line 1310, ../assets/sass/theme.scss */
+/* line 1300, ../assets/sass/theme.scss */
 #event-single-sidebar span,
 #event-single-sidebar h2 {
   display: block;
   width: 100%;
   margin-top: 0; }
 
-/* line 1317, ../assets/sass/theme.scss */
+/* line 1307, ../assets/sass/theme.scss */
 #event-single h2,
 #event-single-sidebar h2,
 #event-single .event-single-subheader,
@@ -9200,74 +9190,74 @@ ul.event-list-condensed {
   font-size: 17.5px;
   line-height: 20px; }
 
-/* line 1326, ../assets/sass/theme.scss */
+/* line 1316, ../assets/sass/theme.scss */
 #event-single h2.alt,
 #event-single-sidebar h2.alt {
   width: 50%;
   float: left; }
 
-/* line 1332, ../assets/sass/theme.scss */
+/* line 1322, ../assets/sass/theme.scss */
 #event-single hr,
 #event-single-sidebar hr {
   border-width: 3px 0; }
 
 /* Sidebar */
-/* line 1338, ../assets/sass/theme.scss */
+/* line 1328, ../assets/sass/theme.scss */
 #event-single-sidebar {
   position: relative; }
-  /* line 1341, ../assets/sass/theme.scss */
+  /* line 1331, ../assets/sass/theme.scss */
   #event-single-sidebar .event-single-datetime {
     font-size: 30px;
     line-height: 30px;
     letter-spacing: -0.5px;
     margin-top: 0; }
-  /* line 1348, ../assets/sass/theme.scss */
+  /* line 1338, ../assets/sass/theme.scss */
   #event-single-sidebar .event-single-attime {
     margin-bottom: 7px;
     margin-top: 5px; }
-  /* line 1353, ../assets/sass/theme.scss */
+  /* line 1343, ../assets/sass/theme.scss */
   #event-single-sidebar .event-single-until,
   #event-single-sidebar .event-single-occurring {
     margin-top: 20px; }
-  /* line 1358, ../assets/sass/theme.scss */
+  /* line 1348, ../assets/sass/theme.scss */
   #event-single-sidebar .event-contact {
     overflow: hidden; }
-  /* line 1362, ../assets/sass/theme.scss */
+  /* line 1352, ../assets/sass/theme.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info {
     display: block;
     float: left;
     width: 50%;
     clear: right; }
-  /* line 1370, ../assets/sass/theme.scss */
+  /* line 1360, ../assets/sass/theme.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-info span {
     margin-bottom: 5px; }
-  /* line 1375, ../assets/sass/theme.scss */
+  /* line 1365, ../assets/sass/theme.scss */
   #event-single-sidebar .event-location-title,
   #event-single-sidebar .event-contact-name {
     font-weight: bold; }
-  /* line 1380, ../assets/sass/theme.scss */
+  /* line 1370, ../assets/sass/theme.scss */
   #event-single-sidebar i {
     color: #8d8d8d; }
-  /* line 1384, ../assets/sass/theme.scss */
+  /* line 1374, ../assets/sass/theme.scss */
   #event-single-sidebar .event-location-widget {
     margin-top: 10px;
     margin-bottom: -10px; }
-  /* line 1388, ../assets/sass/theme.scss */
+  /* line 1378, ../assets/sass/theme.scss */
   #event-single-sidebar .event-location-note {
     font-size: 12px;
     line-height: 16px;
     margin-top: 20px; }
 
 /* Body - Meta Information */
-/* line 1394, ../assets/sass/theme.scss */
+/* line 1384, ../assets/sass/theme.scss */
 #event-meta {
   overflow: hidden; }
-  /* line 1397, ../assets/sass/theme.scss */
+  /* line 1387, ../assets/sass/theme.scss */
   #event-meta > * {
     margin-bottom: 10px; }
-  /* line 1401, ../assets/sass/theme.scss */
+  /* line 1391, ../assets/sass/theme.scss */
   #event-meta h3 {
     display: block;
     float: left;
@@ -9275,7 +9265,7 @@ ul.event-list-condensed {
     clear: left;
     font-weight: normal;
     margin-top: 10px; }
-  /* line 1410, ../assets/sass/theme.scss */
+  /* line 1400, ../assets/sass/theme.scss */
   #event-meta .event-meta-calendar,
   #event-meta .event-meta-category,
   #event-meta .event-meta-tags {
@@ -9287,7 +9277,7 @@ ul.event-list-condensed {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px; }
-  /* line 1423, ../assets/sass/theme.scss */
+  /* line 1413, ../assets/sass/theme.scss */
   #event-meta .event-meta-tags a {
     display: block;
     width: auto;
@@ -9305,7 +9295,7 @@ ul.event-list-condensed {
  * Create/Update Event
  **/
 /* When/Where */
-/* line 1443, ../assets/sass/theme.scss */
+/* line 1433, ../assets/sass/theme.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -9314,32 +9304,32 @@ ul.event-list-condensed {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 1451, ../assets/sass/theme.scss */
+/* line 1441, ../assets/sass/theme.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 1456, ../assets/sass/theme.scss */
+/* line 1446, ../assets/sass/theme.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 1463, ../assets/sass/theme.scss */
+/* line 1453, ../assets/sass/theme.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 1468, ../assets/sass/theme.scss */
+/* line 1458, ../assets/sass/theme.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 1472, ../assets/sass/theme.scss */
+/* line 1462, ../assets/sass/theme.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 1478, ../assets/sass/theme.scss */
+/* line 1468, ../assets/sass/theme.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -9349,18 +9339,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 1488, ../assets/sass/theme.scss */
+/* line 1478, ../assets/sass/theme.scss */
 .cloner {
   position: relative; }
-  /* line 1491, ../assets/sass/theme.scss */
+  /* line 1481, ../assets/sass/theme.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 1494, ../assets/sass/theme.scss */
+    /* line 1484, ../assets/sass/theme.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 1501, ../assets/sass/theme.scss */
+  /* line 1491, ../assets/sass/theme.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -9368,7 +9358,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 1510, ../assets/sass/theme.scss */
+  /* line 1500, ../assets/sass/theme.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -9376,7 +9366,7 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 1519, ../assets/sass/theme.scss */
+/* line 1509, ../assets/sass/theme.scss */
 .remove-instance {
   position: absolute;
   right: -25px;
@@ -9384,26 +9374,26 @@ label[for*="-location-autocomplete"] {
   font-size: 18px;
   padding: 8px 14px; }
 
-/* line 1526, ../assets/sass/theme.scss */
+/* line 1516, ../assets/sass/theme.scss */
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 1532, ../assets/sass/theme.scss */
+/* line 1522, ../assets/sass/theme.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 1537, ../assets/sass/theme.scss */
+/* line 1527, ../assets/sass/theme.scss */
 .location-search .autocomplete-new-btn {
   top: 28px; }
 
-/* line 1541, ../assets/sass/theme.scss */
+/* line 1531, ../assets/sass/theme.scss */
 .location-selected {
   position: relative; }
 
-/* line 1545, ../assets/sass/theme.scss */
+/* line 1535, ../assets/sass/theme.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -9413,14 +9403,14 @@ label[for*="-location-autocomplete"] {
   right: 0;
   color: #A8A8A8; }
 
-/* line 1556, ../assets/sass/theme.scss */
+/* line 1546, ../assets/sass/theme.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 1560, ../assets/sass/theme.scss */
+/* line 1550, ../assets/sass/theme.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 1566, ../assets/sass/theme.scss */
+/* line 1556, ../assets/sass/theme.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -9428,17 +9418,17 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 100%; }
 
-/* line 1574, ../assets/sass/theme.scss */
+/* line 1564, ../assets/sass/theme.scss */
 .location-search .label-inner:first-child,
 .location-selected .label-inner:first-child {
   margin-top: 0; }
 
-/* line 1579, ../assets/sass/theme.scss */
+/* line 1569, ../assets/sass/theme.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
 /* Tags */
-/* line 1584, ../assets/sass/theme.scss */
+/* line 1574, ../assets/sass/theme.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -9450,7 +9440,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 1596, ../assets/sass/theme.scss */
+  /* line 1586, ../assets/sass/theme.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -9463,13 +9453,13 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 1609, ../assets/sass/theme.scss */
+    /* line 1599, ../assets/sass/theme.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
 /* Contact information */
-/* line 1618, ../assets/sass/theme.scss */
+/* line 1608, ../assets/sass/theme.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
 
@@ -9477,7 +9467,7 @@ label[for*="-location-autocomplete"] {
  * Admin Sections
  **/
 /* Category Manager */
-/* line 1627, ../assets/sass/theme.scss */
+/* line 1617, ../assets/sass/theme.scss */
 .category-color span {
   display: block;
   padding: 0 5px;
@@ -9487,7 +9477,7 @@ label[for*="-location-autocomplete"] {
 /**
  * Search Pages
  **/
-/* line 1637, ../assets/sass/theme.scss */
+/* line 1627, ../assets/sass/theme.scss */
 #search form {
   margin-top: 20px;
   margin-bottom: 20px; }

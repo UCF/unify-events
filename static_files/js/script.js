@@ -1031,7 +1031,7 @@ eventTagging = function() {
                     .hide();
 
                 // Update help text
-                var helpText = self.dataField.siblings('.help-text');
+                var helpText = self.dataField.siblings('.help-block');
                 helpText.text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
             }
 
