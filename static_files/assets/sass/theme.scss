@@ -58,8 +58,13 @@ a {
     }
 
     &.btn-mini {
-        font-weight: 500; letter-spacing: 0.3px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
     }
+}
+
+.btn.disabled {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
 }
 
 i + a:not(.btn) {
