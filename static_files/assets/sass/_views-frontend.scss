@@ -1,0 +1,300 @@
+/* Static Pages */
+#static-base {
+    h3 {
+        margin-top: 20px;
+    }
+
+    h2 + h3 {
+        margin-top: 10px;
+    }
+
+    .page-sidebar strong {
+        margin-bottom: 5px;
+        display: block;
+    }
+}
+
+
+/* Search View */
+#search form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* Dashboard/My Calendars View */
+th#thead-recommend,
+td.field-recommended > span {
+    @include text-hide();
+}
+
+th.field-recommended,
+td.field-recommended {
+    text-align: center;
+}
+
+.manager-item-table {
+    .field-bulk-select { width: 5%; }
+    .field-recommended { width: 8%; }
+    .event-title { width: 42%; }
+    .event-time { width: 29%; }
+    .event-actions { width: 16%; }
+
+    .recurrences-toggle {
+        display: block;
+        font-size: 11px;
+        font-weight: bold;
+        color: #777;
+    }
+    .recurrences {
+        display: none;
+        font-size: 12px;
+        line-height: 16px;
+        margin-left: 0;
+        padding-left: 12px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-height: 250px;
+
+        .archived-instance {
+            text-decoration: line-through;
+            color: #888;
+        }
+    }
+}
+
+
+/* Calendar Create View */
+#manager-calendar-delete {
+    float: right;
+    position: relative;
+    top: -33px;
+    font-weight: bold;
+    color: #B71713;
+}
+
+
+/* Calendar Update View - Calendar Info (base) */
+#calendar-info {
+    h2 {
+        margin-top: 0;
+    }
+}
+form#calendar-update {
+    margin-bottom: 0;
+}
+
+
+/* Calendar Update View - Users */
+input#id_add_user {
+    width: 300px;
+}
+input#id_role {
+    width: 150px;
+}
+
+#users-permissions {
+    .calendar-access-username {
+        font-weight: bold;
+    }
+}
+
+form#manager-calendar-add-user {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+
+/* Category List View */
+.category-color span {
+    display: block;
+    padding: 0 5px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+/* Event Create/Update View */
+
+// When/Where
+.whenwhere-wrap,
+.cloner > div {
+    border-radius: 4px 0 4px 4px;
+    background: #f9f9f9;
+    padding: 10px 20px 20px 20px;
+    border: 1px solid #c8c8c8;
+    margin-bottom: 5px;
+}
+.cloneable:only-child .whenwhere-wrap {
+    border-radius: 4px;
+}
+
+.whenwhere-wrap {
+    hr {
+        border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
+        border-width: 1px 0;
+        border-top: 1px solid #c8c8c8;
+        border-bottom: 1px solid #c8c8c8;
+    }
+
+    label {
+        margin-top: 10px;
+    }
+}
+
+label[for*="-location-autocomplete"] {
+    margin-top: 0;
+}
+
+.whenwhere.end,
+.whenwhere-until,
+.location-selected {
+    float: right;
+    margin-right: 10px;
+}
+
+.whenwhere.start label,
+.whenwhere.end label {
+    display: block;
+    width: auto;
+    float: left;
+    margin-right: 4px;
+    position: relative;
+    z-index: 3;
+}
+
+.cloner {
+    position: relative;
+
+    &:hover {
+        cursor: pointer;
+
+        > div {
+            background: #DFF0D8;
+            border-color: #62C462;
+            color: #2D792D;
+        }
+    }
+
+    > div {
+        padding: 8px 20px;
+        border-style: dashed;
+        border-radius: 4px 0 0 4px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #646464;
+    }
+
+    > a {
+        position: absolute;
+        top: 0;
+        right: -25px;
+        border-radius: 0 4px 4px 0;
+        padding: 8px 14px;
+     }
+}
+
+.remove-instance {
+    position: absolute;
+    right: -25px;
+    border-radius: 0 4px 4px 0;
+    font-size: 18px;
+    padding: 8px 14px;
+}
+.remove-instance:hover + .whenwhere-wrap,
+.remove-instance:focus + .whenwhere-wrap {
+    background-color: #F2DEDE;
+    border-color: #EE5F5B;
+}
+
+.location-search,
+.tag-search {
+    position: relative;
+}
+
+.location-search .autocomplete-new-btn {
+    top: 28px;
+}
+
+.location-selected {
+    position: relative;
+}
+
+.location-selected-remove {
+    font-weight: bold;
+    font-size: 20px;
+    padding: 0 6px 1px 6px;
+    position: absolute;
+    top: -6px;
+    right: 0;
+    color: #A8A8A8;
+}
+
+.location-selected-remove {
+    &:hover {
+        text-decoration: none;
+    }
+
+    &:hover ~ span,
+    &:focus ~ span{
+        text-decoration: line-through;
+    }
+}
+
+.location-selected-title,
+.location-selected-room,
+.location-selected-url {
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+.location-search .label-inner:first-child,
+.location-selected .label-inner:first-child {
+    margin-top: 0;
+}
+
+.clone-delete-hiddenfield {
+    display: none;
+}
+
+
+// Tags
+#event-tags-selected li {
+    display: block;
+    float: left;
+    margin: 0 5px 5px 0;
+    border-radius: 20px;
+    padding: 2px 12px 2px 28px;
+    background: #aaa;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    position: relative;
+
+    a {
+        padding: 0 5px 0 9px;
+        border-radius: 20px 0 0 20px;
+        color: #fff;
+        font-weight: bold;
+        margin-right: 6px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        font-size: 14px;
+        line-height: 22px;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            background-color: #EE5F5B;
+        }
+    }
+}
+
+
+// Contact information
+#add-user-contact-info {
+    margin-bottom: 10px;
+}

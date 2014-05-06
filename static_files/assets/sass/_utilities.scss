@@ -1,0 +1,16 @@
+.fullwidth {
+    width: 100%;
+}
+
+/* Columns that only span the width of their children */
+.col-lg-auto,
+.col-md-auto,
+.col-sm-auto,
+.col-xs-auto {
+    width: auto;
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}

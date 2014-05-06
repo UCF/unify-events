@@ -1,0 +1,268 @@
+/* Body */
+body {
+    background: url('../img/gradient.png') top left repeat-x;
+}
+
+
+/* Header */
+header {
+    padding-top: 15px;
+
+    #header-title {
+        font-size: 36px;
+        line-height: 40px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        margin: 10px 0;
+        display: block;
+
+        a {
+            color: #333;
+        }
+
+        .alt {
+            font-weight: 300;
+        }
+    }
+
+    form.form-search {
+        padding-top: 19px;
+        float: right;
+    }
+}
+
+
+/* Main Navigation (subheader) */
+#navwrap {
+    background: #f1f1f1;
+}
+
+nav #navinner {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    a,
+    a:hover {
+        color: #444;
+    }
+
+    .user {
+        float: left;
+        padding-right: 30px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        .user i {
+            color: #8d8d8d;
+        }
+    }
+
+    #actions-primary,
+    #actions-secondary {
+        list-style-type: none;
+        margin: 0;
+
+        > li {
+            float: left;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            position: relative;
+        }
+    }
+
+    #actions-primary {
+        float: left;
+    }
+
+    #actions-primary > li {
+        > i {
+            color: $brand-primary;
+            font-size: 16px;
+        }
+
+        > span.label {
+            position: absolute;
+            left: 25px;
+            top: -3px;
+        }
+    }
+
+    #actions-secondary {
+        float: right;
+
+        > li > i {
+            color: #8d8d8d;
+            font-size: 16px;
+        }
+    }
+
+    li#create-event {
+        border-left: 3px solid #e1e1e1;
+        margin-left: 15px;
+        padding-top: 3px;
+        padding-bottom: 2px;
+    }
+}
+
+
+/* Alert Messages */
+#messages {
+    margin: 10px 0 0 0;
+}
+
+
+/* Page Nav Tabs */
+.nav.nav-tabs {
+    margin-bottom: 5px;
+}
+
+
+/* Page Title */
+#page-title-wrap {
+    position: relative;
+    margin-top: 10px;
+
+    h1 {
+        display: block;
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    .edit-options {
+        list-style-type: none;
+        float: left;
+        margin-top: 22px;
+        margin-left: 15px;
+
+        > li {
+            float: left;
+            margin-left: 10px;
+
+            > a {
+                font-weight: bold;
+                color: #a8a8a8;
+
+                > .caret {
+                    border-top: 4px solid #a8a8a8;
+                }
+            }
+        }
+    }
+}
+
+
+/* Page Subtitle */
+.page-subtitle {
+    color: #8d8d8d;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.subtitle-backlink-wrap {
+    margin-top: -5px;
+    margin-bottom: 25px;
+
+    .subtitle-backlink {
+        font-weight: bold;
+        color: #a8a8a8;
+    }
+}
+
+
+/* Page Content - General */
+.page-content {
+    &.sidebarfix {
+        > * {/* This does dumb things to tables. Wrap tables in a div to accomodate */
+            padding-right: 10px;
+        }
+
+        > .modal {
+            padding-right: 0;
+        }
+
+        > hr {
+            padding-right: 0;
+            margin-right: 10px;
+        }
+
+        > .well {
+            padding-right: 20px;
+            margin-right: 10px;
+        }
+
+        > .well-empty {
+            padding-right: 30px;
+        }
+    }
+
+    .page-top-action {
+        margin: 20px 0;
+    }
+}
+
+
+/* Sidebar */
+.social {
+    overflow: hidden;
+
+    a {
+        background-image: url('../../static/img/social-share.png');
+        background-repeat: no-repeat;
+        text-indent: 200%;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        float: left;
+        height: 20px;
+        margin-right: 4px;
+        width: 70px;
+        height: 31px;
+
+        &.share-twitter { background-position: -71px 0; }
+        &.share-twitter:hover { background-position: -71px -31px; }
+        &.share-facebook { background-position: 0 0; }
+        &.share-facebook:hover { background-position: 0 -31px; }
+        &.share-googleplus { background-position: -142px 0; }
+        &.share-googleplus:hover { background-position: -142px -31px; }
+    }
+}
+
+.feeds-list {
+    margin-left: 0;
+
+    a {
+        text-indent: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 40px;
+        background-image: url('../../static/img/feeds.png');
+        background-repeat: no-repeat;
+        padding: 0 24px;
+
+        &.ical { background-position: 13px -23px; }
+        &.outlook { background-position: 13px -57px; }
+        &.rss { background-position: 13px 7px; }
+        &.xml { background-position: 13px -119px; }
+        &.json { background-position: 13px -91px; }
+    }
+}
+
+
+/* Footer */
+footer {
+    margin: 40px 0;
+
+    ul {
+        list-style-type: none;
+        margin-left: 0;
+
+        li {
+            display: block;
+            float: left;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+}
