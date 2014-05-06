@@ -68,7 +68,7 @@
                         <td class="calendar-access-actions">
                             {% if calendar in user.owned_calendars.all or user.is_superuser %}
                                 {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
-                                <a class="btn btn-default btn-xs" href="#calendar-reassign-ownership" data-toggle="modal"><i class="fa fa-random"></i> Re-assign Ownership</a>
+                                <a class="btn btn-default btn-xs" href="#calendar-reassign-ownership" data-toggle="modal"><i class="fa fa-exchange"></i> Re-assign Ownership</a>
                                 {% endif %}
                             {% endif %}
                         </td>
