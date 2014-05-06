@@ -8175,19 +8175,19 @@ label[for="bulk-select"],
 /* line 68, ../assets/sass/_forms.scss */
 .label-inner {
   font-size: 16px;
-  color: #8d8d8d;
+  color: #999999;
   font-weight: 300; }
 
 /* line 74, ../assets/sass/_forms.scss */
 .label-desc {
   font-size: 12px;
   line-height: 16px;
-  color: #8d8d8d; }
+  color: #999999; }
 
 /* Help text */
 /* line 82, ../assets/sass/_forms.scss */
 .help-block {
-  color: #888888;
+  color: #999999;
   font-size: 11px;
   font-style: italic;
   line-height: 1.4em; }
@@ -8270,30 +8270,26 @@ label[for="bulk-select"],
 
 /* line 181, ../assets/sass/_forms.scss */
 .ui-timepicker-wrapper {
-  -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   border-radius: 4px; }
 
 /* WYSIWYG editors */
-/* line 190, ../assets/sass/_forms.scss */
+/* line 189, ../assets/sass/_forms.scss */
 ul.wysihtml5-toolbar a[data-wysihtml5-command="bold"],
 ul.wysihtml5-toolbar a[data-wysihtml5-command="italic"],
 ul.wysihtml5-toolbar a[data-wysihtml5-command="underline"] {
   font-weight: normal; }
-/* line 196, ../assets/sass/_forms.scss */
-ul.wysihtml5-toolbar a[data-wysihtml5-command-value="div"] {
-  color: #333; }
 
 /* Errors - label, input styles */
-/* line 203, ../assets/sass/_forms.scss */
+/* line 198, ../assets/sass/_forms.scss */
 label.error,
 div.error label,
 .form-group.error .control-label,
 .form-group.error .help-block,
 .form-group.error .help-inline {
-  color: #EE5F5B; }
+  color: #d9534f; }
 
-/* line 211, ../assets/sass/_forms.scss */
+/* line 206, ../assets/sass/_forms.scss */
 input.error,
 textarea.error,
 select.error,
@@ -8302,41 +8298,41 @@ div.error textarea,
 .form-group.error input,
 .form-group.error select,
 .form-group.error textarea {
-  border: 1px solid #EE5F5B;
-  color: #B71713; }
+  border: 1px solid #d43f3a;
+  color: #d9534f; }
 
 /* Errors - error lists */
-/* line 225, ../assets/sass/_forms.scss */
+/* line 220, ../assets/sass/_forms.scss */
 ul.errorlist {
-  background: none repeat scroll 0 0 #EE5F5B;
+  background: none repeat scroll 0 0 #d43f3a;
   border-radius: 4px;
-  color: #FFFFFF;
+  color: #fff;
   display: block;
   list-style-type: none;
   margin: 10px 0;
   padding: 10px;
   position: relative;
   max-width: 220px; }
-  /* line 236, ../assets/sass/_forms.scss */
+  /* line 231, ../assets/sass/_forms.scss */
   ul.errorlist:before {
     content: "";
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid #EE5F5B;
+    border-bottom: 5px solid #d43f3a;
     position: absolute;
     top: -5px;
     left: 10px; }
-  /* line 248, ../assets/sass/_forms.scss */
+  /* line 243, ../assets/sass/_forms.scss */
   ul.errorlist li {
     margin-top: 5px;
     text-indent: 0;
     padding-left: 20px; }
-    /* line 253, ../assets/sass/_forms.scss */
+    /* line 248, ../assets/sass/_forms.scss */
     ul.errorlist li:first-child {
       margin-top: 0; }
-    /* line 257, ../assets/sass/_forms.scss */
+    /* line 252, ../assets/sass/_forms.scss */
     ul.errorlist li:before {
       font-family: "FontAwesome";
       content: "";
@@ -8554,7 +8550,7 @@ ul.errorlist {
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
         width: 200px;
-        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3); }
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
         /* line 131, ../assets/sass/_calendar-large.scss */
         .calendar-grid > li:hover > div > ul > li {
           width: 184px; }
@@ -8628,7 +8624,7 @@ nav #navinner {
     padding-bottom: 5px; }
     /* line 55, ../assets/sass/_layout.scss */
     nav #navinner .user .user i {
-      color: #8d8d8d; }
+      color: #999999; }
   /* line 60, ../assets/sass/_layout.scss */
   nav #navinner #actions-primary,
   nav #navinner #actions-secondary {
@@ -8659,7 +8655,7 @@ nav #navinner {
     float: right; }
     /* line 94, ../assets/sass/_layout.scss */
     nav #navinner #actions-secondary > li > i {
-      color: #8d8d8d;
+      color: #999999;
       font-size: 16px; }
   /* line 100, ../assets/sass/_layout.scss */
   nav #navinner li#create-event {
@@ -8701,15 +8697,15 @@ nav #navinner {
       /* line 142, ../assets/sass/_layout.scss */
       #page-title-wrap .edit-options > li > a {
         font-weight: bold;
-        color: #a8a8a8; }
+        color: #999999; }
         /* line 146, ../assets/sass/_layout.scss */
         #page-title-wrap .edit-options > li > a > .caret {
-          border-top: 4px solid #a8a8a8; }
+          border-top: 4px solid #999999; }
 
 /* Page Subtitle */
 /* line 156, ../assets/sass/_layout.scss */
 .page-subtitle {
-  color: #8d8d8d;
+  color: #999999;
   margin-top: 0;
   margin-bottom: 20px; }
 
@@ -8720,7 +8716,7 @@ nav #navinner {
   /* line 166, ../assets/sass/_layout.scss */
   .subtitle-backlink-wrap .subtitle-backlink {
     font-weight: bold;
-    color: #a8a8a8; }
+    color: #999999; }
 
 /* Page Content - General */
 /* line 176, ../assets/sass/_layout.scss */

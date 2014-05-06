@@ -53,7 +53,7 @@ nav #navinner {
         padding-bottom: 5px;
 
         .user i {
-            color: #8d8d8d;
+            color: $gray-light;
         }
     }
 
@@ -92,7 +92,7 @@ nav #navinner {
         float: right;
 
         > li > i {
-            color: #8d8d8d;
+            color: $gray-light;
             font-size: 16px;
         }
     }
@@ -141,10 +141,10 @@ nav #navinner {
 
             > a {
                 font-weight: bold;
-                color: #a8a8a8;
+                color: $gray-light;
 
                 > .caret {
-                    border-top: 4px solid #a8a8a8;
+                    border-top: 4px solid $gray-light;
                 }
             }
         }
@@ -154,7 +154,7 @@ nav #navinner {
 
 /* Page Subtitle */
 .page-subtitle {
-    color: #8d8d8d;
+    color: $gray-light;
     margin-top: 0;
     margin-bottom: 20px;
 }
@@ -165,7 +165,7 @@ nav #navinner {
 
     .subtitle-backlink {
         font-weight: bold;
-        color: #a8a8a8;
+        color: $gray-light;
     }
 }
 

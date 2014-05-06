@@ -67,20 +67,20 @@ label[for="bulk-select"],
 /* Labels, faux-labels, label descriptions */
 .label-inner {
     font-size: 16px;
-    color: #8d8d8d;
+    color: $gray-light;
     font-weight: 300;
 }
 
 .label-desc {
     font-size: 12px;
     line-height: 16px;
-    color: #8d8d8d;
+    color: $gray-light;
 }
 
 
 /* Help text */
 .help-block {
-    color: #888888;
+    color: $gray-light;
     font-size: 11px;
     font-style: italic;
     line-height: 1.4em;
@@ -159,7 +159,7 @@ $bootstrap-dtp-border-radius: 4px;
         &.active:hover,
         span.active {
             background-image: none;
-            background-color: #ffc904 !important;
+            background-color: $ucf-gold !important;
             text-shadow: 0 0 0 transparent;
             font-weight: bold;
         }
@@ -179,8 +179,7 @@ $bootstrap-dtp-border-radius: 4px;
 }
 
 .ui-timepicker-wrapper {
-    -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
     border-radius: 4px;
 }
 
@@ -192,10 +191,6 @@ ul.wysihtml5-toolbar {
     a[data-wysihtml5-command="underline"] {
         font-weight: normal;
     }
-
-    a[data-wysihtml5-command-value="div"] {
-        color: #333;
-    }
 }
 
 
@@ -205,7 +200,7 @@ div.error label,
 .form-group.error .control-label,
 .form-group.error .help-block,
 .form-group.error .help-inline {
-    color: #EE5F5B;
+    color: $brand-danger;
 }
 
 input.error,
@@ -216,16 +211,16 @@ div.error textarea,
 .form-group.error input,
 .form-group.error select,
 .form-group.error textarea {
-    border: 1px solid #EE5F5B;
-    color: #B71713;
+    border: 1px solid $btn-danger-border;
+    color: $brand-danger;
 }
 
 
 /* Errors - error lists */
 ul.errorlist {
-    background: none repeat scroll 0 0 #EE5F5B;
+    background: none repeat scroll 0 0 $btn-danger-border;
     border-radius: 4px;
-    color: #FFFFFF;
+    color: #fff;
     display: block;
     list-style-type: none;
     margin: 10px 0;
@@ -239,7 +234,7 @@ ul.errorlist {
         height: 0;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-bottom: 5px solid #EE5F5B;
+        border-bottom: 5px solid $btn-danger-border;
         position: absolute;
         top: -5px;
         left: 10px;
