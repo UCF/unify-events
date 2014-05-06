@@ -74,8 +74,9 @@
         </li>
         {% if user.calendars %}
         <li id="create-event">
-            <span class="icon-circle-wrap">
-                <i class="fa fa-pencil"></i>
+            <span class="fa-stack fa-md">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
             </span>
             <a href="{% url 'event-create' %}">
                 Create Event

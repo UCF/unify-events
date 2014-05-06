@@ -29,18 +29,6 @@ h2 {
     }
 }
 
-.icon-circle-wrap {
-    display: block;
-    width: 26px;
-    padding-top: 2px;
-    padding-bottom: 3px;
-    border-radius: 26px;
-    background-color: $brand-primary;
-    color: #fff;
-    text-align: center;
-    margin-top: -3px;
-}
-
 // form a:not([class]),
 // .page-content a:not([class]),
 // .page-sidebar a:not([class]) {
@@ -789,11 +777,8 @@ nav {
         li#create-event {
             border-left: 3px solid #e1e1e1;
             margin-left: 15px;
-
-            .icon-circle-wrap {
-                float: left;
-                margin-right: 10px;
-            }
+            padding-top: 3px;
+            padding-bottom: 2px;
         }
     }
 }
