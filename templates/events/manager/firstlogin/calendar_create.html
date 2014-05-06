@@ -22,49 +22,51 @@
 {% block content_body %}
 	<div class="row">
         <div class="col-md-8 col-md-offset-2 page-content">
-            <div class="popout">
-                <h1><span class="alt">Step 2:</span> Create a Calendar</h1>
-                <div class="progress">
-                    <div class="bar" style="width: 66%;"></div>
-                </div>
-                <p class="progress-desc">Step 2 of 2</p>
-                <p>
-                    To create or subscribe to events, you'll need a calendar to put them in.
-                    If you know you'll be added to an existing calendar later, you can
-                    <a href="{% url 'dashboard' %}">skip this step</a>.  You will have limited access to the
-                    events system until you're added to a calendar.
-                    <br/>
-                    <strong>
-                        Create your first calendar below, or click the cancel
-                        button to skip this step and make one later.
-                    </strong>
-                </p>
-                <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
-                    {% csrf_token %}
-                    <div class="form-group">
-                       <label class="control-label col-md-3" for="id_title">Calendar Name</label>
-                       <div class="controls col-md-9">
-                       {{ form.title|add_class:"form-control" }}
-                       {{ form.title.errors }}
-                       </div>
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                    <h1><span class="alt">Step 2:</span> Create a Calendar</h1>
+                    <div class="progress">
+                        <div class="bar" style="width: 66%;"></div>
                     </div>
-                    <div class="form-group">
-                       <label class="control-label col-md-3" for="id_description">Calendar Description</label>
-                       <div class="controls col-md-9">
-                       {{ form.description|add_class:"form-control" }}
-                       {{ form.description.errors }}
-                       </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-9 col-md-offset-3">
-                            {% for field in form.hidden_fields %}
-                                {{ field }}
-                            {% endfor %}
-                            <button class="btn btn-primary" type="submit">Create Calendar</button>
-                            <a class="btn btn-default" href="{% url 'dashboard' %}">Skip</a>
+                    <p class="progress-desc">Step 2 of 2</p>
+                    <p>
+                        To create or subscribe to events, you'll need a calendar to put them in.
+                        If you know you'll be added to an existing calendar later, you can
+                        <a href="{% url 'dashboard' %}">skip this step</a>.  You will have limited access to the
+                        events system until you're added to a calendar.
+                        <br/>
+                        <strong>
+                            Create your first calendar below, or click the cancel
+                            button to skip this step and make one later.
+                        </strong>
+                    </p>
+                    <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
+                        {% csrf_token %}
+                        <div class="form-group">
+                           <label class="control-label col-md-3" for="id_title">Calendar Name</label>
+                           <div class="controls col-md-9">
+                           {{ form.title|add_class:"form-control" }}
+                           {{ form.title.errors }}
+                           </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="form-group">
+                           <label class="control-label col-md-3" for="id_description">Calendar Description</label>
+                           <div class="controls col-md-9">
+                           {{ form.description|add_class:"form-control" }}
+                           {{ form.description.errors }}
+                           </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                {% for field in form.hidden_fields %}
+                                    {{ field }}
+                                {% endfor %}
+                                <button class="btn btn-primary" type="submit">Create Calendar</button>
+                                <a class="btn btn-default" href="{% url 'dashboard' %}">Skip</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

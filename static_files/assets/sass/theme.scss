@@ -78,6 +78,8 @@ ul.errors,
     padding-left: 15px;
 }
 
+/* Panels */
+.panel-body { padding: 15px 30px; }
 
 /* Dropdowns */
 $dropdown-i-padding: 6px;
@@ -280,16 +282,6 @@ ul {
                 margin-left: -20px;
             }
         }
-    }
-    &.autocomplete-suggestion-list {
-        max-width: 300px;
-        overflow: hidden;
-
-        li {
-            a {
-                white-space: normal;
-            }
-        }   
     }
 }
 
@@ -880,18 +872,6 @@ nav {
         font-weight: bold;
         color: #a8a8a8;
     }
-}
-
-/**
- * Login/Initial Setup
- **/
-.popout {
-    padding: 10px 20px 20px 20px;
-    margin-top: 30px;
-    margin-bottom: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
 /**
