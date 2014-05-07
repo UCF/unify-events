@@ -22,18 +22,14 @@
     {{ block.super }}
     {% if form.non_field_errors %}
         <div class="row">
-            <div class="span12">
-                <div class="alert">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{form.non_field_errors}}
                 </div>
             </div>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block content_title_icon %}
-<i class="icon-pencil" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -60,43 +56,51 @@
 	{% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
-            <div class="control-group large">
-                <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
-                <p class="label-desc">Be Brief. Be Bright. Be Done.</p>
-                <div class="controls">
-                    {{ form.title }}
+            <div class="form-group large">
+                <div class="control-label-group col-md-3">
+                    <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+                    <p class="label-desc">Be Brief. Be Bright. Be Done.</p>
+                </div>
+                <div class="controls col-md-5">
+                    {{ form.title|add_class:"form-control" }}
                     {{ form.title.errors }}
                 </div>
             </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
-                <p class="label-desc">A more specific place within the location like a room, hall, etc.</p>
-                <div class="controls">
-                    {{ form.room }}
+            <div class="form-group large">
+                <div class="control-label-group col-md-3">
+                    <label class="control-label" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
+                    <p class="label-desc">A more specific place within the location like a room, hall, etc.</p>
+                </div>
+                <div class="controls col-md-5">
+                    {{ form.room|add_class:"form-control" }}
                     {{ form.room.errors }}
                 </div>
             </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
-                <p class="label-desc">A map url of the location (http://map.ucf.edu or http://maps.google.com)</p>
-                <div class="controls">
-                    {{ form.url }}
+            <div class="form-group large">
+                <div class="control-label-group col-md-3">
+                    <label class="control-label" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
+                    <p class="label-desc">A map url of the location (http://map.ucf.edu or http://maps.google.com)</p>
+                </div>
+                <div class="controls col-md-5">
+                    {{ form.url|add_class:"form-control" }}
                     {{ form.url.errors }}
                 </div>
             </div>
-            <div class="control-group large">
-                <label class="control-label" for="{{ form.url.auto_id }}">{{ form.reviewed.label }}</label>
-                <p class="label-desc">Is this location acceptable?</p>
-                <div class="controls">
-                    {{ form.reviewed }}
+            <div class="form-group large">
+                <div class="control-label-group col-md-3">
+                    <label class="control-label" for="{{ form.reviewed.auto_id }}">{{ form.reviewed.label }}</label>
+                    <p class="label-desc">Is this location acceptable?</p>
+                </div>
+                <div class="controls col-md-auto">
+                    {{ form.reviewed|add_class:"form-control" }}
                     {{ form.reviewed.errors }}
                 </div>
             </div>
-            <div class="control-group large">
-                <div class="controls">
+            <div class="form-group large">
+                <div class="col-md-5 col-md-offset-3">
                     {% if object %}
                         <button class="btn btn-primary" type="submit">Update Location</button>
-                        <a href="{% url 'location-list' %}" class="btn">Cancel</a>
+                        <a href="{% url 'location-list' %}" class="btn btn-default">Cancel</a>
                     {% else %}
                         <button class="btn btn-primary" type="submit">Create Location</button>
                     {% endif %}

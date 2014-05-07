@@ -1,6 +1,6 @@
 {% load widgets %}
-<div class="pagination">
-    <ul>
+<div class="text-center">
+    <ul class="pagination">
         {% if current_page.has_previous %}
         <li>
             <a href="{{ url }}page={{ current_page.previous_page_number }}">&laquo;</a>

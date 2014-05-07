@@ -3,10 +3,6 @@
 {% load widget_tweaks %}
 {% load core_tags %}
 
-{% block content_title_icon %}
-<i class="icon-search" id="page-title-icon"></i>
-{% endblock %}
-
 {% block content_title %}
 <h1>
     <a href="{{ request.build_absolute_uri }}">
@@ -21,7 +17,7 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="span12 page-content" id="search">
+    <div class="col-md-12 page-content" id="search">
         {% block search_nav %}
 
         {% with 'q='|add:request.GET.q as params %}
@@ -29,19 +25,32 @@
         {% endwith %}
 
         <form method="GET" action=".">
-            {{ form.q.label }}
-            {{ form.q|add_class:"search-query" }}
-            {% if not manager_search %}
-            <br/>
-            {{ form.models.label }}
-            {{ form.models }}
-            {% endif %}
-            <button class="btn btn-primary" type="submit">Search</button>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
+                        {{ form.q|add_class:"search-query form-control" }}
+
+                        <div class="input-group-btn">
+                            <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
+                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-form dropdown-menu-right" id="{{ form.models.auto_id }}" role="menu">
+                                {% for model in form.models %}
+                                <li>{{ model }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         {% endblock %}
 
         <div class="row">
-            <div class="span9">
+            <div class="col-md-9">
                 {% if query %}
                     {% with page.object_list as results %}
                         {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}

@@ -5,9 +5,9 @@
     {% block alerts %}
         {% if messages %}
             <div class="row">
-                <div class="span12">
-                    <div class="alert fade in" id="messages">
-                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <div class="col-md-12">
+                    <div class="alert alert-warning fade in" id="messages">
+                        <a class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
                         <strong>Message:</strong>
                         <ul>
                             {% for message in messages %}
@@ -21,18 +21,14 @@
     {% endblock %}
 	{% block content_header %}
 		<div class="row">
-            <div class="span12" id="page-title-wrap">
-                {% block content_title_icon %}
-                <i class="icon-calendar" id="page-title-icon"></i>
-                {% endblock %}
-
+            <div class="col-md-12" id="page-title-wrap">
                 {% block content_title %}{% endblock %}
             </div>
         </div>
 	{% endblock %}
 	{% block content_subheader %}
     	<div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                 <h2 class="page-subtitle" tabindex="0">{% block content_subheader_text %}{% endblock %}</h2>
             </div>
         </div>

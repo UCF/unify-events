@@ -5,7 +5,7 @@
            <a href="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}"><span class="alt">{{ this_month|date:"F" }}</span></a> <a href="{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
         {% endif %}
     </h2>
-    <div class="row calendar-grid calendar-grid-labels">
+    <div class="calendar-grid calendar-grid-labels">
         <span>Sunday</span>
         <span>Monday</span>
         <span>Tuesday</span>
@@ -19,8 +19,8 @@
         <li class="day{% if events %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
             {% if event_instances %}
             <a class="event-expander" href="#">
-                <span class="help-text">Expand Events List</span>
-                <span class="icon-text"><i class="icon-chevron-sign-down"></i></span>
+                <span class="sr-only">Expand Events List</span>
+                <span class="event-expander-icon"><i class="fa fa-chevron-circle-down"></i></span>
             </a>
             {% endif %}
             <div>

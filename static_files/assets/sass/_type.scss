@@ -1,0 +1,53 @@
+/* Headings */
+h1 .alt,
+h3 .alt,
+h4 .alt,
+h5 .alt,
+h6 .alt {
+    font-weight: 300;
+}
+
+h2 {
+    letter-spacing: 0;
+    font-weight: 300;
+
+    .alt {
+        font-weight: bold;
+    }
+}
+
+// form a:not([class]),
+// .page-content a:not([class]),
+// .page-sidebar a:not([class]) {
+//     /* Add color to links that don't have a class assigned to them */
+//     color: #3566C9;
+// }
+
+
+/* Links */
+a {
+    &:not(.btn) > i {
+        padding-right: 6px;
+    }
+
+    &:hover > i {
+        text-decoration: none;
+    }
+}
+
+
+/* Icons */
+i + a:not(.btn) {
+    padding-left: 6px;
+}
+
+
+/* Lists */
+ul {
+    padding-left: 0;
+}
+ul.errors,
+#messages ul,
+#static-base ul {
+    padding-left: 15px;
+}

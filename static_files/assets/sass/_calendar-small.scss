@@ -1,0 +1,118 @@
+.calendar-slider {
+    position: relative;
+    z-index: 1;
+
+    .pager {
+        margin: 0;
+        position: relative;
+        z-index: 2;
+
+        li {
+            position: absolute;
+            top: 22px;
+
+            &.previous {
+                left: 0;
+            }
+
+            &.next {
+                right: 0;
+            }
+
+            i {
+                color: $brand-primary;
+            }
+        }
+    }
+
+    .item {
+        h2 {
+            text-align: center;
+            font-size: 21px;
+            line-height: 36px;
+            margin-bottom: 0;
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 3px;
+
+            th,
+            td {
+                border-top: 0;
+                text-align: center;
+            }
+            th {
+                border-bottom: 0;
+            }
+            td {
+                background: #f1f1f1;
+                font-size: 18px;
+                line-height: 18px;
+                padding: 0;
+
+                a {
+                    font-weight: bold;
+                    color: $gray-light;
+                    display: block;
+                    padding: 11px 8px;
+                    position: relative;
+                    z-index: 1;
+
+                    &:hover {
+                        background: #fffbe9;
+                        text-decoration: none;
+                    }
+                }
+
+                &.active {
+                    background: #fcc904;
+
+                    a {
+                        color: #fff;
+
+                        &:hover {
+                            background-color: #daad00;
+                        }
+                    }
+
+                }
+
+                &.hasevents a:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 0 0 10px 10px;
+                    border-color: transparent transparent #daae00 transparent;
+                    z-index: 2;
+                }
+
+                &.muted {
+                    background-color: #fff;
+
+                    a {
+                        color: #e2e2e2;
+
+                        &:hover {
+                            color: $gray-light;
+                        }
+                    }
+
+                }
+
+                &.hasevents.muted a:after {
+                    border-color: transparent transparent #EFDB97 transparent;
+                }
+
+                &.today a {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

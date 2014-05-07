@@ -4,8 +4,8 @@
     {{ block.super }}
     {% if forms.user.non_field_errors %}
         <div class="row">
-            <div class="span12">
-                <div class="alert">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{forms.user.non_field_errors}}
                 </div>
@@ -14,8 +14,8 @@
     {% endif %}
     {% if forms.profile.non_field_errors %}
         <div class="row">
-            <div class="span12">
-                <div class="alert">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{forms.profile.non_field_errors}}
                 </div>
@@ -31,49 +31,51 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="span8 offset2 page-content">
-        <div class="popout">
-            <h1><span class="alt">Step 1:</span> My Profile</h1>
-            <div class="progress">
-                <div class="bar" style="width: 33%;"></div>
+    <div class="col-md-8 col-md-offset-2 page-content">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h1><span class="alt">Step 1:</span> My Profile</h1>
+                <div class="progress">
+                    <div class="bar" style="width: 33%;"></div>
+                </div>
+                <p class="progress-desc">Step 1 of 2</p>
+                <p>
+                    Welcome to the UCF Events system! It looks like this is your
+                    first time logging in.
+                    <br/>
+                    <strong>Please review your personal information and
+                    confirm that it is correct.</strong>
+                </p>
+                <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="id_first_name">First Name</label>
+                        <div class="controls col-md-9">
+                            {{ form.first_name }}
+                            {{ form.first_name.errors }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="id_last_name">Last Name</label>
+                        <div class="controls col-md-9">
+                            {{ form.last_name }}
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="id_email">Email</label>
+                        <div class="controls col-md-9">
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary">Save Profile</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <p class="progress-desc">Step 1 of 2</p>
-            <p>
-                Welcome to the UCF Events system! It looks like this is your
-                first time logging in.
-                <br/>
-                <strong>Please review your personal information and
-                confirm that it is correct.</strong>
-            </p>
-            <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
-                {% csrf_token %}
-                <div class="control-group">
-                    <label class="control-label" for="id_user-first_name">First Name</label>
-                    <div class="controls">
-                        {{ form.first_name }}
-                        {{ form.first_name.errors }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="id_user-last_name">Last Name</label>
-                    <div class="controls">
-                        {{ form.last_name }}
-                        {{ form.last_name.errors }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="id_user-email">Email</label>
-                    <div class="controls">
-                        {{ form.email }}
-                        {{ form.email.errors }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn btn-primary">Save Profile</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 </div>

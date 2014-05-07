@@ -3,7 +3,7 @@
 
 {% block content_tabs %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li>
                     <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
@@ -16,7 +16,7 @@
                 </li>
             </ul>
             <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
-                <i class="icon-trash"></i>Delete Calendar
+                <i class="fa fa-trash-o"></i>Delete Calendar
             </a>
         </div>
     </div>
@@ -24,11 +24,9 @@
 
 {% block content_body %}
     <div class="row page-content">
-        <div class="span9" id="subscriptions">
+        <div class="col-md-9" id="subscriptions">
 
-            <h2>Subscriptions</h2>
-
-            <h3>Your Subscribed Calendars</h3>
+            <h2>Your Subscribed Calendars</h2>
             <p>
                 Below are calendars that <em>{{ calendar.title }}</em> is currently subscribed to.
                 Events from the calendars listed below will automatically publish to your calendar and receive updates from the original when they are made.
@@ -56,7 +54,7 @@
                                 {% endif %}
                             </td>
                             <td class="calendar-subscriptions-actions">
-                                <a class="btn btn-mini" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="icon-remove-sign"></i> Unsubscribe</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-times-circle"></i> Unsubscribe</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -74,7 +72,7 @@
             </div>
             {% endif %}
 
-            <h3>Subscribing Calendars</h3>
+            <h2>Subscribing Calendars</h2>
             <p>
                 Below are calendars that are subscribed to <em>{{ calendar.title }}</em>.  These calendars will automatically receive copies of events you publish.
             </p>

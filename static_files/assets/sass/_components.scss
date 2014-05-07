@@ -1,0 +1,79 @@
+/* Buttons */
+.btn.disabled {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+}
+.btn-mini {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+
+/* Panels */
+.panel-body {
+    padding: 15px 30px;
+}
+
+
+/* Dropdowns */
+.dropdown {
+    &.open a.btn.dropdown-toggle {
+        background-image: none;
+        outline: 0 none;
+    }
+
+    li i {
+        padding-right: 6px;
+    }
+}
+.dropdown-menu {
+    max-height: 270px;
+    overflow-y: scroll;
+
+    &.dropdown-menu-form {
+        padding: 8px;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 4px;
+        }
+    }
+
+    li {
+        &.dropdown-header {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 11px;
+        }
+    }
+}
+
+
+/* Modals */
+.modal {
+    padding-top: $ucf-header-height;
+
+    h2 {
+        font-weight: bold;
+        line-height: 30px;
+
+        .alt {
+            font-weight: 300;
+        }
+    }
+}
+.modal-header .object-type,
+.modal-footer .object-type {
+    text-transform: capitalize;
+}
+
+
+/* Pagination */
+.pagination {
+    margin-top: 30px;
+}
+
+
+/* Wells */
+.well-empty {
+    padding: 60px 30px;
+}

@@ -1,10 +1,6 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
 
-{% block content_title_icon %}
-    <i class="icon-copy" id="page-title-icon"></i>
-{% endblock %}
-
 {% block content_title %}
     <h1>Copy Event: <span class="alt">{{ event.title }}</span></h1>
 {% endblock %}
@@ -31,7 +27,7 @@
 
 {% block content_form_footer %}
     <button class="btn btn-primary" type="submit">Copy Event to Calendar(s)</button>
-    <a href="{% url 'event' pk=event.id slug=event.slug %}" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'event' pk=event.id slug=event.slug %}" class="btn btn-default" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

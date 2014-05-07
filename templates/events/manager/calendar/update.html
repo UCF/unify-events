@@ -5,18 +5,14 @@
     {{ block.super }}
     {% if form.non_field_errors %}
         <div class="row">
-            <div class="span12">
-                <div class="alert">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
                     <strong>Error: </strong>
                     {{ form.non_field_errors }}
                 </div>
             </div>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block content_title_icon %}
-    <i class="icon-pencil" id="page-title-icon"></i>
 {% endblock %}
 
 {% block content_title %}
@@ -30,7 +26,7 @@
 
 {% block content_subheader %}
     <div class="row">
-        <div class="span12 subtitle-backlink-wrap">
+        <div class="col-md-12 subtitle-backlink-wrap">
             <a class="subtitle-backlink" href="{% url 'dashboard' pk=calendar.pk %}">&laquo; Back to Manager View</a>
         </div>
     </div>
@@ -38,7 +34,7 @@
 
 {% block content_tabs %}
     <div class="row">
-        <div class="span12">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li>
                     <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
@@ -51,7 +47,7 @@
                 </li>
             </ul>
             <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
-                <i class="icon-trash"></i>Delete Calendar
+                <i class="fa fa-trash-o"></i>Delete Calendar
             </a>
         </div>
     </div>
@@ -59,31 +55,33 @@
 
 {% block content_body %}
     <div class="row page-content">
-        <div class="span9" id="calendar-info">
-            <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal form-tabbed span9">
+        <div class="col-md-12" id="calendar-info">
+            <h2>Calendar Info</h2>
+            <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal">
                 {% csrf_token %}
-                <h2>Calendar Info</h2>
-                <div class="control-group large">
-                    <label class="control-label" for="id_title">Calendar Name</label>
-                    <div class="controls">
-                        {{ form.title|add_class:"span5"|attr:"placeholder:Enter a calendar name..." }}
+                <div class="form-group large">
+                    <label class="control-label col-md-3" for="id_title">Calendar Name</label>
+                    <div class="controls col-md-6">
+                        {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
                         {{ form.title.errors }}
                     </div>
                 </div>
-                <div class="control-group large">
-                    <label class="control-label" for="id_description">Description</label>
-                    <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-                    <div class="controls">
-                        {{ form.description|add_class:"span5" }}
+                <div class="form-group large">
+                    <div class="control-label-group col-md-3">
+                        <label class="control-label" for="id_description">Description</label>
+                        <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
+                    </div>
+                    <div class="controls col-md-6">
+                        {{ form.description|add_class:"form-control" }}
                         {{ form.description.errors }}
                     </div>
                 </div>
                 {% for field in form.hidden_fields %}
                     {{ field }}
                 {% endfor %}
-                <div class="control-group large">
-                    <div class="controls">
-                        <button class="btn btn-primary" type="submit">Update Settings</button>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Update Settings</button>
                     </div>
                 </div>
             </form>

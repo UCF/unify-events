@@ -1,0 +1,354 @@
+/* Frontend Calendar View - Base */
+ul {
+    &.event-list {
+        margin-bottom: 30px;
+        list-style-type: none;
+        margin-left: 0;
+    }
+    &.event-list li {
+        background-color: #f1f1f1;
+        position: relative;
+        margin-bottom: 5px;
+        padding: 5px 0 20px 30px;
+        overflow: auto;
+
+        &:after { /* Because border-left on the li ignores z-index? */
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 30px;
+            background-color: #666;
+        }
+
+        &:hover {
+            background-color: #fffbe9;
+
+            .event-content {
+                text-decoration: none;
+
+                h5 {
+                    color: #7c6b27;
+                }
+            }
+        }
+
+        .event-content {
+            display: block;
+            margin-left: 20px;
+            padding-right: 20px;
+
+            img {
+                display: block;
+                float: left;
+                width: 100px;
+                height: 100px;
+                background-color: #666;
+                margin: 0 20px 5px 0;
+            }
+
+            h5 {/* Room for event time */
+                margin-right: 100px;
+                margin-bottom: 0;
+            }
+
+            .location,
+            .calendar {
+                color: #666;
+                font-size: 13px;
+                margin-bottom: 5px;
+                display: block;
+                margin-right: 100px; /* Room for event time */
+            }
+
+            .description {
+                display: block;
+                font-size: 12px;
+                line-height: 18px;
+            }
+
+            .dtstart {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 15px 0;
+                width: 100px;
+                background-color: #fff;
+                font-size: 20px;
+                font-weight: 300;
+                text-align: right;
+            }
+        }
+
+        .category {
+            position: absolute;
+            left: 0;
+            bottom: -20px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 30px;
+            z-index: 3;
+
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            -webkit-transform-origin: 0 0;
+            -moz-transform-origin: 0 0;
+            -ms-transform-origin: 0 0;
+            transform-origin: 0 0;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -ms-transform: rotate(270deg);
+            transform: rotate(270deg);
+        }
+    }
+
+    &.event-list-condensed {
+        list-style-type: none;
+        width: 100%;
+        margin-top: 4px;
+
+        li {
+            text-overflow: ellipsis;
+            width: 114px;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 11px;
+            line-height: 23px;
+
+            time {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
+/* Frontend Calendar View - Day, Week */
+#calendar-events-day h2,
+#calendar-events-week h2 {
+    margin-bottom: 20px;
+}
+
+#calendar-events-day h3,
+#calendar-events-week h3 {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 300;
+}
+
+
+/* Frontend Calendar View - Month */
+#calendar-events-month {
+    h2 {
+        text-align: center;
+        font-size: 24.5px;
+        line-height: 40px;
+    }
+    .calendar-large h2 {
+        display: none;
+    }
+}
+
+#month-toggle {
+    margin: 15px 0 0 0;
+    width: 280px;
+    position: relative;
+    top: 0;
+    left: 0;
+
+    select {
+        &#id_year {
+            width: 85px;
+        }
+
+        &#id_month {
+            width: 125px;
+        }
+    }
+}
+
+
+/* Frontend Calendar View - Year */
+#calendar-events-year h2 {
+    text-align: center;
+}
+
+
+/* Frontend Events - by Category, Tag, Search Term */
+#term-events ul.event-list li .event-content .dtstart {
+    background-color: transparent;
+    width: 100%;
+    position: static;
+    text-align: left;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 15px 0 0 0;
+}
+#term-events ul.event-list li .event-content .location,
+#term-events ul.event-list li .event-content .calendar {
+    margin-right: 0;
+}
+#term-events ul.event-list li .event-content .calendar {
+    padding-top: 10px;
+}
+
+
+/* Frontend Single Event View */
+
+// Body
+#page-title-wrap .event-date {
+    clear: both;
+    margin-bottom: 20px;
+
+    .event-single-date,
+    .event-single-time {
+        font-size: 20px;
+    }
+    .event-single-date {
+        font-weight: bold;
+        color: #CC0000;
+    }
+}
+
+#event-single {
+    .event-schedule {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+}
+
+#event-single h2,
+#event-single-sidebar h2,
+#event-single .event-single-subheader,
+#event-single-sidebar span {
+    font-weight: normal;
+    font-size: 17.5px;
+    line-height: 20px;
+}
+
+#event-single h2.alt,
+#event-single-sidebar h2.alt {
+    width: 50%;
+    float: left;
+}
+
+
+// Sidebar
+#event-single-sidebar span,
+#event-single-sidebar h2 {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+}
+
+#event-single hr,
+#event-single-sidebar hr {
+    border-width: 3px 0;
+}
+
+#event-single-sidebar {
+    position: relative;
+
+    i {
+        color: $gray-light;
+    }
+
+    .event-single-datetime {
+        font-size: 30px;
+        line-height: 30px;
+        letter-spacing: -0.5px;
+        margin-top: 0;
+    }
+
+    .event-single-attime {
+        margin-bottom: 7px;
+        margin-top: 5px;
+    }
+
+    .event-single-until,
+    .event-single-occurring {
+        margin-top: 20px;
+    }
+
+    .event-contact {
+        overflow: hidden;
+    }
+
+    .event-location-title,
+    .event-contact-info {
+        display: block;
+        float: left;
+        width: 50%;
+        clear: right;
+    }
+
+    .event-location-title,
+    .event-contact-info span {
+        margin-bottom: 5px;
+    }
+
+    .event-location-title,
+    .event-contact-name {
+        font-weight: bold;
+    }
+
+    .event-location-widget {
+        margin-top: 10px;
+        margin-bottom: -10px;
+    }
+
+    .event-location-note {
+        font-size: 12px;
+        line-height: 16px;
+        margin-top: 20px;
+    }
+}
+
+
+// Event Meta (On Calendar, Category, Tag)
+#event-meta {
+    overflow: hidden;
+
+    > * {
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        display: block;
+        float: left;
+        width: 30%;
+        clear: left;
+        font-weight: normal;
+        margin-top: 10px;
+    }
+
+    .event-meta-calendar,
+    .event-meta-category,
+    .event-meta-tags {
+        display: block;
+        float: left;
+        width: 70%;
+        clear: right;
+        font-size: 17.5px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .event-meta-tags a {
+        display: block;
+        width: auto;
+        float: left;
+        font-size: 14px;
+        font-weight: normal;
+        color: #fff;
+        background: $gray-light;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+}

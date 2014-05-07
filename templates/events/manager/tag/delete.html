@@ -1,12 +1,8 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
 
-{% block content_title_icon %}
-    <i class="icon-trash" id="page-title-icon"></i>
-{% endblock %}
-
 {% block content_title %}
-    <h1>Delete Tag: <span class="alt">{{ tag.title }}</span></h1>
+    <h1>Delete Tag: <span class="alt">{{ tag.name }}</span></h1>
 {% endblock %}
 
 {% block content_form_action %}
@@ -21,7 +17,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-danger">Delete Tag</button>
-    <a href="{% url 'tag-update' pk=tag.pk %}" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'tag-update' pk=tag.pk %}" class="btn btn-default" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

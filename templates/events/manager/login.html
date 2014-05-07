@@ -3,63 +3,58 @@
 {% block content_body %}
 
     <section class="row">
-        <div class="span8 offset2">
-            <div class="popout">
-                <h1>Sign In</h1>
-                <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
-                {% if form.non_field_errors %}
-                <div class="alert alert-error">
-                    <strong>Error: </strong>
-                    <ul class="errors">
-                        {% for error in form.non_field_errors %}
-                        <li>{{error}}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-                <form class="form-horizontal" action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">
-                    {% csrf_token %}
-                    <div class="control-group {% if form.password.errors %}error{% endif %}">
-                        <label class="control-label" for="id_username">NID</label>
-                        <div class="controls">
-                            <input type="text" id="id_username" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
-                            {% if form.password.errors %}
-                                {% for error in form.password.errors %}
-                                <span class="help-inline">{{error}}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>Sign In</h1>
+                    <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error: </strong>
+                        <ul class="errors">
+                            {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    <div class="control-group {% if form.password.errors %}error{% endif %}">
-                        <label class="control-label" for="id_password">NID Password</label>
-                        <div class="controls">
-                            <input type="password" id="id_password" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
-                            {% if form.password.errors %}
-                                {% for error in form.password.errors %}
-                                <span class="help-inline">{{error}}</span>
-                                {% endfor %}
-                            {% endif %}
+                    {% endif %}
+                    <form class="form-horizontal" action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group {% if form.password.errors %}error{% endif %}">
+                            <label class="control-label col-md-3" for="id_username">NID</label>
+                            <div class="controls col-md-7">
+                                <input type="text" id="id_username" class="form-control" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+                                {{ form.username.errors }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="hidden" name="next" value="{{next}}" />
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        <div class="form-group {% if form.password.errors %}error{% endif %}">
+                            <label class="control-label col-md-3" for="id_password">NID Password</label>
+                            <div class="controls col-md-7">
+                                <input type="password" class="form-control" id="id_password" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
+                                {{ form.password.errors }}
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-md-offset-3">
+                                <input type="hidden" name="next" value="{{next}}" />
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="well">
+                        <p>
+                            <i class="fa fa-info-circle fa-lg"></i>
+                            If you are having trouble logging in, your NID password
+                            may be expired.
+                            <br/>
+                            Try resetting your password using the
+                            <a href="https://www.secure.net.ucf.edu/extranet/reset/validation.aspx?type=nid">Password Reset Tool</a>.
+                        </p>
+                        <p>
+                            If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.
+                        </p>
                     </div>
-                </form>
-                <div class="well">
-                    <p>
-                        <span class="help-icon"><i class="icon-info-sign"></i></span>
-                        If you are having trouble logging in, your NID password
-                        may be expired.
-                        <br/>
-                        Try resetting your password using the
-                        <a href="https://www.secure.net.ucf.edu/extranet/reset/validation.aspx?type=nid">Password Reset Tool</a>.
-                        <br/>
-                        If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.
-                    </p>
                 </div>
             </div>
         </div>
