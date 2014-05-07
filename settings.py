@@ -208,6 +208,7 @@ else:
 # designated fields (i.e. wysiwyg editor content).
 BLEACH_ALLOWED_TAGS = [
     'p',
+    'br',
     'b',
     'i',
     'u',
