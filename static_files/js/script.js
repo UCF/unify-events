@@ -1176,7 +1176,7 @@ var updateMonthviewDropdown = function() {
 /**
  * Sets the event contact information to the current user.
  **/
- var eventContactInfo = function() {
+var eventContactInfo = function() {
     $('#add-user-contact-info').click(function(event) {
         var button = $(this);
         event.preventDefault();
@@ -1185,8 +1185,54 @@ var updateMonthviewDropdown = function() {
             $('#id_event-contact_email').val(usersEmail);
         }
     });
- }
+}
 
+/**
+ * Add ability to make an entire table row a clickable link out,
+ * based on a provided link in the row.
+ **/
+var clickableTableRows = function() {
+    $('.table-clickable tr')
+        .css('cursor', 'pointer')
+        .on('click', function() {
+            var link = $(this).find('a.row-link:first-child').attr('href');
+            if (link) {
+                window.location.href = link;
+                return true;
+            }
+            else { return false; }
+        });
+}
+
+/**
+ * Force repaint of map widget on window resize
+ **/
+var resizeMapWidgets = function() {
+    var performResize = function() {
+        $('.map-widget').each(function() {
+            var widget = $(this),
+                widgetWrap = widget.parent('.map-widget-wrap'),
+                src = widget.attr('src'),
+                regex = /width=\d+\&height=\d+/;
+
+            var newSrc = src.replace(regex, 'width='+widgetWrap.width()+'&height='+widgetWrap.height());
+            console.log(newSrc);
+
+            widget.attr('src', newSrc);
+        });
+    }
+
+    performResize();
+
+    // on window resize (with timeout to prevent a crapload of Map requests)
+    var timeout = false;
+    $(window).on('resize', function() {
+        if (timeout !== false) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(performResize, 200);
+    });
+}
 
 
 $(document).ready(function() {
@@ -1213,4 +1259,6 @@ $(document).ready(function() {
     eventTagging();
     updateMonthviewDropdown();
     eventContactInfo();
+    clickableTableRows();
+    resizeMapWidgets();
 });

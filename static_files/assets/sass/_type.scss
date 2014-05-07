@@ -1,18 +1,38 @@
 /* Headings */
+h1,
+.h1 {
+    font-size: 40px;
+}
+
 h1 .alt,
+h1.alt,
+.h1.alt,
 h3 .alt,
-h4 .alt,
-h5 .alt,
-h6 .alt {
+h3.alt,
+.h3.alt {
     font-weight: 300;
 }
 
-h2 {
+h4 .alt,
+h4.alt,
+.h4.alt,
+h5 .alt,
+h5.alt,
+.h5.alt,
+h6 .alt,
+h6.alt,
+.h6.alt {
+    font-weight: 400;
+}
+
+h2,
+.h2 {
     letter-spacing: 0;
     font-weight: 300;
 
-    .alt {
-        font-weight: bold;
+    .alt,
+    &.alt {
+        font-weight: 500;
     }
 }
 
@@ -50,4 +70,21 @@ ul.errors,
 #messages ul,
 #static-base ul {
     padding-left: 15px;
+}
+
+
+/* Tables */
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td {
+    border-top: 2px dotted $table-border-color;
+}
+
+
+/* Horizontal Rules */
+hr {
+    border-top: 2px dotted $table-border-color;
 }

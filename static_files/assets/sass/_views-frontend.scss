@@ -222,57 +222,55 @@ ul {
 
 /* Frontend Single Event View */
 
-// Body
-#page-title-wrap .event-date {
-    clear: both;
-    margin-bottom: 20px;
+// Title/Subtitle
+#page-subtitle-event-date {
+    font-size: 24px;
+    line-height: 1.4em;
 
-    .event-single-date,
-    .event-single-time {
-        font-size: 20px;
-    }
     .event-single-date {
         font-weight: bold;
-        color: #CC0000;
+        color: #9e0b0f;
+        padding-right: 8px;
     }
 }
 
+
+// Body
+#event-single,
+#event-single-sidebar {
+    margin-top: 30px;
+}
 #event-single {
-    .event-schedule {
-        max-height: 400px;
+    .event-content {
+        font-size: 18px;
+        line-height: 1.3em;
+        margin-bottom: 35px;
+    }
+
+    .event-single-schedule-header {
+        color: $gray-light;
+        margin-bottom: 20px;
+    }
+
+    .event-single-schedule {
+        max-height: 300px;
         overflow-y: scroll;
+        margin-bottom: 30px;
     }
 }
 
-#event-single h2,
-#event-single-sidebar h2,
-#event-single .event-single-subheader,
-#event-single-sidebar span {
-    font-weight: normal;
-    font-size: 17.5px;
-    line-height: 20px;
+.map-widget-wrap {
+    height: 300px;
+    margin-bottom: 20px;
 }
-
-#event-single h2.alt,
-#event-single-sidebar h2.alt {
-    width: 50%;
-    float: left;
+.map-widget {
+    border: 0;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 
 // Sidebar
-#event-single-sidebar span,
-#event-single-sidebar h2 {
-    display: block;
-    width: 100%;
-    margin-top: 0;
-}
-
-#event-single hr,
-#event-single-sidebar hr {
-    border-width: 3px 0;
-}
-
 #event-single-sidebar {
     position: relative;
 
@@ -280,99 +278,76 @@ ul {
         color: $gray-light;
     }
 
-    .event-single-datetime {
-        font-size: 30px;
-        line-height: 30px;
-        letter-spacing: -0.5px;
-        margin-top: 0;
+    h2:first-child {
+        margin: 0 0 5px 0;
     }
 
-    .event-single-attime {
-        margin-bottom: 7px;
-        margin-top: 5px;
+    .social {
+        margin-bottom: 20px;
     }
 
-    .event-single-until,
-    .event-single-occurring {
-        margin-top: 20px;
+    .feeds-list {
+        float: left;
+        margin-left: 10px;
+        margin-top: 3px;
     }
+}
 
-    .event-contact {
-        overflow: hidden;
-    }
+.event-location-title {
+    margin-top: 0;
+}
 
-    .event-location-title,
-    .event-contact-info {
+.event-location-title,
+.event-location-url {
+    display: block;
+}
+
+.event-location-note {
+    margin-top: 15px;
+}
+
+.event-contact-email,
+.event-contact-phone {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px 0 0 0;
+    margin: 0;
+
+    &:before {
+        content: "•";
         display: block;
         float: left;
-        width: 50%;
-        clear: right;
-    }
-
-    .event-location-title,
-    .event-contact-info span {
-        margin-bottom: 5px;
-    }
-
-    .event-location-title,
-    .event-contact-name {
-        font-weight: bold;
-    }
-
-    .event-location-widget {
-        margin-top: 10px;
-        margin-bottom: -10px;
-    }
-
-    .event-location-note {
-        font-size: 12px;
-        line-height: 16px;
-        margin-top: 20px;
+        padding-right: 6px;
     }
 }
 
 
+
 // Event Meta (On Calendar, Category, Tag)
 #event-meta {
-    overflow: hidden;
+    dt {
+        text-align: left;
+    }
 
-    > * {
-        margin-bottom: 10px;
+    dd > * {
+        vertical-align: middle;
     }
 
     h3 {
-        display: block;
-        float: left;
-        width: 30%;
-        clear: left;
-        font-weight: normal;
-        margin-top: 10px;
+        margin: 5px 0;
     }
+}
 
-    .event-meta-calendar,
-    .event-meta-category,
-    .event-meta-tags {
-        display: block;
-        float: left;
-        width: 70%;
-        clear: right;
-        font-size: 17.5px;
-        font-weight: bold;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
+.event-meta-calendar,
+.event-meta-category,
+.event-meta-tags {
+    font-size: 17.5px;
+    font-weight: bold;
+}
 
-    .event-meta-tags a {
-        display: block;
-        width: auto;
-        float: left;
-        font-size: 14px;
-        font-weight: normal;
-        color: #fff;
-        background: $gray-light;
-        padding: 4px 10px;
-        border-radius: 4px;
-        margin-right: 8px;
-        margin-bottom: 8px;
-    }
+.event-meta-tags {
+    line-height: 1.6em;
 }
