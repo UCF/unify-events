@@ -253,7 +253,7 @@ ul {
     position: relative;
 
     i {
-        color: #8d8d8d;
+        color: $gray-light;
     }
 
     .event-single-datetime {
@@ -345,7 +345,7 @@ ul {
         font-size: 14px;
         font-weight: normal;
         color: #fff;
-        background: #8d8d8d;
+        background: $gray-light;
         padding: 4px 10px;
         border-radius: 4px;
         margin-right: 8px;

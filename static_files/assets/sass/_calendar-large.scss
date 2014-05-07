@@ -92,7 +92,7 @@ $calendar-grid-width: 14.285%;
             > a.date {
                 font-size: 24px;
                 font-weight: 400;
-                color: #8d8d8d;
+                color: $gray-light;
                 padding: 0 5px;
                 position: absolute;
                 top: 0;
@@ -107,7 +107,7 @@ $calendar-grid-width: 14.285%;
             > .holiday {
                 font-size: 12px;
                 font-weight: 500;
-                color: #8d8d8d;
+                color: $gray-light;
                 display: block;
                 line-height: 14px;
                 padding: 12px 0 0 8px;
@@ -120,7 +120,7 @@ $calendar-grid-width: 14.285%;
             overflow: visible;
 
             > a.date {
-                color: #fcc904;
+                color: $ucf-gold;
             }
 
             > ul {
@@ -156,7 +156,7 @@ $calendar-grid-width: 14.285%;
             }
 
             &:hover > div > a.date {
-                background-color: #fcc904;
+                background-color: $ucf-gold;
             }
         }
     }
