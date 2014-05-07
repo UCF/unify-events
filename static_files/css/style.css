@@ -2663,8 +2663,8 @@ input[type="button"].btn-block {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("/static/assets/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("/static/assets/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/static/assets/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("/static/assets/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("/static/assets/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
+  src: url("/events/static/assets/bootstrap/assets/fonts/bootstrapglyphicons-halflings-regular.eot");
+  src: url("/events/static/assets/bootstrap/assets/fonts/bootstrapglyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/events/static/assets/bootstrap/assets/fonts/bootstrapglyphicons-halflings-regular.woff") format("woff"), url("/events/static/assets/bootstrap/assets/fonts/bootstrapglyphicons-halflings-regular.ttf") format("truetype"), url("/events/static/assets/bootstrap/assets/fonts/bootstrapglyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
 /* line 21, ../assets/bootstrap/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
   position: relative;
@@ -6271,8 +6271,8 @@ button.close {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("/static/assets/font-awesome-4.0.3/fonts//fontawesome-webfont.eot?v=4.0.3");
-  src: url("/static/assets/font-awesome-4.0.3/fonts//fontawesome-webfont.eot?#iefix&v=4.0.3") format("embedded-opentype"), url("/static/assets/font-awesome-4.0.3/fonts//fontawesome-webfont.woff?v=4.0.3") format("woff"), url("/static/assets/font-awesome-4.0.3/fonts//fontawesome-webfont.ttf?v=4.0.3") format("truetype"), url("/static/assets/font-awesome-4.0.3/fonts//fontawesome-webfont.svg?v=4.0.3#fontawesomeregular") format("svg");
+  src: url("/events/static/assets/font-awesome-4.0.3/fonts/fontawesome-webfont.eot?v=4.0.3");
+  src: url("/events/static/assets/font-awesome-4.0.3/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3") format("embedded-opentype"), url("/events/static/assets/font-awesome-4.0.3/fonts/fontawesome-webfont.woff?v=4.0.3") format("woff"), url("/events/static/assets/font-awesome-4.0.3/fonts/fontawesome-webfont.ttf?v=4.0.3") format("truetype"), url("/events/static/assets/font-awesome-4.0.3/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 /* line 4, ../assets/font-awesome-4.0.3/scss/_core.scss */
@@ -8034,15 +8034,17 @@ a:not(.btn) > i {
 a:hover > i {
   text-decoration: none; }
 
-/* line 38, ../assets/sass/_type.scss */
+/* Icons */
+/* line 40, ../assets/sass/_type.scss */
 i + a:not(.btn) {
   padding-left: 6px; }
 
-/* line 42, ../assets/sass/_type.scss */
+/* Lists */
+/* line 46, ../assets/sass/_type.scss */
 ul {
   padding-left: 0; }
 
-/* line 45, ../assets/sass/_type.scss */
+/* line 49, ../assets/sass/_type.scss */
 ul.errors,
 #messages ul,
 #static-base ul {
@@ -8389,7 +8391,7 @@ ul.errorlist {
       /* line 54, ../assets/sass/_calendar-small.scss */
       .calendar-slider .item .table td a {
         font-weight: bold;
-        color: #8d8d8d;
+        color: #999999;
         display: block;
         padding: 11px 8px;
         position: relative;
@@ -8428,7 +8430,7 @@ ul.errorlist {
           color: #e2e2e2; }
           /* line 101, ../assets/sass/_calendar-small.scss */
           .calendar-slider .item .table td.muted a:hover {
-            color: #8d8d8d; }
+            color: #999999; }
       /* line 108, ../assets/sass/_calendar-small.scss */
       .calendar-slider .item .table td.hasevents.muted a:after {
         border-color: transparent transparent #EFDB97 transparent; }
@@ -8521,7 +8523,7 @@ ul.errorlist {
       .calendar-grid > li > div > a.date {
         font-size: 24px;
         font-weight: 400;
-        color: #8d8d8d;
+        color: #999999;
         padding: 0 5px;
         position: absolute;
         top: 0;
@@ -8534,7 +8536,7 @@ ul.errorlist {
       .calendar-grid > li > div > .holiday {
         font-size: 12px;
         font-weight: 500;
-        color: #8d8d8d;
+        color: #999999;
         display: block;
         line-height: 14px;
         padding: 12px 0 0 8px; }
@@ -8545,7 +8547,7 @@ ul.errorlist {
       overflow: visible; }
       /* line 122, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li:hover > div > a.date {
-        color: #fcc904; }
+        color: #ffc904; }
       /* line 126, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
@@ -8573,7 +8575,7 @@ ul.errorlist {
       font-weight: bold; }
     /* line 158, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li.today:hover > div > a.date {
-      background-color: #fcc904; }
+      background-color: #ffc904; }
 
 /* Body */
 /* line 2, ../assets/sass/_layout.scss */
@@ -9327,7 +9329,7 @@ ul.event-list-condensed {
   position: relative; }
   /* line 255, ../assets/sass/_views-backend.scss */
   #event-single-sidebar i {
-    color: #8d8d8d; }
+    color: #999999; }
   /* line 259, ../assets/sass/_views-backend.scss */
   #event-single-sidebar .event-single-datetime {
     font-size: 30px;
@@ -9404,7 +9406,7 @@ ul.event-list-condensed {
     font-size: 14px;
     font-weight: normal;
     color: #fff;
-    background: #8d8d8d;
+    background: #999999;
     padding: 4px 10px;
     border-radius: 4px;
     margin-right: 8px;
