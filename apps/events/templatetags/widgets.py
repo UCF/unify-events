@@ -16,6 +16,7 @@ from ordereddict import OrderedDict
 
 from events.models import Calendar
 from events.models import State
+from events.models import Category
 from events.models.event import map_event_range
 import calendar as calgenerator
 
@@ -199,6 +200,26 @@ def social_btns(url, page_title):
     }
 
     template = loader.get_template('events/widgets/social-btns.html')
+    html = template.render(Context(context))
+
+    return html
+
+
+@register.simple_tag
+def category_filters(calendar):
+    """
+    Creates a list of categories, linking out to the Events in Calendar
+    by Category view for the specified calendar.
+    """
+    categories = Category.objects.all()
+    calendar = get_object_or_404(Calendar, pk=calendar)
+
+    context = {
+        'categories': categories,
+        'calendar': calendar
+    }
+
+    template = loader.get_template('events/widgets/category-filters.html')
     html = template.render(Context(context))
 
     return html

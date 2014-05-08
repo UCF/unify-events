@@ -208,6 +208,7 @@ nav #navinner {
 /* Sidebar */
 .social {
     overflow: hidden;
+    margin-bottom: 20px;
 
     a {
         background-image: url('../../static/img/social-share.png');
@@ -232,7 +233,10 @@ nav #navinner {
 }
 
 .feeds-list {
-    margin-left: 0;
+    float: left;
+    margin-left: 10px;
+    margin-top: 3px;
+    margin-bottom: 20px;
 
     a {
         display: inline-block;
@@ -257,6 +261,11 @@ nav #navinner {
         &.xml { background-position: 6px -121px; }
         &.json { background-position: 6px -93px; }
     }
+}
+
+.category-filter-list {
+    list-style-type: none;
+    margin-bottom: 20px;
 }
 
 
