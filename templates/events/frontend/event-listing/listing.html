@@ -28,7 +28,7 @@
                         {% if start_date %}</h4>{% else %}</h3>{% endif %}
                     <span class="location">{{ event_instance.location }}</span>
                     <span class="description">
-                        {{ event_instance.event.description|striptags|truncatewords:160 }}
+                        {{ event_instance.event.description|striptags|truncatewords:60 }}
                     </span>
                     <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
                         {% if not start_date %}

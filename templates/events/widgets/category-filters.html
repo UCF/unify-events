@@ -1,0 +1,6 @@
+{% load widgets %}
+<ul class="category-filter-list">
+	{% for category in categories %}
+	<li><a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}">{{ category.title }}</a></li>
+	{% endfor %}
+</ul>

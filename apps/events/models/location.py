@@ -29,7 +29,7 @@ class Location(TimeCreatedModified):
         parameters, if the url is a valid map.ucf.edu permalink.
         """
         widget_url = False
-        widget_url_base = "//map.ucf.edu/widget?title=&width=300&height=300&illustrated=n&zoom=14&building_id="
+        widget_url_base = "//map.ucf.edu/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
         location_id = None
         if "map.ucf.edu" in self.url:
             parsed_url = urlparse.urlparse(self.url)
