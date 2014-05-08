@@ -24,7 +24,7 @@
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         </div>
         <aside class="col-md-4 page-sidebar" id="calendar-events-sidebar">
-            <h2>Feeds</h2>
+            <h2 class="h4 alt pull-left">Feeds</h2>
             {% feed_btns url=request.build_absolute_uri %}
         </aside>
     </div>
