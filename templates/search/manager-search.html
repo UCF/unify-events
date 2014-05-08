@@ -5,9 +5,13 @@
 
 {% block search_nav %}
 
-{% with 'q='|add:request.GET.q as params %}
-{% include_esi_template 'esi/manager-search-nav.html' params %}
-{% endwith %}
+{% if request.GET.q %}
+    {% with 'q='|add:request.GET.q as params %}
+    {% include_esi_template 'esi/manager-search-nav.html' params %}
+    {% endwith %}
+{% else %}
+    {% include_esi_template 'esi/manager-search-nav.html' 'q=' %}
+{% endif %}
 
 <form method="GET" action=".">
     <div class="row">

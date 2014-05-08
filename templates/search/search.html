@@ -20,9 +20,13 @@
     <div class="col-md-12 page-content" id="search">
         {% block search_nav %}
 
-        {% with 'q='|add:request.GET.q as params %}
-        {% include_esi_template 'esi/search-nav.html' params %}
-        {% endwith %}
+        {% if request.GET.q %}
+            {% with 'q='|add:request.GET.q as params %}
+            {% include_esi_template 'esi/search-nav.html' params %}
+            {% endwith %}
+        {% else %}
+            {% include_esi_template 'esi/search-nav.html' 'q=' %}
+        {% endif %}
 
         <form method="GET" action=".">
             <div class="row">
