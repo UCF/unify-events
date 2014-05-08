@@ -131,9 +131,11 @@ vevent
             </span>
 
             {% if not event_instance.location.get_map_widget_url %}
-            <span class="event-location-url url">
-                <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
-            </span>
+                {% if event_instance.location.url %}
+                <span class="event-location-url url">
+                    <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
+                </span>
+                {% endif %}
             {% else %}
             <span class="event-location-url">
                 <a href="#event-location-map">[ View Map ]</a>
