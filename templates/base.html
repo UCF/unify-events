@@ -58,47 +58,7 @@
         {% endblock %}
 
         {% block navbar %}
-        <div class="fullwidth" id="navwrap">
-            <nav class="container">
-                <div class="row">
-                    <div class="col-md-12" id="navinner">
-                        <div class="user">
-                            <i class="fa fa-user"></i>
-                            {% if user.is_authenticated %}
-                            Hi, <strong>{{user.first_name}}</strong>
-                            {% else %}
-                            Hi, <strong>Guest</strong>
-                            {% endif %}
-                        </div>
-                        {% include_esi_template 'esi/header.html' %}
-                        <!-- Secondary actions that require less attention go here. -->
-                        <ul id="actions-secondary">
-                            {% if user.is_authenticated %}
-                            <li>
-                                <i class="fa fa-cog"></i>
-                                <a href="{% url 'profile-settings' %}">
-                                    Settings
-                                </a>
-                            </li>
-                            <li>
-                                <i class="fa fa-power-off"></i>
-                                <a href="{% url 'accounts-logout' %}">
-                                    Logout
-                                </a>
-                            </li>
-                            {% else %}
-                            <li>
-                                <i class="fa fa-sign-in"></i>
-                                <a href="{% url 'accounts-login' %}">
-                                    Sign In
-                                </a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+            {% include_esi_template 'esi/header.html' %}
         {% endblock %}
 
         <!-- Content -->

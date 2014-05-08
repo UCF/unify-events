@@ -1,88 +1,128 @@
-{% if user.is_authenticated %}
-    {% if first_login %}
-    {% else %}
-    <!-- Primary actions go here - actions that should grab the user's attention. -->
-    <ul id="actions-primary">
-        {% if user.is_superuser %}
-        <li class="dropdown">
-            <i class="fa fa-key"></i>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-list' %}">
-                Admin Menu
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li class="dropdown-header">Moderate</li>
-                <li role="presentation">
-                    <a href="{% url 'location-list' %}">
-                        <i class="fa fa-map-marker"></i>
-                        Locations
-                    </a>
-                </li>
-                <li role="presentation">
-                    <a href="{% url 'category-list' %}">
-                        <i class="fa fa-tag"></i>
-                        Categories
-                    </a>
-                </li>
-                <li role="presentation">
-                    <a href="{% url 'tag-list' %}">
-                        <i class="fa fa-tags"></i>
-                        Tags
-                    </a>
-                </li>
-                <li class="divider" role="presentation"></li>
-                <li role="presentation">
-                    <a href="{% url 'profile-list' %}">
-                        <i class="fa fa-group"></i>
-                        All Users
-                    </a>
-                </li>
-                <li role="presentation">
-                    <a href="{% url 'calendar-list' %}">
-                        <i class="fa fa-calendar"></i>
-                        All Calendars
-                    </a>
-                </li>
-            </ul>
-        </li>
-        {% endif %}
-        <li class="dropdown">
-            <i class="fa fa-calendar"></i>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' %}">
-                My Calendars
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <li role="presentation">
-                    <a href="{% url 'dashboard' %}">View All</a>
-                </li>
-                <li class="divider" role="presentation"></li>
-            {% if user.calendars %}
-                {% for calendar in user.calendars %}
-                    <li role="presentation"{% if current_calendar == calendar %} class="selected"{% endif %}>
-                        <a href="{% url 'dashboard' pk=calendar.pk %}" class="name">
-                            <i class="fa fa-calendar"></i> {{ calendar.title }}
+<div class="fullwidth" id="navwrap">
+    <nav class="container">
+        <div class="row">
+            <div class="col-md-12" id="navinner">
+                <div class="user">
+                    <i class="fa fa-user"></i>
+                    {% if user.is_authenticated %}
+                    Hi, <strong>{{ user.first_name }}</strong>
+                    {% else %}
+                    Hi, <strong>Guest</strong>
+                    {% endif %}
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if first_login %}
+                    {% else %}
+                    <ul id="actions-primary">
+                        {% if user.is_superuser %}
+                        <li class="dropdown">
+                            <i class="fa fa-key"></i>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-list' %}">
+                                Admin Menu
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">Moderate</li>
+                                <li role="presentation">
+                                    <a href="{% url 'location-list' %}">
+                                        <i class="fa fa-map-marker"></i>
+                                        Locations
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="{% url 'category-list' %}">
+                                        <i class="fa fa-tag"></i>
+                                        Categories
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="{% url 'tag-list' %}">
+                                        <i class="fa fa-tags"></i>
+                                        Tags
+                                    </a>
+                                </li>
+                                <li class="divider" role="presentation"></li>
+                                <li role="presentation">
+                                    <a href="{% url 'profile-list' %}">
+                                        <i class="fa fa-group"></i>
+                                        All Users
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="{% url 'calendar-list' %}">
+                                        <i class="fa fa-calendar"></i>
+                                        All Calendars
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                        <li class="dropdown">
+                            <i class="fa fa-calendar"></i>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' %}">
+                                My Calendars
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li role="presentation">
+                                    <a href="{% url 'dashboard' %}">View All</a>
+                                </li>
+                                <li class="divider" role="presentation"></li>
+                            {% if user.calendars %}
+                                {% for calendar in user.calendars %}
+                                    <li role="presentation"{% if current_calendar == calendar %} class="selected"{% endif %}>
+                                        <a href="{% url 'dashboard' pk=calendar.pk %}" class="name">
+                                            <i class="fa fa-calendar"></i> {{ calendar.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                <li class="divider" role="presentation"></li>
+                             {% endif %}
+                                <li role="presentation">
+                                    <a href="{% url 'calendar-create' %}"><i class="fa fa-plus"></i> Create New Calendar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if user.calendars %}
+                        <li id="create-event">
+                            <span class="fa-stack fa-md">
+                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <a href="{% url 'event-create' %}">
+                                Create Event
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
+
+                <ul id="actions-secondary">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <i class="fa fa-cog"></i>
+                        <a href="{% url 'profile-settings' %}">
+                            Settings
                         </a>
                     </li>
-                {% endfor %}
-                <li class="divider" role="presentation"></li>
-             {% endif %}
-                <li role="presentation">
-                    <a href="{% url 'calendar-create' %}"><i class="fa fa-plus"></i> Create New Calendar</a>
-                </li>
-            </ul>
-        </li>
-        {% if user.calendars %}
-        <li id="create-event">
-            <span class="fa-stack fa-md">
-                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
-            <a href="{% url 'event-create' %}">
-                Create Event
-            </a>
-        </li>
-        {% endif %}
-    </ul>
-    {% endif %}
-{% endif %}
+                    <li>
+                        <i class="fa fa-power-off"></i>
+                        <a href="{% url 'accounts-logout' %}">
+                            Logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <i class="fa fa-sign-in"></i>
+                        <a href="{% url 'accounts-login' %}">
+                            Sign In
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
