@@ -8588,28 +8588,30 @@ ul.errorlist {
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
         width: 200px;
+        max-height: 200px;
+        overflow-y: scroll;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
-        /* line 131, ../assets/sass/_calendar-large.scss */
+        /* line 133, ../assets/sass/_calendar-large.scss */
         .calendar-grid > li:hover > div > ul > li {
           width: 184px; }
-      /* line 136, ../assets/sass/_calendar-large.scss */
+      /* line 138, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li:hover > div:after {
         display: none; }
-    /* line 139, ../assets/sass/_calendar-large.scss */
+    /* line 141, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li.muted > div {
       background-color: #fff; }
-      /* line 142, ../assets/sass/_calendar-large.scss */
+      /* line 144, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li.muted > div:after {
         background-color: #fff; }
-      /* line 146, ../assets/sass/_calendar-large.scss */
+      /* line 148, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li.muted > div > a.date {
         color: #e2e2e2; }
-    /* line 152, ../assets/sass/_calendar-large.scss */
+    /* line 154, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li.today > div > a.date {
       background-color: #a8a8a8;
       color: #fff;
       font-weight: bold; }
-    /* line 158, ../assets/sass/_calendar-large.scss */
+    /* line 160, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li.today:hover > div > a.date {
       background-color: #ffc904; }
 
@@ -8994,7 +8996,7 @@ ul.event-list li {
 ul.event-list-condensed {
   list-style-type: none;
   width: 100%;
-  margin-top: 4px; }
+  margin-top: 5px; }
   /* line 137, ../assets/sass/_views-frontend.scss */
   ul.event-list-condensed li {
     text-overflow: ellipsis;
