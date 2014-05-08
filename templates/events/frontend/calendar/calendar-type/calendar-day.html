@@ -20,7 +20,7 @@
                         </h4>
                         <span class="location">{{ event_instance.location }}</span>
                         <span class="description">
-                            {{ event_instance.event.description|striptags|truncatewords:160 }}
+                            {{ event_instance.event.description|striptags|truncatewords:60 }}
                         </span>
                         <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
                             {% if event_instance.start.time and event_instance.end.time %}
