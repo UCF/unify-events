@@ -47,6 +47,10 @@ nav #navinner {
     }
 
     .user {
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         float: left;
         padding-right: 30px;
         padding-top: 5px;
