@@ -67,9 +67,11 @@
                 <li class="{% if state == 'posted' %} active{% endif %}">
                     <a href="{% url 'dashboard-state' state='posted' %}">Posted</a>
                 </li>
+                {% if show_rereview %}
                 <li class="{% if state == 'rereview' %} active{% endif %}">
                     <a href="{% url 'dashboard-state' state='rereview' %}">Re-Review ({{ rereview_count }})</a>
                 </li>
+                {% endif %}
                 <li class="{% if state == 'pending' %} active{% endif %}">
                     <a href="{% url 'dashboard-state' state='pending' %}">Pending ({{ pending_count }})</a>
                 </li>

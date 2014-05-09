@@ -22,6 +22,7 @@ from util import LDAPHelper
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
+from events.models import get_main_calendar
 from events.models import get_all_users_future_events
 from events.models import get_events_by_range
 from events.models import State
@@ -95,6 +96,7 @@ class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
             'posted_state': State.posted,
             'state': 'posted',
             'start_date': self.get_start_date(),
+            'show_rereview': get_main_calendar() in self.request.user.editable_calendars.all() or self.request.user.is_superuser
         }
 
         # merge context data

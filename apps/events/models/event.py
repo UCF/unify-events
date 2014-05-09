@@ -109,10 +109,16 @@ class State:
     which the events belong.
     """
     pending, posted, rereview = range(0, 3)
+    # All available choices
     choices = (
         (pending, 'pending'),
         (posted, 'posted'),
         (rereview, 'rereview')
+    )
+    # Choices only available to regular users (non-Superusers)
+    user_choices = (
+        (pending, 'pending'),
+        (posted, 'posted')
     )
 
     @classmethod
@@ -134,7 +140,7 @@ class Event(TimeCreatedModified):
     calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
     creator = models.ForeignKey(User, related_name='created_events', null=True)
     created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
-    state = models.SmallIntegerField(choices=State.choices, default=State.posted)
+    state = models.SmallIntegerField(choices=State.user_choices, default=State.posted)
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, blank=True)
