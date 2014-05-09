@@ -186,14 +186,14 @@ vevent
 // Show edit button only for editors
 var user_calendars = [{% include_esi_template "esi/user-calendar-ids.html" %}];
 if(user_calendars.length && user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1) {
-    $('#event-edit').show();
+    $('#event-edit').removeClass('hide');
 }
 
 // Show subscription button if user has calendars and the event isn't on their only calendar or
 // if the event is on their calendar and they have more than that one calendar to make a subscription too.
 if(user_calendars.length && (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) < 0 ||
                              (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1 && user_calendars.length > 1 ))) {
-    $('#event-subscription').show();
+    $('#event-subscription').removeClass('hide');
 }
 </script>
 {% endblock %}
