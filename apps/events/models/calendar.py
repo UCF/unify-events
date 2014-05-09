@@ -78,8 +78,8 @@ class Calendar(TimeCreatedModified):
         """
         Copy all future events to a new calendar.
         """
-        events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None, state=events.models.State.posted).distinct()
-        for event in events:
+        future_events = self.events.filter(event_instances__end__gte=datetime.now(), created_from=None, state=events.models.State.posted).distinct()
+        for event in future_events:
             calendar.import_event(event)
 
     def delete_subscribed_events(self, calendar):
