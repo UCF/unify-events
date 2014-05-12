@@ -249,14 +249,14 @@ nav #navinner {
         overflow: hidden;
         width: 10px;
         height: 33px;
-        background-color: $brand-primary;
+        background-color: $btn-default-bg;
         background-image: url('../../static/img/feeds.png');
         background-repeat: no-repeat;
         padding: 0 17px;
         border-radius: 20px;
 
         &:hover {
-            background-color: darken($brand-primary, 8%);
+            background-color: darken($btn-default-bg, 8%);
         }
 
         &.ical { background-position: 7px -25px; }
@@ -270,6 +270,10 @@ nav #navinner {
 .category-filter-list {
     list-style-type: none;
     margin-bottom: 20px;
+
+    li {
+        margin: 5px 0;
+    }
 }
 
 

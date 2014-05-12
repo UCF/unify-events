@@ -3,7 +3,38 @@
 <div class="row">
     <div class="col-md-8 sidebarfix page-content" id="{% block page_content_id %}calendar-events-default{% endblock %}">
         <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
-        {% include 'events/frontend/event-listing/listing.html' %}
+        {% if event_instances %}
+            {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
+
+            {% if not start_date %}
+            <ul class="event-list">
+            {% endif %}
+
+            {% for day in dates %}
+                {% if start_date %}
+                <span class="day-heading">{{ day.grouper }}</span>
+                <ul class="event-list">
+                {% endif %}
+
+                {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=day.list %}
+                {% include listing_templ %}
+                {% endwith %}
+
+                {% if start_date %}
+                </ul>
+                <hr/>
+                {% endif %}
+            {% endfor %}
+
+            {% if not start_date %}
+            </ul>
+            <hr/>
+            {% endif %}
+
+        {% else %}
+        <p>No events found.</p>
+        {% endif %}
+
         {% if list_type != 'upcoming' %}
         {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         {% endif %}

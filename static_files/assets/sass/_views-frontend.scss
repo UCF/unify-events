@@ -23,109 +23,87 @@
 
 
 /* Frontend Calendar View - Base */
+#calendar-base .page-content {
+    h2 {
+        margin-bottom: 30px;
+    }
+
+    .day-heading {
+        display: block;
+        font-size: 15px;
+        line-height: 1em;
+        margin-bottom: 10px;
+        margin-top: 30px;
+        color: $gray-light;
+        text-transform: uppercase;
+    }
+
+    hr:last-child {
+        display: none;
+    }
+}
+
 ul {
     &.event-list {
-        margin-bottom: 30px;
+        margin-bottom: 0;
         list-style-type: none;
         margin-left: 0;
-    }
-    &.event-list li {
-        background-color: #f1f1f1;
-        position: relative;
-        margin-bottom: 5px;
-        padding: 5px 0 20px 30px;
-        overflow: auto;
 
-        &:after { /* Because border-left on the li ignores z-index? */
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 30px;
-            background-color: #666;
-        }
+        li.event {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
 
-        &:hover {
-            background-color: #fffbe9;
+            .event-title {
+                line-height: 1em;
+                margin-top: 0;
+                font-weight: 400;
 
-            .event-content {
-                text-decoration: none;
-
-                h5 {
-                    color: #7c6b27;
+                i {
+                    font-size: 16px;
+                    vertical-align: top;
+                    color: $brand-primary;
                 }
             }
-        }
 
-        .event-content {
-            display: block;
-            margin-left: 20px;
-            padding-right: 20px;
-
-            img {
+            time,
+            .location {
                 display: block;
-                float: left;
-                width: 100px;
-                height: 100px;
-                background-color: #666;
-                margin: 0 20px 5px 0;
             }
 
-            h5 {/* Room for event time */
-                margin-right: 100px;
-                margin-bottom: 0;
-            }
-
-            .location,
-            .calendar {
-                color: #666;
-                font-size: 13px;
-                margin-bottom: 5px;
+            time {
                 display: block;
-                margin-right: 100px; /* Room for event time */
+                font-size: 20px;
+                line-height: 1em;
+                font-weight: bold;
+                margin-top: 0;
+                color: #000;
             }
 
             .description {
-                display: block;
-                font-size: 12px;
-                line-height: 18px;
+                margin-bottom: 0;
             }
 
-            .dtstart {
+            > a {
                 display: block;
                 position: absolute;
                 top: 0;
                 right: 0;
-                padding: 15px 0;
-                width: 100px;
-                background-color: #fff;
-                font-size: 20px;
-                font-weight: 300;
-                text-align: right;
+                bottom: 0;
+                left: 0;
             }
-        }
 
-        .category {
-            position: absolute;
-            left: 0;
-            bottom: -20px;
-            font-size: 11px;
-            font-weight: 500;
-            color: #fff;
-            text-transform: uppercase;
-            line-height: 30px;
-            z-index: 3;
-
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-            -webkit-transform-origin: 0 0;
-            -moz-transform-origin: 0 0;
-            -ms-transform-origin: 0 0;
-            transform-origin: 0 0;
-            -webkit-transform: rotate(270deg);
-            -moz-transform: rotate(270deg);
-            -ms-transform: rotate(270deg);
-            transform: rotate(270deg);
+            &:hover {
+                background-color: $gray-lighter;
+            }
+            &:hover .event-title a,
+            &:hover .event-title i {
+                color: $link-hover-color;
+            }
+            &:hover .event-title a {
+                text-decoration: underline;
+            }
         }
     }
 
@@ -154,13 +132,6 @@ ul {
 #calendar-events-day h2,
 #calendar-events-week h2 {
     margin-bottom: 20px;
-}
-
-#calendar-events-day h3,
-#calendar-events-week h3 {
-    font-size: 20px;
-    line-height: 30px;
-    font-weight: 300;
 }
 
 

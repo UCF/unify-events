@@ -1,77 +1,65 @@
 {% load humanize %}
+{% comment %}
+This partial template assumes that event_instances (a list of event instances)
+exists before the partial is included.
 
-{% if event_instances %}
-    {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
+Make sure to catch listing.html as a variable before checking if event_instances
+exists; i.e.:
 
-    {% if not start_date %}
-    <ul class="event-list">
-    {% endif %}
+    with listing_templ="events/frontend/event-listing/listing.html"
+        if event_instances:
+            include listing_templ
+        else:
+            print "No events found."
+        endif
+    endwith
+{% endcomment %}
 
-    {% for day in dates %}
-        {% if start_date %}
-        <h3>{{ day.grouper }}</h3>
-        <ul class="event-list">
+{% for event_instance in event_instances %}
+    <li class="event {{ event_instance.event.category.slug }}">
+        <h3 class="event-title">
+            <a class="summary" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</a>
+            {% if event_instance.is_recurring %}
+            <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
+            {% endif %}
+        </h3>
+
+        <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
+            {% if not start_date %}
+                on {{ event_instance.start.date }}
+            {% endif %}
+            {% if event_instance.start.time and event_instance.end.time %}
+                {% if not start_date %}
+                at 
+                {% endif %}
+                {{ event_instance.start|date:"f a" }}
+            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
+                All Day
+            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
+                until {{ event_instance.end|date:"f a" }}
+            {% else %}
+                All Day
+            {% endif %}
+            <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
+        </time>
+        {% if not start_date %}
+        <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
+            until {{ event_instance.end }}
+        </time>
         {% endif %}
 
-        {% for event_instance in day.list %}
-            <li class="event {{ event_instance.event.category.slug }}">
-                <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-                    <!-- if img -->
-                    <!--<img src="" alt="image" title="image" />-->
-                    <!-- endif -->
-                    {% if start_date %}<h4>{% else %}<h3>{% endif %}
-                        <span class="summary">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</span>
-                        {% if event_instance.is_recurring %}
-                        <i class="fa fa-repeat"></i>
-                        <span class="sr-only">(Recurring Event)</span>
-                        {% endif %}
-                        {% if start_date %}</h4>{% else %}</h3>{% endif %}
-                    <span class="location">{{ event_instance.location }}</span>
-                    <span class="description">
-                        {{ event_instance.event.description|striptags|truncatewords:60 }}
-                    </span>
-                    <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
-                        {% if not start_date %}
-                            on {{ event_instance.start.date }}
-                        {% endif %}
-                        {% if event_instance.start.time and event_instance.end.time %}
-                            {% if not start_date %}
-                            at 
-                            {% endif %}
-                            {{ event_instance.start|date:"f a" }}
-                        {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
-                            All Day
-                        {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
-                            until {{ event_instance.end|date:"f a" }}
-                        {% else %}
-                            All Day
-                        {% endif %}
-                        <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
-                    </time>
-                    {% if not start_date %}
-                    <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
-                        until {{ event_instance.end }}
-                    </time>
-                    {% endif %}
-                    {% if not calendar %}
-                    <span class="calendar">
-                        <i class="fa fa-calendar"></i> On calendar "{{ event_instance.event.calendar.title }}"
-                    </span>
-                    {% endif %}
-                </a>
-                <span class="category {{ event_instance.event.category.slug }}">{{ event_instance.event.category.title }}</span>
-            </li>
-        {% endfor %}
-
-        {% if start_date %}
-        </ul>
+        <span class="location h4 alt">{{ event_instance.location }}</span>
+        <p class="description">
+            {{ event_instance.event.description|striptags|truncatewords:60 }}
+        </p>
+        {% if not calendar %}
+        <span class="calendar">
+            <i class="fa fa-calendar"></i> On calendar "{{ event_instance.event.calendar.title }}"
+        </span>
         {% endif %}
-    {% endfor %}
 
-    {% if not start_date %}
-    </ul>
-    {% endif %}
-
-{% else %}
-<p>No events found.</p>
-{% endif %}
+        <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
+            <span class="sr-only">View Event</span>
+        </a>
+    </li>
+{% endfor %}

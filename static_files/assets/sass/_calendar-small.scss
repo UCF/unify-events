@@ -28,8 +28,9 @@
     .item {
         h2 {
             text-align: center;
-            font-size: 21px;
+            font-size: 17.5px;
             line-height: 36px;
+            font-weight: 500;
             margin-bottom: 0;
         }
 
@@ -44,15 +45,15 @@
             }
             th {
                 border-bottom: 0;
+                font-weight: 500;
             }
             td {
                 background: #f1f1f1;
-                font-size: 18px;
+                font-size: 16px;
                 line-height: 18px;
                 padding: 0;
 
                 a {
-                    font-weight: bold;
                     color: $gray-light;
                     display: block;
                     padding: 11px 8px;
@@ -66,13 +67,13 @@
                 }
 
                 &.active {
-                    background: #fcc904;
+                    background: #000;
 
                     a {
                         color: #fff;
 
                         &:hover {
-                            background-color: #daad00;
+                            color: $gray-light;
                         }
                     }
 
@@ -87,16 +88,22 @@
                     width: 0;
                     height: 0;
                     border-style: solid;
-                    border-width: 0 0 10px 10px;
-                    border-color: transparent transparent #daae00 transparent;
+                    border-width: 0 0 7px 7px;
+                    border-color: transparent transparent $gray-light transparent;
                     z-index: 2;
+                }
+                &.active.hasevents a:after {
+                    border-color: transparent transparent #000 transparent;
+                }
+                &.active.hasevents a:hover:after {
+                    border-color: transparent transparent $gray-light transparent;
                 }
 
                 &.muted {
                     background-color: #fff;
 
                     a {
-                        color: #e2e2e2;
+                        color: $gray-lighter;
 
                         &:hover {
                             color: $gray-light;
@@ -106,7 +113,7 @@
                 }
 
                 &.hasevents.muted a:after {
-                    border-color: transparent transparent #EFDB97 transparent;
+                    border-color: transparent transparent $gray-lighter transparent;
                 }
 
                 &.today a {
