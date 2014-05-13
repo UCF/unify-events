@@ -127,8 +127,6 @@ nav #navinner {
     position: relative;
 
     h1 {
-        display: block;
-        float: left;
         margin-bottom: 10px;
 
         a {
@@ -137,21 +135,28 @@ nav #navinner {
     }
 
     .edit-options {
-        list-style-type: none;
-        float: left;
-        margin-top: 22px;
-        margin-left: 15px;
+        margin-top: 20px;
+        margin-bottom: 0;
 
-        > li {
-            float: left;
-            margin-left: 10px;
+        > ul {
+            list-style-type: none;
+            float: right;
 
-            > a {
-                font-weight: bold;
-                color: $gray-light;
+            > li {
+                float: left;
+                margin-left: 15px;
 
-                > .caret {
-                    border-top: 4px solid $gray-light;
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                > a {
+                    font-weight: bold;
+                    color: $gray-light;
+
+                    > .caret {
+                        border-top: 4px solid $gray-light;
+                    }
                 }
             }
         }

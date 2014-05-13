@@ -16,21 +16,24 @@
 {% endblock %}
 
 {% block content_title %}
-    <h1>Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
-    <ul class="edit-options">
-        <li>
-            <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Live View</a>
-        </li>
-    </ul>
-{% endblock %}
-
-{% block content_subheader %}
-    <div class="row">
-        <div class="col-md-12 subtitle-backlink-wrap">
-            <a class="subtitle-backlink" href="{% url 'dashboard' pk=calendar.pk %}">&laquo; Back to Manager View</a>
-        </div>
+    <h1 class="col-md-9">Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
+    <div class="col-md-3 edit-options">
+        <ul>
+            <li>
+                <a href="{% url 'dashboard' pk=calendar.pk %}">
+                    Manager View
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
+                    <i class="fa fa-arrow-circle-right"></i>Live View
+                </a>
+            </li>
+        </ul>
     </div>
 {% endblock %}
+
+{% block content_subheader %}{% endblock %}
 
 {% block content_tabs %}
     <div class="row">

@@ -8731,75 +8731,78 @@ nav #navinner {
   position: relative; }
   /* line 129, ../assets/sass/_layout.scss */
   #page-title-wrap h1 {
-    display: block;
-    float: left;
     margin-bottom: 10px; }
-    /* line 134, ../assets/sass/_layout.scss */
+    /* line 132, ../assets/sass/_layout.scss */
     #page-title-wrap h1 a {
       color: inherit; }
-  /* line 139, ../assets/sass/_layout.scss */
+  /* line 137, ../assets/sass/_layout.scss */
   #page-title-wrap .edit-options {
-    list-style-type: none;
-    float: left;
-    margin-top: 22px;
-    margin-left: 15px; }
-    /* line 145, ../assets/sass/_layout.scss */
-    #page-title-wrap .edit-options > li {
-      float: left;
-      margin-left: 10px; }
-      /* line 149, ../assets/sass/_layout.scss */
-      #page-title-wrap .edit-options > li > a {
-        font-weight: bold;
-        color: #999999; }
+    margin-top: 20px;
+    margin-bottom: 0; }
+    /* line 141, ../assets/sass/_layout.scss */
+    #page-title-wrap .edit-options > ul {
+      list-style-type: none;
+      float: right; }
+      /* line 145, ../assets/sass/_layout.scss */
+      #page-title-wrap .edit-options > ul > li {
+        float: left;
+        margin-left: 15px; }
+        /* line 149, ../assets/sass/_layout.scss */
+        #page-title-wrap .edit-options > ul > li:first-child {
+          margin-left: 0; }
         /* line 153, ../assets/sass/_layout.scss */
-        #page-title-wrap .edit-options > li > a > .caret {
-          border-top: 4px solid #999999; }
+        #page-title-wrap .edit-options > ul > li > a {
+          font-weight: bold;
+          color: #999999; }
+          /* line 157, ../assets/sass/_layout.scss */
+          #page-title-wrap .edit-options > ul > li > a > .caret {
+            border-top: 4px solid #999999; }
 
 /* Page Subtitle */
-/* line 163, ../assets/sass/_layout.scss */
+/* line 168, ../assets/sass/_layout.scss */
 .page-subtitle {
   color: #999999;
   margin-top: 0;
   margin-bottom: 20px; }
 
-/* line 169, ../assets/sass/_layout.scss */
+/* line 174, ../assets/sass/_layout.scss */
 .subtitle-backlink-wrap {
   margin-top: -5px;
   margin-bottom: 25px; }
-  /* line 173, ../assets/sass/_layout.scss */
+  /* line 178, ../assets/sass/_layout.scss */
   .subtitle-backlink-wrap .subtitle-backlink {
     font-weight: bold;
     color: #999999; }
 
 /* Page Content - General */
-/* line 183, ../assets/sass/_layout.scss */
+/* line 188, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > * {
   /* This does dumb things to tables. Wrap tables in a div to accomodate */
   padding-right: 10px; }
-/* line 187, ../assets/sass/_layout.scss */
+/* line 192, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .modal {
   padding-right: 0; }
-/* line 191, ../assets/sass/_layout.scss */
+/* line 196, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > hr {
   padding-right: 0;
   margin-right: 10px; }
-/* line 196, ../assets/sass/_layout.scss */
+/* line 201, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .well {
   padding-right: 20px;
   margin-right: 10px; }
-/* line 201, ../assets/sass/_layout.scss */
+/* line 206, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .well-empty {
   padding-right: 30px; }
-/* line 206, ../assets/sass/_layout.scss */
+/* line 211, ../assets/sass/_layout.scss */
 .page-content .page-top-action {
   margin: 20px 0; }
 
 /* Sidebar */
-/* line 213, ../assets/sass/_layout.scss */
+/* line 218, ../assets/sass/_layout.scss */
 .social {
   overflow: hidden;
   margin-bottom: 20px; }
-  /* line 217, ../assets/sass/_layout.scss */
+  /* line 222, ../assets/sass/_layout.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -8812,32 +8815,32 @@ nav #navinner {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 230, ../assets/sass/_layout.scss */
+    /* line 235, ../assets/sass/_layout.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 231, ../assets/sass/_layout.scss */
+    /* line 236, ../assets/sass/_layout.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 232, ../assets/sass/_layout.scss */
+    /* line 237, ../assets/sass/_layout.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 233, ../assets/sass/_layout.scss */
+    /* line 238, ../assets/sass/_layout.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 234, ../assets/sass/_layout.scss */
+    /* line 239, ../assets/sass/_layout.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 235, ../assets/sass/_layout.scss */
+    /* line 240, ../assets/sass/_layout.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 239, ../assets/sass/_layout.scss */
+/* line 244, ../assets/sass/_layout.scss */
 .feeds-list {
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px; }
-  /* line 245, ../assets/sass/_layout.scss */
+  /* line 250, ../assets/sass/_layout.scss */
   .feeds-list a {
     display: inline-block;
     text-indent: 50px;
@@ -8850,42 +8853,42 @@ nav #navinner {
     background-repeat: no-repeat;
     padding: 0 17px;
     border-radius: 20px; }
-    /* line 258, ../assets/sass/_layout.scss */
+    /* line 263, ../assets/sass/_layout.scss */
     .feeds-list a:hover {
       background-color: #969696; }
-    /* line 262, ../assets/sass/_layout.scss */
+    /* line 267, ../assets/sass/_layout.scss */
     .feeds-list a.ical {
       background-position: 7px -25px; }
-    /* line 263, ../assets/sass/_layout.scss */
+    /* line 268, ../assets/sass/_layout.scss */
     .feeds-list a.outlook {
       background-position: 7px -60px; }
-    /* line 264, ../assets/sass/_layout.scss */
+    /* line 269, ../assets/sass/_layout.scss */
     .feeds-list a.rss {
       background-position: 6px 5px; }
-    /* line 265, ../assets/sass/_layout.scss */
+    /* line 270, ../assets/sass/_layout.scss */
     .feeds-list a.xml {
       background-position: 6px -121px; }
-    /* line 266, ../assets/sass/_layout.scss */
+    /* line 271, ../assets/sass/_layout.scss */
     .feeds-list a.json {
       background-position: 6px -93px; }
 
-/* line 270, ../assets/sass/_layout.scss */
+/* line 275, ../assets/sass/_layout.scss */
 .category-filter-list {
   list-style-type: none;
   margin-bottom: 20px; }
-  /* line 274, ../assets/sass/_layout.scss */
+  /* line 279, ../assets/sass/_layout.scss */
   .category-filter-list li {
     margin: 5px 0; }
 
 /* Footer */
-/* line 281, ../assets/sass/_layout.scss */
+/* line 286, ../assets/sass/_layout.scss */
 footer {
   margin: 40px 0; }
-  /* line 284, ../assets/sass/_layout.scss */
+  /* line 289, ../assets/sass/_layout.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 288, ../assets/sass/_layout.scss */
+    /* line 293, ../assets/sass/_layout.scss */
     footer ul li {
       display: block;
       float: left;

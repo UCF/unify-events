@@ -22,7 +22,7 @@
 	<label for="{{ form.calendars.auto_id }}" class="control-label">
 		<strong>{{ form.calendars.label }}</strong>
 	</label>
-    {{ form.calendars }}
+    {{ form.calendars|add_class:"form-control" }}
 {% endblock %}
 
 {% block content_form_footer %}
