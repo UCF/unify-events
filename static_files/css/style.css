@@ -8763,46 +8763,53 @@ nav #navinner {
 .page-subtitle {
   color: #999999;
   margin-top: 0;
-  margin-bottom: 20px; }
+  margin-bottom: 5px;
+  position: relative;
+  top: -5px; }
 
-/* line 174, ../assets/sass/_layout.scss */
+/* line 176, ../assets/sass/_layout.scss */
 .subtitle-backlink-wrap {
   margin-top: -5px;
   margin-bottom: 25px; }
-  /* line 178, ../assets/sass/_layout.scss */
+  /* line 180, ../assets/sass/_layout.scss */
   .subtitle-backlink-wrap .subtitle-backlink {
     font-weight: bold;
     color: #999999; }
 
-/* Page Content - General */
+/* Page Navigation */
 /* line 188, ../assets/sass/_layout.scss */
+.nav.nav-tabs {
+  margin-top: 10px; }
+
+/* Page Content - General */
+/* line 196, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > * {
   /* This does dumb things to tables. Wrap tables in a div to accomodate */
   padding-right: 10px; }
-/* line 192, ../assets/sass/_layout.scss */
+/* line 200, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .modal {
   padding-right: 0; }
-/* line 196, ../assets/sass/_layout.scss */
+/* line 204, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > hr {
   padding-right: 0;
   margin-right: 10px; }
-/* line 201, ../assets/sass/_layout.scss */
+/* line 209, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .well {
   padding-right: 20px;
   margin-right: 10px; }
-/* line 206, ../assets/sass/_layout.scss */
+/* line 214, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .well-empty {
   padding-right: 30px; }
-/* line 211, ../assets/sass/_layout.scss */
+/* line 219, ../assets/sass/_layout.scss */
 .page-content .page-top-action {
   margin: 20px 0; }
 
 /* Sidebar */
-/* line 218, ../assets/sass/_layout.scss */
+/* line 226, ../assets/sass/_layout.scss */
 .social {
   overflow: hidden;
   margin-bottom: 20px; }
-  /* line 222, ../assets/sass/_layout.scss */
+  /* line 230, ../assets/sass/_layout.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -8815,32 +8822,32 @@ nav #navinner {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 235, ../assets/sass/_layout.scss */
+    /* line 243, ../assets/sass/_layout.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 236, ../assets/sass/_layout.scss */
+    /* line 244, ../assets/sass/_layout.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 237, ../assets/sass/_layout.scss */
+    /* line 245, ../assets/sass/_layout.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 238, ../assets/sass/_layout.scss */
+    /* line 246, ../assets/sass/_layout.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 239, ../assets/sass/_layout.scss */
+    /* line 247, ../assets/sass/_layout.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 240, ../assets/sass/_layout.scss */
+    /* line 248, ../assets/sass/_layout.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 244, ../assets/sass/_layout.scss */
+/* line 252, ../assets/sass/_layout.scss */
 .feeds-list {
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px; }
-  /* line 250, ../assets/sass/_layout.scss */
+  /* line 258, ../assets/sass/_layout.scss */
   .feeds-list a {
     display: inline-block;
     text-indent: 50px;
@@ -8853,42 +8860,42 @@ nav #navinner {
     background-repeat: no-repeat;
     padding: 0 17px;
     border-radius: 20px; }
-    /* line 263, ../assets/sass/_layout.scss */
+    /* line 271, ../assets/sass/_layout.scss */
     .feeds-list a:hover {
       background-color: #969696; }
-    /* line 267, ../assets/sass/_layout.scss */
+    /* line 275, ../assets/sass/_layout.scss */
     .feeds-list a.ical {
       background-position: 7px -25px; }
-    /* line 268, ../assets/sass/_layout.scss */
+    /* line 276, ../assets/sass/_layout.scss */
     .feeds-list a.outlook {
       background-position: 7px -60px; }
-    /* line 269, ../assets/sass/_layout.scss */
+    /* line 277, ../assets/sass/_layout.scss */
     .feeds-list a.rss {
       background-position: 6px 5px; }
-    /* line 270, ../assets/sass/_layout.scss */
+    /* line 278, ../assets/sass/_layout.scss */
     .feeds-list a.xml {
       background-position: 6px -121px; }
-    /* line 271, ../assets/sass/_layout.scss */
+    /* line 279, ../assets/sass/_layout.scss */
     .feeds-list a.json {
       background-position: 6px -93px; }
 
-/* line 275, ../assets/sass/_layout.scss */
+/* line 283, ../assets/sass/_layout.scss */
 .category-filter-list {
   list-style-type: none;
   margin-bottom: 20px; }
-  /* line 279, ../assets/sass/_layout.scss */
+  /* line 287, ../assets/sass/_layout.scss */
   .category-filter-list li {
     margin: 5px 0; }
 
 /* Footer */
-/* line 286, ../assets/sass/_layout.scss */
+/* line 294, ../assets/sass/_layout.scss */
 footer {
   margin: 40px 0; }
-  /* line 289, ../assets/sass/_layout.scss */
+  /* line 297, ../assets/sass/_layout.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 293, ../assets/sass/_layout.scss */
+    /* line 301, ../assets/sass/_layout.scss */
     footer ul li {
       display: block;
       float: left;
@@ -9216,38 +9223,36 @@ td.field-recommended {
   float: right;
   position: relative;
   top: -33px;
+  margin-bottom: -33px;
+  /* Push .page-content back up */
   font-weight: bold;
   color: #B71713; }
 
 /* Calendar Update View - Calendar Info (base) */
 /* line 55, ../assets/sass/_views-backend.scss */
-#calendar-info h2 {
-  margin-top: 0; }
-
-/* line 59, ../assets/sass/_views-backend.scss */
 form#calendar-update {
   margin-bottom: 0; }
 
 /* Calendar Update View - Users */
-/* line 65, ../assets/sass/_views-backend.scss */
+/* line 61, ../assets/sass/_views-backend.scss */
 input#id_add_user {
   width: 300px; }
 
-/* line 68, ../assets/sass/_views-backend.scss */
+/* line 64, ../assets/sass/_views-backend.scss */
 input#id_role {
   width: 150px; }
 
-/* line 73, ../assets/sass/_views-backend.scss */
+/* line 69, ../assets/sass/_views-backend.scss */
 #users-permissions .calendar-access-username {
   font-weight: bold; }
 
-/* line 78, ../assets/sass/_views-backend.scss */
+/* line 74, ../assets/sass/_views-backend.scss */
 form#manager-calendar-add-user {
   position: relative;
   margin-bottom: 30px; }
 
 /* Category List View */
-/* line 85, ../assets/sass/_views-backend.scss */
+/* line 81, ../assets/sass/_views-backend.scss */
 .category-color span {
   display: block;
   padding: 0 5px;
@@ -9255,7 +9260,7 @@ form#manager-calendar-add-user {
   color: #fff; }
 
 /* Event Create/Update View */
-/* line 96, ../assets/sass/_views-backend.scss */
+/* line 92, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -9264,32 +9269,32 @@ form#manager-calendar-add-user {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 104, ../assets/sass/_views-backend.scss */
+/* line 100, ../assets/sass/_views-backend.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 109, ../assets/sass/_views-backend.scss */
+/* line 105, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 116, ../assets/sass/_views-backend.scss */
+/* line 112, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 121, ../assets/sass/_views-backend.scss */
+/* line 117, ../assets/sass/_views-backend.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 125, ../assets/sass/_views-backend.scss */
+/* line 121, ../assets/sass/_views-backend.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 132, ../assets/sass/_views-backend.scss */
+/* line 128, ../assets/sass/_views-backend.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -9299,18 +9304,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 142, ../assets/sass/_views-backend.scss */
+/* line 138, ../assets/sass/_views-backend.scss */
 .cloner {
   position: relative; }
-  /* line 145, ../assets/sass/_views-backend.scss */
+  /* line 141, ../assets/sass/_views-backend.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 148, ../assets/sass/_views-backend.scss */
+    /* line 144, ../assets/sass/_views-backend.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 155, ../assets/sass/_views-backend.scss */
+  /* line 151, ../assets/sass/_views-backend.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -9318,7 +9323,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 164, ../assets/sass/_views-backend.scss */
+  /* line 160, ../assets/sass/_views-backend.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -9326,7 +9331,7 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 173, ../assets/sass/_views-backend.scss */
+/* line 169, ../assets/sass/_views-backend.scss */
 .remove-instance {
   position: absolute;
   right: -25px;
@@ -9334,26 +9339,26 @@ label[for*="-location-autocomplete"] {
   font-size: 18px;
   padding: 8px 14px; }
 
-/* line 180, ../assets/sass/_views-backend.scss */
+/* line 176, ../assets/sass/_views-backend.scss */
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 186, ../assets/sass/_views-backend.scss */
+/* line 182, ../assets/sass/_views-backend.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 191, ../assets/sass/_views-backend.scss */
+/* line 187, ../assets/sass/_views-backend.scss */
 .location-search .autocomplete-new-btn {
   top: 28px; }
 
-/* line 195, ../assets/sass/_views-backend.scss */
+/* line 191, ../assets/sass/_views-backend.scss */
 .location-selected {
   position: relative; }
 
-/* line 199, ../assets/sass/_views-backend.scss */
+/* line 195, ../assets/sass/_views-backend.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -9363,14 +9368,14 @@ label[for*="-location-autocomplete"] {
   right: 0;
   color: #A8A8A8; }
 
-/* line 210, ../assets/sass/_views-backend.scss */
+/* line 206, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 214, ../assets/sass/_views-backend.scss */
+/* line 210, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 220, ../assets/sass/_views-backend.scss */
+/* line 216, ../assets/sass/_views-backend.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -9378,16 +9383,16 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 100%; }
 
-/* line 228, ../assets/sass/_views-backend.scss */
+/* line 224, ../assets/sass/_views-backend.scss */
 .location-search .label-inner:first-child,
 .location-selected .label-inner:first-child {
   margin-top: 0; }
 
-/* line 233, ../assets/sass/_views-backend.scss */
+/* line 229, ../assets/sass/_views-backend.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
-/* line 239, ../assets/sass/_views-backend.scss */
+/* line 235, ../assets/sass/_views-backend.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -9399,7 +9404,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 251, ../assets/sass/_views-backend.scss */
+  /* line 247, ../assets/sass/_views-backend.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -9412,11 +9417,11 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 264, ../assets/sass/_views-backend.scss */
+    /* line 260, ../assets/sass/_views-backend.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
-/* line 274, ../assets/sass/_views-backend.scss */
+/* line 270, ../assets/sass/_views-backend.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }

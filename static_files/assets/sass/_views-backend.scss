@@ -45,17 +45,13 @@ td.field-recommended {
     float: right;
     position: relative;
     top: -33px;
+    margin-bottom: -33px; /* Push .page-content back up */
     font-weight: bold;
     color: #B71713;
 }
 
 
 /* Calendar Update View - Calendar Info (base) */
-#calendar-info {
-    h2 {
-        margin-top: 0;
-    }
-}
 form#calendar-update {
     margin-bottom: 0;
 }

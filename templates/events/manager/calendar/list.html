@@ -3,13 +3,15 @@
 {% load widgets %}
 
 {% block content_title %}
-    <h1>All Calendars</h1>
+    <h1 class="col-md-12">All Calendars</h1>
 {% endblock %}
 
 {% block content_subheader %}
     {% if current_calendar.description %}
         {% block content_subheader_text %}
-            <h2 class="page-subtitle">All calendars registered in the events system are listed below. Super admins have access to manage all calendars and their settings.</h2>
+            <p class="h2 page-subtitle">
+                All calendars registered in the events system are listed below. Super admins have access to manage all calendars and their settings.
+            </p>
         {% endblock %}
     {% endif %}
 {% endblock %}

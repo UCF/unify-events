@@ -168,7 +168,9 @@ nav #navinner {
 .page-subtitle {
     color: $gray-light;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    position: relative;
+    top: -5px;
 }
 
 .subtitle-backlink-wrap {
@@ -179,6 +181,12 @@ nav #navinner {
         font-weight: bold;
         color: $gray-light;
     }
+}
+
+
+/* Page Navigation */
+.nav.nav-tabs {
+    margin-top: 10px;
 }
 
 
