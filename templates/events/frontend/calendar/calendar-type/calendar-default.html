@@ -22,7 +22,7 @@
 
                 {% if start_date %}
                 </ul>
-                <hr/>
+                {% if not forloop.last %}<hr/>{% endif %}
                 {% endif %}
             {% endfor %}
 
