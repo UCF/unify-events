@@ -47,7 +47,7 @@ h2,
 /* Links */
 a {
     &:not(.btn) > i {
-        padding-right: 6px;
+        margin-right: 6px;
     }
 
     &:hover > i {
@@ -58,7 +58,7 @@ a {
 
 /* Icons */
 i + a:not(.btn) {
-    padding-left: 6px;
+    margin-left: 6px;
 }
 
 

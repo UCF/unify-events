@@ -14,23 +14,23 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}"><i class="fa fa-pencil"></i>Edit <b class="caret"></b></a>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
                     <li>
-                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="fa fa-group"></i> Users &amp; Permissions</a>
+                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="fa fa-group fa-fw"></i> Users &amp; Permissions</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="fa fa-info-circle"></i> Calendar Info</a>
+                        <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="fa fa-info-circle fa-fw"></i> Calendar Info</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share"></i> Subscriptions</a>
+                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share fa-fw"></i> Subscriptions</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o"></i> Delete Calendar</a>
+                        <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o fa-fw"></i> Delete Calendar</a>
                     </li>
                 </ul>
             </li>
             {% endif %}
             <li>
-                <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}"><i class="fa fa-arrow-circle-right"></i>Live View</a>
+                <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}"><i class="fa fa-play-circle"></i>Live View</a>
             </li>
         </ul>
     </div>
@@ -189,14 +189,14 @@
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
                                                 <a href="{% url 'event-update' pk=event_instance.event.pk %}">
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fa fa-pencil fa-fw"></i>
                                                     Edit Event
                                                 </a>
                                             </li>
                                             {% if not event_instance.event.is_submit_to_main and state != 'pending' %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-submit-to-main' pk=event_instance.event.pk %}">
-                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o fa-fw"></i>
                                                     Suggest to Main Calendar
                                                 </a>
                                             </li>
@@ -205,7 +205,7 @@
                                                 {% if not created_from and event_instance.event.calendar in user_calendars and event_instance.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                                                     <li role="presentation">
                                                         <a href="{% url 'event-cancel-uncancel' pk=event_instance.event.pk %}">
-                                                            <i class="fa fa-ban"></i>
+                                                            <i class="fa fa-ban fa-fw"></i>
                                                             {% if event_instance.event.canceled %}
                                                                 Un-Cancel Event
                                                             {% else %}
@@ -217,7 +217,7 @@
                                             {% endwith %}
                                             <li role="presentation">
                                                 <a class="object-modify" href="{% url 'event-delete' pk=event_instance.event.pk %}">
-                                                    <i class="fa fa-trash-o"></i>
+                                                    <i class="fa fa-trash-o fa-fw"></i>
                                                     Delete Event
                                                 </a>
                                             </li>
@@ -225,7 +225,7 @@
                                             {% if event_instance.event.state != 1 %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-post' pk=event_instance.event.pk %}">
-                                                    <i class="fa fa-check"></i>
+                                                    <i class="fa fa-check fa-fw"></i>
                                                     Add to Posted
                                                 </a>
                                             </li>
@@ -233,7 +233,7 @@
                                             {% if event_instance.event.state != 0 %}
                                             <li role="presentation">
                                                 <a href="{% url 'event-pend' pk=event_instance.event.pk %}">
-                                                    <i class="fa fa-inbox"></i>
+                                                    <i class="fa fa-inbox fa-fw"></i>
                                                     Move to Pending
                                                 </a>
                                             </li>
@@ -241,7 +241,7 @@
                                             <li class="divider"></li>
                                             <li role="presentation">
                                                 <a href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                    <i class="fa fa-play-circle fa-fw"></i>
                                                     Live View
                                                 </a>
                                             </li>

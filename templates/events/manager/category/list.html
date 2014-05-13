@@ -47,21 +47,21 @@
                             <ul class="dropdown-menu">
                                 <li role="presentation">
                                     <a href="{% url 'category-update' pk=category.pk %}">
-                                        <i class="fa fa-pencil"></i>
+                                        <i class="fa fa-pencil fa-fw"></i>
                                         Edit Category
                                     </a>
                                 </li>
                                 {% if category.events.count > 0 %}
                                 <li role="presentation">
                                     <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}">
-                                        <i class="fa fa-compress"></i>
+                                        <i class="fa fa-compress fa-fw"></i>
                                         Merge Category
                                     </a>
                                 </li>
                                 {% else %}
                                 <li role="presentation">
                                     <a class="object-modify" href="{% url 'category-delete' pk=category.pk %}">
-                                        <i class="fa fa-trash-o"></i>
+                                        <i class="fa fa-trash-o fa-fw"></i>
                                         Delete Category
                                     </a>
                                 </li>
@@ -69,7 +69,7 @@
                                 <li class="divider"></li>
                                 <li role="presentation">
                                     <a href="{% url 'category' category_pk=category.pk category=category.slug %}">
-                                        <i class="fa fa-arrow-circle-right"></i>
+                                        <i class="fa fa-play-circle fa-fw"></i>
                                         Live View
                                     </a>
                                 </li>

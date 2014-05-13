@@ -98,21 +98,21 @@
                                         <ul class="dropdown-menu">
                                             <li role="presentation">
                                                 <a href="{% url 'location-update' pk=location.pk %}">
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fa fa-pencil fa-fw"></i>
                                                     Edit Location
                                                 </a>
                                             </li>
                                             {% if location.event_instances.count > 0 %}
                                             <li role="presentation">
                                                 <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
-                                                    <i class="fa fa-compress"></i>
+                                                    <i class="fa fa-compress fa-fw"></i>
                                                     Merge Location
                                                 </a>
                                             </li>
                                             {% else %}
                                             <li role="presentation">
                                                 <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
-                                                    <i class="fa fa-trash-o"></i>
+                                                    <i class="fa fa-trash-o fa-fw"></i>
                                                     Delete Location
                                                 </a>
                                             </li>

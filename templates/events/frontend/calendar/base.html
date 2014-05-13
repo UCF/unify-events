@@ -12,28 +12,30 @@
         <ul>
             {% if calendar in user.editable_calendars.all or user.is_superuser %}
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-update' pk=calendar.pk %}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' pk=calendar.pk %}">
                     <i class="fa fa-pencil"></i>Manage <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
                     <li class="dropdown-header">Edit Events</li>
                     <li>
-                        <a href="{% url 'dashboard' pk=calendar.pk %}">Manager View</a>
+                        <a href="{% url 'dashboard' pk=calendar.pk %}">
+                            <i class="fa fa-dashboard fa-fw"></i>Manager View
+                        </a>
                     </li>
                     <li class="divider"></li>
                     <li class="dropdown-header">Edit Calendar</li>
                     <li>
-                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="fa fa-group"></i> Users &amp; Permissions</a>
+                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}"><i class="fa fa-group fa-fw"></i> Users &amp; Permissions</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="fa fa-info-circle"></i> Calendar Info</a>
+                        <a href="{% url 'calendar-update' pk=calendar.pk %}"><i class="fa fa-info-circle fa-fw"></i> Calendar Info</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share"></i> Subscriptions</a>
+                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share fa-fw"></i> Subscriptions</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o"></i> Delete Calendar</a>
+                        <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o fa-fw"></i> Delete Calendar</a>
                     </li>
                 </ul>
             </li>

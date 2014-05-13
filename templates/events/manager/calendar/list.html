@@ -51,20 +51,20 @@
                                 <ul class="dropdown-menu">
                                     <li role="presentation">
                                         <a href="{% url 'dashboard' pk=calendar.pk %}">
-                                            <i class="fa fa-calendar-o"></i>
+                                            <i class="fa fa-calendar-o fa-fw"></i>
                                             Manage Events
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="{% url 'calendar-update' pk=calendar.pk %}">
-                                            <i class="fa fa-pencil"></i>
+                                            <i class="fa fa-pencil fa-fw"></i>
                                             Edit Calendar
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li role="presentation">
                                         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
-                                            <i class="fa fa-arrow-circle-right"></i>
+                                            <i class="fa fa-play-circle fa-fw"></i>
                                             Live View
                                         </a>
                                     </li>

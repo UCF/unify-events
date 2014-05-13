@@ -8050,7 +8050,7 @@ h2,
 /* Links */
 /* line 49, ../assets/sass/_type.scss */
 a:not(.btn) > i {
-  padding-right: 6px; }
+  margin-right: 6px; }
 /* line 53, ../assets/sass/_type.scss */
 a:hover > i {
   text-decoration: none; }
@@ -8058,7 +8058,7 @@ a:hover > i {
 /* Icons */
 /* line 60, ../assets/sass/_type.scss */
 i + a:not(.btn) {
-  padding-left: 6px; }
+  margin-left: 6px; }
 
 /* Lists */
 /* line 66, ../assets/sass/_type.scss */
@@ -8106,51 +8106,48 @@ hr {
 .dropdown.open a.btn.dropdown-toggle {
   background-image: none;
   outline: 0 none; }
-/* line 24, ../assets/sass/_components.scss */
-.dropdown li i {
-  padding-right: 6px; }
 
-/* line 28, ../assets/sass/_components.scss */
+/* line 24, ../assets/sass/_components.scss */
 .dropdown-menu {
   max-height: 270px;
   overflow-y: scroll; }
-  /* line 32, ../assets/sass/_components.scss */
+  /* line 28, ../assets/sass/_components.scss */
   .dropdown-menu.dropdown-menu-form {
     padding: 8px; }
-    /* line 35, ../assets/sass/_components.scss */
+    /* line 31, ../assets/sass/_components.scss */
     .dropdown-menu.dropdown-menu-form input[type="checkbox"],
     .dropdown-menu.dropdown-menu-form input[type="radio"] {
       margin-right: 4px; }
-  /* line 42, ../assets/sass/_components.scss */
+  /* line 38, ../assets/sass/_components.scss */
   .dropdown-menu li.dropdown-header {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 11px; }
 
 /* Modals */
-/* line 52, ../assets/sass/_components.scss */
+/* line 48, ../assets/sass/_components.scss */
 .modal {
   padding-top: 50px; }
-  /* line 55, ../assets/sass/_components.scss */
+  /* line 51, ../assets/sass/_components.scss */
   .modal h2 {
     font-weight: bold;
     line-height: 30px; }
-    /* line 59, ../assets/sass/_components.scss */
+    /* line 55, ../assets/sass/_components.scss */
     .modal h2 .alt {
       font-weight: 300; }
 
-/* line 64, ../assets/sass/_components.scss */
+/* line 60, ../assets/sass/_components.scss */
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize; }
 
 /* Pagination */
-/* line 71, ../assets/sass/_components.scss */
+/* line 67, ../assets/sass/_components.scss */
 .pagination {
   margin-top: 30px; }
 
 /* Wells */
-/* line 77, ../assets/sass/_components.scss */
+/* line 73, ../assets/sass/_components.scss */
 .well-empty {
   padding: 60px 30px; }
 
