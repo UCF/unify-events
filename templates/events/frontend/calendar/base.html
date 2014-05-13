@@ -1,17 +1,17 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
+{% load core_tags %}
 
 {% block meta_alt_title %}{{ calendar.title }}'s {{ list_title }} {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="{% if user.is_authenticated %}col-md-8{% else %}col-md-12{% endif %}">
+    <h1 class="col-md-12">
         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
-    {% if user.is_authenticated %}
-    <div class="col-md-4 edit-options">
+
+    <div class="col-md-4 edit-options hide">
         <ul>
-            {% if calendar in user.editable_calendars.all or user.is_superuser %}
-            <li class="dropdown">
+            <li class="dropdown hide" id="edit-calendar-manage">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' pk=calendar.pk %}">
                     <i class="fa fa-pencil"></i>Manage <span class="caret"></span>
                 </a>
@@ -39,22 +39,42 @@
                     </li>
                 </ul>
             </li>
-            {% endif %}
-            {% if user.editable_calendars.all.count == 1 and user.editable_calendars.all.0.pk == calendar.pk %}
-            {% elif user.editable_calendars.all.count > 0 %}
-            <li>
+            <li class="hide" id="edit-calendar-subscribe">
                 <a class="calendar-subscribe" data-toggle="modal" href="{% url 'calendar-subscribe' pk=calendar.pk subscribing_calendar_id=user.calendars.all.0.pk %}">
                     <i class="fa fa-share"></i>Subscribe to Calendar
                 </a>
             </li>
-            {% endif %}
         </ul>
     </div>
-    {% endif %}
 {% endblock %}
 
 {% block content_subheader_text %}
     {% if calendar.description %}
         {{ calendar.description }}
     {% endif %}
+{% endblock %}
+
+{% block footer_scripts %}
+{{ block.super }}
+<script type="text/javascript" charset="utf-8">
+var user_calendars = [{% include_esi_template "esi/user-calendar-ids.html" %}];
+var is_superuser = parseInt({% include_esi_template "esi/user-is-superuser.html" %});
+
+// Show edit button only for editors
+if (
+    (user_calendars.length && user_calendars.indexOf({{ calendar.pk }}) > -1) ||
+    is_superuser == 1
+) {
+    $('h1').attr('class', 'col-md-8');
+    $('#page-title-wrap .edit-options').removeClass('hide');
+    $('#edit-calendar-manage').removeClass('hide');
+}
+
+// Show subscription button if user has more than one calendar.
+if (user_calendars.length > 1) {
+    $('h1').attr('class', 'col-md-8');
+    $('#page-title-wrap .edit-options').removeClass('hide');
+    $('#edit-calendar-subscribe').removeClass('hide');
+}
+</script>
 {% endblock %}
