@@ -277,7 +277,7 @@ def update_event_state(request, pk=None, state=None):
 
 def submit_event_to_main(request, pk=None):
     """
-    Submite the event to the main calendar.
+    Submit the event to the main calendar.
     """
     event = get_object_or_404(Event, pk=pk)
 
