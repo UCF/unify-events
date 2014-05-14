@@ -24,6 +24,22 @@ class CalendarForm(forms.ModelForm):
         fields = ('title', 'description', 'editors')
 
 
+class CalendarSubscribeForm(forms.ModelForm):
+    """
+    Subscribe one or more calendars to another calendar
+    """
+    calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to subscribe:')
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(CalendarSubscribeForm, self).__init__(*args, **kwargs)
+        self.fields['calendars'].queryset = user.editable_calendars.all()
+
+    class Meta(CalendarForm.Meta):
+        model = Calendar
+        fields = ('calendars',)
+
+
 class EventForm(forms.ModelForm):
     """
     Form for an Event

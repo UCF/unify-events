@@ -11,6 +11,7 @@ from events.views.manager.calendar import CalendarDelete
 from events.views.manager.calendar import CalendarUpdate
 from events.views.manager.calendar import CalendarUserUpdate
 from events.views.manager.calendar import CalendarSubscriptionsUpdate
+from events.views.manager.calendar import SubscribeToCalendar
 from events.views.manager.calendar import CalendarList
 from events.views.manager.category import CategoryCreate
 from events.views.manager.category import CategoryUpdate
@@ -80,7 +81,10 @@ urlpatterns += patterns('events.views.manager',
     url(r'^calendar/(?P<pk>\d+)/delete/user/(?P<username>[\w]+)', view='calendar.delete_user', name='calendar-delete-user'),
     url(r'^calendar/(?P<pk>\d+)/reassign-ownership/user/(?P<username>[\w]+)', view='calendar.reassign_ownership', name='calendar-reassign-ownership'),
     url(r'^calendar/(?P<pk>\d+)/unsubscribe-from/(?P<subscribed_calendar_id>\d+)?$', view='calendar.unsubscribe_from_calendar', name='calendar-unsubscribe'),
-    url(r'^calendar/(?P<subscribing_calendar_id>\d+)/subscribe-to/(?P<pk>\d+)?$', view='calendar.subscribe_to_calendar', name='calendar-subscribe'),
+    url(r'^calendar/subscribe-to/(?P<pk>\d+)?$',
+        view=login_required(SubscribeToCalendar.as_view()),
+        name='calendar-subscribe'
+    ),
     url(r'^calendar/(?P<pk>\d+)/?$', login_required(Dashboard.as_view()), name='dashboard'),
     url(r'^calendar/(?P<pk>\d+)/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/?$',
         login_required(Dashboard.as_view()),

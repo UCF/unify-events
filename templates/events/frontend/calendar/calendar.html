@@ -37,40 +37,4 @@
     {% else %}
         {% include 'events/frontend/calendar/calendar-type/calendar-default.html' %}
     {% endif %}
-
-    <!-- Subscribe to Calendar Modal -->
-    {% if user.editable_calendars.all.count > 0 %}
-    <div class="modal fade" id="calendar-subscribe-modal" tabindex="-1" role="dialog" aria-labelledby="calendar-subscribe-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title" id="calendar-subscribe-modal-label">Subscribe to Calendar: <span class="alt">{{ calendar.title }}</span></h2>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Select one of your calendars below to automatically receive published
-                        events from <em>{{ calendar.title }}</em>.
-                    </p>
-                    <p>
-                        These settings can be changed at any time from the selected calendar
-                        settings screen under the "Subscriptions" tab.
-                    </p>
-                    <select class="form-control" id="new-subscription-select">
-                        <option value="">Select a Calendar</option>
-                        {% for mycal in user.calendars.all %}
-                            {% if mycal.pk != calendar.pk  %}
-                            <option value="{{ mycal.pk }}">{{ mycal.title }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <a href="{% url 'calendar-subscribe' pk=calendar.pk subscribing_calendar_id=user.calendars.all.0.pk %}" class="btn btn-primary">Subscribe</a>
-                    <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
 {% endblock %}

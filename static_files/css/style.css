@@ -8375,6 +8375,11 @@ ul.errorlist {
       width: 20px;
       margin-left: -20px; }
 
+/* Object Modify Views (non-modal) */
+/* line 264, ../assets/sass/_forms.scss */
+.modal-footer-content {
+  margin-top: 30px; }
+
 /* line 1, ../assets/sass/_calendar-small.scss */
 .calendar-slider {
   position: relative;

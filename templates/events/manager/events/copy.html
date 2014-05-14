@@ -1,8 +1,22 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
 
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block content_title %}
-    <h1>Copy Event: <span class="alt">{{ event.title }}</span></h1>
+    <h1 class="col-md-12">Copy Event: <span class="alt">{{ event.title }}</span></h1>
 {% endblock %}
 
 {% block content_form_action %}
@@ -12,9 +26,8 @@
 {% block content_form_id %}event-copy{% endblock %}
 
 {% block content_form_body %}
-    {% csrf_token %}
     <p>
-    	Select one or more calendars below to copy this event to.
+    	Select one or more of your calendars below to copy this event to.
     </p>
     <p>
     	Use CTRL + Shift to select more than one calendar (or CMD + Shift on a Mac.)
@@ -23,6 +36,7 @@
 		<strong>{{ form.calendars.label }}</strong>
 	</label>
     {{ form.calendars|add_class:"form-control" }}
+    {{ form.calendars.errors }}
 {% endblock %}
 
 {% block content_form_footer %}

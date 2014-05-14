@@ -1,0 +1,60 @@
+{% extends 'events/manager/modify-object.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+    {{ block.super }}
+    {% if form.non_field_errors %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    <strong>Error: </strong>
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content_title %}
+    <h1 class="col-md-12">Subscribe to Calendar: <span class="alt">{{ calendar.title }}</span></h1>
+{% endblock %}
+
+{% block content_form_action %}
+    {% url 'calendar-subscribe' pk=calendar.pk %}
+{% endblock %}
+
+{% block content_form_id %}calendar-subscribe{% endblock %}
+
+{% block content_form_body %}
+    <p>
+        Select one or more of your calendars below to automatically receive published
+        events from <em>{{ calendar.title }}</em>.
+    </p>
+    <p>
+        These settings can be changed at any time from the selected calendar
+        settings screen under the "Subscriptions" tab.
+    </p>
+    <p>
+    	Use CTRL + Shift to select more than one calendar (or CMD + Shift on a Mac.)
+    </p>
+    <label for="{{ form.calendars.auto_id }}">
+    	{{ form.calendars.label }}
+    </label>
+    <select class="form-control" id="{{ form.calendars.auto_id }}" name="{{ form.calendars.html_name }}" multiple="multiple">
+        {% for value, text in form.calendars.field.choices %}
+            {% if value != calendar.pk %}
+            <option value="{{ value }}">{{ text }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    {{ form.calendars.errors }}
+{% endblock %}
+
+{% block content_form_footer %}
+    <button type="submit" class="btn btn-primary">Subscribe</button>
+    <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}

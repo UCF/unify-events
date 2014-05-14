@@ -63,7 +63,7 @@
             <form action="{% url 'calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal">
                 {% csrf_token %}
                 <div class="form-group large">
-                    <label class="control-label col-md-3" for="id_title">Calendar Name</label>
+                    <label class="control-label col-md-3" for="{{ form.title.auto_id }}">Calendar Name</label>
                     <div class="controls col-md-6">
                         {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
                         {{ form.title.errors }}
@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group large">
                     <div class="control-label-group col-md-3">
-                        <label class="control-label" for="id_description">Description</label>
+                        <label class="control-label" for="{{ form.description.auto_id }}">Description</label>
                         <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
                     </div>
                     <div class="controls col-md-6">

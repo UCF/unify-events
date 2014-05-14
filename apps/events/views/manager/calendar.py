@@ -24,6 +24,7 @@ from core.views import DeleteSuccessMessageMixin
 from settings_local import FRONT_PAGE_CALENDAR_PK
 from events.models import Calendar
 from events.forms.manager import CalendarForm
+from events.forms.manager import CalendarSubscribeForm
 
 log = logging.getLogger(__name__)
 
@@ -251,26 +252,58 @@ def reassign_ownership(request, pk, username):
     calendar.save()
     return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
 
-@login_required
-def subscribe_to_calendar(request, pk=None, subscribing_calendar_id=None):
-    try:
-        calendar = Calendar.objects.get(pk=pk)
-        subscribing_calendar = Calendar.objects.get(pk=subscribing_calendar_id)
-    except Calendar.DoesNotExist:
-        return HttpResponseNotFound('One of the specified calendars does not exist.')
-    else:
-        if subscribing_calendar not in request.user.calendars:
-            return HttpResponseForbidden('You cannot modify the specified calendar.')
-        try:
-            if calendar not in subscribing_calendar.subscriptions.all():
-                subscribing_calendar.subscriptions.add(calendar)
-                calendar.copy_future_events(subscribing_calendar)
-        except Exception, e:
-            log.error(str(e))
-            messages.error(request, 'Adding calendar to subscribing list failed.')
-        else:
-            messages.success(request, 'Calendar successfully subscribed to.')
-    return HttpResponseRedirect(reverse('calendar-update-subscriptions', args=(subscribing_calendar_id,)) + '#subscriptions')
+
+class SubscribeToCalendar(SuccessMessageMixin, UpdateView):
+    model = Calendar
+    form_class = CalendarSubscribeForm
+    success_message = 'Calendar subscribed to successfully.'
+    success_url = reverse_lazy('dashboard')
+    template_name = 'events/manager/calendar/update/add-subscription.html'
+
+    def get_form_kwargs(self):
+        """
+        Get additional context data for the form.
+        """
+        kwargs = super(SubscribeToCalendar, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        """
+        Intercept default save of self.get_object(); save instead to
+        each selected calendar(s)' subscriptions val.
+
+        Catch invalid calendar requests here.
+        """
+        original_calendar = self.get_object()
+        subscribing_calendars = form.cleaned_data['calendars']
+
+        for calendar in subscribing_calendars:
+            if not self.request.user.is_superuser and calendar not in self.request.user.editable_calendars:
+                messages.error(self.request, 'You cannot modify subscriptions for the calendar %s.' % calendar.title)
+            else:
+                try:
+                    if original_calendar not in calendar.subscriptions.all():
+                        calendar.subscriptions.add(original_calendar)
+                        original_calendar.copy_future_events(calendar)
+                except Exception, e:
+                    log.error(str(e))
+                    messages.error(self.request, 'Could not subscribe your calendar %s to %s.' % (calendar.title, original_calendar.title))
+                else:
+                    messages.success(self.request, '%s was successfully subscribed to %s.' % (calendar.title, original_calendar.title))
+
+        return HttpResponseRedirect(self.get_success_url())
+        
+
+    def form_invalid(self, form):
+        """
+        If the form is invalid, re-render the context data with the
+        data-filled form and errors.
+        """
+        messages.error(self.request, 'Something wasn\'t entered correctly. Please review the errors below and try again.')
+        return super(SubscribeToCalendar, self).form_invalid(form)
+
+
 
 @login_required
 def unsubscribe_from_calendar(request, pk=None, subscribed_calendar_id=None):
