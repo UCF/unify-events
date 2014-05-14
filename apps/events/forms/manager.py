@@ -115,9 +115,14 @@ class EventInstanceForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(EventInstanceForm, self).clean()
 
+        start = cleaned_data.get('start')
+        end = cleaned_data.get('end')
         location = cleaned_data.get('location')
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
+
+        if start > end:
+            self._errors['end'] = self.error_class(['The end day/time must occur after the start day/time'])
 
         if not location:
             if new_location_title:
