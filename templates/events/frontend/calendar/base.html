@@ -73,7 +73,7 @@ if (
 // Show subscription button if user has more than one editable calendar,
 // or if they're viewing a calendar they don't have edit access to
 if (
-    (user_calendars.length > 0 && user_calendars.indexOf({{ calendar.pk }} == -1)) ||
+    (user_calendars.length > 0 && user_calendars.indexOf({{ calendar.pk }}) == -1) ||
     (user_calendars.length > 1)
 ) {
     $('h1').attr('class', 'col-md-8');
