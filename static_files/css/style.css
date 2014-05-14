@@ -8802,8 +8802,10 @@ nav #navinner {
 /* line 214, ../assets/sass/_layout.scss */
 .page-content.sidebarfix > .well-empty {
   padding-right: 30px; }
+
 /* line 219, ../assets/sass/_layout.scss */
-.page-content .page-top-action {
+.page-content .page-top-action,
+.panel-page {
   margin: 20px 0; }
 
 /* Sidebar */
