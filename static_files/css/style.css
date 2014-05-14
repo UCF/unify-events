@@ -9110,8 +9110,8 @@ ul.event-list-condensed {
 
 /* line 242, ../assets/sass/_views-frontend.scss */
 #event-single .event-content {
-  font-size: 18px;
-  line-height: 1.3em;
+  font-size: 16px;
+  line-height: 1.5em;
   margin-bottom: 35px; }
 /* line 248, ../assets/sass/_views-frontend.scss */
 #event-single .event-single-schedule-header {

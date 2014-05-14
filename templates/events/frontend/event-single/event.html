@@ -118,9 +118,13 @@ vevent
             </dd>
             <dt><h3 class="h4 alt">Tags:</h3></dt>
             <dd class="event-meta-tags">
-    	        {% for tag in event_instance.event.tags.all %}
-                <a class="label label-default" href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
-                {% endfor %}
+                {% if event_instance.event.tags %}
+        	        {% for tag in event_instance.event.tags.all %}
+                    <a class="label label-default" href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
+                    {% endfor %}
+                {% else %}
+                n/a
+                {% endif %}
             </dd>
     	</dl>
     </div>
