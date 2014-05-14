@@ -8592,7 +8592,7 @@ ul.errorlist {
       overflow: visible; }
       /* line 122, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li:hover > div > a.date {
-        color: #ffc904; }
+        color: #000; }
       /* line 126, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li:hover > div > ul {
         background-color: #fffbe9;
@@ -8617,12 +8617,7 @@ ul.errorlist {
         color: #e2e2e2; }
     /* line 154, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li.today > div > a.date {
-      background-color: #a8a8a8;
-      color: #fff;
-      font-weight: bold; }
-    /* line 160, ../assets/sass/_calendar-large.scss */
-    .calendar-grid > li.today:hover > div > a.date {
-      background-color: #ffc904; }
+      text-decoration: underline; }
 
 /* Body */
 /* line 2, ../assets/sass/_layout.scss */
@@ -8809,11 +8804,15 @@ nav #navinner {
   margin: 20px 0; }
 
 /* Sidebar */
-/* line 226, ../assets/sass/_layout.scss */
+/* line 227, ../assets/sass/_layout.scss */
+.page-sidebar h3 {
+  clear: both; }
+
+/* line 232, ../assets/sass/_layout.scss */
 .social {
   overflow: hidden;
   margin-bottom: 20px; }
-  /* line 230, ../assets/sass/_layout.scss */
+  /* line 236, ../assets/sass/_layout.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -8826,32 +8825,32 @@ nav #navinner {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 243, ../assets/sass/_layout.scss */
+    /* line 249, ../assets/sass/_layout.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 244, ../assets/sass/_layout.scss */
+    /* line 250, ../assets/sass/_layout.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 245, ../assets/sass/_layout.scss */
+    /* line 251, ../assets/sass/_layout.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 246, ../assets/sass/_layout.scss */
+    /* line 252, ../assets/sass/_layout.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 247, ../assets/sass/_layout.scss */
+    /* line 253, ../assets/sass/_layout.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 248, ../assets/sass/_layout.scss */
+    /* line 254, ../assets/sass/_layout.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 252, ../assets/sass/_layout.scss */
+/* line 258, ../assets/sass/_layout.scss */
 .feeds-list {
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px; }
-  /* line 258, ../assets/sass/_layout.scss */
+  /* line 264, ../assets/sass/_layout.scss */
   .feeds-list a {
     display: inline-block;
     text-indent: 50px;
@@ -8864,42 +8863,46 @@ nav #navinner {
     background-repeat: no-repeat;
     padding: 0 17px;
     border-radius: 20px; }
-    /* line 271, ../assets/sass/_layout.scss */
+    /* line 277, ../assets/sass/_layout.scss */
     .feeds-list a:hover {
       background-color: #969696; }
-    /* line 275, ../assets/sass/_layout.scss */
+    /* line 281, ../assets/sass/_layout.scss */
     .feeds-list a.ical {
       background-position: 7px -25px; }
-    /* line 276, ../assets/sass/_layout.scss */
+    /* line 282, ../assets/sass/_layout.scss */
     .feeds-list a.outlook {
       background-position: 7px -60px; }
-    /* line 277, ../assets/sass/_layout.scss */
+    /* line 283, ../assets/sass/_layout.scss */
     .feeds-list a.rss {
       background-position: 6px 5px; }
-    /* line 278, ../assets/sass/_layout.scss */
+    /* line 284, ../assets/sass/_layout.scss */
     .feeds-list a.xml {
       background-position: 6px -121px; }
-    /* line 279, ../assets/sass/_layout.scss */
+    /* line 285, ../assets/sass/_layout.scss */
     .feeds-list a.json {
       background-position: 6px -93px; }
 
-/* line 283, ../assets/sass/_layout.scss */
+/* line 289, ../assets/sass/_layout.scss */
 .category-filter-list {
   list-style-type: none;
   margin-bottom: 20px; }
-  /* line 287, ../assets/sass/_layout.scss */
+  /* line 293, ../assets/sass/_layout.scss */
   .category-filter-list li {
     margin: 5px 0; }
+    /* line 296, ../assets/sass/_layout.scss */
+    .category-filter-list li a {
+      font-weight: bold;
+      font-size: 18px; }
 
 /* Footer */
-/* line 294, ../assets/sass/_layout.scss */
+/* line 305, ../assets/sass/_layout.scss */
 footer {
   margin: 40px 0; }
-  /* line 297, ../assets/sass/_layout.scss */
+  /* line 308, ../assets/sass/_layout.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 301, ../assets/sass/_layout.scss */
+    /* line 312, ../assets/sass/_layout.scss */
     footer ul li {
       display: block;
       float: left;
@@ -8933,14 +8936,14 @@ footer {
   display: block;
   font-size: 15px;
   line-height: 1em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   margin-top: 30px;
   color: #999999;
   text-transform: uppercase; }
 
 /* line 43, ../assets/sass/_views-frontend.scss */
 ul.event-list {
-  margin-bottom: 0;
+  margin-bottom: 30px;
   list-style-type: none;
   margin-left: 0; }
   /* line 48, ../assets/sass/_views-frontend.scss */
@@ -8948,22 +8951,27 @@ ul.event-list {
     display: block;
     position: relative;
     overflow: hidden;
-    padding: 20px; }
-    /* line 54, ../assets/sass/_views-frontend.scss */
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-left: 3px solid #eeeeee; }
+    /* line 56, ../assets/sass/_views-frontend.scss */
+    ul.event-list li.event:first-child {
+      margin-top: 10px; }
+    /* line 60, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event .event-title {
       line-height: 1em;
       margin-top: 0;
       font-weight: 400; }
-      /* line 59, ../assets/sass/_views-frontend.scss */
+      /* line 65, ../assets/sass/_views-frontend.scss */
       ul.event-list li.event .event-title i {
         font-size: 16px;
         vertical-align: top;
         color: #428bca; }
-    /* line 66, ../assets/sass/_views-frontend.scss */
+    /* line 72, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event time,
     ul.event-list li.event .location {
       display: block; }
-    /* line 71, ../assets/sass/_views-frontend.scss */
+    /* line 77, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event time {
       display: block;
       font-size: 20px;
@@ -8971,10 +8979,31 @@ ul.event-list {
       font-weight: bold;
       margin-top: 0;
       color: #000; }
-    /* line 80, ../assets/sass/_views-frontend.scss */
+      /* line 85, ../assets/sass/_views-frontend.scss */
+      ul.event-list li.event time.dtend {
+        font-size: 14px;
+        margin-top: 5px; }
+    /* line 91, ../assets/sass/_views-frontend.scss */
+    ul.event-list li.event .location {
+      font-size: 16px;
+      line-height: 1em;
+      margin: 12px 0; }
+    /* line 97, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event .description {
-      margin-bottom: 0; }
-    /* line 84, ../assets/sass/_views-frontend.scss */
+      margin-bottom: 0;
+      font-size: 13px; }
+    /* line 102, ../assets/sass/_views-frontend.scss */
+    ul.event-list li.event .calendar {
+      display: block;
+      margin-top: 15px;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #999999; }
+      /* line 110, ../assets/sass/_views-frontend.scss */
+      ul.event-list li.event .calendar i {
+        margin-right: 3px; }
+    /* line 115, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event > a {
       display: block;
       position: absolute;
@@ -8982,21 +9011,21 @@ ul.event-list {
       right: 0;
       bottom: 0;
       left: 0; }
-    /* line 93, ../assets/sass/_views-frontend.scss */
+    /* line 124, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event:hover {
       background-color: #eeeeee; }
-    /* line 96, ../assets/sass/_views-frontend.scss */
+    /* line 127, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event:hover .event-title a, ul.event-list li.event:hover .event-title i {
       color: #2a6496; }
-    /* line 100, ../assets/sass/_views-frontend.scss */
+    /* line 131, ../assets/sass/_views-frontend.scss */
     ul.event-list li.event:hover .event-title a {
       text-decoration: underline; }
-/* line 106, ../assets/sass/_views-frontend.scss */
+/* line 137, ../assets/sass/_views-frontend.scss */
 ul.event-list-condensed {
   list-style-type: none;
   width: 100%;
   margin-top: 5px; }
-  /* line 111, ../assets/sass/_views-frontend.scss */
+  /* line 142, ../assets/sass/_views-frontend.scss */
   ul.event-list-condensed li {
     text-overflow: ellipsis;
     width: 114px;
@@ -9004,47 +9033,47 @@ ul.event-list-condensed {
     overflow: hidden;
     font-size: 11px;
     line-height: 23px; }
-    /* line 119, ../assets/sass/_views-frontend.scss */
+    /* line 150, ../assets/sass/_views-frontend.scss */
     ul.event-list-condensed li time {
       font-weight: bold; }
 
 /* Frontend Calendar View - Day, Week */
-/* line 128, ../assets/sass/_views-frontend.scss */
+/* line 159, ../assets/sass/_views-frontend.scss */
 #calendar-events-day h2,
 #calendar-events-week h2 {
   margin-bottom: 20px; }
 
 /* Frontend Calendar View - Month */
-/* line 136, ../assets/sass/_views-frontend.scss */
+/* line 167, ../assets/sass/_views-frontend.scss */
 #calendar-events-month h2 {
   text-align: center;
   font-size: 24.5px;
   line-height: 40px; }
-/* line 141, ../assets/sass/_views-frontend.scss */
+/* line 172, ../assets/sass/_views-frontend.scss */
 #calendar-events-month .calendar-large h2 {
   display: none; }
 
-/* line 146, ../assets/sass/_views-frontend.scss */
+/* line 177, ../assets/sass/_views-frontend.scss */
 #month-toggle {
   margin: 15px 0 0 0;
   width: 280px;
   position: relative;
   top: 0;
   left: 0; }
-  /* line 154, ../assets/sass/_views-frontend.scss */
+  /* line 185, ../assets/sass/_views-frontend.scss */
   #month-toggle select#id_year {
     width: 85px; }
-  /* line 158, ../assets/sass/_views-frontend.scss */
+  /* line 189, ../assets/sass/_views-frontend.scss */
   #month-toggle select#id_month {
     width: 125px; }
 
 /* Frontend Calendar View - Year */
-/* line 166, ../assets/sass/_views-frontend.scss */
+/* line 197, ../assets/sass/_views-frontend.scss */
 #calendar-events-year h2 {
   text-align: center; }
 
 /* Frontend Events - by Category, Tag, Search Term */
-/* line 172, ../assets/sass/_views-frontend.scss */
+/* line 203, ../assets/sass/_views-frontend.scss */
 #term-events ul.event-list li .event-content .dtstart {
   background-color: transparent;
   width: 100%;
@@ -9054,81 +9083,81 @@ ul.event-list-condensed {
   font-weight: normal;
   padding: 15px 0 0 0; }
 
-/* line 181, ../assets/sass/_views-frontend.scss */
+/* line 212, ../assets/sass/_views-frontend.scss */
 #term-events ul.event-list li .event-content .location,
 #term-events ul.event-list li .event-content .calendar {
   margin-right: 0; }
 
-/* line 185, ../assets/sass/_views-frontend.scss */
+/* line 216, ../assets/sass/_views-frontend.scss */
 #term-events ul.event-list li .event-content .calendar {
   padding-top: 10px; }
 
 /* Frontend Single Event View */
-/* line 193, ../assets/sass/_views-frontend.scss */
+/* line 224, ../assets/sass/_views-frontend.scss */
 #page-subtitle-event-date {
   font-size: 24px;
   line-height: 1.4em; }
-  /* line 197, ../assets/sass/_views-frontend.scss */
+  /* line 228, ../assets/sass/_views-frontend.scss */
   #page-subtitle-event-date .event-single-date {
     font-weight: bold;
     color: #9e0b0f;
     padding-right: 8px; }
 
-/* line 206, ../assets/sass/_views-frontend.scss */
+/* line 237, ../assets/sass/_views-frontend.scss */
 #event-single,
 #event-single-sidebar {
   margin-top: 30px; }
 
-/* line 211, ../assets/sass/_views-frontend.scss */
+/* line 242, ../assets/sass/_views-frontend.scss */
 #event-single .event-content {
   font-size: 18px;
   line-height: 1.3em;
   margin-bottom: 35px; }
-/* line 217, ../assets/sass/_views-frontend.scss */
+/* line 248, ../assets/sass/_views-frontend.scss */
 #event-single .event-single-schedule-header {
   color: #999999;
   margin-bottom: 20px; }
-/* line 222, ../assets/sass/_views-frontend.scss */
+/* line 253, ../assets/sass/_views-frontend.scss */
 #event-single .event-single-schedule {
   max-height: 300px;
   overflow-y: scroll;
   margin-bottom: 30px; }
 
-/* line 229, ../assets/sass/_views-frontend.scss */
+/* line 260, ../assets/sass/_views-frontend.scss */
 .map-widget-wrap {
   height: 300px;
   margin-bottom: 20px; }
 
-/* line 233, ../assets/sass/_views-frontend.scss */
+/* line 264, ../assets/sass/_views-frontend.scss */
 .map-widget {
   border: 0;
   width: 100% !important;
   height: 100% !important; }
 
-/* line 241, ../assets/sass/_views-frontend.scss */
+/* line 272, ../assets/sass/_views-frontend.scss */
 #event-single-sidebar {
   position: relative; }
-  /* line 244, ../assets/sass/_views-frontend.scss */
+  /* line 275, ../assets/sass/_views-frontend.scss */
   #event-single-sidebar i {
     color: #999999; }
-  /* line 248, ../assets/sass/_views-frontend.scss */
+  /* line 279, ../assets/sass/_views-frontend.scss */
   #event-single-sidebar h2:first-child {
     margin: 0 0 5px 0; }
 
-/* line 253, ../assets/sass/_views-frontend.scss */
+/* line 284, ../assets/sass/_views-frontend.scss */
 .event-location-title {
   margin-top: 0; }
 
-/* line 257, ../assets/sass/_views-frontend.scss */
+/* line 288, ../assets/sass/_views-frontend.scss */
 .event-location-title,
 .event-location-url {
   display: block; }
 
-/* line 262, ../assets/sass/_views-frontend.scss */
+/* line 293, ../assets/sass/_views-frontend.scss */
 .event-location-note {
   margin-top: 15px; }
 
-/* line 266, ../assets/sass/_views-frontend.scss */
+/* line 297, ../assets/sass/_views-frontend.scss */
 .event-contact-email,
 .event-contact-phone {
   display: block;
@@ -9138,7 +9167,7 @@ ul.event-list-condensed {
   white-space: nowrap;
   padding: 5px 0 0 0;
   margin: 0; }
-  /* line 276, ../assets/sass/_views-frontend.scss */
+  /* line 307, ../assets/sass/_views-frontend.scss */
   .event-contact-email:before,
   .event-contact-phone:before {
     content: "•";
@@ -9146,24 +9175,24 @@ ul.event-list-condensed {
     float: left;
     padding-right: 6px; }
 
-/* line 288, ../assets/sass/_views-frontend.scss */
+/* line 319, ../assets/sass/_views-frontend.scss */
 #event-meta dt {
   text-align: left; }
-/* line 292, ../assets/sass/_views-frontend.scss */
+/* line 323, ../assets/sass/_views-frontend.scss */
 #event-meta dd > * {
   vertical-align: middle; }
-/* line 296, ../assets/sass/_views-frontend.scss */
+/* line 327, ../assets/sass/_views-frontend.scss */
 #event-meta h3 {
   margin: 5px 0; }
 
-/* line 301, ../assets/sass/_views-frontend.scss */
+/* line 332, ../assets/sass/_views-frontend.scss */
 .event-meta-calendar,
 .event-meta-category,
 .event-meta-tags {
   font-size: 17.5px;
   font-weight: bold; }
 
-/* line 308, ../assets/sass/_views-frontend.scss */
+/* line 339, ../assets/sass/_views-frontend.scss */
 .event-meta-tags {
   line-height: 1.6em; }
 

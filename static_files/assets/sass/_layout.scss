@@ -223,6 +223,12 @@ nav #navinner {
 
 
 /* Sidebar */
+.page-sidebar {
+    h3 {
+        clear: both;
+    }
+}
+
 .social {
     overflow: hidden;
     margin-bottom: 20px;
@@ -286,6 +292,11 @@ nav #navinner {
 
     li {
         margin: 5px 0;
+
+        a {
+            font-weight: bold;
+            font-size: 18px;
+        }
     }
 }
 

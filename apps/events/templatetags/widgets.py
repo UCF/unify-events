@@ -206,13 +206,14 @@ def social_btns(url, page_title):
 
 
 @register.simple_tag
-def category_filters(calendar):
+def category_filters(calendar=None):
     """
     Creates a list of categories, linking out to the Events in Calendar
     by Category view for the specified calendar.
     """
     categories = Category.objects.all()
-    calendar = get_object_or_404(Calendar, pk=calendar)
+    if calendar:
+        calendar = get_object_or_404(Calendar, pk=calendar)
 
     context = {
         'categories': categories,

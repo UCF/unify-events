@@ -7,7 +7,7 @@
 {% block content_title %}
     <h1 class="col-md-12">
         {% if calendar %}
-        <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}">{{ calendar.title }}: <span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}"><span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% else %}
         <a href="{% url 'category' category_pk=category.pk category=category.slug %}">Events By Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% endif %}
@@ -19,12 +19,27 @@
 {% block content_body %}
     <div class="row">
         <div class="col-md-8 sidebarfix page-content" id="term-events">
-            {% include 'events/frontend/event-listing/listing.html' %}
+            {% if event_instances %}
+            <ul class="event-list">
+                {% with listing_templ="events/frontend/event-listing/listing.html" %}
+                {% include listing_templ %}
+                {% endwith %}
+            </ul>
+            {% else %}
+            <p>No events found.</p>
+            {% endif %}
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
         </div>
         <aside class="col-md-4 page-sidebar" id="calendar-events-sidebar">
-            <h2 class="h4 alt pull-left">Feeds</h2>
+            <h3 class="alt h4">Categories:</h3>
+            {% if calendar %}
+                {% category_filters calendar=calendar.pk %}
+            {% else %}
+                {% category_filters %}
+            {% endif %}
+
+            <h3 class="h4 alt pull-left">Feeds:</h3>
             {% feed_btns url=request.build_absolute_uri %}
         </aside>
     </div>

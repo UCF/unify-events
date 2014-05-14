@@ -39,17 +39,14 @@ vevent
 
             {% comment %}
             "Until" Phrasing logic:
-            "all day": if start date/time and end date/time are the same, or if the start date and end date are the same,
-                but the start time is "00:00" and the end time is "23:59"
+            "all day": if start date and end date are the same, but the start time is "00:00" and the end time is "23:59"
             "until [time]": if start and end date are the same, but times differ (and are not "all day")
             "until [day]": if event spans multiple days, consuming the entirety of each day
             "until [day] at [time]": if event spans multiple days, ending at some point before midnight of the last day
             {% endcomment %}
 
             <span class="event-single-subheader event-single-time event-single-until">
-                {% if event_instance.start == event_instance.end %}<!-- TODO: remove this in favor of the more specific 'same day' check -->
-                All Day
-                {% elif event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
+                {% if event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
                 All Day
                 {% elif event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" != event_instance.end|date:"H:i" %}
                 to {{ event_instance.end|date:"P" }}

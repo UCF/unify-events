@@ -1,11 +1,11 @@
 <style type="text/css">
 {% for category in categories %}
-    .category-label.{{ category.slug }},
-    ul.event-list li.{{ category.slug }}:after {
-        background-color: {{ category.color }};
+    ul.event-list li.{{ category.slug }} {
+        border-left-color: {{ category.color }};
     }
+    .event-meta-category.{{ category.slug }} a,
     .category-text.{{ category.slug }},
-    .category-text.{{ category.slug }} a {
+    .category-text.{{ category.slug }} i {
         color: {{ category.color }};
     }
 {% endfor %}

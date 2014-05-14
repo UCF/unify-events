@@ -26,7 +26,7 @@ exists; i.e.:
 
         <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
             {% if not start_date %}
-                on {{ event_instance.start.date }}
+                {{ event_instance.start.date }}
             {% endif %}
             {% if event_instance.start.time and event_instance.end.time %}
                 {% if not start_date %}
@@ -44,7 +44,12 @@ exists; i.e.:
         </time>
         {% if not start_date %}
         <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
-            until {{ event_instance.end }}
+            until
+            {% if event_instance.end.date != event_instance.start.date %}
+            {{ event_instance.end }}
+            {% else %}
+            {{ event_instance.end.time }}
+            {% endif %}
         </time>
         {% endif %}
 
@@ -54,7 +59,7 @@ exists; i.e.:
         </p>
         {% if not calendar %}
         <span class="calendar">
-            <i class="fa fa-calendar"></i> On calendar "{{ event_instance.event.calendar.title }}"
+            <i class="fa fa-calendar"></i> {{ event_instance.event.calendar.title }}
         </span>
         {% endif %}
 
