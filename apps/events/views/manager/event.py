@@ -101,9 +101,9 @@ class EventCreate(CreateView):
         if form.cleaned_data['submit_to_main']:
             if self.object.state == State.posted:
                 get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main calendar.')
+                messages.success(self.request, 'Event successfully submitted to the Main Calendar.')
             else:
-                messages.error(self.request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
+                messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
 
         update_subscriptions(self.object)
 
@@ -211,11 +211,11 @@ class EventUpdate(UpdateView):
         if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
             if self.object.state == State.posted:
                 get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main calendar.')
+                messages.success(self.request, 'Event successfully submitted to the Main Calendar.')
             else:
-                messages.error(self.request, 'Event can not be submitted to the Main calendar unless it is Posted on your calendar.')
-        elif self.object.is_submit_to_main and self.object.state != State.posted:
-            messages.info(self.request, 'Event was removed from the Main calendar since the event is not posted on your calendar.')
+                messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
+        elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
+            messages.info(self.request, 'Event was removed from the Main Calendar since the event is not posted on your calendar.')
 
         update_subscriptions(self.object, is_main_rereview)
 
@@ -265,8 +265,8 @@ def update_event_state(request, pk=None, state=None):
             log(str(e))
             messages.error(request, 'Unable to set Event %(1)s to %(2)s.' % {"1": event.title, "2": State.get_string(state)})
         else:
-            if event.is_submit_to_main and event.state != State.posted:
-                messages.info(request, 'Event %s was removed from the Main calendar since the event is not posted on your calendar.' % event.title)
+            if event.is_submit_to_main and event.state != State.posted and not event.calendar.is_main_calendar:
+                messages.info(request, 'Event %s was removed from the Main Calendar since the event is not posted on your calendar.' % event.title)
 
             update_subscriptions(event)
 
@@ -282,7 +282,7 @@ def submit_event_to_main(request, pk=None):
     event = get_object_or_404(Event, pk=pk)
 
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
-        messages.error(request, 'You cannot submit Event %s to the main calendar.' % event.title)
+        messages.error(request, 'You cannot submit Event %s to the Main Calendar.' % event.title)
     else:
         if event.state == State.posted:
             if not event.is_submit_to_main:
@@ -292,11 +292,11 @@ def submit_event_to_main(request, pk=None):
                     log.error(str(e))
                     messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
                 else:
-                    messages.success(request, 'Event %s was successfully submitted to the main calendar.' % event.title)
+                    messages.success(request, 'Event %s was successfully submitted to the Main Calendar.' % event.title)
             else:
-                messages.warning(request, 'Event %s has already been submitted to the Main calendar.' % event.title)
+                messages.warning(request, 'Event %s has already been submitted to the Main Calendar.' % event.title)
         else:
-            messages.error(request, 'Event %s can not be submitted to the Main calendar unless it is Posted on your calendar.' % event.title)
+            messages.error(request, 'Event %s can not be submitted to the Main Calendar unless it is posted on your calendar.' % event.title)
 
     return event
 
