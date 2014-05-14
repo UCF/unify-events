@@ -9227,12 +9227,15 @@ td.field-recommended {
 .manager-item-table .event-actions {
   width: 16%; }
 /* line 19, ../assets/sass/_views-backend.scss */
+.manager-item-table .event-title abbr {
+  margin-right: 6px; }
+/* line 23, ../assets/sass/_views-backend.scss */
 .manager-item-table .recurrences-toggle {
   display: block;
   font-size: 11px;
   font-weight: bold;
   color: #777; }
-/* line 25, ../assets/sass/_views-backend.scss */
+/* line 29, ../assets/sass/_views-backend.scss */
 .manager-item-table .recurrences {
   display: none;
   font-size: 12px;
@@ -9242,13 +9245,13 @@ td.field-recommended {
   overflow-y: scroll;
   overflow-x: hidden;
   max-height: 200px; }
-  /* line 35, ../assets/sass/_views-backend.scss */
+  /* line 39, ../assets/sass/_views-backend.scss */
   .manager-item-table .recurrences .archived-instance {
     text-decoration: line-through;
     color: #888; }
 
 /* Calendar Create View */
-/* line 44, ../assets/sass/_views-backend.scss */
+/* line 48, ../assets/sass/_views-backend.scss */
 #manager-calendar-delete {
   float: right;
   position: relative;
@@ -9259,30 +9262,30 @@ td.field-recommended {
   color: #B71713; }
 
 /* Calendar Update View - Calendar Info (base) */
-/* line 55, ../assets/sass/_views-backend.scss */
+/* line 59, ../assets/sass/_views-backend.scss */
 form#calendar-update {
   margin-bottom: 0; }
 
 /* Calendar Update View - Users */
-/* line 61, ../assets/sass/_views-backend.scss */
+/* line 65, ../assets/sass/_views-backend.scss */
 input#id_add_user {
   width: 300px; }
 
-/* line 64, ../assets/sass/_views-backend.scss */
+/* line 68, ../assets/sass/_views-backend.scss */
 input#id_role {
   width: 150px; }
 
-/* line 69, ../assets/sass/_views-backend.scss */
+/* line 73, ../assets/sass/_views-backend.scss */
 #users-permissions .calendar-access-username {
   font-weight: bold; }
 
-/* line 74, ../assets/sass/_views-backend.scss */
+/* line 78, ../assets/sass/_views-backend.scss */
 form#manager-calendar-add-user {
   position: relative;
   margin-bottom: 30px; }
 
 /* Category List View */
-/* line 81, ../assets/sass/_views-backend.scss */
+/* line 85, ../assets/sass/_views-backend.scss */
 .category-color span {
   display: block;
   padding: 0 5px;
@@ -9290,7 +9293,7 @@ form#manager-calendar-add-user {
   color: #fff; }
 
 /* Event Create/Update View */
-/* line 92, ../assets/sass/_views-backend.scss */
+/* line 96, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -9299,32 +9302,32 @@ form#manager-calendar-add-user {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 100, ../assets/sass/_views-backend.scss */
+/* line 104, ../assets/sass/_views-backend.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 105, ../assets/sass/_views-backend.scss */
+/* line 109, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8; }
-/* line 112, ../assets/sass/_views-backend.scss */
+/* line 116, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap label {
   margin-top: 10px; }
 
-/* line 117, ../assets/sass/_views-backend.scss */
+/* line 121, ../assets/sass/_views-backend.scss */
 label[for*="-location-autocomplete"] {
   margin-top: 0; }
 
-/* line 121, ../assets/sass/_views-backend.scss */
+/* line 125, ../assets/sass/_views-backend.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
 
-/* line 128, ../assets/sass/_views-backend.scss */
+/* line 132, ../assets/sass/_views-backend.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -9334,18 +9337,18 @@ label[for*="-location-autocomplete"] {
   position: relative;
   z-index: 3; }
 
-/* line 138, ../assets/sass/_views-backend.scss */
+/* line 142, ../assets/sass/_views-backend.scss */
 .cloner {
   position: relative; }
-  /* line 141, ../assets/sass/_views-backend.scss */
+  /* line 145, ../assets/sass/_views-backend.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 144, ../assets/sass/_views-backend.scss */
+    /* line 148, ../assets/sass/_views-backend.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 151, ../assets/sass/_views-backend.scss */
+  /* line 155, ../assets/sass/_views-backend.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -9353,7 +9356,7 @@ label[for*="-location-autocomplete"] {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 160, ../assets/sass/_views-backend.scss */
+  /* line 164, ../assets/sass/_views-backend.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -9361,7 +9364,7 @@ label[for*="-location-autocomplete"] {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
 
-/* line 169, ../assets/sass/_views-backend.scss */
+/* line 173, ../assets/sass/_views-backend.scss */
 .remove-instance {
   position: absolute;
   right: -25px;
@@ -9369,26 +9372,26 @@ label[for*="-location-autocomplete"] {
   font-size: 18px;
   padding: 8px 14px; }
 
-/* line 176, ../assets/sass/_views-backend.scss */
+/* line 180, ../assets/sass/_views-backend.scss */
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 182, ../assets/sass/_views-backend.scss */
+/* line 186, ../assets/sass/_views-backend.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 187, ../assets/sass/_views-backend.scss */
+/* line 191, ../assets/sass/_views-backend.scss */
 .location-search .autocomplete-new-btn {
   top: 28px; }
 
-/* line 191, ../assets/sass/_views-backend.scss */
+/* line 195, ../assets/sass/_views-backend.scss */
 .location-selected {
   position: relative; }
 
-/* line 195, ../assets/sass/_views-backend.scss */
+/* line 199, ../assets/sass/_views-backend.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -9398,14 +9401,14 @@ label[for*="-location-autocomplete"] {
   right: 0;
   color: #A8A8A8; }
 
-/* line 206, ../assets/sass/_views-backend.scss */
+/* line 210, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 210, ../assets/sass/_views-backend.scss */
+/* line 214, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 216, ../assets/sass/_views-backend.scss */
+/* line 220, ../assets/sass/_views-backend.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -9413,16 +9416,16 @@ label[for*="-location-autocomplete"] {
   float: left;
   width: 100%; }
 
-/* line 224, ../assets/sass/_views-backend.scss */
+/* line 228, ../assets/sass/_views-backend.scss */
 .location-search .label-inner:first-child,
 .location-selected .label-inner:first-child {
   margin-top: 0; }
 
-/* line 229, ../assets/sass/_views-backend.scss */
+/* line 233, ../assets/sass/_views-backend.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
-/* line 235, ../assets/sass/_views-backend.scss */
+/* line 239, ../assets/sass/_views-backend.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -9434,7 +9437,7 @@ label[for*="-location-autocomplete"] {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 247, ../assets/sass/_views-backend.scss */
+  /* line 251, ../assets/sass/_views-backend.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -9447,11 +9450,11 @@ label[for*="-location-autocomplete"] {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 260, ../assets/sass/_views-backend.scss */
+    /* line 264, ../assets/sass/_views-backend.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
-/* line 270, ../assets/sass/_views-backend.scss */
+/* line 274, ../assets/sass/_views-backend.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }

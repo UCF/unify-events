@@ -16,6 +16,10 @@ td.field-recommended {
     .event-time { width: 29%; }
     .event-actions { width: 16%; }
 
+    .event-title abbr {
+        margin-right: 6px;
+    }
+
     .recurrences-toggle {
         display: block;
         font-size: 11px;

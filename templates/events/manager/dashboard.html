@@ -142,8 +142,14 @@
                                 </td>
                                 {% endif %}
                                 <td class="event-title">
-                                    {% if event_instance.event.created_from %}
-                                        <i class="fa fa-share"></i>
+                                    {% if event_instance.event.is_re_review %}
+                                        <abbr title="This event has been updated by its original creator since it was published on this calendar">
+                                            <i class="fa fa-refresh"></i>
+                                        </abbr>
+                                    {% elif event_instance.event.created_from %}
+                                        <abbr title="This event was copied to your calendar either manually or through a calendar subscription">
+                                            <i class="fa fa-share"></i>
+                                        </abbr>
                                     {% endif %}
                                     <a href="{% url 'event-update' pk=event_instance.event.pk %}">
                                         {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}
