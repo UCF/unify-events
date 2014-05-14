@@ -26,6 +26,7 @@
 {% block content_form_id %}calendar-subscribe{% endblock %}
 
 {% block content_form_body %}
+    {% csrf_token %}
     <p>
         Select one or more of your calendars below to automatically receive published
         events from <em>{{ calendar.title }}</em>.

@@ -26,6 +26,7 @@
 {% block content_form_id %}event-copy{% endblock %}
 
 {% block content_form_body %}
+    {% csrf_token %}
     <p>
     	Select one or more of your calendars below to copy this event to.
     </p>
