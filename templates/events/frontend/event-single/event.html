@@ -5,9 +5,7 @@
 
 {% block meta_alt_title %}'{{ event_instance.title }}' {{ block.super }}{% endblock %}
 
-{% block content_section_classes %}
-vevent
-{% endblock %}
+{% block content_section_classes %}vevent{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">
@@ -67,7 +65,7 @@ vevent
 {% block content_body %}
 <div class="row">
     <div class="col-md-8 sidebarfix page-content" id="event-single">
-        <div class="event-content">
+        <div class="event-content description">
     	   {{ event_instance.event.description|bleach }}
         </div>
 
@@ -129,15 +127,19 @@ vevent
     	</dl>
     </div>
     <aside class="col-md-4 page-sidebar" id="event-single-sidebar">
-        <div class="location vcard">
+        {% comment %}
+        TODO: if we get more location information in the future, wrap location information in its own vcard.
+        {% endcomment %}
+        <div class="event-location">
             <h2 class="h4 alt">Location:</h2>
-            <span class="h2 alt event-location-title fn org">
-                {{ event_instance.location.title }}{% if event_instance.event.has_instances %}*{% endif %}
+            <span class="h2 alt location">
+                {{ event_instance.location.title }}
             </span>
+            {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
             {% if not event_instance.location.get_map_widget_url %}
                 {% if event_instance.location.url %}
-                <span class="event-location-url url">
+                <span class="event-location-url">
                     <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
                 </span>
                 {% endif %}

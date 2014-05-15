@@ -9145,11 +9145,11 @@ ul.event-list-condensed {
     margin: 0 0 5px 0; }
 
 /* line 284, ../assets/sass/_views-frontend.scss */
-.event-location-title {
+.event-location .location {
   margin-top: 0; }
 
 /* line 288, ../assets/sass/_views-frontend.scss */
-.event-location-title,
+.event-location .location,
 .event-location-url {
   display: block; }
 
