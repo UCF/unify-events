@@ -513,11 +513,12 @@ class UpcomingEventsListView(CalendarEventsListView):
 
         if self.get_format() == 'html' and events:
             start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-            end_date = datetime.combine(events.reverse()[0].start.date(), datetime.max.time())
+            end_date = datetime.combine(events.reverse()[0].end.date(), datetime.max.time())
             events = map_event_range(start_date, end_date, events)
             events = [event for event in events if event.start >= datetime.now()][:25]
 
         self.queryset = events
+
         return events
 
 
