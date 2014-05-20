@@ -8635,7 +8635,7 @@ header {
   header #header-title {
     font-size: 36px;
     line-height: 40px;
-    font-weight: bold;
+    font-weight: 500;
     letter-spacing: -1px;
     margin: 10px 0;
     display: block; }
@@ -9152,9 +9152,9 @@ ul.event-list-condensed {
   margin-top: 0; }
 
 /* line 288, ../assets/sass/_views-frontend.scss */
-.event-location .location,
 .event-location-url {
-  display: block; }
+  display: block;
+  margin-top: 10px; }
 
 /* line 293, ../assets/sass/_views-frontend.scss */
 .event-location-note {
@@ -9178,26 +9178,33 @@ ul.event-list-condensed {
     float: left;
     padding-right: 6px; }
 
-/* line 319, ../assets/sass/_views-frontend.scss */
+/* line 318, ../assets/sass/_views-frontend.scss */
 #event-meta dt {
   text-align: left; }
-/* line 323, ../assets/sass/_views-frontend.scss */
+/* line 322, ../assets/sass/_views-frontend.scss */
 #event-meta dd > * {
   vertical-align: middle; }
-/* line 327, ../assets/sass/_views-frontend.scss */
+/* line 326, ../assets/sass/_views-frontend.scss */
 #event-meta h3 {
   margin: 5px 0; }
 
-/* line 332, ../assets/sass/_views-frontend.scss */
+/* line 331, ../assets/sass/_views-frontend.scss */
 .event-meta-calendar,
 .event-meta-category,
 .event-meta-tags {
   font-size: 17.5px;
   font-weight: bold; }
 
-/* line 339, ../assets/sass/_views-frontend.scss */
+/* line 338, ../assets/sass/_views-frontend.scss */
 .event-meta-tags {
   line-height: 1.6em; }
+
+/* Canceled Event overrides */
+/* line 345, ../assets/sass/_views-frontend.scss */
+.canceled time,
+.canceled #page-subtitle-event-date,
+.canceled #event-single .event-single-schedule {
+  text-decoration: line-through; }
 
 /* Dashboard/My Calendars View */
 /* line 2, ../assets/sass/_views-backend.scss */

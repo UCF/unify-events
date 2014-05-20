@@ -5,9 +5,16 @@
 
 {% block meta_alt_title %}'{{ event_instance.title }}' {{ block.super }}{% endblock %}
 
-{% block content_section_classes %}vevent{% endblock %}
+{% block content_section_classes %}vevent{% if event_instance.event.canceled %} canceled{% endif %}{% endblock %}
 
 {% block content_title %}
+    {% if event_instance.event.canceled %}
+    <div class="col-md-12">
+        <div class="alert alert-danger" id="messages">
+            This event has been canceled. Call or email the event's contact listed below for more information.
+        </div>
+    </div>
+    {% endif %}
     <h1 class="col-md-12">
         <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
     </h1>

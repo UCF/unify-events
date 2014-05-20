@@ -285,9 +285,9 @@ ul {
     margin-top: 0;
 }
 
-.event-location .location,
 .event-location-url {
     display: block;
+    margin-top: 10px;
 }
 
 .event-location-note {
@@ -311,7 +311,6 @@ ul {
         padding-right: 6px;
     }
 }
-
 
 
 // Event Meta (On Calendar, Category, Tag)
@@ -338,4 +337,14 @@ ul {
 
 .event-meta-tags {
     line-height: 1.6em;
+}
+
+
+/* Canceled Event overrides */
+.canceled {
+    time,
+    #page-subtitle-event-date,
+    #event-single .event-single-schedule {
+        text-decoration: line-through;
+    }
 }
