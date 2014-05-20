@@ -22,6 +22,11 @@
             i {
                 color: $brand-primary;
             }
+
+            & > a,
+            & > span {
+                padding: 4px 10px;
+            }
         }
     }
 
