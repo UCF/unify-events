@@ -3,18 +3,31 @@
         <div class="row">
             <div class="col-md-12" id="navinner">
                 <div class="user">
-                    <i class="fa fa-user"></i>
-                    {% if user.is_authenticated %}
-                    Hi, <strong>{{ user.first_name }}</strong>
-                    {% else %}
-                    Hi, <strong>Guest</strong>
-                    {% endif %}
+                    <span>
+                        <i class="fa fa-user"></i>
+                        {% if user.is_authenticated %}
+                        Hi, <strong>{{ user.first_name }}</strong>
+                        {% else %}
+                        Hi, <strong>Guest</strong>
+                        {% endif %}
+                    </span>
                 </div>
 
                 {% if user.is_authenticated %}
                     {% if first_login %}
                     {% else %}
                     <ul id="actions-primary">
+                        {% if user.calendars %}
+                        <li id="create-event">
+                            <a class="btn btn-primary btn-sm" href="{% url 'event-create' %}">
+                                <span class="fa-stack fa-md">
+                                    <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+                                    <i class="fa fa-pencil fa-stack-1x text-primary"></i>
+                                </span>
+                                Create Event
+                            </a>
+                        </li>
+                        {% endif %}
                         {% if user.is_superuser %}
                         <li class="dropdown">
                             <i class="fa fa-key"></i>
@@ -84,17 +97,6 @@
                                 </li>
                             </ul>
                         </li>
-                        {% if user.calendars %}
-                        <li id="create-event">
-                            <span class="fa-stack fa-md">
-                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <a href="{% url 'event-create' %}">
-                                Create Event
-                            </a>
-                        </li>
-                        {% endif %}
                     </ul>
                     {% endif %}
                 {% endif %}

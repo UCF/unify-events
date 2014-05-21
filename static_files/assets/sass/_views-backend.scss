@@ -41,6 +41,22 @@ td.field-recommended {
             color: #888;
         }
     }
+
+    & > thead > tr > th,
+    & > thead > tr > td,
+    & > tbody > tr > th,
+    & > tbody > tr > td,
+    & > tfoot > tr > th,
+    & > tfoot > tr > td {
+        border-top: 1px solid $table-border-color;
+    }
+    & > thead > tr > th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    & > tbody > tr > td {
+        background-color: #fafafa;
+    }
 }
 
 

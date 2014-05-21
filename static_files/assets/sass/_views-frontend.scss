@@ -16,9 +16,67 @@
 
 
 /* Search View */
-#search form {
-    margin-top: 20px;
-    margin-bottom: 20px;
+#search {
+    form {
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+    .form-group {
+        margin-bottom: 0;
+    }
+    .page-content {
+        margin-top: 20px;
+    }
+}
+.search-results-list {
+    list-style-type: none;
+    margin-top: 30px;
+
+    & > li {
+        margin: 20px 0;
+        padding: 0 0 20px 0;
+        border-bottom: 2px dotted $table-border-color;
+    }
+    & > li:last-child {
+        border-bottom: 0px transparent;
+    }
+
+    .result-meta {
+        font-size: 13px;
+    }
+
+    .event-tags ul {
+        display: inline-block;
+        width: 85%;
+        vertical-align: middle;
+        margin-left: 5px;
+
+        li {
+            display: block;
+            float: left;
+            margin-right: 6px;
+
+            &:after {
+                content: ",";
+            }
+            &:last-child:after {
+                content: "";
+            }
+        }
+    }
+
+    .category-text,
+    .event-calendar {
+        font-weight: bold;
+    }
+    .event-tags i,
+    .event-calendar i {
+        color: $gray;
+    }
+}
+.search-object-title {
+    font-size: 21px;
+    line-height: 1em;
 }
 
 

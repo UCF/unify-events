@@ -9,6 +9,13 @@
 
 
 /* Panels */
+.panel-heading .form-group:last-child,
+.panel-footer .form-group:last-child {
+    margin-bottom: 0;
+}
+.panel-default > .panel-heading {
+    background-color: #f1f1f1;
+}
 .panel-body {
     padding: 15px 30px;
 }
