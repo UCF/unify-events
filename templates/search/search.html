@@ -17,7 +17,7 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="col-md-12 page-content" id="search">
+    <div class="col-md-12" id="search">
         {% block search_nav %}
 
         {% if request.GET.q %}
@@ -54,28 +54,27 @@
         {% endblock %}
 
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8 sidebarfix page-content">
                 {% if query %}
                     {% with page.object_list as results %}
                         {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}
                         {% for model in grouped_objects %}
-                        <h2>{{ model.grouper }}</h2>
-                            {% for result in model.list %}
+                            {% if model.grouper != 'Events' %}
+                                <h2>{{ model.grouper }}</h2>
+                                {% for result in model.list %}
                                 <p>
-                                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a><br/>
-                                    {% if model.grouper == 'Events' %}
-                                        TAGS:
-                                        {% for tag in result.object.tags.all %}
-                                        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
-                                        {% empty %}
-                                        No tags found.
-                                        {% endfor %}
-                                        <br/>
-                                        CATEGORY:
-                                        <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
-                                    {% endif %}
+                                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
                                 </p>
-                            {% endfor %}
+                                {% endfor %}
+                            {% else %}
+                                <h2>{{ model.grouper }}</h2>
+                                <ul class="event-list">
+                                {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=model.list %}
+                                {% include listing_templ %}
+                                {% endwith %}
+                                </ul>
+                            {% endif %}
+                            {% if not forloop.last %}<hr/>{% endif %}
                         {% empty %}
                             <p>No results found.</p>
                         {% endfor %}
@@ -86,6 +85,10 @@
                     Search for something!
                 {% endif %}
             </div>
+            <aside class="col-md-4 page-sidebar">
+                <h3 class="alt h4">Browse All Categories:</h3>
+                {% category_filters %}
+            </aside>
         </div>
     </div>
 </div>

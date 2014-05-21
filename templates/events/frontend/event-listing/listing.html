@@ -1,7 +1,7 @@
 {% load humanize %}
 {% comment %}
-This partial template assumes that event_instances (a list of event instances)
-exists before the partial is included.
+This partial template assumes that event_instances (a list of event instances
+or event search results) exists before the partial is included.
 
 Make sure to catch listing.html as a variable before checking if event_instances
 exists; i.e.:
@@ -15,7 +15,8 @@ exists; i.e.:
     endwith
 {% endcomment %}
 
-{% for event_instance in event_instances %}
+{% for instance in event_instances %}
+    {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
     <li class="event {{ event_instance.event.category.slug }}{% if event_instance.event.canceled %} canceled{% endif %}">
         <h3 class="event-title">
             <a class="summary" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</a>
@@ -45,10 +46,20 @@ exists; i.e.:
         {% if not start_date %}
         <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
             until
-            {% if event_instance.end.date != event_instance.start.date %}
-            {{ event_instance.end }}
+            {% if instance.object %}
+                {% with last_instance=instance.object.get_last_instance %}
+                {% if last_instance.end.date != event_instance.start.date %}
+                {{ last_instance.end }}
+                {% else %}
+                {{ last_instance.end.time }}
+                {% endif %}
+                {% endwith %}
             {% else %}
-            {{ event_instance.end.time }}
+                {% if event_instance.end.date != event_instance.start.date %}
+                {{ event_instance.end }}
+                {% else %}
+                {{ event_instance.end.time }}
+                {% endif %}
             {% endif %}
         </time>
         {% endif %}
@@ -67,4 +78,5 @@ exists; i.e.:
             <span class="sr-only">View Event</span>
         </a>
     </li>
+    {% endwith %}
 {% endfor %}
