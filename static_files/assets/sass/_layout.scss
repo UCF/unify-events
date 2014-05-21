@@ -227,10 +227,14 @@ nav #navinner {
             margin-top: 20px;
         }
     }
+
+    & > .panel {
+        margin-top: 20px;
+    }
 }
 .page-content .page-top-action,
 .panel-page {
-    margin: 20px 0;
+    margin: 20px 0 0 0;
 }
 
 

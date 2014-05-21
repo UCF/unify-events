@@ -8818,22 +8818,25 @@ nav #navinner {
 .page-content.sidebarfix > .well-empty {
   padding-right: 30px;
   margin-top: 20px; }
-
 /* line 231, ../assets/sass/_layout.scss */
+.page-content > .panel {
+  margin-top: 20px; }
+
+/* line 235, ../assets/sass/_layout.scss */
 .page-content .page-top-action,
 .panel-page {
-  margin: 20px 0; }
+  margin: 20px 0 0 0; }
 
 /* Sidebar */
-/* line 239, ../assets/sass/_layout.scss */
+/* line 243, ../assets/sass/_layout.scss */
 .page-sidebar h3 {
   clear: both; }
 
-/* line 244, ../assets/sass/_layout.scss */
+/* line 248, ../assets/sass/_layout.scss */
 .social {
   overflow: hidden;
   margin-bottom: 20px; }
-  /* line 248, ../assets/sass/_layout.scss */
+  /* line 252, ../assets/sass/_layout.scss */
   .social a {
     background-image: url("../../static/img/social-share.png");
     background-repeat: no-repeat;
@@ -8846,32 +8849,32 @@ nav #navinner {
     margin-right: 4px;
     width: 70px;
     height: 31px; }
-    /* line 261, ../assets/sass/_layout.scss */
+    /* line 265, ../assets/sass/_layout.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 262, ../assets/sass/_layout.scss */
+    /* line 266, ../assets/sass/_layout.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 263, ../assets/sass/_layout.scss */
+    /* line 267, ../assets/sass/_layout.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 264, ../assets/sass/_layout.scss */
+    /* line 268, ../assets/sass/_layout.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 265, ../assets/sass/_layout.scss */
+    /* line 269, ../assets/sass/_layout.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 266, ../assets/sass/_layout.scss */
+    /* line 270, ../assets/sass/_layout.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 270, ../assets/sass/_layout.scss */
+/* line 274, ../assets/sass/_layout.scss */
 .feeds-list {
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px; }
-  /* line 276, ../assets/sass/_layout.scss */
+  /* line 280, ../assets/sass/_layout.scss */
   .feeds-list a {
     display: inline-block;
     text-indent: 50px;
@@ -8884,46 +8887,46 @@ nav #navinner {
     background-repeat: no-repeat;
     padding: 0 17px;
     border-radius: 20px; }
-    /* line 289, ../assets/sass/_layout.scss */
+    /* line 293, ../assets/sass/_layout.scss */
     .feeds-list a:hover {
       background-color: #969696; }
-    /* line 293, ../assets/sass/_layout.scss */
+    /* line 297, ../assets/sass/_layout.scss */
     .feeds-list a.ical {
       background-position: 7px -25px; }
-    /* line 294, ../assets/sass/_layout.scss */
+    /* line 298, ../assets/sass/_layout.scss */
     .feeds-list a.outlook {
       background-position: 7px -60px; }
-    /* line 295, ../assets/sass/_layout.scss */
+    /* line 299, ../assets/sass/_layout.scss */
     .feeds-list a.rss {
       background-position: 6px 5px; }
-    /* line 296, ../assets/sass/_layout.scss */
+    /* line 300, ../assets/sass/_layout.scss */
     .feeds-list a.xml {
       background-position: 6px -121px; }
-    /* line 297, ../assets/sass/_layout.scss */
+    /* line 301, ../assets/sass/_layout.scss */
     .feeds-list a.json {
       background-position: 6px -93px; }
 
-/* line 301, ../assets/sass/_layout.scss */
+/* line 305, ../assets/sass/_layout.scss */
 .category-filter-list {
   list-style-type: none;
   margin-bottom: 20px; }
-  /* line 305, ../assets/sass/_layout.scss */
+  /* line 309, ../assets/sass/_layout.scss */
   .category-filter-list li {
     margin: 5px 0; }
-    /* line 308, ../assets/sass/_layout.scss */
+    /* line 312, ../assets/sass/_layout.scss */
     .category-filter-list li a {
       font-weight: bold;
       font-size: 18px; }
 
 /* Footer */
-/* line 317, ../assets/sass/_layout.scss */
+/* line 321, ../assets/sass/_layout.scss */
 footer {
   margin: 40px 0; }
-  /* line 320, ../assets/sass/_layout.scss */
+  /* line 324, ../assets/sass/_layout.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 324, ../assets/sass/_layout.scss */
+    /* line 328, ../assets/sass/_layout.scss */
     footer ul li {
       display: block;
       float: left;
