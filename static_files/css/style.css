@@ -8066,13 +8066,14 @@ ul {
   padding-left: 0; }
 
 /* line 69, ../assets/sass/_type.scss */
+ul.bullets,
 ul.errors,
 #messages ul,
 #static-base ul {
   padding-left: 15px; }
 
 /* Tables */
-/* line 77, ../assets/sass/_type.scss */
+/* line 78, ../assets/sass/_type.scss */
 .table > thead > tr > th,
 .table > thead > tr > td,
 .table > tbody > tr > th,
@@ -8082,7 +8083,7 @@ ul.errors,
   border-top: 2px dotted #dddddd; }
 
 /* Horizontal Rules */
-/* line 88, ../assets/sass/_type.scss */
+/* line 89, ../assets/sass/_type.scss */
 hr {
   border-top: 2px dotted #dddddd; }
 

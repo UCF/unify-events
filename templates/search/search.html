@@ -61,11 +61,13 @@
                         {% for model in grouped_objects %}
                             <h2>{{ model.grouper }} ({{ model.list|length }})</h2>
                             {% if model.grouper != 'Events' %}
-                                {% for result in model.list %}
-                                <p>
-                                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
-                                </p>
-                                {% endfor %}
+                                <ul class="bullets">
+                                    {% for result in model.list %}
+                                    <li>
+                                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
                             {% else %}
                                 <ul class="event-list">
                                 {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=model.list %}
