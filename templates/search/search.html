@@ -59,15 +59,14 @@
                     {% with page.object_list as results %}
                         {% regroup results|dictsort:"verbose_name_plural" by verbose_name_plural as grouped_objects %}
                         {% for model in grouped_objects %}
+                            <h2>{{ model.grouper }} ({{ model.list|length }})</h2>
                             {% if model.grouper != 'Events' %}
-                                <h2>{{ model.grouper }}</h2>
                                 {% for result in model.list %}
                                 <p>
                                     <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
                                 </p>
                                 {% endfor %}
                             {% else %}
-                                <h2>{{ model.grouper }}</h2>
                                 <ul class="event-list">
                                 {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=model.list %}
                                 {% include listing_templ %}
