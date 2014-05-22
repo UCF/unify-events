@@ -65,7 +65,7 @@ $calendar-grid-width: 14.285%;
             z-index: 2;
             border-left: 2px solid #fff;
             border-right: 2px solid #fff;
-            padding-top: 30px;
+            padding-top: 25px;
 
             &:after { /* Add some faux padding btwn the edge of the li and its child div */
                 content: "";
@@ -90,7 +90,7 @@ $calendar-grid-width: 14.285%;
             }
 
             > a.date {
-                font-size: 24px;
+                font-size: 20px;
                 font-weight: 400;
                 color: $gray-light;
                 padding: 0 5px;
@@ -110,7 +110,7 @@ $calendar-grid-width: 14.285%;
                 color: $gray-light;
                 display: block;
                 line-height: 14px;
-                padding: 12px 0 0 8px;
+                padding: 8px 0 0 8px;
             }
         }
 

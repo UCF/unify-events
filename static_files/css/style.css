@@ -8416,7 +8416,7 @@ ul.errorlist {
       .calendar-slider .pager li > a, .calendar-slider .pager li > span {
         padding: 4px 10px; }
   /* line 34, ../assets/sass/_calendar-small.scss */
-  .calendar-slider .item h2 {
+  .calendar-slider .item h3 {
     text-align: center;
     font-size: 17.5px;
     line-height: 36px;
@@ -8547,7 +8547,7 @@ ul.errorlist {
       z-index: 2;
       border-left: 2px solid #fff;
       border-right: 2px solid #fff;
-      padding-top: 30px; }
+      padding-top: 25px; }
       /* line 70, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li > div:after {
         /* Add some faux padding btwn the edge of the li and its child div */
@@ -8570,7 +8570,7 @@ ul.errorlist {
           width: 114px; }
       /* line 92, ../assets/sass/_calendar-large.scss */
       .calendar-grid > li > div > a.date {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 400;
         color: #999999;
         padding: 0 5px;
@@ -8588,7 +8588,7 @@ ul.errorlist {
         color: #999999;
         display: block;
         line-height: 14px;
-        padding: 12px 0 0 8px; }
+        padding: 8px 0 0 8px; }
     /* line 117, ../assets/sass/_calendar-large.scss */
     .calendar-grid > li:hover > div {
       width: auto;

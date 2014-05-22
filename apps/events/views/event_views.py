@@ -396,7 +396,7 @@ class WeekEventsListView(CalendarEventsListView):
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         if start_date <= datetime.now() and end_date >= datetime.now():
-            context['list_title'] = 'Events This Week.'
+            context['list_title'] = 'Events This Week'
         else:
             context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
 
@@ -408,7 +408,7 @@ class MonthEventsListView(CalendarEventsListView):
     Events listing for a month.
     """
     list_type = 'month'
-    list_title = 'Events This Month.'
+    list_title = 'Events This Month'
 
     def get_end_date(self):
         """
@@ -466,7 +466,7 @@ class YearEventsListView(CalendarEventsListView):
     Events listing for a year.
     """
     list_type = 'year'
-    list_title = 'Events This Year.'
+    list_title = 'Events This Year'
 
     def get_end_date(self):
         """

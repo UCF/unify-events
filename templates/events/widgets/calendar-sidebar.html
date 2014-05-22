@@ -42,7 +42,7 @@
     {% endif %}
     {% for key, cal in calendar_map.items %}
     <div class="item {% if key.month == this_month.month %}active{% endif %}">
-         <h2>
+         <h3>
              {% if key.month == this_month.month %}
                 {% if is_manager %}
                     {{ this_month|date:"F" }} {{ this_month.year }}
@@ -50,7 +50,7 @@
                     <a href="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
                 {% endif %}
              {% endif %}
-         </h2>
+         </h3>
          <table class="table minical">
             <thead>
                 <tr>
