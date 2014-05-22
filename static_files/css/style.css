@@ -8437,62 +8437,53 @@ ul.errorlist {
       font-weight: 500; }
     /* line 55, ../assets/sass/_calendar-small.scss */
     .calendar-slider .item .table td {
-      background: #f1f1f1;
-      font-size: 16px;
+      font-size: 12.5px;
       line-height: 18px;
       padding: 0; }
-      /* line 61, ../assets/sass/_calendar-small.scss */
+      /* line 60, ../assets/sass/_calendar-small.scss */
       .calendar-slider .item .table td a {
         color: #999999;
         display: block;
-        padding: 11px 8px;
+        margin: auto;
         position: relative;
-        z-index: 1; }
-        /* line 68, ../assets/sass/_calendar-small.scss */
+        z-index: 1;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 32px; }
+        /* line 71, ../assets/sass/_calendar-small.scss */
         .calendar-slider .item .table td a:hover {
-          background: #fffbe9;
-          text-decoration: none; }
-      /* line 74, ../assets/sass/_calendar-small.scss */
+          text-decoration: none;
+          background-color: #eeeeee;
+          color: #000; }
+      /* line 80, ../assets/sass/_calendar-small.scss */
       .calendar-slider .item .table td.active {
-        background: #000; }
-        /* line 77, ../assets/sass/_calendar-small.scss */
-        .calendar-slider .item .table td.active a {
-          color: #fff; }
-          /* line 80, ../assets/sass/_calendar-small.scss */
-          .calendar-slider .item .table td.active a:hover {
-            color: #999999; }
-      /* line 87, ../assets/sass/_calendar-small.scss */
-      .calendar-slider .item .table td.hasevents a:after {
-        content: "";
-        display: block;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 0 0 7px 7px;
-        border-color: transparent transparent #999999 transparent;
-        z-index: 2; }
-      /* line 100, ../assets/sass/_calendar-small.scss */
-      .calendar-slider .item .table td.active.hasevents a:after {
-        border-color: transparent transparent #000 transparent; }
-      /* line 103, ../assets/sass/_calendar-small.scss */
-      .calendar-slider .item .table td.active.hasevents a:hover:after {
-        border-color: transparent transparent #999999 transparent; }
-      /* line 107, ../assets/sass/_calendar-small.scss */
-      .calendar-slider .item .table td.muted {
         background-color: #fff; }
+        /* line 83, ../assets/sass/_calendar-small.scss */
+        .calendar-slider .item .table td.active a {
+          color: #fff;
+          background-color: #000; }
+          /* line 87, ../assets/sass/_calendar-small.scss */
+          .calendar-slider .item .table td.active a:hover {
+            color: #000;
+            background-color: #eeeeee; }
+      /* line 95, ../assets/sass/_calendar-small.scss */
+      .calendar-slider .item .table td.hasevents a {
+        color: #000;
+        font-weight: 500; }
+      /* line 99, ../assets/sass/_calendar-small.scss */
+      .calendar-slider .item .table td.active.hasevents a {
+        color: #fff; }
+        /* line 102, ../assets/sass/_calendar-small.scss */
+        .calendar-slider .item .table td.active.hasevents a:hover {
+          color: #000; }
+      /* line 107, ../assets/sass/_calendar-small.scss */
+      .calendar-slider .item .table td.muted a {
+        color: #eeeeee; }
         /* line 110, ../assets/sass/_calendar-small.scss */
-        .calendar-slider .item .table td.muted a {
-          color: #eeeeee; }
-          /* line 113, ../assets/sass/_calendar-small.scss */
-          .calendar-slider .item .table td.muted a:hover {
-            color: #999999; }
-      /* line 120, ../assets/sass/_calendar-small.scss */
-      .calendar-slider .item .table td.hasevents.muted a:after {
-        border-color: transparent transparent #eeeeee transparent; }
-      /* line 124, ../assets/sass/_calendar-small.scss */
+        .calendar-slider .item .table td.muted a:hover {
+          color: #999999; }
+      /* line 115, ../assets/sass/_calendar-small.scss */
       .calendar-slider .item .table td.today a {
         text-decoration: underline; }
 

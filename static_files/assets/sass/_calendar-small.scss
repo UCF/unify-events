@@ -53,72 +53,63 @@
                 font-weight: 500;
             }
             td {
-                background: #f1f1f1;
-                font-size: 16px;
+                font-size: 12.5px;
                 line-height: 18px;
                 padding: 0;
 
                 a {
                     color: $gray-light;
                     display: block;
-                    padding: 11px 8px;
+                    margin: auto;
                     position: relative;
                     z-index: 1;
+                    width: 32px;
+                    height: 32px;
+                    line-height: 32px;
+                    border-radius: 32px;
 
                     &:hover {
-                        background: #fffbe9;
                         text-decoration: none;
+                        background-color: $gray-lighter;
+                        color: #000;
                     }
                 }
+
+               
 
                 &.active {
-                    background: #000;
-
+                    background-color: #fff;
+                    
                     a {
                         color: #fff;
+                        background-color: #000;
 
                         &:hover {
-                            color: $gray-light;
+                            color: #000;
+                            background-color: $gray-lighter;
                         }
                     }
 
                 }
 
-                &.hasevents a:after {
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    width: 0;
-                    height: 0;
-                    border-style: solid;
-                    border-width: 0 0 7px 7px;
-                    border-color: transparent transparent $gray-light transparent;
-                    z-index: 2;
+                &.hasevents a {
+                    color: #000;
+                    font-weight: 500;
                 }
-                &.active.hasevents a:after {
-                    border-color: transparent transparent #000 transparent;
-                }
-                &.active.hasevents a:hover:after {
-                    border-color: transparent transparent $gray-light transparent;
-                }
+                &.active.hasevents a {
+                    color: #fff;
 
-                &.muted {
-                    background-color: #fff;
-
-                    a {
-                        color: $gray-lighter;
-
-                        &:hover {
-                            color: $gray-light;
-                        }
+                    &:hover {
+                        color: #000;
                     }
-
                 }
 
-                &.hasevents.muted a:after {
-                    border-color: transparent transparent $gray-lighter transparent;
+                &.muted a {
+                    color: $gray-lighter;
+
+                    &:hover {
+                        color: $gray-light;
+                    }
                 }
 
                 &.today a {
