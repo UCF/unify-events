@@ -43,12 +43,20 @@
 
     .result-meta {
         font-size: 13px;
+        overflow: hidden;
+    }
+
+
+    .event-calendar,
+    .event-category,
+    .event-tags {
+        display: block;
+        float: left;
+        margin-right: 10px;
     }
 
     .event-tags ul {
-        display: inline-block;
-        width: 85%;
-        vertical-align: middle;
+        display: inline;
         margin-left: 5px;
 
         li {
@@ -64,14 +72,22 @@
             }
         }
     }
-
     .category-text,
     .event-calendar {
         font-weight: bold;
     }
     .event-tags i,
+    .event-category i,
     .event-calendar i {
+        display: block;
+        float: left;
         color: $gray;
+        line-height: 1.4em;
+        padding-right: 3px;
+
+        & + a {
+            margin-left: 0;
+        }
     }
 }
 .search-object-title {
