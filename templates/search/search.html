@@ -85,6 +85,9 @@
                                             {{ result.object.title }}
                                         </a>
                                     </h3>
+                                    <a class="event-edit hide" href="{% url 'event-update' pk=result.pk %}" data-calendar-pk="{{ result.object.calendar.pk }}">
+                                        <i class="fa fa-pencil"></i>Edit Event
+                                    </a>
                                     <p class="description">
                                         {{ result.description|striptags|truncatewords:60 }}
                                     </p>
@@ -123,4 +126,22 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block footer_scripts %}
+{{ block.super }}
+<script type="text/javascript" charset="utf-8">
+// Show edit button only for editors
+var user_calendars = [{% include_esi_template "esi/user-editable-calendar-ids.html" %}];
+if (user_calendars.length) {
+    $.each($('.event-edit'), function() {
+        var link = $(this),
+            pk = parseInt(link.attr('data-calendar-pk'));
+            
+        if (user_calendars.indexOf(pk) > -1) {
+            link.removeClass('hide');
+        }
+    });
+}
+</script>
 {% endblock %}

@@ -46,6 +46,11 @@
         overflow: hidden;
     }
 
+    .description,
+    .calendar-description {
+        display: block;
+        clear: both;
+    }
 
     .event-calendar,
     .event-category,
@@ -89,10 +94,21 @@
             margin-left: 0;
         }
     }
+
+    .event-edit {
+        display: block;
+        float: left;
+        color: #999;
+        margin-left: 15px;
+        font-weight: bold;
+    }
 }
 .search-object-title {
     font-size: 21px;
     line-height: 1em;
+    display: block;
+    float: left;
+    margin-top: 0;
 }
 
 

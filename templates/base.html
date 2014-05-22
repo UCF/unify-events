@@ -37,17 +37,11 @@
     </head>
     <body>
         {% block pagehead %}
-        <header class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <span id="header-title"><a href="{% url 'home' %}"><span class="alt">UCF</span> Events</a></span>
-                </div>
-            </div>
-        </header>
+            {% include_esi_template 'esi/header.html' %}
         {% endblock %}
 
         {% block navbar %}
-            {% include_esi_template 'esi/header.html' %}
+            {% include_esi_template 'esi/header-nav.html' %}
         {% endblock %}
 
         <!-- Content -->
