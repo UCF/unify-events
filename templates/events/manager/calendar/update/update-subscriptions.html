@@ -15,7 +15,7 @@
                     <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
-            <a id="manager-calendar-delete" class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
+            <a id="manager-calendar-delete" class="secondary-nav-action object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
                 <i class="fa fa-trash-o"></i>Delete Calendar
             </a>
         </div>
@@ -32,8 +32,8 @@
                 Events from the calendars listed below will automatically publish to your calendar and receive updates from the original when they are made.
             </p>
             {% if calendar.subscriptions.all %}
-            <div>
-                <table class="table table-striped table-hover" id="manager-calendar-your-subscriptions">
+            <div class="panel panel-default">
+                <table class="table manager-item-table table-hover" id="manager-calendar-your-subscriptions">
                     <thead>
                         <tr>
                             <th class="calendar-subscriptions-name">Calendar Name</th>
@@ -77,8 +77,8 @@
                 Below are calendars that are subscribed to <em>{{ calendar.title }}</em>.  These calendars will automatically receive copies of events you publish.
             </p>
             {% if calendar.subscribing_calendars %}
-            <div>
-                <table class="table table-striped table-hover" id="manager-calendar-subscribing-cals">
+            <div class="panel panel-default">
+                <table class="table manager-item-table table-hover" id="manager-calendar-subscribing-cals">
                     <thead>
                         <tr>
                             <th class="calendar-subscriptions-name">Calendar Name</th>

@@ -39,11 +39,8 @@
         {% block pagehead %}
         <header class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <span id="header-title"><a href="{% url 'home' %}"><span class="alt">UCF</span> Events</a></span>
-                </div>
-                <div class="col-md-4">
-                    {% include_esi_template 'esi/searchbar.html' %}
                 </div>
             </div>
         </header>

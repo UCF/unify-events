@@ -14,3 +14,20 @@
 {% endif %}
 
 {% endblock %}
+
+{% block search_bar %}
+<form method="GET" action="." role="form">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
+                {% render_field form.q class="search-query form-control" placeholder="Search my events" %}
+
+                <div class="input-group-btn">
+                    <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

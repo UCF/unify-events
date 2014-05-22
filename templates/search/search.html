@@ -26,27 +26,36 @@
             {% with 'q='|add:request.GET.q as params %}
             {% include_esi_template 'esi/search-nav.html' params %}
             {% endwith %}
-
-            <form method="GET" action="." class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label for="{{ form.models.auto_id }}" class="control-label col-md-auto">Filter Results by:</label>
-                    <div class="col-md-auto">
-                        {% for model in form.models %}
-                        <div class="checkbox checkbox-inline">
-                            {{ model }}
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-md-auto">
-                        <input type="hidden" name="q" id="id_q" value="{{ request.GET.q }}" /> 
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
-                </div>
-            </form>
         {% else %}
             {% include_esi_template 'esi/search-nav.html' 'q=' %}
         {% endif %}
 
+        {% endblock %}
+
+        {% block search_bar %}
+        <form method="GET" action="." role="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
+                        {% render_field form.q class="search-query form-control" placeholder="Search all events, calendars" %}
+
+                        <div class="input-group-btn">
+                            <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
+                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-form dropdown-menu-right" id="{{ form.models.auto_id }}" role="menu">
+                                {% for model in form.models %}
+                                <li>{{ model }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         {% endblock %}
 
         <div class="row">

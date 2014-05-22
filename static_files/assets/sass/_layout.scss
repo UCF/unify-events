@@ -198,6 +198,18 @@ nav #navinner {
 /* Page Navigation */
 .nav.nav-tabs {
     margin-top: 10px;
+
+    & + .secondary-nav-action {
+        float: right;
+        position: relative;
+        top: -33px;
+        margin-bottom: -33px; /* Push .page-content back up */
+
+        &.searchbar {
+            width: 294px;
+            top: -45px;
+        }
+    }
 }
 
 
