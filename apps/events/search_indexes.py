@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from haystack import indexes
 from events.models import Calendar
 from events.models import State
 from events.models import Event
+from events.models import EventInstance
 
 
 class EventIndex(indexes.SearchIndex, indexes.Indexable):
@@ -17,10 +20,14 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """
         Used when the entire index for model is updated.
-        Only retrieve published events that are published
+        Only retrieve posted events that are not archived
         (no pending or rereview events; allow canceled.)
         """
-        return self.get_model().objects.filter(state=State.posted)
+        now = datetime.now()
+        unarchived_event_pks = EventInstance.objects.filter(end__gte=now, event__state=State.posted).values('event__pk')
+        published_events = self.get_model().objects.filter(pk__in=unarchived_event_pks)
+
+        return published_events
 
 
 class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
@@ -33,7 +40,6 @@ class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """
         Used when the entire index for model is updated.
-        Only retrieve published events that are published
-        (no pending or rereview events; allow canceled.)
+        Retrieve all calendars.
         """
         return self.get_model().objects.all()
