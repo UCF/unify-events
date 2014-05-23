@@ -1,40 +1,9 @@
+{% load core_tags %}
 <header class="container">
     <div class="row">
         <div class="col-md-8 header-title">
-            {% block pagehead_title %}
-            <a href="{% url 'home' %}">Events At UCF</a>
-            {% endblock %}
+            <a href="{% url 'home' %}">Events at UCF</a>
         </div>
-        <div class="col-md-4 header-actions">
-            {% if user.is_authenticated %}
-            <div class="user">
-                <i class="fa fa-user"></i>
-                Hi, <strong>{{ user.first_name }}</strong>
-            </div>
-            {% endif %}
-            <ul class="actions-secondary">
-                {% if user.is_authenticated %}
-                <li>
-                    <i class="fa fa-cog"></i>
-                    <a href="{% url 'profile-settings' %}">
-                        Settings
-                    </a>
-                </li>
-                <li>
-                    <i class="fa fa-power-off"></i>
-                    <a href="{% url 'accounts-logout' %}">
-                        Logout
-                    </a>
-                </li>
-                {% else %}
-                <li>
-                    <i class="fa fa-sign-in"></i>
-                    <a href="{% url 'accounts-login' %}">
-                        Sign In
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+        {% block login %}{% include_esi_template 'esi/login.html' %}{% endblock %}
     </div>
 </header>

@@ -1,4 +1,10 @@
 {% extends 'events/manager/base.html' %}
+{% load core_tags %}
+
+{% block pagehead %}
+    {% include_esi_template 'esi/header.html' %}
+{% endblock %}
+
 {% block content_header %}{% endblock %}
 {% block content_body %}
 

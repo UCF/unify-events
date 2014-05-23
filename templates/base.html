@@ -35,13 +35,13 @@
 
     {% endblock %}
     </head>
-    <body>
-        {% block pagehead %}
-            {% include_esi_template 'esi/header.html' %}
+    {# the body opening tag is included in the header-nav esi #}
+        {% block navbar %}
+            {% include_esi_template 'esi/navbar.html' %}
         {% endblock %}
 
-        {% block navbar %}
-            {% include_esi_template 'esi/header-nav.html' %}
+        {% block pagehead %}
+            {% include_esi_template 'esi/header.html' %}
         {% endblock %}
 
         <!-- Content -->

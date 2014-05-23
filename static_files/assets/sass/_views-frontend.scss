@@ -98,7 +98,7 @@
     .event-edit {
         display: block;
         float: left;
-        color: #999;
+        color: #888;
         margin-left: 15px;
         font-weight: bold;
     }
@@ -113,6 +113,10 @@
 
 
 /* Frontend Calendar View - Base */
+#calendar-base {
+    margin-top: 25px;
+}
+
 #calendar-base .page-content {
     h2 {
         margin-bottom: 30px;
@@ -326,7 +330,7 @@ ul {
 // Body
 #event-single,
 #event-single-sidebar {
-    margin-top: 30px;
+    margin-top: 25px;
 }
 #event-single {
     .event-content {

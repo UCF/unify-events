@@ -4,10 +4,17 @@
 
 {% block meta_alt_title %}{{ calendar.title }}'s {{ list_title }} {{ block.super }}{% endblock %}
 
+{% block pagehead %}
+    {# Move login link out of header for this template #}
+    {% if not calendar.is_main_calendar %}{% include_esi_template 'esi/header-nologin.html' %}{% endif %}
+{% endblock %}
+
 {% block content_title %}
-    <h1 class="col-md-12">
+    <h1 class="col-md-8">
         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
+
+    {% include_esi_template 'esi/login.html' %}
 
     <div class="col-md-4 edit-options hide">
         <ul>
@@ -65,7 +72,6 @@ if (
     (user_calendars.length && user_calendars.indexOf({{ calendar.pk }}) > -1) ||
     is_superuser == 1
 ) {
-    $('h1').attr('class', 'col-md-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#edit-calendar-manage').removeClass('hide');
 }
@@ -76,7 +82,6 @@ if (
     (user_calendars.length > 0 && user_calendars.indexOf({{ calendar.pk }}) == -1) ||
     (user_calendars.length > 1)
 ) {
-    $('h1').attr('class', 'col-md-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#edit-calendar-subscribe').removeClass('hide');
 }
