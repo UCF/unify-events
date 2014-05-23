@@ -120,8 +120,8 @@
             </fieldset>
             <fieldset class="form-group large {% if form.state.errors %}error{% endif %}">
                 <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.state.auto_id }}" title="State" tabindex="-1">{{ form.state.label }}</label>
-                    <p class="label-desc" id="help-label-state" tabindex="-1">Select an event state.</p>
+                    <label class="control-label" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
+                    <p class="label-desc" id="help-label-state" tabindex="-1">Specify how your event should be saved.</p>
                 </div>
                 <div class="controls col-md-3">
                     {% render_field form.state class="form-control" aria-describedby="help-label-state" %}
@@ -204,12 +204,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 whenwhere-interval">
-                                        <label class="label-inner" for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
+                                        <label class="label-inner vertical-label-inner" for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
                                         {{ ei_form.interval|add_class:"form-control" }}
                                         {{ ei_form.interval.errors }}
                                     </div>
                                     <div class="col-md-5 whenwhere-until">
-                                        <label class="label-inner" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
+                                        <label class="label-inner vertical-label-inner" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
                                         {{ ei_form.until|add_class:"field-date form-control" }}
                                         {{ ei_form.until.errors }}
                                     </div>
@@ -244,11 +244,11 @@
                                             {{ ei_form.new_location_title|add_class:"form-control" }}
                                             {{ ei_form.new_location_title.errors }}
 
-                                            <label class="label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                                            <label class="label-inner vertical-label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
                                             {{ ei_form.new_location_room|add_class:"form-control" }}
                                             {{ ei_form.new_location_room.errors }}
 
-                                            <label class="label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                                            <label class="label-inner vertical-label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
                                             {{ ei_form.new_location_url|add_class:"form-control" }}
                                             {{ ei_form.new_location_url.errors }}
                                         </div>
@@ -314,17 +314,22 @@
                             {{ form.contact_name.errors }}
                         </div>
                         <div class="col-md-6">
-                            <a id="add-user-contact-info" href="#" class="btn btn-info">Use Your Contact Info</a>
+                            <label class="checkbox-inline" for="add-user-contact-info">
+                                <input type="checkbox" id="add-user-contact-info">
+                                <strong>Use Your Contact Information</strong>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="label-inner {% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
+                            <label class="label-inner vertical-label-inner {% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
                             {{ form.contact_email|add_class:"form-control" }}
                             {{ form.contact_email.errors }}
                         </div>
-                        <div class="col-md-6">
-                            <label class="label-inner {% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="label-inner vertical-label-inner {% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
                             {{ form.contact_phone|add_class:"form-control" }}
                             {{ form.contact_phone.errors }}
                         </div>
@@ -335,7 +340,7 @@
                 <div class="col-md-8 col-md-offset-3">
                     {% if object %}
                         <button class="btn btn-primary" type="submit">Update Event</button>
-                        <a href="{% url 'dashboard' %}" class="btn btn-default">Cancel</a> <!-- TODO: make this a back link? -->
+                        <a href="{% url 'dashboard' %}" class="btn btn-default">Cancel</a>
                     {% else %}
                         <button class="btn btn-primary" type="submit">Create Event</button>
                     {% endif %}

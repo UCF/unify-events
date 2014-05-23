@@ -115,7 +115,7 @@ form#manager-calendar-add-user {
 .cloner > div {
     border-radius: 4px 0 4px 4px;
     background: #f9f9f9;
-    padding: 10px 20px 20px 20px;
+    padding: 20px;
     border: 1px solid #c8c8c8;
     margin-bottom: 5px;
 }
@@ -129,15 +129,8 @@ form#manager-calendar-add-user {
         border-width: 1px 0;
         border-top: 1px solid #c8c8c8;
         border-bottom: 1px solid #c8c8c8;
+        margin-top: 15px;
     }
-
-    label {
-        margin-top: 10px;
-    }
-}
-
-label[for*="-location-autocomplete"] {
-    margin-top: 0;
 }
 
 .whenwhere.end,
@@ -241,11 +234,6 @@ label[for*="-location-autocomplete"] {
     display: block;
     float: left;
     width: 100%;
-}
-
-.location-search .label-inner:first-child,
-.location-selected .label-inner:first-child {
-    margin-top: 0;
 }
 
 .clone-delete-hiddenfield {
