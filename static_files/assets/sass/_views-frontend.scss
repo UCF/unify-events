@@ -47,10 +47,17 @@
         overflow: hidden;
     }
 
+    .calendar-title {
+        margin-bottom: 0;
+    }
+
     .description,
     .calendar-description {
         display: block;
         clear: both;
+    }
+    .calendar-description {
+        margin-top: 30px;
     }
 
     .event-calendar,
