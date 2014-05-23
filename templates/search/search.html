@@ -100,7 +100,7 @@
                                             <i class="fa fa-tag fa-fw"></i>
                                             <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
                                         </div>
-                                        {% if result.object.tags|length > 0 %}
+                                        {% if result.object.tags.all|length > 0 %}
                                         <div class="event-tags">
                                             <i class="fa fa-tags fa-fw"></i>
                                             <ul>
