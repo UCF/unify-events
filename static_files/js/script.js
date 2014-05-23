@@ -1177,22 +1177,27 @@ var updateMonthviewDropdown = function() {
  * Sets the event contact information to the current user.
  **/
 var eventContactInfo = function() {
-    $('#add-user-contact-info').on('change', function(event) {
-        var checkbox = $(this),
-            currentName = $('#id_event-contact_name'),
-            currentEmail = $('#id_event-contact_email');
+    var checkbox = $('#add-user-contact-info');
+    if (usersFullName && usersEmail) {
+        checkbox.on('change', function(event) {
+            var currentName = $('#id_event-contact_name'),
+                currentEmail = $('#id_event-contact_email');
 
-        if (usersFullName && usersEmail) {
-            if (checkbox.is(':checked')) {
-                currentName.val(usersFullName);
-                currentEmail.val(usersEmail);
+            if (usersFullName && usersEmail) {
+                if (checkbox.is(':checked')) {
+                    currentName.val(usersFullName);
+                    currentEmail.val(usersEmail);
+                }
+                else if (currentName.val() == usersFullName && currentEmail.val() == usersEmail) {
+                    currentName.val('');
+                    currentEmail.val('');
+                }
             }
-            else if (currentName.val() == usersFullName && currentEmail.val() == usersEmail) {
-                currentName.val('');
-                currentEmail.val('');
-            }
-        }
-    });
+        });
+    }
+    else {
+        checkbox.parent().hide();
+    }
 }
 
 /**
