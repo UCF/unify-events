@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-8">
+    <h1 class="col-md-8 col-sm-7">
         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
 
     {% include_esi_template 'esi/login.html' %}
 
-    <div class="col-md-4 edit-options hide">
+    <div class="col-md-4 col-sm-5 edit-options hide">
         <ul>
             <li class="dropdown hide" id="edit-calendar-manage">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' pk=calendar.pk %}">

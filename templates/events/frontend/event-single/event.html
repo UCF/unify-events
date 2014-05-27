@@ -12,7 +12,7 @@
         <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
     </h1>
 
-    <div class="hide edit-options col-md-3">
+    <div class="hide edit-options col-md-3 col-sm-4">
         <ul>
             <li class="hide" id="event-edit">
                 <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
@@ -204,7 +204,7 @@
 // Show edit button only for editors
 var user_calendars = [{% include_esi_template "esi/user-editable-calendar-ids.html" %}];
 if(user_calendars.length && user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1) {
-    $('h1').attr('class', 'col-md-9');
+    $('h1').attr('class', 'col-md-9 col-sm-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#event-edit').removeClass('hide');
 }
@@ -213,7 +213,7 @@ if(user_calendars.length && user_calendars.indexOf({{ event_instance.event.calen
 // if the event is on their calendar and they have more than that one calendar to make a subscription to.
 if(user_calendars.length && (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) < 0 ||
                              (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1 && user_calendars.length > 1 ))) {
-    $('h1').attr('class', 'col-md-9');
+    $('h1').attr('class', 'col-md-9 col-sm-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#event-subscription').removeClass('hide');
 }
