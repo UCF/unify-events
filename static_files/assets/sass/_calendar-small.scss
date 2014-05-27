@@ -1,121 +1,121 @@
 .calendar-slider {
+  position: relative;
+  z-index: 1;
+
+  .pager {
+    margin: 0;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 
-    .pager {
-        margin: 0;
-        position: relative;
-        z-index: 2;
+    li {
+      position: absolute;
+      top: 22px;
 
-        li {
-            position: absolute;
-            top: 22px;
+      &.previous {
+        left: 0;
+      }
 
-            &.previous {
-                left: 0;
-            }
+      &.next {
+        right: 0;
+      }
 
-            &.next {
-                right: 0;
-            }
+      i {
+        color: $brand-primary;
+      }
 
-            i {
-                color: $brand-primary;
-            }
+      & > a,
+      & > span {
+        padding: 4px 10px;
+      }
+    }
+  }
 
-            & > a,
-            & > span {
-                padding: 4px 10px;
-            }
-        }
+  .item {
+    h3 {
+      text-align: center;
+      font-size: 17.5px;
+      line-height: 36px;
+      font-weight: 500;
+      margin-bottom: 0;
     }
 
-    .item {
-        h3 {
-            text-align: center;
-            font-size: 17.5px;
-            line-height: 36px;
-            font-weight: 500;
-            margin-bottom: 0;
+    .table {
+      border-collapse: separate;
+      border-spacing: 3px;
+
+      th,
+      td {
+        border-top: 0;
+        text-align: center;
+      }
+      th {
+        border-bottom: 0;
+        font-weight: 500;
+      }
+      td {
+        font-size: 12.5px;
+        line-height: 18px;
+        padding: 0;
+
+        a {
+          color: $gray-light;
+          display: block;
+          margin: auto;
+          position: relative;
+          z-index: 1;
+          width: 32px;
+          height: 32px;
+          line-height: 32px;
+          border-radius: 32px;
+
+          &:hover {
+            text-decoration: none;
+            background-color: $gray-lighter;
+            color: #000;
+          }
         }
 
-        .table {
-            border-collapse: separate;
-            border-spacing: 3px;
+         
 
-            th,
-            td {
-                border-top: 0;
-                text-align: center;
+        &.active {
+          background-color: #fff;
+          
+          a {
+            color: #fff;
+            background-color: #000;
+
+            &:hover {
+              color: #000;
+              background-color: $gray-lighter;
             }
-            th {
-                border-bottom: 0;
-                font-weight: 500;
-            }
-            td {
-                font-size: 12.5px;
-                line-height: 18px;
-                padding: 0;
+          }
 
-                a {
-                    color: $gray-light;
-                    display: block;
-                    margin: auto;
-                    position: relative;
-                    z-index: 1;
-                    width: 32px;
-                    height: 32px;
-                    line-height: 32px;
-                    border-radius: 32px;
-
-                    &:hover {
-                        text-decoration: none;
-                        background-color: $gray-lighter;
-                        color: #000;
-                    }
-                }
-
-               
-
-                &.active {
-                    background-color: #fff;
-                    
-                    a {
-                        color: #fff;
-                        background-color: #000;
-
-                        &:hover {
-                            color: #000;
-                            background-color: $gray-lighter;
-                        }
-                    }
-
-                }
-
-                &.hasevents a {
-                    color: #000;
-                    font-weight: 500;
-                }
-                &.active.hasevents a {
-                    color: #fff;
-
-                    &:hover {
-                        color: #000;
-                    }
-                }
-
-                &.muted a {
-                    color: $gray-lighter;
-
-                    &:hover {
-                        color: $gray-light;
-                    }
-                }
-
-                &.today a {
-                    text-decoration: underline;
-                }
-            }
         }
+
+        &.hasevents a {
+          color: #000;
+          font-weight: 500;
+        }
+        &.active.hasevents a {
+          color: #fff;
+
+          &:hover {
+            color: #000;
+          }
+        }
+
+        &.muted a {
+          color: $gray-lighter;
+
+          &:hover {
+            color: $gray-light;
+          }
+        }
+
+        &.today a {
+          text-decoration: underline;
+        }
+      }
     }
+  }
 }

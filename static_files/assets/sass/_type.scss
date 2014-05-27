@@ -5,7 +5,7 @@ h1.alt,
 h3 .alt,
 h3.alt,
 .h3.alt {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 h4 .alt,
@@ -17,57 +17,57 @@ h5.alt,
 h6 .alt,
 h6.alt,
 .h6.alt {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 h2,
 .h2 {
-    font-size: 28px;
-    line-height: 1em;
-    letter-spacing: 0;
-    font-weight: 300;
+  font-size: 28px;
+  line-height: 1em;
+  letter-spacing: 0;
+  font-weight: 300;
 
-    .alt,
-    &.alt {
-        font-weight: 500;
-    }
+  .alt,
+  &.alt {
+    font-weight: 500;
+  }
 }
 
 // form a:not([class]),
 // .page-content a:not([class]),
 // .page-sidebar a:not([class]) {
-//     /* Add color to links that don't have a class assigned to them */
-//     color: #3566C9;
+//   /* Add color to links that don't have a class assigned to them */
+//   color: #3566C9;
 // }
 
 
 /* Links */
 a {
-    &:not(.btn) > i {
-        margin-right: 6px;
-    }
+  &:not(.btn) > i {
+    margin-right: 6px;
+  }
 
-    &:hover > i {
-        text-decoration: none;
-    }
+  &:hover > i {
+    text-decoration: none;
+  }
 }
 
 
 /* Icons */
 i + a:not(.btn) {
-    margin-left: 6px;
+  margin-left: 6px;
 }
 
 
 /* Lists */
 ul {
-    padding-left: 0;
+  padding-left: 0;
 }
 ul.bullets,
 ul.errors,
 #messages ul,
 #static-base ul {
-    padding-left: 15px;
+  padding-left: 15px;
 }
 
 
@@ -78,11 +78,11 @@ ul.errors,
 .table > tbody > tr > td,
 .table > tfoot > tr > th,
 .table > tfoot > tr > td {
-    border-top: 2px dotted $table-border-color;
+  border-top: 2px dotted $table-border-color;
 }
 
 
 /* Horizontal Rules */
 hr {
-    border-top: 2px dotted $table-border-color;
+  border-top: 2px dotted $table-border-color;
 }

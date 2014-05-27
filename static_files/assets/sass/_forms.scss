@@ -1,210 +1,210 @@
 /* Forms - General */
 form {
-    &.form-horizontal {
-        margin: 20px 0 30px 0;
-    }
+  &.form-horizontal {
+    margin: 20px 0 30px 0;
+  }
 
-    &.form-tabbed,
-    &.form-tabbed .tab-content .tab-pane h2 {
-        margin-top: 0;
-    }
+  &.form-tabbed,
+  &.form-tabbed .tab-content .tab-pane h2 {
+    margin-top: 0;
+  }
 }
 .form-horizontal {
-    .control-label {
-        font-weight: bold;
-    }
+  .control-label {
+    font-weight: bold;
+  }
 
-    legend.control-label {
-        border: 0px solid transparent;
-        color: #333;
-        margin-bottom: 5px;
-        line-height: 20px;
-    }
+  legend.control-label {
+    border: 0px solid transparent;
+    color: #333;
+    margin-bottom: 5px;
+    line-height: 20px;
+  }
 
-    .form-group {
-        &.large {
-            .control-label-group,
-            .control-label {
-                font-size: 18px;
-            }
-        }
-        .control-label-group {
-            text-align: right;
-        }
+  .form-group {
+    &.large {
+      .control-label-group,
+      .control-label {
+        font-size: 18px;
+      }
     }
+    .control-label-group {
+      text-align: right;
+    }
+  }
 }
 .form-horizontal .control-label,
 .form-horizontal .radio,
 .form-horizontal .checkbox,
 .form-horizontal .radio-inline,
 .form-horizontal .checkbox-inline {
-    padding-top: 3px;
+  padding-top: 3px;
 }
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 
 /* Textareas */
 textarea {
-    height: 175px;
+  height: 175px;
 }
 
 
 /* Select fields */
 select option {
-    padding-top: 3px;
-    padding-bottom: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 
 /* Bulk select form elements */
 .form-horizontal.bulk-action-form {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 label[for="bulk-select"],
 .field-bulk-select label {
-    @include text-hide();
+  @include text-hide();
 }
 
 #bulk-select-all,
 .field-bulk-select input {
-    margin-top: -4px;
+  margin-top: -4px;
 }
 
 
 /* Labels, faux-labels, label descriptions */
 .label-inner {
-    font-size: 16px;
-    color: $gray-light;
-    font-weight: 300;
+  font-size: 16px;
+  color: $gray-light;
+  font-weight: 300;
 
-    &.vertical-label-inner {
-        margin-top: 10px;
-    }
+  &.vertical-label-inner {
+    margin-top: 10px;
+  }
 }
 
 .label-desc {
-    font-size: 12px;
-    line-height: 16px;
-    color: $gray-light;
+  font-size: 12px;
+  line-height: 16px;
+  color: $gray-light;
 }
 
 
 /* Help text */
 .help-block {
-    color: $gray-light;
-    font-size: 11px;
-    font-style: italic;
-    line-height: 1.4em;
+  color: $gray-light;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.4em;
 
-    & + .dropdown-menu {
-        top: 30px;
-    }
+  & + .dropdown-menu {
+    top: 30px;
+  }
 }
 
 
 /* Autocomplete fields */
 .autocomplete-new-btn {
-    position: absolute;
-    bottom: auto;
-    top: 0;
-    right: 3px;
-    padding-left: 12px;
-    padding-right: 14px;
-    border-radius: 0 20px 20px 0;
+  position: absolute;
+  bottom: auto;
+  top: 0;
+  right: 3px;
+  padding-left: 12px;
+  padding-right: 14px;
+  border-radius: 0 20px 20px 0;
 }
 
 
 /* Date, time fields */
 .field-date {
-    margin-right: 10px;
-    margin-bottom: 8px !important;
+  margin-right: 10px;
+  margin-bottom: 8px !important;
 }
 .field-time {
-    margin-right: 0;
+  margin-right: 0;
 
-    + .input-group-addon {
-        display: none;
-    }
+  + .input-group-addon {
+    display: none;
+  }
 }
 
 $bootstrap-dtp-border-radius: 4px;
 
 .bootstrap-dtp {
+  position: relative;
+  clear: both;
+  background: #fff;
+  border-radius: $bootstrap-dtp-border-radius;
+
+  input {
     position: relative;
-    clear: both;
-    background: #fff;
-    border-radius: $bootstrap-dtp-border-radius;
+    z-index: 2;
+    background-color: transparent;
+  }
 
-    input {
-        position: relative;
-        z-index: 2;
-        background-color: transparent;
-    }
-
-    i {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        color: #ccc;
-        z-index: 1;
-    }
+  i {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: #ccc;
+    z-index: 1;
+  }
 }
 .bootstrap-timepicker {
-    input {
-        border-radius: $bootstrap-dtp-border-radius;
-    }
+  input {
+    border-radius: $bootstrap-dtp-border-radius;
+  }
 }
 
 .datepicker {
-    padding: 0 10px 5px 10px;
+  padding: 0 10px 5px 10px;
 
-    &:before,
-    &:after {
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 0;
-    }
+  &:before,
+  &:after {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
 
-    td {
-        &.active,
-        &.active:hover,
-        span.active {
-            background-image: none;
-            background-color: $ucf-gold !important;
-            text-shadow: 0 0 0 transparent;
-            font-weight: bold;
-        }
+  td {
+    &.active,
+    &.active:hover,
+    span.active {
+      background-image: none;
+      background-color: $ucf-gold !important;
+      text-shadow: 0 0 0 transparent;
+      font-weight: bold;
     }
+  }
 
-    td,
-    th,
-    td span {
-        border-radius: 0;
-    }
+  td,
+  th,
+  td span {
+    border-radius: 0;
+  }
 
-    td span {
-        height: 40px;
-        line-height: 40px;
-        width: 38px;
-    }
+  td span {
+    height: 40px;
+    line-height: 40px;
+    width: 38px;
+  }
 }
 
 .ui-timepicker-wrapper {
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  border-radius: 4px;
 }
 
 
 /* WYSIWYG editors */
 ul.wysihtml5-toolbar {
-    a[data-wysihtml5-command="bold"],
-    a[data-wysihtml5-command="italic"],
-    a[data-wysihtml5-command="underline"] {
-        font-weight: normal;
-    }
+  a[data-wysihtml5-command="bold"],
+  a[data-wysihtml5-command="italic"],
+  a[data-wysihtml5-command="underline"] {
+    font-weight: normal;
+  }
 }
 
 
@@ -214,7 +214,7 @@ div.error label,
 .form-group.error .control-label,
 .form-group.error .help-block,
 .form-group.error .help-inline {
-    color: $brand-danger;
+  color: $brand-danger;
 }
 
 input.error,
@@ -225,56 +225,56 @@ div.error textarea,
 .form-group.error input,
 .form-group.error select,
 .form-group.error textarea {
-    border: 1px solid $btn-danger-border;
-    color: $brand-danger;
+  border: 1px solid $btn-danger-border;
+  color: $brand-danger;
 }
 
 
 /* Errors - error lists */
 ul.errorlist {
-    background: none repeat scroll 0 0 $btn-danger-border;
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    list-style-type: none;
-    margin: 10px 0;
-    padding: 10px;
-    position: relative;
-    max-width: 220px;
+  background: none repeat scroll 0 0 $btn-danger-border;
+  border-radius: 4px;
+  color: #fff;
+  display: block;
+  list-style-type: none;
+  margin: 10px 0;
+  padding: 10px;
+  position: relative;
+  max-width: 220px;
+
+  &:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $btn-danger-border;
+    position: absolute;
+    top: -5px;
+    left: 10px;
+  }
+
+  li {
+    margin-top: 5px;
+    text-indent: 0;
+    padding-left: 20px;
+
+    &:first-child {
+      margin-top: 0;
+    }
 
     &:before {
-        content: "";
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-bottom: 5px solid $btn-danger-border;
-        position: absolute;
-        top: -5px;
-        left: 10px;
+      font-family: "FontAwesome";
+      content: "";
+      float: left;
+      width: 20px;
+      margin-left: -20px;
     }
-
-    li {
-        margin-top: 5px;
-        text-indent: 0;
-        padding-left: 20px;
-
-        &:first-child {
-            margin-top: 0;
-        }
-
-        &:before {
-            font-family: "FontAwesome";
-            content: "";
-            float: left;
-            width: 20px;
-            margin-left: -20px;
-        }
-    }
+  }
 }
 
 
 /* Object Modify Views (non-modal) */
 .modal-footer-content {
-    margin-top: 30px;
+  margin-top: 30px;
 }

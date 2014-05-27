@@ -1,322 +1,322 @@
 /* Static Pages */
 #static-base {
-    h3 {
-        margin-top: 20px;
-    }
+  h3 {
+    margin-top: 20px;
+  }
 
-    h2 + h3 {
-        margin-top: 10px;
-    }
+  h2 + h3 {
+    margin-top: 10px;
+  }
 
-    .page-sidebar strong {
-        margin-bottom: 5px;
-        display: block;
-    }
+  .page-sidebar strong {
+    margin-bottom: 5px;
+    display: block;
+  }
 }
 
 
 /* Search View */
 #search {
-    form {
-        margin-top: 20px;
-        margin-bottom: 0;
-    }
-    .form-group {
-        margin-bottom: 0;
-    }
-    .page-content {
-        margin-top: 20px;
-    }
+  form {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+  .page-content {
+    margin-top: 20px;
+  }
 }
 .search-results-list {
-    list-style-type: none;
+  list-style-type: none;
+  margin-top: 30px;
+
+  & > li {
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 0 0 20px 0;
+    border-bottom: 2px dotted $table-border-color;
+  }
+  & > li:last-child {
+    border-bottom: 0px transparent;
+  }
+
+  .result-meta {
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  .calendar-title {
+    margin-bottom: 0;
+  }
+
+  .description,
+  .calendar-description {
+    display: block;
+    clear: both;
+  }
+  .calendar-description {
     margin-top: 30px;
+  }
 
-    & > li {
-        overflow: hidden;
-        margin: 20px 0;
-        padding: 0 0 20px 0;
-        border-bottom: 2px dotted $table-border-color;
-    }
-    & > li:last-child {
-        border-bottom: 0px transparent;
-    }
-
-    .result-meta {
-        font-size: 13px;
-        overflow: hidden;
-    }
-
-    .calendar-title {
-        margin-bottom: 0;
-    }
-
-    .description,
-    .calendar-description {
-        display: block;
-        clear: both;
-    }
-    .calendar-description {
-        margin-top: 30px;
-    }
-
-    .event-calendar,
-    .event-category,
-    .event-tags {
-        display: block;
-        float: left;
-        margin-right: 10px;
-    }
-
-    .event-tags ul {
-        display: inline;
-        margin-left: 5px;
-
-        li {
-            display: block;
-            float: left;
-            margin-right: 6px;
-
-            &:after {
-                content: ",";
-            }
-            &:last-child:after {
-                content: "";
-            }
-        }
-    }
-    .category-text,
-    .event-calendar {
-        font-weight: bold;
-    }
-    .event-tags i,
-    .event-category i,
-    .event-calendar i {
-        display: block;
-        float: left;
-        color: $gray;
-        line-height: 1.4em;
-        padding-right: 3px;
-
-        & + a {
-            margin-left: 0;
-        }
-    }
-
-    .event-edit {
-        display: block;
-        float: left;
-        color: #888;
-        margin-left: 15px;
-        font-weight: bold;
-    }
-}
-.search-object-title {
-    font-size: 21px;
-    line-height: 1em;
+  .event-calendar,
+  .event-category,
+  .event-tags {
     display: block;
     float: left;
-    margin-top: 0;
+    margin-right: 10px;
+  }
+
+  .event-tags ul {
+    display: inline;
+    margin-left: 5px;
+
+    li {
+      display: block;
+      float: left;
+      margin-right: 6px;
+
+      &:after {
+        content: ",";
+      }
+      &:last-child:after {
+        content: "";
+      }
+    }
+  }
+  .category-text,
+  .event-calendar {
+    font-weight: bold;
+  }
+  .event-tags i,
+  .event-category i,
+  .event-calendar i {
+    display: block;
+    float: left;
+    color: $gray;
+    line-height: 1.4em;
+    padding-right: 3px;
+
+    & + a {
+      margin-left: 0;
+    }
+  }
+
+  .event-edit {
+    display: block;
+    float: left;
+    color: #888;
+    margin-left: 15px;
+    font-weight: bold;
+  }
+}
+.search-object-title {
+  font-size: 21px;
+  line-height: 1em;
+  display: block;
+  float: left;
+  margin-top: 0;
 }
 
 
 /* Frontend Calendar View - Base */
 #calendar-base {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 #calendar-base .page-content {
-    h2 {
-        margin-bottom: 30px;
-    }
+  h2 {
+    margin-bottom: 30px;
+  }
 
-    .day-heading {
-        display: block;
-        font-size: 15px;
-        line-height: 1em;
-        margin-bottom: 15px;
-        margin-top: 30px;
-        color: $gray-light;
-        text-transform: uppercase;
-    }
+  .day-heading {
+    display: block;
+    font-size: 15px;
+    line-height: 1em;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    color: $gray-light;
+    text-transform: uppercase;
+  }
 }
 
 ul {
-    &.event-list {
-        margin-bottom: 30px;
-        list-style-type: none;
-        margin-left: 0;
+  &.event-list {
+    margin-bottom: 30px;
+    list-style-type: none;
+    margin-left: 0;
 
-        li.event {
-            display: block;
-            position: relative;
-            overflow: hidden;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-left: 3px solid $gray-lighter;
+    li.event {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-left: 3px solid $gray-lighter;
 
-            &:first-child {
-                margin-top: 10px;
-            }
+      &:first-child {
+        margin-top: 10px;
+      }
 
-            .event-title {
-                line-height: 1em;
-                margin-top: 0;
-                font-weight: 400;
+      .event-title {
+        line-height: 1em;
+        margin-top: 0;
+        font-weight: 400;
 
-                i {
-                    font-size: 16px;
-                    vertical-align: top;
-                    color: $brand-primary;
-                }
-            }
-
-            time,
-            .location {
-                display: block;
-            }
-
-            time {
-                display: block;
-                font-size: 20px;
-                line-height: 1em;
-                font-weight: bold;
-                margin-top: 0;
-                color: #000;
-
-                &.dtend {
-                    font-size: 14px;
-                    margin-top: 5px;
-                }
-            }
-
-            .location {
-                font-size: 16px;
-                line-height: 1em;
-                margin: 12px 0;
-            }
-
-            .description {
-                margin-bottom: 0;
-                font-size: 13px;
-            }
-
-            .calendar {
-                display: block;
-                margin-top: 15px;
-                font-size: 12px;
-                text-transform: uppercase;
-                font-weight: bold;
-                color: $gray-light;
-
-                i {
-                    margin-right: 3px;
-                }
-            }
-
-            > a {
-                display: block;
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-            }
-
-            &:hover {
-                background-color: $gray-lighter;
-            }
-            &:hover .event-title a,
-            &:hover .event-title i {
-                color: $link-hover-color;
-            }
-            &:hover .event-title a {
-                text-decoration: underline;
-            }
+        i {
+          font-size: 16px;
+          vertical-align: top;
+          color: $brand-primary;
         }
-    }
+      }
 
-    &.event-list-condensed {
-        list-style-type: none;
-        width: 100%;
-        margin-top: 5px;
+      time,
+      .location {
+        display: block;
+      }
 
-        li {
-            text-overflow: ellipsis;
-            width: 114px;
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: 11px;
-            line-height: 23px;
+      time {
+        display: block;
+        font-size: 20px;
+        line-height: 1em;
+        font-weight: bold;
+        margin-top: 0;
+        color: #000;
 
-            time {
-                font-weight: bold;
-            }
+        &.dtend {
+          font-size: 14px;
+          margin-top: 5px;
         }
+      }
+
+      .location {
+        font-size: 16px;
+        line-height: 1em;
+        margin: 12px 0;
+      }
+
+      .description {
+        margin-bottom: 0;
+        font-size: 13px;
+      }
+
+      .calendar {
+        display: block;
+        margin-top: 15px;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $gray-light;
+
+        i {
+          margin-right: 3px;
+        }
+      }
+
+      > a {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      &:hover {
+        background-color: $gray-lighter;
+      }
+      &:hover .event-title a,
+      &:hover .event-title i {
+        color: $link-hover-color;
+      }
+      &:hover .event-title a {
+        text-decoration: underline;
+      }
     }
+  }
+
+  &.event-list-condensed {
+    list-style-type: none;
+    width: 100%;
+    margin-top: 5px;
+
+    li {
+      text-overflow: ellipsis;
+      width: 114px;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 11px;
+      line-height: 23px;
+
+      time {
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 
 /* Frontend Calendar View - Day, Week */
 #calendar-events-day h2,
 #calendar-events-week h2 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 
 /* Frontend Calendar View - Month */
 #calendar-events-month {
-    h2 {
-        text-align: center;
-        font-size: 24.5px;
-        line-height: 40px;
-    }
-    .calendar-large h2 {
-        display: none;
-    }
+  h2 {
+    text-align: center;
+    font-size: 24.5px;
+    line-height: 40px;
+  }
+  .calendar-large h2 {
+    display: none;
+  }
 }
 
 #month-toggle {
-    margin: 15px 0 0 0;
-    width: 280px;
-    position: relative;
-    top: 0;
-    left: 0;
+  margin: 15px 0 0 0;
+  width: 280px;
+  position: relative;
+  top: 0;
+  left: 0;
 
-    select {
-        &#id_year {
-            width: 85px;
-        }
-
-        &#id_month {
-            width: 125px;
-        }
+  select {
+    &#id_year {
+      width: 85px;
     }
+
+    &#id_month {
+      width: 125px;
+    }
+  }
 }
 
 
 /* Frontend Calendar View - Year */
 #calendar-events-year h2 {
-    text-align: center;
+  text-align: center;
 }
 
 
 /* Frontend Events - by Category, Tag, Search Term */
 #term-events ul.event-list li .event-content .dtstart {
-    background-color: transparent;
-    width: 100%;
-    position: static;
-    text-align: left;
-    font-size: 14px;
-    font-weight: normal;
-    padding: 15px 0 0 0;
+  background-color: transparent;
+  width: 100%;
+  position: static;
+  text-align: left;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 15px 0 0 0;
 }
 #term-events ul.event-list li .event-content .location,
 #term-events ul.event-list li .event-content .calendar {
-    margin-right: 0;
+  margin-right: 0;
 }
 #term-events ul.event-list li .event-content .calendar {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 
@@ -324,129 +324,129 @@ ul {
 
 // Title/Subtitle
 #page-subtitle-event-date {
-    font-size: 24px;
-    line-height: 1.4em;
+  font-size: 24px;
+  line-height: 1.4em;
 
-    .event-single-date {
-        font-weight: bold;
-        color: #9e0b0f;
-        padding-right: 8px;
-    }
+  .event-single-date {
+    font-weight: bold;
+    color: #9e0b0f;
+    padding-right: 8px;
+  }
 }
 
 
 // Body
 #event-single,
 #event-single-sidebar {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 #event-single {
-    .event-content {
-        font-size: 16px;
-        line-height: 1.5em;
-        margin-bottom: 35px;
-    }
+  .event-content {
+    font-size: 16px;
+    line-height: 1.5em;
+    margin-bottom: 35px;
+  }
 
-    .event-single-schedule-header {
-        color: $gray-light;
-        margin-bottom: 20px;
-    }
+  .event-single-schedule-header {
+    color: $gray-light;
+    margin-bottom: 20px;
+  }
 
-    .event-single-schedule {
-        max-height: 300px;
-        overflow-y: scroll;
-        margin-bottom: 30px;
-    }
+  .event-single-schedule {
+    max-height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 30px;
+  }
 }
 
 .map-widget-wrap {
-    height: 300px;
-    margin-bottom: 20px;
+  height: 300px;
+  margin-bottom: 20px;
 }
 .map-widget {
-    border: 0;
-    width: 100% !important;
-    height: 100% !important;
+  border: 0;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 
 // Sidebar
 #event-single-sidebar {
-    position: relative;
+  position: relative;
 
-    i {
-        color: $gray-light;
-    }
+  i {
+    color: $gray-light;
+  }
 
-    h2:first-child {
-        margin: 0 0 5px 0;
-    }
+  h2:first-child {
+    margin: 0 0 5px 0;
+  }
 }
 
 .event-location .location {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .event-location-url {
-    display: block;
-    margin-top: 10px;
+  display: block;
+  margin-top: 10px;
 }
 
 .event-location-note {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .event-contact-email,
 .event-contact-phone {
-    display: block;
-    overflow: hidden;
-    position: relative;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 5px 0 0 0;
-    margin: 0;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 0 0 0;
+  margin: 0;
 
-    &:before {
-        content: "•";
-        display: block;
-        float: left;
-        padding-right: 6px;
-    }
+  &:before {
+    content: "•";
+    display: block;
+    float: left;
+    padding-right: 6px;
+  }
 }
 
 
 // Event Meta (On Calendar, Category, Tag)
 #event-meta {
-    dt {
-        text-align: left;
-    }
+  dt {
+    text-align: left;
+  }
 
-    dd > * {
-        vertical-align: middle;
-    }
+  dd > * {
+    vertical-align: middle;
+  }
 
-    h3 {
-        margin: 5px 0;
-    }
+  h3 {
+    margin: 5px 0;
+  }
 }
 
 .event-meta-calendar,
 .event-meta-category,
 .event-meta-tags {
-    font-size: 17.5px;
-    font-weight: bold;
+  font-size: 17.5px;
+  font-weight: bold;
 }
 
 .event-meta-tags {
-    line-height: 1.6em;
+  line-height: 1.6em;
 }
 
 
 /* Canceled Event overrides */
 .canceled {
-    time,
-    #page-subtitle-event-date,
-    #event-single .event-single-schedule {
-        text-decoration: line-through;
-    }
+  time,
+  #page-subtitle-event-date,
+  #event-single .event-single-schedule {
+    text-decoration: line-through;
+  }
 }

@@ -1,159 +1,159 @@
 $calendar-grid-width: 14.285%;
 
 .calendar-grid-labels > span {
-    width: $calendar-grid-width;
-    font-size: 18px;
-    color: #6e6e6e;
-    text-align: center;
-    font-weight: 300;
-    display: block;
-    float: left;
-    padding: 10px 0;
+  width: $calendar-grid-width;
+  font-size: 18px;
+  color: #6e6e6e;
+  text-align: center;
+  font-weight: 300;
+  display: block;
+  float: left;
+  padding: 10px 0;
 }
 
 .calendar-grid {
-    width: 100%;
-    list-style-type: none;
+  width: 100%;
+  list-style-type: none;
 
-    > li {
-        width: $calendar-grid-width;
-        height: 130px;
-        border-top: 0px solid transparent;
-        padding: 0;
-        float: left;
-        border-bottom: 4px solid #fff;
-        overflow: hidden;
-        position: relative;
+  > li {
+    width: $calendar-grid-width;
+    height: 130px;
+    border-top: 0px solid transparent;
+    padding: 0;
+    float: left;
+    border-bottom: 4px solid #fff;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      overflow: visible;
+    }
+
+    > a {
+      &.event-expander {
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 20px;
+        z-index: 3;
+        cursor: default;
+        text-align: center;
+        color: #fff;
 
         &:hover {
-            overflow: visible;
+          display: none;
         }
 
-        > a {
-            &.event-expander {
-                display: block;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 20px;
-                z-index: 3;
-                cursor: default;
-                text-align: center;
-                color: #fff;
-
-                &:hover {
-                    display: none;
-                }
-
-                > .event-expander-icon {
-                    display: block;
-                    border-left: 2px solid #fff;
-                    border-right: 2px solid #fff;
-                    background-color: #d4d4d4;
-                    height: 100%;
-                    line-height: 20px;
-                }
-            }
+        > .event-expander-icon {
+          display: block;
+          border-left: 2px solid #fff;
+          border-right: 2px solid #fff;
+          background-color: #d4d4d4;
+          height: 100%;
+          line-height: 20px;
         }
-
-        > div {
-            background-color: #f1f1f1;
-            height: 126px;
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #fff;
-            padding-top: 25px;
-
-            &:after { /* Add some faux padding btwn the edge of the li and its child div */
-                content: "";
-                display: block;
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                left: 2px;
-                height: 6px;
-                background-color: #f1f1f1;
-                z-index: 10;
-            }
-
-            > ul {
-                position: absolute;
-                left: 0;
-
-                > li {
-                    padding: 0 8px;
-                    width: 114px;
-                }
-            }
-
-            > a.date {
-                font-size: 20px;
-                font-weight: 400;
-                color: $gray-light;
-                padding: 0 5px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 3;
-
-                > span {
-                    display: none;
-                }
-            }
-
-            > .holiday {
-                font-size: 12px;
-                font-weight: 500;
-                color: $gray-light;
-                display: block;
-                line-height: 14px;
-                padding: 8px 0 0 8px;
-            }
-        }
-
-        &:hover > div {
-            width: auto;
-            z-index: 10;
-            overflow: visible;
-
-            > a.date {
-                color: #000;
-            }
-
-            > ul {
-                background-color: #fffbe9;
-                width: 200px;
-                max-height: 200px;
-                overflow-y: scroll;
-                box-shadow: 0 6px 12px rgba(0,0,0,.175);
-
-                > li {
-                    width: 184px;
-                }
-            }
-
-            &:after { display: none; }
-        }
-
-        &.muted > div {
-            background-color: #fff;
-
-            &:after {
-                background-color: #fff;
-            }
-
-            > a.date {
-                color: #e2e2e2;
-            }
-        }
-
-        &.today {
-            > div > a.date {
-                text-decoration: underline;
-            }
-        }
+      }
     }
+
+    > div {
+      background-color: #f1f1f1;
+      height: 126px;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #fff;
+      padding-top: 25px;
+
+      &:after { /* Add some faux padding btwn the edge of the li and its child div */
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        left: 2px;
+        height: 6px;
+        background-color: #f1f1f1;
+        z-index: 10;
+      }
+
+      > ul {
+        position: absolute;
+        left: 0;
+
+        > li {
+          padding: 0 8px;
+          width: 114px;
+        }
+      }
+
+      > a.date {
+        font-size: 20px;
+        font-weight: 400;
+        color: $gray-light;
+        padding: 0 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+
+        > span {
+          display: none;
+        }
+      }
+
+      > .holiday {
+        font-size: 12px;
+        font-weight: 500;
+        color: $gray-light;
+        display: block;
+        line-height: 14px;
+        padding: 8px 0 0 8px;
+      }
+    }
+
+    &:hover > div {
+      width: auto;
+      z-index: 10;
+      overflow: visible;
+
+      > a.date {
+        color: #000;
+      }
+
+      > ul {
+        background-color: #fffbe9;
+        width: 200px;
+        max-height: 200px;
+        overflow-y: scroll;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+        > li {
+          width: 184px;
+        }
+      }
+
+      &:after { display: none; }
+    }
+
+    &.muted > div {
+      background-color: #fff;
+
+      &:after {
+        background-color: #fff;
+      }
+
+      > a.date {
+        color: #e2e2e2;
+      }
+    }
+
+    &.today {
+      > div > a.date {
+        text-decoration: underline;
+      }
+    }
+  }
 }
