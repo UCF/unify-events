@@ -4,7 +4,7 @@
 {% block content_tabs %}
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs hidden-xs">
                 <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
                     <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
                 </li>
@@ -21,6 +21,28 @@
                     <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
                 </li>
             </ul>
+            <div class="btn-group mobile-nav-tabs">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    View By... <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
+                        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
+                    </li>
+                    <li{% if list_type == 'week' %} class="active"{% endif %}>
+                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
+                    </li>
+                    <li{% if list_type == 'month' %} class="active"{% endif %}>
+                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
+                    </li>
+                    <li{% if list_type == 'year' %} class="active"{% endif %}>
+                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
+                    </li>
+                    <li{% if list_type == 'upcoming' %} class="active"{% endif %}>
+                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
+                    </li>
+                </ul>
+            </div>
             <div class="secondary-nav-action searchbar">
                 {% include 'events/frontend/searchbar.html' %}
             </div>

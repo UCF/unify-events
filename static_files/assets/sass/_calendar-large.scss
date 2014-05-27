@@ -10,6 +10,9 @@ $calendar-grid-width: 14.285%;
   float: left;
   padding: 10px 0;
 }
+.calendar-grid-labels {
+  @include respond-to(xs) { display: none; }
+}
 
 .calendar-grid {
   width: 100%;
@@ -24,6 +27,7 @@ $calendar-grid-width: 14.285%;
     border-bottom: 4px solid #fff;
     overflow: hidden;
     position: relative;
+    @include respond-to(xs) { width: 100%; }
 
     &:hover {
       overflow: visible;
@@ -129,9 +133,11 @@ $calendar-grid-width: 14.285%;
         max-height: 200px;
         overflow-y: scroll;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        @include respond-to(xs) { width: 100%; }
 
         > li {
           width: 184px;
+          @include respond-to(xs) { width: 100%; }
         }
       }
 

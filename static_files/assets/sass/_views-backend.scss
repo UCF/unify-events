@@ -1,6 +1,7 @@
 /* General */
 #manager-base {
   margin-top: 25px;
+  @include respond-to(xs) { margin-top: 15px; }
 }
 
 

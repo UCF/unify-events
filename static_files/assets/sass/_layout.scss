@@ -12,6 +12,10 @@ body {
 header {
   padding-top: 15px;
   margin-bottom: -20px; /* Pull up #page-title-wrap */
+  @include respond-to(xs) {
+    padding-top: 5px;
+    margin-bottom: -15px; /* Add more space btwn .header-title and #page-title-wrap */
+  }
 
   a,
   a:hover {
@@ -26,11 +30,26 @@ header {
 .header-actions {
   text-align: right;
   padding-top: 10px;
+  @include respond-to(xs) {
+    text-align: left;
+    padding-top: 5px;
+    margin-bottom: 5px;
+  }
 
   a,
   a:hover {
     color: #888;
     font-weight: bold;
+  }
+
+  .login {
+    @include respond-to(xs) {
+      /* Align login link with site/page title */
+      float: right;
+      position: relative;
+      top: -26px;
+      margin-bottom: -26px;
+    }
   }
 }
 
@@ -130,11 +149,8 @@ header {
 #messages {
   margin: 0 0 20px 0;
 }
-
-
-/* Page Nav Tabs */
-.nav.nav-tabs {
-  margin-bottom: 5px;
+#calendar-base #messages {
+  margin: 15px 0;
 }
 
 
@@ -145,6 +161,10 @@ header {
   h1 {
     margin-top: 0;
     margin-bottom: 10px;
+    @include respond-to(xs) {
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
 
     a {
       color: $headings-color;
@@ -154,17 +174,22 @@ header {
   .edit-options {
     margin-top: 2px;
     margin-bottom: 0;
+    @include respond-to(xs) { margin-top: 8px; }
 
     > ul {
       list-style-type: none;
       float: right;
+      @include respond-to(xs) {
+        float: left;
+        margin-bottom: 4px;
+      }
 
       > li {
         float: left;
-        margin-left: 15px;
+        margin-right: 15px;
 
-        &:first-child {
-          margin-left: 0;
+        &:last-child {
+          margin-right: 0;
         }
 
         > a {
@@ -188,6 +213,7 @@ header {
   margin-bottom: 5px;
   position: relative;
   top: -5px;
+  @include respond-to(xs) { display: none; }
 }
 
 .subtitle-backlink-wrap {
@@ -204,17 +230,40 @@ header {
 /* Page Navigation */
 .nav.nav-tabs {
   margin-top: 10px;
+  margin-bottom: 5px;
+}
+.mobile-nav-tabs {
+  display: none;
+  @include respond-to(xs) {
+    display: inline-block; /* Don't use .hidden class on this elem; otherwise it will be set to display:block */
+    width: 35%;
+  }
 
-  & + .secondary-nav-action {
-    float: right;
-    position: relative;
-    top: -33px;
-    margin-bottom: -33px; /* Push .page-content back up */
+  .btn {
+    width: 100%;
+  }
+}
+.secondary-nav-action {
+  float: right;
+  position: relative;
+  top: -33px;
+  margin-bottom: -33px; /* Push .page-content back up */
 
-    &.searchbar {
-      width: 294px;
-      top: -45px;
+  &.searchbar {
+    width: 294px;
+    top: -45px;
+    @include respond-to(sm) { width: 200px; }
+    @include respond-to(xs) {
+      top: 0;
+      margin-bottom: 0;
+      width: 60%;
     }
+  }
+}
+.secondary-nav-action,
+.mobile-nav-tabs {
+  @include respond-to(xs) {
+    margin-top: 10px;
   }
 }
 
@@ -224,6 +273,7 @@ header {
   &.sidebarfix {
     > * {/* This does dumb things to tables. Wrap tables in a div to accomodate */
       padding-right: 10px;
+      @include respond-to(xs) { padding-right: 0; }
     }
 
     > .modal {
@@ -279,6 +329,7 @@ header {
     margin-right: 4px;
     width: 70px;
     height: 31px;
+    @include respond-to(sm) { margin-right: 3px; }
 
     &.share-twitter { background-position: -71px 0; }
     &.share-twitter:hover { background-position: -71px -31px; }
@@ -294,6 +345,10 @@ header {
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px;
+  @include respond-to(sm) {
+    margin-left: 0;
+    margin-top: 0;
+  }
 
   a {
     display: inline-block;
@@ -337,6 +392,7 @@ header {
 /* Footer */
 footer {
   margin: 40px 0;
+  @include respond-to(xs) { margin: 0 0 20px 0; }
 
   ul {
     list-style-type: none;

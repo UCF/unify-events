@@ -1178,7 +1178,7 @@ var updateMonthviewDropdown = function() {
  **/
 var eventContactInfo = function() {
     var checkbox = $('#add-user-contact-info');
-    if (usersFullName && usersEmail) {
+    if (typeof usersFullName !== 'undefined' && typeof usersEmail !== 'undefined') {
         checkbox.on('change', function(event) {
             var currentName = $('#id_event-contact_name'),
                 currentEmail = $('#id_event-contact_email');
@@ -1248,6 +1248,27 @@ var resizeMapWidgets = function() {
 }
 
 
+/**
+ * Functionality for content expanders (i.e. event descriptions)
+ **/
+var contentExpanders = function() {
+    $('.content-expander').each(function() {
+        var btn = $(this),
+            content = btn.parents('.content-expand');
+
+        // Hide btn if content is less than max-height
+        if (content.height() < parseInt(content.css('max-height'), 10)) {
+            btn.addClass('hidden');
+        }
+
+        btn.on('click', function(e) {
+            e.preventDefault();
+            content.addClass('expanded');
+        })
+    })
+}
+
+
 $(document).ready(function() {
     bulkSelectAll();
     bulkActionSubmit();
@@ -1274,4 +1295,5 @@ $(document).ready(function() {
     eventContactInfo();
     clickableTableRows();
     resizeMapWidgets();
+    contentExpanders();
 });

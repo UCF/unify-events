@@ -75,16 +75,48 @@
 {% endif %}
 
 <div class="row">
-    <div class="col-md-8 sidebarfix page-content" id="event-single">
-        <div class="event-content description">
+    <div class="col-md-8 col-sm-8 sidebarfix page-content" id="event-single">
+        <div class="event-content content-expand description">
     	   {{ event_instance.event.description|bleach }}
+            <a class="content-expander visible-xs" href="#"><i class="fa fa-caret-down"></i></a>
         </div>
+
+        {# Start mobile-only sections ....... #}
+
+        <div class="event-location event-location-mobile visible-xs">
+            <h2 class="h4 alt heading-location">Location:</h2>
+            <span class="h2 alt location">
+                {{ event_instance.location.title }}
+            </span>
+            {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
+
+            {% if not event_instance.location.get_map_widget_url %}
+                {% if event_instance.location.url %}
+                <span class="event-location-url">
+                    <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
+                </span>
+                {% endif %}
+            {% endif %}
+
+            {% if event_instance.event.has_instances %}
+            <p class="small event-location-note">
+                *This event occurs on multiple dates/times. This event takes place at this location on this date.
+            </p>
+            {% endif %}
+        </div>
+
+        {% if event_instance.location.get_map_widget_url %}
+        <div class="map-widget-wrap visible-xs">
+            <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
+        </div>
+        {% endif %}
+
+        {# ...... end mobile-only sections #}
 
         {% if event_instance.event.has_instances %}
         <h3 class="h4 event-single-schedule-header">
             Event runs on multiple dates <span class="alt">(select event date for details)</span>
         </h3>
-
     	<div class="event-single-schedule">
     	   <table class="table table-hover table-clickable">
                 <thead class="sr-only">
@@ -110,10 +142,37 @@
         {% endif %}
 
         {% if event_instance.location.get_map_widget_url %}
-        <div id="event-location-map" class="map-widget-wrap">
+        <div id="event-location-map" class="map-widget-wrap hidden-xs">
             <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
         </div>
         {% endif %}
+
+        {# start mobile-only sections ...... #}
+
+        <hr class="visible-xs" />
+
+        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} visible-xs">
+            <h2 class="h4 alt heading-contact">Contact:</h2>
+            <div class="event-contact-info">
+                {% if not event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
+                    <em>No contact information available.</em>
+                {% else %}
+                    {% if event_instance.event.contact_name %}
+                    <span class="h4 event-contact-name fn">{{ event_instance.event.contact_name }}</span>
+                    {% endif %}
+                    {% if event_instance.event.contact_phone %}
+                    <span class="h4 alt event-contact-phone tel"><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    {% endif %}
+                    {% if event_instance.event.contact_email %}
+                    <span class="h4 alt event-contact-email email"><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <hr class="visible-xs" />
+
+        {# ...... end mobile-only sections #}
 
     	<dl id="event-meta" class="dl-horizontal">
             <dt><h3 class="h4 alt">Calendar:</h3></dt>
@@ -137,12 +196,12 @@
             </dd>
     	</dl>
     </div>
-    <aside class="col-md-4 page-sidebar" id="event-single-sidebar">
+    <aside class="col-md-4 col-sm-4 page-sidebar" id="event-single-sidebar">
         {% comment %}
         TODO: if we get more location information in the future, wrap location information in its own vcard.
         {% endcomment %}
-        <div class="event-location">
-            <h2 class="h4 alt">Location:</h2>
+        <div class="event-location hidden-xs">
+            <h2 class="h4 alt heading-location">Location:</h2>
             <span class="h2 alt location">
                 {{ event_instance.location.title }}
             </span>
@@ -167,10 +226,10 @@
             {% endif %}
         </div>
 
-        <hr />
+        <hr class="hidden-xs" />
 
-        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %}">
-            <h2 class="h4 alt">Contact:</h2>
+        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} hidden-xs">
+            <h2 class="h4 alt heading-contact">Contact:</h2>
             <div class="event-contact-info">
                 {% if not event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
                     <em>No contact information available.</em>
@@ -192,7 +251,7 @@
 
         {% social_btns url=request.build_absolute_uri page_title=event_instance.event.title %}
 
-        <h2 class="h4 alt pull-left">Feeds:</h2>
+        <h2 class="h4 alt pull-left heading-feeds">Feeds:</h2>
         {% feed_btns url=request.build_absolute_uri %}
     </aside>
 </div>

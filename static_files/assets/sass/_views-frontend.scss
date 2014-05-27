@@ -123,11 +123,17 @@
 /* Frontend Calendar View - Base */
 #calendar-base {
   margin-top: 25px;
+  @include respond-to(xs) { margin-top: 15px; }
 }
 
 #calendar-base .page-content {
   h2 {
     margin-bottom: 30px;
+
+    &.heading-location,
+    &.heading-contact {
+      margin-bottom: 5px;
+    }
   }
 
   .day-heading {
@@ -151,7 +157,7 @@ ul {
       display: block;
       position: relative;
       overflow: hidden;
-      padding: 15px 20px;
+      padding: 10px 20px;
       margin: 20px 0;
       border-left: 3px solid $gray-lighter;
 
@@ -266,10 +272,12 @@ ul {
 
 /* Frontend Calendar View - Month */
 #calendar-events-month {
-  h2 {
+  &.page-content h2 {
     text-align: center;
-    font-size: 24.5px;
-    line-height: 40px;
+    @include respond-to(xs) {
+      margin-bottom: 0;
+      display: block;
+    }
   }
   .calendar-large h2 {
     display: none;
@@ -282,6 +290,10 @@ ul {
   position: relative;
   top: 0;
   left: 0;
+  @include respond-to(xs) {
+    width: 100%;
+    overflow: hidden;
+  }
 
   select {
     &#id_year {
@@ -291,6 +303,13 @@ ul {
     &#id_month {
       width: 125px;
     }
+
+    @include respond-to(xs) { margin-right: 4px; }
+  }
+
+  select,
+  button {
+    @include respond-to(xs) { float: left; }
   }
 }
 
@@ -326,11 +345,27 @@ ul {
 #page-subtitle-event-date {
   font-size: 24px;
   line-height: 1.4em;
+  @include respond-to(xs) {
+    font-size: 20px;
+    line-height: 1em;
+  }
 
   .event-single-date {
     font-weight: bold;
     color: #9e0b0f;
     padding-right: 8px;
+    @include respond-to(xs) {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .event-single-time {
+    @include respond-to(xs) {
+      margin-top: 5px;
+      line-height: 1em;
+    }
   }
 }
 
@@ -339,29 +374,67 @@ ul {
 #event-single,
 #event-single-sidebar {
   margin-top: 25px;
+  @include respond-to(xs) { margin-top: 20px; }
 }
 #event-single {
   .event-content {
     font-size: 16px;
     line-height: 1.5em;
-    margin-bottom: 35px;
+    margin-bottom: 35px;    
+    @include respond-to(xs) {
+      font-size: 14px;
+    }
+  }
+
+  .content-expand {
+    @include respond-to(xs) {
+      max-height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    .content-expander {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 16px;
+      color: #fff;
+      background-color: #d4d4d4;
+    }
+
+    &.expanded {
+      max-height: none;
+      transition: height 0.3s ease-in-out;
+
+      .content-expander {
+        display: none !important;
+      }
+    }
   }
 
   .event-single-schedule-header {
     color: $gray-light;
     margin-bottom: 20px;
+    @include respond-to(xs) {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
   }
 
   .event-single-schedule {
     max-height: 300px;
     overflow-y: scroll;
     margin-bottom: 30px;
+    @include respond-to(xs) { max-height: 200px; }
   }
 }
 
 .map-widget-wrap {
   height: 300px;
   margin-bottom: 20px;
+  @include respond-to(xs) { margin-bottom: 30px; }
 }
 .map-widget {
   border: 0;
@@ -379,7 +452,7 @@ ul {
   }
 
   h2:first-child {
-    margin: 0 0 5px 0;
+    margin-top: 0;
   }
 }
 
@@ -394,8 +467,12 @@ ul {
 
 .event-location-note {
   margin-top: 15px;
+  @include respond-to(xs) { margin-bottom: 30px; }
 }
 
+.event-contact-info {
+  @include respond-to(xs) { margin-bottom: 20px; }
+}
 .event-contact-email,
 .event-contact-phone {
   display: block;
@@ -435,6 +512,7 @@ ul {
 .event-meta-tags {
   font-size: 17.5px;
   font-weight: bold;
+  @include respond-to(xs) { margin-bottom: 15px; }
 }
 
 .event-meta-tags {

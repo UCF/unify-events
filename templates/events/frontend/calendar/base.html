@@ -6,7 +6,7 @@
 
 {% block pagehead %}
     {# Move login link out of header for this template #}
-    {% if not calendar.is_main_calendar %}{% include_esi_template 'esi/header-nologin.html' %}{% endif %}
+    {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/header.html' %}{% endif %}
 {% endblock %}
 
 {% block content_title %}
@@ -14,7 +14,7 @@
         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
 
-    {% include_esi_template 'esi/login.html' %}
+    {% if calendar.is_main_calendar %}{% include_esi_template 'esi/login.html' %}{% endif %}
 
     <div class="col-md-4 col-sm-5 edit-options hide">
         <ul>
