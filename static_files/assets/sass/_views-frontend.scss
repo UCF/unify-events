@@ -380,37 +380,9 @@ ul {
   .event-content {
     font-size: 16px;
     line-height: 1.5em;
-    margin-bottom: 35px;    
+    margin-bottom: 35px;
     @include respond-to(xs) {
       font-size: 14px;
-    }
-  }
-
-  .content-expand {
-    @include respond-to(xs) {
-      max-height: 200px;
-      overflow: hidden;
-      position: relative;
-    }
-    .content-expander {
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 16px;
-      color: #fff;
-      background-color: #d4d4d4;
-    }
-
-    &.expanded {
-      max-height: none;
-      transition: height 0.3s ease-in-out;
-
-      .content-expander {
-        display: none !important;
-      }
     }
   }
 
@@ -434,7 +406,10 @@ ul {
 .map-widget-wrap {
   height: 300px;
   margin-bottom: 20px;
-  @include respond-to(xs) { margin-bottom: 30px; }
+  @include respond-to(xs) {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 .map-widget {
   border: 0;
@@ -458,16 +433,21 @@ ul {
 
 .event-location .location {
   margin-top: 0;
+  @include respond-to(xs) { font-size: 21px; }
 }
 
 .event-location-url {
   display: block;
   margin-top: 10px;
+  @include respond-to(xs) { margin-bottom: 10px; }
 }
 
 .event-location-note {
   margin-top: 15px;
-  @include respond-to(xs) { margin-bottom: 30px; }
+  @include respond-to(xs) {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
 }
 
 .event-contact-info {

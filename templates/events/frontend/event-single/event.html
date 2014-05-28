@@ -96,6 +96,10 @@
                     <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
                 </span>
                 {% endif %}
+            {% else %}
+                <div class="map-widget-wrap visible-xs">
+                    <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
+                </div>
             {% endif %}
 
             {% if event_instance.event.has_instances %}
@@ -104,12 +108,6 @@
             </p>
             {% endif %}
         </div>
-
-        {% if event_instance.location.get_map_widget_url %}
-        <div class="map-widget-wrap visible-xs">
-            <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
-        </div>
-        {% endif %}
 
         {# ...... end mobile-only sections #}
 
@@ -139,6 +137,8 @@
                 </tbody>
             </table>
     	</div>
+        {% else %}
+        <hr class="visible-xs" />
         {% endif %}
 
         {% if event_instance.location.get_map_widget_url %}
@@ -148,8 +148,6 @@
         {% endif %}
 
         {# start mobile-only sections ...... #}
-
-        <hr class="visible-xs" />
 
         <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} visible-xs">
             <h2 class="h4 alt heading-contact">Contact:</h2>

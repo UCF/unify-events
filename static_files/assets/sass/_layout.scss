@@ -283,11 +283,17 @@ header {
     > hr {
       padding-right: 0;
       margin-right: 10px;
+      @include respond-to(xs) {
+        margin-right: 0;
+      }
     }
 
     > .well {
       padding-right: 20px;
       margin-right: 10px;
+      @include respond-to(xs) {
+        margin-right: 0;
+      }
     }
 
     > .well-empty {
