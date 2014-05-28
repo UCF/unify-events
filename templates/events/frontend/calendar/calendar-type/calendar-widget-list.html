@@ -46,7 +46,9 @@
                 </tbody>
             </table>
             {% else %}
-            No events found.
+            <div class="well well-empty">
+                No events found.
+            </div>
             {% endif %}
             <p class="feeds">
                 <a class="icsformat" href="http://{{ request.get_host }}/ics" title="ics format for upcoming events">

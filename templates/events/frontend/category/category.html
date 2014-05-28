@@ -26,7 +26,9 @@
                 {% endwith %}
             </ul>
             {% else %}
-            <p>No events found.</p>
+            <div class="well well-empty">
+                No events found.
+            </div>
             {% endif %}
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

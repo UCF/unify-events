@@ -32,7 +32,9 @@
             {% endif %}
 
         {% else %}
-        <p>No events found.</p>
+        <div class="well well-empty">
+            No events found.
+        </div>
         {% endif %}
 
         {% if list_type != 'upcoming' %}
