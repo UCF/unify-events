@@ -434,18 +434,45 @@ ul {
 }
 
 .map-widget-wrap {
+  position: relative;
   height: 300px;
   margin-bottom: 20px;
+  background-color: $gray-light;
   @include respond-to(xs) {
     height: 200px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+
+  &:after {
+    content: $fa-var-spinner;
+    font-size: 28px;
+    color: #fff;
+    /* Font declarations stolen from font-awesome _core.scss */
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 47%;
+    left: 48.5%;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Animations from font-awesome _spinning.scss */
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
   }
 }
 .map-widget {
   border: 0;
   width: 100% !important;
   height: 100% !important;
+  position: relative;
+  z-index: 2;
 }
 
 

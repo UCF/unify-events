@@ -297,6 +297,14 @@ header {
       padding-right: 30px;
       margin-top: 20px;
     }
+
+    > .map-widget-wrap {
+      padding-right: 0;
+      margin-right: 10px;
+      @include respond-to(xs) {
+        margin-right: 0;
+      }
+    }
   }
 
   & > .panel {
