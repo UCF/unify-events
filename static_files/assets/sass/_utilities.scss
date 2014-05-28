@@ -18,7 +18,7 @@
 /* Click-to-expand content */
 .content-expand {
   @include respond-to(xs) {
-    max-height: 200px;
+    max-height: 175px;
     overflow: hidden;
     position: relative;
   }

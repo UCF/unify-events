@@ -96,9 +96,7 @@ header {
 
     .user .username {
       max-width: 225px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      @include text-overflow();
     }
 
     .actions-primary {
@@ -233,10 +231,9 @@ header {
   margin-bottom: 5px;
 }
 .mobile-nav-tabs {
-  display: none;
   @include respond-to(xs) {
-    display: inline-block; /* Don't use .hidden class on this elem; otherwise it will be set to display:block */
     width: 35%;
+    float: left;
   }
 
   .btn {

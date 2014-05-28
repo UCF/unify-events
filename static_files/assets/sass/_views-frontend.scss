@@ -144,6 +144,10 @@
     margin-top: 30px;
     color: $gray-light;
     text-transform: uppercase;
+    @include respond-to(xs) {
+      font-size: 13px;
+      margin-top: 15px;
+    }
   }
 }
 
@@ -152,6 +156,7 @@ ul {
     margin-bottom: 30px;
     list-style-type: none;
     margin-left: 0;
+    @include respond-to(xs) { margin-bottom: 15px; }
 
     li.event {
       display: block;
@@ -160,6 +165,10 @@ ul {
       padding: 10px 20px;
       margin: 20px 0;
       border-left: 3px solid $gray-lighter;
+      @include respond-to(xs) {
+        padding: 10px 15px;
+        margin: 10px 0;
+      }
 
       &:first-child {
         margin-top: 10px;
@@ -169,11 +178,16 @@ ul {
         line-height: 1em;
         margin-top: 0;
         font-weight: 400;
+        @include respond-to(xs) {
+          font-size: 18px;
+          margin-bottom: 8px;
+        }
 
         i {
           font-size: 16px;
           vertical-align: top;
           color: $brand-primary;
+          @include respond-to(xs) { font-size: 14px; }
         }
       }
 
@@ -189,10 +203,12 @@ ul {
         font-weight: bold;
         margin-top: 0;
         color: #000;
+        @include respond-to(xs) { font-size: 16px; }
 
         &.dtend {
           font-size: 14px;
           margin-top: 5px;
+          @include respond-to(xs) { font-size: 12px; }
         }
       }
 
@@ -200,11 +216,19 @@ ul {
         font-size: 16px;
         line-height: 1em;
         margin: 12px 0;
+        @include respond-to(xs) {
+          font-size: 14px;
+          margin: 8px 0;
+        }
       }
 
       .description {
         margin-bottom: 0;
         font-size: 13px;
+        @include respond-to(xs) {
+          font-size: 12px;
+          @include text-overflow();
+        }
       }
 
       .calendar {
@@ -214,6 +238,10 @@ ul {
         text-transform: uppercase;
         font-weight: bold;
         color: $gray-light;
+        @include respond-to(xs) {
+          margin-top: 12px;
+          font-size: 11px;
+        }
 
         i {
           margin-right: 3px;
@@ -240,6 +268,10 @@ ul {
         text-decoration: underline;
       }
     }
+
+    & + hr {
+      margin: 10px 0;
+    }
   }
 
   &.event-list-condensed {
@@ -248,12 +280,10 @@ ul {
     margin-top: 5px;
 
     li {
-      text-overflow: ellipsis;
       width: 114px;
-      white-space: nowrap;
-      overflow: hidden;
       font-size: 11px;
       line-height: 23px;
+      @include text-overflow();
 
       time {
         font-weight: bold;
@@ -346,7 +376,7 @@ ul {
   font-size: 24px;
   line-height: 1.4em;
   @include respond-to(xs) {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1em;
   }
 
@@ -407,6 +437,7 @@ ul {
   height: 300px;
   margin-bottom: 20px;
   @include respond-to(xs) {
+    height: 200px;
     margin-top: 10px;
     margin-bottom: 10px;
   }
@@ -433,7 +464,7 @@ ul {
 
 .event-location .location {
   margin-top: 0;
-  @include respond-to(xs) { font-size: 21px; }
+  @include respond-to(xs) { font-size: 18px; }
 }
 
 .event-location-url {
@@ -456,12 +487,10 @@ ul {
 .event-contact-email,
 .event-contact-phone {
   display: block;
-  overflow: hidden;
   position: relative;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding: 5px 0 0 0;
   margin: 0;
+  @include text-overflow();
 
   &:before {
     content: "•";

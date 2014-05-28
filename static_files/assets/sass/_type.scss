@@ -2,6 +2,10 @@
 h1,
 .h1 {
   font-size: 30px;
+  @include respond-to(xs) {
+    font-size: 26px;
+    line-height: 1em;
+  }
 }
 
 h1 .alt,
@@ -31,6 +35,7 @@ h2,
   line-height: 1em;
   letter-spacing: 0;
   font-weight: 300;
+  @include respond-to(xs) { font-size: 22px; }
 
   .alt,
   &.alt {

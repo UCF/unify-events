@@ -18,6 +18,13 @@ $calendar-grid-width: 14.285%;
   width: 100%;
   list-style-type: none;
 
+  /*
+   * Handle toggling a condensed event list when a .calendar-grid li is hovered over.
+   * An expander is provided to guide touch device users; it is hidden on hover.
+   * Mobile devices (>768px) should display a vertical list of all days with
+   * all events displayed by default. Hover states should be disabled here.
+   */
+
   > li {
     width: $calendar-grid-width;
     height: 130px;
@@ -27,49 +34,57 @@ $calendar-grid-width: 14.285%;
     border-bottom: 4px solid #fff;
     overflow: hidden;
     position: relative;
-    @include respond-to(xs) { width: 100%; }
+    @include respond-to(xs) {
+      width: 100%;
+      height: auto;
+    }
 
-    &:hover {
+    &:hover,
+    &:focus {
       overflow: visible;
     }
 
-    > a {
-      &.event-expander {
+    > .event-expander {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 20px;
+      z-index: 3;
+      cursor: default;
+      text-align: center;
+      color: #fff;
+      @include respond-to(xs) { display: none; }
+
+      &:hover,
+      &:focus {
+        display: none;
+      }
+
+      > .event-expander-icon {
         display: block;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 20px;
-        z-index: 3;
-        cursor: default;
-        text-align: center;
-        color: #fff;
-
-        &:hover {
-          display: none;
-        }
-
-        > .event-expander-icon {
-          display: block;
-          border-left: 2px solid #fff;
-          border-right: 2px solid #fff;
-          background-color: #d4d4d4;
-          height: 100%;
-          line-height: 20px;
-        }
+        border-left: 2px solid #fff; /* Faux padding to emulate sibling div's faux padding */
+        border-right: 2px solid #fff;
+        background-color: #d4d4d4;
+        height: 100%;
+        line-height: 20px;
       }
     }
 
     > div {
       background-color: #f1f1f1;
-      height: 126px;
+      height: 126px; /* Fixed height req'd here for background-color */
       overflow: hidden;
       position: relative;
       z-index: 2;
-      border-left: 2px solid #fff;
+      border-left: 2px solid #fff; /* Faux padding; should match .event-expander-icon's border-left and border-right */
       border-right: 2px solid #fff;
-      padding-top: 25px;
+      padding-top: 25px; /* Make room for absolutely positioned .date */
+      @include respond-to(xs) {
+        height: auto;
+        padding-bottom: 5px;
+      }
 
       &:after { /* Add some faux padding btwn the edge of the li and its child div */
         content: "";
@@ -81,15 +96,21 @@ $calendar-grid-width: 14.285%;
         height: 6px;
         background-color: #f1f1f1;
         z-index: 10;
+        @include respond-to(xs) { display: none; }
       }
 
       > ul {
         position: absolute;
         left: 0;
+        @include respond-to(xs) {
+          position: static;
+          box-shadow: 0 0 0 transparent;
+        }
 
         > li {
           padding: 0 8px;
           width: 114px;
+          @include respond-to(xs) { width: 100%; }
         }
       }
 
@@ -102,6 +123,7 @@ $calendar-grid-width: 14.285%;
         top: 0;
         left: 0;
         z-index: 3;
+        @include respond-to(xs) { width: 100%; }
 
         > span {
           display: none;
@@ -118,10 +140,17 @@ $calendar-grid-width: 14.285%;
       }
     }
 
-    &:hover > div {
+    &:nth-child(7n) div > ul { /* Don't let the 7th day's event list cause a horizontal scrollbar */
+      left: auto;
+      right: 0;
+    }
+
+    &:hover > div,
+    & > div:focus {
       width: auto;
       z-index: 10;
       overflow: visible;
+      @include respond-to(xs) { overflow: hidden; }
 
       > a.date {
         color: #000;
@@ -133,7 +162,11 @@ $calendar-grid-width: 14.285%;
         max-height: 200px;
         overflow-y: scroll;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
-        @include respond-to(xs) { width: 100%; }
+        @include respond-to(xs) {
+          background-color: inherit;
+          width: 100%;
+          box-shadow: 0 0 0 transparent;
+        }
 
         > li {
           width: 184px;

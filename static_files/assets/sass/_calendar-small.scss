@@ -12,6 +12,7 @@
       position: absolute;
       top: 22px;
       @include respond-to(sm) { top: 25px; }
+      @include respond-to(xs) { top: 4px; }
 
       &.previous {
         left: 0;
@@ -43,11 +44,13 @@
       font-weight: 500;
       margin-bottom: 0;
       @include respond-to(sm) { font-size: 16px; }
+      @include respond-to(xs) { margin-top: 0; }
     }
 
     .table {
       border-collapse: separate;
       border-spacing: 3px;
+      @include respond-to(xs) { margin-bottom: 20px; }
 
       th,
       td {
