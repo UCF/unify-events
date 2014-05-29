@@ -12,6 +12,7 @@ form {
 .form-horizontal {
   .control-label {
     font-weight: bold;
+    @include respond-to(xs) { margin-bottom: 3px; }
   }
 
   legend.control-label {

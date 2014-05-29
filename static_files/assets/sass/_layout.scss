@@ -394,6 +394,7 @@ header {
     a {
       font-weight: 500;
       font-size: 18px;
+      @include respond-to(sm) { font-size: 16px; }
     }
   }
 }

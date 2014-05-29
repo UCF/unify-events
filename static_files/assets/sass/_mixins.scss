@@ -22,6 +22,9 @@
   @else if $media == sm {
     @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { @content; }
   }
+  @else if $media == xs-sm {
+    @media only screen and (max-width: $screen-sm-max) { @content; }
+  }
   @else if $media == lg {
     @media only screen and (min-width: $screen-lg-min) { @content; }
   }

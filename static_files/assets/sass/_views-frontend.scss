@@ -59,6 +59,11 @@
   .calendar-description {
     margin-top: 30px;
   }
+  .description {
+    @include respond-to(xs) {
+      @include text-overflow();
+    }
+  }
 
   .event-calendar,
   .event-category,
@@ -144,7 +149,7 @@
     margin-top: 30px;
     color: $gray-light;
     text-transform: uppercase;
-    @include respond-to(xs) {
+    @include respond-to(xs-sm) {
       font-size: 13px;
       margin-top: 15px;
     }
@@ -156,7 +161,7 @@ ul {
     margin-bottom: 30px;
     list-style-type: none;
     margin-left: 0;
-    @include respond-to(xs) { margin-bottom: 15px; }
+    @include respond-to(xs-sm) { margin-bottom: 15px; }
 
     li.event {
       display: block;
@@ -165,7 +170,7 @@ ul {
       padding: 10px 20px;
       margin: 20px 0;
       border-left: 3px solid $gray-lighter;
-      @include respond-to(xs) {
+      @include respond-to(xs-sm) {
         padding: 10px 15px;
         margin: 10px 0;
       }
@@ -178,7 +183,7 @@ ul {
         line-height: 1em;
         margin-top: 0;
         font-weight: 400;
-        @include respond-to(xs) {
+        @include respond-to(xs-sm) {
           font-size: 18px;
           margin-bottom: 8px;
         }
@@ -187,7 +192,7 @@ ul {
           font-size: 16px;
           vertical-align: top;
           color: $brand-primary;
-          @include respond-to(xs) { font-size: 14px; }
+          @include respond-to(xs-sm) { font-size: 14px; }
         }
       }
 
@@ -203,12 +208,12 @@ ul {
         font-weight: bold;
         margin-top: 0;
         color: #000;
-        @include respond-to(xs) { font-size: 16px; }
+        @include respond-to(xs-sm) { font-size: 16px; }
 
         &.dtend {
           font-size: 14px;
           margin-top: 5px;
-          @include respond-to(xs) { font-size: 12px; }
+          @include respond-to(xs-sm) { font-size: 12px; }
         }
       }
 
@@ -216,7 +221,7 @@ ul {
         font-size: 16px;
         line-height: 1em;
         margin: 12px 0;
-        @include respond-to(xs) {
+        @include respond-to(xs-sm) {
           font-size: 14px;
           margin: 8px 0;
         }
@@ -225,7 +230,7 @@ ul {
       .description {
         margin-bottom: 0;
         font-size: 13px;
-        @include respond-to(xs) {
+        @include respond-to(xs-sm) {
           font-size: 12px;
           @include text-overflow();
         }
@@ -238,7 +243,7 @@ ul {
         text-transform: uppercase;
         font-weight: bold;
         color: $gray-light;
-        @include respond-to(xs) {
+        @include respond-to(xs-sm) {
           margin-top: 12px;
           font-size: 11px;
         }

@@ -108,13 +108,13 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
 def pager(paginator, current_page, url):
     """
     Creates Bootstrap pagination links for a Paginator.
-    Page range is 10.
+    Page range is 5.
     """
     # Account for paginator.Page passed as paginator object
     if 'paginator' in paginator.__dict__:
         paginator = paginator.paginator
 
-    range_length = 10
+    range_length = 5
     if range_length > paginator.num_pages:
         range_length = paginator.num_pages
 
