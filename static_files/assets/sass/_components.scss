@@ -30,7 +30,7 @@
 }
 .dropdown-menu {
   max-height: 270px;
-  overflow-y: scroll;
+  @include scrollbox();
 
   &.dropdown-menu-form {
     padding: 8px;

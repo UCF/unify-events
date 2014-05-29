@@ -160,8 +160,8 @@ $calendar-grid-width: 14.285%;
         background-color: #fffbe9;
         width: 200px;
         max-height: 200px;
-        overflow-y: scroll;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        @include scrollbox();
         @include respond-to(xs) {
           background-color: inherit;
           width: 100%;

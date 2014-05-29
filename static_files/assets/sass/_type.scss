@@ -90,6 +90,14 @@ ul.errors,
 .table > tfoot > tr > td {
   border-top: 2px dotted $table-border-color;
 }
+.table > thead > tr:first-child > th,
+.table > thead > tr:first-child > td,
+.table > tbody > tr:first-child > th,
+.table > tbody > tr:first-child > td,
+.table > tfoot > tr:first-child > th,
+.table > tfoot > tr:first-child > td {
+  border-top: 0px solid transparent;
+}
 
 
 /* Horizontal Rules */

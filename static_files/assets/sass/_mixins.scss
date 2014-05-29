@@ -26,3 +26,16 @@
     @media only screen and (min-width: $screen-lg-min) { @content; }
   }
 }
+
+
+/**
+ * Adds styles for a vertically scrolling div.
+ * Applies kinetic/momentum scrolling for touch devices.
+ **/
+
+@mixin scrollbox() {
+  & {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}

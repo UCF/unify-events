@@ -8008,6 +8008,10 @@ button.close {
  *   @include respond-to(xs) { width: 100%; }
  * }
  **/
+/**
+ * Adds styles for a vertically scrolling div.
+ * Applies kinetic/momentum scrolling for touch devices.
+ **/
 /* line 1, ../assets/sass/_utilities.scss */
 .container-wide {
   width: 100%; }
@@ -8137,8 +8141,17 @@ ul.errors,
 .table > tfoot > tr > td {
   border-top: 2px dotted #dddddd; }
 
+/* line 93, ../assets/sass/_type.scss */
+.table > thead > tr:first-child > th,
+.table > thead > tr:first-child > td,
+.table > tbody > tr:first-child > th,
+.table > tbody > tr:first-child > td,
+.table > tfoot > tr:first-child > th,
+.table > tfoot > tr:first-child > td {
+  border-top: 0px solid transparent; }
+
 /* Horizontal Rules */
-/* line 96, ../assets/sass/_type.scss */
+/* line 104, ../assets/sass/_type.scss */
 hr {
   border-top: 2px dotted #dddddd; }
 
@@ -8174,8 +8187,11 @@ hr {
 
 /* line 31, ../assets/sass/_components.scss */
 .dropdown-menu {
-  max-height: 270px;
-  overflow-y: scroll; }
+  max-height: 270px; }
+  /* line 37, ../assets/sass/_mixins.scss */
+  .dropdown-menu {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
   /* line 35, ../assets/sass/_components.scss */
   .dropdown-menu.dropdown-menu-form {
     padding: 8px; }
@@ -8768,8 +8784,11 @@ ul.errorlist {
         background-color: #fffbe9;
         width: 200px;
         max-height: 200px;
-        overflow-y: scroll;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
+        /* line 37, ../assets/sass/_mixins.scss */
+        .calendar-grid > li:hover > div > ul, .calendar-grid > li > div:focus > ul {
+          overflow-y: scroll;
+          -webkit-overflow-scrolling: touch; }
         @media only screen and (max-width: 767px) {
           /* line 159, ../assets/sass/_calendar-large.scss */
           .calendar-grid > li:hover > div > ul, .calendar-grid > li > div:focus > ul {
@@ -9630,27 +9649,37 @@ ul.event-list-condensed {
       margin-bottom: 15px; } }
 /* line 428, ../assets/sass/_views-frontend.scss */
 #event-single .event-single-schedule {
-  max-height: 300px;
-  overflow-y: scroll;
-  margin-bottom: 30px; }
+  max-height: 285px;
+  margin-bottom: 30px;
+  margin-right: 10px;
+  padding-right: 0;
+  border: 1px solid #dddddd; }
+  /* line 37, ../assets/sass/_mixins.scss */
+  #event-single .event-single-schedule {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
   @media only screen and (max-width: 767px) {
     /* line 428, ../assets/sass/_views-frontend.scss */
     #event-single .event-single-schedule {
-      max-height: 200px; } }
+      max-height: 190px;
+      margin-right: 0; } }
+  /* line 440, ../assets/sass/_views-frontend.scss */
+  #event-single .event-single-schedule .table {
+    margin-bottom: 0; }
 
-/* line 436, ../assets/sass/_views-frontend.scss */
+/* line 446, ../assets/sass/_views-frontend.scss */
 .map-widget-wrap {
   position: relative;
   height: 300px;
   margin-bottom: 20px;
   background-color: #999999; }
   @media only screen and (max-width: 767px) {
-    /* line 436, ../assets/sass/_views-frontend.scss */
+    /* line 446, ../assets/sass/_views-frontend.scss */
     .map-widget-wrap {
       height: 200px;
       margin-top: 10px;
       margin-bottom: 10px; } }
-  /* line 447, ../assets/sass/_views-frontend.scss */
+  /* line 457, ../assets/sass/_views-frontend.scss */
   .map-widget-wrap:after {
     content: "\f110";
     font-size: 28px;
@@ -9661,8 +9690,6 @@ ul.event-list-condensed {
     z-index: 1;
     top: 47%;
     left: 48.5%;
-    text-align: center;
-    margin: auto;
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
@@ -9675,7 +9702,7 @@ ul.event-list-condensed {
     -o-animation: spin 2s infinite linear;
     animation: spin 2s infinite linear; }
 
-/* line 472, ../assets/sass/_views-frontend.scss */
+/* line 480, ../assets/sass/_views-frontend.scss */
 .map-widget {
   border: 0;
   width: 100% !important;
@@ -9683,48 +9710,48 @@ ul.event-list-condensed {
   position: relative;
   z-index: 2; }
 
-/* line 482, ../assets/sass/_views-frontend.scss */
+/* line 490, ../assets/sass/_views-frontend.scss */
 #event-single-sidebar {
   position: relative; }
-  /* line 485, ../assets/sass/_views-frontend.scss */
+  /* line 493, ../assets/sass/_views-frontend.scss */
   #event-single-sidebar i {
     color: #999999; }
-  /* line 489, ../assets/sass/_views-frontend.scss */
+  /* line 497, ../assets/sass/_views-frontend.scss */
   #event-single-sidebar h2:first-child {
     margin-top: 0; }
 
-/* line 494, ../assets/sass/_views-frontend.scss */
+/* line 502, ../assets/sass/_views-frontend.scss */
 .event-location .location {
   margin-top: 0; }
   @media only screen and (max-width: 767px) {
-    /* line 494, ../assets/sass/_views-frontend.scss */
+    /* line 502, ../assets/sass/_views-frontend.scss */
     .event-location .location {
       font-size: 18px; } }
 
-/* line 499, ../assets/sass/_views-frontend.scss */
+/* line 507, ../assets/sass/_views-frontend.scss */
 .event-location-url {
   display: block;
   margin-top: 10px; }
   @media only screen and (max-width: 767px) {
-    /* line 499, ../assets/sass/_views-frontend.scss */
+    /* line 507, ../assets/sass/_views-frontend.scss */
     .event-location-url {
       margin-bottom: 10px; } }
 
-/* line 505, ../assets/sass/_views-frontend.scss */
+/* line 513, ../assets/sass/_views-frontend.scss */
 .event-location-note {
   margin-top: 15px; }
   @media only screen and (max-width: 767px) {
-    /* line 505, ../assets/sass/_views-frontend.scss */
+    /* line 513, ../assets/sass/_views-frontend.scss */
     .event-location-note {
       margin-top: 0;
       margin-bottom: 30px; } }
 
 @media only screen and (max-width: 767px) {
-  /* line 513, ../assets/sass/_views-frontend.scss */
+  /* line 521, ../assets/sass/_views-frontend.scss */
   .event-contact-info {
     margin-bottom: 20px; } }
 
-/* line 516, ../assets/sass/_views-frontend.scss */
+/* line 524, ../assets/sass/_views-frontend.scss */
 .event-contact-email,
 .event-contact-phone {
   display: block;
@@ -9734,7 +9761,7 @@ ul.event-list-condensed {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-  /* line 524, ../assets/sass/_views-frontend.scss */
+  /* line 532, ../assets/sass/_views-frontend.scss */
   .event-contact-email:before,
   .event-contact-phone:before {
     content: "•";
@@ -9742,35 +9769,35 @@ ul.event-list-condensed {
     float: left;
     padding-right: 6px; }
 
-/* line 535, ../assets/sass/_views-frontend.scss */
+/* line 543, ../assets/sass/_views-frontend.scss */
 #event-meta dt {
   text-align: left; }
-/* line 539, ../assets/sass/_views-frontend.scss */
+/* line 547, ../assets/sass/_views-frontend.scss */
 #event-meta dd > * {
   vertical-align: middle; }
-/* line 543, ../assets/sass/_views-frontend.scss */
+/* line 551, ../assets/sass/_views-frontend.scss */
 #event-meta h3 {
   margin: 5px 0; }
 
-/* line 548, ../assets/sass/_views-frontend.scss */
+/* line 556, ../assets/sass/_views-frontend.scss */
 .event-meta-calendar,
 .event-meta-category,
 .event-meta-tags {
   font-size: 17.5px;
   font-weight: bold; }
   @media only screen and (max-width: 767px) {
-    /* line 548, ../assets/sass/_views-frontend.scss */
+    /* line 556, ../assets/sass/_views-frontend.scss */
     .event-meta-calendar,
     .event-meta-category,
     .event-meta-tags {
       margin-bottom: 15px; } }
 
-/* line 556, ../assets/sass/_views-frontend.scss */
+/* line 564, ../assets/sass/_views-frontend.scss */
 .event-meta-tags {
   line-height: 1.6em; }
 
 /* Canceled Event overrides */
-/* line 563, ../assets/sass/_views-frontend.scss */
+/* line 571, ../assets/sass/_views-frontend.scss */
 .canceled time,
 .canceled #page-subtitle-event-date,
 .canceled #event-single .event-single-schedule {
@@ -9830,10 +9857,13 @@ td.field-recommended {
   font-size: 12px;
   line-height: 16px;
   margin-left: 0;
-  padding-left: 15px;
-  overflow-y: scroll;
+  padding-left: 20px;
   overflow-x: hidden;
-  max-height: 200px; }
+  max-height: 152px; }
+  /* line 37, ../assets/sass/_mixins.scss */
+  .manager-item-table .recurrences {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
   /* line 46, ../assets/sass/_views-backend.scss */
   .manager-item-table .recurrences .archived-instance {
     text-decoration: line-through;
