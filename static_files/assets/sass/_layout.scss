@@ -329,17 +329,16 @@ header {
   margin-bottom: 20px;
 
   a {
-    background-image: url('../../static/img/social-share.png');
     background-repeat: no-repeat;
     text-indent: 200%;
     white-space: nowrap;
     overflow: hidden;
     display: block;
     float: left;
-    height: 20px;
     margin-right: 4px;
     width: 70px;
     height: 31px;
+    @include img-retina('../../static/img/social-share.png', '../../static/img/social-share-r.png', 212px, 62px);
     @include respond-to(sm) { margin-right: 3px; }
 
     &.share-twitter { background-position: -71px 0; }
@@ -368,10 +367,10 @@ header {
     overflow: hidden;
     width: 10px;
     height: 33px;
-    background-image: url('../../static/img/feeds.png');
     background-repeat: no-repeat;
     padding: 0 17px;
     border-radius: 20px;
+    @include img-retina('../../static/img/feeds.png', '../../static/img/feeds-r.png', 21px, 150px);
 
     &:hover {
       background-color: $gray-lighter;
