@@ -1269,6 +1269,21 @@ var contentExpanders = function() {
 }
 
 
+/**
+ * Remove .dropdown-menu-right class from .edit-options list items @ mobile size
+ **/
+var mobileEditOptions = function() {
+    var removeClass = function() {
+        if ($(window).width() < 768) {
+            $('#page-title-wrap .edit-options .dropdown-menu-right').removeClass('dropdown-menu-right');
+        }
+    }
+
+    removeClass();
+    $(window).on('resize', function() { removeClass(); });
+}
+
+
 $(document).ready(function() {
     bulkSelectAll();
     bulkActionSubmit();
@@ -1296,4 +1311,5 @@ $(document).ready(function() {
     clickableTableRows();
     resizeMapWidgets();
     contentExpanders();
+    mobileEditOptions();
 });

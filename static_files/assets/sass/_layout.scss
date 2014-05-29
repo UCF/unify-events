@@ -56,7 +56,7 @@ header {
 
 /* Main Navigation (subheader) */
 .nav-wrap {
-  background: #f1f1f1;
+  background-color: #f1f1f1;
   border-bottom: 1px solid #c7c7c7;
   box-shadow: 0 4px 3px -3px rgba(0,0,0,0.15);
 
@@ -70,21 +70,9 @@ header {
 
     .nav-divider,
     .navbar-title,
-    .user,
-    .user .username,
-    .actions-primary,
-    .logout {
+    .nav-actions {
       display: inline-block;
       vertical-align: middle;
-    }
-
-    .user i,
-    .logout i {
-      color: $gray-light;
-    }
-
-    .navbar-title {
-      font-weight: bold;
     }
 
     .nav-divider {
@@ -94,49 +82,113 @@ header {
       background-color: #e1e1e1;
     }
 
-    .user .username {
-      max-width: 225px;
-      @include text-overflow();
-    }
+    .navbar-title {
+      font-weight: bold;
+      @include respond-to(xs-sm) {
+        display: none;
 
-    .actions-primary {
-      list-style-type: none;
-      margin: 0;
+        & + .nav-divider {
+          /* Hide the divider at >768px, but don't remove entirely so that vertical alignment of .user is maintained */
+          margin-left: 0;
+          margin-right: 0;
+          width: 0;
+          background-color: transparent;
+        }
+      }
     }
+  }
 
-    .actions-primary > li {
+  .nav-actions {
+    list-style-type: none;
+    margin: 0;
+
+    > li {
       display: inline-block;
       padding-left: 15px;
       position: relative;
       vertical-align: middle;
 
+      &:first-child {
+        padding-left: 0;
+      }
+
       &.nav-divider {
         padding-left: 0;
         margin-right: 0;
+      }
+    }
+    > li > a {
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: none;
+
+        .action-text {
+          text-decoration: underline;
+        }
       }
 
       > i {
         color: $brand-primary;
         font-size: 16px;
-      }
-
-      > span.label {
-        position: absolute;
-        left: 25px;
-        top: -3px;
+        @include respond-to(xs) { margin-right: 0; }
       }
     }
+  }
 
-    li#create-event {
-      padding-left: 0;
+  .user .username {
+    .dropdown-item-text {
+      max-width: 180px;
+      @include text-overflow();
+      @include respond-to(sm) {
+        max-width: 125px;
+      }
+    }
+    .greeting,
+    .action-text {
+      @include respond-to(xs) {
+        @include text-hide();
+      }
+    }
+    > i {
+      @include respond-to(xs) {
+        margin-right: -4px; /* push caret closer to icon */
+      }
+    }
+  }
 
-      a,
-      a:hover {
+  .user > li > a > i,
+  .logout > li > a > i {
+    color: $gray-light;
+  }
+
+  .actions-primary > li > a > .action-text,
+  .logout > li > a > .action-text {
+    @include respond-to(xs) {
+      @include text-hide();
+    }
+  }
+
+  .create-event {
+    padding-left: 0;
+
+    > a,
+    > a:hover,
+    > a:focus,
+    > a:active {
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.8em;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      @include respond-to(xs) { padding-right: 6px; }
+
+      > i {
         color: #fff;
-        font-size: 14px;
-        line-height: 1.8em;
-        padding-top: 3px;
-        padding-bottom: 3px;
+      }
+
+      .action-text {
+        text-decoration: none !important; /* TODO: !important is bad */
       }
     }
   }

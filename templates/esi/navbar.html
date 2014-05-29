@@ -5,92 +5,96 @@
             <div class="row">
                 <div class="col-md-12 nav-inner">
                     <div class="pull-left">
-                    <span class="navbar-title"><a href="{% url 'home' %}">UCF Events</a>: <a href="{% url 'dashboard' %}">Admin</a></span>
+                        <span class="navbar-title"><a href="{% url 'home' %}">UCF Events</a>: <a href="{% url 'dashboard' %}">Admin</a></span>
 
                         <span class="nav-divider"></span>
 
-                        <div class="user dropdown">
-                            <a class="dropdown-toggle username" data-toggle="dropdown" href="{% url 'profile-settings' %}">
-                                <i class="fa fa-user"></i>Hi, <strong>{{ user.first_name }}</strong>
-                            </a>
-                            <span class="caret"></span>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="dropdown-header">Your Account</li>
-                                <li role="presentation">
-                                    <a href="{% url 'profile-settings' %}">
-                                        <i class="fa fa-cog fa-fw"></i>
-                                        Settings
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="nav-actions user">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle username" data-toggle="dropdown" href="{% url 'profile-settings' %}">
+                                    <i class="fa fa-user"></i>
+                                    <span class="greeting">Hi,</span>
+                                    <span class="action-text"><strong>{{ user.first_name }}</strong></span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="dropdown-header">Your Account</li>
+                                    <li role="presentation">
+                                        <a href="{% url 'profile-settings' %}">
+                                            <i class="fa fa-cog fa-fw"></i>
+                                            <span class="action-text">Settings</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="pull-right">
                         {% if first_login %}
                         {% else %}
-                        <ul class="actions-primary">
+                        <ul class="nav-actions actions-primary">
                             {% if user.calendars %}
-                            <li id="create-event">
+                            <li class="create-event">
                                 <a class="btn btn-primary btn-sm" href="{% url 'event-create' %}">
                                     <span class="fa-stack fa-md">
                                         <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
                                         <i class="fa fa-pencil fa-stack-1x text-primary"></i>
                                     </span>
-                                    Create Event
+                                    <span class="action-text">Create Event</span>
                                 </a>
                             </li>
                             {% endif %}
                             {% if user.is_superuser %}
                             <li class="dropdown">
-                                <i class="fa fa-key"></i>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'calendar-list' %}">
-                                    Admin Menu
+                                    <i class="fa fa-key"></i>
+                                    <span class="action-text">Admin Menu</span>
                                     <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu dropdown-menu-right">
                                     <li class="dropdown-header">Moderate</li>
                                     <li role="presentation">
                                         <a href="{% url 'location-list' %}">
                                             <i class="fa fa-map-marker fa-fw"></i>
-                                            Locations
+                                            <span class="action-text">Locations</span>
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="{% url 'category-list' %}">
                                             <i class="fa fa-tag fa-fw"></i>
-                                            Categories
+                                            <span class="action-text">Categories</span>
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="{% url 'tag-list' %}">
                                             <i class="fa fa-tags fa-fw"></i>
-                                            Tags
+                                            <span class="action-text">Tags</span>
                                         </a>
                                     </li>
                                     <li class="divider" role="presentation"></li>
                                     <li role="presentation">
                                         <a href="{% url 'profile-list' %}">
                                             <i class="fa fa-group fa-fw"></i>
-                                            All Users
+                                            <span class="action-text">All Users</span>
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="{% url 'calendar-list' %}">
                                             <i class="fa fa-calendar fa-fw"></i>
-                                            All Calendars
+                                            <span class="action-text">All Calendars</span>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             {% endif %}
                             <li class="dropdown">
-                                <i class="fa fa-calendar"></i>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'dashboard' %}">
-                                    My Calendars
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="action-text">My Calendars</span>
                                     <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                     <li role="presentation">
                                         <a href="{% url 'dashboard' %}">View All</a>
                                     </li>
@@ -106,7 +110,10 @@
                                     <li class="divider" role="presentation"></li>
                                  {% endif %}
                                     <li role="presentation">
-                                        <a href="{% url 'calendar-create' %}"><i class="fa fa-plus"></i> Create New Calendar</a>
+                                        <a href="{% url 'calendar-create' %}">
+                                            <i class="fa fa-plus"></i>
+                                            <span class="action-text">Create New Calendar</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -115,12 +122,14 @@
 
                         <span class="nav-divider"></span>
 
-                        <div class="logout">
-                            <i class="fa fa-power-off"></i>
-                            <a href="{% url 'accounts-logout' %}">
-                                Logout
-                            </a>
-                        </div>
+                        <ul class="nav-actions logout">
+                            <li>
+                                <a href="{% url 'accounts-logout' %}">
+                                    <i class="fa fa-power-off"></i>
+                                    <span class="action-text">Logout</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
