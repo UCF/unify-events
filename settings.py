@@ -218,7 +218,6 @@ BLEACH_ALLOWED_TAGS = [
     'ul',
     'ol',
     'li',
-    'blockquote'
 ]
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'alt']
 BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']

@@ -20,6 +20,7 @@ form {
     color: #333;
     margin-bottom: 5px;
     line-height: 20px;
+    @include respond-to(xs-sm) { text-align: left; }
   }
 
   .form-group {
@@ -31,6 +32,7 @@ form {
     }
     .control-label-group {
       text-align: right;
+      @include respond-to(xs-sm) { text-align: left; }
     }
   }
 }
@@ -40,6 +42,12 @@ form {
 .form-horizontal .radio-inline,
 .form-horizontal .checkbox-inline {
   padding-top: 3px;
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+ @include respond-to(xs-sm) { margin-top: 8px; }
 }
 .form-group {
   margin-bottom: 20px;
@@ -115,6 +123,12 @@ label[for="bulk-select"],
   padding-left: 12px;
   padding-right: 14px;
   border-radius: 0 20px 20px 0;
+  @include respond-to(xs) {
+    border-radius: 0 4px 4px 0;
+    padding-left: 9px;
+    padding-right: 9px;
+    right: 15px;
+  }
 }
 
 

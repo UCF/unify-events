@@ -6,6 +6,14 @@
   font-weight: 500;
   letter-spacing: 0.3px;
 }
+.btn-block-xs {
+  @include respond-to(xs) {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-bottom: 4px;
+    margin-left: 0 !important;
+  }
+}
 
 
 /* Panels */

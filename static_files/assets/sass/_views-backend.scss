@@ -39,6 +39,7 @@ td.field-recommended {
     font-size: 11px;
     font-weight: bold;
     color: #777;
+    @include respond-to(xs) { margin-top: 4px; }
   }
   .recurrences {
     display: none;
@@ -63,6 +64,10 @@ td.field-recommended {
   & > tfoot > tr > th,
   & > tfoot > tr > td {
     border-top: 1px solid $table-border-color;
+    @include respond-to(xs) {
+      font-size: 11.5px;
+      line-height: 1.2em;
+    }
   }
   & > thead > tr > th {
     padding-top: 12px;
@@ -78,6 +83,10 @@ td.field-recommended {
 #manager-calendar-delete {
   font-weight: bold;
   color: #B71713;
+  @include respond-to(xs) {
+    margin-bottom: 0;
+    top: 7px;
+  }
 }
 
 
@@ -118,6 +127,12 @@ form#manager-calendar-add-user {
 
 /* Event Create/Update View */
 
+// Cancel/Delete btns
+.event-update-cancel,
+.event-update-delete {
+  @include respond-to(xs) { margin-top: 15px; }
+}
+
 // When/Where
 .whenwhere-wrap,
 .cloner > div {
@@ -146,6 +161,24 @@ form#manager-calendar-add-user {
 .location-selected {
   float: right;
   margin-right: 10px;
+  @include respond-to(xs) { float: none; }
+}
+.whenwhere.end,
+.whenwhere-until {
+  @include respond-to(xs) {
+    margin-right: 0;
+  }
+}
+.whenwhere.end {
+  @include respond-to(xs) {
+    margin-top: 9px;
+  }
+}
+.location-selected {
+  @include respond-to(xs) {
+    margin-right: 20px;
+    margin-top: 15px;
+  }
 }
 
 .whenwhere.start label,
@@ -186,6 +219,10 @@ form#manager-calendar-add-user {
     right: -25px;
     border-radius: 0 4px 4px 0;
     padding: 8px 14px;
+    @include respond-to(xs) {
+      padding: 8px 9px;
+      right: -15px;
+    }
    }
 }
 
@@ -195,6 +232,10 @@ form#manager-calendar-add-user {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   padding: 8px 14px;
+  @include respond-to(xs) {
+    padding: 8px 9px;
+    right: -15px;
+  }
 }
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
@@ -223,6 +264,9 @@ form#manager-calendar-add-user {
   top: -6px;
   right: 0;
   color: #A8A8A8;
+  @include respond-to(xs) {
+    right: -15px;
+  }
 }
 
 .location-selected-remove {

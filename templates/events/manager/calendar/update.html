@@ -38,7 +38,7 @@
 {% block content_tabs %}
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs hidden-xs">
                 <li>
                     <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                 </li>
@@ -49,6 +49,22 @@
                     <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
+            <div class="btn-group mobile-nav-tabs visible-xs">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Options... <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+                    </li>
+                    <li class="active">
+                        <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+                    </li>
+                </ul>
+            </div>
             <a id="manager-calendar-delete" class="secondary-nav-action object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}">
                 <i class="fa fa-trash-o"></i>Delete Calendar
             </a>
@@ -84,7 +100,7 @@
                 {% endfor %}
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary">Update Settings</button>
+                        <button type="submit" class="btn btn-primary btn-block-xs">Update Settings</button>
                     </div>
                 </div>
             </form>

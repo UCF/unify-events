@@ -16,7 +16,7 @@ var bulkActionSubmit = function() {
     var bulkActionSelects = $('#bulk-action_0, #bulk-action_1');
     bulkActionSelects.removeAttr('onchange');
     $('#bulk-action_0, #bulk-action_1').change(function() {
-        var bulkForm = this.form
+        var bulkForm = this.form,
             actionInput = $(this),
             actionInputValue = actionInput.find('option:selected'),
             eventsSelected = $('input:checkbox:checked[name="object_ids"]'),
@@ -298,7 +298,7 @@ var initiateWysiwyg = function(textarea) {
         "link": true, // Button to insert a link. Default true
         "image": false, // Button to insert an image. Default true,
         "color": false, // Button to change color of font
-        "size": 'md', // Button size like sm, xs etc.
+        "size": "md", // Button size like sm, xs etc.
         events: {
             "load": function() {
                 // Make the 'Insert Link' button more obvious;
@@ -316,11 +316,17 @@ var initiateWysiwyg = function(textarea) {
                     .find('i.glyphicon-th-list')
                         .attr('class', 'fa fa-list-ol')
                         .end()
-                    .find('i.glyphicon-indent-left')
-                        .attr('class', 'fa fa-indent')
+                    // .find('i.glyphicon-indent-left')
+                    //     .attr('class', 'fa fa-indent')
+                    //     .end()
+                    //.find('i.glyphicon-indent-right')
+                        //.attr('class', 'fa fa-outdent')
+                        //.end()
+                    .find('li a[data-wysihtml5-command="Outdent"]')
+                        .remove()
                         .end()
-                    .find('i.glyphicon-indent-right')
-                        .attr('class', 'fa fa-outdent')
+                    .find('li a[data-wysihtml5-command="Indent"]')
+                        .remove()
                         .end()
                     .find('li a[data-wysihtml5-command="bold"]')
                         .html('<i class="fa fa-bold"></i>')
@@ -1179,7 +1185,7 @@ var updateMonthviewDropdown = function() {
 var eventContactInfo = function() {
     var checkbox = $('#add-user-contact-info');
     if (typeof usersFullName !== 'undefined' && typeof usersEmail !== 'undefined') {
-        checkbox.on('change', function(event) {
+        checkbox.on('change', function() {
             var currentName = $('#id_event-contact_name'),
                 currentEmail = $('#id_event-contact_email');
 
@@ -1229,8 +1235,6 @@ var resizeMapWidgets = function() {
                 regex = /width=\d+\&height=\d+/;
 
             var newSrc = src.replace(regex, 'width='+widgetWrap.width()+'&height='+widgetWrap.height());
-            console.log(newSrc);
-
             widget.attr('src', newSrc);
         });
     }

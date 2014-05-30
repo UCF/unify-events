@@ -1758,6 +1758,22 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
+	"\/static\/assets\/sass\/_mixins.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 5,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static\/assets\/sass\/_mixins.scss",
+		"outputAbbreviatedPath": "\/static_files\/css\/_mixins.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
 	"\/static\/assets\/sass\/_type.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
@@ -1939,13 +1955,35 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/static\/img\/feeds-r.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 3992,
+		"inputAbbreviatedPath": "\/static\/img\/feeds-r.png",
+		"outputAbbreviatedPath": "\/static\/img\/feeds-r.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/static\/img\/feeds.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 2278,
+		"initialSize": 2480,
 		"inputAbbreviatedPath": "\/static\/img\/feeds.png",
 		"outputAbbreviatedPath": "\/static\/img\/feeds.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/static\/img\/gradient-admin.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1721,
+		"inputAbbreviatedPath": "\/static\/img\/gradient-admin.png",
+		"outputAbbreviatedPath": "\/static\/img\/gradient-admin.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -5504,6 +5542,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/static_files\/img\/feeds-r.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 3992,
+		"inputAbbreviatedPath": "\/static_files\/img\/feeds-r.png",
+		"outputAbbreviatedPath": "\/static_files\/img\/feeds-r.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/static_files\/img\/feeds.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -5533,6 +5582,17 @@
 		"initialSize": 898,
 		"inputAbbreviatedPath": "\/static_files\/img\/gradient.png",
 		"outputAbbreviatedPath": "\/static_files\/img\/gradient.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/static_files\/img\/social-share-r.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 5524,
+		"inputAbbreviatedPath": "\/static_files\/img\/social-share-r.png",
+		"outputAbbreviatedPath": "\/static_files\/img\/social-share-r.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -5762,15 +5822,15 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/static_files\/js\/script.js",
-		"outputAbbreviatedPath": "\/static_files\/js\/script.min.js",
+		"outputAbbreviatedPath": "\/static_files\/js\/min\/script-ck.js",
 		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 1,
+		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
 	"\/static_files\/js\/script.min.js": {
 		"fileType": 64,
-		"ignore": 1,
+		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/static_files\/js\/script.min.js",
 		"outputAbbreviatedPath": "\/static_files\/js\/min\/script.min-ck.js",
@@ -7350,24 +7410,6 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/events\/manager\/events\/delete.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/templates\/events\/manager\/events\/when-where-time.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/events\/manager\/events\/when-where-time.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/templates\/events\/manager\/events\/when-where.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/events\/manager\/events\/when-where.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
