@@ -9218,16 +9218,20 @@ header {
 .panel-page {
   margin: 20px 0 0 0; }
 
+/* line 370, ../assets/sass/_layout.scss */
+.page-top-action + .well-empty {
+  margin-top: 20px; }
+
 /* Sidebar */
-/* line 374, ../assets/sass/_layout.scss */
+/* line 377, ../assets/sass/_layout.scss */
 .page-sidebar h3 {
   clear: both; }
 
-/* line 379, ../assets/sass/_layout.scss */
+/* line 382, ../assets/sass/_layout.scss */
 .social {
   overflow: hidden;
   margin-bottom: 20px; }
-  /* line 383, ../assets/sass/_layout.scss */
+  /* line 386, ../assets/sass/_layout.scss */
   .social a {
     background-repeat: no-repeat;
     text-indent: 200%;
@@ -9240,45 +9244,45 @@ header {
     height: 31px;
     background-image: url("../../static/img/social-share.png"); }
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-      /* line 383, ../assets/sass/_layout.scss */
+      /* line 386, ../assets/sass/_layout.scss */
       .social a {
         background-image: url("../../static/img/social-share-r.png");
         background-size: 212px 62px; } }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
-      /* line 383, ../assets/sass/_layout.scss */
+      /* line 386, ../assets/sass/_layout.scss */
       .social a {
         margin-right: 3px; } }
-    /* line 396, ../assets/sass/_layout.scss */
+    /* line 399, ../assets/sass/_layout.scss */
     .social a.share-twitter {
       background-position: -71px 0; }
-    /* line 397, ../assets/sass/_layout.scss */
+    /* line 400, ../assets/sass/_layout.scss */
     .social a.share-twitter:hover {
       background-position: -71px -31px; }
-    /* line 398, ../assets/sass/_layout.scss */
+    /* line 401, ../assets/sass/_layout.scss */
     .social a.share-facebook {
       background-position: 0 0; }
-    /* line 399, ../assets/sass/_layout.scss */
+    /* line 402, ../assets/sass/_layout.scss */
     .social a.share-facebook:hover {
       background-position: 0 -31px; }
-    /* line 400, ../assets/sass/_layout.scss */
+    /* line 403, ../assets/sass/_layout.scss */
     .social a.share-googleplus {
       background-position: -142px 0; }
-    /* line 401, ../assets/sass/_layout.scss */
+    /* line 404, ../assets/sass/_layout.scss */
     .social a.share-googleplus:hover {
       background-position: -142px -31px; }
 
-/* line 405, ../assets/sass/_layout.scss */
+/* line 408, ../assets/sass/_layout.scss */
 .feeds-list {
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) and (max-width: 991px) {
-    /* line 405, ../assets/sass/_layout.scss */
+    /* line 408, ../assets/sass/_layout.scss */
     .feeds-list {
       margin-left: 0;
       margin-top: 0; } }
-  /* line 415, ../assets/sass/_layout.scss */
+  /* line 418, ../assets/sass/_layout.scss */
   .feeds-list a {
     display: inline-block;
     text-indent: 50px;
@@ -9291,64 +9295,64 @@ header {
     border-radius: 20px;
     background-image: url("../../static/img/feeds.png"); }
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-      /* line 415, ../assets/sass/_layout.scss */
+      /* line 418, ../assets/sass/_layout.scss */
       .feeds-list a {
         background-image: url("../../static/img/feeds-r.png");
         background-size: 21px 150px; } }
-    /* line 427, ../assets/sass/_layout.scss */
+    /* line 430, ../assets/sass/_layout.scss */
     .feeds-list a:hover {
       background-color: #eeeeee; }
-    /* line 431, ../assets/sass/_layout.scss */
+    /* line 434, ../assets/sass/_layout.scss */
     .feeds-list a.ical {
       background-position: 7px -25px; }
-    /* line 432, ../assets/sass/_layout.scss */
+    /* line 435, ../assets/sass/_layout.scss */
     .feeds-list a.outlook {
       background-position: 7px -60px; }
-    /* line 433, ../assets/sass/_layout.scss */
+    /* line 436, ../assets/sass/_layout.scss */
     .feeds-list a.rss {
       background-position: 6px 5px; }
-    /* line 434, ../assets/sass/_layout.scss */
+    /* line 437, ../assets/sass/_layout.scss */
     .feeds-list a.xml {
       background-position: 6px -121px; }
-    /* line 435, ../assets/sass/_layout.scss */
+    /* line 438, ../assets/sass/_layout.scss */
     .feeds-list a.json {
       background-position: 6px -93px; }
 
-/* line 439, ../assets/sass/_layout.scss */
+/* line 442, ../assets/sass/_layout.scss */
 .category-filter-list {
   list-style-type: none;
   margin-bottom: 20px; }
-  /* line 443, ../assets/sass/_layout.scss */
+  /* line 446, ../assets/sass/_layout.scss */
   .category-filter-list li {
     margin: 5px 0; }
-    /* line 446, ../assets/sass/_layout.scss */
+    /* line 449, ../assets/sass/_layout.scss */
     .category-filter-list li a {
       font-weight: 500;
       font-size: 18px; }
       @media only screen and (min-width: 768px) and (max-width: 991px) {
-        /* line 446, ../assets/sass/_layout.scss */
+        /* line 449, ../assets/sass/_layout.scss */
         .category-filter-list li a {
           font-size: 16px; } }
 
 /* Footer */
-/* line 456, ../assets/sass/_layout.scss */
+/* line 459, ../assets/sass/_layout.scss */
 footer {
   margin: 40px 0; }
   @media only screen and (max-width: 767px) {
-    /* line 456, ../assets/sass/_layout.scss */
+    /* line 459, ../assets/sass/_layout.scss */
     footer {
       margin: 0 0 20px 0; } }
-  /* line 460, ../assets/sass/_layout.scss */
+  /* line 463, ../assets/sass/_layout.scss */
   footer ul {
     list-style-type: none;
     margin-left: 0; }
-    /* line 464, ../assets/sass/_layout.scss */
+    /* line 467, ../assets/sass/_layout.scss */
     footer ul li {
       display: block;
       float: left;
       width: 100%;
       margin-bottom: 10px; }
-  /* line 472, ../assets/sass/_layout.scss */
+  /* line 475, ../assets/sass/_layout.scss */
   footer hr {
     border-top-style: solid;
     border-top-width: 1px; }
