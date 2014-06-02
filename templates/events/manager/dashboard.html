@@ -173,7 +173,7 @@
                             <label for="bulk-action_0" class="control-label sr-only">Bulk Action:</label>
                             <div class="controls col-md-6 col-sm-5">
                                 <select id="bulk-action_0" class="form-control" name="bulk-action_0" onchange="this.form.submit()">
-                                    <option>Select Bulk Action...</option>
+                                    <option value="empty">Select Bulk Action...</option>
                                     {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
                                     {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
                                     {% if state != 'pending' %}<option value="pending">Move to Pending</option>{% endif %}
@@ -339,7 +339,7 @@
                             <label for="bulk-action_1" class="control-label sr-only">Bulk Action:</label>
                             <div class="controls col-md-6 col-sm-5">
                                 <select class="form-control" id="bulk-action_1" name="bulk-action_1" onchange="this.form.submit()">
-                                    <option>Select Bulk Action...</option>
+                                    <option value="empty">Select Bulk Action...</option>
                                     {% if state != 'pending' %}<option value="submit-to-main">Suggest to Main Calendar</option>{% endif %}
                                     {% if state != 'posted' %}<option value="posted">Add to Posted</option>{% endif %}
                                     {% if state != 'pending' %}<option value="pending">Move to Pending</option>{% endif %}

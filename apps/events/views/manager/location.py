@@ -98,12 +98,12 @@ def bulk_action(request):
         action_0 = request.POST['bulk-action_0']
         action_1 = request.POST['bulk-action_1']
 
-        if action_0 == action_1 == 'Select Action...':
+        if action_0 == action_1 == 'empty':
             messages.error(request, 'No action selected.')
             return HttpResponseRedirect(request.META.HTTP_REFERER)
 
         action = action_0
-        if action == 'Select Action...':
+        if action == 'empty':
             action = action_1
 
         if action not in ['approve', 'review', 'delete']:

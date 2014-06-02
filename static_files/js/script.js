@@ -22,7 +22,7 @@ var bulkActionSubmit = function() {
             eventsSelected = $('input:checkbox:checked[name="object_ids"]'),
             recurringEvents = false;
 
-        if (!actionInputValue.attr('value') || !eventsSelected.length) {
+        if (!actionInputValue.attr('value') || actionInputValue.attr('value') == 'empty' || !eventsSelected.length) {
             // Don't do anything if there isn't a value
             return;
         } else if (actionInputValue.val() == 'delete') {
