@@ -382,6 +382,12 @@ header {
   &.affix {
     top: 70px;
     right: 30px;
+
+    @include respond-to(xs-sm) {
+      margin-top: 60px;
+      margin-bottom: 30px;
+      position: static;
+    }
   }
   h3 {
     clear: both;
