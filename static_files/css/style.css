@@ -8185,16 +8185,20 @@ hr {
 
 /* Buttons */
 /* line 2, ../assets/sass/_components.scss */
+.btn {
+  line-height: 20px; }
+
+/* line 6, ../assets/sass/_components.scss */
 .btn.disabled {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset; }
 
-/* line 5, ../assets/sass/_components.scss */
+/* line 9, ../assets/sass/_components.scss */
 .btn-mini {
   font-weight: 500;
   letter-spacing: 0.3px; }
 
 @media only screen and (max-width: 767px) {
-  /* line 9, ../assets/sass/_components.scss */
+  /* line 13, ../assets/sass/_components.scss */
   .btn-block-xs {
     width: 100%;
     margin-right: 0 !important;
@@ -8202,71 +8206,71 @@ hr {
     margin-left: 0 !important; } }
 
 /* Panels */
-/* line 21, ../assets/sass/_components.scss */
+/* line 25, ../assets/sass/_components.scss */
 .panel-heading .form-group:last-child,
 .panel-footer .form-group:last-child {
   margin-bottom: 0; }
 
-/* line 24, ../assets/sass/_components.scss */
+/* line 28, ../assets/sass/_components.scss */
 .panel-default > .panel-heading {
   background-color: #f1f1f1; }
 
-/* line 27, ../assets/sass/_components.scss */
+/* line 31, ../assets/sass/_components.scss */
 .panel-body {
   padding: 15px 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 27, ../assets/sass/_components.scss */
+    /* line 31, ../assets/sass/_components.scss */
     .panel-body {
       padding: 5px 20px; } }
 
 /* Dropdowns */
-/* line 35, ../assets/sass/_components.scss */
+/* line 39, ../assets/sass/_components.scss */
 .dropdown.open a.btn.dropdown-toggle {
   background-image: none;
   outline: 0 none; }
 
-/* line 40, ../assets/sass/_components.scss */
+/* line 44, ../assets/sass/_components.scss */
 .dropdown-menu {
   max-height: 270px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch; }
-  /* line 44, ../assets/sass/_components.scss */
+  /* line 48, ../assets/sass/_components.scss */
   .dropdown-menu.dropdown-menu-form {
     padding: 8px; }
-    /* line 48, ../assets/sass/_components.scss */
+    /* line 52, ../assets/sass/_components.scss */
     .dropdown-menu.dropdown-menu-form input[type="checkbox"],
     .dropdown-menu.dropdown-menu-form input[type="radio"] {
       margin-right: 4px; }
-  /* line 54, ../assets/sass/_components.scss */
+  /* line 58, ../assets/sass/_components.scss */
   .dropdown-menu li.dropdown-header {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 11px; }
 
 /* Modals */
-/* line 64, ../assets/sass/_components.scss */
+/* line 68, ../assets/sass/_components.scss */
 .modal {
   padding-top: 50px; }
-  /* line 67, ../assets/sass/_components.scss */
+  /* line 71, ../assets/sass/_components.scss */
   .modal h2 {
     font-weight: bold;
     line-height: 30px; }
-    /* line 71, ../assets/sass/_components.scss */
+    /* line 75, ../assets/sass/_components.scss */
     .modal h2 .alt {
       font-weight: 300; }
 
-/* line 77, ../assets/sass/_components.scss */
+/* line 81, ../assets/sass/_components.scss */
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize; }
 
 /* Pagination */
-/* line 83, ../assets/sass/_components.scss */
+/* line 87, ../assets/sass/_components.scss */
 .pagination {
   margin-top: 30px; }
 
 /* Wells */
-/* line 89, ../assets/sass/_components.scss */
+/* line 93, ../assets/sass/_components.scss */
 .well-empty {
   padding: 60px 30px; }
 
