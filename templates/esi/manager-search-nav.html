@@ -1,5 +1,5 @@
 {% if user.is_authenticated %}
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs hidden-xs">
     <li>
         <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">All Calendars and Events</a>
     </li>
@@ -7,4 +7,17 @@
         <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
     </li>
 </ul>
+<div class="btn-group mobile-nav-tabs visible-xs">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        View By... <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a href="{% url 'haystack_search' %}?q={{ request.GET.q }}">All Calendars and Events</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q }}">Just My Events</a>
+        </li>
+    </ul>
+</div>
 {% endif %}
