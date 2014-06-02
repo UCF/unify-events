@@ -98,6 +98,9 @@ ul.errors,
 .table > tfoot > tr:first-child > td {
   border-top: 0px solid transparent;
 }
+.table-responsive {
+  overflow-y: visible;
+}
 
 
 /* Horizontal Rules */

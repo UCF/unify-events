@@ -103,6 +103,12 @@ input#id_add_user {
 input#id_role {
   width: 150px;
 }
+input#id_add_user,
+input#id_add_role {
+  @include respond-to(xs) {
+    width: 100%;
+  }
+}
 
 #users-permissions {
   .calendar-access-username {
@@ -113,6 +119,12 @@ input#id_role {
 form#manager-calendar-add-user {
   position: relative;
   margin-bottom: 30px;
+
+  > .form-group {
+    @include respond-to(xs) {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 

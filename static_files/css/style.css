@@ -8159,8 +8159,12 @@ ul.errors,
 .table > tfoot > tr:first-child > td {
   border-top: 0px solid transparent; }
 
+/* line 101, ../assets/sass/_type.scss */
+.table-responsive {
+  overflow-y: visible; }
+
 /* Horizontal Rules */
-/* line 104, ../assets/sass/_type.scss */
+/* line 107, ../assets/sass/_type.scss */
 hr {
   border-top: 2px dotted #dddddd; }
 
@@ -10055,17 +10059,27 @@ input#id_add_user {
 input#id_role {
   width: 150px; }
 
-/* line 108, ../assets/sass/_views-backend.scss */
+@media only screen and (max-width: 767px) {
+  /* line 107, ../assets/sass/_views-backend.scss */
+  input#id_add_user,
+  input#id_add_role {
+    width: 100%; } }
+
+/* line 114, ../assets/sass/_views-backend.scss */
 #users-permissions .calendar-access-username {
   font-weight: bold; }
 
-/* line 113, ../assets/sass/_views-backend.scss */
+/* line 119, ../assets/sass/_views-backend.scss */
 form#manager-calendar-add-user {
   position: relative;
   margin-bottom: 30px; }
+  @media only screen and (max-width: 767px) {
+    /* line 123, ../assets/sass/_views-backend.scss */
+    form#manager-calendar-add-user > .form-group {
+      margin-bottom: 10px; } }
 
 /* Category List View */
-/* line 120, ../assets/sass/_views-backend.scss */
+/* line 132, ../assets/sass/_views-backend.scss */
 .category-color span {
   display: block;
   padding: 0 5px;
@@ -10074,12 +10088,12 @@ form#manager-calendar-add-user {
 
 /* Event Create/Update View */
 @media only screen and (max-width: 767px) {
-  /* line 132, ../assets/sass/_views-backend.scss */
+  /* line 144, ../assets/sass/_views-backend.scss */
   .event-update-cancel,
   .event-update-delete {
     margin-top: 15px; } }
 
-/* line 138, ../assets/sass/_views-backend.scss */
+/* line 150, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap,
 .cloner > div {
   border-radius: 4px 0 4px 4px;
@@ -10088,11 +10102,11 @@ form#manager-calendar-add-user {
   border: 1px solid #c8c8c8;
   margin-bottom: 5px; }
 
-/* line 145, ../assets/sass/_views-backend.scss */
+/* line 157, ../assets/sass/_views-backend.scss */
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px; }
 
-/* line 150, ../assets/sass/_views-backend.scss */
+/* line 162, ../assets/sass/_views-backend.scss */
 .whenwhere-wrap hr {
   border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
   border-width: 1px 0;
@@ -10100,37 +10114,37 @@ form#manager-calendar-add-user {
   border-bottom: 1px solid #c8c8c8;
   margin-top: 15px; }
 
-/* line 161, ../assets/sass/_views-backend.scss */
+/* line 173, ../assets/sass/_views-backend.scss */
 .whenwhere.end,
 .whenwhere-until,
 .location-selected {
   float: right;
   margin-right: 10px; }
   @media only screen and (max-width: 767px) {
-    /* line 161, ../assets/sass/_views-backend.scss */
+    /* line 173, ../assets/sass/_views-backend.scss */
     .whenwhere.end,
     .whenwhere-until,
     .location-selected {
       float: none; } }
 
 @media only screen and (max-width: 767px) {
-  /* line 167, ../assets/sass/_views-backend.scss */
+  /* line 179, ../assets/sass/_views-backend.scss */
   .whenwhere.end,
   .whenwhere-until {
     margin-right: 0; } }
 
 @media only screen and (max-width: 767px) {
-  /* line 172, ../assets/sass/_views-backend.scss */
+  /* line 184, ../assets/sass/_views-backend.scss */
   .whenwhere.end {
     margin-top: 9px; } }
 
 @media only screen and (max-width: 767px) {
-  /* line 177, ../assets/sass/_views-backend.scss */
+  /* line 189, ../assets/sass/_views-backend.scss */
   .location-selected {
     margin-right: 20px;
     margin-top: 15px; } }
 
-/* line 185, ../assets/sass/_views-backend.scss */
+/* line 197, ../assets/sass/_views-backend.scss */
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
@@ -10140,18 +10154,18 @@ form#manager-calendar-add-user {
   position: relative;
   z-index: 3; }
 
-/* line 194, ../assets/sass/_views-backend.scss */
+/* line 206, ../assets/sass/_views-backend.scss */
 .cloner {
   position: relative; }
-  /* line 197, ../assets/sass/_views-backend.scss */
+  /* line 209, ../assets/sass/_views-backend.scss */
   .cloner:hover {
     cursor: pointer; }
-    /* line 200, ../assets/sass/_views-backend.scss */
+    /* line 212, ../assets/sass/_views-backend.scss */
     .cloner:hover > div {
       background: #DFF0D8;
       border-color: #62C462;
       color: #2D792D; }
-  /* line 207, ../assets/sass/_views-backend.scss */
+  /* line 219, ../assets/sass/_views-backend.scss */
   .cloner > div {
     padding: 8px 20px;
     border-style: dashed;
@@ -10159,7 +10173,7 @@ form#manager-calendar-add-user {
     font-size: 14px;
     font-weight: bold;
     color: #646464; }
-  /* line 216, ../assets/sass/_views-backend.scss */
+  /* line 228, ../assets/sass/_views-backend.scss */
   .cloner > a {
     position: absolute;
     top: 0;
@@ -10167,12 +10181,12 @@ form#manager-calendar-add-user {
     border-radius: 0 4px 4px 0;
     padding: 8px 14px; }
     @media only screen and (max-width: 767px) {
-      /* line 216, ../assets/sass/_views-backend.scss */
+      /* line 228, ../assets/sass/_views-backend.scss */
       .cloner > a {
         padding: 8px 9px;
         right: -15px; } }
 
-/* line 229, ../assets/sass/_views-backend.scss */
+/* line 241, ../assets/sass/_views-backend.scss */
 .remove-instance {
   position: absolute;
   right: -25px;
@@ -10180,31 +10194,31 @@ form#manager-calendar-add-user {
   font-size: 18px;
   padding: 8px 14px; }
   @media only screen and (max-width: 767px) {
-    /* line 229, ../assets/sass/_views-backend.scss */
+    /* line 241, ../assets/sass/_views-backend.scss */
     .remove-instance {
       padding: 8px 9px;
       right: -15px; } }
 
-/* line 241, ../assets/sass/_views-backend.scss */
+/* line 253, ../assets/sass/_views-backend.scss */
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B; }
 
-/* line 247, ../assets/sass/_views-backend.scss */
+/* line 259, ../assets/sass/_views-backend.scss */
 .location-search,
 .tag-search {
   position: relative; }
 
-/* line 251, ../assets/sass/_views-backend.scss */
+/* line 263, ../assets/sass/_views-backend.scss */
 .location-search .autocomplete-new-btn {
   top: 28px; }
 
-/* line 255, ../assets/sass/_views-backend.scss */
+/* line 267, ../assets/sass/_views-backend.scss */
 .location-selected {
   position: relative; }
 
-/* line 259, ../assets/sass/_views-backend.scss */
+/* line 271, ../assets/sass/_views-backend.scss */
 .location-selected-remove {
   font-weight: bold;
   font-size: 20px;
@@ -10214,18 +10228,18 @@ form#manager-calendar-add-user {
   right: 0;
   color: #A8A8A8; }
   @media only screen and (max-width: 767px) {
-    /* line 259, ../assets/sass/_views-backend.scss */
+    /* line 271, ../assets/sass/_views-backend.scss */
     .location-selected-remove {
       right: -15px; } }
 
-/* line 273, ../assets/sass/_views-backend.scss */
+/* line 285, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover {
   text-decoration: none; }
-/* line 278, ../assets/sass/_views-backend.scss */
+/* line 290, ../assets/sass/_views-backend.scss */
 .location-selected-remove:hover ~ span, .location-selected-remove:focus ~ span {
   text-decoration: line-through; }
 
-/* line 285, ../assets/sass/_views-backend.scss */
+/* line 297, ../assets/sass/_views-backend.scss */
 .location-selected-title,
 .location-selected-room,
 .location-selected-url {
@@ -10233,11 +10247,11 @@ form#manager-calendar-add-user {
   float: left;
   width: 100%; }
 
-/* line 291, ../assets/sass/_views-backend.scss */
+/* line 303, ../assets/sass/_views-backend.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
-/* line 297, ../assets/sass/_views-backend.scss */
+/* line 309, ../assets/sass/_views-backend.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -10249,7 +10263,7 @@ form#manager-calendar-add-user {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 309, ../assets/sass/_views-backend.scss */
+  /* line 321, ../assets/sass/_views-backend.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -10262,11 +10276,11 @@ form#manager-calendar-add-user {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 323, ../assets/sass/_views-backend.scss */
+    /* line 335, ../assets/sass/_views-backend.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
-/* line 332, ../assets/sass/_views-backend.scss */
+/* line 344, ../assets/sass/_views-backend.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
