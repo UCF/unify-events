@@ -43,6 +43,16 @@ h2,
   }
 }
 
+h3,
+.h3 {
+  font-size: 20px;
+  @include respond-to(xs) { font-size: 19px; }
+}
+
+h4 {
+  @include respond-to(xs) { font-size: 17px; }
+}
+
 // form a:not([class]),
 // .page-content a:not([class]),
 // .page-sidebar a:not([class]) {

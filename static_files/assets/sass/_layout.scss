@@ -60,6 +60,11 @@ header {
   border-bottom: 1px solid #c7c7c7;
   box-shadow: 0 4px 3px -3px rgba(0,0,0,0.15);
 
+  &.affix {
+    top: 0;
+    z-index: 9999;
+  }
+
   .nav-inner {
     height: 50px;
 
@@ -374,6 +379,10 @@ header {
 
 /* Sidebar */
 .page-sidebar {
+  &.affix {
+    top: 70px;
+    right: 30px;
+  }
   h3 {
     clear: both;
   }

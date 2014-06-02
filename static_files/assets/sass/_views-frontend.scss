@@ -1,5 +1,8 @@
 /* Static Pages */
 #static-base {
+  margin-top: 25px;
+  @include respond-to(xs) { margin-top: 15px; }
+  
   h3 {
     margin-top: 20px;
   }
