@@ -1,12 +1,18 @@
+{% load bleach_tags %}
 {
 	"event_id": "{{ event_instance.event.pk }}",
 	"id": "{{ event_instance.pk }}",
 	"title": "{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escapejs }}",
 	"subtitle": null,
-	"description": "{{ event_instance.event.description|escapejs }}",
-	"location": "{{ event_instance.location.title|escapejs }}: {{ event_instance.location.room|escapejs }}",
-	"location_url": "{{ event_instance.location.url|escapejs }}",
+	"description": "{{ event_instance.event.description|bleach|escapejs }}",
+	"location": "{{ event_instance.location.title|escapejs }}{% if event_instance.location.room %}: {{ event_instance.location.room|escapejs }}{% endif %}",
+	"location_url": {% if event_instance.location.url %}"{{ event_instance.location.url|escapejs }}"{% else %}null{% endif %},
 	"starts": "{{ event_instance.start|date:'r' }}",
 	"ends": "{{ event_instance.end|date:'r' }}",
-	"ongoing": {% if event_instance.event.has_instances or event_instance.start.date != event_instance.end.date or event_instance.start|date:"H:i" == "00:00" or event_instance.end|date:"H:i" == "23:59" %}"True"{% else %}"False"{% endif %}
+	"ongoing": {% if event_instance.event.has_instances or event_instance.start.date != event_instance.end.date or event_instance.start|date:"H:i" == "00:00" or event_instance.end|date:"H:i" == "23:59" %}"True"{% else %}"False"{% endif %},
+	"category": {% if event_instance.event.category %}"{{ event_instance.event.category|escapejs }}"{% else %}null{% endif %},
+	"tags": {% if event_instance.event.tags.all %}[{% for tag in event_instance.event.tags.all %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}]{% else %}null{% endif %},
+	"contact_name": {% if event_instance.event.contact_name %}"{{ event_instance.event.contact_name|escapejs }}"{% else %}null{% endif %},
+	"contact_phone": {% if event_instance.event.contact_phone %}"{{ event_instance.event.contact_phone|escapejs }}"{% else %}null{% endif %},
+	"contact_email": {% if event_instance.event.contact_email %}"{{ event_instance.event.contact_email|escapejs }}"{% else %}null{% endif %}
 }

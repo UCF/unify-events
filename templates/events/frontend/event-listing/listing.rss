@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:ucfevent="http://events.ucf.edu">
 	<channel>
-		<title>{{ calendar.title }}</title>
+		<title>Events at UCF</title>
 		<link>{{ request.build_absolute_uri }}</link>
-		<description>{{ calendar.title }}{% if list_title %} - {{ list_title }}{% endif %}</description>
+		<description>{% if calendar %}{{ calendar.title|escape }}{% if list_title %} - {{ list_title }}{% endif %}{% else %}Events for the University of Central Florida community{% endif %}</description>
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
 		{% for event_instance in event_instances %}{% include 'events/frontend/event-single/event.rss' %}{% endfor %}
 	</channel>
