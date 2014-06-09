@@ -141,14 +141,14 @@ class Command(BaseCommand):
                                     else:
                                         if old_location.name:
                                             # check to see if the location name is too long
-                                            old_locatin_name = old_location.name
-                                            if len(old_locatin_name) > 256:
-                                                old_locatin_name = old_locatin_name[0:256]
+                                            old_location_name = old_location.name
+                                            if len(old_location_name) > 256:
+                                                old_location_name = old_location_name[0:256]
 
                                             try:
-                                                new_instance.location = Location.objects.get(title__iexact=old_locatin_name)
+                                                new_instance.location = Location.objects.get(title__iexact=old_location_name)
                                             except Location.DoesNotExist:
-                                                logging.error('No Location for UNL Location %s' % old_locatin_name)
+                                                logging.error('No Location for UNL Location %s' % old_location_name)
 
                                     try:
                                         new_instance.save()
