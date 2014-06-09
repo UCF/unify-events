@@ -14,6 +14,7 @@ class Location(TimeCreatedModified):
     url = models.URLField(max_length=400, blank=True, null=True)
     room = models.CharField(max_length=256, blank=True, null=True)
     reviewed = models.BooleanField(default=False)
+    import_id = models.CharField(max_length=256, blank=True, null=True)
 
     @property
     def comboname(self):

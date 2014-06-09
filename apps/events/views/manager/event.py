@@ -50,7 +50,7 @@ class EventCreate(CreateView):
         context = super(EventCreate, self).get_context_data(**kwargs)
 
         ctx = {
-               'locations': Location.objects.all(),
+               'locations': Location.objects.filter(reviewed=True),
                'tags': Tag.objects.all()
         }
         ctx.update(context)
@@ -143,7 +143,7 @@ class EventUpdate(UpdateView):
         context = super(EventUpdate, self).get_context_data(**kwargs)
 
         ctx = {
-               'locations': Location.objects.all(),
+               'locations': Location.objects.filter(reviewed=True),
                'tags': Tag.objects.all(),
                # Needed to determine whether to show the cancel/un-cancel button
                'posted_state': State.posted

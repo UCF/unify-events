@@ -78,3 +78,6 @@ FIRST_DAY_OF_WEEK = 6
 # Haystack configuration. Turn off when debugging if
 # Elasticsearch is not set up yet.
 SEARCH_ENABLED = True
+
+# URL of location data json feed (for importer.)
+LOCATION_DATA_URL = 'http://map.ucf.edu/locations.json?types=building,regionalcampus'
