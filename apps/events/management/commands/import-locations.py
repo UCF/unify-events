@@ -72,7 +72,7 @@ class Command(BaseCommand):
                     logging.debug('Existing location %s found with Import ID %s. Updating existing location...' % (title, import_id))
                     old_location.title = title
                     old_location.url = mapurl
-                    old_location.room = None
+                    old_location.room = ''
                     old_location.reviewed = True
                     try:
                         old_location.save()
