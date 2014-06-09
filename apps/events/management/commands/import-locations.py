@@ -50,6 +50,8 @@ class Command(BaseCommand):
                     title = title[0:256]
                 if len(mapurl) > 400:
                     mapurl = mapurl[0:400]
+                if len(import_id) > 256:
+                    import_id = import_id[0:256]
 
                 # See if an existing location exists with the current object ID.
                 # Update the existing location if it exists; else, save the new location
