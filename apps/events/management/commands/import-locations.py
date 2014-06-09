@@ -13,8 +13,8 @@ from events.models import Location
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-
-        data_file = urllib.urlopen(settings.LOCATION_DATA_URL)
+        locations_feed_url = "http://" + settings.MAPS_DOMAIN + settings.LOCATION_DATA_URL
+        data_file = urllib.urlopen(locations_feed_url)
         data = json.load(data_file)
 
         self.create_locations(data)

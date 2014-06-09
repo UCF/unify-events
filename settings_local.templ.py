@@ -79,5 +79,8 @@ FIRST_DAY_OF_WEEK = 6
 # Elasticsearch is not set up yet.
 SEARCH_ENABLED = True
 
-# URL of location data json feed (for importer.)
-LOCATION_DATA_URL = 'http://map.ucf.edu/locations.json?types=building,regionalcampus'
+# Domain name of map service. Update this value to DEV/QA environments when appropriate.
+MAPS_DOMAIN = 'map.ucf.edu'
+
+# Path of location data json feed (for importer.)  Uses MAP_DOMAIN as the domain name.
+LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus'

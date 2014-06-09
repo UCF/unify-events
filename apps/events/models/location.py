@@ -1,6 +1,7 @@
 import urlparse
 import re
 
+from django.conf import settings
 from django.db import models
 
 from core.models import TimeCreatedModified
@@ -29,16 +30,17 @@ class Location(TimeCreatedModified):
         Given an event location url, returns a UCF map widget url with proper
         parameters, if the url is a valid map.ucf.edu permalink.
         """
+        maps_domain = settings.MAPS_DOMAIN
         widget_url = False
-        widget_url_base = "//map.ucf.edu/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
+        widget_url_base = "//"+ maps_domain +"/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
         location_id = None
-        if "map.ucf.edu" in self.url:
+        if maps_domain in self.url:
             parsed_url = urlparse.urlparse(self.url)
             # Check for 'map.ucf.edu/?show=locationID'
-            if "map.ucf.edu/?show=" in self.url:
+            if maps_domain + "/?show=" in self.url:
                 location_id = urlparse.parse_qs(parsed_url.query)['show'][0]
             # Check for 'map.ucf.edu/locations/locationID/...'
-            elif "map.ucf.edu/locations/" in self.url:
+            elif maps_domain + "/locations/" in self.url:
                 match = re.search('^/locations/([a-z0-9]+)/', parsed_url.path)
                 if match:
                     location_id = match.group(1)
