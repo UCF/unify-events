@@ -9815,7 +9815,7 @@ ul.event-list-condensed {
 
 /* line 426, ../assets/sass/_views-frontend.scss */
 #event-single .event-content {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5em;
   margin-bottom: 35px; }
   @media only screen and (max-width: 767px) {
