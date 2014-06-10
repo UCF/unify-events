@@ -31,8 +31,7 @@
                     </div>
 
                     <div class="pull-right">
-                        {% if first_login %}
-                        {% else %}
+                        {% if not first_login %}
                         <ul class="nav-actions actions-primary">
                             {% if user.calendars %}
                             <li class="create-event">

@@ -371,6 +371,10 @@ header {
 .page-content .page-top-action,
 .panel-page {
   margin: 20px 0 0 0;
+
+  .step-heading {
+    margin-top: 30px;
+  }
 }
 .page-top-action + .well-empty {
   margin-top: 20px;

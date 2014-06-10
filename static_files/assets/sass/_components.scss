@@ -104,3 +104,12 @@
 .well-empty {
   padding: 60px 30px;
 }
+
+
+/* Progress Bars */
+.progress + .progress-desc {
+  color: $gray-light;
+  font-weight: 500;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
