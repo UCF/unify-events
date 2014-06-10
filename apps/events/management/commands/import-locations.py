@@ -60,7 +60,7 @@ class Command(BaseCommand):
                 except Exception, e:
                     logging.debug('No existing location found for %s: %s. Creating new location...' % (title, e))
                     # No existing matches found, or the matches were duplicate
-                    new_location = Location(title=title, url=mapurl, import_id=import_id, reviewed=True)
+                    new_location = Location(title=title, url=mapurl, room='', import_id=import_id, reviewed=True)
                     try:
                         new_location.save()
                     except Exception, e:
