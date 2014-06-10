@@ -21,7 +21,9 @@
                     <a href="{% url 'location-state' %}">All</a>
                 </li>
                 <li class="{% if state == 'review' %} active{% endif %}">
-                    <a href="{% url 'location-state' state='review' %}">Review ({{ review_count }})</a>
+                    <a href="{% url 'location-state' state='review' %}">
+                        Review {% if review_count and review_count > 0 %}<span class="badge">{{ review_count }}</span>{% endif %}
+                    </a>
                 </li>
                 <li class="{% if state == 'approved' %} active{% endif %}">
                     <a href="{% url 'location-state' state='approved' %}">Approved</a>
