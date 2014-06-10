@@ -1,28 +1,44 @@
 {% load widgets %}
 <div class="text-center">
+    {% if not 1 in range %}
+    <ul class="pagination">
+        <li>
+            <a href="{{ url }}page=1">1</a>
+        </li>
+    </ul>
+    {% endif %}
     <ul class="pagination">
         {% if current_page.has_previous %}
-        <li>
-            <a href="{{ url }}page={{ current_page.previous_page_number }}">&laquo;</a>
+        <li class="prev-next">
+            <a href="{{ url }}page={{ current_page.previous_page_number }}"><i class="fa fa-angle-double-left"></i></a>
         </li>
         {% else %}
-        <li class="disabled">
-            <a href="#">&laquo;</a>
+        <li class="prev-next disabled">
+            <a href="#"><i class="fa fa-angle-double-left"></i></a>
         </li>
         {% endif %}
+
         {% for page in range %}
         <li{% if page == current_page.number %} class="active"{% endif %}>
             <a href="{{ url }}page={{ page }}">{{ page }}</a>
         </li>
         {% endfor %}
+
         {% if current_page.has_next %}
-        <li>
-            <a href="{{ url }}page={{ current_page.next_page_number }}">&raquo;</a>
+        <li class="prev-next">
+            <a href="{{ url }}page={{ current_page.next_page_number }}"><i class="fa fa-angle-double-right"></i></a>
         </li>
         {% else %}
-        <li class="disabled">
-            <a href="#">&raquo;</a>
+        <li class="prev-next disabled">
+            <a href="#"><i class="fa fa-angle-double-right"></i></a>
         </li>
         {% endif %}
     </ul>
+    {% if not paginator.num_pages in range %}
+    <ul class="pagination">
+        <li>
+            <a href="{{ url }}page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+        </li>
+    </ul>
+    {% endif %}
 </div>
