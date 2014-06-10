@@ -1,6 +1,6 @@
 # Unify Events
 
-## Setup
+## Installation and Setup
 1. Install Elasticsearch on your server (tested with v1.1.0) (http://www.elasticsearch.org/overview/elkdownloads/).  Requires at least Java 6.
 	- via Homebrew: `brew install elasticsearch`
 	- via apt/yum: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-repositories.html
@@ -11,7 +11,7 @@
 		- http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html
 		- http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
 
-3. Install Open-LDAP developement headers (debian: openldap-dev, rhel: openldap-devel)
+3. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
 4. Ensure your environment has virtualenv and pip installed for python
 5. Create virtual environment
 6. cd to the new virtual environment
@@ -34,20 +34,35 @@
 
         python manage.py collectstatic -cl
 
-## Import
+
+## Importing Data
+
+### UNL Events Import
 1. cd to the new virtual environment src folder
 2. Activate virtual environment
 
         source ../bin/activate
-3. Add old events database information to local_settings.py under DATABASES name 'unlevents'
+3. Add old events database information to settings_local.py under DATABASES name 'unlevents'
 4. Run import command
 
         python manage.py import-unl-events
+
+### Locations Import
+1. cd to the new virtual environment src folder
+2. Activate virtual environment
+
+        source ../bin/activate
+3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py
+4. Run import command
+
+        python manage.py import-locations
+
 
 ## Code Contribution
 Never commit directly to master. Create a branch or fork and work on the new feature. Once it is complete it will be merged back to the master branch.
 
 If you use a branch to develop a feature, make sure to delete the old branch once it has been merged to master.
+
 
 ## Development
 
