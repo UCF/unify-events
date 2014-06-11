@@ -55,7 +55,7 @@
                                         </li>
                                         {% if category.events.count > 0 %}
                                         <li role="presentation">
-                                            <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}">
+                                            <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}" data-object-pk="{{ category.pk }}">
                                                 <i class="fa fa-compress fa-fw"></i>
                                                 Merge Category
                                             </a>

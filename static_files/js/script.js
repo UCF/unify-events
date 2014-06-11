@@ -139,6 +139,7 @@ var toggleModalMergeObject = function() {
         e.preventDefault();
 
         var objectTitle = $(this).attr('data-object-title'),
+            objectPk    = $(this).attr('data-object-pk'),
             mergeURL    = $(this).attr('href');
 
         var objectType = '';
@@ -153,7 +154,7 @@ var toggleModalMergeObject = function() {
         modal
             .find('#new-object-select option')
                 .each(function() {
-                    if ($(this).text() == objectTitle) {
+                    if ($(this).text() == objectTitle && $(this).val() == objectPk) {
                         $(this).prop('disabled', true);
                     }
                     else {

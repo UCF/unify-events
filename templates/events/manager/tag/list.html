@@ -49,7 +49,7 @@
                                             </a>
                                         </li>
                                         <li role="presentation">
-                                            <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}">
+                                            <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
                                                 <i class="fa fa-compress fa-fw"></i>
                                                 Merge Tag
                                             </a>

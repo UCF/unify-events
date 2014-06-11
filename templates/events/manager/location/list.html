@@ -114,7 +114,7 @@
                                                     </li>
                                                     {% if location.event_instances.count > 0 %}
                                                     <li role="presentation">
-                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}">
+                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}" data-object-pk="{{ location.pk }}">
                                                             <i class="fa fa-compress fa-fw"></i>
                                                             Merge Location
                                                         </a>
