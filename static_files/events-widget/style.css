@@ -66,7 +66,7 @@
 #sidebar-minical .pager .next a:active {
 	background-position: 0 -45px;
 }
-#sidebar-minical .item h2 {
+#sidebar-minical .item h3 {
 	margin: 0;
 	padding: 0;
 	position: absolute;
@@ -75,16 +75,17 @@
 	left: 30px;
 	display: block;
 	width: 140px;
+	font-size: 13.5px;
 	font-weight: normal;
 	text-align: center;
 }
-#sidebar-minical .item h2 a {
+#sidebar-minical .item h3 a {
 	color: #fff;
 	text-decoration: none;
 }
-#sidebar-minical .item h2 a:hover,
-#sidebar-minical .item h2 a:focus,
-#sidebar-minical .item h2 a:active {
+#sidebar-minical .item h3 a:hover,
+#sidebar-minical .item h3 a:focus,
+#sidebar-minical .item h3 a:active {
 	text-decoration: underline;
 }
 #sidebar-minical .item table {
