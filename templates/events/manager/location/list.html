@@ -68,6 +68,7 @@
                                         <th class="location-title">Location Name</th>
                                         <th class="location-room">Room</th>
                                         <th class="location-url">URL</th>
+                                        <th class="location-count"><abbr title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
                                         <th class="location-status">Status</th>
                                         <th class="location-actions">Actions</th>
                                     </tr>
@@ -87,6 +88,9 @@
                                         </td>
                                         <td class="location-url">
                                             <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                                        </td>
+                                        <td class="location-count">
+                                            {{ location.event_count }}
                                         </td>
                                         <td class="location-status">
                                             {% if location.reviewed %}

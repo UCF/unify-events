@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -55,6 +56,9 @@ class LocationListView(SuperUserRequiredMixin, ListView):
                 queryset = queryset.filter(reviewed=False)
             else:
                 queryset = queryset.filter(reviewed=True)
+
+        # Append event count to locations.
+        queryset = queryset.annotate(event_count=Count('event_instances__event', distinct=True))
 
         return queryset
 
