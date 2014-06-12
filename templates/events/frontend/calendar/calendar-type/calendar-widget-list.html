@@ -33,9 +33,13 @@
                                 {{ event_instance.title }}
                             </a>
                             <span class="location">
+                                {% if event_instance.location.url %}
                                 <a href="{{ event_instance.location.url }}">
+                                {% endif %}
                                     {{ event_instance.location }}
+                                {% if event_instance.location.url %}
                                 </a>
+                                {% endif %}
                             </span>
                             <div class="details">
                                 {{ event_instance.event.description }}
