@@ -6,6 +6,7 @@ from dateutil import rrule
 from dateutil.relativedelta import relativedelta
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from ordereddict import OrderedDict
@@ -299,25 +300,34 @@ class DayEventsListView(CalendarEventsListView):
             return True
         return False
 
-    def get_queryset(self):
-        # Backwards compatibility with old events system
-        # (Accomodate for requests to "../?upcoming=upcoming")
+    def is_event_instance(self):
+        """
+        Check for a url query param of 'eventdatetime_id' for backwards
+        compatibility with UNL events system url structure
+        """
+        if self.request.GET.get('eventdatetime_id') is not None:
+            return True
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Redirect 'upcoming' and 'eventdatetime_id' query param views for
+        backward compatibility. Accomodates for optional 'format' param.
+        """
         if self.is_upcoming():
             calendar = self.get_calendar()
-
-            events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)[:25]
-
-            if self.get_format() == 'html' and events:
-                start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-                end_date = datetime.combine(events.reverse()[0].start.date(), datetime.max.time())
-                events = map_event_range(start_date, end_date, events)
-                events = [event for event in events if event.start >= datetime.now()][:25]
-
-            self.list_type = 'upcoming'
-            self.queryset = events
-            return events
+            if self.request.GET.get('format') is not None:
+                return redirect('named-listing', pk=calendar.pk, slug=calendar.slug, type='upcoming', format=self.request.GET.get('format'), permanent=True)
+            else:
+                return redirect('named-listing', pk=calendar.pk, slug=calendar.slug, type='upcoming', permanent=True)
+        elif self.is_event_instance():
+            instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
+            if self.request.GET.get('format') is not None:
+                return redirect('event', pk=instance.pk, slug=instance.event.slug, format=self.request.GET.get('format'), permanent=True)
+            else:
+                return redirect('event', pk=instance.pk, slug=instance.event.slug, permanent=True)
         else:
-            return super(DayEventsListView, self).get_queryset()
+            return super(DayEventsListView, self).dispatch(request, *args, **kwargs)
 
     def get_end_date(self):
         """
@@ -339,17 +349,12 @@ class DayEventsListView(CalendarEventsListView):
         start_date = self.get_start_date()
         start_date_str = start_date.strftime('%B %d, %Y')
 
-        # Backwards compatibility with old events system
-        # (Accomodate for requests to "../?upcoming=upcoming")
-        if self.is_upcoming():
-            context['list_title'] = 'Upcoming Events'
+        if start_date.date() == datetime.today().date():
+            context['list_title'] = 'Today\'s Events'
+        elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
+            context['list_title'] = 'Tomorrow\'s Events'
         else:
-            if start_date.date() == datetime.today().date():
-                context['list_title'] = 'Today\'s Events'
-            elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
-                context['list_title'] = 'Tomorrow\'s Events'
-            else:
-                context['list_title'] = context['list_title'] + ': ' + start_date_str
+            context['list_title'] = context['list_title'] + ': ' + start_date_str
 
         return context
 
