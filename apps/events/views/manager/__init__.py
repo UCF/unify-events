@@ -15,7 +15,6 @@ from django.http import HttpResponse
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.utils import simplejson
 from django.views.generic import ListView
 
 from util import LDAPHelper
@@ -28,9 +27,6 @@ from events.models import get_events_by_range
 from events.models import State
 from events.views.event_views import CalendarEventsBaseListView
 from events.views.manager.calendar import CalendarUserValidationMixin
-
-
-MDAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
 class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
