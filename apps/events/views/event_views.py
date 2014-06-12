@@ -159,12 +159,12 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
-        # Don't map event instances for JS Widget
         if not self.is_js_widget() and self.get_format() == 'html':
             events = map_event_range(start_date, end_date, events)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
+            events = events.filter(start__gte=datetime.now())
             limit = self.request.GET.get('limit')
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
