@@ -1,6 +1,10 @@
 THEME = 'default'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+ALLOWED_HOSTS = ['unify-events.smca.ucf.edu']
+USE_X_FORWARDED_HOST = True
+
 ADMINS = (
     #('Your Name', 'your_email@domain.com'),
 )
