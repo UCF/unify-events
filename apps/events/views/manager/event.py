@@ -143,7 +143,7 @@ class EventUpdate(UpdateView):
         context = super(EventUpdate, self).get_context_data(**kwargs)
 
         ctx = {
-               'locations': Location.objects.filter(reviewed=True),
+               'locations': Location.objects.all(), # Always pass all locations here so that users can modify events with locations that are in review
                'tags': Tag.objects.all(),
                # Needed to determine whether to show the cancel/un-cancel button
                'posted_state': State.posted

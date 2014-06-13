@@ -529,7 +529,7 @@ class UpcomingEventsListView(CalendarEventsListView):
         calendar = self.get_calendar()
         events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
 
-        if self.get_format() == 'html' or self.is_mapped_feed() and events:
+        if (self.get_format() == 'html' or self.is_mapped_feed()) and events:
             events = events[:25]
             start_date = datetime.combine(events[0].start.date(), datetime.min.time())
             end_date = datetime.combine(events.reverse()[0].end.date(), datetime.max.time())
