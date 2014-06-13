@@ -12,10 +12,10 @@
             
             <h3 id="overview">Overview</h3>
             <p>
-                <a href="http://events.ucf.edu">http://events.ucf.edu</a> is the online location for listing and promoting UCF events. 
+                <a href="http://{{ request.get_host }}">{{ request.get_host }}</a> is the online location for listing and promoting UCF events. 
                 The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any 
                 occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start 
-                date &amp; time, category-type and location are all required for submitting an event into the system.
+                date &amp; time, category and location are all required for submitting an event into the system.
             </p>
             <p>
                 The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend 
@@ -38,61 +38,114 @@
                 Please be sure you have reviewed and understand this policy before logging in and entering content in the Events System.
             </p>
             
-            <h3 id="event-or-announcement">Events vs. Announcements</h3>
-            
+            <h3 id="event-or-announcement">Events, or Announcements?</h3>
+
+            <h3 id="sharing">Sharing and Distribution of Events and Calendars</h3>
+            <p>
+
+            </p>
+
             <hr />
-            
-            <h2 id="first-time-users">First Time Users</h2>
-            
-            <h3 id="create-an-account">Create an Account</h3>
-            
+
+            <h2 id="getting-started">Getting Started</h2>
+
             <h3 id="first-time-user-setup">First Time User Setup</h3>
-            
-            <hr />
-            
-            <h2 id="existing-users">Existing Users</h2>
-            
-            <h3 id="log-in-out">Log In/Log Out</h3>
             <p>
-                The login for the events system is located at <a href="https://eventsadmin.smca.ucf.edu/">https://eventsadmin.smca.ucf.edu/</a>, 
-                and requires a UCF NID and password.
+                To create new events, you'll need to <a href="{% url 'accounts-login' %}">log in</a> to the events system using your NID and 
+                NID password.  If you've never used the events system before, using the login form will set up your events system account for you.
+            </p>
+            <div class="well">
+                <p>
+                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.  
+                    If you don't know the password associated with that NID, you may reset it using the 
+                    <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
+                </p>
+                <p>
+                    If you have issues with retrieving your NID or resetting your password, please contact the Service Desk at 407-823-5117.
+                </p>
+            </div>
+            <p>
+                First time users will be guided through a two-step setup process to confirm user settings and create a first calendar.  Users that
+                used the previous version of the events system will have all their events and settings copied over, and will not see this walkthrough
+                when they log in.
             </p>
             <p>
-                If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.  
-                If you don't know the password associated with that NID, you may reset it using the 
-                <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
+                When you've finished the initial setup process, you'll be directed to your Manager View.  If you didn't create a new calendar in the 
+                second step, you can either create one here, or request to be added to an existing calendar as an administrator or editor.  Requests
+                to be added to a calendar should be handled outside of the events system; contact the owner or an administrator of the calendar directly
+                so that they can add you.
             </p>
-            <p>
-                If you have issues with retrieving your NID or resetting your password, please contact the Service Desk at 407-823-5117.
-            </p>
-            
-            <h3 id="manage-account">Manage Your Account</h3>
-            
-            <hr />
-            
-            <h2 id="calendar-information">Calendars</h2>
-            
+
             <h3 id="create-new-calendar">Create a New Calendar</h3>
+            <p>
+                Like the previous events system, all users require a calendar to be able to post events.  In the new events system, however, calendars
+                are not directly tied to your NIDs, so you can have more than one calendar, or be an administrator or editor of another calendar that
+                doesn't belong to you.
+            </p>
+            <p>
+                If you're a first time user, the second step of the first login process will ask you to create a new calendar.  You can create your first
+                calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later.
+            </p>
+            <p>
+                Calendars require a title; you can also add an optional description to tell users about the types of events on your calendar.
+            </p>
+
+            <h3 id="create-new-event">Create a New Event</h3>
+            <p>
+                If you are added to or own at least one calendar, you can create a new event.  Click the blue <strong>Create Event</strong> button in the
+                admin navbar to get started.
+            </p>
+
+            <h4>Calendar</h4>
+            <p>
+                Select the calendar you want to post the event to.  Events must be posted to an existing calendar before they can be added to the Main Calendar.
+            </p>
+            <p>
+                To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown.
+            </p>
+
+            <h4>Title</h4>
+            <p>
+                Your event title should be unique, concise, and immediately recognizable to your audience.  Keep it simple.
+            </p>
+
+            <h4>Status</h4>
+            <p>
+                Before saving your event, you can determine whether or not the event will display on your front-facing calendar immediately.  To immediately
+                publish it, select "posted"; to save the event without making it publically available in event listings, select "pending".
+            </p>
+            <p>
+                For more information, see the help section on <a href="#event-statuses">Event Statuses</a>.
+            </p>
+
+            <h4>Description</h4>
+            <p>
+                
+            </p>
+
+            <hr />
             
-            <h3 id="calendar-management">Calendar Management</h3>
+            <h2 id="calendar-management">Managing Your Calendars</h2>
             
-            <h3 id="subscribing-to-another-calendar">Subscribing to Another Calendar</h3>
+            <h3 id="manager-view-basics">Manager View Basics</h3>
+
+            <h3 id="calendar-settings">Calendar Settings and User Management</h3>
+            
+            <h3 id="subscribe-to-another-calendar">Subscribe to Another Calendar</h3>
             
             <hr />
             
-            <h2 id="event-information">Events</h2>
-            
-            <h3 id="create-new-event">Create a New Event</h3>
+            <h2 id="event-information">Event Information</h2>
 
             <h3 id="event-creation-guidelines">Event Creation Guidelines</h3>
             
             <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
-            
-            <h3 id="modifying-an-event">Modifying an Event</h3>
+
+            <h3 id="copy-an-event">Copy an Event</h3>
             
             <h3 id="recurring-events">Recurring Events</h3>
             
-            <h3 id="subscribing-to-an-event">Subscribing to an Event</h3>
+            <h3 id="event-statuses">Event Statuses</h3>
         </div>
         <aside class="col-md-4 page-sidebar" id="static-help-sidebar">
             <nav data-spy="affix" data-offset-top="50" data-offset-bottom="200">
@@ -102,44 +155,38 @@
                         <a href="#overview">Overview</a>
                     </li>
                     <li>
-                        <a href="#event-or-announcement">Events vs. Announcements</a>
+                        <a href="#event-or-announcement">Events, or Announcements?</a>
+                    </li>
+                    <li>
+                        <a href="#sharing">Sharing and Distribution of Events and Calendars</a>
                     </li>
                 </ul>
-                <strong>First Time Users</strong>
+                <strong>Getting Started</strong>
                 <ul>
-                    <li>
-                        <a href="#create-an-account">Create an Account</a>
-                    </li>
                     <li>
                         <a href="#first-time-users">First Time User Setup</a>
                     </li>
-                </ul>
-                <strong>Existing Users</strong>
-                <ul>
-                    <li>
-                        <a href="#log-in-out">Log In/Log Out</a>
-                    </li>
-                    <li>
-                        <a href="#manage-account">Manage Your Account</a>
-                    </li>
-                </ul>
-                <strong>Calendar Information</strong>
-                <ul>
                     <li>
                         <a href="#create-new-calendar">Create a New Calendar</a>
                     </li>
                     <li>
-                        <a href="#calendar-management">Calendar Management</a>
+                        <a href="#create-new-event">Create a New Event</a>
+                    </li>
+                </ul>
+                <strong>Managing Your Calendars</strong>
+                <ul>
+                    <li>
+                        <a href="#manager-view-basics">Manager View Basics</a>
                     </li>
                     <li>
-                        <a href="#subscribing-to-another-calendar">Subscribing to Another Calendar</a>
+                        <a href="#calendar-settings">Calendar Settings and User Management</a>
+                    </li>
+                    <li>
+                        <a href="#subscribe-to-another-calendar">Subscribe to Another Calendar</a>
                     </li>
                 </ul>
                 <strong>Event Information</strong>
                 <ul>
-                    <li>
-                        <a href="#create-new-event">Create a New Event</a>
-                    </li>
                     <li>
                         <a href="#event-creation-guidelines">Event Creation Guidelines</a>
                     </li>
@@ -147,13 +194,13 @@
                         <a href="#posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</a>
                     </li>
                     <li>
-                        <a href="#modifying-an-event">Modifying an Event</a>
+                        <a href="#subscribing-to-an-event">Copy an Event</a>
                     </li>
                     <li>
                         <a href="#recurring-events">Recurring Events</a>
                     </li>
                     <li>
-                        <a href="#subscribing-to-an-event">Subscribing to an Event</a>
+                        <a href="#event-statuses">Event Statuses</a>
                     </li>
                 </ul>
             </nav>
