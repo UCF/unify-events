@@ -93,7 +93,7 @@
             {% if not event_instance.location.get_map_widget_url %}
                 {% if event_instance.location.url %}
                 <span class="event-location-url">
-                    <a target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="Event Location link click" data-ga-label="{{ url }}">[ View Website ]</a>
+                    <a target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="Event Location link click" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
                 </span>
                 {% endif %}
             {% else %}
@@ -162,14 +162,14 @@
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
                     <span class="h4 alt event-contact-phone tel">
-                        <a href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Phone link click" data-ga-label="{{ url }}">
+                        <a href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Phone link click" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_phone }}
                         </a>
                     </span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
                     <span class="h4 alt event-contact-email email">
-                        <a href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Email link click" data-ga-label="{{ url }}">
+                        <a href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Email link click" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_email }}
                         </a>
                     </span>
@@ -218,12 +218,12 @@
             {% if not event_instance.location.get_map_widget_url %}
                 {% if event_instance.location.url %}
                 <span class="event-location-url">
-                    <a target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="Event Location link click" data-ga-label="{{ url }}">[ View Website ]</a>
+                    <a target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="Event Location link click" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
                 </span>
                 {% endif %}
             {% else %}
             <span class="event-location-url">
-                <a href="#event-location-map" data-ga-category="Event Location Link" data-ga-action="Event Location Map Anchor click" data-ga-label="{{ url }}">[ View Map ]</a>
+                <a href="#event-location-map" data-ga-category="Event Location Link" data-ga-action="Event Location Map Anchor click" data-ga-label="{{ request.build_absolute_uri }}">[ View Map ]</a>
             </span>
             {% endif %}
 
@@ -247,14 +247,14 @@
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
                     <span class="h4 alt event-contact-phone tel">
-                        <a href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Phone link click" data-ga-label="{{ url }}">
+                        <a href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Phone link click" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_phone }}
                         </a>
                     </span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
                     <span class="h4 alt event-contact-email email">
-                        <a href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Email link click" data-ga-label="{{ url }}">
+                        <a href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Event Contact Email link click" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_email }}
                         </a>
                     </span>
