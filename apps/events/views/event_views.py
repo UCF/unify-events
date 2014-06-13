@@ -146,7 +146,17 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         Determine whether or not the view should accomodate for JS Widget-related
         query parameters and manipulate the view accordingly.
         """
-        if self.request.GET.get('is_widget') == 'true':
+        if self.request.GET.get('is_widget') is not None and self.request.GET.get('is_widget').lower() == 'true':
+            return True
+        return False
+
+    def is_mapped_feed(self):
+        """
+        Determine if a feed should use map_event_range to map event instances in the
+        returned queryset.  This is false by default and must be explicitly defined
+        via the query param 'mapped_events=true'.
+        """
+        if self.get_format() != 'html' and self.request.GET.get('mapped_events') is not None and self.request.GET.get('mapped_events').lower() == 'true':
             return True
         return False
 
@@ -159,12 +169,13 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
-        if not self.is_js_widget() and self.get_format() == 'html':
+        if not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
             events = map_event_range(start_date, end_date, events)
+        else:
+            events = events.filter(start__gte=start_date)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
-            events = events.filter(start__gte=datetime.now())
             limit = self.request.GET.get('limit')
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
@@ -514,14 +525,18 @@ class UpcomingEventsListView(CalendarEventsListView):
         """
         Get the first 25 future events.
         """
+        start_date = self.get_start_date()
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)[:25]
+        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
 
-        if self.get_format() == 'html' and events:
+        if self.get_format() == 'html' or self.is_mapped_feed() and events:
+            events = events[:25]
             start_date = datetime.combine(events[0].start.date(), datetime.min.time())
             end_date = datetime.combine(events.reverse()[0].end.date(), datetime.max.time())
             events = map_event_range(start_date, end_date, events)
             events = [event for event in events if event.start >= datetime.now()][:25]
+        else:
+            events = events.filter(start__gte=start_date)[:25]
 
         self.queryset = events
 
