@@ -176,6 +176,8 @@ class Command(BaseCommand):
                         else:
                             try:
                                 calendar = Calendar.objects.get(title=unl_calendar.name)
+                            except Calendar.MultipleObjectsReturned as e:
++                               logging.error('Multiple calendars exist for %s: %s' % (unl_calendar.name, str(e)))
                             except Calendar.DoesNotExist:
                                 logging.error('Calendar does not exist %s with UNL ID %s' % (unl_calendar.name, sub.calendar_id))
                             else:
