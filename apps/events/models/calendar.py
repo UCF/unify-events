@@ -25,7 +25,7 @@ def calendars(self):
     Add and attribute to the User model to retrieve
     the calendars associated to them
     """
-    return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self))
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self)).distinct()
 setattr(User, 'calendars', property(calendars))
 
 
@@ -33,7 +33,7 @@ def editable_calendars(self):
     """
     Returns the list of calendars the user can edit
     """
-    return Calendar.objects.filter(Q(owner=self) | Q(admins=self))
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self)).distinct()
 setattr(User, 'editable_calendars', property(editable_calendars))
 
 
