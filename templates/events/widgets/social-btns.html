@@ -1,12 +1,12 @@
 {% load widgets %}
 <div class="social">
-    <a class="share-facebook" target="_blank" data-button-target="{{ url }}" href="http://www.facebook.com/sharer.php?u={{ url }}" title="Like this event on Facebook">
+    <a class="share-facebook ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Facebook" data-ga-action="Like" data-ga-label="{{ url }}" href="http://www.facebook.com/sharer.php?u={{ url }}" title="Like this event on Facebook">
     Like "{{ page_title }}" on Facebook
     </a>
-    <a class="share-twitter" target="_blank" data-button-target="{{ url }}" href="https://twitter.com/intent/tweet?text={{ tweet_title }}&url={{ url }}" title="Tweet this event">
+    <a class="share-twitter ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Twitter" data-ga-action="Tweet" data-ga-label="{{ url }}" href="https://twitter.com/intent/tweet?text={{ tweet_title }}&url={{ url }}" title="Tweet this event">
     Tweet "{{ page_title }}" on Twitter
     </a>
-    <a class="share-googleplus" target="_blank" data-button-target="{{ url }}" href="https://plus.google.com/share?url={{ url }}" title="Share this event on Google+">
+    <a class="share-googleplus ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Google+" data-ga-action="Share" data-ga-label="{{ url }}" href="https://plus.google.com/share?url={{ url }}" title="Share this event on Google+">
     Share "{{ page_title }}" on Google+
     </a>
 </div>

@@ -1289,6 +1289,36 @@ var mobileEditOptions = function() {
 }
 
 
+/**
+ * Google Analytics click event tracking
+ *
+ * interaction: default 'event'. Used to distinguish unique interactions, i.e. social interactions
+ * category: the interaction category; for social interactions, this is the 'socialNetwork' value
+ * action: the name of the object and the action taken, e.g. 'Contact Email click' or 'like' for social ('socialAction' value)
+ * label: the page the user is leaving; for social, this is the 'socialTarget' value
+ **/
+var gaEventTracking = function() {
+    $('.ga-event').on('click', function(e) {
+        e.preventDefault();
+
+        var link = $(this),
+            url = link.attr('href'),
+            interaction = link.attr('data-ga-interaction') ? link.attr('data-ga-interaction') : 'event',
+            category = link.attr('data-ga-category') ? link.attr('data-ga-category') : 'Outbound Links',
+            action = link.attr('data-ga-action'),
+            label = link.attr('data-ga-label');
+
+        if (typeof ga !== 'undefined' && action !== null && label !== null) {
+            ga('send', interaction, category, action, label);
+            window.setTimeout(function(){ document.location = url; }, 200);
+        }
+        else {
+            document.location = url;
+        }
+    });
+}
+
+
 $(document).ready(function() {
     bulkSelectAll();
     bulkActionSubmit();
@@ -1317,4 +1347,5 @@ $(document).ready(function() {
     resizeMapWidgets();
     contentExpanders();
     mobileEditOptions();
+    gaEventTracking();
 });
