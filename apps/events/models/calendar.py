@@ -23,7 +23,12 @@ def get_main_calendar():
 def calendars(self):
     """
     Add and attribute to the User model to retrieve
-    the calendars associated to them
+    the calendars associated to them.
+
+    NOTE:
+    This query generates an outer join for admins (m) and an outer join
+    for editors (n), which can result in a m*n result set, without the 
+    distinct().
     """
     return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self)).distinct()
 setattr(User, 'calendars', property(calendars))
