@@ -535,7 +535,7 @@ class UpcomingEventsListView(CalendarEventsListView):
             end_date = datetime.combine(events.reverse()[0].end.date(), datetime.max.time())
             events = map_event_range(start_date, end_date, events)
             events = [event for event in events if event.start >= datetime.now()][:25]
-        else:
+        else if events:
             events = events.filter(start__gte=start_date)[:25]
 
         self.queryset = events
