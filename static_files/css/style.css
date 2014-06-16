@@ -9019,18 +9019,8 @@ header {
         /* line 136, ../assets/sass/_layout.scss */
         .nav-wrap .nav-actions > li > a > i {
           margin-right: 0; } }
-  /* line 145, ../assets/sass/_layout.scss */
-  .nav-wrap .user .username .dropdown-item-text {
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; }
-    @media only screen and (min-width: 768px) and (max-width: 991px) {
-      /* line 145, ../assets/sass/_layout.scss */
-      .nav-wrap .user .username .dropdown-item-text {
-        max-width: 125px; } }
   @media only screen and (max-width: 767px) {
-    /* line 152, ../assets/sass/_layout.scss */
+    /* line 145, ../assets/sass/_layout.scss */
     .nav-wrap .user .username .greeting,
     .nav-wrap .user .username .action-text {
       font: 0/0 a;
@@ -9038,6 +9028,16 @@ header {
       text-shadow: none;
       background-color: transparent;
       border: 0; } }
+  /* line 151, ../assets/sass/_layout.scss */
+  .nav-wrap .user .username .action-text {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      /* line 151, ../assets/sass/_layout.scss */
+      .nav-wrap .user .username .action-text {
+        max-width: 125px; } }
   @media only screen and (max-width: 767px) {
     /* line 158, ../assets/sass/_layout.scss */
     .nav-wrap .user .username > i {
