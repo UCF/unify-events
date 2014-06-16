@@ -42,7 +42,7 @@
                                     All Day
                                 {% endif %}
                             </time>
-                            {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}
+                            {{ event_instance.event.get_title_canceled }}
                         </a>
                     </li>
                     {% endfor %}

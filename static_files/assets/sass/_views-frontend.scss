@@ -515,7 +515,7 @@ ul {
   }
 }
 
-.event-location .location {
+.event-location .location-title {
   margin-top: 0;
   @include respond-to(xs) { font-size: 18px; }
 }

@@ -3,11 +3,11 @@
 	<channel>
 		<title>Events at UCF</title>
 		<link>{{ request.build_absolute_uri }}</link>
-		<description>Event Details - {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escape }}</description>
+		<description>Event Details - {{ event_instance.event.get_title_canceled|escape }}</description>
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
 {% endif %}
 		<item>
-			<title>{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escape }}</title>
+			<title>{{ event_instance.event.get_title_canceled|escape }}</title>
 			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url|escape }}</link>
 			<description><![CDATA[{{ event_instance.event.description|bleach|escape }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>

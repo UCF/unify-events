@@ -2,8 +2,6 @@
 {% load humanize %}
 {% load core_tags %}
 
-{% block meta_alt_title %}{{ calendar.title }}'s {{ list_title }} {{ block.super }}{% endblock %}
-
 {% block pagehead %}
     {# Move login link out of header for this template #}
     {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/header.html' %}{% endif %}

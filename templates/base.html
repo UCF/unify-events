@@ -4,11 +4,29 @@
 <html lang="en-US">
     <head>
     {% block head %}
-        <title>{% block title %}Events at UCF{% endblock %}</title>
+        <title>{% block title %}University of Central Florida Events{% endblock %}</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
-        <meta name="description" content="{% block meta_description %}Events at UCF{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="application-name" content="UCF Events">
+
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+
+        <meta name="geo.region" content="US-FL" />
+        <meta name="geo.placename" content="Orlando" />
+        <meta name="geo.position" content="28.602428;-81.20006" />
+        <meta name="ICBM" content="28.602428, -81.20006" />
+
+        <meta name="date" content="{% block meta_date %}{% now 'c' %}{% endblock %}" schema="W3CDTF">
+        <meta name="search_date" content="{% now 'c' %}" schema="W3CDTF">
+
+        <meta name="og:title" content="{% block og_title %}UCF Events{% endblock %}">
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="{{ request.build_absolute_uri }}">
+        <meta name="og:site_name" content="UCF Events">
+        <meta name="og:description" content="{% block og_description %}{% endblock %}">
+
         {% block meta %}{% endblock %}
 
         <script type="text/javascript">

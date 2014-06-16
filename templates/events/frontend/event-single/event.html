@@ -3,13 +3,28 @@
 {% load widgets %}
 {% load core_tags %}
 
-{% block meta_alt_title %}'{{ event_instance.title }}' {{ block.super }}{% endblock %}
+{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}
+{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}{% if event_instance.event.description|striptags == FALLBACK_EVENT_DESCRIPTION %}Join us on {{ event_instance.start|date:"F j, Y" }} for {{ event_instance.event.title }} | {{ event_instance.event.calendar }}{% else %}{{ event_instance.event.description|striptags|truncatechars:197 }}{% endif %}{% endblock %}{% endblock %}
+
+{% block meta_date %}{{ event_instance.start|date:"c" }}{% endblock %}
+
+{% block meta %}
+    {% if event_instance.event.contact_email %}
+        <meta name="og:email" content="{{ event_instance.event.contact_email }}">
+    {% endif %}
+    {% if event_instance.event.contact_phone %}
+        <meta name="og:phone_number" content="{{ event_instance.event.contact_phone }}">
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
 
 {% block content_section_classes %}vevent{% if event_instance.event.canceled %} canceled{% endif %}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">
-        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
+        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{{ event_instance.event.get_title_canceled }}</a>
     </h1>
 
     <div class="hide edit-options col-md-3 col-sm-4">
@@ -85,7 +100,7 @@
 
         <div class="event-location event-location-mobile visible-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
-            <span class="h2 alt location">
+            <span class="h2 alt location-title">
                 {{ event_instance.location.title }}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
@@ -149,26 +164,26 @@
 
         {# start mobile-only sections ...... #}
 
-        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} visible-xs">
+        <div class="event-contact visible-xs">
             <h2 class="h4 alt heading-contact">Contact:</h2>
             <div class="event-contact-info">
                 {% if not event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
                     <em>No contact information available.</em>
                 {% else %}
                     {% if event_instance.event.contact_name %}
-                    <span class="h4 event-contact-name fn">
+                    <span class="h4 event-contact-name">
                         {{ event_instance.event.contact_name }}
                     </span>
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
-                    <span class="h4 alt event-contact-phone tel">
+                    <span class="h4 alt event-contact-phone">
                         <a class="ga-event" href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Call Contact" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_phone }}
                         </a>
                     </span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
-                    <span class="h4 alt event-contact-email email">
+                    <span class="h4 alt event-contact-email">
                         <a class="ga-event" href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Email Contact" data-ga-label="{{ request.build_absolute_uri }}">
                             {{ event_instance.event.contact_email }}
                         </a>
@@ -210,7 +225,7 @@
         {% endcomment %}
         <div class="event-location hidden-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
-            <span class="h2 alt location">
+            <span class="h2 alt location location-title">
                 {{ event_instance.location.title }}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}

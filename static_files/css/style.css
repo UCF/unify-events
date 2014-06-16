@@ -9914,11 +9914,11 @@ ul.event-list-condensed {
     margin-top: 0; }
 
 /* line 518, ../assets/sass/_views-frontend.scss */
-.event-location .location {
+.event-location .location-title {
   margin-top: 0; }
   @media only screen and (max-width: 767px) {
     /* line 518, ../assets/sass/_views-frontend.scss */
-    .event-location .location {
+    .event-location .location-title {
       font-size: 18px; } }
 
 /* line 523, ../assets/sass/_views-frontend.scss */

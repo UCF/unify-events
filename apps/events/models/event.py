@@ -191,6 +191,17 @@ class Event(TimeCreatedModified):
         return EventInstance.objects.filter(event=self, parent=None)
 
     @property
+    def get_title_canceled(self):
+        """
+        Returns an event title prefixed with "CANCELED" if the event
+        has been canceled.
+        """
+        title = self.title
+        if self.canceled:
+            title = 'CANCELED: ' + title
+        return title
+
+    @property
     def is_submit_to_main(self):
         """
         Returns true if event has been submitted to the

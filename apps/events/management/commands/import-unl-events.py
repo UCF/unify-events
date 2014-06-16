@@ -89,7 +89,7 @@ class Command(BaseCommand):
                         old_contact_phone = old_event.listingcontactphone
 
                         if not old_event.description:
-                            old_event.description = 'No description provided.'
+                            old_event.description = settings.FALLBACK_EVENT_DESCRIPTION
 
                         new_event = Event(title=old_title,
                                           description=old_event.description,

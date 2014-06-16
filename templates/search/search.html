@@ -3,7 +3,10 @@
 {% load widget_tweaks %}
 {% load core_tags %}
 
-{% block meta %}{% endblock %}
+{% block title %}Search {% if query %}results for "{{ query }}" {% endif %}| {{ block.super }}{% endblock %}
+{% block og_title %}Search {% if query %}results for "{{ query }}" {% endif %}| {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}{% endblock %}{% endblock %}
 
 {% block content_title %}
 <h1 class="col-md-12">

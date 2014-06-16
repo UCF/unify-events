@@ -415,7 +415,7 @@ class WeekEventsListView(CalendarEventsListView):
         if start_date <= datetime.now() and end_date >= datetime.now():
             context['list_title'] = 'Events This Week'
         else:
-            context['list_title'] = 'Events on Week of %s %s' % (start_date.strftime("%B"), start_date.day)
+            context['list_title'] = 'Events on Week of %s %s, %s' % (start_date.strftime("%B"), start_date.day, start_date.year)
 
         return context
 

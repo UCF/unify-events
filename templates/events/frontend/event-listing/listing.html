@@ -19,7 +19,7 @@ exists; i.e.:
     {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
     <li class="event {{ event_instance.event.category.slug }}{% if event_instance.event.canceled %} canceled{% endif %}">
         <h3 class="event-title">
-            <a class="summary" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</a>
+            <a class="summary" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{{ event_instance.event.get_title_canceled }}</a>
             {% if event_instance.is_recurring %}
             <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
             {% endif %}

@@ -227,7 +227,7 @@
                                             </abbr>
                                         {% endif %}
                                         <a href="{% url 'event-update' pk=event_instance.event.pk %}">
-                                            {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}
+                                            {{ event_instance.event.get_title_canceled }}
                                         </a>
                                     </td>
                                     <td class="event-time">

@@ -2,7 +2,7 @@
 {
 	"event_id": "{{ event_instance.event.pk }}",
 	"id": "{{ event_instance.pk }}",
-	"title": "{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escapejs }}",
+	"title": "{{ event_instance.event.get_title_canceled|escapejs }}",
 	"subtitle": null,
 	"description": "{{ event_instance.event.description|bleach|escapejs }}",
 	"location": "{{ event_instance.location.title|escapejs }}{% if event_instance.location.room %}: {{ event_instance.location.room|escapejs }}{% endif %}",

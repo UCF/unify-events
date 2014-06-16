@@ -224,3 +224,6 @@ BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'alt']
 BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']
 BLEACH_STRIP_TAGS = True
 BLEACH_STRIP_COMMENTS = True
+
+# Default description value for imported events with no description.
+FALLBACK_EVENT_DESCRIPTION = 'No description provided.'

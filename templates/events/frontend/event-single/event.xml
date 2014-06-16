@@ -4,7 +4,7 @@
     <event>
         <id>{{ event_instance.event.pk }}</id>
         <event_id>{{ event_instance.pk }}</event_id>
-		<title>{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title|escape }}</title>
+		<title>{{ event_instance.event.get_title_canceled|escape }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
 		<end_date>{{ event_instance.end|date:'r' }}</end_date>

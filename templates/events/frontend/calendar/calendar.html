@@ -1,6 +1,11 @@
 {% extends 'events/frontend/calendar/base.html' %}
 {% load humanize %}
 
+{% block title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
+{% block og_title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}{% endblock %}{% endblock %}
+
 {% block content_tabs %}
     <div class="row">
         <div class="col-md-12">
