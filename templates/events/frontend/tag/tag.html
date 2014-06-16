@@ -5,7 +5,7 @@
 {% block title %}UCF {{ tag.name }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 {% block og_title %}UCF {{ tag.name }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 
-{% block meta_description %}{% block og_description %}{% endblock %}{% endblock %}
+{% block meta_description %}{% block og_description %}View events tagged: "{{ tag.name }}" at the University of Central Florida in Orlando Florida{% endblock %}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">

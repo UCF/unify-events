@@ -4,7 +4,7 @@
 {% block title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
 {% block og_title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
 
-{% block meta_description %}{% block og_description %}{% endblock %}{% endblock %}
+{% block meta_description %}{% block og_description %}{% if calendar.description %}{{ calendar.description }} | {% endif %}{{ calendar.title }} at the University of Central Florida | UCF Events{% endblock %}{% endblock %}
 
 {% block content_tabs %}
     <div class="row">
