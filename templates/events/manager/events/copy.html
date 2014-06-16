@@ -15,6 +15,8 @@
     {% endif %}
 {% endblock %}
 
+{% block title %}Copy Event: {{ event.title }} | {{ block.super }}{% endblock %}
+
 {% block content_title %}
     <h1 class="col-md-12">Copy Event: <span class="alt">{{ event.title }}</span></h1>
 {% endblock %}

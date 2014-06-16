@@ -15,6 +15,8 @@
     {% endif %}
 {% endblock %}
 
+{% block title %}{% block calendar_edit_title %}Edit Calendar{% endblock %}: {{ calendar.title }} | {{ block.super }}{% endblock %}
+
 {% block content_title %}
     <h1 class="col-md-9">Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
     <div class="col-md-3 edit-options">

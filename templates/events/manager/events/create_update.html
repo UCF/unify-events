@@ -2,15 +2,14 @@
 {% load widget_tweaks %}
 {% load locations %}
 
-{% block page_header %}
+{% block title %}
 	{% spaceless %}
-	{{block.super}}
-	|
 	{% if object %}
         Update Event
 	{% else %}
         Create Event
 	{% endif %}
+    | {{ block.super }}
 	{% endspaceless %}
 {% endblock %}
 
