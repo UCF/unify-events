@@ -91,3 +91,14 @@ LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus'
 
 # Google Analytics tracking ID
 GA_ACCOUNT = ''
+
+# Secure HTTPS / SSL
+HTTPS_SUPPORT = True
+SECURE_REQUIRED_PATHS = [
+    '/manager/',
+    '/admin/',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = HTTPS_SUPPORT
+CSRF_COOKIE_SECURE = HTTPS_SUPPORT
