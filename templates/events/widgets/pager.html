@@ -1,4 +1,5 @@
 {% load widgets %}
+{% if paginator.num_pages > 1 %}
 <div class="text-center">
     {% if not 1 in range %}
     <ul class="pagination">
@@ -42,3 +43,4 @@
     </ul>
     {% endif %}
 </div>
+{% endif %}
