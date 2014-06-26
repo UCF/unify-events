@@ -24,7 +24,7 @@ class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsBaseListView(PaginationRedirectMixin, ListView):
+class CalendarEventsBaseListView(ListView):
     model = EventInstance
     context_object_name = 'event_instances'
     paginate_by = 25
@@ -296,7 +296,7 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
             return super(CalendarEventsListView, self).get_template_names()
 
 
-class DayEventsListView(CalendarEventsListView):
+class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     """
     Events listing for a day.
     """
@@ -372,7 +372,7 @@ class DayEventsListView(CalendarEventsListView):
         return context
 
 
-class WeekEventsListView(CalendarEventsListView):
+class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     """
     Events listing for a week.
     """
@@ -421,7 +421,7 @@ class WeekEventsListView(CalendarEventsListView):
         return context
 
 
-class MonthEventsListView(CalendarEventsListView):
+class MonthEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     """
     Events listing for a month.
     """
@@ -479,7 +479,7 @@ class MonthEventsListView(CalendarEventsListView):
         return context
 
 
-class YearEventsListView(CalendarEventsListView):
+class YearEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     """
     Events listing for a year.
     """
