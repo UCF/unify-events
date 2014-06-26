@@ -359,14 +359,14 @@ class DayEventsListView(CalendarEventsListView):
         """
         context = super(DayEventsListView, self).get_context_data(**kwargs)
         start_date = self.get_start_date()
-        start_date_str = start_date.strftime('%B %d, %Y')
+        start_date_str = start_date.strftime('%A, %B %d, %Y')
 
         if start_date.date() == datetime.today().date():
             context['list_title'] = 'Today\'s Events'
         elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
             context['list_title'] = 'Tomorrow\'s Events'
         else:
-            context['list_title'] = context['list_title'] + ': ' + start_date_str
+            context['list_title'] = start_date_str
 
         return context
 
