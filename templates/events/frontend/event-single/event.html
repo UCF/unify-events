@@ -101,7 +101,7 @@
         <div class="event-location event-location-mobile visible-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
             <span class="h2 alt location-title">
-                {{ event_instance.location.title }}
+                {{ event_instance.location.comboname }}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
@@ -145,7 +145,7 @@
                             <a class="row-link" href="{% url 'event' pk=instance.pk slug=event_instance.event.slug %}">{{ instance.start|date:"F j, Y, P" }}</a>
                         </td>
                         <td>
-                            {{ instance.location.title }}{% if instance.location.room %}: {{ instance.location.room }}{% endif %}
+                            {{ instance.location.comboname }}
                         </td>
                     </tr>
                     {% endfor %}
@@ -226,7 +226,7 @@
         <div class="event-location hidden-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
             <span class="h2 alt location location-title">
-                {{ event_instance.location.title }}
+                {{ event_instance.location.comboname }}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 

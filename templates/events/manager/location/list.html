@@ -116,7 +116,7 @@
                                                     </li>
                                                     {% if location.event_instances.count > 0 %}
                                                     <li role="presentation">
-                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}" data-object-pk="{{ location.pk }}">
+                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
                                                             <i class="fa fa-compress fa-fw"></i>
                                                             Merge Location
                                                         </a>
@@ -180,7 +180,7 @@
                                 <select id="new-object-select" class="form-control">
                                     <option value="">Select an Existing Location</option>
                                     {% for location in location_list %}
-                                    <option value="{{ location.pk }}">{{ location.title }}</option>
+                                    <option value="{{ location.pk }}">{{ location.comboname }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

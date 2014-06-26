@@ -16,7 +16,7 @@
 			<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
 			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
 			<ucfevent:location>
-				<ucfevent:name>{{ event_instance.location.title|escape }}{% if event_instance.location.room %}: {{ event_instance.location.room|escape }}{% endif %}</ucfevent:name>
+				<ucfevent:name>{{ event_instance.location.comboname|escape }}</ucfevent:name>
 				<ucfevent:mapurl>{% if event_instance.location.url %}<![CDATA[{{ event_instance.location.url }}]]>{% endif %}</ucfevent:mapurl>
 			</ucfevent:location>
 			<ucfevent:contact>

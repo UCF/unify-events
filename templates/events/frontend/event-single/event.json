@@ -5,7 +5,7 @@
 	"title": "{{ event_instance.event.get_title_canceled|escapejs }}",
 	"subtitle": null,
 	"description": "{{ event_instance.event.description|bleach|escapejs }}",
-	"location": "{{ event_instance.location.title|escapejs }}{% if event_instance.location.room %}: {{ event_instance.location.room|escapejs }}{% endif %}",
+	"location": "{{ event_instance.location.comboname|escapejs }}",
 	"location_url": {% if event_instance.location.url %}"{{ event_instance.location.url|escapejs }}"{% else %}null{% endif %},
 	"starts": "{{ event_instance.start|date:'r' }}",
 	"ends": "{{ event_instance.end|date:'r' }}",

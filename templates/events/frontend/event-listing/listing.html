@@ -64,7 +64,7 @@ exists; i.e.:
         </time>
         {% endif %}
 
-        <span class="location h4 alt">{{ event_instance.location }}</span>
+        <span class="location h4 alt">{{ event_instance.location.comboname }}</span>
         <p class="description">
             {{ event_instance.event.description|striptags|truncatewords:60 }}
         </p>

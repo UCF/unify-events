@@ -1,10 +1,10 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Delete Location: {{ location.title }} | {{ block.super }}{% endblock %}
+{% block title %}Delete Location: {{ location.comboname }} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">Delete Location: <span class="alt">{{ location.title }}</span></h1>
+    <h1 class="col-md-12">Delete Location: <span class="alt">{{ location.comboname }}</span></h1>
 {% endblock %}
 
 {% block content_form_action %}
