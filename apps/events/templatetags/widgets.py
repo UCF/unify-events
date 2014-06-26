@@ -211,7 +211,7 @@ def category_filters(calendar=None):
     Creates a list of categories, linking out to the Events in Calendar
     by Category view for the specified calendar.
     """
-    categories = Category.objects.all()
+    categories = Category.objects.all().order_by('title')
     if calendar:
         calendar = get_object_or_404(Calendar, pk=calendar)
 
