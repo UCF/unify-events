@@ -52,10 +52,11 @@ class Command(BaseCommand):
 
                     # Editors
                     # Assume if they had any permissions at all, they are an editor
+                    # (unless they are the calendar owner)
                     for uid in UNLUserHasPermission.objects.filter(calendar_id=old_calendar.id).values_list('user_uid').distinct():
                         uid = uid[0]
                         editor = self.get_create_user(str(uid))
-                        if editor is not None:
+                        if editor is not None and editor is not calendar_creator:
                             new_calendar.editors.add(editor)
 
                     # Events
@@ -177,7 +178,7 @@ class Command(BaseCommand):
                             try:
                                 calendar = Calendar.objects.get(title=unl_calendar.name)
                             except Calendar.MultipleObjectsReturned as e:
-+                               logging.error('Multiple calendars exist for %s: %s' % (unl_calendar.name, str(e)))
+                                logging.error('Multiple calendars exist for %s: %s' % (unl_calendar.name, str(e)))
                             except Calendar.DoesNotExist:
                                 logging.error('Calendar does not exist %s with UNL ID %s' % (unl_calendar.name, sub.calendar_id))
                             else:
