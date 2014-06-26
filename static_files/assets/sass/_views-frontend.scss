@@ -120,18 +120,17 @@
   }
 
   .event-edit {
-    display: block;
-    float: left;
+    display: inline;
     color: #888;
     margin-left: 15px;
     font-weight: bold;
+    white-space: nowrap;
   }
 }
 .search-object-title {
   font-size: 21px;
   line-height: 1em;
-  display: block;
-  float: left;
+  display: inline;
   margin-top: 0;
 }
 
