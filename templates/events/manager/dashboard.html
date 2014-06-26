@@ -233,13 +233,15 @@
                                         </a>
                                     </td>
                                     <td class="event-time">
+                                        <span class="line-break">
                                         {% if event_instance.start.time %}
                                             {{ event_instance.start|date:"M. d, Y f a" }}
                                         {% else %}
                                             {{ event_instance.start|date:"M. d, Y" }}
                                         {% endif %}
+                                        </span>
                                         {% if event_instance.event.has_instances %}
-                                        <a href="#" class="recurrences-toggle"><i class="fa fa-plus-square"></i>Show all times</a>
+                                        <a href="#" class="recurrences-toggle line-break"><i class="fa fa-plus-square"></i>Show all times</a>
                                         <ul class="recurrences">
                                             {% for instance in event_instance.event.event_instances.all %}
                                                 {% if instance.start.time %}

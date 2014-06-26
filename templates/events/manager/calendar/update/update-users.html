@@ -75,14 +75,14 @@
                             <tr>
                                 <th class="calendar-access-name">Name</th>
                                 <th class="calendar-access-username">NID</th>
-                                <th class="calendar-access-role">Access Role</th>
+                                <th class="calendar-access-role"><span class="line-break">Access Role</span></th>
                                 <th class="calendar-access-actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Calendar Owner -->
                             <tr {% if user == calendar.owner %}class="info"{% endif %}>
-                                <td class="calendar-access-name">{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</td>
+                                <td class="calendar-access-name"><span class="line-break">{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</span></td>
                                 <td class="calendar-access-username">{{ calendar.owner.username }}</td>
                                 <td class="calendar-access-role">Owner</td>
                                 <td class="calendar-access-actions">
@@ -96,7 +96,7 @@
                             <!-- Calendar Admins -->
                             {% for admin in calendar.admins.all %}
                             <tr {% if user == admin %}class="info"{% endif %}>
-                                <td class="calendar-access-name">{{ admin.first_name }} {{ admin.last_name }}</td>
+                                <td class="calendar-access-name"><span class="line-break">{{ admin.first_name }} {{ admin.last_name }}</span></td>
                                 <td class="calendar-access-username">{{ admin.username }}</td>
                                 <td class="calendar-access-role">Admin</td>
                                 <td class="calendar-access-actions">
@@ -113,7 +113,7 @@
                             <!-- Calendar Editors -->
                             {% for editor in calendar.editors.all %}
                             <tr {% if user == editor %}class="info"{% endif %}>
-                                <td class="calendar-access-name">{{ editor.first_name }} {{ editor.last_name }}</td>
+                                <td class="calendar-access-name"><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
                                 <td class="calendar-access-username">{{ editor.username }}</td>
                                 <td class="calendar-access-role">Editor</td>
                                 <td class="calendar-access-actions">

@@ -24,7 +24,11 @@
                     <thead>
                         <tr>
                             <th class="category-title">Category</th>
-                            <th class="category-events"><abbr title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
+                            <th class="category-events">
+                                <abbr title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
+                                    <span class="line-break">Event Count</span>
+                                </abbr>
+                            </th>
                             <th class="category-color">Color</th>
                             <th class="category-actions">Actions</th>
                         </tr>
@@ -33,7 +37,7 @@
                     {% for category in categories %}
                         <tr>
                             <td class="category-title">
-                                <a href="{% url 'category-update' pk=category.pk %}">{{ category.title }}</a>
+                                <a class="line-break" href="{% url 'category-update' pk=category.pk %}">{{ category.title }}</a>
                             </td>
                             <td class="category-events">
                                 {{ category.events.count }}

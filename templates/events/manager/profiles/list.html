@@ -32,10 +32,10 @@
                         {% for theUser in users %}
                             <tr>
                                 <td class="user-title">
-                                    {{ theUser.username }}
+                                    <span class="line-break">{{ theUser.username }}</span>
                                 </td>
                                 <td class="user-fullname">
-                                    {{ theUser.first_name }} {{ theUser.last_name }}
+                                    <span class="line-break">{{ theUser.first_name }} {{ theUser.last_name }}</span>
                                 </td>
                                 <td class="user-permissions">
                                     {% if theUser.is_superuser %}

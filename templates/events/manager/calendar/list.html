@@ -36,15 +36,17 @@
                         {% for calendar in calendars %}
                             <tr>
                                 <td class="calendar-title">
-                                    <a href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
+                                    <a class="line-break" href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
                                 </td>
                                 <td class="calendar-owner">
+                                    <span class="line-break">
                                     {{ calendar.owner.username }}<br/>
                                     {% if calendar.owner.first_name and calendar.owner.last_name %}
                                         ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
                                     {% else %}
                                         (n/a)
                                     {% endif %}
+                                    </span>
                                 </td>
                                 <td class="calendar-actions">
                                     <div class="btn-group">

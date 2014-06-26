@@ -11,24 +11,56 @@
   }
 }
 
+.manager-item-table {
+  table-layout: fixed;
+
+  & > thead > tr > th,
+  & > thead > tr > td,
+  & > tbody > tr > th,
+  & > tbody > tr > td,
+  & > tfoot > tr > th,
+  & > tfoot > tr > td {
+    border-top: 1px solid $table-border-color;
+    @include respond-to(xs) {
+      font-size: 11.5px;
+      line-height: 1.2em;
+    }
+  }
+  & > thead > tr > th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  & > tbody > tr > td {
+    background-color: #fafafa;
+  }
+  & > thead > tr > th > abbr {
+    display: inline-block;
+  }
+
+  .field-bulk-select {
+    width: 5%;
+    @include respond-to(xs) { width: 8%; }
+  }
+
+  .text-overflow {
+    display: block;
+    @include text-overflow();
+  }
+  .line-break {
+    display: block;
+    white-space: normal;
+  }
+}
+
 
 /* Dashboard/My Calendars View */
-th#thead-recommend,
-td.field-recommended > span {
-  @include text-hide();
-}
-
-th.field-recommended,
-td.field-recommended {
-  text-align: center;
-}
-
 .manager-item-table {
-  .field-bulk-select { width: 5%; }
-  .field-recommended { width: 8%; }
+  .field-recommended {
+    width: 5%;
+    @include respond-to(xs) { width: 8%; }
+  }
   .event-title { width: 42%; }
-  .event-time { width: 29%; }
-  .event-actions { width: 16%; }
+  .event-time { width: 30%; }
 
   .event-title abbr {
     margin-right: 6px;
@@ -55,26 +87,6 @@ td.field-recommended {
       text-decoration: line-through;
       color: #888;
     }
-  }
-
-  & > thead > tr > th,
-  & > thead > tr > td,
-  & > tbody > tr > th,
-  & > tbody > tr > td,
-  & > tfoot > tr > th,
-  & > tfoot > tr > td {
-    border-top: 1px solid $table-border-color;
-    @include respond-to(xs) {
-      font-size: 11.5px;
-      line-height: 1.2em;
-    }
-  }
-  & > thead > tr > th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-  & > tbody > tr > td {
-    background-color: #fafafa;
   }
 }
 
@@ -134,6 +146,14 @@ form#manager-calendar-add-user {
   padding: 0 5px;
   font-weight: bold;
   color: #fff;
+}
+
+
+/* Location List View */
+.manager-item-table {
+  .location-title { width: 20%; }
+  .location-room { width: 15%; }
+  .location-url { width: 30%; }
 }
 
 
@@ -304,7 +324,6 @@ form#manager-calendar-add-user {
   display: none;
 }
 
-
 // Tags
 #event-tags-selected li {
   display: block;
@@ -338,7 +357,6 @@ form#manager-calendar-add-user {
     }
   }
 }
-
 
 // Contact information
 #add-user-contact-info {
