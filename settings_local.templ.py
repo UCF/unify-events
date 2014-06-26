@@ -87,7 +87,7 @@ SEARCH_ENABLED = True
 MAPS_DOMAIN = 'map.ucf.edu'
 
 # Path of location data json feed (for importer.)  Uses MAP_DOMAIN as the domain name.
-LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus'
+LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus,parkinglot'
 
 # Google Analytics tracking ID
 GA_ACCOUNT = ''
