@@ -2,7 +2,9 @@ static/*
 *.pyc
 *.sqlite3
 settings_local.py
+settings_local_events.py
 apache/python.wsgi
+apache/python_events.wsgi
 newrelic.ini
 ._*
 Thumbs.db
