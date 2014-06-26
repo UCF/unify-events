@@ -14,6 +14,7 @@ from taggit.models import Tag
 
 from events.models import *
 from core.views import MultipleFormatTemplateViewMixin
+from core.views import PaginationRedirectMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -23,7 +24,7 @@ class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsBaseListView(ListView):
+class CalendarEventsBaseListView(PaginationRedirectMixin, ListView):
     model = EventInstance
     context_object_name = 'event_instances'
     paginate_by = 25
@@ -573,7 +574,7 @@ def named_listing(request, pk, slug, type, format=None):
     raise Http404
 
 
-class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
+class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
@@ -614,7 +615,7 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, ListView):
         return events
 
 
-class EventsByCategoryList(MultipleFormatTemplateViewMixin, ListView):
+class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.

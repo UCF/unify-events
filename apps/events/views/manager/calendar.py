@@ -20,6 +20,7 @@ from core.views import SuccessUrlReverseKwargsMixin
 from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
+from core.views import PaginationRedirectMixin
 
 from settings_local import FRONT_PAGE_CALENDAR_PK
 from events.models import Calendar
@@ -176,7 +177,7 @@ class CalendarSubscriptionsUpdate(CalendarAdminUserValidationMixin, DetailView):
     template_name = 'events/manager/calendar/update/update-subscriptions.html'
 
 
-class CalendarList(SuperUserRequiredMixin, ListView):
+class CalendarList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'calendars'
     model = Calendar
     paginate_by = 25

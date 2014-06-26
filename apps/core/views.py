@@ -1,5 +1,8 @@
+from django.http import Http404
 from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -125,3 +128,28 @@ class MultipleFormatTemplateViewMixin(object):
         return super(MultipleFormatTemplateViewMixin, self).render_to_response(context,
                                                                                content_type=format_to_mimetype(self.kwargs['format']),
                                                                                **kwargs)
+
+
+class PaginationRedirectMixin(object):
+    """
+    Attempts to redirect to the last valid page in a paginated list if the
+    requested page does not exist (instead of returning a 404.)
+    """
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page_size = self.get_paginate_by(queryset)
+        paginator = self.get_paginator(queryset, page_size, allow_empty_first_page=self.get_allow_empty())
+        url_name = self.request.resolver_match.url_name
+        try:
+            return super(PaginationRedirectMixin, self).get(request, *args, **kwargs)
+        except Http404:
+            if self.request.GET.get('page') > paginator.num_pages:
+                # Get the current page url and append the new page number:
+                url = '%s?page=%s' % (reverse(url_name, kwargs=self.kwargs), paginator.num_pages)
+                return HttpResponseRedirect(url)
+            else:
+                # re-raise Http404, as the reason for the 404 was not that maximum pages was exceeded
+                raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
+                          % {'class_name': self.__class__.__name__})
+

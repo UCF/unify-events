@@ -16,13 +16,14 @@ from django.views.generic import DeleteView
 
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
+from core.views import PaginationRedirectMixin
 from events.forms.manager import LocationForm
 from events.models import Location
 
 log = logging.getLogger(__name__)
 
 
-class LocationListView(SuperUserRequiredMixin, ListView):
+class LocationListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'locations'
     model = Location
     paginate_by = 25
