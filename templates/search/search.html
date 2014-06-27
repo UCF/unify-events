@@ -71,52 +71,54 @@
                         {% if results %}
                             <ul class="search-results-list">
                             {% for result in results %}
-                                <li>
                                 {% if result.model_name == 'calendar' %}
-                                    <h3 class="search-object-title calendar-title">
-                                        <a href="{{ result.object.get_absolute_url }}">
-                                            <i class="fa fa-calendar"></i>{{ result.object.title }}
-                                        </a>
-                                    </h3>
-                                    {% if result.description %}
-                                    <span class="calendar-description">
-                                        {{ result.description }}
-                                    </span>
-                                    {% endif %}
-                                {% elif result.model_name == 'event' %}
-                                    <h3 class="search-object-title event-title">
-                                        <a href="{{ result.object.get_absolute_url }}">
-                                            {{ result.object.title }}
-                                        </a>
-                                    </h3>
-                                    <a class="event-edit hide" href="{% url 'event-update' pk=result.pk %}" data-calendar-pk="{{ result.object.calendar.pk }}">
-                                        <i class="fa fa-pencil"></i>Edit Event
-                                    </a>
-                                    <p class="description">
-                                        {{ result.description|striptags|truncatewords:60 }}
-                                    </p>
-                                    <div class="result-meta">
-                                        <div class="event-calendar">
-                                            <i class="fa fa-calendar fa-fw"></i>
-                                            <a href="{% url 'calendar' pk=result.object.calendar.pk slug=result.object.calendar.slug %}">{{ result.calendar }}</a>
-                                        </div>
-                                        <div class="event-category category-text {{ result.object.category.slug }}">
-                                            <i class="fa fa-tag fa-fw"></i>
-                                            <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
-                                        </div>
-                                        {% if result.object.tags.all|length > 0 %}
-                                        <div class="event-tags">
-                                            <i class="fa fa-tags fa-fw"></i>
-                                            <ul>
-                                            {% for tag in result.object.tags.all %}
-                                                <li><a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a></li>
-                                            {% endfor %}
-                                            </ul>
-                                        </div>
+                                    <li>
+                                        <h3 class="search-object-title calendar-title">
+                                            <a href="{{ result.object.get_absolute_url }}">
+                                                <i class="fa fa-calendar"></i>{{ result.object.title }}
+                                            </a>
+                                        </h3>
+                                        {% if result.description %}
+                                        <span class="calendar-description">
+                                            {{ result.description }}
+                                        </span>
                                         {% endif %}
-                                    </div>
+                                    </li>
+                                {% elif result.model_name == 'event' %}
+                                    <li>
+                                        <h3 class="search-object-title event-title">
+                                            <a href="{{ result.object.get_absolute_url }}">
+                                                {{ result.object.title }}
+                                            </a>
+                                        </h3>
+                                        <a class="event-edit hide" href="{% url 'event-update' pk=result.pk %}" data-calendar-pk="{{ result.object.calendar.pk }}">
+                                            <i class="fa fa-pencil"></i>Edit Event
+                                        </a>
+                                        <p class="description">
+                                            {{ result.description|striptags|truncatewords:60 }}
+                                        </p>
+                                        <div class="result-meta">
+                                            <div class="event-calendar">
+                                                <i class="fa fa-calendar fa-fw"></i>
+                                                <a href="{% url 'calendar' pk=result.object.calendar.pk slug=result.object.calendar.slug %}">{{ result.calendar }}</a>
+                                            </div>
+                                            <div class="event-category category-text {{ result.object.category.slug }}">
+                                                <i class="fa fa-tag fa-fw"></i>
+                                                <a href="{% url 'category' category_pk=result.object.category.pk category=result.object.category.slug %}">{{ result.category }}</a>
+                                            </div>
+                                            {% if result.object.tags.all|length > 0 %}
+                                            <div class="event-tags">
+                                                <i class="fa fa-tags fa-fw"></i>
+                                                <ul>
+                                                {% for tag in result.object.tags.all %}
+                                                    <li><a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a></li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </li>
                                 {% endif %}
-                                </li>
                             {% endfor %}
                             </ul>
                         {% endif %}
