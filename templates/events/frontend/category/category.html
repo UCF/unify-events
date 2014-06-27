@@ -1,6 +1,7 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load url %}
 
 {% block title %}UCF {{ category.title }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 {% block og_title %}UCF {{ category.title }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}

@@ -6,9 +6,17 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 
+from events.models import Calendar
+from events.views.event_views import named_listing
 from events.views.event_views import DayEventsListView
+from events.views.event_views import MonthEventsListView
+from events.views.event_views import WeekEventsListView
+from events.views.event_views import YearEventsListView
 
 admin.autodiscover()
+
+# Get main calendar so we have access to its slug:
+main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
 baseurlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
@@ -17,7 +25,38 @@ baseurlpatterns = patterns('',
     url(r'^event/', include('events.urls.event_urls')),
     url(r'^category/', include('events.urls.category')),
     url(r'^tag/', include('events.urls.tag')),
-    url(r'^(feed\.(?P<format>[\w]+))?$', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='home'),
+    # Main calendar url exceptions
+    url(r'^(feed\.(?P<format>[\w]+))?$',
+        DayEventsListView.as_view(),
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='home'
+    ),
+    url(r'^(?P<year>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+        YearEventsListView.as_view(),
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='main-calendar-year-listing'
+    ),
+    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+        MonthEventsListView.as_view(),
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='main-calendar-month-listing'
+    ),
+    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+        DayEventsListView.as_view(),
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='main-calendar-day-listing'
+    ),
+    url(r'^week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+        WeekEventsListView.as_view(),
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='main-calendar-week-listing'
+    ),
+    url(r'^(?P<type>[\w-]+)/(?:feed\.(?P<format>[\w]+))?$',
+        view=named_listing,
+        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+        name='main-calendar-named-listing'
+    ),
+    # Static pages
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'for-developers/$', TemplateView.as_view(template_name='events/static/for-developers.html'), name='for-developers'),
     # TODO: production-ready static file delivery

@@ -23,14 +23,11 @@ class EventsURLNode(URLNode):
 
         view_name = self.view_name.resolve(context)
 
-        # Catch Main Calendar views and override
+        # Catch Main Calendar views and override url name
         calendar_urls = ['calendar', 'day-listing', 'week-listing', 'month-listing', 'year-listing', 'named-listing']
         if view_name in calendar_urls:
             calendar_pk = kwargs['pk']
             if calendar_pk == settings.FRONT_PAGE_CALENDAR_PK:
-                # Unset slug kwarg
-                kwargs.pop('slug', None)
-                
                 if view_name == 'calendar':
                     view_name = 'home'
                 else:
@@ -66,8 +63,6 @@ class EventsURLNode(URLNode):
             return ''
         else:
             return url
-
-
 
 @register.tag(name='url')
 def url(parser, token):

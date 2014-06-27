@@ -2,6 +2,7 @@
 {% load bleach_tags %}
 {% load widgets %}
 {% load core_tags %}
+{% load url %}
 
 {% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}
 {% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}

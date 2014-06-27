@@ -1,6 +1,7 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load url %}
 
 {% block title %}My Calendar{% if calendar %}: {{ calendar.title }}{% else %}s{% endif %} | {{ block.super }}{% endblock %}
 

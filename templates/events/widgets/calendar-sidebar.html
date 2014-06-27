@@ -1,3 +1,4 @@
+{% load url %}
 <div id="sidebar-minical" class="calendar-slider" {% if calendar %}data-calendar-slug="{{ calendar.slug }}"{% endif %} data-view="{% if is_manager %}manager{% else %}frontend{% endif %}" data-year="{{ this_month.year }}" data-month="{{ this_month.month }}">
     {% if use_pagers %}
     <ul class="pager">
