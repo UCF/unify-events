@@ -3,6 +3,7 @@
 {% load widget_tweaks %}
 {% load core_tags %}
 {% load url %}
+{% load quote_plus %}
 
 {% block title %}Search {% if query %}results for "{{ query }}" {% endif %}| {{ block.super }}{% endblock %}
 {% block og_title %}Search {% if query %}results for "{{ query }}" {% endif %}| {{ block.super }}{% endblock %}
@@ -27,8 +28,10 @@
         {% block search_nav %}
 
         {% if request.GET.q %}
-            {% with 'q='|add:request.GET.q as params %}
-            {% include_esi_template 'esi/search-nav.html' params %}
+            {% with request.GET.q|quote_plus as query %}
+                {% with 'q='|add:query as params %}
+                    {% include_esi_template 'esi/search-nav.html' params %}
+                {% endwith %}
             {% endwith %}
         {% else %}
             {% include_esi_template 'esi/search-nav.html' 'q=' %}
