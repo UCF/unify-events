@@ -19,10 +19,10 @@
         {% for day, event_instances in cal.items %}
         <li class="day{% if event_instances %} hasevents{% else %} noevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
             {% if event_instances %}
-            <span class="event-expander">
+            <a class="event-expander" href="#">
                 <span class="sr-only">Expand Events List</span>
                 <span class="event-expander-icon"><i class="fa fa-caret-down"></i></span>
-            </span>
+            </a>
             {% endif %}
             <div>
                 <a class="date" href="{% url 'day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}"><span>{{ day|date:"F" }}</span>{{ day|date:"j" }}</a>
