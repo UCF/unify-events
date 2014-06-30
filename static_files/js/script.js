@@ -35,7 +35,6 @@ var toggleModalModifyObject = function() {
             modal = $('#object-modify-modal');
 
         if (modal) {
-            console.log(staticPgUrl);
             $.ajax({
                 url: staticPgUrl,
                 timeout: 600 // allow 6 seconds to pass before failing the ajax request
