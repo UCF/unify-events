@@ -14,6 +14,7 @@
 {% block content_form_id %}tag-delete{% endblock %}
 
 {% block content_form_body %}
+    {% csrf_token %}
     <p>Are you sure you want to delete this tag? There is no undo!</p>
 {% endblock %}
 

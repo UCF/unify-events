@@ -14,6 +14,7 @@
 {% block content_form_id %}calendar-delete{% endblock %}
 
 {% block content_form_body %}
+    {% csrf_token %}
     <p>Are you sure you want to delete this calendar? There is no undo!</p>
 {% endblock %}
 
