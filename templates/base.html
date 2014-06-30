@@ -1,6 +1,4 @@
-{% load category_colors %}
-{% load core_tags %}
-<!DOCTYPE html>
+{% load category_colors %}{% load core_tags %}<!DOCTYPE html>
 <html lang="en-US">
     <head>
     {% block head %}
@@ -92,7 +90,6 @@
                         <h2 class="modal-title" id="object-modify-modal-label"></h2>
                     </div>
                     <form action="" method="post" id="object-modify">
-                        {% csrf_token %}
                         <div class="modal-body">
                         </div>
                         <div class="modal-footer">
@@ -126,16 +123,13 @@
         </footer>
         {% endblock %}
 
-        {% block footer_scripts %}
+        {% block footer_scripts_base %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js"></script>
         <script src="{{ STATIC_URL }}js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}js/bootstrap3-typeahead.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}js/jonthornton-jquery-timepicker/jquery.timepicker.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}js/datepicker/js/bootstrap-datepicker.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}js/wysihtml5-base/dist/wysihtml5-0.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}js/bootstrap3-wysihtml5/bootstrap3-wysihtml5.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ STATIC_URL }}js/placeholders.min.js" type="text/javascript" charset="utf-8"></script>
+        {% endblock %}
+        {% block footer_scripts %}
         <script src="{{ STATIC_URL }}js/script.min.js" type="text/javascript" charset="utf-8"></script>
         {% endblock %}
     </body>
