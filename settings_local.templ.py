@@ -12,8 +12,8 @@ ADMINS = (
 # Determine if in Development mode. Used for things like ESIs.
 DEV_MODE = False
 
-LOGIN_URL = '/manager/login'
-LOGOUT_URL = '/manager/logout'
+LOGIN_URL = '/manager/login/'
+LOGOUT_URL = '/manager/logout/'
 LOGIN_REDIRECT_URL = '/manager/'
 
 # Make this unique, and don't share it with anybody.
