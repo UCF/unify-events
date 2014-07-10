@@ -1,0 +1,1 @@
+{% if calendar %}<a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=object.pk category=object.slug %}">{% else %}<a href="{% url 'category' category_pk=object.pk category=object.slug %}">{% endif %}{{ object.title }}</a>

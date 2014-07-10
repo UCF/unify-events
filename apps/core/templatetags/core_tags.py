@@ -26,10 +26,13 @@ def include_esi_template(context, template, params='', kwargs=None):
 
 
 @register.simple_tag(takes_context=True)
-def include_esi(context, model, object_id, template_name):
-    url = 'esi/' + model + '/' + str(object_id) + template_name + '/'
+def include_esi(context, model, object_id, template_name, calendar_id=None):
     if settings.DEV_MODE:
-        response = esi(context['request'], model, str(object_id), template_name)
+        response = esi(context['request'], model, str(object_id), template_name, str(calendar_id))
         return response.content
     else:
+        if calendar_id is not None:
+            url = 'esi/' + model + '/' + str(object_id) + '/calendar/' + calendar_id + '/' + template_name + '/'
+        else:
+            url = 'esi/' + model + '/' + str(object_id) + '/' + template_name + '/'
         return '<exi:include src="%s" />' % url

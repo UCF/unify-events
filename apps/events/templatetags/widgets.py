@@ -205,8 +205,8 @@ def social_btns(url, page_title):
     return html
 
 
-@register.simple_tag
-def category_filters(calendar=None):
+@register.simple_tag(takes_context=True)
+def category_filters(context, calendar=None):
     """
     Creates a list of categories, linking out to the Events in Calendar
     by Category view for the specified calendar.
@@ -217,7 +217,8 @@ def category_filters(calendar=None):
 
     context = {
         'categories': categories,
-        'calendar': calendar
+        'calendar': calendar,
+        'request': context['request']
     }
 
     template = loader.get_template('events/widgets/category-filters.html')
