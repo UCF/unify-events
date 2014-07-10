@@ -206,7 +206,7 @@
 
             <dt><h3 class="h4 alt">Category:</h3></dt>
             <dd class="event-meta-category category-text {{ event_instance.event.category.slug }}">
-        		<a href="{% url 'category' category_pk=event_instance.event.category.pk category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
+                <a href="{% url 'category' category_pk=event_instance.event.category.pk category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
             </dd>
             <dt><h3 class="h4 alt">Tags:</h3></dt>
             <dd class="event-meta-tags">
