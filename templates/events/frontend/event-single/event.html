@@ -4,10 +4,10 @@
 {% load core_tags %}
 {% load url %}
 
-{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}
-{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {{ event_instance.event.calendar }}{% endif %} | {{ block.super }}{% endblock %}
+{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% endif %} | {{ block.super }}{% endblock %}
+{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% endif %} | {{ block.super }}{% endblock %}
 
-{% block meta_description %}{% block og_description %}{% if event_instance.event.description|striptags == FALLBACK_EVENT_DESCRIPTION %}Join us on {{ event_instance.start|date:"F j, Y" }} for {{ event_instance.event.title }} | {{ event_instance.event.calendar }}{% else %}{{ event_instance.event.description|striptags|truncatechars:197 }}{% endif %}{% endblock %}{% endblock %}
+{% block meta_description %}{% block og_description %}{% if event_instance.event.description|striptags == FALLBACK_EVENT_DESCRIPTION %}Join us on {{ event_instance.start|date:"F j, Y" }} for {{ event_instance.event.title }} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% else %}{{ event_instance.event.description|striptags|truncatechars:197 }}{% endif %}{% endblock %}{% endblock %}
 
 {% block meta_date %}{{ event_instance.start|date:"c" }}{% endblock %}
 
@@ -201,7 +201,7 @@
     	<dl id="event-meta" class="dl-horizontal">
             <dt><h3 class="h4 alt">Calendar:</h3></dt>
             <dd class="event-meta-calendar">
-                <a href="{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}">{{ event_instance.event.calendar.title }}</a>
+                {% include_esi 'calendar' event_instance.event.calendar.pk 'link' %}
             </dd>
 
             <dt><h3 class="h4 alt">Category:</h3></dt>
