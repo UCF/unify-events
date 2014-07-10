@@ -1,19 +1,20 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load core_tags %}
 {% load url %}
 
-{% block title %}UCF {{ category.title }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
-{% block og_title %}UCF {{ category.title }} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
+{% block title %}UCF {% include_esi 'category' category.pk 'name' %} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
+{% block og_title %}UCF {% include_esi 'category' category.pk 'name' %} Events | {% if calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 
-{% block meta_description %}{% block og_description %}Join us for {{ category.title }} events at the University of Central Florida in Orlando Florida{% endblock %}{% endblock %}
+{% block meta_description %}{% block og_description %}Join us for {% include_esi 'category' category.pk 'name' %} events at the University of Central Florida in Orlando Florida{% endblock %}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">
         {% if calendar %}
-        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}"><span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}"><span class="alt">by Category <em>&ldquo;{% include_esi 'category' category.pk 'name' %}&rdquo;</em></span></a>
         {% else %}
-        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">Events By Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">Events By Category: <span class="alt"><em>&ldquo;{% include_esi 'category' category.pk 'name' %}&rdquo;</em></span></a>
         {% endif %}
     </h1>
 {% endblock %}

@@ -5,6 +5,7 @@
 	<li class="category-text {% include_esi 'category' category.pk 'slug' %}">
 		<i class="fa fa-tag"></i>
 		{% if calendar and not calendar.is_main_calendar %}
+        {% include_esi 'category' category.pk 'link' calendar.pk %}
 		{% else %}
 		{% include_esi 'category' category.pk 'link' %}
 		{% endif %}
