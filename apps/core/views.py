@@ -1,13 +1,20 @@
+import logging
+
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
+from django.db.models.loading import get_model
+from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from core.utils import format_to_mimetype
+
+log = logging.getLogger(__name__)
 
 
 def esi_template(request, path):
@@ -15,6 +22,29 @@ def esi_template(request, path):
     Returns ESI code if not in DEV mode.
     """
     return render_to_response(path, {}, RequestContext(request))
+
+
+def esi(request, model_name, object_id, template_name):
+    """
+    Returns the HTML for a given model and id for ESIs
+    """
+    try:
+        app_label = 'events'
+        if model_name == 'tag':
+            app_label = 'taggit'
+
+        model = get_model(app_label=app_label, model_name=model_name)
+        object_id_int = int(object_id)
+        the_object = model.objects.get(pk=object_id_int)
+        template_html = template_name.replace('/', '') + '.html'
+        url = 'esi/' + model_name + '/' + template_html
+        return render_to_response(url, { 'object': the_object }, RequestContext(request))
+    except LookupError:
+        log.error('Unable to get model %s from app %s with template %s.' % (model_name, object_id, template))
+    except ObjectDoesNotExist:
+        log.error('Unable to get the object with pk %s from model %s from app %s with template %s.' % (object_id, model_name, object_id, template))
+
+    raise Http404
 
 
 class SuccessUrlReverseKwargsMixin(object):

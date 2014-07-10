@@ -211,8 +211,8 @@
             <dt><h3 class="h4 alt">Tags:</h3></dt>
             <dd class="event-meta-tags">
                 {% if event_instance.event.tags.all %}
-        	        {% for tag in event_instance.event.tags.all %}
-                    <a class="label label-default" href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
+                    {% for tag in event_instance.event.tags.all %}
+                        {% include_esi 'tag' tag.pk 'link' %}
                     {% endfor %}
                 {% else %}
                 n/a
