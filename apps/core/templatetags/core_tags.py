@@ -35,4 +35,4 @@ def include_esi(context, model, object_id, template_name, calendar_id=None):
             url = 'esi/' + model + '/' + str(object_id) + '/calendar/' + calendar_id + '/' + template_name + '/'
         else:
             url = 'esi/' + model + '/' + str(object_id) + '/' + template_name + '/'
-        return '<exi:include src="%s" />' % url
+        return '<esi:include src="%s" />' % url
