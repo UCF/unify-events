@@ -102,21 +102,11 @@
         <div class="event-location event-location-mobile visible-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
             <span class="h2 alt location-title">
-                {{ event_instance.location.comboname }}
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
-            {% if not event_instance.location.get_map_widget_url %}
-                {% if event_instance.location.url %}
-                <span class="event-location-url">
-                    <a class="ga-event" target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
-                </span>
-                {% endif %}
-            {% else %}
-                <div class="map-widget-wrap visible-xs">
-                    <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
-                </div>
-            {% endif %}
+            {% include_esi 'location' event_instance.location.pk 'mobile-map' %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">
@@ -146,7 +136,7 @@
                             <a class="row-link" href="{% url 'event' pk=instance.pk slug=event_instance.event.slug %}">{{ instance.start|date:"F j, Y, P" }}</a>
                         </td>
                         <td>
-                            {{ instance.location.comboname }}
+                            {% include_esi 'location' event_instance.location.pk 'comboname' %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -157,11 +147,7 @@
         <hr class="visible-xs" />
         {% endif %}
 
-        {% if event_instance.location.get_map_widget_url %}
-        <div id="event-location-map" class="map-widget-wrap hidden-xs">
-            <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
-        </div>
-        {% endif %}
+        {% include_esi 'location' event_instance.location.pk 'desktop-map' %}
 
         {# start mobile-only sections ...... #}
 
@@ -227,21 +213,11 @@
         <div class="event-location hidden-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
             <span class="h2 alt location location-title">
-                {{ event_instance.location.comboname }}
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
-            {% if not event_instance.location.get_map_widget_url %}
-                {% if event_instance.location.url %}
-                <span class="event-location-url">
-                    <a class="ga-event" target="_blank" href="{{ event_instance.location.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
-                </span>
-                {% endif %}
-            {% else %}
-            <span class="event-location-url">
-                <a class="ga-event" href="#event-location-map" data-ga-category="Event Location Link" data-ga-action="View Map" data-ga-label="{{ request.build_absolute_uri }}">[ View Map ]</a>
-            </span>
-            {% endif %}
+            {% include_esi 'location' event_instance.location.pk 'desktop-link' %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">

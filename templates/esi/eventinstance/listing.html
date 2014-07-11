@@ -47,7 +47,7 @@
     </time>
     {% endif %}
 
-    <span class="location h4 alt">{{ object.location.comboname }}</span>
+    <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
     <p class="description">
         {{ object.event.description|striptags|truncatewords:60 }}
     </p>
