@@ -9480,7 +9480,7 @@ footer {
     clear: both; }
   /* line 70, ../assets/sass/_views-frontend.scss */
   .search-results-list .calendar-description {
-    margin-top: 30px; }
+    margin-top: 5px; }
   @media only screen and (max-width: 767px) {
     /* line 73, ../assets/sass/_views-frontend.scss */
     .search-results-list .description {
