@@ -1,3 +1,4 @@
+{% load core_tags %}
 <style type="text/css">
 {% for category in categories %}
     ul.event-list li.{% include_esi 'category' category.pk 'slug' %} {

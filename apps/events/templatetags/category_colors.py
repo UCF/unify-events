@@ -7,10 +7,11 @@ from events.models import Category
 register = template.Library()
 
 
-@register.simple_tag
-def category_color_styles():
+@register.simple_tag(takes_context=True)
+def category_color_styles(context):
     context = {
-        'categories': Category.objects.all()
+        'categories': Category.objects.all(),
+        'request': context['request']
     }
 
     template = loader.get_template('events/widgets/category-color-styles.html')
