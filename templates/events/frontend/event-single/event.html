@@ -4,8 +4,8 @@
 {% load core_tags %}
 {% load url %}
 
-{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% endif %} | {{ block.super }}{% endblock %}
-{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% endif %} | {{ block.super }}{% endblock %}
+{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% endif %} | {{ block.super }}{% endblock %}
+{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% endif %} | {{ block.super }}{% endblock %}
 
 {% block meta_description %}{% block og_description %}{% if event_instance.event.description|striptags == FALLBACK_EVENT_DESCRIPTION %}Join us on {{ event_instance.start|date:"F j, Y" }} for {{ event_instance.event.title }} | {% include_esi 'calendar' event_instance.event.calendar.pk 'name' %}{% else %}{{ event_instance.event.description|striptags|truncatechars:197 }}{% endif %}{% endblock %}{% endblock %}
 

@@ -1,32 +1,32 @@
-{% load bleach_tags %}{% if not event_instances %}<?xml version="1.0"?>
+{% load bleach_tags %}{% load core_tags %}{% if not event_instances %}<?xml version="1.0"?>
 <rss version="2.0" xmlns:ucfevent="http://events.ucf.edu">
 	<channel>
 		<title>Events at UCF</title>
 		<link>{{ request.build_absolute_uri }}</link>
-		<description>Event Details - {{ event_instance.event.get_title_canceled|escape }}</description>
+		<description>Event Details - {{ event_instance.event.get_title_canceled }}</description>
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
 {% endif %}
 		<item>
-			<title>{{ event_instance.event.get_title_canceled|escape }}</title>
-			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url|escape }}</link>
-			<description><![CDATA[{{ event_instance.event.description|bleach|escape }}]]></description>
+			<title>{{ event_instance.event.get_title_canceled }}</title>
+			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
+			<description><![CDATA[{{ event_instance.event.description|bleach }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
 			<guid>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</guid>
 			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
 			<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
 			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
 			<ucfevent:location>
-				<ucfevent:name>{{ event_instance.location.comboname|escape }}</ucfevent:name>
-				<ucfevent:mapurl>{% if event_instance.location.url %}<![CDATA[{{ event_instance.location.url }}]]>{% endif %}</ucfevent:mapurl>
+				<ucfevent:name>{% include_esi 'location' event_instance.location.pk 'comboname' %}</ucfevent:name>
+				<ucfevent:mapurl>{% if event_instance.location.url %}<![CDATA[{% include_esi 'location' event_instance.location.pk 'url' %}]]>{% endif %}</ucfevent:mapurl>
 			</ucfevent:location>
 			<ucfevent:contact>
-				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name|escape }}{% endif %}</ucfevent:contactname>
-				<ucfevent:contactphone>{% if event_instance.event.contact_phone %}{{ event_instance.event.contact_phone|escape }}{% endif %}</ucfevent:contactphone>
-				<ucfevent:contactemail>{% if event_instance.event.contact_email %}{{ event_instance.event.contact_email|escape }}{% endif %}</ucfevent:contactemail>
+				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name }}{% endif %}</ucfevent:contactname>
+				<ucfevent:contactphone>{% if event_instance.event.contact_phone %}{{ event_instance.event.contact_phone }}{% endif %}</ucfevent:contactphone>
+				<ucfevent:contactemail>{% if event_instance.event.contact_email %}{{ event_instance.event.contact_email }}{% endif %}</ucfevent:contactemail>
 			</ucfevent:contact>
-			<ucfevent:category>{{ event_instance.event.category|escape }}</ucfevent:category>
+			<ucfevent:category>{% include_esi 'category' event_instance.event.category.pk 'title' %}</ucfevent:category>
 			<ucfevent:tags>
-				{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<ucfevent:tag>{{ tag.name|escape }}</ucfevent:tag>{% endfor %}{% endif %}
+				{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<ucfevent:tag>{% include_esi 'tag' tag.pk 'name' %}</ucfevent:tag>{% endfor %}{% endif %}
 			</ucfevent:tags>
 		</item>
 {% if not event_instances %}
