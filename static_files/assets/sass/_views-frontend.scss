@@ -166,152 +166,160 @@
   }
 }
 
-ul {
-  &.event-list {
-    margin-bottom: 30px;
-    list-style-type: none;
-    margin-left: 0;
-    @include respond-to(xs-sm) { margin-bottom: 15px; }
+ul.event-list {
+  margin-bottom: 30px;
+  list-style-type: none;
+  margin-left: 0;
+  @include respond-to(xs-sm) { margin-bottom: 15px; }
 
-    li.event {
-      display: block;
-      position: relative;
-      overflow: hidden;
-      padding: 10px 20px;
-      margin: 20px 0;
-      border-left: 3px solid $gray-lighter;
+  li.event {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border-left: 3px solid $gray-lighter;
+    @include respond-to(xs-sm) {
+      padding: 10px 15px;
+      margin: 10px 0;
+    }
+
+    &:first-child {
+      margin-top: 10px;
+    }
+
+    .event-title {
+      line-height: 1em;
+      margin-top: 0;
+      font-weight: 400;
       @include respond-to(xs-sm) {
-        padding: 10px 15px;
-        margin: 10px 0;
+        font-size: 18px;
+        margin-bottom: 8px;
       }
 
-      &:first-child {
-        margin-top: 10px;
-      }
-
-      .event-title {
-        line-height: 1em;
-        margin-top: 0;
-        font-weight: 400;
-        @include respond-to(xs-sm) {
-          font-size: 18px;
-          margin-bottom: 8px;
-        }
-
-        i {
-          font-size: 16px;
-          vertical-align: top;
-          color: $brand-primary;
-          @include respond-to(xs-sm) { font-size: 14px; }
-        }
-      }
-
-      time,
-      .location {
-        display: block;
-      }
-
-      time {
-        display: block;
-        font-size: 20px;
-        line-height: 1em;
-        font-weight: bold;
-        margin-top: 0;
-        color: #000;
-        @include respond-to(xs-sm) { font-size: 16px; }
-
-        &.dtend {
-          font-size: 14px;
-          margin-top: 5px;
-          @include respond-to(xs-sm) { font-size: 12px; }
-        }
-      }
-
-      .location {
+      i {
         font-size: 16px;
-        line-height: 1em;
-        margin: 12px 0;
-        @include respond-to(xs-sm) {
-          font-size: 14px;
-          margin: 8px 0;
-        }
-      }
-
-      .description {
-        margin-bottom: 0;
-        font-size: 13px;
-        @include respond-to(xs-sm) {
-          font-size: 12px;
-          @include text-overflow();
-        }
-      }
-
-      .calendar {
-        display: block;
-        margin-top: 15px;
-        font-size: 12px;
-        text-transform: uppercase;
-        font-weight: bold;
-        color: $gray-light;
-        @include respond-to(xs-sm) {
-          margin-top: 12px;
-          font-size: 11px;
-        }
-
-        i {
-          margin-right: 3px;
-        }
-      }
-
-      > a {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      }
-
-      &:hover {
-        background-color: $gray-lighter;
-      }
-      &:hover .event-title a,
-      &:hover .event-title i {
-        color: $link-hover-color;
-      }
-      &:hover .event-title a {
-        text-decoration: underline;
+        vertical-align: top;
+        color: $brand-primary;
+        @include respond-to(xs-sm) { font-size: 14px; }
       }
     }
 
-    & + hr {
-      margin: 10px 0;
+    time,
+    .location {
+      display: block;
+    }
+
+    time {
+      display: block;
+      font-size: 20px;
+      line-height: 1em;
+      font-weight: bold;
+      margin-top: 0;
+      color: #000;
+      @include respond-to(xs-sm) { font-size: 16px; }
+
+      &.dtend {
+        font-size: 14px;
+        margin-top: 5px;
+        @include respond-to(xs-sm) { font-size: 12px; }
+      }
+    }
+
+    .location {
+      font-size: 16px;
+      line-height: 1em;
+      margin: 12px 0;
+      @include respond-to(xs-sm) {
+        font-size: 14px;
+        margin: 8px 0;
+      }
+    }
+
+    .description {
+      margin-bottom: 0;
+      font-size: 13px;
+      @include respond-to(xs-sm) {
+        font-size: 12px;
+        @include text-overflow();
+      }
+    }
+
+    .calendar {
+      display: block;
+      margin-top: 15px;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: $gray-light;
+      @include respond-to(xs-sm) {
+        margin-top: 12px;
+        font-size: 11px;
+      }
+
+      i {
+        margin-right: 3px;
+      }
+    }
+
+    > a {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    &:hover {
+      background-color: $gray-lighter;
+    }
+    &:hover .event-title a,
+    &:hover .event-title i {
+      color: $link-hover-color;
+    }
+    &:hover .event-title a {
+      text-decoration: underline;
     }
   }
 
-  &.event-list-condensed {
-    list-style-type: none;
-    width: 100%;
-    margin-top: 5px;
+  & + hr {
+    margin: 10px 0;
+  }
+}
 
-    li {
-      width: 114px;
-      font-size: 11px;
-      line-height: 23px;
-      @include text-overflow();
+ul.event-list-condensed {
+  list-style-type: none;
+  width: 100%;
+  margin-top: 5px;
 
-      time {
-        font-weight: bold;
-      }
+  li {
+    width: 114px;
+    font-size: 11px;
+    line-height: 23px;
+    @include text-overflow();
+
+    time {
+      font-weight: bold;
     }
   }
 }
 
 
-/* Frontend Calendar View - Day, Week */
-#calendar-events-day h2,
-#calendar-events-week h2 {
-  margin-bottom: 20px;
+/* Frontend Calendar View - Day, Week, Upcoming */
+#calendar-events-day,
+#calendar-events-week,
+#calendar-events-upcoming {
+  h2 {
+    margin-bottom: 20px;
+  }
+  .event-list {
+    .start-date,
+    .dtend,
+    .calendar {
+      display: none;
+    }
+  }
 }
 
 
@@ -365,22 +373,9 @@ ul {
 }
 
 
-/* Frontend Events - by Category, Tag, Search Term */
-#term-events ul.event-list li .event-content .dtstart {
-  background-color: transparent;
-  width: 100%;
-  position: static;
-  text-align: left;
-  font-size: 14px;
-  font-weight: normal;
-  padding: 15px 0 0 0;
-}
-#term-events ul.event-list li .event-content .location,
-#term-events ul.event-list li .event-content .calendar {
-  margin-right: 0;
-}
-#term-events ul.event-list li .event-content .calendar {
-  padding-top: 10px;
+/* Frontend Events - by Category, Tag */
+#term-events ul.event-list li.event .calendar {
+  display: none;
 }
 
 

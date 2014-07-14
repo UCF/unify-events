@@ -10,19 +10,21 @@
 
     <time class="dtstart" datetime="{{ object.start|date:"cZ" }}">
         {% if not start_date %}
-            {{ object.start.date }}
+            <span class="start-date">{{ object.start.date }}</span>
         {% endif %}
         {% if object.start.time and object.end.time %}
-            {% if not start_date %}
-            at
-            {% endif %}
-            {{ object.start|date:"f a" }}
+            <span class="start-time">
+                {% if not start_date %}
+                at
+                {% endif %}
+                {{ object.start|date:"f a" }}
+            </span>
         {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" == "23:59" %}
-            All Day
+            <span class="start-time">All Day</span>
         {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" != "23:59" %}
-            until {{ object.end|date:"f a" }}
+            <span class="until">until {{ object.end|date:"f a" }}</span>
         {% else %}
-            All Day
+            <span class="start-time">All Day</span>
         {% endif %}
         <span class="value-title" title="{{ object.start|date:"cZ" }}"></span>
     </time>
