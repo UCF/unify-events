@@ -17,7 +17,7 @@
 			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
 			<ucfevent:location>
 				<ucfevent:name>{% include_esi 'location' event_instance.location.pk 'comboname' %}</ucfevent:name>
-				<ucfevent:mapurl>{% if event_instance.location.url %}<![CDATA[{% include_esi 'location' event_instance.location.pk 'url' %}]]>{% endif %}</ucfevent:mapurl>
+				<ucfevent:mapurl>{% if event_instance.location.url %}{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}{% endif %}</ucfevent:mapurl>
 			</ucfevent:location>
 			<ucfevent:contact>
 				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name }}{% endif %}</ucfevent:contactname>
