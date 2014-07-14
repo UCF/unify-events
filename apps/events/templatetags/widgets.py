@@ -23,8 +23,8 @@ import calendar as calgenerator
 register = template.Library()
 
 
-@register.simple_tag
-def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
+@register.simple_tag(takes_context=True)
+def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
     if calendars is "" and is_manager is 0:
@@ -80,8 +80,9 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
         if event.start.date() in month_calendar_map[this_month].keys():
             month_calendar_map[this_month][event.start.date()].append(event)
 
-
+    
     context = {
+        'request': context['request'],
         'STATIC_URL': settings.STATIC_URL,
         'is_manager': is_manager,
         'calendar': calendar,
