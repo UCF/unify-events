@@ -177,8 +177,11 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
+            # Set a fallback limit for list views
             limit = self.request.GET.get('limit')
-            if limit and self.request.GET.get('monthwidget') != 'true':
+            if not limit:
+                limit = 5
+            if self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
         self.queryset = events
