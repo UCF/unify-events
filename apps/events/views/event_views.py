@@ -177,11 +177,8 @@ class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBase
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
-            # Set a fallback limit for list views
             limit = self.request.GET.get('limit')
-            if not limit:
-                limit = 5
-            if self.request.GET.get('monthwidget') != 'true':
+            if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
         self.queryset = events
@@ -591,9 +588,11 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, 
         context = super(EventsByTagList, self).get_context_data()
         context['tag'] = get_object_or_404(Tag, pk=self.kwargs['tag_pk'])
 
-        if 'pk' in self.kwargs:
+        if 'pk' not in self.kwargs:
+            calendar = get_main_calendar()
+        else:
             calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
-            context['calendar'] = calendar
+        context['calendar'] = calendar
 
         return context
 
@@ -606,14 +605,11 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, 
                                               )
 
         if 'pk' not in kwargs:
-            calendar = None
+            calendar = get_main_calendar()
         else:
             calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
 
-        if calendar:
-            events = events.filter(event__calendar=calendar)
-        else:
-            events = events.filter(event__created_from__isnull=True)
+        events = events.filter(event__calendar=calendar)
 
         return events
 
@@ -632,9 +628,11 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMi
         context = super(EventsByCategoryList, self).get_context_data()
         context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'])
 
-        if 'pk' in self.kwargs:
+        if 'pk' not in self.kwargs:
+            calendar = get_main_calendar()
+        else:
             calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
-            context['calendar'] = calendar
+        context['calendar'] = calendar
 
         return context
 
@@ -647,13 +645,10 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMi
                                               )
 
         if 'pk' not in kwargs:
-            calendar = None
+            calendar = get_main_calendar()
         else:
             calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
 
-        if calendar:
-            events = events.filter(event__calendar=calendar)
-        else:
-            events = events.filter(event__created_from__isnull=True)
+        events = events.filter(event__calendar=calendar)
 
         return events
