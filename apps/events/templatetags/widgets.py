@@ -196,7 +196,7 @@ def social_btns(url, page_title):
     context = {
         'url': url,
         'page_title': page_title,
-        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title)
+        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title.encode('utf-8'))
     }
 
     template = loader.get_template('events/widgets/social-btns.html')
