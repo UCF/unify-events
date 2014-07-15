@@ -735,12 +735,18 @@ var eventTagging = function() {
                 self.removeTag($(this).parent('li'));
             });
 
-            var tagListItem = $('<li data-tag-name="'+ $.trim(item) +'">'+ $.trim(item) +'</li>');
-            tagListItem
-                .appendTo(self.selectedTagsList)
-                .prepend(removeLink);
+            // Make sure that item is still some valid value after cleaning and trimming whitespace
+            if (item.length > 0) {
+                var tagListItem = $('<li data-tag-name="'+ item +'">'+ item +'</li>');
+                tagListItem
+                    .appendTo(self.selectedTagsList)
+                    .prepend(removeLink);
 
-            self.addBtn.hide();
+                self.addBtn.hide();
+            }
+            else {
+                return false;
+            }
         };
 
         // Custom function for removing selected tag list items.
@@ -756,9 +762,9 @@ var eventTagging = function() {
         };
 
         // Custom function that returns a 'clean' string value, after running through
-        // a regular expression to remove undesired characters
+        // a regular expression to only allow whitelisted characters below
         autocomplete.getCleanItemVal = function(item) {
-            return item.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, '');
+            return $.trim(item.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
         };
 
         autocomplete.setupForm = function() {
@@ -774,12 +780,12 @@ var eventTagging = function() {
                     existingTaglistVal = self.dataField.attr('value');
                 }
                 if (existingTaglistVal !== '') {
-                    var tagArray = existingTaglistVal.replace(/\"/g, '').split(',').filter(Boolean);
+                    var tagArray = existingTaglistVal.replace(/(&quot;?)|\"/g, '').split(',').filter(Boolean);
                     self.selectedTagsArray = self.selectedTagsArray.concat(tagArray);
 
                     if (self.selectedTagsList.children().length < 1) {
                         $.each(tagArray, function(key, val) {
-                            self.createTag(val);
+                            self.createTag(self.getCleanItemVal(val));
                         });
                     }
                 }
@@ -805,7 +811,9 @@ var eventTagging = function() {
             self.addBtn.on('click', function(event) {
                 event.preventDefault();
                 var item = self.getCleanItemVal(self.autocompleteField.val());
-                self.typeaheadUpdater(item);
+                if (item.length > 0) {
+                    self.typeaheadUpdater(item);
+                }
             });
 
             // Handle non-suggestion new tag creation
@@ -828,7 +836,9 @@ var eventTagging = function() {
                         // Add the tag to the tag list.  Taggit handles creation of new
                         // or assignment of existing tags
                         var item = self.getCleanItemVal(autocompleteField.val());
-                        self.typeaheadUpdater(item);
+                        if (item.length > 0) {
+                            self.typeaheadUpdater(item);
+                        }
                         self.addBtn.hide();
                     }
                 }
@@ -850,8 +860,8 @@ var eventTagging = function() {
                         self.selectedTagsArray.push(self.autocompleteField.val());
                     }
                     // Push the final value of selectedTagsArray to dataField's value
-                    var selectedTagsStr = autocomplete.selectedTagsArray.toString();
-                    autocomplete.dataField
+                    var selectedTagsStr = self.selectedTagsArray.toString();
+                    self.dataField
                         .val(selectedTagsStr)
                         .attr('value', selectedTagsStr);
                 }

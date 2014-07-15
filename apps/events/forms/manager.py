@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
@@ -68,6 +70,17 @@ class EventForm(forms.ModelForm):
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
+
+    def clean(self):
+        self._validate_unique = True
+
+        # Remove '&quot;' and '"' characters from tag phrases, and strip
+        # characters that don't match our whitelist.
+        tags = self.cleaned_data['tags']
+        for key, tag in enumerate(tags):
+            tags[key] = re.sub(r'([^\w -!$#%&+|:?])|(&quot;?)', '', tag)
+
+        return self.cleaned_data        
 
     class Meta:
         model = Event
