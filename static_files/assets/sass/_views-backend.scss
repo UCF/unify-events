@@ -317,7 +317,9 @@ form#manager-calendar-add-user {
 .location-selected-url {
   display: block;
   float: left;
-  width: 100%;
+  width: 95%; /* Add spacing between .location-selected-remove */
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .clone-delete-hiddenfield {

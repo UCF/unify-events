@@ -10313,13 +10313,16 @@ form#manager-calendar-add-user {
 .location-selected-url {
   display: block;
   float: left;
-  width: 100%; }
+  width: 95%;
+  /* Add spacing between .location-selected-remove */
+  overflow: hidden;
+  word-wrap: break-word; }
 
-/* line 323, ../assets/sass/_views-backend.scss */
+/* line 325, ../assets/sass/_views-backend.scss */
 .clone-delete-hiddenfield {
   display: none; }
 
-/* line 328, ../assets/sass/_views-backend.scss */
+/* line 330, ../assets/sass/_views-backend.scss */
 #event-tags-selected li {
   display: block;
   float: left;
@@ -10331,7 +10334,7 @@ form#manager-calendar-add-user {
   font-size: 12px;
   font-weight: bold;
   position: relative; }
-  /* line 340, ../assets/sass/_views-backend.scss */
+  /* line 342, ../assets/sass/_views-backend.scss */
   #event-tags-selected li a {
     padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
@@ -10344,11 +10347,11 @@ form#manager-calendar-add-user {
     height: 100%;
     font-size: 14px;
     line-height: 22px; }
-    /* line 353, ../assets/sass/_views-backend.scss */
+    /* line 355, ../assets/sass/_views-backend.scss */
     #event-tags-selected li a:hover, #event-tags-selected li a:focus {
       text-decoration: none;
       background-color: #EE5F5B; }
 
-/* line 362, ../assets/sass/_views-backend.scss */
+/* line 364, ../assets/sass/_views-backend.scss */
 #add-user-contact-info {
   margin-bottom: 10px; }
