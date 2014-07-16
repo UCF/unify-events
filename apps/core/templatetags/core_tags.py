@@ -32,7 +32,7 @@ def include_esi(context, model, object_id, template_name, calendar_id=None):
         return response.content
     else:
         if calendar_id is not None:
-            url = '/esi/' + model + '/' + str(object_id) + '/calendar/' + calendar_id + '/' + template_name + '/'
+            url = '/esi/' + model + '/' + str(object_id) + '/calendar/' + str(calendar_id) + '/' + template_name + '/'
         else:
             url = '/esi/' + model + '/' + str(object_id) + '/' + template_name + '/'
         # Keep the single quotes around src='' so that it doesn't mess
