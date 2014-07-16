@@ -23,8 +23,6 @@ var autoOpenTagByAnchor = function() {
  *
  * Populates modal contents with the static form specified
  * in the toggle link's 'href' attribute.
- *
- * TODO: Fix stupid 'unrecognized expression' syntax error on calendar subscribe modal
  **/
 var toggleModalModifyObject = function() {
     $('.object-modify').on('click', function(e) {
