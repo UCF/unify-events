@@ -7,4 +7,4 @@ register = template.Library()
 
 @register.filter
 def quote_plus(value):
-    return urllib.quote_plus(value)
+    return urllib.quote_plus(value.encode('utf-8'))

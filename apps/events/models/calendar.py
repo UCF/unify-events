@@ -27,7 +27,7 @@ def calendars(self):
 
     NOTE:
     This query generates an outer join for admins (m) and an outer join
-    for editors (n), which can result in a m*n result set, without the 
+    for editors (n), which can result in a m*n result set, without the
     distinct().
     """
     return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self)).distinct()
@@ -50,9 +50,9 @@ class Calendar(TimeCreatedModified):
     slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
-    editors = models.ManyToManyField(User, related_name='editor_calendars', null=True)
-    admins = models.ManyToManyField(User, related_name='admin_calendars', null=True)
-    subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', null=True, symmetrical=False)
+    editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True, null=True)
+    admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True, null=True)
+    subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, null=True, symmetrical=False)
 
     class Meta:
         app_label = 'events'

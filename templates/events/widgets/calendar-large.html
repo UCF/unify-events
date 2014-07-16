@@ -1,4 +1,5 @@
 {% load url %}
+{% load core_tags %}
 <div class="calendar-large">
     {% for key, cal in calendar_map.items %}
     <h2>
@@ -30,22 +31,7 @@
                 {% if event_instances %}
                 <ul class="event-list-condensed">
                     {% for event_instance in event_instances %}
-                    <li>
-                        <a href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-                            <time>
-                                {% if event_instance.start.time and event_instance.end.time %}
-                                    {{ event_instance.start|date:"f a" }}
-                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
-                                    All Day
-                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
-                                    until {{ event_instance.end|date:"f a" }}
-                                {% else %}
-                                    All Day
-                                {% endif %}
-                            </time>
-                            {{ event_instance.event.get_title_canceled }}
-                        </a>
-                    </li>
+                    {% include_esi 'eventinstance' event_instance.pk 'list-item' %}
                     {% endfor %}
                 </ul>
                 {% endif %}

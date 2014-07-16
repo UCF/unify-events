@@ -1,15 +1,14 @@
 {% load widgets %}
+{% load core_tags %}
 <ul class="category-filter-list">
 	{% for category in categories %}
-	<li class="category-text {{ category.slug }}">
+	<li class="category-text {% include_esi 'category' category.pk 'slug' %}">
 		<i class="fa fa-tag"></i>
 		{% if calendar and not calendar.is_main_calendar %}
-		<a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}">
+        {% include_esi 'category' category.pk 'link' calendar.pk %}
 		{% else %}
-		<a href="{% url 'category' category_pk=category.pk category=category.slug %}">
+		{% include_esi 'category' category.pk 'link' %}
 		{% endif %}
-			{{ category.title }}
-		</a>
 	</li>
 	{% endfor %}
 </ul>

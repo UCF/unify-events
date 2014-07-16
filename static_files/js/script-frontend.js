@@ -54,8 +54,19 @@ var resizeMapWidgets = function() {
     });
 };
 
+/**
+ * Used to add styles to the esi data.
+ **/
+var esiStyle = function() {
+    // Style event pages
+    if (window.location.pathname.indexOf('event') > -1) {
+        $('.event-tag').addClass('label label-default');
+    }
+};
+
 
 $(document).ready(function() {
     updateMonthviewDropdown();
     resizeMapWidgets();
+    esiStyle();
 });

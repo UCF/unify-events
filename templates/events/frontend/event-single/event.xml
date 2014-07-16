@@ -1,15 +1,15 @@
-{% load bleach_tags %}{% if not event_instances %}<?xml version="1.0" encoding="UTF-8"?>
+{% load bleach_tags %}{% load core_tags %}{% if not event_instances %}<?xml version="1.0" encoding="UTF-8"?>
 <events xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="UCBCNEvents_1.9.xsd">
 {% endif %}
     <event>
         <id>{{ event_instance.event.pk }}</id>
         <event_id>{{ event_instance.pk }}</event_id>
-		<title>{{ event_instance.event.get_title_canceled|escape }}</title>
+		<title>{{ event_instance.event.get_title_canceled }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
 		<end_date>{{ event_instance.end|date:'r' }}</end_date>
-		<location>{{ event_instance.location.title|escape }}</location>
-		<room>{{ event_instance.location.room|escape }}</room>
+		<location>{% include_esi 'location' event_instance.location.pk 'title' %}</location>
+		<room>{% include_esi 'location' event_instance.location.pk 'room' %}</room>
 
 		<address>
 			<building></building>
@@ -26,7 +26,7 @@
 			<location_type></location_type>
 			<location_hours></location_hours>
 			<location_phone></location_phone>
-			<location_website><![CDATA[{{ event_instance.location.url }}]]></location_website>
+			<location_website>{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}</location_website>
 			<directions></directions>
 			<map_link></map_link>
 			<additional_public_info></additional_public_info>
@@ -37,7 +37,7 @@
 		</languages>
 		<event_transparency></event_transparency>
 
-		<description><![CDATA[{{ event_instance.event.description|bleach|escape }}]]></description>
+		<description><![CDATA[{{ event_instance.event.description|bleach }}]]></description>
 		<short_description></short_description>
 
 		<refreshments></refreshments>
@@ -48,13 +48,13 @@
 			</webpage>
 		</webpages>
 
-		<contact_person>{{ event_instance.event.contact_name|escape }}</contact_person>
-		<contact_email>{{ event_instance.event.contact_email|escape }}</contact_email>
-		<contact_phone>{{ event_instance.event.contact_phone|escape }}</contact_phone>
+		<contact_person>{{ event_instance.event.contact_name }}</contact_person>
+		<contact_email>{{ event_instance.event.contact_email }}</contact_email>
+		<contact_phone>{{ event_instance.event.contact_phone }}</contact_phone>
 
-		<category>{{ event_instance.event.category|escape }}</category>
+		<category>{% include_esi 'category' event_instance.event.category.pk 'title' %}</category>
 		<tags>
-			{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<tag>{{ tag.name|escape }}</tag>{% endfor %}{% endif %}
+			{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<tag>{% include_esi 'tag' tag.pk 'name' %}</tag>{% endfor %}{% endif %}
 		</tags>
 
 		<status>{% if event_instance.event.canceled %}Canceled{% else %}Happening As Scheduled{% endif %}</status>

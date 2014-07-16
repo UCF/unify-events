@@ -1,15 +1,16 @@
+{% load core_tags %}
 <style type="text/css">
 {% for category in categories %}
-    ul.event-list li.{{ category.slug }} {
-        border-left-color: {{ category.color }};
+    ul.event-list li.{% include_esi 'category' category.pk 'slug' %} {
+        border-left-color: {% include_esi 'category' category.pk 'color' %};
     }
-    .event-meta-category.{{ category.slug }} a,
-    .category-text.{{ category.slug }},
-    .category-text.{{ category.slug }} i {
-        color: {{ category.color }};
+    .event-meta-category.{% include_esi 'category' category.pk 'slug' %} a,
+    .category-text.{% include_esi 'category' category.pk 'slug' %},
+    .category-text.{% include_esi 'category' category.pk 'slug' %} i {
+        color: {% include_esi 'category' category.pk 'color' %};
     }
-    .category-label.{{ category.slug }} {
-    	background-color: {{ category.color }};
+    .category-label.{% include_esi 'category' category.pk 'slug' %} {
+    	background-color: {% include_esi 'category' category.pk 'color' %};
     }
 {% endfor %}
 </style>

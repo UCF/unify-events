@@ -1,0 +1,5 @@
+{% if object.get_map_widget_url %}
+<div id="event-location-map" class="map-widget-wrap hidden-xs">
+    <iframe class="map-widget" frameborder="0" src="{{ object.get_map_widget_url }}"></iframe>
+</div>
+{% endif %}

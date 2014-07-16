@@ -23,8 +23,8 @@ import calendar as calgenerator
 register = template.Library()
 
 
-@register.simple_tag
-def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
+@register.simple_tag(takes_context=True)
+def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
     if calendars is "" and is_manager is 0:
@@ -80,8 +80,9 @@ def calendar_widget(calendars, year, month, pk=None, day=None, is_manager=0, siz
         if event.start.date() in month_calendar_map[this_month].keys():
             month_calendar_map[this_month][event.start.date()].append(event)
 
-
+    
     context = {
+        'request': context['request'],
         'STATIC_URL': settings.STATIC_URL,
         'is_manager': is_manager,
         'calendar': calendar,
@@ -196,7 +197,7 @@ def social_btns(url, page_title):
     context = {
         'url': url,
         'page_title': page_title,
-        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title)
+        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title.encode('utf-8'))
     }
 
     template = loader.get_template('events/widgets/social-btns.html')
@@ -205,8 +206,8 @@ def social_btns(url, page_title):
     return html
 
 
-@register.simple_tag
-def category_filters(calendar=None):
+@register.simple_tag(takes_context=True)
+def category_filters(context, calendar=None):
     """
     Creates a list of categories, linking out to the Events in Calendar
     by Category view for the specified calendar.
@@ -217,7 +218,8 @@ def category_filters(calendar=None):
 
     context = {
         'categories': categories,
-        'calendar': calendar
+        'calendar': calendar,
+        'request': context['request']
     }
 
     template = loader.get_template('events/widgets/category-filters.html')
