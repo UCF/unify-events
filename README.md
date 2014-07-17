@@ -69,21 +69,23 @@ If you use a branch to develop a feature, make sure to delete the old branch onc
 ### Sass
 
 #### Codekit Setup
-This project is configured to compile Sass asset files (located in `static_files/assets/`) using Codekit 2.x. Before modifying any style-related files, create a new project with this repo in Codekit (see Codekit docs: http://incident57.com/codekit/help.html)
+This project is configured to compile .scss assets and javascript files (located in `static_files/assets/`) using Codekit 2.x. Before modifying any style-related files, create a new project with this repo in Codekit (see Codekit docs: http://incident57.com/codekit/help.html)
+
+After creating the new project, any modifications to files in `static_files/assets/` will automatically compile and minify to their respective `static_files/static/` locations.
 
 #### Bootstrap
-This project uses the official Sass port of Twitter Bootstrap (https://github.com/twbs/bootstrap-sass) for base styling of templates. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/sass/theme.scss`.
+This project uses the official Sass port of Twitter Bootstrap (https://github.com/twbs/bootstrap-sass) for base styling of templates. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/scss/style.scss`.
 
 The current version of Bootstrap is v3.2.0.
 
-To upgrade Bootstrap, download the latest tagged release and replace the `static_files/assets/bootstrap/assets/` directory in this repo with the downloaded `assets/` directory (do not copy the Bootstrap root directory.)  Make sure to compile `static_files/assets/sass/style.scss` after!
+To upgrade Bootstrap, download the latest tagged release and replace the `static_files/static/vendor/bootstrap/` directory contents in this repo with the downloaded `assets/` directory contents (do not copy the Bootstrap root directory.)  Make sure to compile `static_files/assets/sass/style.scss` AND `static_files/static/vendor/bootstrap/javascripts/bootstrap.js` after!
 
 #### Font Awesome
-Version 4.0.3 of Font Awesome (http://fontawesome.io/) is used as a replacement for Bootstrap's Glyphicon icon library. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/sass/theme.scss`.
+Version 4.0.3 of Font Awesome (http://fontawesome.io/) is used as a replacement for Bootstrap's Glyphicon icon library. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/scss/style.scss`.
 
 Note that these icons do not overwrite the Glyphicon library; both are available to use, but Font Awesome fonts are preferred. See the Font Awesome docs for usage.
 
-To upgrade, download the latest tagged release and replace the `static_files/assets/font-awesome-4.x.x/` directory in this repo with the downloaded root directory.  Make sure to compile `static_files/assets/sass/style.scss` after!
+To upgrade, download the latest tagged release and replace the `static_files/static/vendor/fonts/font-awesome-4.x.x/` directory in this repo with the downloaded root directory.  Make sure to compile `static_files/assets/sass/style.scss` after!
 
 #### Theme Sass Files
 All of the raw custom styles for this project are contained in separate Sass files in `static_files/assets/sass/`. When modifying stylesheets in this project, only modify the files in this directory; **do NOT modify any files in `static_files/css/`**! These Sass files will compile and overwrite `static_files/css/style.css`.

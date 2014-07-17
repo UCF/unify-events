@@ -1,6 +1,6 @@
 // Asset variable overrides here (static dir paths should be relative to STATIC_URL in settings.py):
-$icon-font-path: "/events/static/assets/bootstrap/assets/fonts/bootstrap";
-$fa-font-path: "/events/static/assets/font-awesome-4.0.3/fonts";
+$icon-font-path: "/events/static/vendor/bootstrap/fonts/bootstrap";
+$fa-font-path: "/events/static/vendor/fonts/font-awesome-4.0.3/fonts";
 
 $btn-default-color: #fff;
 $btn-default-bg: #aaa;
@@ -12,6 +12,6 @@ $ucf-header-height: 50px;
 $ucf-gold: #ffc904;
 
 // Combine assets and our theme:
-@import "../bootstrap/assets/stylesheets/bootstrap";
-@import "../font-awesome-4.0.3/scss/font-awesome";
-@import "theme";
+@import "../../static/vendor/bootstrap/stylesheets/bootstrap";
+@import "../../static/vendor/fonts/font-awesome-4.0.3/scss/font-awesome";
+@import "base";
