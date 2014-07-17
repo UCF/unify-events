@@ -15,6 +15,7 @@ from taggit.models import Tag
 from events.models import *
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
+from core.views import ConditionalRedirectMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -614,7 +615,7 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, 
         return events
 
 
-class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListView):
+class EventsByCategoryList(ConditionalRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
@@ -624,15 +625,52 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMi
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
 
-    def get_context_data(self, **kwargs):
-        context = super(EventsByCategoryList, self).get_context_data()
-        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'])
-
+    def get_calendar(self):
+        """
+        Returns the calendar object specified for the view; if no calendar
+        is specified, return the main calendar.
+        """
         if 'pk' not in self.kwargs:
             calendar = get_main_calendar()
         else:
             calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
-        context['calendar'] = calendar
+
+        return calendar
+
+    def view_should_redirect(self):
+        """
+        Returns true if the view should be redirected.
+        """
+        category_by_pk = get_object_or_404(Category, pk=self.kwargs['category_pk'])
+        calendar_by_pk = None
+
+        if 'pk' in self.kwargs:
+            calendar_by_pk = get_object_or_404(Calendar, pk=self.kwargs['pk'])
+
+        # Check if we need to redirect based on an incorrect category slug, or by
+        # an incorrect calendar slug, if this is an "Events on Calendar by Category" view
+        if calendar_by_pk is not None and calendar_by_pk.slug != self.kwargs['slug']:
+            return True
+        elif category_by_pk.slug != self.kwargs['category']:
+            return True
+        return False
+
+    def do_redirect(self):
+        """
+        Defines where a view should redirect to when self.view_should_redirect() returns true.
+        """
+        category_by_pk = get_object_or_404(Category, pk=self.kwargs['category_pk'])
+        calendar = self.get_calendar()
+
+        if calendar.is_main_calendar:
+            return redirect('category', category_pk=category_by_pk.pk, category=category_by_pk.slug, permanent=True)
+        else:
+            return redirect('category-by-calendar', pk=calendar.pk, slug=calendar.slug, category_pk=category_by_pk.pk, category=category_by_pk.slug, permanent=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventsByCategoryList, self).get_context_data()
+        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'])
+        context['calendar'] = self.get_calendar()
 
         return context
 
@@ -644,11 +682,7 @@ class EventsByCategoryList(MultipleFormatTemplateViewMixin, PaginationRedirectMi
                                               event__state=State.get_id('posted')
                                               )
 
-        if 'pk' not in kwargs:
-            calendar = get_main_calendar()
-        else:
-            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
-
+        calendar = self.get_calendar()
         events = events.filter(event__calendar=calendar)
 
         return events

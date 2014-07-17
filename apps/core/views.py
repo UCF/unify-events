@@ -176,7 +176,6 @@ class PaginationRedirectMixin(object):
     Attempts to redirect to the last valid page in a paginated list if the
     requested page does not exist (instead of returning a 404.)
     """
-
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         page_size = self.get_paginate_by(queryset)
@@ -194,3 +193,35 @@ class PaginationRedirectMixin(object):
                 raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
                           % {'class_name': self.__class__.__name__})
 
+
+class ConditionalRedirectMixin(object):
+    """
+    Sets up methods for defining whether or not a view should redirect
+    elsewhere on load.  By default, this mixin won't do anything useful;
+    view_should_redirect() and do_redirect() need to be overridden where
+    this mixin is used.
+
+    Useful for redirecting urls with an incorrect object slug to the correct
+    url when an object's name has changed.
+    """
+    def view_should_redirect(self):
+        """
+        Returns true if the view should be redirected.
+        """
+        return false
+
+    def do_redirect(self):
+        """
+        Defines where a view should redirect to when self.do_redirect() returns true.
+        """
+        return super(ConditionalRedirectMixin, self).dispatch(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Check if a redirect should be done here, and perform whatever redirect
+        rules are defined if true.
+        """
+        if self.view_should_redirect():
+            return self.do_redirect()
+        else:
+            return super(ConditionalRedirectMixin, self).dispatch(request, *args, **kwargs)
