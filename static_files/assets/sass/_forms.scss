@@ -47,7 +47,7 @@ form {
 .form-horizontal .checkbox,
 .form-horizontal .radio-inline,
 .form-horizontal .checkbox-inline {
- @include respond-to(xs-sm) { margin-top: 8px; }
+ @include respond-to(xs) { margin-top: 8px; }
 }
 .form-group {
   margin-bottom: 20px;

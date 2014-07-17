@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* Bootstrap 3.2.0 makes this too dark; revert it here */
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /* line 9, ../assets/bootstrap/assets/stylesheets/bootstrap/_normalize.scss */
 html {
@@ -2885,14 +2886,14 @@ output {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
   /* line 102, ../assets/bootstrap/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss */
   .form-control::-moz-placeholder {
-    color: #777777;
+    color: #999999;
     opacity: 1; }
   /* line 104, ../assets/bootstrap/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss */
   .form-control:-ms-input-placeholder {
-    color: #777777; }
+    color: #999999; }
   /* line 105, ../assets/bootstrap/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss */
   .form-control::-webkit-input-placeholder {
-    color: #777777; }
+    color: #999999; }
   /* line 141, ../assets/bootstrap/assets/stylesheets/bootstrap/_forms.scss */
   .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     cursor: not-allowed;
@@ -8612,32 +8613,36 @@ hr {
     /* line 75, ../assets/sass/_components.scss */
     .modal h2 .alt {
       font-weight: 300; }
+  /* line 80, ../assets/sass/_components.scss */
+  .modal.bootstrap-wysihtml5-insert-link-modal .checkbox {
+    left: 20px;
+    /* Prevent "open link in new window" checkbox from overflowing outside of modal */ }
 
-/* line 80, ../assets/sass/_components.scss */
+/* line 84, ../assets/sass/_components.scss */
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize; }
 
 /* Pagination */
-/* line 87, ../assets/sass/_components.scss */
+/* line 91, ../assets/sass/_components.scss */
 .pagination {
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 90, ../assets/sass/_components.scss */
+    /* line 94, ../assets/sass/_components.scss */
     .pagination > li > a {
       padding-left: 8px;
       padding-right: 8px; } }
-  /* line 97, ../assets/sass/_components.scss */
+  /* line 101, ../assets/sass/_components.scss */
   .pagination > li.prev-next i {
     margin-right: 0; }
 
 /* Wells */
-/* line 104, ../assets/sass/_components.scss */
+/* line 108, ../assets/sass/_components.scss */
 .well-empty {
   padding: 60px 30px; }
 
 /* Progress Bars */
-/* line 110, ../assets/sass/_components.scss */
+/* line 114, ../assets/sass/_components.scss */
 .progress + .progress-desc {
   color: #777777;
   font-weight: 500;
@@ -8689,7 +8694,7 @@ form.form-tabbed, form.form-tabbed .tab-content .tab-pane h2 {
 .form-horizontal .checkbox-inline {
   padding-top: 3px; }
 
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 767px) {
   /* line 46, ../assets/sass/_forms.scss */
   .form-horizontal .radio,
   .form-horizontal .checkbox,

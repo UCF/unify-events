@@ -5,6 +5,7 @@ $fa-font-path: "/events/static/assets/font-awesome-4.0.3/fonts";
 $btn-default-color: #fff;
 $btn-default-bg: #aaa;
 $btn-default-border: #999;
+$input-color-placeholder: #999; /* Bootstrap 3.2.0 makes this too dark; revert it here */
 
 // Custom theme variables here:
 $ucf-header-height: 50px;
