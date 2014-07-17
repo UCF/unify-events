@@ -74,16 +74,16 @@ This project is configured to compile Sass asset files (located in `static_files
 #### Bootstrap
 This project uses the official Sass port of Twitter Bootstrap (https://github.com/twbs/bootstrap-sass) for base styling of templates. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/sass/theme.scss`.
 
-The current version of Bootstrap is v3.1.1.
+The current version of Bootstrap is v3.2.0.
 
-To upgrade Bootstrap, download the latest tagged release and replace the `static_files/assets/bootstrap/assets/` directory in this repo with the downloaded `vendor/assets/` directory (do not copy the Bootstrap root directory.)
+To upgrade Bootstrap, download the latest tagged release and replace the `static_files/assets/bootstrap/assets/` directory in this repo with the downloaded `assets/` directory (do not copy the Bootstrap root directory.)  Make sure to compile `static_files/assets/sass/style.scss` after!
 
 #### Font Awesome
 Version 4.0.3 of Font Awesome (http://fontawesome.io/) is used as a replacement for Bootstrap's Glyphicon icon library. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/sass/theme.scss`.
 
 Note that these icons do not overwrite the Glyphicon library; both are available to use, but Font Awesome fonts are preferred. See the Font Awesome docs for usage.
 
-To upgrade, download the latest tagged release and replace the `static_files/assets/font-awesome-4.x.x/` directory in this repo with the downloaded root directory.
+To upgrade, download the latest tagged release and replace the `static_files/assets/font-awesome-4.x.x/` directory in this repo with the downloaded root directory.  Make sure to compile `static_files/assets/sass/style.scss` after!
 
 #### Theme Sass Files
 All of the raw custom styles for this project are contained in separate Sass files in `static_files/assets/sass/`. When modifying stylesheets in this project, only modify the files in this directory; **do NOT modify any files in `static_files/css/`**! These Sass files will compile and overwrite `static_files/css/style.css`.
