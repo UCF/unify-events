@@ -1,0 +1,17 @@
+// Asset variable overrides here (static dir paths should be relative to STATIC_URL in settings.py):
+$icon-font-path: "/events/static/vendor/bootstrap/fonts/bootstrap";
+$fa-font-path: "/events/static/vendor/fonts/font-awesome-4.0.3/fonts";
+
+$btn-default-color: #fff;
+$btn-default-bg: #aaa;
+$btn-default-border: #999;
+$input-color-placeholder: #999; /* Bootstrap 3.2.0 makes this too dark; revert it here */
+
+// Custom theme variables here:
+$ucf-header-height: 50px;
+$ucf-gold: #ffc904;
+
+// Combine assets and our theme:
+@import "../../static/vendor/bootstrap/stylesheets/bootstrap";
+@import "../../static/vendor/fonts/font-awesome-4.0.3/scss/font-awesome";
+@import "base";
