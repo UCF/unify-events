@@ -585,7 +585,7 @@ class GetListViewCalendarMixin(object):
         if 'pk' not in self.kwargs:
             calendar = get_main_calendar()
         else:
-            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+            calendar = get_object_or_404(Calendar, pk=self.kwargs['pk'])
 
         return calendar
 
