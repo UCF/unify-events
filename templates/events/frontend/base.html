@@ -4,8 +4,8 @@
 <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ request.build_absolute_uri }}{% if request.build_absolute_uri|slice:"-1:"|last != "/" %}/{% endif %}feed.rss" />
 {% endblock %}
 
-{% block links %}
-<link rel="canonical" href="{{ request.build_absolute_uri }}" />
+{% block canonical %}
+<link rel="canonical" href="{{ CANONICAL_URL }}" />
 {% endblock %}
 
 {% block content %}
