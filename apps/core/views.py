@@ -3,12 +3,14 @@ import logging
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
+from django.http import HttpResponsePermanentRedirect
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db.models.loading import get_model
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -194,35 +196,67 @@ class PaginationRedirectMixin(object):
                           % {'class_name': self.__class__.__name__})
 
 
-class ConditionalRedirectMixin(object):
+class InvalidSlugRedirectMixin(object):
     """
-    Sets up methods for defining whether or not a view should redirect
-    elsewhere on load.  By default, this mixin won't do anything useful;
-    view_should_redirect() and do_redirect() need to be overridden where
-    this mixin is used.
+    Overrides the dispatch method to perform a 301 redirect when the slug of
+    an object in the url is incorrect.
 
     Useful for redirecting urls with an incorrect object slug to the correct
     url when an object's name has changed.
+    
+    Note that this mixin assumes its view utilizes a consistent url
+    schema, where the by_model is referenced in the url by '/<by_model>_pk/<by_model>/'
+    and an additional calendar filter is referenced by '/<pk>/<slug>/'.
     """
-    def view_should_redirect(self):
-        """
-        Returns true if the view should be redirected.
-        """
-        return false
-
-    def do_redirect(self):
-        """
-        Defines where a view should redirect to when self.do_redirect() returns true.
-        """
-        return super(ConditionalRedirectMixin, self).dispatch(request, *args, **kwargs)
+    by_model = None # The primary model by which url context should be derived
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Check if a redirect should be done here, and perform whatever redirect
-        rules are defined if true.
+        Return a 301 redirect if the provided object slug(s) don't
+        match the by_object's actual slug, or dispatch if all is well.
         """
-        if self.view_should_redirect():
-            return self.do_redirect()
+        by_model_lc = str(self.by_model.__name__).lower()
+        needs_redirect = False
+        r_kwargs = request.resolver_match.kwargs
+
+        # Catch <by_model slug> in url (i.e. Events by Category, Tag)
+        if by_model_lc in r_kwargs:
+            by_object_pk = r_kwargs[by_model_lc + '_pk']
+            by_object_slug = r_kwargs[by_model_lc]
+            by_object = get_object_or_404(self.by_model, pk=by_object_pk)
+
+            # If the provided by_object slug is incorrect, fix it
+            if by_object_slug != by_object.slug:
+                needs_redirect = True
+                r_kwargs[by_model_lc] = by_object.slug
+
+            # Check if a calendar pk/slug are provided (i.e. Events on Calendar by Category, Tag)
+            if 'pk' in r_kwargs:
+                calendar_pk = r_kwargs['pk']
+                calendar_slug = r_kwargs['slug']
+                calendar = get_object_or_404(Calendar, pk=calendar_pk)
+
+                # If the provided calendar slug isn't correct, fix it
+                if calendar_slug != calendar.slug:
+                    needs_redirect = True
+                    r_kwargs['slug'] = calendar.slug
         else:
-            return super(ConditionalRedirectMixin, self).dispatch(request, *args, **kwargs)
+            by_object_pk = r_kwargs['pk']
+            by_object_slug = r_kwargs['slug']
+            by_object = get_object_or_404(self.by_model, pk=by_object_pk)
+
+            # If the provided by_object slug is incorrect, fix it
+            if by_object_slug != by_object.slug:
+                needs_redirect = True
+                r_kwargs['slug'] = by_object.slug
+
+        if needs_redirect:
+            url_name = request.resolver_match.url_name
+            # Do not return a 'format' value of None in self.kwargs
+            if r_kwargs['format'] == 'None' or r_kwargs['format'] is None:
+                r_kwargs.pop('format', None)
+                
+            return HttpResponsePermanentRedirect(reverse(url_name, kwargs=r_kwargs))
+        else:
+            return super(InvalidSlugRedirectMixin, self).dispatch(request, *args, **kwargs)
 

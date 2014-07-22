@@ -15,7 +15,7 @@ from taggit.models import Tag
 from events.models import *
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
-from core.views import ConditionalRedirectMixin
+from core.views import InvalidSlugRedirectMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -135,10 +135,11 @@ class CalendarEventsBaseListView(ListView):
         return context
 
 
-class CalendarEventsListView(MultipleFormatTemplateViewMixin, CalendarEventsBaseListView):
+class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, CalendarEventsBaseListView):
     """
     Generic events listing view for the frontend.
     """
+    by_model = Calendar
     template_name = 'events/frontend/calendar/calendar.'
     list_type = None
     list_title = None
@@ -590,11 +591,12 @@ class GetListViewCalendarMixin(object):
         return calendar
 
 
-class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
+class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
     """
+    by_model = Tag
     context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
@@ -621,45 +623,16 @@ class EventsByTagList(MultipleFormatTemplateViewMixin, PaginationRedirectMixin, 
         return events
 
 
-class EventsByCategoryList(ConditionalRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
+class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
     """
+    by_model = Category
     context_object_name = 'event_instances'
     model = Event
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
-
-    def view_should_redirect(self):
-        """
-        Returns true if the view should be redirected.
-        """
-        category_by_pk = get_object_or_404(Category, pk=self.kwargs['category_pk'])
-        calendar_by_pk = None
-
-        if 'pk' in self.kwargs:
-            calendar_by_pk = get_object_or_404(Calendar, pk=self.kwargs['pk'])
-
-        # Check if we need to redirect based on an incorrect category slug, or by
-        # an incorrect calendar slug, if this is an "Events on Calendar by Category" view
-        if calendar_by_pk is not None and calendar_by_pk.slug != self.kwargs['slug']:
-            return True
-        elif category_by_pk.slug != self.kwargs['category']:
-            return True
-        return False
-
-    def do_redirect(self):
-        """
-        Defines where a view should redirect to when self.view_should_redirect() returns true.
-        """
-        category_by_pk = get_object_or_404(Category, pk=self.kwargs['category_pk'])
-        calendar = self.get_calendar()
-
-        if calendar.is_main_calendar:
-            return redirect('category', category_pk=category_by_pk.pk, category=category_by_pk.slug, permanent=True)
-        else:
-            return redirect('category-by-calendar', pk=calendar.pk, slug=calendar.slug, category_pk=category_by_pk.pk, category=category_by_pk.slug, permanent=True)
 
     def get_context_data(self, **kwargs):
         context = super(EventsByCategoryList, self).get_context_data()
