@@ -4,6 +4,7 @@
 {% load url %}
 {% load core_tags %}
 
+{# NOTE: these block declarations must be kept separate so that {{ block.super }} renders properly #}
 {% block title %}UCF {{ tag.name }} Events | {% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 {% block og_title %}UCF {{ tag.name }} Events | {% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
 

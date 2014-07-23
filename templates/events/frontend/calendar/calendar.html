@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load url %}
 
+{# NOTE: these block declarations must be kept separate so that {{ block.super }} renders properly #}
 {% block title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
 {% block og_title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
 
