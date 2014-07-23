@@ -44,7 +44,7 @@
 		<webpages>
 			<webpage>
 				<title>Event Instance url</title>
-				<url>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</url>
+				<url>{{ event_instance.get_absolute_url }}</url>
 			</webpage>
 		</webpages>
 

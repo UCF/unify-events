@@ -5,6 +5,7 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
@@ -325,10 +326,9 @@ class Event(TimeCreatedModified):
         """
         # Get the first event instance's pk
         instance = self.event_instances.all()[0]
-        return reverse('event', kwargs={
-            'slug': self.slug,
-            'pk': instance.pk,
-        })
+        canonical_root = settings.CANONICAL_ROOT
+        relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': instance.slug})
+        return canonical_root + relative_path
 
     def __str__(self):
         return self.title
@@ -438,10 +438,9 @@ class EventInstance(TimeCreatedModified):
         """
         Generate permalink for this object
         """
-        return reverse('event', kwargs={
-            'pk': self.id,
-            'slug': self.event.slug
-        })
+        canonical_root = settings.CANONICAL_ROOT
+        relative_path = reverse('event', kwargs={'pk': self.pk, 'slug': self.event.slug})
+        return canonical_root + relative_path
 
     def save(self, *args, **kwargs):
         """

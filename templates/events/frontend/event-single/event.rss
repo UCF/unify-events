@@ -8,10 +8,10 @@
 {% endif %}
 		<item>
 			<title>{{ event_instance.event.get_title_canceled }}</title>
-			<link>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</link>
+			<link>{{ event_instance.get_absolute_url }}</link>
 			<description><![CDATA[{{ event_instance.event.description|bleach }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
-			<guid>http://{{ request.get_host }}{{ event_instance.get_absolute_url }}</guid>
+			<guid>{{ event_instance.get_absolute_url }}</guid>
 			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
 			<ucfevent:startdate>{{ event_instance.start|date:"r" }}</ucfevent:startdate>
 			<ucfevent:enddate>{{ event_instance.end|date:"r" }}</ucfevent:enddate>
