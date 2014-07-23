@@ -5,6 +5,7 @@ from datetime import date, timedelta
 from dateutil import rrule
 from dateutil.relativedelta import relativedelta
 from django.http import Http404
+from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import DetailView
@@ -88,7 +89,6 @@ class CalendarEventsBaseListView(ListView):
         else:
             return True
 
-
     def get_day_month_year(self):
         """
         Return a tuple of day, month and year. Return current day
@@ -144,15 +144,6 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
     list_type = None
     list_title = None
 
-    def is_js_widget(self):
-        """
-        Determine whether or not the view should accomodate for JS Widget-related
-        query parameters and manipulate the view accordingly.
-        """
-        if self.request.GET.get('is_widget') is not None and self.request.GET.get('is_widget').lower() == 'true':
-            return True
-        return False
-
     def is_mapped_feed(self):
         """
         Determine if a feed should use map_event_range to map event instances in the
@@ -165,45 +156,163 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
 
     def get_queryset(self):
         """
-        Get events for the given day. If no day is provide then
+        Get events for the given day. If no day is provided then
         return the current day's events.
         """
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
-        if not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
+        if self.get_format() == 'html' or self.is_mapped_feed():
             events = map_event_range(start_date, end_date, events)
         else:
             events = events.filter(start__gte=start_date)
 
-        # Backwards compatibility with JS Widget
-        if self.is_js_widget():
-            limit = self.request.GET.get('limit')
-            if limit and self.request.GET.get('monthwidget') != 'true':
-                self.paginate_by = int(limit)
-
         self.queryset = events
         return events
+
+    def get_context_data(self, **kwargs):
+        """
+        Main calendar page, displaying an aggregation of events such as upcoming
+        events, featured events, etc.
+        """
+        context = super(CalendarEventsListView, self).get_context_data(**kwargs)
+        context['list_title'] = self.list_title
+        context['list_type'] = self.list_type
+
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Redirect all requests for main calendar list views.
+        This exists primarily for preventing duplicate content issues
+        for canonical urls.
+        """
+        calendar = self.get_calendar()
+        url_name = request.resolver_match.url_name
+        if calendar.is_main_calendar and 'main-calendar-' not in url_name and url_name != 'home':
+            kwargs = request.resolver_match.kwargs
+            kwargs.pop('pk', None)
+            kwargs.pop('slug', None)
+            if kwargs['format'] == 'None' or kwargs['format'] is None:
+                kwargs.pop('format', None)
+
+            if url_name == 'calendar':
+                url_name = 'home'
+            elif not 'main-calendar-' in url_name:
+                url_name = 'main-calendar-' + url_name
+            return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
+        else:
+            return super(CalendarEventsListView, self).dispatch(request, *args, **kwargs)
+
+
+class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
+    """
+    Events listing for a day.
+    """
+    paginate_by = 25
+    list_title = 'Events by Day'
+    list_type = 'day'
+
+    def get_end_date(self):
+        """
+        Returns the end date that is one day past today.
+        """
+        end_date = super(DayEventsListView, self).get_end_date()
+        if not end_date:
+            start_date = self.get_start_date()
+            end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+            self.end_date = end_date
+
+        return end_date
+
+    def get_context_data(self, **kwargs):
+        """
+        Overrides the list title if the events are from today.
+        """
+        context = super(DayEventsListView, self).get_context_data(**kwargs)
+        start_date = self.get_start_date()
+        start_date_str = start_date.strftime('%A, %B %d, %Y')
+
+        if start_date.date() == datetime.today().date():
+            context['list_title'] = 'Today\'s Events'
+        elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
+            context['list_title'] = 'Tomorrow\'s Events'
+        else:
+            context['list_title'] = start_date_str
+
+        return context
+
+
+class HomeEventsListView(DayEventsListView):
+    """
+    Events listing for the home page (Today's events on the Main Calendar.)
+
+    Contains various methods that add backwards compatibility with the
+    UNL events system.
+    """
+    list_title = 'Today\'s Events'
+
+    def is_js_widget(self):
+        """
+        Determine whether or not the view should accomodate for JS Widget-related
+        query parameters and manipulate the view accordingly.
+        """
+        if self.request.GET.get('is_widget') is not None and self.request.GET.get('is_widget').lower() == 'true':
+            return True
+        return False
+
+    def is_js_feed(self):
+        """
+        Determine whether or not the view should accomodate for the 'format' query
+        parameter (NOT kwarg).
+        """
+        if self.request.GET.get('format') is not None and self.get_format() != 'html':
+            return True
+        return False
+
+    def is_upcoming(self):
+        """
+        Check for a url query param of 'upcoming' for backwards compatibility
+        with UNL events system url structure
+        """
+        if self.request.GET.get('upcoming') is not None:
+            return True
+        return False
+
+    def is_event_instance(self):
+        """
+        Check for a url query param of 'eventdatetime_id' for backwards
+        compatibility with UNL events system url structure
+        """
+        if self.request.GET.get('eventdatetime_id') is not None:
+            return True
+        return False
+
+    def is_alternate_calendar(self):
+        """
+        Check for a url query param of 'calendar_id' for backwards compatibility
+        with UNL events system url structure
+        """
+        if self.request.GET.get('calendar_id') is not None:
+            return True
+        return False
+
+    def needs_fallback_redirect(self):
+        if ((self.is_js_widget() == False and not self.is_js_feed()) and (self.is_upcoming() or self.is_event_instance() or self.is_alternate_calendar())):
+            return True
+        return False
 
     def get_calendar(self):
         """
         Overrides the calendar if requesting the JS widget.
         """
-        calendar = self.calendar
+        if self.is_alternate_calendar():
+            calendar = get_object_or_404(Calendar, pk=int(self.request.GET.get('calendar_id')))
+        else:
+            calendar = get_main_calendar()
 
-        if calendar is None:
-            # Backwards compatibility with JS Widget and UNL events system urls.
-            # Use 'calendar_id' query param if is_js_widget() is true or if the
-            # current calendar is the front page calendar (i.e. we're at www.ucf.edu/events/)
-            # and the 'calendar_id' query param is set.
-            if self.is_js_widget() or self.request.GET.get('calendar_id') is not None and self.kwargs.get('pk') == settings.FRONT_PAGE_CALENDAR_PK:
-                calendar = get_object_or_404(Calendar, pk=self.request.GET.get('calendar_id'))
-            else:
-                calendar = super(CalendarEventsListView, self).get_calendar()
-
-            self.calendar = calendar
-
+        self.calendar = calendar
         return calendar
 
     def _get_date_by_parameter(self, param):
@@ -254,9 +363,9 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         """
         end_date = super(CalendarEventsListView, self).get_end_date()
         if not end_date:
+            start_date = self.get_start_date()
             # Backwards compatibility with JS Widget
             if self.is_js_widget():
-                start_date = self.get_start_date()
                 # Set end date to last day of the month (relative to start_date) for
                 # monthwidget.  Just use +1 month from start_date for default list widget.
                 if self.request.GET.get('monthwidget') == 'true':
@@ -266,27 +375,77 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
                     end_date = start_date + relativedelta(months=1)
 
                 self.end_date = end_date
+            else:
+                end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+                self.end_date = end_date
 
         return end_date
 
-    def get_context_data(self, **kwargs):
+    def get_queryset(self):
         """
-        Main calendar page, displaying an aggregation of events such as upcoming
-        events, featured events, etc.
+        Get events for the given day. If no day is provided then
+        return the current day's events.
         """
-        context = super(CalendarEventsListView, self).get_context_data(**kwargs)
-        context['list_title'] = self.list_title
-        context['list_type'] = self.list_type
+        start_date = self.get_start_date()
+        end_date = self.get_end_date()
+        calendar = self.get_calendar()
+        events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+        if not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
+            events = map_event_range(start_date, end_date, events)
+        else:
+            events = events.filter(start__gte=start_date)
 
         # Backwards compatibility with JS Widget
-        context['param_limit'] = self.request.GET.get('limit')
-        context['param_calendar'] = self.request.GET.get('calendar_id')
-        context['param_monthwidget'] = self.request.GET.get('monthwidget')
-        context['param_iswidget'] = self.request.GET.get('is_widget')
-        context['param_month'] = self.request.GET.get('month')
-        context['param_year'] = self.request.GET.get('year')
+        if self.is_js_widget():
+            limit = self.request.GET.get('limit')
+            if limit and self.request.GET.get('monthwidget') != 'true':
+                self.paginate_by = int(limit)
 
-        return context
+        self.queryset = events
+        return events
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Redirect 'upcoming', 'calendar_id' and 'eventdatetime_id' query param views for
+        backward compatibility, if this is not a request for the js widget.
+
+        Accomodates for optional 'format' param.
+        """
+        if self.needs_fallback_redirect():
+            calendar = self.get_calendar()
+            new_kwargs = {}
+            new_url_name = ''
+
+            if self.request.GET.get('format') is not None:
+                new_kwargs['format'] = self.request.GET.get('format')
+
+            if self.is_event_instance():
+                instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
+                new_url_name = 'event'
+                new_kwargs['pk'] = instance.pk
+                new_kwargs['slug'] = instance.slug
+
+            elif self.is_upcoming():
+                new_kwargs['type'] = 'upcoming'
+                if calendar.is_main_calendar:
+                    new_url_name = 'main-calendar-named-listing'
+                else:
+                    new_url_name = 'named-listing'
+                    new_kwargs['pk'] = calendar.pk
+                    new_kwargs['slug'] = calendar.slug
+
+            elif self.is_alternate_calendar():
+                if calendar.is_main_calendar:
+                    new_url_name = 'home'
+                else:
+                    new_kwargs['pk'] = calendar.pk
+                    new_kwargs['slug'] = calendar.slug
+                    new_url_name = 'calendar'
+
+            return HttpResponsePermanentRedirect(reverse(new_url_name, kwargs=new_kwargs))
+
+        else:
+            return super(DayEventsListView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):
         if self.is_js_widget():
@@ -295,83 +454,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             else:
                 return ['events/frontend/calendar/calendar-type/calendar-widget-list.html']
         else:
-            return super(CalendarEventsListView, self).get_template_names()
-
-
-class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
-    """
-    Events listing for a day.
-    """
-    paginate_by = 25
-    list_title = 'Events by Day'
-    list_type = 'day'
-
-    def is_upcoming(self):
-        """
-        Check for a url query param of 'upcoming' for backwards compatibility
-        with UNL events system url structure
-        """
-        if self.request.GET.get('upcoming') is not None and self.get_start_date().date() == datetime.now().date():
-            return True
-        return False
-
-    def is_event_instance(self):
-        """
-        Check for a url query param of 'eventdatetime_id' for backwards
-        compatibility with UNL events system url structure
-        """
-        if self.request.GET.get('eventdatetime_id') is not None:
-            return True
-        return False
-
-    def dispatch(self, request, *args, **kwargs):
-        """
-        Redirect 'upcoming' and 'eventdatetime_id' query param views for
-        backward compatibility. Accomodates for optional 'format' param.
-        """
-        if self.is_upcoming():
-            calendar = self.get_calendar()
-            if self.request.GET.get('format') is not None:
-                return redirect('named-listing', pk=calendar.pk, slug=calendar.slug, type='upcoming', format=self.request.GET.get('format'), permanent=True)
-            else:
-                return redirect('named-listing', pk=calendar.pk, slug=calendar.slug, type='upcoming', permanent=True)
-        elif self.is_event_instance():
-            instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
-            if self.request.GET.get('format') is not None:
-                return redirect('event', pk=instance.pk, slug=instance.event.slug, format=self.request.GET.get('format'), permanent=True)
-            else:
-                return redirect('event', pk=instance.pk, slug=instance.event.slug, permanent=True)
-        else:
-            return super(DayEventsListView, self).dispatch(request, *args, **kwargs)
-
-    def get_end_date(self):
-        """
-        Returns the end date that is one day past today.
-        """
-        end_date = super(DayEventsListView, self).get_end_date()
-        if not end_date:
-            start_date = self.get_start_date()
-            end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
-            self.end_date = end_date
-
-        return end_date
-
-    def get_context_data(self, **kwargs):
-        """
-        Overrides the list title if the events are from today.
-        """
-        context = super(DayEventsListView, self).get_context_data(**kwargs)
-        start_date = self.get_start_date()
-        start_date_str = start_date.strftime('%A, %B %d, %Y')
-
-        if start_date.date() == datetime.today().date():
-            context['list_title'] = 'Today\'s Events'
-        elif start_date.date() == (datetime.today() + timedelta(days=1)).date():
-            context['list_title'] = 'Tomorrow\'s Events'
-        else:
-            context['list_title'] = start_date_str
-
-        return context
+            return super(HomeEventsListView, self).get_template_names()
 
 
 class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
