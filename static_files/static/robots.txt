@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /events/admin/
+Disallow: /manager/
+Disallow: /events/manager/
+Disallow: /search/
+Disallow: /events/search/
+Disallow: /*?

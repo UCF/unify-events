@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from events.models import Calendar
 from events.views.event_views import named_listing
 from events.views.event_views import DayEventsListView
+from events.views.event_views import HomeEventsListView
 from events.views.event_views import MonthEventsListView
 from events.views.event_views import WeekEventsListView
 from events.views.event_views import YearEventsListView
@@ -58,7 +59,7 @@ main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 # Append Main Calendar url overrides
 urlpatterns += patterns('',
     url(r'^(feed\.(?P<format>[\w]+))?$',
-        DayEventsListView.as_view(),
+        HomeEventsListView.as_view(),
         kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
         name='home'
     ),
