@@ -327,7 +327,7 @@ class Event(TimeCreatedModified):
         # Get the first event instance's pk
         instance = self.event_instances.all()[0]
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': instance.slug})
+        relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': self.slug})
         return canonical_root + relative_path
 
     def __str__(self):
