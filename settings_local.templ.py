@@ -91,6 +91,9 @@ LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus,parkinglot'
 # Google Analytics tracking ID
 GA_ACCOUNT = ''
 
+# Google Webmaster Tools verification code (copy from the provided HTML meta tag)
+GOOGLE_WEBMASTER_VERIFICATION = ''
+
 # Secure HTTPS / SSL
 HTTPS_SUPPORT = True
 SECURE_REQUIRED_PATHS = [
