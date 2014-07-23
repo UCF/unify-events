@@ -660,7 +660,7 @@ def named_listing(request, pk, slug, type, format=None):
 
 
 
-class GetListViewCalendarMixin(object):
+class ListViewByCalendarMixin(object):
     def get_calendar(self):
         """
         Returns the calendar object specified for the view; if no calendar
@@ -673,8 +673,28 @@ class GetListViewCalendarMixin(object):
 
         return calendar
 
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Redirect all requests for main calendar list views.
+        This exists primarily for preventing duplicate content issues
+        for canonical urls.
+        """
+        calendar = self.get_calendar()
+        url_name = request.resolver_match.url_name
+        if calendar.is_main_calendar and '-by-calendar' in url_name:
+            kwargs = request.resolver_match.kwargs
+            kwargs.pop('pk', None)
+            kwargs.pop('slug', None)
+            if kwargs['format'] == 'None' or kwargs['format'] is None:
+                kwargs.pop('format', None)
 
-class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
+            url_name = url_name.replace('-by-calendar', '')
+            return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
+        else:
+            return super(ListViewByCalendarMixin, self).dispatch(request, *args, **kwargs)
+
+
+class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
@@ -706,7 +726,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
         return events
 
 
-class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, GetListViewCalendarMixin, ListView):
+class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
