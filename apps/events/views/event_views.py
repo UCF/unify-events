@@ -398,6 +398,8 @@ class HomeEventsListView(DayEventsListView):
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
             limit = self.request.GET.get('limit')
+            if not limit:
+                limit = 5
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
