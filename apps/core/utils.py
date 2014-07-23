@@ -1,37 +1,6 @@
-from django.contrib.redirects.models import Redirect
-from django.contrib.sites.models import Site
 from django.template.defaultfilters import slugify
 
 import events.models
-
-
-def create_redirect(sender, instance):
-    """
-    Generates redirect rules for objects whose slugs have changed on update
-    """
-    models_with_slug_urls = ['Calendar', 'Event', 'Category', 'Tag']
-    if sender._meta.object_name in models_with_slug_urls:
-        try:
-            o = sender.objects.get(pk=instance.pk)
-            if o.slug != instance.slug:
-                old_path = o.get_absolute_url()
-                new_path = instance.get_absolute_url()
-                # Update any existing redirects that are pointing to the old url
-                for redirect in Redirect.objects.filter(new_path=old_path):
-                    redirect.new_path = new_path
-                    # If the updated redirect now points to itself, delete it
-                    # (i.e. slug = A -> slug = B -> slug = A again)
-                    if redirect.new_path == redirect.old_path:
-                        redirect.delete()
-                    else:
-                        redirect.save()
-                # Now add the new redirect
-                Redirect.objects.create(
-                    site=Site.objects.get_current(),
-                    old_path=old_path,
-                    new_path=new_path)
-        except sender.DoesNotExist:
-            pass
 
 
 def generate_unique_slug(title, clazz, unique):
@@ -64,8 +33,6 @@ def pre_save_slug(sender, **kwargs):
     instance = kwargs['instance']
     instance.slug = generate_unique_slug(instance.title, sender, False)
 
-    create_redirect(sender, instance)
-
 
 def pre_save_unique_slug(sender, **kwargs):
     """
@@ -73,8 +40,6 @@ def pre_save_unique_slug(sender, **kwargs):
     """
     instance = kwargs['instance']
     instance.slug = generate_unique_slug(instance.title, sender, True)
-
-    create_redirect(sender, instance)
 
 
 def format_to_mimetype(format):
