@@ -63,9 +63,7 @@
 
         <!--[if lt IE 9]>
         <script src="{{ STATIC_URL }}vendor/js/respond.min.js"></script>
-        <script src="{{ STATIC_URL }}vendor/js/selectivizr.min.js"></script>
         <![endif]-->
-
     {% endblock %}
     </head>
     {# the body opening tag is included in the header-nav esi #}
@@ -133,6 +131,9 @@
         <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js"></script>
         <script src="{{ STATIC_URL }}vendor/bootstrap/javascripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ STATIC_URL }}vendor/js/placeholders.min.js" type="text/javascript" charset="utf-8"></script>
+        <!--[if lt IE 9]>
+        <script src="{{ STATIC_URL }}vendor/js/selectivizr.min.js"></script>
+        <![endif]-->
         {% endblock %}
         {% block footer_scripts %}
         <script src="{{ STATIC_URL }}js/script.min.js" type="text/javascript" charset="utf-8"></script>

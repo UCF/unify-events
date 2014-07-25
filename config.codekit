@@ -6244,8 +6244,8 @@
 		},
 	"\/static_files\/static\/vendor\/js\/selectivizr.min.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/static_files\/static\/vendor\/js\/selectivizr.min.js",
 		"outputAbbreviatedPath": "\/static_files\/static\/vendor\/js\/selectivizr.min.js",
 		"outputPathIsOutsideProject": 0,
@@ -7472,17 +7472,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/static_files\/static\/vendor\/js\/wysihtml5-base\/test\/undo_manager_test.js",
 		"outputAbbreviatedPath": "\/static_files\/static\/js\/undo_manager_test.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/static_files\/static\/vendor\/selectivizr.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/static_files\/static\/vendor\/selectivizr.min.js",
-		"outputAbbreviatedPath": "\/static_files\/static\/js\/selectivizr.min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
