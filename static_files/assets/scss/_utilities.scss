@@ -9,6 +9,10 @@
     width: 970px;
   }
 }
+/* Declare .md- cols for IE8 because it doesn't understand media queries */
+.ie8 {
+  @include loop-grid-columns($grid-columns, md, width);
+}
 
 /* Columns that only span the width of their children */
 .col-lg-auto,
