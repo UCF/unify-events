@@ -361,8 +361,8 @@ var selectFieldAutocomplete = function(autocompleteField, dataField) {
     // Clear hidden field value if autocomplete field is cleared.
     this.checkEmptyValues = function() {
         var self = this;
-        self.autocompleteField.on('keyup', function(event) {
-            if (!self.autocompleteField.val() && (event.type === 'keyup' && (event.keyCode === 8 || event.keyCode === 46))) {
+        self.autocompleteField.on('keydown', function(event) {
+            if (!self.autocompleteField.val() && (event.type === 'keydown' && (event.keyCode === 8 || event.keyCode === 46))) {
                 self.autocompleteField.trigger('change');
                 if (self.dataField.is('select')) {
                     self.dataField.children('option:selected').removeAttr('selected');
@@ -631,21 +631,21 @@ var eventLocationsSearch = function(locationDropdowns) {
                     var item = self.autocompleteField.val();
                     self.createNewLocation(item);
                 });
-                self.autocompleteField.on('keyup focus', function(event) {
+                self.autocompleteField.on('keydown focus', function(event) {
                     // TODO: better way of determining if a match has been found?
                     var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
                     var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
                     
                     // Show addBtn if no match is found and the user didn't type Enter or a comma.
                     if (self.autocompleteField.val() !== '') {
-                        if (!matchFound && (event.type === 'keyup' && event.keyCode !== 13 && event.keyCode !== 188)) {
+                        if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
                             self.addBtn.show();
                         }
                         // Create a new location if the user didn't find a match,
                         // but entered either a comma or Enter
                         else if (
-                            (!matchFound && (event.type === 'keyup' && event.keyCode === 13)) ||
-                            (event.type === 'keyup' && event.keyCode === 188)
+                            (!matchFound && (event.type === 'keydown' && event.keyCode === 13)) ||
+                            (event.type === 'keydown' && event.keyCode === 188)
                         ) {
                             // Add the location data to the New Location form
                             var item = self.autocompleteField.val();
@@ -818,21 +818,21 @@ var eventTagging = function() {
             });
 
             // Handle non-suggestion new tag creation
-            self.autocompleteField.on('keyup focus', function(event) {
+            self.autocompleteField.on('keydown focus', function(event) {
                 // TODO: better way of determining if a match has been found?
                 var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
                 var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
                 
                 // Show addBtn if no match is found and the user didn't type Enter or a comma.
                 if (self.autocompleteField.val() !== '') {
-                    if (!matchFound && (event.type === 'keyup' && event.keyCode !== 13 && event.keyCode !== 188)) {
+                    if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
                         self.addBtn.show();
                     }
                     // Create a new tag if the user didn't find a match,
                     // but entered either a comma or Enter
                     else if (
-                        (!matchFound && (event.type === 'keyup' && event.keyCode === 13)) ||
-                        (event.type === 'keyup' && event.keyCode === 188)
+                        (!matchFound && (event.type === 'keydown' && event.keyCode === 13)) ||
+                        (event.type === 'keydown' && event.keyCode === 188)
                     ) {
                         // Add the tag to the tag list.  Taggit handles creation of new
                         // or assignment of existing tags
