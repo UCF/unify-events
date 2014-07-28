@@ -780,7 +780,8 @@ var eventTagging = function() {
                     existingTaglistVal = self.dataField.attr('value');
                 }
                 if (existingTaglistVal !== '') {
-                    var tagArray = existingTaglistVal.replace(/(&quot;?)|\"/g, '').split(',').filter(Boolean);
+                    // Create array from existingTaglistVal. $.grep removes empty results.
+                    var tagArray = $.grep(existingTaglistVal.replace(/(&quot;?)|\"/g, '').split(','), function(val) { return val !== ''; });
                     self.selectedTagsArray = self.selectedTagsArray.concat(tagArray);
 
                     if (self.selectedTagsList.children().length < 1) {
