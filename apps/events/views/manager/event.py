@@ -50,7 +50,7 @@ class EventCreate(CreateView):
         context = super(EventCreate, self).get_context_data(**kwargs)
 
         ctx = {
-               'locations': Location.objects.filter(reviewed=True),
+               'locations': Location.objects.all(),
                'tags': Tag.objects.all()
         }
         ctx.update(context)
