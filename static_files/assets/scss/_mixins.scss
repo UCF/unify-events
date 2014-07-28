@@ -14,7 +14,6 @@
  *   @include respond-to(xs) { width: 100%; }
  * }
  **/
-
 @mixin respond-to($media) {
   @if $media == xs {
     @media only screen and (max-width: $screen-xs-max) { @content; }
@@ -35,8 +34,17 @@
  * Adds styles for a vertically scrolling div.
  * Applies kinetic/momentum scrolling for touch devices.
  **/
-
 @mixin scrollbox() {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+}
+
+
+/**
+ * Prepends body.<class> to a selector. Useful when defining IE overrides.
+ **/
+@mixin body-prefix($class) {
+  body.#{$class} & {
+    @content;
+  }
 }

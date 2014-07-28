@@ -2,6 +2,14 @@
   width: 100%;
 }
 
+/* Force IE8 to use a fixed-width layout (instead of using respond.js) */
+.container {
+  @include body-prefix(ie8) {
+    max-width: none !important;
+    width: 970px;
+  }
+}
+
 /* Columns that only span the width of their children */
 .col-lg-auto,
 .col-md-auto,
