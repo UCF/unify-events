@@ -653,9 +653,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                             self.addBtn.hide();
 
                             // Don't allow form submission to pass!
-                            if (event.keyCode === 13) {
-                                return false;
-                            }
+                            return false;
                         }
                     }
                     // Make sure the addBtn is hidden otherwise.
@@ -848,9 +846,7 @@ var eventTagging = function() {
                         self.addBtn.hide();
 
                         // Don't allow form submission to pass!
-                        if (event.keyCode === 13) {
-                            return false;
-                        }
+                        return false;
                     }
                 }
                 // Make sure the addBtn is hidden otherwise.
