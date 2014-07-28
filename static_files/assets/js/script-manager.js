@@ -477,7 +477,8 @@ var userSearchTypeahead = function() {
             if (
                 self.autocompleteField.val() === '' ||
                 !self.dataField.val() ||
-                self.roleField.val() === ''
+                self.roleField.val() === '' ||
+                self.autocompleteField.val() === self.autocompleteField.attr('placeholder')
             ){
                 self.addBtn
                     .addClass('disabled')
