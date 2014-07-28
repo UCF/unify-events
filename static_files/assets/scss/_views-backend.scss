@@ -278,6 +278,10 @@ form#manager-calendar-add-user {
 .location-search,
 .tag-search {
   position: relative;
+
+  input[type="text"] {
+    @include ie-no-ms-clear();
+  }
 }
 
 .location-search .autocomplete-new-btn {

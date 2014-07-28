@@ -6231,17 +6231,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/static_files\/static\/vendor\/js\/respond.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/static_files\/static\/vendor\/js\/respond.min.js",
-		"outputAbbreviatedPath": "\/static_files\/static\/js\/respond.min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/static_files\/static\/vendor\/js\/selectivizr.min.js": {
 		"fileType": 64,
 		"ignore": 1,

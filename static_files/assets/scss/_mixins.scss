@@ -48,3 +48,13 @@
     @content;
   }
 }
+
+
+/**
+ * Disable IE10+ "x" button on input field
+ **/
+@mixin ie-no-ms-clear() {
+  &::-ms-clear {
+    display: none;
+  }
+}
