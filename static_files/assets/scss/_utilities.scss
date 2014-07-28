@@ -11,7 +11,7 @@
 }
 /* Declare .md- cols for IE8 because it doesn't understand media queries */
 .ie8 {
-  @include loop-grid-columns($grid-columns, md, width);
+  @include make-grid(md);
 }
 
 /* Columns that only span the width of their children */
