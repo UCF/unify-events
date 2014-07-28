@@ -867,7 +867,7 @@ var eventTagging = function() {
                     return false;
                 }
                 else {
-                    if (self.autocompleteField.val() !== '') {
+                    if (self.autocompleteField.val() !== '' && self.autocompleteField.val() !== self.autocompleteField.attr('placeholder')) {
                         self.selectedTagsArray.push(self.autocompleteField.val());
                     }
                     // Push the final value of selectedTagsArray to dataField's value
