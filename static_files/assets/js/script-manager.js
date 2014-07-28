@@ -651,6 +651,11 @@ var eventLocationsSearch = function(locationDropdowns) {
                             var item = self.autocompleteField.val();
                             self.createNewLocation(item);
                             self.addBtn.hide();
+
+                            // Don't allow form submission to pass!
+                            if (event.keyCode === 13) {
+                                return false;
+                            }
                         }
                     }
                     // Make sure the addBtn is hidden otherwise.
@@ -841,6 +846,11 @@ var eventTagging = function() {
                             self.typeaheadUpdater(item);
                         }
                         self.addBtn.hide();
+
+                        // Don't allow form submission to pass!
+                        if (event.keyCode === 13) {
+                            return false;
+                        }
                     }
                 }
                 // Make sure the addBtn is hidden otherwise.
