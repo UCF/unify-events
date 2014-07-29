@@ -28,16 +28,13 @@ form {
       .control-label-group,
       .control-label {
         font-size: 18px;
+        text-align: right;
+        @include respond-to(xs-sm) { text-align: left; }
       }
     }
     .control-label-group {
       text-align: right;
       @include respond-to(xs-sm) { text-align: left; }
-      @include body-prefix(ie8) {
-        legend.control-label {
-          text-align: right;
-        }
-      }
     }
   }
 }
