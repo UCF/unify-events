@@ -144,6 +144,10 @@ label[for="bulk-select"],
     display: none;
   }
 }
+.field-date,
+.field-time {
+  @include ie-no-ms-clear();
+}
 
 $bootstrap-dtp-border-radius: 4px;
 
