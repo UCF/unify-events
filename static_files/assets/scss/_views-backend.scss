@@ -273,6 +273,10 @@ form#manager-calendar-add-user {
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
+  @include body-prefix(ie8) { /* IE8 chokes with the adjacent selector here; just unset */
+    background-color: inherit;
+    border-color: inherit;
+  }
 }
 
 .location-search,

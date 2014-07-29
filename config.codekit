@@ -3827,17 +3827,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/static_files\/assets\/js\/script-manager.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/static_files\/assets\/js\/script-manager.js",
-		"outputAbbreviatedPath": "\/static_files\/static\/js\/script-manager.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 1,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/static_files\/assets\/js\/script.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -4171,17 +4160,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/static_files\/static\/js\/script-frontend.min.js",
 		"outputAbbreviatedPath": "\/static_files\/static\/js\/min\/script-frontend.min-ck.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/static_files\/static\/js\/script-manager.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/static_files\/static\/js\/script-manager.min.js",
-		"outputAbbreviatedPath": "\/static_files\/static\/js\/min\/script-manager.min-ck.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
