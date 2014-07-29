@@ -33,6 +33,11 @@ form {
     .control-label-group {
       text-align: right;
       @include respond-to(xs-sm) { text-align: left; }
+      @include body-prefix(ie8) {
+        legend.control-label {
+          text-align: right;
+        }
+      }
     }
   }
 }
