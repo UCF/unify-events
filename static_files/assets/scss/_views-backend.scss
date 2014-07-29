@@ -275,7 +275,7 @@ form#manager-calendar-add-user {
   &:focus,
   &:active {
     @include body-prefix(ie8) {
-      background-color: auto;
+      background-color: $brand-danger;
       box-shadow: 0 0 0 transparent;
     }
   }
