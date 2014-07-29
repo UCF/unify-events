@@ -193,6 +193,7 @@ form#manager-calendar-add-user {
   float: right;
   margin-right: 10px;
   @include respond-to(xs) { float: none; }
+  @include body-prefix(ie8) { float: right !important; }
 }
 .whenwhere.end,
 .whenwhere-until {
