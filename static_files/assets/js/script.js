@@ -30,6 +30,24 @@ var addBodyClasses = function() {
 
 
 /**
+ * Attempt to remove scrollbars on dropdown menus if they don't scroll vertically
+ **/
+var hideDropdownScrollbars = function() {
+    $('.dropdown').each(function() {
+        $(this).on('shown.bs.dropdown', function() {
+            var dropdownMenu = $(this).find('.dropdown-menu');
+            if (dropdownMenu.outerHeight() >= dropdownMenu.prop('scrollHeight')) {
+                dropdownMenu.css('overflow-y', 'hidden');
+            }
+            else {
+                dropdownMenu.css('overflow-y', 'scroll');
+            }
+        });
+    });
+};
+
+
+/**
  * Activate active nav tab when anchor is specified in url
  **/
 var autoOpenTagByAnchor = function() {
@@ -227,6 +245,7 @@ var gaEventTracking = function() {
 
 $(document).ready(function() {
     addBodyClasses();
+    hideDropdownScrollbars();
     autoOpenTagByAnchor();
     toggleModalModifyObject();
     calendarSliders();
