@@ -264,30 +264,29 @@ form#manager-calendar-add-user {
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   padding: 8px 14px;
+
   @include respond-to(xs) {
     padding: 8px 9px;
     right: -15px;
+  }
+
+  /* TODO: fix repaint issue in IE8 and show hover/active states */
+  &:hover,
+  &:focus,
+  &:active {
+    @include body-prefix(ie8) {
+      background-color: auto;
+      box-shadow: 0 0 0 transparent;
+    }
   }
 }
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
-
-  &:hover:before,
-  &:focus:before {
-    display: none;
-    width: 0;
-    content: "y";
-  }
-}
-.repaint .remove-instance:hover + .whenwhere-wrap,
-.repaint .remove-instance:focus + .whenwhere-wrap {
-  &:hover:before,
-  &:focus:before {
-    display: none;
-    width: 0;
-    content: "x" !important;
+  @include body-prefix(ie8) {
+    background-color: #f9f9f9;
+    border-color: #c8c8c8;
   }
 }
 
