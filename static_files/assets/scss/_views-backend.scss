@@ -177,13 +177,19 @@ form#manager-calendar-add-user {
   border-radius: 4px;
 }
 .cloneable {
-  &:before {
-    content: "";
+  &:hover:before,
+  &:focus:before {
+    display: none;
+    width: 0;
+    content: "y";
   }
-  .repaint {
-    &:before {
-      content: " ";
-    }
+}
+.clone {
+  &:hover:before,
+  &:focus:before {
+    display: none;
+    width: 0;
+    content: "x" !important;
   }
 }
 
@@ -283,10 +289,6 @@ form#manager-calendar-add-user {
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
-  @include body-prefix(ie8) {
-    background-color: inherit;
-    border-color: inherit;
-  }
 }
 
 .location-search,
