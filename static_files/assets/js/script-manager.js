@@ -989,7 +989,7 @@ var cloneableFieldsets = function() {
                 $(row)
                     // Insert it after the last form
                     .removeAttr('id')
-                    .addClass('clone')
+                    .addClass('clone repaint')
                     .hide()
                     .insertAfter('.cloneable:last')
                     .slideDown(300)
@@ -1022,6 +1022,9 @@ var cloneableFieldsets = function() {
 
                 // Toggle remove buttons, if necessary
                 toggleRemoveBtn(prefix);
+
+                // Trigger a repaint
+                $(row).removeClass('repaint');
             }
             else {
                 window.alert('Sorry, you can only create a maximum of twelve time/locations.');

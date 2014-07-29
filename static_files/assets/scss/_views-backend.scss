@@ -176,6 +176,16 @@ form#manager-calendar-add-user {
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px;
 }
+.cloneable {
+  &:before {
+    content: "";
+  }
+  .repaint {
+    &:before {
+      content: " ";
+    }
+  }
+}
 
 .whenwhere-wrap {
   hr {
@@ -273,7 +283,7 @@ form#manager-calendar-add-user {
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
-  @include body-prefix(ie8) { /* IE8 chokes with the adjacent selector here; just unset */
+  @include body-prefix(ie8) {
     background-color: inherit;
     border-color: inherit;
   }
