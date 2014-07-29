@@ -176,22 +176,6 @@ form#manager-calendar-add-user {
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px;
 }
-.cloneable {
-  &:hover:before,
-  &:focus:before {
-    display: none;
-    width: 0;
-    content: "y";
-  }
-}
-.clone {
-  &:hover:before,
-  &:focus:before {
-    display: none;
-    width: 0;
-    content: "x" !important;
-  }
-}
 
 .whenwhere-wrap {
   hr {
@@ -289,6 +273,22 @@ form#manager-calendar-add-user {
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
+
+  &:hover:before,
+  &:focus:before {
+    display: none;
+    width: 0;
+    content: "y";
+  }
+}
+.repaint .remove-instance:hover + .whenwhere-wrap,
+.repaint .remove-instance:focus + .whenwhere-wrap {
+  &:hover:before,
+  &:focus:before {
+    display: none;
+    width: 0;
+    content: "x" !important;
+  }
 }
 
 .location-search,
