@@ -44,7 +44,7 @@
                                     User
                                     {% endif %}
                                 </td>
-                                <td class="user-actions">
+                                <td class="user-actions actions-col">
                                     {% if theUser.is_superuser %}
                                     <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
                                     {% else %}

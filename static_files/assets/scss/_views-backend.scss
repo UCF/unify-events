@@ -50,6 +50,15 @@
     display: block;
     white-space: normal;
   }
+
+  .actions-col {
+    padding-bottom: 5px;
+
+    & > .btn,
+    & > .btn-group {
+      margin-bottom: 3px;
+    }
+  }
 }
 
 
