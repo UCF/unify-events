@@ -93,6 +93,15 @@ ul.errors,
 #static-base ul {
   padding-left: 15px;
 }
+dt {
+  @include body-prefix(ie8) {
+    float: left;
+    width: ($dl-horizontal-offset - 20);
+    clear: left;
+    text-align: right;
+    @include text-overflow();
+  }
+}
 
 
 /* Tables */
