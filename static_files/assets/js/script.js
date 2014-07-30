@@ -263,6 +263,8 @@ var gaEventTracking = function() {
 
 
 $(document).ready(function() {
+    $('input, textarea').placeholder();
+    
     addBodyClasses();
     ie8StyleClasses();
     hideDropdownScrollbars();

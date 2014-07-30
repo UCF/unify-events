@@ -209,6 +209,7 @@ var initiateDatePickers = function(fields) {
                 autoclose: true,
                 todayHighlight: true
             })
+            .placeholder() // Force init placeholder for old browsers
             .on('changeDate', function(e) {
                 // Look for a nearby related start/end date field.  Apply
                 // fixed start/end dates to the opposing fields, if possible.
@@ -238,7 +239,8 @@ var initiateTimePickers = function(fields) {
             'scrollDefaultNow': true,
             'timeFormat': 'h:i A',
             'step': 15
-        });
+        })
+        .placeholder(); // Force init placeholder for old browsers
 };
 
 
