@@ -80,6 +80,12 @@
   &.bootstrap-wysihtml5-insert-link-modal .checkbox {
     left: 20px; /* Prevent "open link in new window" checkbox from overflowing outside of modal */
   }
+
+  .modal-dialog {
+    @include body-prefix(ie8) {
+      width: 600px;
+    }
+  }
 }
 .modal-header .object-type,
 .modal-footer .object-type {
