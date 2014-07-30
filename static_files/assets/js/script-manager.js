@@ -248,6 +248,16 @@ var initiateTimePickers = function(fields) {
 
 
 /**
+ * Make sure icons within date/time fields are clickable and trigger the pickers.
+ **/
+var fallbackDtpOnClick = function() {
+    $('.ie8 .bootstrap-dtp i').on('click', function() {
+        $(this).find('input').focus();
+    });
+};
+
+
+/**
  * WYSIWYG Textarea Init
  **/
 var initiateWysiwyg = function(textarea) {
@@ -1090,6 +1100,7 @@ $(document).ready(function() {
 
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
+    fallbackDtpOnClick();
     initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
     initiateDisabledWysiwyg($('textarea.wysiwyg.disabled-wysiwyg'));
     initiateReReviewCopy();
