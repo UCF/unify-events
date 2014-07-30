@@ -33,23 +33,17 @@ var addBodyClasses = function() {
  * Add classes to elements in IE8 that require non-supported CSS selectors for styling
  **/
 var ie8StyleClasses = function() {
-    var addClassAndRepaint = function(selector, classToAdd) {
-        $(selector).each(function() {
-            $(this)
-                .addClass(classToAdd)
-                .parent()
-                    .hide()
-                    .show(0);
-        });
+    var addClassBySelector = function(selector, classToAdd) {
+        $(selector).each(function() { $(this).addClass(classToAdd); });
     };
     if ($('body').hasClass('ie8')) {
         // a:not('.btn') > i; i + a:not('.btn')
-        addClassAndRepaint('a:not(.btn) > i', 'icon-right-margin');
-        addClassAndRepaint('i + a:not(.btn)', 'icon-left-margin');
+        addClassBySelector('a:not(.btn) > i', 'icon-right-margin');
+        addClassBySelector('i + a:not(.btn)', 'icon-left-margin');
         // general :last-child usage
-        addClassAndRepaint('.edit-options > ul > li:last-child', 'last-child');
-        addClassAndRepaint('.search-results-list > li:last-child', 'last-child');
-        addClassAndRepaint('.search-results-list .event-tags ul li:last-child', 'last-child');
+        addClassBySelector('.edit-options > ul > li:last-child', 'last-child');
+        addClassBySelector('.search-results-list > li:last-child', 'last-child');
+        addClassBySelector('.search-results-list .event-tags ul li:last-child', 'last-child');
     }
 };
 

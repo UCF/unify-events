@@ -242,6 +242,9 @@ header {
       > li {
         float: left;
         margin-right: 15px;
+        @include body-prefix(ie8) {
+          margin-right: 8px;
+        }
 
         &.last-child {
           margin-right: 0;
