@@ -243,8 +243,10 @@ header {
         float: left;
         margin-right: 15px;
 
-        &:last-child,
         &.last-child {
+          margin-right: 0;
+        }
+        &:last-child {
           margin-right: 0;
         }
 

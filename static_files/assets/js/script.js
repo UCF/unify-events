@@ -38,7 +38,8 @@ var ie8StyleClasses = function() {
             $(this)
                 .addClass(classToAdd)
                 .parent()
-                    .addClass('repaint').removeClass('repaint');
+                    .hide()
+                    .show(0);
         });
     };
     if ($('body').hasClass('ie8')) {

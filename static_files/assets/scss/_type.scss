@@ -62,18 +62,23 @@ h4 {
 
 
 /* Links */
-a:not(.btn) > i,
 i.icon-right-margin {
   margin-right: 6px;
 }
+a:not(.btn) > i {
+  margin-right: 6px;
+}
+
 a:hover > i {
   text-decoration: none;
 }
 
 
 /* Icons */
-i + a:not(.btn),
 a.icon-left-margin {
+  margin-left: 6px;
+}
+i + a:not(.btn) {
   margin-left: 6px;
 }
 
