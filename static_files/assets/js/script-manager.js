@@ -200,15 +200,11 @@ var initiateDatePickers = function(fields) {
 
             // Wrap field in wrapper div; add icon
             if (field.parent().hasClass('bootstrap-datepicker') === false) {
-                // Create date icon; assign click event
-                var icon = $('<i class="fa fa-calendar" />');
-                icon.on('click', function() { fallbackDtpOnClick(icon); });
-
                 field
                     .addClass('form-control')
                     .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
                     .parent()
-                        .append(icon);
+                        .append('<i class="fa fa-calendar" />');
             }
 
             var fieldParent = field.parent().parent();
@@ -230,6 +226,11 @@ var initiateDatePickers = function(fields) {
                         siblingDateField.datepicker('setEndDate', e.date);
                     }
                 });
+
+            // Assign click event to icon
+            fieldParent
+                .find('i')
+                    .on('click', function() { fallbackDtpOnClick($(this)); });
         })
         .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
         .placeholder(); // Force init placeholder for old browsers
@@ -238,18 +239,23 @@ var initiateDatePickers = function(fields) {
 var initiateTimePickers = function(fields) {
     fields
         .each(function(){
-            // Wrap each timepicker input if this field isn't a clone
-            if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
-                // Create time icon; assign click event
-                var icon = $('<i class="fa fa-clock-o" />');
-                icon.on('click', function() { fallbackDtpOnClick(icon); });
+            var field = $(this);
 
-                $(this)
+            // Wrap each timepicker input if this field isn't a clone
+            if (field.parent().hasClass('bootstrap-timepicker') === false) {
+                field
                     .addClass('form-control')
                     .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
                     .parent()
-                        .append(icon);
+                        .append('<i class="fa fa-clock-o" />');
             }
+
+            var fieldParent = field.parent().parent();
+            
+            // Assign click event to icon
+            fieldParent
+                .find('i')
+                    .on('click', function() { fallbackDtpOnClick($(this)); });
         })
         .timepicker({
             'scrollDefaultNow': true,
