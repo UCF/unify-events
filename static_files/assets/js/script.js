@@ -33,13 +33,22 @@ var addBodyClasses = function() {
  * Add classes to elements in IE8 that require non-supported CSS selectors for styling
  **/
 var ie8StyleClasses = function() {
+    var addClassAndRepaint = function(selector, classToAdd) {
+        $(selector).each(function() {
+            $(this)
+                .addClass(classToAdd)
+                .parent()
+                    .addClass('repaint').removeClass('repaint');
+        });
+    };
     if ($('body').hasClass('ie8')) {
         // a:not('.btn') > i; i + a:not('.btn')
-        $('a:not(.btn) > i').each(function() { $(this).addClass('icon-right-margin'); });
-        $('i + a:not(.btn)').each(function() { $(this).addClass('icon-left-margin'); });
+        addClassAndRepaint('a:not(.btn) > i', 'icon-right-margin');
+        addClassAndRepaint('i + a:not(.btn)', 'icon-left-margin');
         // general :last-child usage
-        $('.edit-options > ul > li:last-child, .search-results-list > li:last-child, .search-results-list .event-tags ul li:last-child')
-            .each(function() { $(this).addClass('last-child'); });
+        addClassAndRepaint('.edit-options > ul > li:last-child', 'last-child');
+        addClassAndRepaint('.search-results-list > li:last-child', 'last-child');
+        addClassAndRepaint('.search-results-list .event-tags ul li:last-child', 'last-child');
     }
 };
 
