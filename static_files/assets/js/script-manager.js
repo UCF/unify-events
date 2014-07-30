@@ -187,6 +187,12 @@ var toggleModalUserDemote = function() {
  * Date/Timepicker Init.
  * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
+var fallbackDtpOnClick = function(icon) {
+    var input = icon.siblings('input');
+    if (!input.is(':focus')) {
+        input.focus();
+    }
+};
 var initiateDatePickers = function(fields) {
     fields
         .each(function() {
@@ -194,11 +200,15 @@ var initiateDatePickers = function(fields) {
 
             // Wrap field in wrapper div; add icon
             if (field.parent().hasClass('bootstrap-datepicker') === false) {
+                // Create date icon; assign click event
+                var icon = $('<i class="fa fa-calendar" />');
+                icon.on('click', function() { fallbackDtpOnClick(icon); });
+
                 field
                     .addClass('form-control')
                     .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
                     .parent()
-                        .append('<i class="fa fa-calendar" />');
+                        .append(icon);
             }
 
             var fieldParent = field.parent().parent();
@@ -230,11 +240,15 @@ var initiateTimePickers = function(fields) {
         .each(function(){
             // Wrap each timepicker input if this field isn't a clone
             if ($(this).parent().hasClass('bootstrap-timepicker') === false) {
+                // Create time icon; assign click event
+                var icon = $('<i class="fa fa-clock-o" />');
+                icon.on('click', function() { fallbackDtpOnClick(icon); });
+
                 $(this)
                     .addClass('form-control')
                     .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
                     .parent()
-                        .append('<i class="fa fa-clock-o" />');
+                        .append(icon);
             }
         })
         .timepicker({
@@ -244,16 +258,6 @@ var initiateTimePickers = function(fields) {
         })
         .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
         .placeholder(); // Force init placeholder for old browsers
-};
-
-
-/**
- * Make sure icons within date/time fields are clickable and trigger the pickers.
- **/
-var fallbackDtpOnClick = function() {
-    $('.ie8 .bootstrap-dtp i').on('click', function() {
-        $(this).find('input').focus();
-    });
 };
 
 
@@ -1100,7 +1104,6 @@ $(document).ready(function() {
 
     initiateDatePickers($('.field-date'));
     initiateTimePickers($('.field-time'));
-    fallbackDtpOnClick();
     initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
     initiateDisabledWysiwyg($('textarea.wysiwyg.disabled-wysiwyg'));
     initiateReReviewCopy();
