@@ -188,39 +188,40 @@ var toggleModalUserDemote = function() {
  * Use Bootstrap datepicker/jQuery timepicker plugins.
  **/
 var initiateDatePickers = function(fields) {
-    fields.each(function() {
-        var field = $(this);
+    fields
+        .each(function() {
+            var field = $(this);
 
-        // Wrap field in wrapper div; add icon
-        if (field.parent().hasClass('bootstrap-datepicker') === false) {
+            // Wrap field in wrapper div; add icon
+            if (field.parent().hasClass('bootstrap-datepicker') === false) {
+                field
+                    .addClass('form-control')
+                    .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
+                    .parent()
+                        .append('<i class="fa fa-calendar" />');
+            }
+
+            var fieldParent = field.parent().parent();
+            var siblingDateField = fieldParent.siblings().find('.' + field.attr('class'));
+
             field
-                .addClass('form-control')
-                .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
-                .parent()
-                .append('<i class="fa fa-calendar" />');
-        }
-
-        var fieldParent = field.parent().parent();
-        var siblingDateField = fieldParent.siblings().find('.' + field.attr('class'));
-
-        field
-            .datepicker({
-                format: 'mm/dd/yyyy',
-                autoclose: true,
-                todayHighlight: true
-            })
-            .placeholder() // Force init placeholder for old browsers
-            .on('changeDate', function(e) {
-                // Look for a nearby related start/end date field.  Apply
-                // fixed start/end dates to the opposing fields, if possible.
-                if (siblingDateField.length && fieldParent.hasClass('start')) {
-                    siblingDateField.datepicker('setStartDate', e.date);
-                }
-                else if (siblingDateField.length && fieldParent.hasClass('end')) {
-                    siblingDateField.datepicker('setEndDate', e.date);
-                }
-            });
-    });
+                .datepicker({
+                    format: 'mm/dd/yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+                })
+                .on('changeDate', function(e) {
+                    // Look for a nearby related start/end date field.  Apply
+                    // fixed start/end dates to the opposing fields, if possible.
+                    if (siblingDateField.length && fieldParent.hasClass('start')) {
+                        siblingDateField.datepicker('setStartDate', e.date);
+                    }
+                    else if (siblingDateField.length && fieldParent.hasClass('end')) {
+                        siblingDateField.datepicker('setEndDate', e.date);
+                    }
+                });
+        })
+        .placeholder(); // Force init placeholder for old browsers
 
 };
 var initiateTimePickers = function(fields) {
@@ -232,7 +233,7 @@ var initiateTimePickers = function(fields) {
                     .addClass('form-control')
                     .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
                     .parent()
-                    .append('<i class="fa fa-clock-o" />');
+                        .append('<i class="fa fa-clock-o" />');
             }
         })
         .timepicker({
