@@ -54,6 +54,15 @@ form {
 .form-group {
   margin-bottom: 20px;
 }
+.form-inline > * {
+  @include body-prefix(ie8) {
+    float: left;
+    margin-left: 5px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
 
 
 /* Textareas */

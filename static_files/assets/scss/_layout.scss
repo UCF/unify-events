@@ -100,6 +100,9 @@ header {
           background-color: transparent;
         }
       }
+      @include body-prefix(ie8) {
+        width: 135px;
+      }
     }
   }
 

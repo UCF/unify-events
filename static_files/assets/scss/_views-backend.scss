@@ -111,11 +111,11 @@ form#calendar-update {
 input#id_add_user {
   width: 300px;
 }
-input#id_role {
+select#id_role {
   width: 150px;
 }
 input#id_add_user,
-input#id_add_role {
+select#id_role {
   @include respond-to(xs) {
     width: 100%;
   }
