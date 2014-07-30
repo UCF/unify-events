@@ -142,7 +142,7 @@ label[for="bulk-select"],
 .field-time {
   margin-right: 0;
 
-  + .input-group-addon {
+  &+ .input-group-addon {
     display: none;
   }
 }

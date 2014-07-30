@@ -49,7 +49,8 @@
     padding: 0 0 20px 0;
     border-bottom: 2px dotted $table-border-color;
   }
-  & > li:last-child {
+  & > li:last-child,
+  & > li.last-child {
     border-bottom: 0px transparent;
   }
 
@@ -96,7 +97,8 @@
       &:after {
         content: ",";
       }
-      &:last-child:after {
+      &:last-child:after,
+      &.last-child:after {
         content: "";
       }
     }

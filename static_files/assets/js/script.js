@@ -30,6 +30,21 @@ var addBodyClasses = function() {
 
 
 /**
+ * Add classes to elements in IE8 that require non-supported CSS selectors for styling
+ **/
+var ie8StyleClasses = function() {
+    if ($('body').hasClass('ie8')) {
+        // a:not('.btn') > i; i + a:not('.btn')
+        $('a:not(.btn) > i').each(function() { $(this).addClass('icon-right-margin'); });
+        $('i + a:not(.btn)').each(function() { $(this).addClass('icon-left-margin'); });
+        // general :last-child usage
+        $('.edit-options > ul > li:last-child, .search-results-list > li:last-child, .search-results-list .event-tags ul li:last-child')
+            .each(function() { $(this).addClass('last-child'); });
+    }
+};
+
+
+/**
  * Attempt to remove scrollbars on dropdown menus if they don't scroll vertically
  **/
 var hideDropdownScrollbars = function() {
@@ -245,6 +260,7 @@ var gaEventTracking = function() {
 
 $(document).ready(function() {
     addBodyClasses();
+    ie8StyleClasses();
     hideDropdownScrollbars();
     autoOpenTagByAnchor();
     toggleModalModifyObject();
