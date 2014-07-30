@@ -221,6 +221,7 @@ var initiateDatePickers = function(fields) {
                     }
                 });
         })
+        .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
         .placeholder(); // Force init placeholder for old browsers
 
 };
@@ -241,6 +242,7 @@ var initiateTimePickers = function(fields) {
             'timeFormat': 'h:i A',
             'step': 15
         })
+        .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
         .placeholder(); // Force init placeholder for old browsers
 };
 
