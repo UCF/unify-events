@@ -67,6 +67,15 @@ var hideDropdownScrollbars = function() {
 
 
 /**
+ * Replace browser's default hover effect for <abbr> elements with Bootstrap tooltips,
+ * due to wide browser inconsistency on how the hover state works
+ **/
+var abbrTooltips = function() {
+    $('abbr').each(function() { $(this).tooltip(); } );
+};
+
+
+/**
  * Activate active nav tab when anchor is specified in url
  **/
 var autoOpenTagByAnchor = function() {
@@ -268,6 +277,7 @@ $(document).ready(function() {
     addBodyClasses();
     ie8StyleClasses();
     hideDropdownScrollbars();
+    abbrTooltips();
     autoOpenTagByAnchor();
     toggleModalModifyObject();
     calendarSliders();
