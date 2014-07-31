@@ -24,13 +24,16 @@ class SecureRequiredMiddleware(object):
         return None
 
  
+"""
+Remove instances of multiple spaces in html markup.
+This middleware is necessary for IE10 in particular (and possibly
+other browsers) to prevent excessive whitespace from preventing the
+rendering of a text node.
+"""
 RE_MULTISPACE = re.compile(r"\s{2,}")
-RE_NEWLINE = re.compile(r"\n")
  
 class MinifyHTMLMiddleware(object):
     def process_response(self, request, response):
         if 'text/html' in response['Content-Type'] and settings.COMPRESS_HTML:
-            #response.content = strip_spaces_between_tags(response.content.strip())
             response.content = RE_MULTISPACE.sub(" ", response.content)
-            #response.content = RE_NEWLINE.sub(" ", response.content)
         return response
