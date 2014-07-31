@@ -21,6 +21,10 @@
 
 
 /* Panels */
+.panel-heading .form-group.last-child,
+.panel-footer .form-group.last-child {
+  margin-bottom: 0;
+}
 .panel-heading .form-group:last-child,
 .panel-footer .form-group:last-child {
   margin-bottom: 0;

@@ -44,6 +44,7 @@ var ie8StyleClasses = function() {
         addClassBySelector('.edit-options > ul > li:last-child', 'last-child');
         addClassBySelector('.search-results-list > li:last-child', 'last-child');
         addClassBySelector('.search-results-list .event-tags ul li:last-child', 'last-child');
+        addClassBySelector('.panel-heading .form-group:last-child, .panel-footer .form-group:last-child', 'last-child');
     }
 };
 
