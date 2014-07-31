@@ -523,7 +523,7 @@ var userSearchTypeahead = function() {
             }
             else {
                 var selected = self.dataField.children('option').selected || self.dataField.children('option[selected="selected"]');
-                if (typeof selected !== 'undefined' && selected.length > 0) {
+                if (typeof selected !== 'undefined' && selected.length > 0 && selected.text() === self.autocompleteField.val()) {
                     self.addBtn
                         .removeClass('disabled')
                         .unbind('click', handler);
