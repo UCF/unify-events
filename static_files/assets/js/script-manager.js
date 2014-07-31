@@ -317,6 +317,10 @@ var initiateWysiwyg = function(textarea) {
                         .end()
                     .find('li a[data-wysihtml5-command="underline"]')
                         .html('<i class="fa fa-underline"></i>');
+
+                // Fix a stupid IE10 error in IE8,9 browser mode where focus is not applied
+                // to the correct DOM position on page load... so just remove any focus entirely.
+                $(document.activeElement).blur();
             }
         }
     });
@@ -327,13 +331,21 @@ var initiateWysiwyg = function(textarea) {
  * Display wysiwyg without control bar
  **/
 var initiateDisabledWysiwyg = function(textarea) {
-    textarea.wysihtml5({"font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
-                        "emphasis": false, //Italics, bold, etc. Default true
-                        "lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
-                        "html": false, //Button which allows you to edit the generated HTML. Default false
-                        "link": false, //Button to insert a link. Default true
-                        "image": false, //Button to insert an image. Default true,
-                        "color": false //Button to change color of font
+    textarea.wysihtml5({
+        "font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
+        "emphasis": false, //Italics, bold, etc. Default true
+        "lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+        "html": false, //Button which allows you to edit the generated HTML. Default false
+        "link": false, //Button to insert a link. Default true
+        "image": false, //Button to insert an image. Default true,
+        "color": false, //Button to change color of font
+        events: {
+            "load": function() {
+                // Fix a stupid IE10 error in IE8,9 browser mode where focus is not applied
+                // to the correct DOM position on page load... so just remove any focus entirely.
+                $(document.activeElement).blur();
+            }
+        }
     });
 };
 
