@@ -732,15 +732,21 @@ var eventLocationsSearch = function(locationDropdowns) {
                 var selectedData = eventLocations[self.selection]; // eventLocations is defined in head of event create/update template
 
                 // Display new values to the user
-                self.locationTitleSpan
-                    .text(selectedData.title)
-                    .show();
-                self.locationRoomSpan
-                    .text(selectedData.room)
-                    .show();
-                self.locationUrlSpan
-                    .html('<a href="' + selectedData.url + '">' + selectedData.url + '</a>')
-                    .show();
+                if (selectedData.title !== 'None' && selectedData.title !== '') {
+                    self.locationTitleSpan
+                        .text(selectedData.title)
+                        .show();
+                }
+                if (selectedData.room !== 'None' && selectedData.room !== '') {
+                    self.locationRoomSpan
+                        .text(selectedData.room)
+                        .show();
+                }
+                if (selectedData.url !== 'None' && selectedData.url !== '') {
+                    self.locationUrlSpan
+                        .html('<a href="' + selectedData.url + '">' + selectedData.url + '</a>')
+                        .show();
+                }
 
                 self.removeBtn.show();
                 self.addBtn.hide();
