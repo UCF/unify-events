@@ -194,6 +194,7 @@ $bootstrap-dtp-border-radius: 4px;
 
 .datepicker {
   padding: 0 10px 5px 10px;
+  overflow: hidden;
 
   &:before,
   &:after {

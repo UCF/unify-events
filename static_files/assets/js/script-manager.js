@@ -522,9 +522,18 @@ var userSearchTypeahead = function() {
                     .bind('click', handler);
             }
             else {
-                self.addBtn
-                    .removeClass('disabled')
-                    .unbind('click', handler);
+                var selected = self.dataField.children('option').selected || self.dataField.children('option[selected="selected"]');
+                if (typeof selected !== 'undefined' && selected.length > 0) {
+                    self.addBtn
+                        .removeClass('disabled')
+                        .unbind('click', handler);
+                }
+                else {
+                    self.addBtn
+                        .addClass('disabled')
+                        .bind('click', handler);
+                }
+                
             }
         };
         toggleAddBtn();
