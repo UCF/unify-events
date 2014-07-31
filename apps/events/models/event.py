@@ -174,6 +174,14 @@ class Event(TimeCreatedModified):
         return has_instances
 
     @property
+    def get_first_instance(self):
+        """
+        Returns the very first event instance out of all instances
+        of this event.
+        """
+        return self.event_instances.all()[0]
+
+    @property
     def get_last_instance(self):
         """
         Retrieves the very last event instance out of all instances
@@ -325,7 +333,7 @@ class Event(TimeCreatedModified):
         Generate permalink for this object
         """
         # Get the first event instance's pk
-        instance = self.event_instances.all()[0]
+        instance = self.get_first_instance
         canonical_root = settings.CANONICAL_ROOT
         relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': self.slug})
         return canonical_root + relative_path
