@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UrlPatterns',
+    'core.middleware.MinifyHTMLMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -227,3 +228,6 @@ BLEACH_STRIP_COMMENTS = True
 
 # Default description value for imported events with no description.
 FALLBACK_EVENT_DESCRIPTION = 'No description provided.'
+
+# Turn on/off HTML compression.
+COMPRESS_HTML = True
