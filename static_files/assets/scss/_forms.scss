@@ -56,7 +56,8 @@ form {
 }
 .form-inline {
   @include body-prefix(ie8) {
-    overflow: hidden;
+    float: left;
+    width: 100%;
     clear: both;
   }
 
