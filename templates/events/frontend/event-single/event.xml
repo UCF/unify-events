@@ -9,7 +9,7 @@
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
 		<end_date>{{ event_instance.end|date:'r' }}</end_date>
 		<location>{% include_esi 'location' event_instance.location.pk 'title' %}</location>
-		<room>{% include_esi 'location' event_instance.location.pk 'room' %}</room>
+		<room>{% if event_instance.location.room %}{% include_esi 'location' event_instance.location.pk 'room' %}{% endif %}</room>
 
 		<address>
 			<building></building>
@@ -48,9 +48,9 @@
 			</webpage>
 		</webpages>
 
-		<contact_person>{{ event_instance.event.contact_name }}</contact_person>
-		<contact_email>{{ event_instance.event.contact_email }}</contact_email>
-		<contact_phone>{{ event_instance.event.contact_phone }}</contact_phone>
+		<contact_person>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name }}{% endif %}</contact_person>
+		<contact_email>{% if event_instance.event.contact_email %}{{ event_instance.event.contact_email }}{% endif %}</contact_email>
+		<contact_phone>{% if event_instance.event.contact_phone %}{{ event_instance.event.contact_phone }}{% endif %}</contact_phone>
 
 		<category>{% include_esi 'category' event_instance.event.category.pk 'title' %}</category>
 		<tags>
