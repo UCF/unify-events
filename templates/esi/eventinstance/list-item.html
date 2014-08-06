@@ -1,7 +1,7 @@
 {% load core_tags %}
 
 <li>
-    <a href="{% url 'event' pk=object.pk slug=object.event.slug %}">
+    <a href="{% url 'event' pk=object.pk slug=object.slug %}">
         <time>
             {% if object.start.time and object.end.time %}
                 {{ object.start|date:"f a" }}

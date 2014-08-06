@@ -20,7 +20,8 @@ from core.views import InvalidSlugRedirectMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
 
-class EventDetailView(MultipleFormatTemplateViewMixin, DetailView):
+class EventDetailView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, DetailView):
+    by_model = EventInstance
     context_object_name = 'event_instance'
     model = EventInstance
     template_name = 'events/frontend/event-single/event.'

@@ -430,6 +430,10 @@ class EventInstance(TimeCreatedModified):
         return self.event.title
 
     @property
+    def slug(self):
+        return self.event.slug
+
+    @property
     def is_recurring(self):
         recurs = False
         if len(self.event.event_instances.all()) > 1:
@@ -447,7 +451,7 @@ class EventInstance(TimeCreatedModified):
         Generate permalink for this object
         """
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('event', kwargs={'pk': self.pk, 'slug': self.event.slug})
+        relative_path = reverse('event', kwargs={'pk': self.pk, 'slug': self.slug})
         return canonical_root + relative_path
 
     def save(self, *args, **kwargs):
