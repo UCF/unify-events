@@ -78,7 +78,7 @@ class EventForm(forms.ModelForm):
         # characters that don't match our whitelist.
         tags = self.cleaned_data['tags']
         for key, tag in enumerate(tags):
-            tags[key] = re.sub(r'([^\w -!$#%&+|:?])|(&quot;?)', '', tag)
+            tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
         return self.cleaned_data        
 

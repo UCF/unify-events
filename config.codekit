@@ -2581,12 +2581,12 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/static\/vendor\/js\/placeholders.min.js": {
+	"\/static\/vendor\/js\/jquery.placeholder.min.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/static\/vendor\/js\/placeholders.min.js",
-		"outputAbbreviatedPath": "\/static_files\/static\/js\/placeholders.min-min.js",
+		"inputAbbreviatedPath": "\/static\/vendor\/js\/jquery.placeholder.min.js",
+		"outputAbbreviatedPath": "\/static_files\/static\/js\/jquery.placeholder.min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

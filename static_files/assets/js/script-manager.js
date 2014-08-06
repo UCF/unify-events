@@ -919,8 +919,9 @@ var eventTagging = function() {
                     if (self.autocompleteField.val() !== '' && self.autocompleteField.val() !== self.autocompleteField.attr('placeholder')) {
                         self.selectedTagsArray.push(self.autocompleteField.val());
                     }
-                    // Push the final value of selectedTagsArray to dataField's value
-                    var selectedTagsStr = self.selectedTagsArray.toString();
+                    // Push the final value of selectedTagsArray to dataField's value. Add comma to
+                    // the end of the string to force comma-based delimiting for Taggit.
+                    var selectedTagsStr = self.selectedTagsArray.toString() + ',';
                     self.dataField
                         .val(selectedTagsStr)
                         .attr('value', selectedTagsStr);
@@ -943,7 +944,6 @@ var eventTagging = function() {
             self.selectedTagsArray.push(item);
             self.autocompleteField.val('');
             self.createTag(item);
-
             return '';
         };
 
