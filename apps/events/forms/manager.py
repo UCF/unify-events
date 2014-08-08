@@ -6,6 +6,7 @@ from django.forms.models import inlineformset_factory
 from taggit.models import Tag
 
 from core.forms import RequiredModelFormSet
+from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.models import Calendar
@@ -220,3 +221,12 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ('name',)
+
+    def save(self):
+        """
+        Make sure the slug is updated when the title is changed
+        """
+        tag = super(TagForm, self).save(commit=False)
+        tag.slug = generate_unique_slug(tag.name, Tag, True)
+        tag.save()
+        return tag
