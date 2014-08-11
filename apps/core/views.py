@@ -4,6 +4,8 @@ from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponseNotFound
+from django.http import HttpResponseServerError
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -58,6 +60,17 @@ def esi(request, model_name, object_id, template_name, calendar_id=None):
         log.error('Unable to get the object with pk %s from model %s from app %s with template %s or calendar with pk %s.' % (object_id, model_name, app_label, template, calendar_id))
 
     raise Http404
+
+
+def handler404(request):
+    template = loader.get_template('404.html')
+    body = template.render(RequestContext(request))
+    return HttpResponseNotFound(body, content_type='text/html')
+
+def handler500(request):
+    template = loader.get_template('500.html')
+    body = template.render(RequestContext(request))
+    return HttpResponseServerError(body, content_type='text/html')
 
 
 class SuccessUrlReverseKwargsMixin(object):

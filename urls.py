@@ -89,3 +89,6 @@ urlpatterns += patterns('',
         name='main-calendar-named-listing'
     ),
 )
+
+handler404 = 'core.views.handler404'
+handler500 = 'core.views.handler500'
