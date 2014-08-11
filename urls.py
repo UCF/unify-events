@@ -90,5 +90,13 @@ urlpatterns += patterns('',
     ),
 )
 
+
+# Error handling
 handler404 = 'core.views.handler404'
 handler500 = 'core.views.handler500'
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^debug/500-templ/$', TemplateView.as_view(template_name='500.html')),
+        (r'^debug/404-templ/$', TemplateView.as_view(template_name='404.html')),
+    )
