@@ -14,6 +14,7 @@ from django.db.models.loading import get_model
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
+from django.template import loader
 from django.template import RequestContext
 
 from core.utils import format_to_mimetype
