@@ -89,8 +89,3 @@ urlpatterns += patterns('',
         name='main-calendar-named-listing'
     ),
 )
-
-
-# Status code handling
-handler500 = TemplateView.as_view(template_name='events/static/500.html')
-handler404 = TemplateView.as_view(template_name='events/static/404.html')
