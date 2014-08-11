@@ -1,5 +1,22 @@
 {% extends 'events/static/base.html' %}
 
+{# NOTE: static handler templates do NOT include ESIs to avoid missing request context data errors. #}
+
+
+{% block category_color_styles %}{% endblock %}
+
+{% block navbar %}<body>{% endblock %}
+
+{% block pagehead %}
+<header class="container">
+    <div class="row">
+        <div class="col-md-8 col-sm-7 header-title">
+            <a href="{% url 'home' %}">Events at UCF</a>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
 {% block title %}Page Not Found{% endblock %}
 
 {% block content_title %}

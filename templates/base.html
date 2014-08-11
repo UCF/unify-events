@@ -59,7 +59,9 @@
         {% block links %}
         {% endblock %}
 
-        {% category_color_styles %}
+        {% block category_color_styles %}
+            {% category_color_styles %}
+        {% endblock %}
     {% endblock %}
     </head>
     {# the body opening tag is included in the header-nav esi #}
