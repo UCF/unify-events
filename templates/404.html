@@ -8,14 +8,21 @@
 
 {% block content_body %}
     <div class="row">
-        <div class="col-md-9 page-content">
-            <p>Sorry, we couldn't find this page.  Maybe try searching?</p>
+        <div class="col-md-9 page-content page-content-no-heading">
+            <p>The content you requested could not be found.  The content may have moved or been deleted from the events system.  Perhaps try searching below for what you're looking for?</p>
             <br/>
-            <form class="form-search">
-                <div class="input-group">
-                    <label class="sr-only" for="global-search">Search events, calendars</label>
-                    <input type="text" class="col-md-3 search-query" id="global-search" placeholder="Search events, calendars" />
-                    <button type="submit" class="btn">Search <i class="fa fa-search"></i></button>
+            <form method="GET" action="{% url 'search' %}" role="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <label class="sr-only" for="global-search">Search events, calendars</label>
+                            <input type="text" class="col-md-3 search-query form-control" id="global-search" name="q" placeholder="Search events, calendars" />
+
+                            <div class="input-group-btn">
+                                <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

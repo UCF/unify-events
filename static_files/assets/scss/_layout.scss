@@ -388,6 +388,11 @@ header {
 .page-top-action + .well-empty {
   margin-top: 20px;
 }
+.page-content-no-heading > *:first-child {
+  @include respond-to(xs) {
+    margin-top: 10px;
+  }
+}
 
 
 /* Sidebar */
