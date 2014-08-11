@@ -4,8 +4,6 @@ from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.http import HttpResponsePermanentRedirect
-from django.http import HttpResponseNotFound
-from django.http import HttpResponseServerError
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -14,7 +12,6 @@ from django.db.models.loading import get_model
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
-from django.template import loader
 from django.template import RequestContext
 
 from core.utils import format_to_mimetype
@@ -64,14 +61,19 @@ def esi(request, model_name, object_id, template_name, calendar_id=None):
 
 
 def handler404(request):
-    template = loader.get_template('404.html')
-    body = template.render(RequestContext(request))
-    return HttpResponseNotFound(body, content_type='text/html')
+    response = render_to_response('404.html',
+                                  {},
+                                  RequestContext(request))
+    response.status_code = 404
+    return response
+
 
 def handler500(request):
-    template = loader.get_template('500.html')
-    body = template.render(RequestContext(request))
-    return HttpResponseServerError(body, content_type='text/html')
+    response = render_to_response('500.html',
+                                  {},
+                                  RequestContext(request))
+    response.status_code = 500
+    return response
 
 
 class SuccessUrlReverseKwargsMixin(object):
