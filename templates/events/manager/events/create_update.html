@@ -180,7 +180,7 @@
                             <a class="btn btn-danger remove-instance hidden" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
                             <div class="whenwhere-wrap">
                                 <div class="row">
-                                    <div class="col-md-5 col-sm-5 whenwhere start {% if ei_form.start.errors %}error{% endif %}">
+                                    <div class="col-md-6 col-sm-6 whenwhere start {% if ei_form.start.errors %}error{% endif %}">
                                         <label class="label-inner" for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
                                         <label class="label-inner" for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
                                         {{ ei_form.start }}
@@ -190,7 +190,7 @@
                                         </ul>
                                         {% endif %}
                                     </div>
-                                    <div class="col-md-5 col-sm-5 whenwhere end {% if ei_form.end.errors %}error{% endif %}">
+                                    <div class="col-md-6 col-sm-6 whenwhere end {% if ei_form.end.errors %}error{% endif %}">
                                         <label class="label-inner" for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
                                         <label class="label-inner" for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
                                         {{ ei_form.end }}
@@ -207,7 +207,7 @@
                                         {{ ei_form.interval|add_class:"form-control" }}
                                         {{ ei_form.interval.errors }}
                                     </div>
-                                    <div class="col-md-5 col-sm-5 whenwhere-until">
+                                    <div class="col-md-6 col-sm-6 whenwhere-until">
                                         <label class="label-inner vertical-label-inner" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
                                         {{ ei_form.until|add_class:"field-date form-control" }}
                                         {{ ei_form.until.errors }}
@@ -220,7 +220,7 @@
                                         {{ ei_form.location|add_class:"location-dropdown" }}
                                         {{ ei_form.location.errors }}
                                     </div>
-                                    <div class="col-md-5 col-sm-5 location-selected">
+                                    <div class="col-md-6 col-sm-6 location-selected">
                                         <span class="location-selected-title">
                                             {% if ei_form.location.value %}
                                                 {{ locations|locations_title:ei_form.location.value }}

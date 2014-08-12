@@ -101,6 +101,7 @@ label[for="bulk-select"],
 
 /* Labels, faux-labels, label descriptions */
 .label-inner {
+  width: 100%;
   font-size: 16px;
   color: $gray-light;
   font-weight: 300;
@@ -151,7 +152,7 @@ label[for="bulk-select"],
 /* Date, time fields */
 .field-date {
   margin-right: 10px;
-  margin-bottom: 8px !important;
+  // margin-bottom: 8px !important;
 }
 .field-time {
   margin-right: 0;
@@ -169,25 +170,48 @@ $bootstrap-dtp-border-radius: 4px;
 
 .bootstrap-dtp {
   position: relative;
-  clear: both;
+  width: 49%;
+  float: left;
+  clear: left;
   background: #fff;
   border-radius: $bootstrap-dtp-border-radius;
 
   input {
+    font-size: 13px;
     position: relative;
     z-index: 2;
     background-color: transparent;
+    @include respond-to(lg) {
+      font-size: 14px;
+    }
+    @include respond-to(sm) {
+      font-size: 14px;
+    }
   }
 
   i {
+    font-size: 11px;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    right: 8px;
+    bottom: 12px;
     color: #ccc;
     z-index: 1;
+    @include respond-to(lg) {
+      font-size: 14px;
+      right: 10px;
+      bottom: 10px;
+    }
+    @include respond-to(sm) {
+      font-size: 14px;
+      right: 10px;
+      bottom: 10px;
+    }
   }
 }
 .bootstrap-timepicker {
+  float: right;
+  clear: right;
+
   input {
     border-radius: $bootstrap-dtp-border-radius;
   }

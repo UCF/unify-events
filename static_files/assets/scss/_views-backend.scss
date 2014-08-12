@@ -200,7 +200,7 @@ form#manager-calendar-add-user {
 .whenwhere-until,
 .location-selected {
   float: right;
-  margin-right: 10px;
+  // margin-right: 10px;
   @include respond-to(xs) { float: none; }
   @include body-prefix(ie8) { float: right !important; }
 }
@@ -210,9 +210,9 @@ form#manager-calendar-add-user {
     margin-right: 0;
   }
 }
-.whenwhere.end {
+.whenwhere.end label {
   @include respond-to(xs) {
-    margin-top: 9px;
+    margin-top: 10px;
   }
 }
 .location-selected {
