@@ -210,11 +210,6 @@ form#manager-calendar-add-user {
     margin-right: 0;
   }
 }
-.whenwhere.end label {
-  @include respond-to(xs) {
-    margin-top: 10px;
-  }
-}
 .location-selected {
   @include respond-to(xs) {
     margin-right: 20px;

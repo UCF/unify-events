@@ -173,6 +173,7 @@ $bootstrap-dtp-border-radius: 4px;
   width: 49%;
   float: left;
   clear: left;
+  margin-bottom: 10px;
   background: #fff;
   border-radius: $bootstrap-dtp-border-radius;
 
@@ -298,6 +299,7 @@ ul.errorlist {
   border-radius: 4px;
   color: #fff;
   display: block;
+  clear: both;
   list-style-type: none;
   margin: 10px 0;
   padding: 10px;
