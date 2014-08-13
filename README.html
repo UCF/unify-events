@@ -45,7 +45,7 @@
 <li>Set up local settings using the local_settings.templ.py file</li>
 <li>Set up apache/python.wsgi using apache/python.templ.wsgi</li>
 <li>If necessary, configure VirtualHosts using apache/vhost.conf template</li>
-<li><p>Sync the database</p>
+<li><p>Sync the database. Create a new admin user when prompted. This user should have a unique (non-NID based) username.</p>
 
 <pre><code>python manage.py syncdb
 </code></pre></li>
@@ -71,6 +71,8 @@
 <h2>Importing Data</h2>
 
 <h3>UNL Events Import</h3>
+
+<p>Note that this importer should only be run on a fresh database, immediately after running <code>python manage.py syncdb</code> or <code>python manage.py flush</code>.</p>
 
 <ol>
 <li>cd to the new virtual environment src folder</li>

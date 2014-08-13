@@ -29,7 +29,7 @@
 9. Set up local settings using the local_settings.templ.py file
 10. Set up apache/python.wsgi using apache/python.templ.wsgi
 11. If necessary, configure VirtualHosts using apache/vhost.conf template
-12. Sync the database
+12. Sync the database. Create a new admin user when prompted. This user should have a unique (non-NID based) username.
 
         python manage.py syncdb
 13. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
@@ -50,6 +50,8 @@
 ## Importing Data
 
 ### UNL Events Import
+Note that this importer should only be run on a fresh database, immediately after running `python manage.py syncdb` or `python manage.py flush`.
+
 1. cd to the new virtual environment src folder
 2. Activate virtual environment
 
