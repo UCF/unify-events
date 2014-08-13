@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -126,15 +128,29 @@ class Command(BaseCommand):
                             else:
                                 # Instances
                                 for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
-                                    new_instance       = EventInstance(event=new_event)
-                                    new_instance.start = old_instance.starttime
-                                    new_instance.end   = old_instance.endtime
+                                    new_instance = EventInstance(event=new_event)
 
+                                    old_start_time = old_instance.starttime
+                                    old_end_time = old_instance.endtime
+
+                                    # Validate start/end datetimes (UNL event times can be invalid and/or empty)
+                                    if not old_instance.endtime:
+                                        new_instance.start = old_instance.starttime
+                                        new_instance.end = old_instance.starttime + timedelta(hours=1)
+                                        logging.error('No end datetime available for old event with title `%s` and start datetime `%s`. Setting new end datetime to 1 hour after the given start datetime value.' % (old_title, old_instance.starttime))
+                                    elif old_instance.starttime > old_instance.endtime:
+                                        new_instance.start = old_instance.starttime
+                                        new_instance.end = old_instance.starttime + timedelta(hours=1)
+                                        logging.error('Old event with title `%s` has invalid end datetime `%s` that occurs before start datetime `%s`. Setting new end datetime to 1 hour after the given start datetime value.' % (old_title, old_instance.endtime, old_instance.starttime))
+                                    else:
+                                        new_instance.start = old_instance.starttime
+                                        new_instance.end = old_instance.endtime
+
+                                    # Location
                                     old_location_id = old_instance.location_id
                                     if not old_location_id:
                                         old_location_id = 1
-
-                                    # Location
+ 
                                     try:
                                         old_location = UNLLocation.objects.get(id=old_location_id)
                                     except UNLLocation.DoesNotExist:
