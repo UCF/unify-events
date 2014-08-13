@@ -1,5 +1,6 @@
 {% extends 'events/manager/base.html' %}
 {% load widget_tweaks %}
+{% load url %}
 
 {% block alerts %}
     {{ block.super }}
@@ -15,9 +16,11 @@
     {% endif %}
 {% endblock %}
 
+{% block title %}{% block calendar_edit_title %}Edit Calendar{% endblock %}: {{ calendar.title }} | {{ block.super }}{% endblock %}
+
 {% block content_title %}
-    <h1 class="col-md-9">Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
-    <div class="col-md-3 edit-options">
+    <h1 class="col-md-9 col-sm-8">Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
+    <div class="col-md-3 col-sm-4 edit-options">
         <ul>
             <li>
                 <a href="{% url 'dashboard' pk=calendar.pk %}">
@@ -49,7 +52,7 @@
                     <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
-            <div class="btn-group mobile-nav-tabs visible-xs">
+            <div class="btn-group dropdown mobile-nav-tabs visible-xs">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     Options... <span class="caret"></span>
                 </button>

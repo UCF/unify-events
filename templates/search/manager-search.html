@@ -2,12 +2,15 @@
 {% load widgets %}
 {% load widget_tweaks %}
 {% load core_tags %}
+{% load quote_plus %}
 
 {% block search_nav %}
 
 {% if request.GET.q %}
-    {% with 'q='|add:request.GET.q as params %}
-    {% include_esi_template 'esi/manager-search-nav.html' params %}
+    {% with request.GET.q|quote_plus as query %}
+        {% with 'q='|add:query as params %}
+            {% include_esi_template 'esi/manager-search-nav.html' params %}
+        {% endwith %}
     {% endwith %}
 {% else %}
     {% include_esi_template 'esi/manager-search-nav.html' 'q=' %}

@@ -7,6 +7,8 @@
     {% endspaceless %}
 {% endblock %}
 
+{% block title %}All Locations | {{ block.super }}{% endblock %}
+
 {% block content_title %}
     <h1 class="col-md-12">Locations</h1>
 {% endblock %}
@@ -65,10 +67,10 @@
                                             <label class="sr-only" for="bulk-select-all">Select All</label>
                                             <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                         </th>
-                                        <th class="location-title">Location Name</th>
+                                        <th class="location-title"><span class="line-break">Location Name</span></th>
                                         <th class="location-room">Room</th>
                                         <th class="location-url">URL</th>
-                                        <th class="location-count"><abbr title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
+                                        <th class="location-count"><abbr title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar."><span class="line-break">Event Count</span></abbr></th>
                                         <th class="location-status">Status</th>
                                         <th class="location-actions">Actions</th>
                                     </tr>
@@ -81,13 +83,13 @@
                                             <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
                                         </td>
                                         <td class="location-title">
-                                            <a href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
+                                            <a class="line-break" href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
                                         </td>
                                         <td class="location-room">
-                                            {{ location.room }}
+                                            <span class="line-break">{{ location.room }}</span>
                                         </td>
                                         <td class="location-url">
-                                            <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                                            <a class="text-overflow" href="{{ location.url }}" target="_blank">{{ location.url }}</a>
                                         </td>
                                         <td class="location-count">
                                             {{ location.event_count }}
@@ -100,7 +102,7 @@
                                             {% endif %}
                                         </td>
                                         <td class="location-actions">
-                                            <div class="btn-group">
+                                            <div class="dropdown btn-group">
                                                 <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                     Select
                                                     <span class="caret"></span>
@@ -114,7 +116,7 @@
                                                     </li>
                                                     {% if location.event_instances.count > 0 %}
                                                     <li role="presentation">
-                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.title }}" data-object-pk="{{ location.pk }}">
+                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
                                                             <i class="fa fa-compress fa-fw"></i>
                                                             Merge Location
                                                         </a>
@@ -178,7 +180,7 @@
                                 <select id="new-object-select" class="form-control">
                                     <option value="">Select an Existing Location</option>
                                     {% for location in location_list %}
-                                    <option value="{{ location.pk }}">{{ location.title }}</option>
+                                    <option value="{{ location.pk }}">{{ location.comboname }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

@@ -15,6 +15,8 @@
     {% endif %}
 {% endblock %}
 
+{% block title %}Copy Event: {{ event.title }} | {{ block.super }}{% endblock %}
+
 {% block content_title %}
     <h1 class="col-md-12">Copy Event: <span class="alt">{{ event.title }}</span></h1>
 {% endblock %}
@@ -42,7 +44,7 @@
 
 {% block content_form_footer %}
     <button class="btn btn-primary btn-block-xs" type="submit">Copy Event to Calendar(s)</button>
-    <a href="{% url 'event' pk=event.id slug=event.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'event' pk=event.get_first_instance.pk slug=event.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

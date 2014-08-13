@@ -1,6 +1,8 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
 
+{% block title %}Delete Tag: {{ tag.name }} | {{ block.super }}{% endblock %}
+
 {% block content_title %}
     <h1 class="col-md-12">Delete Tag: <span class="alt">{{ tag.name }}</span></h1>
 {% endblock %}
@@ -12,6 +14,7 @@
 {% block content_form_id %}tag-delete{% endblock %}
 
 {% block content_form_body %}
+    {% csrf_token %}
     <p>Are you sure you want to delete this tag? There is no undo!</p>
 {% endblock %}
 

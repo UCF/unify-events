@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-<link rel="alternate" type="application/rss+xml" title="{% block meta_alt_title %}RSS Feed{% endblock %}" href="{{ request.build_absolute_uri }}{% if request.build_absolute_uri|slice:"-1:"|last != "/" %}/{% endif %}feed.rss" />
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.rss" />
+<link rel="alternate" type="application/json" title="JSON Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.json" />
+<link rel="alternate" type="application/xml" title="XML Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.xml" />
+<link rel="alternate" type="text/calendar" title="ICS Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.ics" />
 {% endblock %}
 
 {% block content %}
@@ -24,4 +27,9 @@
     {% block content_body %}{% endblock %}
     {% block content_footer %}{% endblock %}
 </section>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/script-frontend.min.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

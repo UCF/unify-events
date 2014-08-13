@@ -1,5 +1,7 @@
 from django.template.defaultfilters import slugify
 
+import events.models
+
 
 def generate_unique_slug(title, clazz, unique):
     """

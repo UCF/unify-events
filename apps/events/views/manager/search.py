@@ -10,9 +10,9 @@ log = logging.getLogger(__name__)
 class ManagerSearchView(SearchView):
     """
     Only return Event results that exist on the current user's
-    editable calendars.
+    calendars.
     """
     def get_results(self):
         results = super(ManagerSearchView, self).get_results()
-        results = results.models(Event).filter(calendar__in=self.request.user.editable_calendars)
+        results = results.models(Event).filter(calendar__in=self.request.user.calendars)
         return results

@@ -1,8 +1,7 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
 {% load core_tags %}
-
-{% block meta_alt_title %}{{ calendar.title }}'s {{ list_title }} {{ block.super }}{% endblock %}
+{% load url %}
 
 {% block pagehead %}
     {# Move login link out of header for this template #}
@@ -47,7 +46,7 @@
                 </ul>
             </li>
             <li class="hide" id="edit-calendar-subscribe">
-                <a class="calendar-subscribe object-modify" data-toggle="modal" href="{% url 'calendar-subscribe' pk=calendar.pk %}">
+                <a class="calendar-subscribe object-modify" href="{% url 'calendar-subscribe' pk=calendar.pk %}">
                     <i class="fa fa-share"></i>Subscribe to Calendar
                 </a>
             </li>

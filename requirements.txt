@@ -8,6 +8,7 @@ django-haystack==2.1.0
 django-taggit==0.11.2
 django-widget-tweaks==1.3
 html5lib==0.999
+newrelic==2.20.1.18
 ordereddict==1.1
 # Note: Haystack 2.1.0 requires the unofficial pyelasticsearch package.
 # Haystack v2.1.1 should implement the official elasticsearch-py package.

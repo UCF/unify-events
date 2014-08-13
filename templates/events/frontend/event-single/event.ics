@@ -1,6 +1,6 @@
 {% load bleach_tags %}
 BEGIN:VEVENT
-UID:http://{{ request.get_host }}{{ event_instance.get_absolute_url }}
+UID:{{ event_instance.get_absolute_url }}
 DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
 DTSTART:{{ event_instance.start|date:"Ymd\THis" }}
 DTEND:{{ event_instance.end|date:"Ymd\THis" }}

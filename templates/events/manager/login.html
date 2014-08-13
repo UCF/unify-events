@@ -1,6 +1,8 @@
 {% extends 'events/manager/base.html' %}
 {% load core_tags %}
 
+{% block title %}Log In | {{ block.super }} Admin{% endblock %}
+
 {% block pagehead %}
     {% include_esi_template 'esi/header.html' %}
 {% endblock %}
@@ -12,7 +14,7 @@
         <div class="col-md-8 col-md-offset-2 page-content">
             <div class="panel panel-default panel-page">
                 <div class="panel-body">
-                    <h1>Sign In</h1>
+                    <h1>Log In</h1>
                     <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
                     {% if form.non_field_errors %}
                     <div class="alert alert-danger">
@@ -44,7 +46,7 @@
                             <div class="col-md-5 col-md-offset-3">
                                 <input type="hidden" name="next" value="{{next}}" />
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary btn-block-xs">Sign In</button>
+                                <button type="submit" class="btn btn-primary btn-block-xs">Log In</button>
                             </div>
                         </div>
                     </form>

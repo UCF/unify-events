@@ -3,13 +3,12 @@
 
 {% block title %}
     {% spaceless %}
-    {{ block.super }}
-    |
     {% if object %}
         Update Category
     {% else %}
         Create Category
     {% endif %}
+    | {{ block.super }}
     {% endspaceless %}
 {% endblock %}
 

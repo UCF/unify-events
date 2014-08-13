@@ -1,6 +1,9 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load url %}
+
+{% block title %}All Calendars | {{ block.super }}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">All Calendars</h1>
@@ -34,18 +37,20 @@
                         {% for calendar in calendars %}
                             <tr>
                                 <td class="calendar-title">
-                                    <a href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
+                                    <a class="line-break" href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
                                 </td>
                                 <td class="calendar-owner">
+                                    <span class="line-break">
                                     {{ calendar.owner.username }}<br/>
                                     {% if calendar.owner.first_name and calendar.owner.last_name %}
                                         ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
                                     {% else %}
                                         (n/a)
                                     {% endif %}
+                                    </span>
                                 </td>
-                                <td class="calendar-actions">
-                                    <div class="btn-group">
+                                <td class="calendar-actions actions-col">
+                                    <div class="btn-group dropdown">
                                         <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                             Select
                                             <span class="caret"></span>

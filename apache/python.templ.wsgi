@@ -3,12 +3,16 @@ import os
 import sys
 import site
 site.addsitedir('/path/to/virtualenv/site-package/dir/')
+
 # Remove system site packages since we are using wsgi to
 # import the virtalenv site packages
 if '/usr/lib64/python2.6/site-packages' in sys.path:
     sys.path.remove('/usr/lib64/python2.6/site-packages')
 if '/usr/lib/python2.6/site-packages' in sys.path:
     sys.path.remove('/usr/lib/python2.6/site-packages')
+
+import newrelic.agent
+newrelic.agent.initialize('/var/www/apps/unify-events/src/newrelic.ini')
 
 def main(project, path_to_parent, settings="settings"):
     settings_module = '.'.join([project, settings])

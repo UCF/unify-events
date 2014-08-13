@@ -8,7 +8,6 @@ PROJECT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 APP_FOLDER = os.path.join(PROJECT_FOLDER, 'apps')
 INC_FOLDER = os.path.join(PROJECT_FOLDER, 'third-party')
 ROOT_URLCONF = 'urls'
-MINIFY = False
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
@@ -37,15 +36,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
+    'core.context_processors.global_settings'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'core.middleware.SecureRequiredMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UrlPatterns',
+    'core.middleware.MinifyHTMLMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -165,7 +167,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_FOLDER, 'static_files'),
+    os.path.join(PROJECT_FOLDER, 'static_files/static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -223,3 +225,9 @@ BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'alt']
 BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']
 BLEACH_STRIP_TAGS = True
 BLEACH_STRIP_COMMENTS = True
+
+# Default description value for imported events with no description.
+FALLBACK_EVENT_DESCRIPTION = 'No description provided.'
+
+# Turn on/off HTML compression.
+COMPRESS_HTML = True

@@ -5,6 +5,7 @@ from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
@@ -173,6 +174,14 @@ class Event(TimeCreatedModified):
         return has_instances
 
     @property
+    def get_first_instance(self):
+        """
+        Returns the very first event instance out of all instances
+        of this event.
+        """
+        return self.event_instances.all()[0]
+
+    @property
     def get_last_instance(self):
         """
         Retrieves the very last event instance out of all instances
@@ -189,6 +198,17 @@ class Event(TimeCreatedModified):
         parents for those instances.
         """
         return EventInstance.objects.filter(event=self, parent=None)
+
+    @property
+    def get_title_canceled(self):
+        """
+        Returns an event title prefixed with "CANCELED" if the event
+        has been canceled.
+        """
+        title = self.title
+        if self.canceled:
+            title = 'CANCELED: ' + title
+        return title
 
     @property
     def is_submit_to_main(self):
@@ -313,11 +333,10 @@ class Event(TimeCreatedModified):
         Generate permalink for this object
         """
         # Get the first event instance's pk
-        instance = self.event_instances.all()[0]
-        return reverse('event', kwargs={
-            'slug': self.slug,
-            'pk': instance.pk,
-        })
+        instance = self.get_first_instance
+        canonical_root = settings.CANONICAL_ROOT
+        relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': self.slug})
+        return canonical_root + relative_path
 
     def __str__(self):
         return self.title
@@ -411,6 +430,10 @@ class EventInstance(TimeCreatedModified):
         return self.event.title
 
     @property
+    def slug(self):
+        return self.event.slug
+
+    @property
     def is_recurring(self):
         recurs = False
         if len(self.event.event_instances.all()) > 1:
@@ -427,10 +450,9 @@ class EventInstance(TimeCreatedModified):
         """
         Generate permalink for this object
         """
-        return reverse('event', kwargs={
-            'pk': self.id,
-            'slug': self.event.slug
-        })
+        canonical_root = settings.CANONICAL_ROOT
+        relative_path = reverse('event', kwargs={'pk': self.pk, 'slug': self.slug})
+        return canonical_root + relative_path
 
     def save(self, *args, **kwargs):
         """

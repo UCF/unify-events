@@ -1,5 +1,12 @@
 {% extends 'events/frontend/calendar/base.html' %}
 {% load humanize %}
+{% load url %}
+
+{# NOTE: these block declarations must be kept separate so that {{ block.super }} renders properly #}
+{% block title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
+{% block og_title %}{% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }} | {{ list_title }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}{% if calendar.description %}{{ calendar.description }} | {% endif %}{{ calendar.title }} at the University of Central Florida | UCF Events{% endblock %}{% endblock %}
 
 {% block content_tabs %}
     <div class="row">
@@ -21,7 +28,7 @@
                     <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
                 </li>
             </ul>
-            <div class="btn-group mobile-nav-tabs visible-xs">
+            <div class="btn-group dropdown mobile-nav-tabs visible-xs">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     View By... <span class="caret"></span>
                 </button>
@@ -59,7 +66,9 @@
         {% include 'events/frontend/calendar/calendar-type/calendar-month.html' %}
     {% elif list_type == 'year' %}
         {% include 'events/frontend/calendar/calendar-type/calendar-year.html' %}
-    {% else %}
+    {% elif list_type == 'upcoming' %}
+        {% include 'events/frontend/calendar/calendar-type/calendar-upcoming.html' %}
+    {% else %} {# fallback template #}
         {% include 'events/frontend/calendar/calendar-type/calendar-default.html' %}
     {% endif %}
 {% endblock %}

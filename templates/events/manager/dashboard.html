@@ -1,6 +1,9 @@
 {% extends 'events/manager/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load url %}
+
+{% block title %}My Calendar{% if calendar %}: {{ calendar.title }}{% else %}s{% endif %} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-9 col-sm-8">
@@ -98,7 +101,7 @@
                 </li>
             {% endif %}
             </ul>
-            <div class="btn-group mobile-nav-tabs visible-xs">
+            <div class="btn-group dropdown mobile-nav-tabs visible-xs">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     View In... <span class="caret"></span>
                 </button>
@@ -227,17 +230,19 @@
                                             </abbr>
                                         {% endif %}
                                         <a href="{% url 'event-update' pk=event_instance.event.pk %}">
-                                            {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}
+                                            {{ event_instance.event.get_title_canceled }}
                                         </a>
                                     </td>
                                     <td class="event-time">
+                                        <span class="line-break">
                                         {% if event_instance.start.time %}
                                             {{ event_instance.start|date:"M. d, Y f a" }}
                                         {% else %}
                                             {{ event_instance.start|date:"M. d, Y" }}
                                         {% endif %}
+                                        </span>
                                         {% if event_instance.event.has_instances %}
-                                        <a href="#" class="recurrences-toggle"><i class="fa fa-plus-square"></i>Show all times</a>
+                                        <a href="#" class="recurrences-toggle line-break"><i class="fa fa-plus-square"></i>Show all times</a>
                                         <ul class="recurrences">
                                             {% for instance in event_instance.event.event_instances.all %}
                                                 {% if instance.start.time %}
@@ -261,8 +266,8 @@
                                         </ul>
                                         {% endif %}
                                     </td>
-                                    <td class="event-actions">
-                                        <div class="btn-group">
+                                    <td class="event-actions actions-col">
+                                        <div class="btn-group dropdown">
                                             <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                 Select
                                                 <span class="caret"></span>
@@ -321,7 +326,7 @@
                                                 {% endif %}
                                                 <li class="divider"></li>
                                                 <li role="presentation">
-                                                    <a href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
+                                                    <a href="{% url 'event' pk=event_instance.pk slug=event_instance.slug %}">
                                                         <i class="fa fa-play-circle fa-fw"></i>
                                                         Live View
                                                     </a>

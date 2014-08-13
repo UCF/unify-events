@@ -12,8 +12,8 @@ ADMINS = (
 # Determine if in Development mode. Used for things like ESIs.
 DEV_MODE = False
 
-LOGIN_URL = '/manager/login'
-LOGOUT_URL = '/manager/logout'
+LOGIN_URL = '/manager/login/'
+LOGOUT_URL = '/manager/logout/'
 LOGIN_REDIRECT_URL = '/manager/'
 
 # Make this unique, and don't share it with anybody.
@@ -67,12 +67,11 @@ LDAP_NET_SEARCH_SIZELIMIT = 5
 # Limit the user search results to 5 people
 USER_SEARCHLIMIT = 5
 
+# Root path by which canonical urls are built. Include protocol. Do not include trailing slash.
+CANONICAL_ROOT = 'http://unify-events.smca.ucf.edu'
+
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_PK = 1
-
-# How many days' worth of events should be displayed
-# on the primary Calendar frontend view.
-CALENDAR_MAIN_DAYS = 7
 
 # The first day of the week for month calendar generation.
 # 0 is Monday, 6 is Sunday.
@@ -87,4 +86,21 @@ SEARCH_ENABLED = True
 MAPS_DOMAIN = 'map.ucf.edu'
 
 # Path of location data json feed (for importer.)  Uses MAP_DOMAIN as the domain name.
-LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus'
+LOCATION_DATA_URL = '/locations.json?types=building,regionalcampus,parkinglot'
+
+# Google Analytics tracking ID
+GA_ACCOUNT = ''
+
+# Google Webmaster Tools verification code (copy from the provided HTML meta tag)
+GOOGLE_WEBMASTER_VERIFICATION = ''
+
+# Secure HTTPS / SSL
+HTTPS_SUPPORT = True
+SECURE_REQUIRED_PATHS = [
+    '/manager/',
+    '/admin/',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = HTTPS_SUPPORT
+CSRF_COOKIE_SECURE = HTTPS_SUPPORT

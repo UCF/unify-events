@@ -1,3 +1,5 @@
+{% load url %}
+{% load core_tags %}
 <div class="calendar-large">
     {% for key, cal in calendar_map.items %}
     <h2>
@@ -18,10 +20,10 @@
         {% for day, event_instances in cal.items %}
         <li class="day{% if event_instances %} hasevents{% else %} noevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}{% if day.month != key.month %} muted{% endif %}">
             {% if event_instances %}
-            <span class="event-expander">
+            <a class="event-expander" href="#">
                 <span class="sr-only">Expand Events List</span>
                 <span class="event-expander-icon"><i class="fa fa-caret-down"></i></span>
-            </span>
+            </a>
             {% endif %}
             <div>
                 <a class="date" href="{% url 'day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}"><span>{{ day|date:"F" }}</span>{{ day|date:"j" }}</a>
@@ -29,22 +31,7 @@
                 {% if event_instances %}
                 <ul class="event-list-condensed">
                     {% for event_instance in event_instances %}
-                    <li>
-                        <a href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-                            <time>
-                                {% if event_instance.start.time and event_instance.end.time %}
-                                    {{ event_instance.start|date:"f a" }}
-                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
-                                    All Day
-                                {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
-                                    until {{ event_instance.end|date:"f a" }}
-                                {% else %}
-                                    All Day
-                                {% endif %}
-                            </time>
-                            {% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}
-                        </a>
-                    </li>
+                    {% include_esi 'eventinstance' event_instance.pk 'list-item' %}
                     {% endfor %}
                 </ul>
                 {% endif %}

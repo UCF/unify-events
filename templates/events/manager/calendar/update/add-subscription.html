@@ -1,5 +1,6 @@
 {% extends 'events/manager/modify-object.html' %}
 {% load widget_tweaks %}
+{% load url %}
 
 {% block alerts %}
     {{ block.super }}
@@ -14,6 +15,8 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% block title %}Subscribe to Calendar: {{ calendar.title }} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">Subscribe to Calendar: <span class="alt">{{ calendar.title }}</span></h1>

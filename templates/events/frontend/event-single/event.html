@@ -2,14 +2,31 @@
 {% load bleach_tags %}
 {% load widgets %}
 {% load core_tags %}
+{% load url %}
 
-{% block meta_alt_title %}'{{ event_instance.title }}' {{ block.super }}{% endblock %}
+{# NOTE: these block declarations must be kept separate so that {{ block.super }} renders properly #}
+{% block title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% endif %} | {{ block.super }}{% endblock %}
+{% block og_title %}{{ event_instance.event.get_title_canceled }}{% if not event_instance.event.calendar.is_main_calendar %} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% endif %} | {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}{% if event_instance.event.description|striptags == FALLBACK_EVENT_DESCRIPTION %}Join us on {{ event_instance.start|date:"F j, Y" }} for {{ event_instance.event.title }} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% else %}{{ event_instance.event.description|striptags|truncatechars:150 }} | {% include_esi 'calendar' event_instance.event.calendar.pk 'title' %}{% endif %}{% endblock %}{% endblock %}
+
+{% block meta_date %}{{ event_instance.start|date:"c" }}{% endblock %}
+
+{% block meta %}
+    {% if event_instance.event.contact_email %}
+        <meta name="og:email" content="{{ event_instance.event.contact_email }}">
+    {% endif %}
+    {% if event_instance.event.contact_phone %}
+        <meta name="og:phone_number" content="{{ event_instance.event.contact_phone }}">
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
 
 {% block content_section_classes %}vevent{% if event_instance.event.canceled %} canceled{% endif %}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">
-        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.event.title }}</a>
+        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.slug %}">{{ event_instance.event.get_title_canceled }}</a>
     </h1>
 
     <div class="hide edit-options col-md-3 col-sm-4">
@@ -85,22 +102,12 @@
 
         <div class="event-location event-location-mobile visible-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
-            <span class="h2 alt location">
-                {{ event_instance.location.title }}
+            <span class="h2 alt location-title">
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
-            {% if not event_instance.location.get_map_widget_url %}
-                {% if event_instance.location.url %}
-                <span class="event-location-url">
-                    <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
-                </span>
-                {% endif %}
-            {% else %}
-                <div class="map-widget-wrap visible-xs">
-                    <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
-                </div>
-            {% endif %}
+            {% include_esi 'location' event_instance.location.pk 'mobile-map' %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">
@@ -127,10 +134,10 @@
                     {% for instance in event_instance.event.event_instances.all %}
                     <tr {% if instance.pk == event_instance.pk %}class="info"{% endif %}>
                         <td>
-                            <a class="row-link" href="{% url 'event' pk=instance.pk slug=event_instance.event.slug %}">{{ instance.start|date:"F j, Y, P" }}</a>
+                            <a class="row-link" href="{% url 'event' pk=instance.pk slug=event_instance.slug %}">{{ instance.start|date:"F j, Y, P" }}</a>
                         </td>
                         <td>
-                            {{ instance.location.title }}{% if instance.location.room %}: {{ instance.location.room }}{% endif %}
+                            {% include_esi 'location' event_instance.location.pk 'comboname' %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -141,28 +148,34 @@
         <hr class="visible-xs" />
         {% endif %}
 
-        {% if event_instance.location.get_map_widget_url %}
-        <div id="event-location-map" class="map-widget-wrap hidden-xs">
-            <iframe class="map-widget" frameborder="0" src="{{ event_instance.location.get_map_widget_url }}"></iframe>
-        </div>
-        {% endif %}
+        {% include_esi 'location' event_instance.location.pk 'desktop-map' %}
 
         {# start mobile-only sections ...... #}
 
-        <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} visible-xs">
+        <div class="event-contact visible-xs">
             <h2 class="h4 alt heading-contact">Contact:</h2>
             <div class="event-contact-info">
                 {% if not event_instance.event.contact_name and event_instance.event.contact_phone and event_instance.event.contact_email %}
                     <em>No contact information available.</em>
                 {% else %}
                     {% if event_instance.event.contact_name %}
-                    <span class="h4 event-contact-name fn">{{ event_instance.event.contact_name }}</span>
+                    <span class="h4 event-contact-name">
+                        {{ event_instance.event.contact_name }}
+                    </span>
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
-                    <span class="h4 alt event-contact-phone tel"><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    <span class="h4 alt event-contact-phone">
+                        <a class="ga-event" href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Call Contact" data-ga-label="{{ request.build_absolute_uri }}">
+                            {{ event_instance.event.contact_phone }}
+                        </a>
+                    </span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
-                    <span class="h4 alt event-contact-email email"><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    <span class="h4 alt event-contact-email">
+                        <a class="ga-event" href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Email Contact" data-ga-label="{{ request.build_absolute_uri }}">
+                            {{ event_instance.event.contact_email }}
+                        </a>
+                    </span>
                     {% endif %}
                 {% endif %}
             </div>
@@ -175,18 +188,18 @@
     	<dl id="event-meta" class="dl-horizontal">
             <dt><h3 class="h4 alt">Calendar:</h3></dt>
             <dd class="event-meta-calendar">
-                <a href="{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}">{{ event_instance.event.calendar.title }}</a>
+                {% include_esi 'calendar' event_instance.event.calendar.pk 'link' %}
             </dd>
 
             <dt><h3 class="h4 alt">Category:</h3></dt>
-            <dd class="event-meta-category category-text {{ event_instance.event.category.slug }}">
-        		<a href="{% url 'category' category_pk=event_instance.event.category.pk category=event_instance.event.category.slug %}">{{ event_instance.event.category.title }}</a>
+            <dd class="event-meta-category category-text {% include_esi 'category' event_instance.event.category.pk 'slug' %}">
+                {% include_esi 'category' event_instance.event.category.pk 'link' %}
             </dd>
             <dt><h3 class="h4 alt">Tags:</h3></dt>
             <dd class="event-meta-tags">
                 {% if event_instance.event.tags.all %}
-        	        {% for tag in event_instance.event.tags.all %}
-                    <a class="label label-default" href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">{{ tag }}</a>
+                    {% for tag in event_instance.event.tags.all %}
+                        {% include_esi 'tag' tag.pk 'link' %}
                     {% endfor %}
                 {% else %}
                 n/a
@@ -200,22 +213,12 @@
         {% endcomment %}
         <div class="event-location hidden-xs">
             <h2 class="h4 alt heading-location">Location:</h2>
-            <span class="h2 alt location">
-                {{ event_instance.location.title }}
+            <span class="h2 alt location location-title">
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
             {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
 
-            {% if not event_instance.location.get_map_widget_url %}
-                {% if event_instance.location.url %}
-                <span class="event-location-url">
-                    <a target="_blank" href="{{ event_instance.location.url }}">[ View Website ]</a>
-                </span>
-                {% endif %}
-            {% else %}
-            <span class="event-location-url">
-                <a href="#event-location-map">[ View Map ]</a>
-            </span>
-            {% endif %}
+            {% include_esi 'location' event_instance.location.pk 'desktop-link' %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">
@@ -236,10 +239,18 @@
                     <span class="h4 event-contact-name fn">{{ event_instance.event.contact_name }}</span>
                     {% endif %}
                     {% if event_instance.event.contact_phone %}
-                    <span class="h4 alt event-contact-phone tel"><a href="tel:{{ event_instance.event.contact_phone }}">{{ event_instance.event.contact_phone }}</a></span>
+                    <span class="h4 alt event-contact-phone tel">
+                        <a class="ga-event" href="tel:{{ event_instance.event.contact_phone }}" data-ga-category="Event Contact Info" data-ga-action="Call Contact" data-ga-label="{{ request.build_absolute_uri }}">
+                            {{ event_instance.event.contact_phone }}
+                        </a>
+                    </span>
                     {% endif %}
                     {% if event_instance.event.contact_email %}
-                    <span class="h4 alt event-contact-email email"><a href="mailto:{{ event_instance.event.contact_email }}">{{ event_instance.event.contact_email }}</a></span>
+                    <span class="h4 alt event-contact-email email">
+                        <a class="ga-event" href="mailto:{{ event_instance.event.contact_email }}" data-ga-category="Event Contact Info" data-ga-action="Email Contact" data-ga-label="{{ request.build_absolute_uri }}">
+                            {{ event_instance.event.contact_email }}
+                        </a>
+                    </span>
                     {% endif %}
                 {% endif %}
             </div>

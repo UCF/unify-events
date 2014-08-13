@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -52,10 +54,11 @@ class Command(BaseCommand):
 
                     # Editors
                     # Assume if they had any permissions at all, they are an editor
+                    # (unless they are the calendar owner)
                     for uid in UNLUserHasPermission.objects.filter(calendar_id=old_calendar.id).values_list('user_uid').distinct():
                         uid = uid[0]
                         editor = self.get_create_user(str(uid))
-                        if editor is not None:
+                        if editor is not None and editor is not calendar_creator:
                             new_calendar.editors.add(editor)
 
                     # Events
@@ -89,7 +92,7 @@ class Command(BaseCommand):
                         old_contact_phone = old_event.listingcontactphone
 
                         if not old_event.description:
-                            old_event.description = 'No description provided.'
+                            old_event.description = settings.FALLBACK_EVENT_DESCRIPTION
 
                         new_event = Event(title=old_title,
                                           description=old_event.description,
@@ -125,15 +128,29 @@ class Command(BaseCommand):
                             else:
                                 # Instances
                                 for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
-                                    new_instance       = EventInstance(event=new_event)
-                                    new_instance.start = old_instance.starttime
-                                    new_instance.end   = old_instance.endtime
+                                    new_instance = EventInstance(event=new_event)
 
+                                    old_start_time = old_instance.starttime
+                                    old_end_time = old_instance.endtime
+
+                                    # Validate start/end datetimes (UNL event times can be invalid and/or empty)
+                                    if not old_end_time:
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_start_time + timedelta(hours=1)
+                                        logging.error('Invalid event instance datetimes: No end datetime available. Setting new end datetime to 1 hour after the given start datetime value `%s`. (Event: `%s`)' % (old_start_time, old_title))
+                                    elif old_start_time > old_end_time:
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_start_time + timedelta(hours=1)
+                                        logging.error('Invalid event instance datetimes: End datetime `%s` occurs before start datetime `%s`. Setting new end datetime value. (Event: `%s`)' % (old_end_time, old_start_time, old_title))
+                                    else:
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_end_time
+
+                                    # Location
                                     old_location_id = old_instance.location_id
                                     if not old_location_id:
                                         old_location_id = 1
-
-                                    # Location
+ 
                                     try:
                                         old_location = UNLLocation.objects.get(id=old_location_id)
                                     except UNLLocation.DoesNotExist:
@@ -176,6 +193,8 @@ class Command(BaseCommand):
                         else:
                             try:
                                 calendar = Calendar.objects.get(title=unl_calendar.name)
+                            except Calendar.MultipleObjectsReturned as e:
+                                logging.error('Multiple calendars exist for %s: %s' % (unl_calendar.name, str(e)))
                             except Calendar.DoesNotExist:
                                 logging.error('Calendar does not exist %s with UNL ID %s' % (unl_calendar.name, sub.calendar_id))
                             else:
@@ -198,7 +217,7 @@ class Command(BaseCommand):
                     category = Category.objects.get(title=event_type.name)
                 except Category.DoesNotExist:
                     category = Category.objects.get(title='Other')
-                    logging.error('Category for event_type_id `%d` does not exist. Using Other Cateogry' % event_event_type.eventtype_id)
+                    logging.error('Category for event_type_id `%d` does not exist. Using other Category' % event_event_type.eventtype_id)
         return category
 
     def create_categories(self):

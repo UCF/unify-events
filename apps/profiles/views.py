@@ -14,6 +14,7 @@ from django.views.generic import UpdateView
 
 from core.views import FirstLoginTemplateMixin
 from core.views import SuperUserRequiredMixin
+from core.views import PaginationRedirectMixin
 from profiles.forms import UserForm
 
 log = logging.getLogger(__name__)
@@ -44,7 +45,7 @@ class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
             return self.form_invalid(form)
 
 
-class ProfileList(SuperUserRequiredMixin, ListView):
+class ProfileList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'users'
     model = User
     paginate_by = 25

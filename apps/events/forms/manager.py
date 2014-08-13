@@ -1,9 +1,12 @@
+import re
+
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from taggit.models import Tag
 
 from core.forms import RequiredModelFormSet
+from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.models import Calendar
@@ -68,6 +71,17 @@ class EventForm(forms.ModelForm):
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
+
+    def clean(self):
+        self._validate_unique = True
+
+        # Remove '&quot;' and '"' characters from tag phrases, and strip
+        # characters that don't match our whitelist.
+        tags = self.cleaned_data['tags']
+        for key, tag in enumerate(tags):
+            tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
+
+        return self.cleaned_data        
 
     class Meta:
         model = Event
@@ -207,3 +221,12 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ('name',)
+
+    def save(self):
+        """
+        Make sure the slug is updated when the title is changed
+        """
+        tag = super(TagForm, self).save(commit=False)
+        tag.slug = generate_unique_slug(tag.name, Tag, True)
+        tag.save()
+        return tag

@@ -1,0 +1,65 @@
+{% load core_tags %}
+
+<li class="event {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
+    <h3 class="event-title">
+        <a class="summary" href="{% url 'event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
+        {% if object.is_recurring %}
+        <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
+        {% endif %}
+    </h3>
+
+    <time class="dtstart" datetime="{{ object.start|date:"cZ" }}">
+        {% if not start_date %}
+            <span class="start-date">{{ object.start.date }}</span>
+        {% endif %}
+        {% if object.start.time and object.end.time %}
+            <span class="start-time">
+                {% if not start_date %}
+                at
+                {% endif %}
+                {{ object.start|date:"f a" }}
+            </span>
+        {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" == "23:59" %}
+            <span class="start-time">All Day</span>
+        {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" != "23:59" %}
+            <span class="until">until {{ object.end|date:"f a" }}</span>
+        {% else %}
+            <span class="start-time">All Day</span>
+        {% endif %}
+        <span class="value-title" title="{{ object.start|date:"cZ" }}"></span>
+    </time>
+    {% if not start_date %}
+    <time class="dtend" datetime="{{ object.end|date:"cZ" }}">
+        until
+        {% if instance.object %}
+            {% with last_instance=instance.object.get_last_instance %}
+            {% if last_instance.end.date != object.start.date %}
+            {{ last_instance.end }}
+            {% else %}
+            {{ last_instance.end.time }}
+            {% endif %}
+            {% endwith %}
+        {% else %}
+            {% if object.end.date != object.start.date %}
+            {{ object.end }}
+            {% else %}
+            {{ object.end.time }}
+            {% endif %}
+        {% endif %}
+    </time>
+    {% endif %}
+
+    <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
+    <p class="description">
+        {{ object.event.description|striptags|truncatewords:60 }}
+    </p>
+    {% if not calendar %}
+    <span class="calendar">
+        <i class="fa fa-calendar"></i> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
+    </span>
+    {% endif %}
+
+    <a class="event-content url" href="{% url 'event' pk=object.pk slug=object.slug %}">
+        <span class="sr-only">View Event</span>
+    </a>
+</li>

@@ -1,0 +1,13 @@
+{% load core_tags %}
+<li>
+    <h3 class="search-object-title calendar-title">
+        <a href="{{ object.get_absolute_url }}">
+            <i class="fa fa-calendar"></i>{{ object.title }}
+        </a>
+    </h3>
+    {% if object.description %}
+    <span class="calendar-description">
+        {{ object.description }}
+    </span>
+    {% endif %}
+</li>

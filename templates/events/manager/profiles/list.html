@@ -5,6 +5,8 @@
     {{ block.super }}
 {% endblock %}
 
+{% block title %}All Users | {{ block.super }}{% endblock %}
+
 {% block content_title %}
 <h1 class="col-md-12">All Users</h1>
 {% endblock %}
@@ -30,10 +32,10 @@
                         {% for theUser in users %}
                             <tr>
                                 <td class="user-title">
-                                    {{ theUser.username }}
+                                    <span class="line-break">{{ theUser.username }}</span>
                                 </td>
                                 <td class="user-fullname">
-                                    {{ theUser.first_name }} {{ theUser.last_name }}
+                                    <span class="line-break">{{ theUser.first_name }} {{ theUser.last_name }}</span>
                                 </td>
                                 <td class="user-permissions">
                                     {% if theUser.is_superuser %}
@@ -42,7 +44,7 @@
                                     User
                                     {% endif %}
                                 </td>
-                                <td class="user-actions">
+                                <td class="user-actions actions-col">
                                     {% if theUser.is_superuser %}
                                     <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
                                     {% else %}

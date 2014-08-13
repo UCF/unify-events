@@ -15,6 +15,7 @@ from django.views.generic import DeleteView
 
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
+from core.views import PaginationRedirectMixin
 from events.forms.manager import CategoryForm
 from events.models import Category
 
@@ -51,7 +52,7 @@ class CategoryDelete(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteVi
         return self.delete(request, *args, **kwargs)
 
 
-class CategoryList(SuperUserRequiredMixin, ListView):
+class CategoryList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'categories'
     model = Category
     paginate_by = 25

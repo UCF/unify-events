@@ -1,0 +1,132 @@
+/* Headings */
+h1,
+.h1 {
+  font-size: 30px;
+  @include respond-to(xs) {
+    font-size: 26px;
+    line-height: 1em;
+  }
+}
+
+h1 .alt,
+h1.alt,
+.h1.alt,
+h3 .alt,
+h3.alt,
+.h3.alt {
+  font-weight: 300;
+}
+
+h4 .alt,
+h4.alt,
+.h4.alt,
+h5 .alt,
+h5.alt,
+.h5.alt,
+h6 .alt,
+h6.alt,
+.h6.alt {
+  font-weight: 400;
+}
+
+h2,
+.h2 {
+  font-size: 24px;
+  line-height: 1em;
+  letter-spacing: 0;
+  font-weight: 300;
+  @include respond-to(xs) { font-size: 22px; }
+
+  .alt,
+  &.alt {
+    font-weight: 500;
+  }
+}
+
+h3,
+.h3 {
+  font-size: 20px;
+  @include respond-to(xs) { font-size: 19px; }
+}
+
+h4 {
+  @include respond-to(xs) { font-size: 17px; }
+}
+
+// form a:not([class]),
+// .page-content a:not([class]),
+// .page-sidebar a:not([class]) {
+//   /* Add color to links that don't have a class assigned to them */
+//   color: #3566C9;
+// }
+
+
+/* Links */
+i.icon-right-margin {
+  margin-right: 6px;
+}
+a:not(.btn) > i {
+  margin-right: 6px;
+}
+
+a:hover > i {
+  text-decoration: none;
+}
+
+
+/* Icons */
+a.icon-left-margin {
+  margin-left: 6px;
+}
+i + a:not(.btn) {
+  margin-left: 6px;
+}
+
+
+/* Lists */
+ul {
+  padding-left: 0;
+}
+ul.bullets,
+ul.errors,
+#messages ul,
+#static-base ul {
+  padding-left: 15px;
+}
+dt {
+  @include body-prefix(ie8) {
+    float: left;
+    width: ($dl-horizontal-offset - 20);
+    clear: left;
+    text-align: right;
+    @include text-overflow();
+  }
+}
+
+
+/* Tables */
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td {
+  border-top: 2px dotted $table-border-color;
+}
+.table > thead > tr:first-child > th,
+.table > thead > tr:first-child > td,
+.table > tbody > tr:first-child > th,
+.table > tbody > tr:first-child > td,
+.table > tfoot > tr:first-child > th,
+.table > tfoot > tr:first-child > td {
+  border-top: 0px solid transparent;
+}
+.table-responsive {
+  overflow-y: visible;
+}
+
+
+/* Horizontal Rules */
+hr {
+  border-top: 2px dotted $table-border-color;
+}

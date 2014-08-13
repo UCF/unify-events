@@ -1,15 +1,21 @@
 {% extends 'events/frontend/base.html' %}
 {% load humanize %}
 {% load widgets %}
+{% load url %}
+{% load core_tags %}
 
-{% block meta_alt_title %}Events By Tag: '{{ category.title }}' {{ block.super }}{% endblock %}
+{# NOTE: these block declarations must be kept separate so that {{ block.super }} renders properly #}
+{% block title %}UCF {{ tag.name }} Events | {% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
+{% block og_title %}UCF {{ tag.name }} Events | {% if not calendar.is_main_calendar %}{{ calendar.title }} | {% endif %}{{ block.super }}{% endblock %}
+
+{% block meta_description %}{% block og_description %}View events tagged: {{ tag.name }} at the University of Central Florida in Orlando Florida{% endblock %}{% endblock %}
 
 {% block content_title %}
     <h1 class="col-md-12">
-        {% if calendar %}
-        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'tag-by-calendar' pk=calendar.pk slug=calendar.slug tag_pk=tag.pk tag=tag.slug %}"><span class="alt">by Tag <em>&ldquo;{{ tag }}&rdquo;</em></span></a>
+        {% if not calendar.is_main_calendar %}
+        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'tag-by-calendar' pk=calendar.pk slug=calendar.slug tag_pk=tag.pk tag=tag.slug %}"><span class="alt">by Tag <em>&ldquo;{{ tag.name }}&rdquo;</em></span></a>
         {% else %}
-        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">Events By Tag: <span class="alt"><em>&ldquo;{{ tag }}&rdquo;</em></span></a>
+        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">Events By Tag: <span class="alt"><em>&ldquo;{{ tag.name }}&rdquo;</em></span></a>
         {% endif %}
     </h1>
 {% endblock %}

@@ -1,0 +1,596 @@
+/* Static Pages */
+#static-base {
+  margin-top: 25px;
+  @include respond-to(xs) { margin-top: 15px; }
+  
+  h3 {
+    margin-top: 20px;
+  }
+
+  h2 + h3 {
+    margin-top: 10px;
+  }
+
+  .page-sidebar strong {
+    margin-bottom: 5px;
+    display: block;
+  }
+}
+
+
+/* Search View */
+#search {
+  form {
+    margin-top: 20px;
+    margin-bottom: 0;
+    @include respond-to(xs) {
+      margin-top: 10px;
+      clear: both;
+    }
+  }
+  .mobile-nav-tabs {
+    margin-bottom: 10px;
+    width: 50%;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+  .page-content {
+    margin-top: 20px;
+  }
+}
+.search-results-list {
+  list-style-type: none;
+  margin-top: 30px;
+
+  & > li {
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 0 0 20px 0;
+    border-bottom: 2px dotted $table-border-color;
+  }
+  & > li.last-child {
+    border-bottom: 0px transparent;
+  }
+  & > li:last-child {
+    border-bottom: 0px transparent;
+  }
+
+  .result-meta {
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  .calendar-title {
+    margin-bottom: 0;
+  }
+
+  .description,
+  .calendar-description {
+    display: block;
+    clear: both;
+  }
+  .calendar-description {
+    margin-top: 5px;
+  }
+  .description {
+    @include respond-to(xs) {
+      @include text-overflow();
+    }
+  }
+
+  .event-calendar,
+  .event-category,
+  .event-tags {
+    display: block;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .event-tags ul {
+    display: inline;
+    margin-left: 5px;
+
+    li {
+      display: block;
+      float: left;
+      margin-right: 6px;
+
+      &:after {
+        content: ",";
+      }
+      &.last-child:after {
+        content: "";
+      }
+      &:last-child:after {
+        content: "";
+      }
+    }
+  }
+  .category-text,
+  .event-calendar {
+    font-weight: bold;
+  }
+  .event-tags i,
+  .event-category i,
+  .event-calendar i {
+    display: block;
+    float: left;
+    color: $gray;
+    line-height: 1.4em;
+    padding-right: 3px;
+
+    & + a {
+      margin-left: 0;
+    }
+  }
+
+  .event-edit {
+    display: inline;
+    color: #888;
+    margin-left: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+}
+.search-object-title {
+  font-size: 21px;
+  line-height: 1em;
+  display: inline;
+  margin-top: 0;
+}
+
+
+/* Frontend Calendar View - Base */
+#calendar-base {
+  margin-top: 25px;
+  @include respond-to(xs) { margin-top: 15px; }
+}
+
+#calendar-base .page-content {
+  h2 {
+    margin-bottom: 30px;
+
+    &.heading-location,
+    &.heading-contact {
+      margin-bottom: 5px;
+    }
+  }
+
+  .day-heading {
+    display: block;
+    font-size: 15px;
+    line-height: 1em;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    color: $gray-light;
+    text-transform: uppercase;
+    @include respond-to(xs-sm) {
+      font-size: 13px;
+      margin-top: 15px;
+    }
+  }
+}
+
+ul.event-list {
+  margin-bottom: 30px;
+  list-style-type: none;
+  margin-left: 0;
+  @include respond-to(xs-sm) { margin-bottom: 15px; }
+
+  li.event {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border-left: 3px solid $gray-lighter;
+    @include respond-to(xs-sm) {
+      padding: 10px 15px;
+      margin: 10px 0;
+    }
+
+    &:first-child {
+      margin-top: 10px;
+    }
+
+    .event-title {
+      line-height: 1em;
+      margin-top: 0;
+      font-weight: 400;
+      @include respond-to(xs-sm) {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      i {
+        font-size: 16px;
+        vertical-align: top;
+        color: $brand-primary;
+        @include respond-to(xs-sm) { font-size: 14px; }
+      }
+    }
+
+    time,
+    .location {
+      display: block;
+    }
+
+    time {
+      display: block;
+      font-size: 20px;
+      line-height: 1em;
+      font-weight: bold;
+      margin-top: 0;
+      color: #000;
+      @include respond-to(xs-sm) { font-size: 16px; }
+
+      &.dtend {
+        font-size: 14px;
+        margin-top: 5px;
+        @include respond-to(xs-sm) { font-size: 12px; }
+      }
+    }
+
+    .location {
+      font-size: 16px;
+      line-height: 1em;
+      margin: 12px 0;
+      @include respond-to(xs-sm) {
+        font-size: 14px;
+        margin: 8px 0;
+      }
+    }
+
+    .description {
+      margin-bottom: 0;
+      font-size: 13px;
+      @include respond-to(xs-sm) {
+        font-size: 12px;
+        @include text-overflow();
+      }
+    }
+
+    .calendar {
+      display: block;
+      margin-top: 15px;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: $gray-light;
+      @include respond-to(xs-sm) {
+        margin-top: 12px;
+        font-size: 11px;
+      }
+
+      i {
+        margin-right: 3px;
+      }
+    }
+
+    > a {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      @include body-prefix(ie8) {
+        background: transparent url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+        background-repeat: no-repeat;
+      }
+    }
+
+    &:hover {
+      background-color: $gray-lighter;
+    }
+    &:hover .event-title a,
+    &:hover .event-title i {
+      color: $link-hover-color;
+    }
+    &:hover .event-title a {
+      text-decoration: underline;
+    }
+  }
+
+  & + hr {
+    margin: 10px 0;
+  }
+}
+
+ul.event-list-condensed {
+  list-style-type: none;
+  width: 100%;
+  margin-top: 5px;
+
+  li {
+    width: 114px;
+    font-size: 11px;
+    line-height: 23px;
+    @include text-overflow();
+
+    time {
+      font-weight: bold;
+    }
+  }
+}
+
+
+/* Frontend Calendar View - Day, Week, Upcoming */
+#calendar-events-day,
+#calendar-events-week,
+#calendar-events-upcoming {
+  h2 {
+    margin-bottom: 20px;
+  }
+  .event-list {
+    .start-date,
+    .dtend,
+    .calendar {
+      display: none;
+    }
+  }
+}
+
+
+/* Frontend Calendar View - Month */
+#calendar-events-month {
+  &.page-content h2 {
+    text-align: center;
+    @include respond-to(xs) {
+      margin-bottom: 0;
+      display: block;
+    }
+  }
+  .calendar-large h2 {
+    display: none;
+  }
+}
+
+#month-toggle {
+  margin: 15px 0 0 0;
+  width: 280px;
+  position: relative;
+  top: 0;
+  left: 0;
+  @include respond-to(xs) {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  select {
+    &#id_year {
+      width: 85px;
+    }
+
+    &#id_month {
+      width: 125px;
+    }
+
+    @include respond-to(xs) { margin-right: 4px; }
+  }
+
+  select,
+  button {
+    @include respond-to(xs) { float: left; }
+  }
+}
+
+
+/* Frontend Calendar View - Year */
+#calendar-events-year h2 {
+  text-align: center;
+}
+
+
+/* Frontend Events - by Category, Tag */
+#term-events ul.event-list li.event .calendar {
+  display: none;
+}
+
+
+/* Frontend Single Event View */
+
+// Title/Subtitle
+#page-subtitle-event-date {
+  font-size: 24px;
+  line-height: 1.4em;
+  @include respond-to(xs) {
+    font-size: 18px;
+    line-height: 1em;
+  }
+
+  .event-single-date {
+    font-weight: bold;
+    color: #9e0b0f;
+    padding-right: 8px;
+    @include respond-to(xs) {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .event-single-time {
+    @include respond-to(xs) {
+      margin-top: 5px;
+      line-height: 1em;
+    }
+  }
+}
+
+
+// Body
+#event-single,
+#event-single-sidebar {
+  margin-top: 25px;
+  @include respond-to(xs) { margin-top: 20px; }
+}
+#event-single {
+  .event-content {
+    font-size: 15px;
+    line-height: 1.5em;
+    margin-bottom: 35px;
+    @include respond-to(xs) {
+      font-size: 14px;
+    }
+  }
+
+  .event-single-schedule-header {
+    color: $gray-light;
+    margin-bottom: 20px;
+    @include respond-to(xs) {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .event-single-schedule {
+    max-height: 285px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    padding-right: 0;
+    border: 1px solid $table-border-color;
+    @include scrollbox();
+    @include respond-to(xs) {
+      max-height: 190px;
+      margin-right: 0;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.map-widget-wrap {
+  position: relative;
+  height: 300px;
+  margin-bottom: 20px;
+  background-color: $gray-light;
+  @include respond-to(xs) {
+    height: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  &:after {
+    content: $fa-var-spinner;
+    font-size: 28px;
+    color: #fff;
+    /* Font declarations stolen from font-awesome _core.scss */
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 47%;
+    left: 48.5%;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Animations from font-awesome _spinning.scss */
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+  }
+}
+.map-widget {
+  border: 0;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+  z-index: 2;
+}
+
+
+// Sidebar
+#event-single-sidebar {
+  position: relative;
+
+  i {
+    color: $gray-light;
+  }
+
+  h2:first-child {
+    margin-top: 0;
+  }
+}
+
+.event-location .location-title {
+  margin-top: 0;
+  @include respond-to(xs) { font-size: 18px; }
+}
+
+.event-location-url {
+  display: block;
+  margin-top: 10px;
+  @include respond-to(xs) { margin-bottom: 10px; }
+}
+
+.event-location-note {
+  margin-top: 15px;
+  @include respond-to(xs) {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+}
+
+.event-contact-info {
+  @include respond-to(xs) { margin-bottom: 20px; }
+}
+.event-contact-email,
+.event-contact-phone {
+  display: block;
+  position: relative;
+  padding: 5px 0 0 0;
+  margin: 0;
+  @include text-overflow();
+
+  &:before {
+    content: "•";
+    display: block;
+    float: left;
+    padding-right: 6px;
+  }
+}
+
+
+// Event Meta (On Calendar, Category, Tag)
+#event-meta {
+  dt {
+    text-align: left;
+  }
+
+  dd > * {
+    vertical-align: middle;
+  }
+
+  h3 {
+    margin: 5px 0;
+  }
+}
+
+.event-meta-calendar,
+.event-meta-category,
+.event-meta-tags {
+  font-size: 17.5px;
+  font-weight: bold;
+  @include respond-to(xs) { margin-bottom: 15px; }
+}
+
+.event-meta-tags {
+  line-height: 1.6em;
+}
+
+
+/* Canceled Event overrides */
+.canceled {
+  time,
+  #page-subtitle-event-date,
+  #event-single .event-single-schedule {
+    text-decoration: line-through;
+  }
+}

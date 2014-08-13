@@ -16,13 +16,14 @@ from django.views.generic import DeleteView
 
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
+from core.views import PaginationRedirectMixin
 from events.forms.manager import LocationForm
 from events.models import Location
 
 log = logging.getLogger(__name__)
 
 
-class LocationListView(SuperUserRequiredMixin, ListView):
+class LocationListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'locations'
     model = Location
     paginate_by = 25
@@ -125,7 +126,7 @@ def bulk_action(request):
                 continue
 
             if not request.user.is_superuser:
-                messages.error(request, 'You do not have permissions to modify Location %s' % location.title)
+                messages.error(request, 'You do not have permissions to modify Location %s' % location.comboname)
                 continue
 
             if action == 'approve':
@@ -135,7 +136,7 @@ def bulk_action(request):
                     location.save()
                 except Exception, e:
                     log.error(str(e))
-                    messages.error(request, 'Unable to set Location %s to Approved.' % location.title)
+                    messages.error(request, 'Unable to set Location %s to Approved.' % location.comboname)
 
             elif action == 'review':
                 # Set all Locations to Reviewed
@@ -144,7 +145,7 @@ def bulk_action(request):
                     location.save()
                 except Exception, e:
                     log.error(str(e))
-                    messages.error(request, 'Unable to set Location %s to Review.' % location.title)
+                    messages.error(request, 'Unable to set Location %s to Review.' % location.comboname)
 
             elif action == 'delete':
                 # Delete all Locations
@@ -152,7 +153,7 @@ def bulk_action(request):
                     location.delete()
                 except Exception, e:
                     log.error(str(e))
-                    messages.error(request, 'Unable to delete Location %s.' % location.title)
+                    messages.error(request, 'Unable to delete Location %s.' % location.comboname)
 
         # Determine whether to set a successful message
         error = False

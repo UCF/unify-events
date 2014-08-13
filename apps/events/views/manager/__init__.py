@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 
 from util import LDAPHelper
+from core.views import PaginationRedirectMixin
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
@@ -29,7 +30,7 @@ from events.views.event_views import CalendarEventsBaseListView
 from events.views.manager.calendar import CalendarUserValidationMixin
 
 
-class Dashboard(CalendarUserValidationMixin, CalendarEventsBaseListView):
+class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEventsBaseListView):
     template_name = 'events/manager/dashboard.html'
 
     def get_end_date(self):

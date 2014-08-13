@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load core_tags %}
 {% comment %}
 This partial template assumes that event_instances (a list of event instances
 or event search results) exists before the partial is included.
@@ -17,66 +18,6 @@ exists; i.e.:
 
 {% for instance in event_instances %}
     {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
-    <li class="event {{ event_instance.event.category.slug }}{% if event_instance.event.canceled %} canceled{% endif %}">
-        <h3 class="event-title">
-            <a class="summary" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">{% if event_instance.event.canceled %}CANCELED: {% endif %}{{ event_instance.title }}</a>
-            {% if event_instance.is_recurring %}
-            <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
-            {% endif %}
-        </h3>
-
-        <time class="dtstart" datetime="{{ event_instance.start|date:"cZ" }}">
-            {% if not start_date %}
-                {{ event_instance.start.date }}
-            {% endif %}
-            {% if event_instance.start.time and event_instance.end.time %}
-                {% if not start_date %}
-                at 
-                {% endif %}
-                {{ event_instance.start|date:"f a" }}
-            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" == "23:59" %}
-                All Day
-            {% elif event_instance.start.time|date:"H:i" == "00:00" and event_instance.end|date:"H:i" != "23:59" %}
-                until {{ event_instance.end|date:"f a" }}
-            {% else %}
-                All Day
-            {% endif %}
-            <span class="value-title" title="{{ event_instance.start|date:"cZ" }}"></span>
-        </time>
-        {% if not start_date %}
-        <time class="dtend" datetime="{{ event_instance.end|date:"cZ" }}">
-            until
-            {% if instance.object %}
-                {% with last_instance=instance.object.get_last_instance %}
-                {% if last_instance.end.date != event_instance.start.date %}
-                {{ last_instance.end }}
-                {% else %}
-                {{ last_instance.end.time }}
-                {% endif %}
-                {% endwith %}
-            {% else %}
-                {% if event_instance.end.date != event_instance.start.date %}
-                {{ event_instance.end }}
-                {% else %}
-                {{ event_instance.end.time }}
-                {% endif %}
-            {% endif %}
-        </time>
-        {% endif %}
-
-        <span class="location h4 alt">{{ event_instance.location }}</span>
-        <p class="description">
-            {{ event_instance.event.description|striptags|truncatewords:60 }}
-        </p>
-        {% if not calendar %}
-        <span class="calendar">
-            <i class="fa fa-calendar"></i> {{ event_instance.event.calendar.title }}
-        </span>
-        {% endif %}
-
-        <a class="event-content url" href="{% url 'event' pk=event_instance.pk slug=event_instance.event.slug %}">
-            <span class="sr-only">View Event</span>
-        </a>
-    </li>
+    {% include_esi 'eventinstance' event_instance.pk 'listing' %}
     {% endwith %}
 {% endfor %}

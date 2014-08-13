@@ -29,14 +29,14 @@
                             {{ event_instance.start|date:"M j h:i a" }}
                         </td>
                         <td class="description">
-                            <a class="url summary" href="http://{{ request.get_host }}{{ event_instance.get_absolute_url }}">
+                            <a class="url summary" href="{{ event_instance.get_absolute_url }}">
                                 {{ event_instance.title }}
                             </a>
                             <span class="location">
                                 {% if event_instance.location.url %}
                                 <a href="{{ event_instance.location.url }}">
                                 {% endif %}
-                                    {{ event_instance.location }}
+                                    {{ event_instance.location.comboname }}
                                 {% if event_instance.location.url %}
                                 </a>
                                 {% endif %}
@@ -55,14 +55,14 @@
             </div>
             {% endif %}
             <p class="feeds">
-                <a class="icsformat" href="http://{{ request.get_host }}/ics" title="ics format for upcoming events">
+                <a class="icsformat" href="{% url 'home' %}feed.ics" title="ics format for upcoming events">
                     ics format for upcoming events
                 </a>
-                <a class="rssformat" href="http://{{ request.get_host }}/rss" title="rss format for upcoming events" target="_blank">
+                <a class="rssformat" href="{% url 'home' %}feed.rss" title="rss format for upcoming events" target="_blank">
                     rss format for upcoming events
                 </a>
             </p>
-            <a class="more" href="http://{{ request.get_host }}">
+            <a class="more" href="{% url 'home' %}">
                 More Events
             </a>
         </div>

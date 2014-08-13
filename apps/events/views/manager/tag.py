@@ -17,13 +17,14 @@ from taggit.models import Tag
 
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
+from core.views import PaginationRedirectMixin
 from events.forms.manager import TagForm
 from events.models import Event
 
 log = logging.getLogger(__name__)
 
 
-class TagListView(SuperUserRequiredMixin, ListView):
+class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'tags'
     model = Tag
     paginate_by = 25
