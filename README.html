@@ -136,7 +136,7 @@
 
 <p>The current version of Bootstrap is v3.2.0.</p>
 
-<p>To upgrade Bootstrap, download the latest tagged release and replace the <code>static_files/static/vendor/bootstrap/</code> directory contents in this repo with the downloaded <code>assets/</code> directory contents (do not copy the Bootstrap root directory.)  Make sure to compile <code>static_files/assets/sass/style.scss</code> AND <code>static_files/static/vendor/bootstrap/javascripts/bootstrap.js</code> after!</p>
+<p>To upgrade Bootstrap, download the latest tagged release and replace the <code>static_files/static/vendor/bootstrap/</code> directory contents in this repo with the downloaded <code>assets/</code> directory contents (do not copy the Bootstrap root directory.)  Make sure to compile <code>static_files/assets/scss/style.scss</code> AND <code>static_files/static/vendor/bootstrap/javascripts/bootstrap.js</code> after!</p>
 
 <h4>Font Awesome</h4>
 
@@ -144,11 +144,11 @@
 
 <p>Note that these icons do not overwrite the Glyphicon library; both are available to use, but Font Awesome fonts are preferred. See the Font Awesome docs for usage.</p>
 
-<p>To upgrade, download the latest tagged release and replace the <code>static_files/static/vendor/fonts/font-awesome-4.x.x/</code> directory in this repo with the downloaded root directory.  Make sure to compile <code>static_files/assets/sass/style.scss</code> after!</p>
+<p>To upgrade, download the latest tagged release and replace the <code>static_files/static/vendor/fonts/font-awesome-4.x.x/</code> directory in this repo with the downloaded root directory.  Make sure to compile <code>static_files/assets/scss/style.scss</code> after!</p>
 
 <h4>Theme Sass Files</h4>
 
-<p>All of the raw custom styles for this project are contained in separate Sass files in <code>static_files/assets/sass/</code>. When modifying stylesheets in this project, only modify the files in this directory; <strong>do NOT modify any files in <code>static_files/css/</code></strong>! These Sass files will compile and overwrite <code>static_files/css/style.css</code>.</p>
+<p>All of the raw custom styles for this project are contained in separate Sass files in <code>static_files/assets/scss/</code>. When modifying stylesheets in this project, only modify the files in this directory; <strong>do NOT modify files in <code>static_files/static/css/</code></strong>! Sass files compile and write to this directory.</p>
 
 <p>Partial Sass files are generally separated out by function, and must be compiled in a specific order. Keep in mind the following guidelines when modifying or adding styles:</p>
 
