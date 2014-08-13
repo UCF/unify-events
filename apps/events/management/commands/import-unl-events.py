@@ -134,17 +134,17 @@ class Command(BaseCommand):
                                     old_end_time = old_instance.endtime
 
                                     # Validate start/end datetimes (UNL event times can be invalid and/or empty)
-                                    if not old_instance.endtime:
-                                        new_instance.start = old_instance.starttime
-                                        new_instance.end = old_instance.starttime + timedelta(hours=1)
-                                        logging.error('No end datetime available for old event with title `%s` and start datetime `%s`. Setting new end datetime to 1 hour after the given start datetime value.' % (old_title, old_instance.starttime))
-                                    elif old_instance.starttime > old_instance.endtime:
-                                        new_instance.start = old_instance.starttime
-                                        new_instance.end = old_instance.starttime + timedelta(hours=1)
-                                        logging.error('Old event with title `%s` has invalid end datetime `%s` that occurs before start datetime `%s`. Setting new end datetime to 1 hour after the given start datetime value.' % (old_title, old_instance.endtime, old_instance.starttime))
+                                    if not old_end_time:
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_start_time + timedelta(hours=1)
+                                        logging.error('Invalid event instance datetimes: No end datetime available. Setting new end datetime to 1 hour after the given start datetime value `%s`. (Event: `%s`)' % (old_start_time, old_title))
+                                    elif old_start_time > old_end_time:
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_start_time + timedelta(hours=1)
+                                        logging.error('Invalid event instance datetimes: End datetime `%s` occurs before start datetime `%s`. Setting new end datetime value. (Event: `%s`)' % (old_end_time, old_start_time, old_title))
                                     else:
-                                        new_instance.start = old_instance.starttime
-                                        new_instance.end = old_instance.endtime
+                                        new_instance.start = old_start_time
+                                        new_instance.end = old_end_time
 
                                     # Location
                                     old_location_id = old_instance.location_id
@@ -217,7 +217,7 @@ class Command(BaseCommand):
                     category = Category.objects.get(title=event_type.name)
                 except Category.DoesNotExist:
                     category = Category.objects.get(title='Other')
-                    logging.error('Category for event_type_id `%d` does not exist. Using Other Cateogry' % event_event_type.eventtype_id)
+                    logging.error('Category for event_type_id `%d` does not exist. Using other Category' % event_event_type.eventtype_id)
         return category
 
     def create_categories(self):
