@@ -48,7 +48,10 @@ class EventCreate(CreateView):
         Get additional context data.
         """
         context = super(EventCreate, self).get_context_data(**kwargs)
-
+        # event_instance_formset = context['event_instance_formset']
+        # event_instance_formset_length = len(event_instance_formset.forms)
+        # if event_instance_formset_length < 1:
+        #    raise Exception
         ctx = {
                'locations': Location.objects.all(),
                'tags': Tag.objects.all()
@@ -65,7 +68,23 @@ class EventCreate(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        event_instance_formset = EventInstanceFormSet()
+        # TODO: why on earth does EventInstanceForm fail to generate forms when navigating
+        # to this view from the EventUpdate view??
+        #event_instance_formset = EventInstanceFormSet()
+        from django.forms.models import inlineformset_factory
+        from core.forms import RequiredModelFormSet
+        from events.models import EventInstance
+        from events.forms.manager import EventInstanceForm
+        event_instance_formset = inlineformset_factory(Event,
+                                             EventInstance,
+                                             form=EventInstanceForm,
+                                             formset=RequiredModelFormSet,
+                                             extra=1,
+                                             max_num=12)
+
+        # if not event_instance_formset.forms:
+        #     event_instance_formset.forms.append(EventInstanceForm(initial=None))
+
         return self.render_to_response(self.get_context_data(form=form,
                                                              event_instance_formset=event_instance_formset))
 
