@@ -11,10 +11,8 @@
     <div class="row">
         <div class="col-md-8 sidebarfix page-content" id="static-help">
             <h2 id="about">About the Events System</h2>
-            
-            <h3 id="overview">Overview</h3>
             <p>
-                <a href="http://{{ request.get_host }}">{{ request.get_host }}</a> is the online location for listing and promoting UCF events. 
+                <a href="{{ CANONICAL_ROOT }}">{{ CANONICAL_ROOT }}</a> is the online location for listing and promoting UCF events. 
                 The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any 
                 occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start 
                 date &amp; time, category and location are all required for submitting an event into the system.
@@ -41,6 +39,8 @@
             </p>
             
             <h3 id="event-or-announcement">Events, or Announcements?</h3>
+
+            <h3 id="old-system-changes">Changes from the Old Events System</h3>
 
             <h3 id="sharing">Sharing and Distribution of Events and Calendars</h3>
             <p>
@@ -148,16 +148,142 @@
             <h3 id="recurring-events">Recurring Events</h3>
             
             <h3 id="event-statuses">Event Statuses</h3>
+
+            <hr />
+            
+            <h2 id="for-developers">For Developers</h2>
+
+            <h3 id="feeds">Feeds</h3>
+            <p>
+                Feeds are available; where to access them; parameters...
+            </p>
+
+            <h3 id="events-widget">Events Widget</h3>
+            <div class="alert alert-danger">
+                <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events
+                system's events widget.  It may be deprecated at any time.  We highly recommend using <a href="#feeds">feeds</a> for consuming
+                data instead.
+            </div>
+
+            <h4>Requirements</h4>
+            <p>
+                The UCF Events Widget is built as a jQuery plugin, compatible with jQuery v1.4.2+.
+            </p>
+
+            <h4>Installation</h4>
+            <p>
+                The UCF Events Widget can be <a href="TODO">downloaded and installed locally</a>, or linked to directly 
+                from UCF Events using the code below.
+            </p>
+            <ol>
+                <li>
+                    In the header, link the javascript and stylesheet:
+                    <pre>&lt;!-- jQuery is required --&gt;
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+
+&lt;!-- Widget Includes --&gt;
+&lt;script src="http://events.ucf.edu/tools/script.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;link href="http://events.ucf.edu/tools/style.css" rel="stylesheet" type="text/css"&gt;</pre>
+                </li>
+                <li>
+                    Place where you want the widget to display:
+                    <pre>&lt;div class="events"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="http://events.ucf.edu/"&gt;View Calendar&lt;/a&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    $(function(){ $(".events").eventsUCF(); });
+&lt;/script&gt;</pre>
+                </li>
+            </ol>
+
+            <h4>Available Options</h4>
+            <p>
+                All properties listed below are optional.
+            </p>
+            <p>
+                Options are attached to the Events Widget using 
+                <a href="http://dev.w3.org/html5/spec/Overview.html#custom-data-attribute">data attributes</a>; 
+                e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
+            </p>
+            <div>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default Value</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>limit</code></td>
+                            <td><code>number</code></td>
+                            <td><code>4</code></td>
+                            <td>How many events should be included in the event list.</td>
+                        </tr>
+                        <tr>
+                            <td><code>calendar-id</code></td>
+                            <td><code>number</code></td>
+                            <td><code>1</code></td>
+                            <td>Chooses which UCF Event Calendar to use.  Defaults to the Main Calendar.</td>
+                        </tr>
+                        <tr>
+                            <td><code>monthwidget</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>Switches plugin to calendar view.  Defaults to list view.</td>
+                        </tr>
+                        <tr>
+                            <td><code>month</code></td>
+                            <td><code>number</code></td>
+                            <td><code>false</code></td>
+                            <td>Chooses specific calendar month to view.</td>
+                        </tr>
+                        <tr>
+                            <td><code>year</code></td>
+                            <td><code>number</code></td>
+                            <td><code>false</code></td>
+                            <td>Chooses specific calendar year to view.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Demos</h4>
+            <h5>List Display</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    links to list demos...
+                </div>
+                <div class="col-md-4">
+                    screenshot
+                </div>
+            </div>
+            
+            <h5>Calendar Display</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    links to calendar display demos...
+                </div>
+                <div class="col-md-4">
+                    screenshot
+                </div>
+            </div>
         </div>
+
         <aside class="col-md-4 page-sidebar" id="static-help-sidebar">
             <nav data-spy="affix" data-offset-top="50" data-offset-bottom="200">
                 <strong>About the Events System</strong>
                 <ul>
                     <li>
-                        <a href="#overview">Overview</a>
+                        <a href="#about">Overview</a>
                     </li>
                     <li>
                         <a href="#event-or-announcement">Events, or Announcements?</a>
+                    </li>
+                    <li>
+                        <a href="#old-system-changes">Changes from the Old Events System</a>
                     </li>
                     <li>
                         <a href="#sharing">Sharing and Distribution of Events and Calendars</a>
@@ -166,7 +292,7 @@
                 <strong>Getting Started</strong>
                 <ul>
                     <li>
-                        <a href="#first-time-users">First Time User Setup</a>
+                        <a href="#first-time-user-setup">First Time User Setup</a>
                     </li>
                     <li>
                         <a href="#create-new-calendar">Create a New Calendar</a>
@@ -196,13 +322,22 @@
                         <a href="#posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</a>
                     </li>
                     <li>
-                        <a href="#subscribing-to-an-event">Copy an Event</a>
+                        <a href="#copy-an-event">Copy an Event</a>
                     </li>
                     <li>
                         <a href="#recurring-events">Recurring Events</a>
                     </li>
                     <li>
                         <a href="#event-statuses">Event Statuses</a>
+                    </li>
+                </ul>
+                <strong>For Developers</strong>
+                <ul>
+                    <li>
+                        <a href="#feeds">Feeds</a>
+                    </li>
+                    <li>
+                        <a href="#events-widget">Events Widget</a>
                     </li>
                 </ul>
             </nav>
