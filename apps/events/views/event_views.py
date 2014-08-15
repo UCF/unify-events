@@ -399,8 +399,12 @@ class HomeEventsListView(DayEventsListView):
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
             limit = self.request.GET.get('limit')
+            # Set a default limit if one is not provided
             if not limit:
                 limit = 5
+            # Prevent really big limits
+            if int(limit) > 25:
+                limit = 25
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
@@ -509,10 +513,11 @@ class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         return context
 
 
-class MonthEventsListView(PaginationRedirectMixin, CalendarEventsListView):
+class MonthEventsListView(CalendarEventsListView):
     """
     Events listing for a month.
     """
+    paginate_by = None # Don't paginate feed querysets (html view is handled via calendar_widget templatetag)
     list_type = 'month'
     list_title = 'Events This Month'
 
@@ -566,8 +571,20 @@ class MonthEventsListView(PaginationRedirectMixin, CalendarEventsListView):
 
         return context
 
+    def get_queryset(self):
+        """
+        Avoid double queryset fetches (this view uses the calendar_widget templatetag,
+        which does its own event instance query)
+        """
+        events = None
+        if self.get_format == 'html':
+            events = list()
+        else:
+            events = super(MonthEventsListView, self).get_queryset()
+        return events
 
-class YearEventsListView(PaginationRedirectMixin, CalendarEventsListView):
+
+class YearEventsListView(CalendarEventsListView):
     """
     Events listing for a year.
     """
@@ -599,6 +616,13 @@ class YearEventsListView(PaginationRedirectMixin, CalendarEventsListView):
             context['all_months'] = range(1, 13)
 
         return context
+
+    def get_queryset(self):
+        """
+        Avoid double queryset fetches (this view uses the calendar_widget templatetag,
+        which does its own event instance query)
+        """
+        return list()
 
 
 class UpcomingEventsListView(CalendarEventsListView):

@@ -19,7 +19,7 @@
     {% if event_instance.event.contact_phone %}
         <meta name="og:phone_number" content="{{ event_instance.event.contact_phone }}">
     {% endif %}
-    {{ block.super }}
+    {% include 'events/frontend/meta-alt-feeds.html' %}
 {% endblock %}
 
 {% block content_section_classes %}vevent{% if event_instance.event.canceled %} canceled{% endif %}{% endblock %}

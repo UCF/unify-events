@@ -1,0 +1,4 @@
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.rss" />
+<link rel="alternate" type="application/json" title="JSON Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.json" />
+<link rel="alternate" type="application/xml" title="XML Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.xml" />
+<link rel="alternate" type="text/calendar" title="ICS Feed" href="{{ CANONICAL_URL }}{% if CANONICAL_URL|slice:"-1:"|last != "/" %}/{% endif %}feed.ics" />
