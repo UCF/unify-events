@@ -199,6 +199,11 @@ class PaginationRedirectMixin(object):
         page_size = self.get_paginate_by(queryset)
         paginator = self.get_paginator(queryset, page_size, allow_empty_first_page=self.get_allow_empty())
         url_name = self.request.resolver_match.url_name
+
+        # prevent feed.None from being passed into new redirect url
+        if 'format' in self.kwargs and self.kwargs['format'] is None:
+            self.kwargs.pop('format', None)
+
         try:
             return super(PaginationRedirectMixin, self).get(request, *args, **kwargs)
         except Http404:
@@ -268,8 +273,8 @@ class InvalidSlugRedirectMixin(object):
 
         if needs_redirect:
             url_name = request.resolver_match.url_name
-            # Do not return a 'format' value of None in self.kwargs
-            if r_kwargs['format'] == 'None' or r_kwargs['format'] is None:
+            # prevent feed.None from being passed into new redirect url
+            if 'format' in r_kwargs and r_kwargs['format'] is None:
                 r_kwargs.pop('format', None)
                 
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=r_kwargs))

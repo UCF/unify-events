@@ -195,7 +195,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             kwargs = request.resolver_match.kwargs
             kwargs.pop('pk', None)
             kwargs.pop('slug', None)
-            if kwargs['format'] == 'None' or kwargs['format'] is None:
+            if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
             if url_name == 'calendar':
@@ -712,7 +712,7 @@ class ListViewByCalendarMixin(object):
             kwargs = request.resolver_match.kwargs
             kwargs.pop('pk', None)
             kwargs.pop('slug', None)
-            if kwargs['format'] == 'None' or kwargs['format'] is None:
+            if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
             url_name = url_name.replace('-by-calendar', '')
