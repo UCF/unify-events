@@ -577,7 +577,7 @@ class MonthEventsListView(CalendarEventsListView):
         which does its own event instance query)
         """
         events = None
-        if self.get_format == 'html':
+        if self.get_format() == 'html':
             events = list()
         else:
             events = super(MonthEventsListView, self).get_queryset()
