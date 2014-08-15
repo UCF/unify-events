@@ -728,7 +728,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     """
     by_model = Tag
     context_object_name = 'event_instances'
-    model = Event
+    model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
 
@@ -760,7 +760,7 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
     """
     by_model = Category
     context_object_name = 'event_instances'
-    model = Event
+    model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
 
