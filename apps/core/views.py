@@ -46,8 +46,7 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
 
         context = { 'object': the_object }
         
-        # Add params, if any, to context. Try to catch instance_start and
-        # instance_end and convert them back to datetimes.
+        # Add params, if any, to context.
         if params:
             params = parse_qs(params)
             context.update(params)
