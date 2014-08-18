@@ -1,5 +1,8 @@
 import logging
 
+from urlparse import parse_qs
+from dateutil import parser
+
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
@@ -27,7 +30,7 @@ def esi_template(request, path):
     return render_to_response(path, {}, RequestContext(request))
 
 
-def esi(request, model_name, object_id, template_name, calendar_id=None):
+def esi(request, model_name, object_id, template_name, calendar_id=None, params=None):
     """
     Returns the HTML for a given model and id for ESIs
     """
@@ -43,6 +46,18 @@ def esi(request, model_name, object_id, template_name, calendar_id=None):
         url = 'esi/' + model_name + '/' + template_html
 
         context = { 'object': the_object }
+        
+        # Add params, if any, to context. Try to catch instance_start and
+        # instance_end and convert them back to datetimes.
+        if params:
+            params = parse_qs(params)
+            if 'instance_start' in params:
+                start = params['instance_start'][0]
+                params['instance_start'] = parser.parse(start)
+            if 'instance_end' in params:
+                end = params['instance_end'][0]
+                params['instance_end'] = parser.parse(end)
+            context.update(params)
 
         if calendar_id is not None and calendar_id != 'None':
             calendar_id_int = int(calendar_id)

@@ -16,8 +16,21 @@ exists; i.e.:
     endwith
 {% endcomment %}
 
+
+{% comment %}
+Get ungrouped instances (i.e. instances in by Tag/Category lists) with
+instance.object.get_all_parent_instances.0. Catch everything else with default:instance.
+
+The other stacked 'with' statements generate a querystring for the listing esi to pass
+the mapped start and end dates of the event instance.
+{% endcomment %}
+
 {% for instance in event_instances %}
     {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
-    {% include_esi 'eventinstance' event_instance.pk 'listing' %}
+        {% with param_start=event_instance.start|date:"c" param_end=event_instance.end|date:"c" %}
+            {% with param_start_q='instance_start='|add:param_start param_end_q='&instance_end='|add:param_end %}
+                {% include_esi 'eventinstance' event_instance.pk 'listing' params=param_start_q|add:param_end_q %}
+            {% endwith %}
+        {% endwith %}
     {% endwith %}
 {% endfor %}

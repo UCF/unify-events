@@ -26,15 +26,18 @@ def include_esi_template(context, template, params='', kwargs=None):
 
 
 @register.simple_tag(takes_context=True)
-def include_esi(context, model, object_id, template_name, calendar_id=None):
+def include_esi(context, model, object_id, template_name, calendar_id=None, params=None):
     if settings.DEV_MODE:
-        response = esi(context['request'], model, str(object_id), template_name, str(calendar_id))
+        response = esi(context['request'], model, str(object_id), template_name, str(calendar_id), params)
         return response.content
     else:
         if calendar_id is not None:
             url = '/esi/' + model + '/' + str(object_id) + '/calendar/' + str(calendar_id) + '/' + template_name + '/'
         else:
             url = '/esi/' + model + '/' + str(object_id) + '/' + template_name + '/'
+
+        if params:
+            url = url + '?' + params
         # Keep the single quotes around src='' so that it doesn't mess
         # up ESIs that are used for HTML classes
         # Example: <div class="pull-left <esi:include src='/esi/category/1/slug/' />"></div>

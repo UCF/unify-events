@@ -1,14 +1,22 @@
 {% load core_tags %}
 
+{% comment %}
+Try to use passed instance_start and instance_end context values for each instance
+(which pass mapped start/end datetimes), if available.
+
+Default to the instance's start and end datetime.
+{% endcomment %}
+
+{% with instance_start=instance_start|default:object.start instance_end=instance_end|default:object.end %}
 <li>
     <a href="{% url 'event' pk=object.pk slug=object.slug %}">
         <time>
-            {% if object.start.time and object.end.time %}
-                {{ object.start|date:"f a" }}
-            {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" == "23:59" %}
+            {% if instance_start.time and instance_end.time %}
+                {{ instance_start|date:"f a" }}
+            {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
                 All Day
-            {% elif object.start.time|date:"H:i" == "00:00" and object.end|date:"H:i" != "23:59" %}
-                until {{ object.end|date:"f a" }}
+            {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
+                until {{ instance_end|date:"f a" }}
             {% else %}
                 All Day
             {% endif %}
@@ -16,3 +24,4 @@
         {{ object.event.get_title_canceled }}
     </a>
 </li>
+{% endwith %}
