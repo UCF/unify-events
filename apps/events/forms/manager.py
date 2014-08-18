@@ -135,8 +135,14 @@ class EventInstanceForm(forms.ModelForm):
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
 
-        if start > end:
-            self._errors['end'] = self.error_class(['The end day/time must occur after the start day/time'])
+        if start and end:
+            if start > end:
+                self._errors['end'] = self.error_class(['The end day/time must occur after the start day/time'])
+        else:
+            if not start:
+                self._errors['start'] = self.error_class(['A valid start date and time was not provided'])
+            if not end:
+                self._errors['end'] = self.error_class(['A valid end date and time was not provided'])
 
         if not location:
             if new_location_title:

@@ -58,7 +58,7 @@ class Command(BaseCommand):
                     for uid in UNLUserHasPermission.objects.filter(calendar_id=old_calendar.id).values_list('user_uid').distinct():
                         uid = uid[0]
                         editor = self.get_create_user(str(uid))
-                        if editor is not None and editor is not calendar_creator:
+                        if editor is not None and editor != calendar_creator:
                             new_calendar.editors.add(editor)
 
                     # Events

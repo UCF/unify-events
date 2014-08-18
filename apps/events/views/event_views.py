@@ -195,7 +195,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             kwargs = request.resolver_match.kwargs
             kwargs.pop('pk', None)
             kwargs.pop('slug', None)
-            if kwargs['format'] == 'None' or kwargs['format'] is None:
+            if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
             if url_name == 'calendar':
@@ -399,8 +399,12 @@ class HomeEventsListView(DayEventsListView):
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
             limit = self.request.GET.get('limit')
+            # Set a default limit if one is not provided
             if not limit:
                 limit = 5
+            # Prevent really big limits
+            if int(limit) > 25:
+                limit = 25
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
@@ -509,10 +513,11 @@ class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         return context
 
 
-class MonthEventsListView(PaginationRedirectMixin, CalendarEventsListView):
+class MonthEventsListView(CalendarEventsListView):
     """
     Events listing for a month.
     """
+    paginate_by = None # Don't paginate feed querysets (html view is handled via calendar_widget templatetag)
     list_type = 'month'
     list_title = 'Events This Month'
 
@@ -566,8 +571,20 @@ class MonthEventsListView(PaginationRedirectMixin, CalendarEventsListView):
 
         return context
 
+    def get_queryset(self):
+        """
+        Avoid double queryset fetches (this view uses the calendar_widget templatetag,
+        which does its own event instance query)
+        """
+        events = None
+        if self.get_format() == 'html':
+            events = list()
+        else:
+            events = super(MonthEventsListView, self).get_queryset()
+        return events
 
-class YearEventsListView(PaginationRedirectMixin, CalendarEventsListView):
+
+class YearEventsListView(CalendarEventsListView):
     """
     Events listing for a year.
     """
@@ -599,6 +616,13 @@ class YearEventsListView(PaginationRedirectMixin, CalendarEventsListView):
             context['all_months'] = range(1, 13)
 
         return context
+
+    def get_queryset(self):
+        """
+        Avoid double queryset fetches (this view uses the calendar_widget templatetag,
+        which does its own event instance query)
+        """
+        return list()
 
 
 class UpcomingEventsListView(CalendarEventsListView):
@@ -688,7 +712,7 @@ class ListViewByCalendarMixin(object):
             kwargs = request.resolver_match.kwargs
             kwargs.pop('pk', None)
             kwargs.pop('slug', None)
-            if kwargs['format'] == 'None' or kwargs['format'] is None:
+            if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
             url_name = url_name.replace('-by-calendar', '')
@@ -704,7 +728,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     """
     by_model = Tag
     context_object_name = 'event_instances'
-    model = Event
+    model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
 
@@ -736,7 +760,7 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
     """
     by_model = Category
     context_object_name = 'event_instances'
-    model = Event
+    model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
 

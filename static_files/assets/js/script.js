@@ -108,7 +108,7 @@ var toggleModalModifyObject = function() {
         if (modal) {
             $.ajax({
                 url: staticPgUrl,
-                timeout: 600 // allow 6 seconds to pass before failing the ajax request
+                timeout: 3000 // allow 3 seconds to pass before failing the ajax request
             })
                 .done(function(html) {
                     // Assign returned html to some element so we can traverse the dom successfully
