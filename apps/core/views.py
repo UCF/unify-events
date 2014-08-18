@@ -1,7 +1,6 @@
 import logging
 
 from urlparse import parse_qs
-from dateutil import parser
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -51,12 +50,6 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
         # instance_end and convert them back to datetimes.
         if params:
             params = parse_qs(params)
-            if 'instance_start' in params:
-                start = params['instance_start'][0]
-                params['instance_start'] = parser.parse(start)
-            if 'instance_end' in params:
-                end = params['instance_end'][0]
-                params['instance_end'] = parser.parse(end)
             context.update(params)
 
         if calendar_id is not None and calendar_id != 'None':

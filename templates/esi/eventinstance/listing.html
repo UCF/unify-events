@@ -1,74 +1,79 @@
 {% load core_tags %}
 
 {% comment %}
-Try to use passed instance_start and instance_end context values for each instance
-(which pass mapped start/end datetimes), if available.
+Try to use passed instance_start and instance_end value in context or request.GET
+for each instance (which pass mapped start/end datetimes), if available.
+Context values are passed in debug mode; GET params are passed when debug is turned off.
 
 Default to the instance's start and end datetime.
+
+Strings are parsed into datetimes with the 'parse_string' filter.
 {% endcomment %}
 
-{% with instance_start=instance_start|default:object.start instance_end=instance_end|default:object.end %}
-    <li class="event {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
-        <h3 class="event-title">
-            <a class="summary" href="{% url 'event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
-            {% if object.is_recurring %}
-            <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
-            {% endif %}
-        </h3>
+{% with instance_start=instance_start.0|default:object.start instance_end=instance_end.0|default:object.end %}
+    {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
+        <li class="event {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
+            <h3 class="event-title">
+                <a class="summary" href="{% url 'event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
+                {% if object.is_recurring %}
+                <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
+                {% endif %}
+            </h3>
 
-        <time class="dtstart" datetime="{{ instance_start|date:"cZ" }}">
+            <time class="dtstart" datetime="{{ instance_start|date:"cZ" }}">
+                {% if not start_date %}
+                    <span class="start-date">{{ instance_start.date }}</span>
+                {% endif %}
+                {% if instance_start.time and instance_end.time %}
+                    <span class="start-time">
+                        {% if not start_date %}
+                        at
+                        {% endif %}
+                        {{ instance_start|date:"f a" }}
+                    </span>
+                {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
+                    <span class="start-time">All Day</span>
+                {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
+                    <span class="until">until {{ instance_end|date:"f a" }}</span>
+                {% else %}
+                    <span class="start-time">All Day</span>
+                {% endif %}
+                <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
+            </time>
             {% if not start_date %}
-                <span class="start-date">{{ instance_start.date }}</span>
-            {% endif %}
-            {% if instance_start.time and instance_end.time %}
-                <span class="start-time">
-                    {% if not start_date %}
-                    at
+            <time class="dtend" datetime="{{ instance_end|date:"cZ" }}">
+                until
+                {% if instance.object %}
+                    {% with last_instance=instance.object.get_last_instance %}
+                    {% if last_instance.end.date != instance_start.date %}
+                    {{ last_instance.end }}
+                    {% else %}
+                    {{ last_instance.end.time }}
                     {% endif %}
-                    {{ instance_start|date:"f a" }}
-                </span>
-            {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
-                <span class="start-time">All Day</span>
-            {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
-                <span class="until">until {{ instance_end|date:"f a" }}</span>
-            {% else %}
-                <span class="start-time">All Day</span>
-            {% endif %}
-            <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
-        </time>
-        {% if not start_date %}
-        <time class="dtend" datetime="{{ instance_end|date:"cZ" }}">
-            until
-            {% if instance.object %}
-                {% with last_instance=instance.object.get_last_instance %}
-                {% if last_instance.end.date != instance_start.date %}
-                {{ last_instance.end }}
+                    {% endwith %}
                 {% else %}
-                {{ last_instance.end.time }}
+                    {% if instance_end.date != instance_start.date %}
+                    {{ instance_end }}
+                    {% else %}
+                    {{ instance_end.time }}
+                    {% endif %}
                 {% endif %}
-                {% endwith %}
-            {% else %}
-                {% if instance_end.date != instance_start.date %}
-                {{ instance_end }}
-                {% else %}
-                {{ instance_end.time }}
-                {% endif %}
+            </time>
             {% endif %}
-        </time>
-        {% endif %}
 
-        <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
-        <p class="description">
-            {{ object.event.description|striptags|truncatewords:60 }}
-        </p>
-        {% if not calendar %}
-        <span class="calendar">
-            <i class="fa fa-calendar"></i> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
-        </span>
-        {% endif %}
+            <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
+            <p class="description">
+                {{ object.event.description|striptags|truncatewords:60 }}
+            </p>
+            {% if not calendar %}
+            <span class="calendar">
+                <i class="fa fa-calendar"></i> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
+            </span>
+            {% endif %}
 
-        <a class="event-content url" href="{% url 'event' pk=object.pk slug=object.slug %}">
-            <span class="sr-only">View Event</span>
-        </a>
-    </li>
+            <a class="event-content url" href="{% url 'event' pk=object.pk slug=object.slug %}">
+                <span class="sr-only">View Event</span>
+            </a>
+        </li>
+    {% endwith %}
 {% endwith %}

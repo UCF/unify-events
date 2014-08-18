@@ -1,3 +1,5 @@
+from dateutil import parser
+
 from django import template
 from django.conf import settings
 from django.core.urlresolvers import resolve
@@ -42,3 +44,10 @@ def include_esi(context, model, object_id, template_name, calendar_id=None, para
         # up ESIs that are used for HTML classes
         # Example: <div class="pull-left <esi:include src='/esi/category/1/slug/' />"></div>
         return "<esi:include src='%s' />" % url
+
+
+@register.filter
+def parse_date(value):
+    if isinstance(value, basestring):
+        value = parser.parse(value)
+    return value
