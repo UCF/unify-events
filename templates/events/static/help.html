@@ -155,13 +155,357 @@
 
             <h3 id="feeds">Feeds</h3>
             <p>
-                Feeds are available; where to access them; parameters...
+                Similar to the previous events system, consumable feeds are available for grabbing and displaying events on your own
+                website.  Feeds are available in JSON, RSS, XML, and ICS (iCal, Microsoft Outlook) formats.
             </p>
+            <p>
+                All front-facing views (excluding the Year View) offer a feed of all the events data currently in that view.  Feeds
+                follow similar data structures to those previously available in the old events system; if your site is already consuming
+                a feed from the old events system, you shouldn't need to make any changes to your code for the new system.
+            </p>
+            <p>
+                Listed below are all available feed locations:
+            </p>
+
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>URL Example</th>
+                            <th>Arguments</th>
+                            <th>URL Parameter Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Today's Events (default view)<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current day on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that occur
+                                    within the current day, but don't necessarily start or end on that day, and wouldn't otherwise
+                                    appear in the feed.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events This Week<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current week on the given calendar. The
+                                    list always runs from Sunday through Saturday.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the current week, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-week' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events This Month<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current month on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the current month, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-month' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Upcoming Events<br/>
+                                <p><small>
+                                    A list (max 25) of events occurring soon on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return upcoming events, cloned with modified
+                                    start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='upcoming' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events by Day<br/>
+                                <p><small>
+                                    A list of all events occurring on a specific day on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that occur
+                                    within the given day, but don't necessarily start or end on that day, and wouldn't otherwise
+                                    appear in the feed.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'day-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                    <li>
+                                        <code>day</code><br/>
+                                        <small>Example value: <em>28</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events on Week of [day]<br/>
+                                <small>
+                                    A list of all events happening on a week determined by the specified day. A weeks' worth of events from the
+                                    Sunday of the week through Saturday are returned, regardless of the day of the week of the specified day.
+                                </small>
+                            </td>
+                            <td><code>{% url 'week-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                    <li>
+                                        <code>day</code><br/>
+                                        <small>Example value: <em>28</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events by Month<br/>
+                                <small>
+                                    A list of all events happening on the specified month.
+                                </small>
+                            </td>
+                            <td><code>{% url 'month-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Events by Category</td>
+                            <td><code>{% url 'category-by-calendar' pk=1234 slug='my-calendar-slug' category_pk=2 category='category-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>category_id</code><br/>
+                                        <small>Example value: <em>2</em></small>
+                                    </li>
+                                    <li>
+                                        <code>category_slug</code><br/>
+                                        <small>Example value: <em>category-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Events by Tag</td>
+                            <td><code>{% url 'tag-by-calendar' pk=1234 slug='my-calendar-slug' tag_pk=2 tag='tag-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>tag_id</code><br/>
+                                        <small>Example value: <em>2</em></small>
+                                    </li>
+                                    <li>
+                                        <code>tag_slug</code><br/>
+                                        <small>Example value: <em>tag-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Feeds can also be accessed from any view by using the <code>?format=FORMAT</code> URL parameter, but this is
+                strictly for backward compatibility with the old events system and may be deprecated at any time.  We strongly recommend using
+                the methods listed above for accessing feed data.
+            </div>
+
 
             <h3 id="events-widget">Events Widget</h3>
             <div class="alert alert-danger">
                 <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events
-                system's events widget.  It may be deprecated at any time.  We highly recommend using <a href="#feeds">feeds</a> for consuming
+                system's events widget.  It may be deprecated at any time.  We strongly recommend using <a href="#feeds">feeds</a> for consuming
                 data instead.
             </div>
 
@@ -206,7 +550,7 @@
                 e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
             </p>
             <div>
-                <table class="table table-striped table-bordered">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Property</th>
