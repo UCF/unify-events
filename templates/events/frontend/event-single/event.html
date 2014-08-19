@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-md-12" id="page-subtitle-event-date">
             <span class="event-single-date">
-                {{ event_instance.start|date:"l," }} {{ event_instance.start|date:"F j" }}
+                {{ event_instance.start|date:"l, F j, Y" }}
                 <span class="dtstart"><span class="value-title" title="{{ event_instance.start|date:"c" }}"></span></span>
             </span>
             {% if event_instance.start|date:"H:i" != "00:00" %}
@@ -68,7 +68,7 @@
                 {% elif event_instance.start|date:"omd" == event_instance.end|date:"omd" and event_instance.start|date:"H:i" != event_instance.end|date:"H:i" %}
                 to {{ event_instance.end|date:"P" }}
                 {% else %}
-                to {{ event_instance.end|date:"l, F j" }}
+                to {{ event_instance.end|date:"l, F j" }}{% if event_instance.start|date:"Y" != event_instance.end|date:"Y" %}{{ event_instance.end|date:", Y" }}{% endif %}
                     {% if event_instance.end|date:"H:i" != "00:00" and event_instance.end|date:"H:i" != "23:59" %}
                     at {{ event_instance.end|date:"P" }}
                     {% endif %}
