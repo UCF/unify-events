@@ -5,11 +5,14 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 import events.models
 from events.models.event import get_events_by_range
+from events.utils import generic_ban_urls
 import settings
 
 
@@ -157,3 +160,5 @@ class Calendar(TimeCreatedModified):
         return '<' + str(self.owner) + '/' + self.title + '>'
 
 pre_save.connect(pre_save_slug, sender=Calendar)
+post_save.connect(generic_ban_urls, sender=Calendar)
+post_delete.connect(generic_ban_urls, sender=Calendar)
