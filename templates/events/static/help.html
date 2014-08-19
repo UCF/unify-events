@@ -190,7 +190,11 @@
                                     appear in the feed.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code></td>
+                            <td>
+                                <code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code><br/><br/>
+                                <small>Main Calendar URL (exclude calendar arguments):</small><br/>
+                                <code>{% url 'home' %}feed.json</code>
+                            </td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -361,10 +365,14 @@
                         <tr>
                             <td>
                                 Events on Week of [day]<br/>
-                                <small>
+                                <p><small>
                                     A list of all events happening on a week determined by the specified day. A weeks' worth of events from the
                                     Sunday of the week through Saturday are returned, regardless of the day of the week of the specified day.
-                                </small>
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the given week, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
                             </td>
                             <td><code>{% url 'week-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
                             <td>
@@ -403,9 +411,13 @@
                         <tr>
                             <td>
                                 Events by Month<br/>
-                                <small>
+                                <p><small>
                                     A list of all events happening on the specified month.
-                                </small>
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the given month, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
                             </td>
                             <td><code>{% url 'month-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 %}feed.json</code></td>
                             <td>

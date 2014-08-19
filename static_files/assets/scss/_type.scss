@@ -139,3 +139,10 @@ dt {
 hr {
   border-top: 2px dotted $table-border-color;
 }
+
+
+/* Code */
+code {
+  color: $pre-color;
+  background-color: $pre-bg;
+}
