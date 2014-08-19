@@ -1,4 +1,5 @@
 from dateutil import parser
+import urllib
 
 from django import template
 from django.conf import settings
@@ -51,3 +52,8 @@ def parse_date(value):
     if isinstance(value, basestring):
         value = parser.parse(value)
     return value
+
+
+@register.filter
+def quote_plus(value):
+    return urllib.quote_plus(value.encode('utf-8'))
