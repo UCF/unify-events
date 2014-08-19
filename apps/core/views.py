@@ -1,5 +1,7 @@
 import logging
 
+from urlparse import parse_qs
+
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
@@ -27,7 +29,7 @@ def esi_template(request, path):
     return render_to_response(path, {}, RequestContext(request))
 
 
-def esi(request, model_name, object_id, template_name, calendar_id=None):
+def esi(request, model_name, object_id, template_name, calendar_id=None, params=None):
     """
     Returns the HTML for a given model and id for ESIs
     """
@@ -43,6 +45,11 @@ def esi(request, model_name, object_id, template_name, calendar_id=None):
         url = 'esi/' + model_name + '/' + template_html
 
         context = { 'object': the_object }
+        
+        # Add params, if any, to context.
+        if params:
+            params = parse_qs(params)
+            context.update(params)
 
         if calendar_id is not None and calendar_id != 'None':
             calendar_id_int = int(calendar_id)
@@ -199,6 +206,11 @@ class PaginationRedirectMixin(object):
         page_size = self.get_paginate_by(queryset)
         paginator = self.get_paginator(queryset, page_size, allow_empty_first_page=self.get_allow_empty())
         url_name = self.request.resolver_match.url_name
+
+        # prevent feed.None from being passed into new redirect url
+        if 'format' in self.kwargs and self.kwargs['format'] is None:
+            self.kwargs.pop('format', None)
+
         try:
             return super(PaginationRedirectMixin, self).get(request, *args, **kwargs)
         except Http404:
@@ -268,8 +280,8 @@ class InvalidSlugRedirectMixin(object):
 
         if needs_redirect:
             url_name = request.resolver_match.url_name
-            # Do not return a 'format' value of None in self.kwargs
-            if r_kwargs['format'] == 'None' or r_kwargs['format'] is None:
+            # prevent feed.None from being passed into new redirect url
+            if 'format' in r_kwargs and r_kwargs['format'] is None:
                 r_kwargs.pop('format', None)
                 
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=r_kwargs))

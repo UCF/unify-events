@@ -361,7 +361,6 @@ header {
 
     > .well-empty {
       padding-right: 30px;
-      margin-top: 20px;
     }
 
     > .map-widget-wrap {
@@ -373,7 +372,8 @@ header {
     }
   }
 
-  & > .panel {
+  & > .panel,
+  & > .well {
     margin-top: 20px;
   }
 }
