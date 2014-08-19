@@ -9,12 +9,17 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django_bleach.models import BleachField
 from taggit.managers import TaggableManager
+from taggit.models import Tag
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from events.utils import event_ban_urls
+from events.utils import generic_ban_urls
 import events.models
 import settings
 
@@ -100,7 +105,6 @@ def map_event_range(start, end, events):
     mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), x.end.time()))
 
     return mapped_events
-
 
 
 class State:
@@ -348,6 +352,11 @@ class Event(TimeCreatedModified):
         return '<' + str(self.calendar) + '/' + self.title + '>'
 
 pre_save.connect(pre_save_slug, sender=Event)
+post_save.connect(event_ban_urls, sender=Event)
+post_delete.connect(event_ban_urls, sender=Event)
+
+post_save.connect(generic_ban_urls, sender=Tag)
+post_delete.connect(generic_ban_urls, sender=Tag)
 
 
 class EventInstance(TimeCreatedModified):
