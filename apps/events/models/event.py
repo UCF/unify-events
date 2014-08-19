@@ -89,7 +89,11 @@ def map_event_range(start, end, events):
                 # Set the last day's start time in a duration
                 elif event.start.date() != day.date() and event.end.date() == day.date():
                     event_by_day.start = datetime.combine(day, datetime.min.time())
-                    event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
+                    # Try to catch weird instances where the endtime is not set (from imported events)
+                    if not event.end.time():
+                        event_by_day.end = datetime.combine(day, datetime.max.time())
+                    else:
+                        event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
 
                 if day in days:
                     mapped_events.append(event_by_day)
