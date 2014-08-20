@@ -94,7 +94,7 @@
 <div class="row">
     <div class="col-md-8 col-sm-8 sidebarfix page-content" id="event-single">
         <div class="event-content content-expand description">
-    	   {{ event_instance.event.description|bleach }}
+    	    {{ event_instance.event.description|clean_and_linkify }}
             <a class="content-expander visible-xs" href="#"><i class="fa fa-caret-down"></i></a>
         </div>
 

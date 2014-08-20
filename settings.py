@@ -225,6 +225,11 @@ BLEACH_ALLOWED_STYLES = ['font-weight', 'text-decoration']
 BLEACH_STRIP_TAGS = True
 BLEACH_STRIP_COMMENTS = True
 
+# A custom list of elements whose markup and contents should be stripped
+# completely from values filtered with the 'clean_and_linkify' filter.
+# (Bleach strips tags, but keeps contents.)
+BANNED_TAGS = ['style', 'script', 'link', 'noscript']
+
 # Default description value for imported events with no description.
 FALLBACK_EVENT_DESCRIPTION = 'No description provided.'
 

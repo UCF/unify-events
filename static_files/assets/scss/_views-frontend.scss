@@ -431,6 +431,8 @@ ul.event-list-condensed {
     font-size: 15px;
     line-height: 1.5em;
     margin-bottom: 35px;
+    word-wrap: break-word;
+    overflow: hidden;
     @include respond-to(xs) {
       font-size: 14px;
     }
