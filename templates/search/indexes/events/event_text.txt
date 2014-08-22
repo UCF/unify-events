@@ -3,3 +3,4 @@
 {{ object.description }}
 {{ object.category }}
 {{ object.tags }}
+{{ object.created_from }}

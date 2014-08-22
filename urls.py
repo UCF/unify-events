@@ -14,6 +14,10 @@ from events.views.event_views import MonthEventsListView
 from events.views.event_views import WeekEventsListView
 from events.views.event_views import YearEventsListView
 
+if settings.SEARCH_ENABLED:
+    from haystack.views import search_view_factory
+    from events.views.search import GlobalSearchView
+
 admin.autodiscover()
 
 baseurlpatterns = patterns('',
@@ -44,8 +48,11 @@ urlpatterns = patterns('',
 
 # Append search urls (this MUST go before Main Calendar overrides; else a 404 is returned on the haystack_search view!)
 if settings.SEARCH_ENABLED:
-    urlpatterns += patterns('',
-        url(r'^search/', include('haystack.urls')),
+    urlpatterns += patterns('haystack.views',
+        url(r'^search/$', search_view_factory(
+            view_class=GlobalSearchView,
+            template='search/search.html'
+        ), name='haystack_search'),
     )
 else:
     urlpatterns += patterns('',
