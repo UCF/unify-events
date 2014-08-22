@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from django.conf import settings
-
 from haystack import indexes
 from events.models import Calendar
 from events.models import State
