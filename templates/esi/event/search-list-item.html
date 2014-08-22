@@ -1,5 +1,10 @@
 {% load core_tags %}
 
+{% comment %}
+Prioritize Main Calendar events. Assume that Main Calendar events
+will always be copied from somewhere else.
+{% endcomment %}
+
 {% with object=object.get_main_event|default:object %}
 <li>
     <h3 class="search-object-title event-title">

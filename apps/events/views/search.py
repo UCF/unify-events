@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 class GlobalSearchView(SearchView):
     """
     Only return unique events (do not return events copied to other calendars.)
-    Prioritize Main Calendar events.
     """
     def get_results(self):
         results = super(GlobalSearchView, self).get_results()
