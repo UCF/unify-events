@@ -3,6 +3,8 @@ import logging
 from clearcache import clearcache
 from django.conf import settings
 
+import events.models
+
 log = logging.getLogger(__name__)
 
 
