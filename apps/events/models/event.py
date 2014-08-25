@@ -151,7 +151,7 @@ class Event(TimeCreatedModified):
     slug = models.SlugField(max_length=255, blank=True)
     description = BleachField()
     contact_name = models.CharField(max_length=64)
-    contact_email = models.EmailField(max_length=128)
+    contact_email = models.EmailField(max_length=128, blank=False, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events')
     tags = TaggableManager()
