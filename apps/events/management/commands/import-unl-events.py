@@ -122,7 +122,8 @@ class Command(BaseCommand):
                             else:
                                 # Instances
                                 for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
-                                    new_instance = EventInstance(event=new_event)
+                                    new_instance = EventInstance(event=new_event,
+                                                                 unl_eventdatetime_id=old_instance.id)
 
                                     old_start_time = old_instance.starttime
                                     old_end_time = old_instance.endtime

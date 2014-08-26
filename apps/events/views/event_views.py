@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 from dateutil import rrule
 from dateutil.relativedelta import relativedelta
+from django.db.models.query import QuerySet
 from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
@@ -427,7 +428,28 @@ class HomeEventsListView(DayEventsListView):
                 new_kwargs['format'] = self.request.GET.get('format')
 
             if self.is_event_instance():
-                instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
+                """
+                Try to fetch by eventdatetime_id (backward compatibility with UNL Events).
+
+                Fetching by unl_eventdatetime_id should always return .count() > 1 with
+                imported events that have been copied to the main calendar.
+
+                Assuming no calendar_id value is provided (which is typically the case), the
+                main calendar version of the event will be prioritized.  Otherwise, the
+                original event will be fetched.
+
+                If nothing with the eventdatetime_id is found, try searching by pk instead.
+                """ 
+                instance = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
+                # Is this instance copied to multiple calendars?
+                if instance.count() > 1:
+                    instance = instance.filter(event__calendar=calendar)
+                # Is this a non-imported event instance (or did further filtering return nothing)?
+                if instance.count() == 0:
+                    instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
+                if isinstance(instance, QuerySet):
+                    instance = instance[0]
+
                 new_url_name = 'event'
                 new_kwargs['pk'] = instance.pk
                 new_kwargs['slug'] = instance.slug

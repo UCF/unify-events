@@ -382,6 +382,7 @@ class EventInstance(TimeCreatedModified):
             (yearly, 'Yearly'),
         )
 
+    unl_eventdatetime_id = models.PositiveIntegerField(blank=True, null=True) # Necessary to map redirects to events from UNL Events system
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
     location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances');
