@@ -74,6 +74,8 @@
 
 <p>Note that this importer should only be run on a fresh database, immediately after running <code>python manage.py syncdb</code> or <code>python manage.py flush</code>.</p>
 
+<p><strong>Before running this import, make sure that a new user has been created in Django for every non-NID-based user in the UNL system. These users' events will fail to import otherwise.</strong></p>
+
 <ol>
 <li>cd to the new virtual environment src folder</li>
 <li><p>Activate virtual environment</p>
