@@ -83,12 +83,6 @@ class Command(BaseCommand):
                             old_contact_name = old_contact_name[0:63]
 
                         old_contact_email = old_event.listingcontactemail
-                        if not old_contact_email:
-                            if calendar_creator.email:
-                                old_contact_email = calendar_creator.email
-                            else:
-                                old_contact_email = 'webcom@ucf.edu'
-
                         old_contact_phone = old_event.listingcontactphone
 
                         if not old_event.description:
@@ -128,7 +122,8 @@ class Command(BaseCommand):
                             else:
                                 # Instances
                                 for old_instance in UNLEventdatetime.objects.filter(event_id=old_event.id):
-                                    new_instance = EventInstance(event=new_event)
+                                    new_instance = EventInstance(event=new_event,
+                                                                 unl_eventdatetime_id=old_instance.id)
 
                                     old_start_time = old_instance.starttime
                                     old_end_time = old_instance.endtime

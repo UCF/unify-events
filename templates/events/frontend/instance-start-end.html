@@ -1,0 +1,66 @@
+{% comment %}
+This template handles event instance information when a contextual 'start_date' constant is
+defined (i.e. on a calendar-based list view), and when one is not defined (i.e. on a tag/category-based
+list view and search results.)  Some data, while still printed to the screen, is hidden via CSS.
+
+"Start date" phrasing logic:
+"[start-date] + [phrase]": if a 'start_date' constant is not defined
+"+ at [time]": if the start time is available, and if a 'start_date' constant is not defined
+"+ [time]": if the start time is available, and if a 'start_date' constant is defined
+"+ [empty]": if the start and end date are empty and identical; i.e. are imported events with no set start/end times
+"+ All Day": if the instance starts at "00:00" and ends at "23:59" (spans the entirety of the day)
+"+ until [time]": if the instance starts at "00:00" but does not span the entirety of the day
+"+ All Day": fallback if no other conditions above are met
+
+"Until" phrasing logic:
+"[empty]": if the start date and end date of the instance are identical, and/or if an end time is not defined
+"until [date]": if the instance start date is not the same as the end date (and the end time is not defined), and a 'start_date' constant is not defined
+"until [date], [time]": if the instance start date is not the same as the end date (and the end time is defined), and a 'start_date' constant is not defined
+"until [time]": if the instance start date is the same as the end date (and the end time is defined), and a 'start_date' constant is not defined
+
+Note that "until" logic doesn't need to account for "23:59" end times here because these times are (generally) only assigned
+via map_event_range(), which is not used on querysets for non-date-based views (not used on views where start_date is not set.)
+{% endcomment %}
+
+<time class="dtstart" datetime="{{ instance_start|date:"cZ" }}">
+    {% if not start_date %}
+        <span class="start-date">{{ instance_start.date }}</span>
+    {% endif %}
+    {% if instance_start.time %}
+        <span class="start-time">
+            {% if not start_date %}
+            at
+            {% endif %}
+            {{ instance_start|date:"f a" }}
+        </span>
+    {% elif not instance_start.time and not instance_end.time and instance_start == instance_end %}
+    {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
+        <span class="start-time">All Day</span>
+    {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
+        <span class="until">until {{ instance_end|date:"f a" }}</span>
+    {% else %}
+        <span class="start-time">All Day</span>
+    {% endif %}
+    <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
+</time>
+{% if not start_date %}
+<time class="dtend" datetime="{{ instance_end|date:"cZ" }}">
+    {% if instance.object %}
+        {% with last_instance=instance.object.get_last_instance %}
+            {% if instance_start == last_instance.end %}
+            {% elif last_instance.end.date != instance_start.date %}
+                until {{ last_instance.end|date:"N j, Y" }}{% if last_instance.end.time %}, {{ last_instance.end.time }}{% endif %}
+            {% elif last_instance.end.time %}
+                until {{ last_instance.end.time }}
+            {% endif %}
+        {% endwith %}
+    {% else %}
+        {% if instance_start == instance_end %}
+        {% elif instance_end.date != instance_start.date %}
+            until {{ instance_end|date:"N j, Y" }}{% if instance_end.time %}, {{ instance_end.time }}{% endif %}
+        {% elif instance_end.time %}
+            until {{ instance_end.time }}
+        {% endif %}
+    {% endif %}
+</time>
+{% endif %}

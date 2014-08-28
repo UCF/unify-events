@@ -52,6 +52,8 @@
 ### UNL Events Import
 Note that this importer should only be run on a fresh database, immediately after running `python manage.py syncdb` or `python manage.py flush`.
 
+**Before running this import, make sure that a new user has been created in Django for every non-NID-based user in the UNL system. These users' events will fail to import otherwise.**
+
 1. cd to the new virtual environment src folder
 2. Activate virtual environment
 

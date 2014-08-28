@@ -9,12 +9,17 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django_bleach.models import BleachField
 from taggit.managers import TaggableManager
+from taggit.models import Tag
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from events.utils import event_ban_urls
+from events.utils import generic_ban_urls
 import events.models
 import settings
 
@@ -89,7 +94,11 @@ def map_event_range(start, end, events):
                 # Set the last day's start time in a duration
                 elif event.start.date() != day.date() and event.end.date() == day.date():
                     event_by_day.start = datetime.combine(day, datetime.min.time())
-                    event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
+                    # Try to catch weird instances where the endtime is not set (from imported events)
+                    if not event.end.time():
+                        event_by_day.end = datetime.combine(day, datetime.max.time())
+                    else:
+                        event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
 
                 if day in days:
                     mapped_events.append(event_by_day)
@@ -100,7 +109,6 @@ def map_event_range(start, end, events):
     mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), x.end.time()))
 
     return mapped_events
-
 
 
 class State:
@@ -147,7 +155,7 @@ class Event(TimeCreatedModified):
     slug = models.SlugField(max_length=255, blank=True)
     description = BleachField()
     contact_name = models.CharField(max_length=64)
-    contact_email = models.EmailField(max_length=128)
+    contact_email = models.EmailField(max_length=128, blank=False, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events')
     tags = TaggableManager()
@@ -348,6 +356,11 @@ class Event(TimeCreatedModified):
         return '<' + str(self.calendar) + '/' + self.title + '>'
 
 pre_save.connect(pre_save_slug, sender=Event)
+post_save.connect(event_ban_urls, sender=Event)
+post_delete.connect(event_ban_urls, sender=Event)
+
+post_save.connect(generic_ban_urls, sender=Tag)
+post_delete.connect(generic_ban_urls, sender=Tag)
 
 
 class EventInstance(TimeCreatedModified):
@@ -369,6 +382,7 @@ class EventInstance(TimeCreatedModified):
             (yearly, 'Yearly'),
         )
 
+    unl_eventdatetime_id = models.PositiveIntegerField(blank=True, null=True) # Necessary to map redirects to events from UNL Events system
     event = models.ForeignKey(Event, related_name='event_instances')
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
     location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances');

@@ -1,8 +1,11 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from events.utils import generic_ban_urls
 
 
 class Category(TimeCreatedModified):
@@ -24,3 +27,5 @@ class Category(TimeCreatedModified):
         return unicode(self.title)
 
 pre_save.connect(pre_save_slug, sender=Category)
+post_save.connect(generic_ban_urls, sender=Category)
+post_delete.connect(generic_ban_urls, sender=Category)

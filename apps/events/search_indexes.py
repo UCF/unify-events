@@ -13,6 +13,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
     description = indexes.CharField(model_attr='description')
     category = indexes.CharField(model_attr='category')
     tags = indexes.CharField(model_attr='tags')
+    created_from = indexes.CharField(model_attr='created_from', default='None')
 
     def get_model(self):
         return Event
@@ -33,6 +34,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
 class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='description', null=True)
+    created_from = indexes.CharField(default='None') # Necessary for GlobalSearchView when fetching original events
 
     def get_model(self):
         return Calendar

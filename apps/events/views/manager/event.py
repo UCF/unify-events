@@ -8,19 +8,23 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
 from django.views.generic import DeleteView
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from core.forms import RequiredModelFormSet
 from core.views import DeleteSuccessMessageMixin
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
+from events.forms.manager import EventInstanceForm
 from events.forms.manager import EventInstanceFormSet
 from events.functions import update_subscriptions
 from events.models import get_main_calendar
 from events.models import Event
+from events.models import EventInstance
 from events.models import Location
 from events.models import State
 from taggit.models import Tag
@@ -48,7 +52,6 @@ class EventCreate(CreateView):
         Get additional context data.
         """
         context = super(EventCreate, self).get_context_data(**kwargs)
-
         ctx = {
                'locations': Location.objects.all(),
                'tags': Tag.objects.all()
@@ -65,7 +68,17 @@ class EventCreate(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        event_instance_formset = EventInstanceFormSet()
+        # For some reason, defining event_instance_formset with EventInstanceFormSet()
+        # here will return an empty formset when navigating to the Create View from the
+        # Update View.  We explicitly use a new inlineformset_factory here to accomodate.
+        #event_instance_formset = EventInstanceFormSet()
+        event_instance_formset = inlineformset_factory(Event,
+                                             EventInstance,
+                                             form=EventInstanceForm,
+                                             formset=RequiredModelFormSet,
+                                             extra=1,
+                                             max_num=12)
+
         return self.render_to_response(self.get_context_data(form=form,
                                                              event_instance_formset=event_instance_formset))
 

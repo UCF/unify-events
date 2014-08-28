@@ -15,5 +15,6 @@
 	"tags": {% if event_instance.event.tags.all %}[{% for tag in event_instance.event.tags.all %}{% include_esi 'tag' tag.pk 'name-escapejs' %}{% if not forloop.last %},{% endif %}{% endfor %}]{% else %}null{% endif %},
 	"contact_name": {% if event_instance.event.contact_name %}"{{ event_instance.event.contact_name|escapejs }}"{% else %}null{% endif %},
 	"contact_phone": {% if event_instance.event.contact_phone %}"{{ event_instance.event.contact_phone|escapejs }}"{% else %}null{% endif %},
-	"contact_email": {% if event_instance.event.contact_email %}"{{ event_instance.event.contact_email|escapejs }}"{% else %}null{% endif %}
+	"contact_email": {% if event_instance.event.contact_email %}"{{ event_instance.event.contact_email|escapejs }}"{% else %}null{% endif %},
+	"url": "{{ event_instance.get_absolute_url }}"
 }

@@ -92,6 +92,42 @@ var autoOpenTagByAnchor = function() {
 
 
 /**
+ * Jump to an anchor on the page with smooth scrolling and highlight it
+ **/
+var jumpTo = function() {
+    $('.jump-to').on('click', function() {
+        var id = $(this).attr('href'),
+            elem = $(id),
+            useGlow = $(this).hasClass('jump-to-glow'),
+            adminBar = $('.nav-wrap'),
+            pageTopPadding = 20; // some default padding btwn top of pg and content
+
+        if (adminBar.length) {
+            pageTopPadding += adminBar.height();
+        }
+
+        if (useGlow) {
+            elem
+                .removeClass('jump-to-target jump-to-target-active')
+                .addClass('jump-to-target jump-to-target-active');
+        }
+
+        $('html,body').animate({
+            scrollTop: elem.offset().top - pageTopPadding
+        }, 300);
+
+        if (useGlow) {
+            setTimeout(function() {
+                elem.removeClass('jump-to-target jump-to-target-active');
+            }, 4000);
+        }
+
+        return false;
+    });
+};
+
+
+/**
  * Toggle Generic Object modification/deletion modal.
  *
  * Populates modal contents with the static form specified
@@ -280,6 +316,7 @@ $(document).ready(function() {
     hideDropdownScrollbars();
     abbrTooltips();
     autoOpenTagByAnchor();
+    jumpTo();
     toggleModalModifyObject();
     calendarSliders();
     dropdownMenuForms();

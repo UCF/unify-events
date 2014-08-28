@@ -87,7 +87,7 @@
   & > li {
     overflow: hidden;
     margin: 20px 0;
-    padding: 0 0 20px 0;
+    padding: 0 0 12px 0; /* +8px spacing added by margin-bottom on .result-meta */
     border-bottom: 2px dotted $table-border-color;
   }
   & > li.last-child {
@@ -100,10 +100,22 @@
   .result-meta {
     font-size: 13px;
     overflow: hidden;
+    margin-bottom: 8px;
   }
 
   .calendar-title {
     margin-bottom: 0;
+  }
+
+  .start-end {
+    margin: 2px 0 8px 0;
+  }
+
+  time {
+    font-size: 15px;
+    line-height: 1em;
+    color: #000;
+    @include respond-to(xs-sm) { font-size: 16px; }
   }
 
   .description,
@@ -154,7 +166,9 @@
   }
   .event-tags i,
   .event-category i,
-  .event-calendar i {
+  .event-calendar i,
+  .event-copy-info i,
+  .event-duplicate-info i {
     display: block;
     float: left;
     color: $gray;
@@ -173,6 +187,47 @@
     font-weight: bold;
     white-space: nowrap;
   }
+
+  .event-copy-info,
+  .event-duplicate-info {
+    font-size: 11px;
+    float: left;
+    clear: both;
+
+    i {
+      display: inline-block;
+      float: none;
+    }
+    a {
+      font-weight: 500;
+    }
+    ul {
+      display: inline;
+    }
+    li {
+      display: block;
+      float: left;
+      margin-right: 8px;
+      @include respond-to(xs) {
+        width: 100%;
+      }
+    }
+
+    .info-text {
+      display: block;
+      float: left;
+      margin-right: 4px;
+      font-style: italic;
+      @include respond-to(xs) {
+        width: 100%;
+      }
+    }
+  }
+  .event-copy-info + .event-duplicate-info {
+    @include respond-to(xs) {
+      margin-top: 4px;
+    }
+  }
 }
 .search-object-title {
   font-size: 21px;
@@ -190,8 +245,6 @@
 
 #calendar-base .page-content {
   h2 {
-    margin-bottom: 30px;
-
     &.heading-location,
     &.heading-contact {
       margin-bottom: 5px;
@@ -258,7 +311,6 @@ ul.event-list {
     }
 
     time {
-      display: block;
       font-size: 20px;
       line-height: 1em;
       font-weight: bold;
@@ -472,6 +524,8 @@ ul.event-list-condensed {
     font-size: 15px;
     line-height: 1.5em;
     margin-bottom: 35px;
+    word-wrap: break-word;
+    overflow: hidden;
     @include respond-to(xs) {
       font-size: 14px;
     }

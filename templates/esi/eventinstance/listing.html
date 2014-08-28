@@ -20,46 +20,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
                 {% endif %}
             </h3>
 
-            <time class="dtstart" datetime="{{ instance_start|date:"cZ" }}">
-                {% if not start_date %}
-                    <span class="start-date">{{ instance_start.date }}</span>
-                {% endif %}
-                {% if instance_start.time and instance_end.time %}
-                    <span class="start-time">
-                        {% if not start_date %}
-                        at
-                        {% endif %}
-                        {{ instance_start|date:"f a" }}
-                    </span>
-                {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
-                    <span class="start-time">All Day</span>
-                {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
-                    <span class="until">until {{ instance_end|date:"f a" }}</span>
-                {% else %}
-                    <span class="start-time">All Day</span>
-                {% endif %}
-                <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
-            </time>
-            {% if not start_date %}
-            <time class="dtend" datetime="{{ instance_end|date:"cZ" }}">
-                until
-                {% if instance.object %}
-                    {% with last_instance=instance.object.get_last_instance %}
-                    {% if last_instance.end.date != instance_start.date %}
-                    {{ last_instance.end }}
-                    {% else %}
-                    {{ last_instance.end.time }}
-                    {% endif %}
-                    {% endwith %}
-                {% else %}
-                    {% if instance_end.date != instance_start.date %}
-                    {{ instance_end }}
-                    {% else %}
-                    {{ instance_end.time }}
-                    {% endif %}
-                {% endif %}
-            </time>
-            {% endif %}
+            {% include 'events/frontend/instance-start-end.html' with start_date=start_date instance_start=instance_start instance_end=instance_end %}
 
             <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
             <p class="description">

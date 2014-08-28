@@ -201,22 +201,23 @@ class PaginationRedirectMixin(object):
     Attempts to redirect to the last valid page in a paginated list if the
     requested page does not exist (instead of returning a 404.)
     """
-    def get(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
+        r_kwargs = request.resolver_match.kwargs
         queryset = self.get_queryset()
         page_size = self.get_paginate_by(queryset)
         paginator = self.get_paginator(queryset, page_size, allow_empty_first_page=self.get_allow_empty())
         url_name = self.request.resolver_match.url_name
 
         # prevent feed.None from being passed into new redirect url
-        if 'format' in self.kwargs and self.kwargs['format'] is None:
-            self.kwargs.pop('format', None)
+        if 'format' in r_kwargs and r_kwargs['format'] is None:
+            r_kwargs.pop('format', None)
 
         try:
-            return super(PaginationRedirectMixin, self).get(request, *args, **kwargs)
+            return super(PaginationRedirectMixin, self).dispatch(request, *args, **kwargs)
         except Http404:
             if self.request.GET.get('page') > paginator.num_pages:
                 # Get the current page url and append the new page number:
-                url = '%s?page=%s' % (reverse(url_name, kwargs=self.kwargs), paginator.num_pages)
+                url = '%s?page=%s' % (reverse(url_name, kwargs=r_kwargs), paginator.num_pages)
                 return HttpResponseRedirect(url)
             else:
                 # re-raise Http404, as the reason for the 404 was not that maximum pages was exceeded

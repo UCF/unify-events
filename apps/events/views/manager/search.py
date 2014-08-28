@@ -14,5 +14,6 @@ class ManagerSearchView(SearchView):
     """
     def get_results(self):
         results = super(ManagerSearchView, self).get_results()
-        results = results.models(Event).filter(calendar__in=self.request.user.calendars)
+        results = results.filter(calendar__in=self.request.user.calendars)
+
         return results
