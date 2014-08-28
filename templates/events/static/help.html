@@ -163,7 +163,9 @@
                 a feed from the old events system, you shouldn't need to make any changes to your code for the new system.
             </p>
             <p>
-                Listed below are all available feed locations:
+                Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
+                on a specific calendar.  To fetch events on the Main Calendar, remove the <code>/calendar/[calendar_id]/[calendar_slug]/</code>
+                portion of the example URLs.
             </p>
 
             <div>
@@ -190,9 +192,7 @@
                                 </small></p>
                             </td>
                             <td>
-                                <code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code><br/><br/>
-                                <small>Main Calendar URL (exclude calendar arguments):</small><br/>
-                                <code>{% url 'home' %}feed.json</code>
+                                <code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code>
                             </td>
                             <td>
                                 <ul class="table-list">
@@ -502,6 +502,25 @@
                                 n/a
                             </td>
                         </tr>
+                        <tr>
+                            <td>Single Event Profile</td>
+                            <td><code>{% url 'event' pk=1234 slug='my-event-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>event_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>event_slug</code><br/>
+                                        <small>Example value: <em>my-event-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -511,7 +530,6 @@
                 strictly for backward compatibility with the old events system and may be deprecated at any time.  We strongly recommend using
                 the methods listed above for accessing feed data.
             </div>
-
 
             <h3 id="events-widget">Events Widget</h3>
             <div class="alert alert-danger">
@@ -527,8 +545,7 @@
 
             <h4>Installation</h4>
             <p>
-                The UCF Events Widget can be <a href="TODO">downloaded and installed locally</a>, or linked to directly 
-                from UCF Events using the code below.
+                Copy and paste the markup below into your site's code:
             </p>
             <ol>
                 <li>
@@ -556,8 +573,7 @@
                 All properties listed below are optional.
             </p>
             <p>
-                Options are attached to the Events Widget using 
-                <a href="http://dev.w3.org/html5/spec/Overview.html#custom-data-attribute">data attributes</a>; 
+                Options are attached to the Events Widget using data attributes; 
                 e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
             </p>
             <div>
@@ -606,23 +622,27 @@
             </div>
 
             <h4>Demos</h4>
-            <h5>List Display</h5>
             <div class="row">
                 <div class="col-md-3">
-                    links to list demos...
+                    <h5>List View</h5>
+                    <a class="btn btn-primary" href="{% url 'home' %}tools/demo-list.html">View Live Demo</a><br/><br/>
                 </div>
-                <div class="col-md-4">
-                    screenshot
+                <div class="col-md-9">
+                    <a href="{% url 'home' %}tools/demo-list.html">
+                        <img class="img-responsive img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/event-widget-list.png" alt="List widget screenshot" title="List widget screenshot" />
+                    </a>
                 </div>
             </div>
-            
-            <h5>Calendar Display</h5>
+            <br/>
             <div class="row">
                 <div class="col-md-3">
-                    links to calendar display demos...
+                    <h5>Calendar View</h5>
+                    <a class="btn btn-primary" href="{% url 'home' %}tools/demo-calendar.html">View Live Demo</a><br/><br/>
                 </div>
-                <div class="col-md-4">
-                    screenshot
+                <div class="col-md-9">
+                    <a href="{% url 'home' %}tools/demo-calendar.html">
+                        <img class="img-responsive img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/event-widget-calendar.png" alt="Calendar widget screenshot" title="Calendar widget screenshot" />
+                    </a>
                 </div>
             </div>
         </div>
