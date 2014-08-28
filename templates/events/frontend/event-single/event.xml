@@ -2,8 +2,9 @@
 <events xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="UCBCNEvents_1.9.xsd">
 {% endif %}
     <event>
-        <id>{{ event_instance.event.pk }}</id>
-        <event_id>{{ event_instance.pk }}</event_id>
+        <id>{% if event_instance.unl_eventdatetime_id %}{{ event_instance.unl_eventdatetime_id }}{% else %}{{ event_instance.pk }}{% endif %</id>
+        <event_id>{{ event_instance.event.pk }}</event_id>
+        <eventinstance_id>{{ event_instance.pk }}</eventinstance_id>
 		<title>{{ event_instance.event.get_title_canceled }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
