@@ -167,38 +167,31 @@ class Command(BaseCommand):
                                     except Exception, e:
                                         logging.error('Unable to save event instance for event `%s`: %s' % (new_event.title,str(e)))
 
+        # Process all subscriptions.
+        # sub.calendar_id is the ID of a calendar that is subscribed to
+        # the calendar defined in sub.searchcriteria.
         subscriptions = UNLSubscription.objects.all()
         for sub in subscriptions:
             if sub.searchcriteria is not None:
                 subscription_id = sub.searchcriteria.split()[0].replace('calendar_has_event.calendar_id=', '')
+                # Get the calendar that is *subscribed to* by the calendar with pk=sub.calendar_id
                 try:
-                    unl_subscription_cal = UNLCalendar.objects.get(id=subscription_id)
-                except UNLCalendar.DoesNotExist:
-                    logging.error('UNL subscription calendar does not exist ID: %s' , subscription_id)
+                    subscription_cal = Calendar.objects.get(pk=subscription_id)
+                except Calendar.DoesNotExist:
+                    logging.error('Subscription calendar does not exist with pk %s', subscription_id)
+                except Calendar.MultipleObjectsReturned as e:
+                    logging.error('Multiple subscription calendars exist with pk %s: %s' % (subscription_id, str(e)))
                 else:
+                    # Get the calendar that *subscribes to* and receives events from the subscription_cal
                     try:
-                        subscription_cal = Calendar.objects.get(pk=subscription_id)
+                        calendar = Calendar.objects.get(pk=sub.calendar_id)
                     except Calendar.DoesNotExist:
-                        logging.error('Subscription calendar does not exist with UNL ID %s', subscription_id)
+                        logging.error('Subscribing calendar does not exist with pk %s', sub.calendar_id)
                     except Calendar.MultipleObjectsReturned as e:
-                        logging.error('Subscription calendar is not unique with UNL ID %s: %s' % (subscription_id, str(e)))
+                        logging.error('Multiple subscribing calendars exist with pk %s: %s' % (sub.calendar_id, str(e)))
                     else:
-                        try:
-                            unl_calendar = UNLCalendar.objects.get(id=sub.calendar_id)
-                        except UNLCalendar.DoesNotExist:
-                            logging.error('UNL calendar does not exist ID: %s', sub.calendar_id)
-                        except Calendar.MultipleObjectsReturned as e:
-                            logging.error('UNL calendar is not unique with ID %s:' % (sub.calendar_id, str(e)))
-                        else:
-                            try:
-                                calendar = Calendar.objects.get(pk=unl_calendar.id)
-                            except Calendar.DoesNotExist:
-                                logging.error('Calendar does not exist with UNL ID %s', unl_calendar.id)
-                            except Calendar.MultipleObjectsReturned as e:
-                                logging.error('Multiple calendars exist with ID %s: %s' % (unl_calendar.id, str(e)))
-                            else:
-                                calendar.subscriptions.add(subscription_cal)
-                                calendar.save()
+                        calendar.subscriptions.add(subscription_cal)
+                        calendar.save()
 
 
     def get_event_category(self,old_event):
