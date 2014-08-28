@@ -96,9 +96,15 @@ var autoOpenTagByAnchor = function() {
  **/
 var jumpTo = function() {
     $('.jump-to').on('click', function() {
-        var id = $(this).attr('href');
-        var elem = $(id);
-        var useGlow = $(this).hasClass('jump-to-glow');
+        var id = $(this).attr('href'),
+            elem = $(id),
+            useGlow = $(this).hasClass('jump-to-glow'),
+            adminBar = $('.nav-wrap'),
+            pageTopPadding = 20; // some default padding btwn top of pg and content
+
+        if (adminBar.length) {
+            pageTopPadding += adminBar.height();
+        }
 
         if (useGlow) {
             elem
@@ -107,7 +113,7 @@ var jumpTo = function() {
         }
 
         $('html,body').animate({
-            scrollTop: elem.offset().top
+            scrollTop: elem.offset().top - pageTopPadding
         }, 300);
 
         if (useGlow) {
