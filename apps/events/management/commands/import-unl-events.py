@@ -177,21 +177,25 @@ class Command(BaseCommand):
                     logging.error('UNL subscription calendar does not exist ID: %s' , subscription_id)
                 else:
                     try:
-                        subscription_cal = Calendar.objects.get(title=unl_subscription_cal.name)
+                        subscription_cal = Calendar.objects.get(pk=subscription_id)
                     except Calendar.DoesNotExist:
-                        logging.error('Subscription calendar does not exist name: %s with UNL ID %s' % (unl_subscription_cal.name, subscription_id))
+                        logging.error('Subscription calendar does not exist with UNL ID %s', subscription_id)
+                    except Calendar.MultipleObjectsReturned as e:
+                        logging.error('Subscription calendar is not unique with UNL ID %s: %s' % (subscription_id, str(e)))
                     else:
                         try:
                             unl_calendar = UNLCalendar.objects.get(id=sub.calendar_id)
                         except UNLCalendar.DoesNotExist:
-                            logging.error('UNL calendar does not exist ID: %s' , sub.calendar_id)
+                            logging.error('UNL calendar does not exist ID: %s', sub.calendar_id)
+                        except Calendar.MultipleObjectsReturned as e:
+                            logging.error('UNL calendar is not unique with ID %s:' % (sub.calendar_id, str(e)))
                         else:
                             try:
-                                calendar = Calendar.objects.get(title=unl_calendar.name)
-                            except Calendar.MultipleObjectsReturned as e:
-                                logging.error('Multiple calendars exist for %s: %s' % (unl_calendar.name, str(e)))
+                                calendar = Calendar.objects.get(pk=unl_calendar.id)
                             except Calendar.DoesNotExist:
-                                logging.error('Calendar does not exist %s with UNL ID %s' % (unl_calendar.name, sub.calendar_id))
+                                logging.error('Calendar does not exist with UNL ID %s', unl_calendar.id)
+                            except Calendar.MultipleObjectsReturned as e:
+                                logging.error('Multiple calendars exist with ID %s: %s' % (unl_calendar.id, str(e)))
                             else:
                                 calendar.subscriptions.add(subscription_cal)
                                 calendar.save()
