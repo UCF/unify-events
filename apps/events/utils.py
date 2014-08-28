@@ -53,8 +53,11 @@ def ban_urls(url_list):
     """
     Bans a list of urls.
     """
-    url_list.append('/search/')
-    url_combo_list = [s + '.*' for s in url_list]
-    cacheCleaner = clearcache.CacheHandler(settings.ALLOWED_HOSTS, settings.VARNISH_NODES)
-    cacheCleaner.ban_url_list(url_combo_list)
+    if settings.ENABLE_CLEARCACHE:
+        url_list.append('/search/')
+        url_combo_list = [s + '.*' for s in url_list]
+        cacheCleaner = clearcache.CacheHandler(settings.ALLOWED_HOSTS, settings.VARNISH_NODES)
+        cacheCleaner.ban_url_list(url_combo_list)
+    else:
+        return
 
