@@ -55,3 +55,12 @@
     }
   }
 }
+
+/* Jump to anchor */
+.jump-to-target {
+  box-shadow: 0;
+  transition: box-shadow 0.5s cubic-bezier(0.180, 1.650, 0.820, -0.600);
+}
+.jump-to-target-active {
+  box-shadow: 0 0 8px $brand-primary;
+}
