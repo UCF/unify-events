@@ -72,24 +72,8 @@ class CalendarAdminUserValidationMixin(object):
             return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
-class UniqueMainCalendarTitleMixin(object):
-    """
-    Require that the Main Calendar's title be unique (no users can set a
-    calendar's title with the same title as the Main Calendar's.)
-    """
-    def form_valid(self, form):
-        title = form.cleaned_data['title']
-        main_title = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK).title
 
-        if title.lower() == main_title.lower():
-            messages.error(self.request, 'Sorry, the calendar title you selected cannot be used. Please use a different calendar title and try again.')
-            return super(UniqueMainCalendarTitleMixin, self).form_invalid(form)
-        else:
-            return super(UniqueMainCalendarTitleMixin, self).form_valid(form)
-
-
-
-class CalendarCreate(FirstLoginTemplateMixin, UniqueMainCalendarTitleMixin, SuccessMessageMixin, CreateView):
+class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was created successfully.'
@@ -144,7 +128,7 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin
             return super(CalendarDelete, self).delete(self, request, *args, **kwargs)
 
 
-class CalendarUpdate(UniqueMainCalendarTitleMixin, SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
+class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was updated successfully.'
