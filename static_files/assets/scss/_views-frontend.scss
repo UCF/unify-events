@@ -34,17 +34,17 @@
   }
 
   h3 {
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   h2 + h3 {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   h4,
   h5,
   h6 {
-    margin-top: 15px;
+    margin-top: 20px;
   }
 
   hr {
@@ -55,6 +55,19 @@
   .page-sidebar strong {
     margin-bottom: 5px;
     display: block;
+  }
+
+  .panel-title,
+  .panel-body > * {
+    margin-top: 0 !important;
+  }
+
+  ul.list-group > li {
+    margin-bottom: -1px;
+
+    h5 {
+      margin-top: 10px;
+    }
   }
 }
 

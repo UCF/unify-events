@@ -38,19 +38,89 @@
             </p>
             
             <h3 id="event-or-announcement">Events, or Announcements?</h3>
+            <p>
+                Before posting your event in the new events system, please read the guidelines below:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="well">
+                        An <strong>event</strong> is an occurrence with a <em>start time</em>, <em>end time</em>, and a specific <em>location</em>.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="well">
+                        An <strong>announcement</strong> is a general notice that does not necessarily have a location.
+                    </div>
+                </div>
+            </div>
+            <p>
+                If you're posting an announcement, please use the <a href="http://www.ucf.edu/announcements">UCF Announcements System</a> instead.
+                Announcements posted in the events system and submitted to for Main Calendar approval will be denied.
+            </p>
 
             <h3 id="old-system-changes">Changes from the Old Events System</h3>
+            <p>
+                The current events system has been completely rewritten from the ground up to improve the user experience and better encourage
+                the creation and sharing of calendars and events.  Below are some major changes between this events system and the previous one:
+            </p>
+            <ul>
+                <li>
+                    <strong>Users are no longer tied to a single calendar.</strong>  You still need to have access to at least one calendar to be
+                    able to create events, but none of those calendars have to belong to you.
+                </li>
+                <li>
+                    Calendar owners can now <strong>transfer ownership</strong> of their calendar to another registered user.
+                </li>
+                <li>
+                    Calendar owners have better <strong>user management tools</strong> available, and new user roles--administrators and editors--have different
+                    permissions.
+                </li>
+                <li>
+                    <strong>Event creation has been simplified.</strong>  Fewer fields to fill out make creating events easier and faster.
+                </li>
+                <li>
+                    Users have access to a "WYSIWYG" text editor for creating events, and no longer have to add HTML markup themselves to add
+                    links and text styles.
+                </li>
+                <li>
+                    Events with locations available on <a href="http://map.ucf.edu">map.ucf.edu</a> will automatically display a <strong>map widget</strong>
+                    of the event's location on the single event's page.
+                </li>
+                <li>
+                    <strong>Social sharing buttons</strong> are generated automatically for all events.
+                </li>
+                <li>
+                    Users can now create their own <strong>tags</strong> for their events.  Improved color-coded <strong>categories</strong> are also
+                    available to help users find your event.
+                </li>
+                <li>
+                    <strong>Improved calendar subscription tools</strong> and the ability to <strong>copy individual events to your calendar</strong> and receive
+                    updates from the original publisher are available.
+                </li>
+            </ul>
 
             <h3 id="sharing">Sharing and Distribution of Events and Calendars</h3>
             <p>
-
+                Events posted in the events system are distributed across a variety of mediums when they are posted to the Main Calendar.  These mediums
+                include, but are not limited to:
+            </p>
+            <ul>
+                <li><a href="http://www.ucf.edu">ucf.edu</a></li>
+                <li>This Week/Weekend @ UCF emails (weekly)</li>
+                <li>
+                    Any other website that consumes events data, either through <a class="jump-to" href="#feeds">feeds</a> or the
+                    <a class="jump-to" href="#events-widget">events Javascript widget</a>
+                </li>
+            </ul>
+            <p>
+                In addition, any events published to your calendar are also publicly available through feeds or the events widget.
             </p>
 
             <hr />
 
             <h2 id="getting-started">Getting Started</h2>
 
-            <h3 id="first-time-user-setup">First Time User Setup</h3>
+            <h3 id="sign-up-log-in">Sign Up/Log In</h3>
             <p>
                 To create new events, you'll need to <a href="{% url 'accounts-login' %}">log in</a> to the events system using your NID and 
                 NID password.  If you've never used the events system before, using the login form will set up your events system account for you.
@@ -66,29 +136,21 @@
                 </p>
             </div>
             <p>
-                First time users will be guided through a two-step setup process to confirm user settings and create a first calendar.  Users that
-                used the previous version of the events system will have all their events and settings copied over, and will not see this walkthrough
-                when they log in.
+                First time users will be guided through a two-step setup process to confirm user settings and create a first calendar.
             </p>
             <p>
-                When you've finished the initial setup process, you'll be directed to your Manager View.  If you didn't create a new calendar in the 
-                second step, you can either create one here, or request to be added to an existing calendar as an administrator or editor.  Requests
-                to be added to a calendar should be handled outside of the events system; contact the owner or an administrator of the calendar directly
-                so that they can add you.
+                Users that used the previous version of the events system will have all their events, calendars, and subscriptions copied over to
+                the new system and can begin using it right away.
             </p>
 
             <h3 id="create-new-calendar">Create a New Calendar</h3>
             <p>
-                Like the previous events system, all users require a calendar to be able to post events.  In the new events system, however, calendars
-                are not directly tied to your NIDs, so you can have more than one calendar, or be an administrator or editor of another calendar that
-                doesn't belong to you.
+                To post a new event in the events system, you must be added to at least one calendar: either one that you create, or one that you have
+                Editor or Administrator access to.
             </p>
             <p>
-                If you're a first time user, the second step of the first login process will ask you to create a new calendar.  You can create your first
+                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your first
                 calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later.
-            </p>
-            <p>
-                Calendars require a title; you can also add an optional description to tell users about the types of events on your calendar.
             </p>
 
             <h3 id="create-new-event">Create a New Event</h3>
@@ -96,39 +158,126 @@
                 If you are added to or own at least one calendar, you can create a new event.  Click the blue <strong>Create Event</strong> button in the
                 admin navbar to get started.
             </p>
+            <br/>
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Event Form Fields</h4>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h5>Calendar</h5>
+                            <p>
+                                Select the calendar you want to post the event to.  Events must be posted to an existing calendar before they can be added to the Main Calendar.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Suggest for Main Calendar Approval (optional)</h5>
+                            <p>
+                                To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown.  The event will be reviewed
+                                by UCF Marketing and posted to the Main Calendar if it <a class="jump-to" href="#event-or-announcement">meets the criteria for an event</a> and is
+                                relevant to and appropriate for the UCF community.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Title</h5>
+                            <p>
+                                Your event title should be unique, concise, and immediately recognizable to your audience.  Keep it simple.  Max length is 255 characters.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Status</h5>
+                            <p>
+                                Before saving your event, you can determine whether or not the event will display on your front-facing calendar immediately.  To immediately
+                                publish it, select "posted"; to save the event without displaying it on your calendar, select "pending".
+                            </p>
+                            <p>
+                                Note that pending events are still publicly available and accessible by anyone if they know the link to your event.
+                            </p>
+                            <p>
+                                For more information, see the help section on <a class="jump-to" href="#event-statuses">Event Statuses</a>.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Description</h5>
+                            <p>
+                                Your event description should adequately describe the purpose of your event, as well as any other details attendees need to know,
+                                like potential cost, where to register, etc.
+                                <strong>A description is required for all events.  Events submitted to the Main Calendar without an adequate description
+                                will not be approved.</strong>
+                            </p>
+                            <p>
+                                Use the toolbar above the textarea to apply text styling and add links to other webpages.  HTML markup and other code is not permitted
+                                and will be escaped.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>When &amp; Where</h5>
+                            <p>
+                                The When &amp; Where form will start with fields for a single event instance.  This instance must have a start time, end time, and a
+                                location.
+                            </p>
+                            <p>
+                                When an event instance <strong>re-occurs</strong>, instances are automatically generated for you based on the range you specify.
+                                For example, if your event runs from Monday thru Friday daily from 8:00 AM to 5:00 PM, you can create one event instance with a start date
+                                of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday (instead of creating
+                                event instances for each day manually.)
+                            </p>
+                            <p>
+                                <strong>To select an existing location</strong> for your event instance, start typing the name of your location in the text field provided.
+                                A list of suggestions will appear if an existing location is found.  Click the suggestion, or use the up and down arrow keys
+                                and hit Enter to select a suggestion.
+                            </p>
+                            <p>
+                                <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
+                                the right, where you can add a new location name, room number, and a link to an online map of the location, preferrably from
+                                <a href="http://map.ucf.edu">map.ucf.edu</a>.
+                            </p>
+                            <p>
+                                <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance
+                                form.  Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Category</h5>
+                            <p>
+                                A category helps users find your event via browsing or by searching.  Your event should be categorized under whatever category
+                                best describes your event overall.  Only one category can be assigned to an event.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Tags</h5>
+                            <p>
+                                Tags are user-generated phrases that can be used to further describe your events.  An event can have an unlimited number of tags.
+                            </p>
+                            <p>
+                                <strong>To add a tag</strong>, start typing a word or phrase in the text field provided.  If an existing phrase is found, it will be
+                                automatically suggested for you.  Type a comma or the Enter key, or click a suggestion, to add the phrase to your list of tags.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Contact Information</h5>
+                            <p>
+                                All events require a means by which users can get in touch with the organizer of the event.
+                            </p>
+                            <p>
+                                To quickly use the contact information associated with your NID, check the "Use Your Contact Information" checkbox.  Your name and
+                                email associated with your account will be autopopulated for you.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-            <h4>Calendar</h4>
             <p>
-                Select the calendar you want to post the event to.  Events must be posted to an existing calendar before they can be added to the Main Calendar.
-            </p>
-            <p>
-                To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown.
-            </p>
-
-            <h4>Title</h4>
-            <p>
-                Your event title should be unique, concise, and immediately recognizable to your audience.  Keep it simple.
-            </p>
-
-            <h4>Status</h4>
-            <p>
-                Before saving your event, you can determine whether or not the event will display on your front-facing calendar immediately.  To immediately
-                publish it, select "posted"; to save the event without making it publically available in event listings, select "pending".
-            </p>
-            <p>
-                For more information, see the help section on <a href="#event-statuses">Event Statuses</a>.
-            </p>
-
-            <h4>Description</h4>
-            <p>
-                
+                When you've finished adding the details of your event, click the blue <strong>Create Event</strong> button at the bottom of the form to save.
             </p>
 
             <hr />
             
-            <h2 id="calendar-management">Managing Your Calendars</h2>
+            <h2 id="calendar-management">Calendar Information</h2>
             
-            <h3 id="manager-view-basics">Manager View Basics</h3>
+            <h3 id="manager-view-basics">Using the Manager View</h3>
 
             <h3 id="calendar-settings">Calendar Settings and User Management</h3>
             
@@ -534,7 +683,7 @@
             <h3 id="events-widget">Events Widget</h3>
             <div class="alert alert-danger">
                 <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events
-                system's events widget.  It may be deprecated at any time.  We strongly recommend using <a href="#feeds">feeds</a> for consuming
+                system's events widget.  It may be deprecated at any time.  We strongly recommend using <a class="jump-to" href="#feeds">feeds</a> for consuming
                 data instead.
             </div>
 
@@ -667,7 +816,7 @@
                 <strong>Getting Started</strong>
                 <ul>
                     <li>
-                        <a href="#first-time-user-setup" class="jump-to">First Time User Setup</a>
+                        <a href="#sign-up-log-in" class="jump-to">Sign Up/Log In</a>
                     </li>
                     <li>
                         <a href="#create-new-calendar" class="jump-to">Create a New Calendar</a>
@@ -676,10 +825,10 @@
                         <a href="#create-new-event" class="jump-to">Create a New Event</a>
                     </li>
                 </ul>
-                <strong>Managing Your Calendars</strong>
+                <strong>Calendar Information</strong>
                 <ul>
                     <li>
-                        <a href="#manager-view-basics" class="jump-to">Manager View Basics</a>
+                        <a href="#manager-view-basics" class="jump-to">Using the Manager View</a>
                     </li>
                     <li>
                         <a href="#calendar-settings" class="jump-to">Calendar Settings and User Management</a>
