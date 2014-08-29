@@ -22,6 +22,21 @@ class CalendarForm(forms.ModelForm):
     """
     editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
 
+    def __init__(self, *args, **kwargs):
+        super(CalendarForm, self).__init__(*args, **kwargs)
+        calendar = kwargs['instance']
+        # Disable the title field for the main calendar
+        if calendar.is_main_calendar:
+            self.fields['title'].widget.attrs['readonly'] = True
+
+    def clean_title(self):
+        # Prevent main calendar title from being modified
+        calendar = self.instance
+        if calendar.is_main_calendar:
+            return calendar.title
+        else:
+            return self.cleaned_data['title']
+
     class Meta:
         model = Calendar
         fields = ('title', 'description', 'editors')
