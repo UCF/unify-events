@@ -26,13 +26,13 @@ class CalendarForm(forms.ModelForm):
         super(CalendarForm, self).__init__(*args, **kwargs)
         calendar = kwargs['instance']
         # Disable the title field for the main calendar
-        if calendar.is_main_calendar:
+        if calendar and calendar.is_main_calendar:
             self.fields['title'].widget.attrs['readonly'] = True
 
     def clean_title(self):
         # Prevent main calendar title from being modified
         calendar = self.instance
-        if calendar.is_main_calendar:
+        if calendar and calendar.is_main_calendar:
             return calendar.title
         else:
             return self.cleaned_data['title']
