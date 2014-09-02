@@ -4,7 +4,7 @@
 
 {% block pagehead %}
     {# Move login link out of header for this template #}
-    {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/header.html' %}{% endif %}
+    {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/user/header.html' %}{% endif %}
 {% endblock %}
 
 {% block content_title %}
@@ -12,7 +12,7 @@
         <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
 
-    {% if calendar.is_main_calendar %}{% include_esi_template 'esi/login.html' %}{% endif %}
+    {% if calendar.is_main_calendar %}{% include_esi_template 'esi/user/login.html' %}{% endif %}
 
     <div class="col-md-4 col-sm-5 edit-options hide">
         <ul>
@@ -62,8 +62,8 @@
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
-var user_calendars = [{% include_esi_template "esi/user-editable-calendar-ids.html" %}];
-var is_superuser = parseInt({% include_esi_template "esi/user-is-superuser.html" %});
+var user_calendars = [{% include_esi_template "esi/user/user-editable-calendar-ids.html" %}];
+var is_superuser = parseInt({% include_esi_template "esi/user/user-is-superuser.html" %});
 
 // Show edit button only for editors
 if (

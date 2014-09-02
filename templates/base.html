@@ -66,11 +66,11 @@
     </head>
     {# the body opening tag is included in the header-nav esi #}
         {% block navbar %}
-            {% include_esi_template 'esi/navbar.html' %}
+            {% include_esi_template 'esi/user/navbar.html' %}
         {% endblock %}
 
         {% block pagehead %}
-            {% include_esi_template 'esi/header.html' %}
+            {% include_esi_template 'esi/user/header.html' %}
         {% endblock %}
 
         <!-- Content -->
