@@ -33,3 +33,13 @@
     </div>
 </form>
 {% endblock %}
+
+{% block results_list %}
+<ul class="search-results-list">
+{% for result in results %}
+    {% if result.model_name == 'event' %}
+        {% include_esi 'event' result.object.pk 'search-list-item' %}
+    {% endif %}
+{% endfor %}
+</ul>
+{% endblock %}

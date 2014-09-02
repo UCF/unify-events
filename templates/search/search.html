@@ -70,19 +70,28 @@
         <div class="row">
             <div class="col-md-12 page-content">
                 <p><em>{{ page.paginator.count }} result(s) found.</em></p>
-
                 {% if query %}
                     {% with results=page.object_list %}
                         {% if results %}
+                            {% comment %}
+                            Prioritize Main Calendar events. Assume that Main Calendar events
+                            will always be copied from somewhere else.
+                            {% endcomment %}
+
+                            {% block results_list %}
                             <ul class="search-results-list">
                             {% for result in results %}
                                 {% if result.model_name == 'calendar' %}
                                     {% include_esi 'calendar' result.object.pk 'search-list-item' %}
                                 {% elif result.model_name == 'event' %}
-                                    {% include_esi 'event' result.object.pk 'search-list-item' %}
+                                    {% with object=result.object.get_main_event|default:result.object %}
+                                        {% include_esi 'event' object.pk 'search-list-item' %}
+                                    {% endwith %}
                                 {% endif %}
                             {% endfor %}
                             </ul>
+                            {% endblock %}
+
                         {% endif %}
                     {% endwith %}
                     {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
