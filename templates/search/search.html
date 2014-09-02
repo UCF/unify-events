@@ -32,11 +32,11 @@
         {% if request.GET.q %}
             {% with request.GET.q|quote_plus as query %}
                 {% with 'q='|add:query as params %}
-                    {% include_esi_template 'esi/user/search-nav.html' params %}
+                    {% include_esi_template 'esi/template/search-nav.html' params %}
                 {% endwith %}
             {% endwith %}
         {% else %}
-            {% include_esi_template 'esi/user/search-nav.html' 'q=' %}
+            {% include_esi_template 'esi/template/search-nav.html' 'q=' %}
         {% endif %}
 
         {% endblock %}
@@ -109,7 +109,7 @@
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
 // Show edit button only for editors
-var user_calendars = [{% include_esi_template "esi/user/user-editable-calendar-ids.html" %}];
+var user_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
 if (user_calendars.length) {
     $.each($('.event-edit'), function() {
         var link = $(this),

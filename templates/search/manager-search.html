@@ -8,11 +8,11 @@
 {% if request.GET.q %}
     {% with request.GET.q|quote_plus as query %}
         {% with 'q='|add:query as params %}
-            {% include_esi_template 'esi/user/manager-search-nav.html' params %}
+            {% include_esi_template 'esi/template/manager-search-nav.html' params %}
         {% endwith %}
     {% endwith %}
 {% else %}
-    {% include_esi_template 'esi/user/manager-search-nav.html' 'q=' %}
+    {% include_esi_template 'esi/template/manager-search-nav.html' 'q=' %}
 {% endif %}
 
 {% endblock %}
