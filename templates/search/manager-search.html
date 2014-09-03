@@ -34,11 +34,16 @@
 </form>
 {% endblock %}
 
+{% comment %}
+Events use the first instance's search-list-item.html esi template.
+See esi/eventinstance/search-list-item.html for info.
+{% endcomment %}
+
 {% block results_list %}
 <ul class="search-results-list">
 {% for result in results %}
     {% if result.model_name == 'event' %}
-        {% include_esi 'event' result.object.pk 'search-list-item' %}
+        {% include_esi 'eventinstance' result.object.get_first_instance.pk 'search-list-item' %}
     {% endif %}
 {% endfor %}
 </ul>
