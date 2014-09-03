@@ -80,7 +80,9 @@ for setting, kwarg in possible_settings.iteritems():
 
 def custom_clean(value):
     """
-    Extracts all banned tags and then runs bleach on a string.
+    Custom function that uses Bleach and BeautifulSoup to remove
+    unwanted markup and contents.
+    Uses settings from the django-bleach module.
     """
     # Replace newline instances with linebreaks
     value = value.replace('\n', '<br />')
@@ -104,9 +106,7 @@ def custom_clean(value):
 @register.filter
 def clean_and_linkify(value):
     """
-    Custom filter that uses Bleach and BeautifulSoup to remove
-    unwanted markup and contents.
-    Uses settings from the django-bleach module.
+    Removes unwanted HTML markup and contents and auto-generates link tags.
     """
     # Clean everything.
     stripped = custom_clean(value)
@@ -126,6 +126,7 @@ def clean_and_linkify(value):
 def html_to_ics(value):
     """
     Converts HTML markup to plaintext suitable for ICS format.
+    Runs custom_clean() to ensure content is safe.
     """
     # Clean the value
     value = custom_clean(value)
