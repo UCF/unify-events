@@ -46,7 +46,7 @@ def get_main_cal_bans():
     """
     Creates a list of main calendar bans.
     """
-    return ['^/(\?|feed\.[\w]+)?', '^/events/(\?|feed\.[\w]+)?', '^/this-(week|month|year)/', '^/events/this-(week|month|year)/', '^/upcoming/', '^/events/upcoming/', '^/week-of/', '^/events/week-of/', '^/[0-9]{4}/', '^/events/[0-9]{4}/']
+    return ['^/(\?|feed\.[\w]+$|$)', '^/events/(\?|feed\.[\w]+$|$)', '^/this-(week|month|year)/', '^/events/this-(week|month|year)/', '^/upcoming/', '^/events/upcoming/', '^/week-of/', '^/events/week-of/', '^/[0-9]{4}/', '^/events/[0-9]{4}/']
 
 
 def ban_urls(url_list):
