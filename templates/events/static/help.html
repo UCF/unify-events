@@ -7,6 +7,13 @@
 {% endblock %}
     
 {% block content_body %}
+    <style class="text/css">
+    /* TODO: REMOVE ME WHEN TODOS ARE DONE */
+    .todo { font-weight: bold; background: yellow; padding: 2px; }
+    </style>
+
+
+
     <div class="row">
         <div class="col-md-8 sidebarfix page-content" id="static-help">
             <h2 id="about">About the Events System</h2>
@@ -59,6 +66,7 @@
             </p>
 
             <h3 id="old-system-changes">Changes from the Old Events System</h3>
+            <p class="todo">TODO: Please review/add content as necessary</p>
             <p>
                 The current events system has been completely rewritten from the ground up to improve the user experience and better encourage
                 the creation and sharing of calendars and events.  Below are some major changes between this events system and the previous one:
@@ -115,6 +123,7 @@
             <p>
                 In addition, any events published to your calendar are also publicly available through feeds or the events widget.
             </p>
+            <p class="todo">TODO: add social media link info here?</p>
 
             <hr />
 
@@ -275,15 +284,14 @@
             </p>
 
             <h3 id="update-existing-event">Update an Existing Event</h3>
-            <p>
-                
-            </p>
+            <p class="todo">TODO</p>
 
             <hr />
             
             <h2 id="calendar-management">Calendar Information</h2>
             
             <h3 id="manager-view-basics">Using the Manager View</h3>
+            <p class="todo">TODO</p>
 
             <h3 id="calendar-settings">Calendar Settings and User Management</h3>
             <p>
@@ -397,14 +405,14 @@
             <div class="alert alert-warning">
                 <strong>Note:</strong> When you update your calendar's title, the <strong>slug</strong> of your calendar is
                 also updated.  Users will be redirected to the correct URL when they access a link to your calendar using the
-                old slug, but if you manage a website that consumes <a class="jump-to" href="#feeds">feed data</a> using a
-                language or function that doesn't follow 301 redirects, your website's events may stop displaying.  In that case,
+                old slug, but if you manage a website that consumes <a class="jump-to" href="#feeds">feed data</a> by using a
+                function that doesn't follow 301 redirects, your website's events may stop displaying.  In that case,
                 you will need to update the slug of your calendar in the URL wherever you consume feed data.
             </div>
 
             <h4>Subscriptions</h4>
             <p>
-                Owners and admins can manage a calendar's subscriptions using the Your Subscribed Calendars form.
+                Owners and admins can manage a calendar's existing subscriptions using the Your Subscribed Calendars form.
                 <strong>To unsubscribe from a calendar</strong>, click the <strong>Unsubscribe</strong> button next to the
                 corresponding calendar name.
             </p>
@@ -438,28 +446,99 @@
                 subscribed to.  Those subscribed events will also receive updates from the originating calendar, if available.
             </p>
             <p>
-                To subscribe to another calendar, you'll need to find a calendar to subscribe to.  
+                Calendar owners and admins are capable of adding new subscriptions.  To subscribe to another calendar, you'll
+                need to find a calendar to subscribe to.  Use the <strong>search bar</strong> from the live view or manager view
+                to search by another calendar's title, description, or for events that match some criteria.  Make sure the
+                <strong>All Calendars and Tabs</strong> tab is selected to search other calendars.
+            </p>
+            <p>
+                When you've found a calendar with events you'd like to subscribe to, go to that calendar's Day View, and click the
+                <strong>Subscribe to Calendar</strong> link next to the calendar's name.
+            </p>
+            <p>
+                In the Subscribe to Calendar form, you can select one or more of your existing calendars to subscribe.  Click the
+                <strong>Subscribe</strong> button to save your changes.  This process may take a moment if you're subscribing to a calendar
+                with many events.
+            </p>
+            <p>
+                <strong>If you want to copy some, but not all of a calendar's events</strong>, you can
+                <a class="jump-to" href="#copy-an-event">copy individual events</a> to your calendar instead.
             </p>
             
             <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
-            
+            <p>
+                The Main Calendar serves as the front-facing calendar for the entire university.  It is the calendar displayed from
+                the events system home page, and the calendar from which events on <a href="http://www.ucf.edu">ucf.edu</a> and
+                <a class="jump-to" href="#sharing">other sources</a> are fetched.
+            </p>
+            <p>
+                While users do not have direct access to posting to the Main Calendar themselves, any posted event can be suggested to
+                the Main Calendar.  When an event is suggested to the Main Calendar, it is saved as a pending event on the Main Calendar
+                and will undergo a review by Main Calendar admins.  If a submitted event falls under the
+                <a class="jump-to" href="#event-or-announcement">definition of an event</a> and follows the
+                <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>, it will be approved and published on
+                the Main Calendar within <strong>24-48 hours</strong>.
+            </p>
+
             <hr />
             
             <h2 id="event-information">Event Information</h2>
 
             <h3 id="event-creation-guidelines">Event Creation Guidelines</h3>
+            <p class="todo">TODO: PLEASE REVIEW/CLEAN UP</p>
+            <p>
+                To help maintain the quality of UCF's web content and to help other users learn about your events, please follow the
+                guidelines below when creating an event:
+            </p>
+            <ul>
+                <li>
+                    Make sure your event falls under the <a class="jump-to" href="#event-or-announcement">definition of an event</a>.
+                    If your event does not follow this definition, please
+                    <a href="http://www.ucf.edu/announcements">submit an announcement instead</a>.
+                </li>
+                <li>
+                    Make sure your event is relevant to the UCF community.  Events that do not directly involve UCF or do not occur on
+                    a UCF campus should not be submitted to the events system.
+                </li>
+                <li>
+                    Keep your event title brief, but concise.  The event title should accurately describe your event.
+                </li>
+                <li>
+                    Your event description should describe everything and anything a user would need to know about attending your event.
+                    List <strong>ticket prices, registration links, directions,</strong> or other required information here.
+                </li>
+                <li>
+                    All events must have a valid description.  <strong>Do not post events with empty descriptions.  <em>"Information
+                    coming soon"</em> or <em>"To be determined"</em> are <u>not</u> valid event descriptions.</strong>
+                </li>
+                <li>
+                    All events should have a location.  Please avoid using <em>"No Location"</em> to describe where your event occurs.
+                </li>
+                <li>
+                    All events must provide adequate contact information.  This includes a person or organization name, and an email or 
+                    phone number.
+                </li>
+                <li>
+                    Check your event title, description, and tags for spelling and grammatical errors.
+                </li>
+            </ul>
 
             <h3 id="copy-an-event">Copy an Event</h3>
+            <p class="todo">TODO</p>
 
             <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
+            <p class="todo">TODO</p>
             
             <h3 id="recurring-events">Recurring Events</h3>
+            <p class="todo">TODO</p>
             
             <h3 id="event-statuses">Event Statuses</h3>
+            <p class="todo">TODO</p>
 
             <hr />
             
             <h2 id="for-developers">For Developers</h2>
+            <p class="todo">TODO: Add Github link/information about codebase and contributing?</p>
 
             <h3 id="feeds">Feeds</h3>
             <p>
@@ -843,6 +922,8 @@
                 strictly for backward compatibility with the old events system and may be deprecated at any time.  We strongly recommend using
                 the methods listed above for accessing feed data.
             </div>
+
+            <p class="todo">TODO: add sample feed data and/or descriptions of fields on each format?</p>
 
             <h3 id="events-widget">Events Widget</h3>
             <div class="alert alert-danger">
