@@ -23,6 +23,7 @@ from events.forms.manager import EventInstanceForm
 from events.forms.manager import EventInstanceFormSet
 from events.functions import update_subscriptions
 from events.models import get_main_calendar
+from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
@@ -44,7 +45,10 @@ class EventCreate(CreateView):
         Set the set of calendars the user can select from
         """
         initial = super(EventCreate, self).get_initial()
-        initial['user_calendars'] = self.request.user.calendars
+        if self.request.user.is_superuser:
+            initial['user_calendars'] = Calendar.objects.all()
+        else:
+            initial['user_calendars'] = self.request.user.calendars
         return initial
 
     def get_context_data(self, **kwargs):
@@ -146,7 +150,10 @@ class EventUpdate(UpdateView):
         Set the set of calendars the user can select from
         """
         initial = super(EventUpdate, self).get_initial()
-        initial['user_calendars'] = self.request.user.calendars
+        if self.request.user.is_superuser:
+            initial['user_calendars'] = Calendar.objects.all()
+        else:
+            initial['user_calendars'] = self.request.user.calendars
         return initial
 
     def get_context_data(self, **kwargs):

@@ -62,23 +62,23 @@
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
-var user_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
+var user_editable_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
 var is_superuser = parseInt({% include_esi_template "esi/template/user-is-superuser.html" %});
 
-// Show edit button only for editors
+// Show Manage Calendar button only for admins, owners or superusers
 if (
-    (user_calendars.length && user_calendars.indexOf({{ calendar.pk }}) > -1) ||
+    (user_editable_calendars.length && user_editable_calendars.indexOf({{ calendar.pk }}) > -1) ||
     is_superuser == 1
 ) {
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#edit-calendar-manage').removeClass('hide');
 }
 
-// Show subscription button if user has more than one editable calendar,
-// or if they're viewing a calendar they don't have edit access to
+// Show subscription button if user is viewing a calendar they don't have edit access to,
+// or if the user has at least 2 editable calendars
 if (
-    (user_calendars.length > 0 && user_calendars.indexOf({{ calendar.pk }}) == -1) ||
-    (user_calendars.length > 1)
+    (user_editable_calendars.length > 0 && user_editable_calendars.indexOf({{ calendar.pk }}) == -1) ||
+    (user_editable_calendars.length > 1)
 ) {
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#edit-calendar-subscribe').removeClass('hide');

@@ -94,7 +94,7 @@
 <div class="row">
     <div class="col-md-8 col-sm-8 sidebarfix page-content" id="event-single">
         <div class="event-content content-expand description">
-    	    {{ event_instance.event.description|clean_and_linkify }}
+            {{ event_instance.event.description|clean_and_linkify }}
             <a class="content-expander visible-xs" href="#"><i class="fa fa-caret-down"></i></a>
         </div>
 
@@ -122,8 +122,8 @@
         <h3 class="h4 event-single-schedule-header">
             Event runs on multiple dates <span class="alt">(select event date for details)</span>
         </h3>
-    	<div class="event-single-schedule">
-    	   <table class="table table-hover table-clickable">
+        <div class="event-single-schedule">
+           <table class="table table-hover table-clickable">
                 <thead class="sr-only">
                     <tr>
                         <th>Date</th>
@@ -145,7 +145,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-    	</div>
+        </div>
         {% else %}
         <hr class="visible-xs" />
         {% endif %}
@@ -187,7 +187,7 @@
 
         {# ...... end mobile-only sections #}
 
-    	<dl id="event-meta" class="dl-horizontal">
+        <dl id="event-meta" class="dl-horizontal">
             <dt><h3 class="h4 alt">Calendar:</h3></dt>
             <dd class="event-meta-calendar">
                 {% include_esi 'calendar' event_instance.event.calendar.pk 'link' %}
@@ -207,7 +207,7 @@
                 n/a
                 {% endif %}
             </dd>
-    	</dl>
+        </dl>
     </div>
     <aside class="col-md-4 col-sm-4 page-sidebar" id="event-single-sidebar">
         {% comment %}
@@ -271,18 +271,25 @@
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
-// Show edit button only for editors
-var user_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
-if(user_calendars.length && user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1) {
+var user_calendars = [{% include_esi_template "esi/template/user-calendar-ids.html" %}];
+var is_superuser = parseInt({% include_esi_template "esi/template/user-is-superuser.html" %});
+
+// Show Edit Event button if the current user has permission to do so
+if(
+    (user_calendars.length && user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1) ||
+    is_superuser == 1
+) {
     $('h1').attr('class', 'col-md-9 col-sm-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#event-edit').removeClass('hide');
 }
 
-// Show subscription button if user has calendars and the event isn't on their only calendar or
-// if the event is on their calendar and they have more than that one calendar to make a subscription to.
-if(user_calendars.length && (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) < 0 ||
-                             (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1 && user_calendars.length > 1 ))) {
+// Show Add Event To button if user has calendars and the event isn't on their only calendar, or
+// if the event is on their calendar and they have more than that one calendar to copy to.
+if(
+    user_calendars.length && (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) < 0 ||
+                             (user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1 && user_calendars.length > 1 ))
+) {
     $('h1').attr('class', 'col-md-9 col-sm-8');
     $('#page-title-wrap .edit-options').removeClass('hide');
     $('#event-subscription').removeClass('hide');
