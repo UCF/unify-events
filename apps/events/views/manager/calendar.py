@@ -72,24 +72,8 @@ class CalendarAdminUserValidationMixin(object):
             return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
-class UniqueMainCalendarTitleMixin(object):
-    """
-    Require that the Main Calendar's title be unique (no users can set a
-    calendar's title with the same title as the Main Calendar's.)
-    """
-    def form_valid(self, form):
-        title = form.cleaned_data['title']
-        main_title = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK).title
 
-        if title.lower() == main_title.lower():
-            messages.error(self.request, 'Sorry, the calendar title you selected cannot be used. Please use a different calendar title and try again.')
-            return super(UniqueMainCalendarTitleMixin, self).form_invalid(form)
-        else:
-            return super(UniqueMainCalendarTitleMixin, self).form_valid(form)
-
-
-
-class CalendarCreate(FirstLoginTemplateMixin, UniqueMainCalendarTitleMixin, SuccessMessageMixin, CreateView):
+class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was created successfully.'
@@ -134,23 +118,39 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin
         Prevent deletion of the Main Calendar.
         """
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        main_calendar = Calendar.objects.get(pk=FRONT_PAGE_CALENDAR_PK)
 
-        if self.object == main_calendar:
+        if self.object.is_main_calendar:
             messages.error(self.request, 'This calendar cannot be deleted.')
             return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
         else:
             return super(CalendarDelete, self).delete(self, request, *args, **kwargs)
 
 
-class CalendarUpdate(UniqueMainCalendarTitleMixin, SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
+class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, CalendarAdminUserValidationMixin, UpdateView):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was updated successfully.'
     template_name = 'events/manager/calendar/update.html'
     success_view_name = 'calendar-update'
     copy_kwargs = ['pk']
+
+    def post(self, request, *args, **kwargs):
+        """
+        Prevent updates to the main calendar slug (through editing the title.)
+
+        The main calendar's slug gets cached in the generated root urls.pyc file;
+        updating the main calendar slug while the app is running will cause all
+        frontend main calendar views to return a 404 until the app is restarted.
+        """
+        self.object = self.get_object()
+        title = self.request.POST.get('title')
+
+        if self.object.is_main_calendar and title and title != self.object.title:
+            messages.error(self.request, 'The main calendar title (and its slug) cannot be updated while the application is running.')
+            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+        else:
+            return super(CalendarUpdate, self).post(self, request, *args, **kwargs)
+
 
 
 class CalendarUserUpdate(CalendarAdminUserValidationMixin, DetailView):

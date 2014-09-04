@@ -107,7 +107,7 @@ class Command(BaseCommand):
 
                         event_creator = self.get_create_user(str(old_event.uidcreated))
                         if event_creator is not None:
-                            new_event.owner = event_creator
+                            new_event.creator = event_creator
 
                             # Event Type -> Category
                             category = self.get_event_category(old_event)
@@ -145,7 +145,7 @@ class Command(BaseCommand):
                                     old_location_id = old_instance.location_id
                                     if not old_location_id:
                                         old_location_id = 1
- 
+
                                     try:
                                         old_location = UNLLocation.objects.get(id=old_location_id)
                                     except UNLLocation.DoesNotExist:

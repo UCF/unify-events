@@ -8,11 +8,11 @@
 {% if request.GET.q %}
     {% with request.GET.q|quote_plus as query %}
         {% with 'q='|add:query as params %}
-            {% include_esi_template 'esi/manager-search-nav.html' params %}
+            {% include_esi_template 'esi/template/manager-search-nav.html' params %}
         {% endwith %}
     {% endwith %}
 {% else %}
-    {% include_esi_template 'esi/manager-search-nav.html' 'q=' %}
+    {% include_esi_template 'esi/template/manager-search-nav.html' 'q=' %}
 {% endif %}
 
 {% endblock %}
@@ -32,4 +32,19 @@
         </div>
     </div>
 </form>
+{% endblock %}
+
+{% comment %}
+Events use the first instance's search-list-item.html esi template.
+See esi/eventinstance/search-list-item.html for info.
+{% endcomment %}
+
+{% block results_list %}
+<ul class="search-results-list">
+{% for result in results %}
+    {% if result.model_name == 'event' %}
+        {% include_esi 'eventinstance' result.object.get_first_instance.pk 'search-list-item' %}
+    {% endif %}
+{% endfor %}
+</ul>
 {% endblock %}

@@ -16,6 +16,7 @@ def event_ban_urls(sender, instance, **kwargs):
 
     for event_instance in instance.event_instances.all():
         urls.append('/event/' + str(event_instance.pk) +'/')
+        urls.append('/eventinstance/' + str(event_instance.pk) + '/')
     urls.append('/calendar/'+ str(instance.calendar.pk) +'/')
     urls.append('/category/'+ str(instance.category.pk) +'/')
     for tag in instance.tags.all():
@@ -46,7 +47,7 @@ def get_main_cal_bans():
     """
     Creates a list of main calendar bans.
     """
-    return ['/', '/this-(week|month|year)/', '/upcoming/', '/week-of/', '/[0-9]{4}/']
+    return ['^/(\?|feed\.[\w]+$|$)', '^/events/(\?|feed\.[\w]+$|$)', '^/this-(week|month|year)/', '^/events/this-(week|month|year)/', '^/upcoming/', '^/events/upcoming/', '^/week-of/', '^/events/week-of/', '^/[0-9]{4}/', '^/events/[0-9]{4}/']
 
 
 def ban_urls(url_list):
@@ -60,4 +61,3 @@ def ban_urls(url_list):
         cacheCleaner.ban_url_list(url_combo_list)
     else:
         return
-

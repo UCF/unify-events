@@ -1,6 +1,7 @@
 import bleach
 from bs4 import BeautifulSoup
 from dateutil import parser
+import html2text
 import urllib
 
 from django import template
@@ -76,10 +77,10 @@ for setting, kwarg in possible_settings.iteritems():
     if hasattr(settings, setting):
         bleach_args[kwarg] = getattr(settings, setting)
 
-@register.filter
-def clean_and_linkify(value):
+
+def custom_clean(value):
     """
-    Custom filter that uses Bleach and BeautifulSoup to remove
+    Custom function that uses Bleach and BeautifulSoup to remove
     unwanted markup and contents.
     Uses settings from the django-bleach module.
     """
@@ -91,21 +92,55 @@ def clean_and_linkify(value):
     value = value.replace('&lt;', '<')
     value = value.replace('&gt;', '>')
 
-    # Strip out all banned tags and their contents.
     soup = BeautifulSoup(value)
     all_tags = soup.findAll(True)
     for tag in all_tags:
         if tag.name in settings.BANNED_TAGS:
             tag.extract()
 
-    # Bleach everything else (remove tags, but keep contents).
-    new_value = bleach.clean(soup, **bleach_args)
+    value = bleach.clean(soup, **bleach_args)
+    return value
+
+
+
+@register.filter
+def clean_and_linkify(value):
+    """
+    Removes unwanted HTML markup and contents and auto-generates link tags.
+    """
+    # Clean everything.
+    stripped = custom_clean(value)
 
     # Linkify whatever is left
-    new_value = bleach.linkify(new_value, parse_email=False)
+    new_value = bleach.linkify(stripped, parse_email=False)
 
     # Make sure we actually have something left to display
     if not new_value.strip():
         new_value = settings.FALLBACK_EVENT_DESCRIPTION
 
     return mark_safe(new_value)
+
+
+
+@register.filter
+def html_to_ics(value):
+    """
+    Converts HTML markup to plaintext suitable for ICS format.
+    Runs custom_clean() to ensure content is safe.
+    """
+    # Clean the value
+    value = custom_clean(value)
+
+    # Convert to text.
+    h2t = html2text.HTML2Text()
+    h2t.body_width = 0
+    value = h2t.handle(value)
+
+    # Make sure newlines are encoded properly. http://stackoverflow.com/a/12249023
+    value = value.replace('\n', '\\n')
+
+    # Make sure we actually have something left to display
+    if not value.strip():
+        value = settings.FALLBACK_EVENT_DESCRIPTION
+
+    return mark_safe(value)

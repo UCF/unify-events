@@ -272,7 +272,7 @@
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
 // Show edit button only for editors
-var user_calendars = [{% include_esi_template "esi/user-editable-calendar-ids.html" %}];
+var user_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
 if(user_calendars.length && user_calendars.indexOf({{ event_instance.event.calendar.pk }}) > -1) {
     $('h1').attr('class', 'col-md-9 col-sm-8');
     $('#page-title-wrap .edit-options').removeClass('hide');

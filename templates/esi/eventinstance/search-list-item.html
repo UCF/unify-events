@@ -1,0 +1,86 @@
+{% load core_tags %}
+
+{% comment %}
+NOTE: This template's object is the first instance of its event, NOT
+an event object!  This is because event search results return Events,
+not EventInstances.  To maintain consistency with the rest of the app,
+which only references an event by its instances, we must request this
+esi by the first instance of the Event object we get from search results.
+
+We create 'event' from the object's parent event below to create a search
+result list item that displays details for all instances of the parent event.
+{% endcomment %}
+
+{% with event=object.event %}
+<li>
+    <h3 class="search-object-title event-title">
+        <a href="{{ event.get_absolute_url }}">
+            {{ event.get_title_canceled }}
+        </a>
+    </h3>
+    <a class="event-edit hide" href="{% url 'event-update' pk=event.pk %}" data-calendar-pk="{{ event.calendar.pk }}">
+        <i class="fa fa-pencil"></i>Edit Event
+    </a>
+
+    <div class="start-end">
+        {% include 'events/frontend/instance-start-end.html' with start_date=None instance_start=object.start instance_end=event.get_last_instance.end %}
+    </div>
+
+    <p class="description">
+        {{ event.description|striptags|truncatewords:60 }}
+    </p>
+    <div class="result-meta">
+        <div class="event-calendar">
+            <i class="fa fa-calendar fa-fw"></i>
+            {% include_esi 'calendar' event.calendar.pk 'link' %}
+        </div>
+        <div class="event-category category-text {% include_esi 'category' event.category.pk 'slug' %}">
+            <i class="fa fa-tag fa-fw"></i>
+            {% include_esi 'category' event.category.pk 'link' %}
+        </div>
+        {% if event.tags.all|length > 0 %}
+        <div class="event-tags">
+            <i class="fa fa-tags fa-fw"></i>
+            <ul>
+            {% for tag in event.tags.all %}
+                <li>{% include_esi 'tag' tag.pk 'link' %}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    {% if event.calendar.is_main_calendar %}
+        {% if event.created_from %}
+            <div class="event-copy-info">
+                <span class="info-text">Copied from:</span> <i class="fa fa-calendar fa-fw"></i>{% include_esi 'calendar' event.created_from.calendar.pk 'link' %}
+            </div>
+        {% endif %}
+        {% if event.created_from.duplicated_to.all %}
+            {% if event.created_from.duplicated_to.all|length == 1 and event in event.created_from.duplicated_to.all %}
+            {% else %}
+                <div class="event-duplicate-info">
+                    <span class="info-text">Also on:</span>
+                    <ul>
+                        {% for dupe in event.created_from.duplicated_to.all %}
+                            {% if dupe != event %}
+                            <li><i class="fa fa-calendar fa-fw"></i>{% include_esi 'calendar' dupe.calendar.pk 'link' %}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {% if event.duplicated_to.all %}
+            <div class="event-duplicate-info">
+                <span class="info-text">Also on:</span>
+                <ul>
+                    {% for dupe in event.duplicated_to.all %}
+                    <li><i class="fa fa-calendar fa-fw"></i>{% include_esi 'calendar' dupe.calendar.pk 'link' %}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+</li>
+{% endwith %}
