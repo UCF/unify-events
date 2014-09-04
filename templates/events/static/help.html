@@ -286,8 +286,160 @@
             <h3 id="manager-view-basics">Using the Manager View</h3>
 
             <h3 id="calendar-settings">Calendar Settings and User Management</h3>
+            <p>
+                Your calendar's user settings, calendar info, and subscriptions can all be accessed by
+                <strong>the calendar owner and all admins</strong> of the calendar.  Editors do not have access to
+                these settings.
+            </p>
+            <p>
+                To access these settings, select a calendar from the admin navbar, then select an option from the
+                <strong>Edit</strong> dropdown on that page.  You can also access these settings from the
+                calendar's Live View by clicking the <strong>Manage</strong> dropdown and selecting an option.
+            </p>
             
+            <h4>Users &amp; Permissions</h4>
+            <p>
+                Calendars are capable of having one or more users assigned to them, using several <strong>user roles</strong>.
+                Each user role has a different set of capabilities and permissions.  Refer to the chart below for a list of all
+                user roles and their permissions:
+            </p>
+            <div>
+                <table class="table table-bordered table-yesno">
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Owner</th>
+                            <th>Admin</th>
+                            <th>Editor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Access Calendar Management Options</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Add/Update Users on Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Remove Users from Calendar (Including Self) <strong>*</strong></td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Reassign Ownership of Calendar</td>
+                            <td>yes</td>
+                            <td>no</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Delete Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Add Events to Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                        <tr>
+                            <td>Subscribe to Another Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Copy Event to Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                        <tr>
+                            <td>Update, Cancel, or Delete Events on Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><small>* Admins cannot remove calendar owners from their calendar.</small></p>
+            </div>
+
+            <p>
+                If you are an owner or an admin of a calendar, you can <strong>add a new user to a calendar</strong> by
+                using the Add New User form.  Type a user's first name, last name or NID to search for him/her in the
+                events system.  Select a user role from the dropdown, then click the <strong>Add User</strong> button.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Can't find the user you're looking for?</strong> The user you're searching for must have logged
+                into the events system at least once to be able to be added to your calendar.  They must have a valid
+                NID to log into the events system.  See the <a class="jump-to" href="#sign-up-log-in">Sign Up/Log In</a>
+                section for more information.
+            </div>
+            <p>
+                Owners and admins can <strong>modify existing calendar users</strong> from the Users With Access to this Calendar
+                table.  Note that some users may not have permission to perform specific actions; see the user role permissions
+                table above.
+            </p>
+
+            <h4>Calendar Info</h4>
+            <p>
+                Owners and admins can modify a calendar's title and description using the Calendar Info form.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> When you update your calendar's title, the <strong>slug</strong> of your calendar is
+                also updated.  Users will be redirected to the correct URL when they access a link to your calendar using the
+                old slug, but if you manage a website that consumes <a class="jump-to" href="#feeds">feed data</a> using a
+                language or function that doesn't follow 301 redirects, your website's events may stop displaying.  In that case,
+                you will need to update the slug of your calendar in the URL wherever you consume feed data.
+            </div>
+
+            <h4>Subscriptions</h4>
+            <p>
+                Owners and admins can manage a calendar's subscriptions using the Your Subscribed Calendars form.
+                <strong>To unsubscribe from a calendar</strong>, click the <strong>Unsubscribe</strong> button next to the
+                corresponding calendar name.
+            </p>
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> Unsubscribing from a calendar will remove all events
+                that originated from the subscribed calendar off of your calendar.  Do so at your own risk!
+            </div>
+            <p>
+                Owners and admins can view what calendars have subscribed to their calendar from the Subscribing Calendars
+                section.
+            </p>
+            <p>
+                To <strong>subscribe to another calendar</strong>, see the section on
+                <a class="jump-to" href="#subscribe-to-another-calendar">Subscribing to Another Calendar</a>.
+            </p>
+
+            <h4>Delete Calendar</h4>
+            <p>
+                Owners and admins have the ability to delete an existing calendar.  Use the <strong>Delete Calendar</strong>
+                link to access the Delete Calendar form.
+            </p>
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> Deleting a calendar will <strong>permanently delete</strong> all of its events,
+                as well as the events on any calendars that are currently subscribed to your calendar.  <strong>Do so at your
+                own risk!</strong>
+            </div>
+
             <h3 id="subscribe-to-another-calendar">Subscribe to Another Calendar</h3>
+            <p>
+                <strong>Subscriptions</strong> allow calendars to automatically receive events from the calendars they are
+                subscribed to.  Those subscribed events will also receive updates from the originating calendar, if available.
+            </p>
+            <p>
+                To subscribe to another calendar, you'll need to find a calendar to subscribe to.  
+            </p>
             
             <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
             
@@ -885,4 +1037,21 @@
             </nav>
         </aside>
     </div>
+{% endblock %}
+
+{% block footer_scripts %}
+{{ block.super }}
+<script>
+    /* Quick and dirty way of adding check/x icons instead of typing them all out manually */
+    $('.table-yesno tbody td').each(function() {
+        var td = $(this);
+        var text = $.trim(td.text());
+        if (text === 'yes') {
+            td.html('<i class="fa fa-check fa-lg text-success"></i>');
+        }
+        else if (text === 'no') {
+            td.html('<i class="fa fa-times fa-lg text-danger"></i>');
+        }
+    });
+</script>
 {% endblock %}
