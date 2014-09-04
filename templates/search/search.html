@@ -85,7 +85,7 @@
                             <ul class="search-results-list">
                             {% for result in results %}
                                 {% if result.model_name == 'calendar' %}
-                                    {% include_esi 'calendar' result.object.get_first_instance.pk 'search-list-item' %}
+                                    {% include_esi 'calendar' result.object.pk 'search-list-item' %}
                                 {% elif result.model_name == 'event' %}
                                     {% with object=result.object.get_main_event|default:result.object %}
                                         {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
