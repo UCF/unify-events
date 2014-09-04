@@ -16,6 +16,7 @@ def event_ban_urls(sender, instance, **kwargs):
 
     for event_instance in instance.event_instances.all():
         urls.append('/event/' + str(event_instance.pk) +'/')
+        urls.append('/eventinstance/' + str(event_instance.pk) + '/')
     urls.append('/calendar/'+ str(instance.calendar.pk) +'/')
     urls.append('/category/'+ str(instance.category.pk) +'/')
     for tag in instance.tags.all():
