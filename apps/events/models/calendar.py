@@ -25,7 +25,7 @@ def get_main_calendar():
 
 def calendars(self):
     """
-    Add and attribute to the User model to retrieve
+    Add an attribute to the User model to retrieve
     the calendars associated to them.
 
     NOTE:

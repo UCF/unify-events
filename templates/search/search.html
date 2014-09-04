@@ -111,14 +111,16 @@
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
-// Show edit button only for editors
-var user_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
-if (user_calendars.length) {
+// Show Edit Event button for users with access to events listed
+var user_calendars = [{% include_esi_template "esi/template/user-calendar-ids.html" %}];
+var is_superuser = parseInt({% include_esi_template "esi/template/user-is-superuser.html" %});
+
+if (user_calendars.length || is_superuser == 1) {
     $.each($('.event-edit'), function() {
         var link = $(this),
             pk = parseInt(link.attr('data-calendar-pk'));
 
-        if (user_calendars.indexOf(pk) > -1) {
+        if (user_calendars.indexOf(pk) > -1 || is_superuser == 1) {
             link.removeClass('hide');
         }
     });
