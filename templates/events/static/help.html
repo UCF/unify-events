@@ -656,7 +656,8 @@
                     describe where your event occurs.
                 </li>
                 <li>
-                    All events must provide adequate contact information.  This includes a person or organization name and an email. Though a phone number is not required it is suggested.
+                    All events must provide adequate contact information.  This includes a person or organization name and an email.
+                    A phone number is suggested, but is not required.
                 </li>
             </ul>
 
@@ -681,13 +682,25 @@
             </div>
 
             <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
+            
             <h4>Cancel</h4>
             <p>
-                Canceling an event prefixes the event with 'CANCLED: ' and leaves the event visible on all the calendars it is posted on (includes subscriptions and copied events). Cancelling the event helps notify users that the event will no longer occur.
+                Canceling an event prefixes the event with 'CANCELED: ' and leaves the event visible on all the calendars it is posted on
+                (including subscriptions and copied events). Canceling the event helps notify users that the event will no longer occur.
             </p>
+            <p>
+                You can cancel an event at any time by selecting the "Cancel Event" option from the Manager View actions, or when editing
+                the event.  A canceled event can be un-canceled by selecting "Un-cancel Event".
+            </p>
+
             <h4>Delete</h4>
             <p>
-                Deleting an event will remove it from all the calendars it is posted on. This includes removing the event from subscribing calendars and removing copied events. It is suggested to cancel the event if it has had significant visibility, rather than deleting it.
+                Deleting an event will remove it from all the calendars it is posted on, including subscribing calendars and calendars that
+                manually copied the single event.  It is suggested to cancel the event if it has had significant visibility, rather than deleting it.
+            </p>
+            <p>
+                You can delete an event at any time by selecting the "Delete Event" option from the Manager View actions, or when editing
+                the event.
             </p>
 
             <h3 id="recurring-events">Recurring Events</h3>
@@ -713,7 +726,9 @@
             <p>
                 All front-facing views (excluding the Year View) offer a feed of all the events data currently in that view.  Feeds
                 follow similar data structures to those previously available in the old events system; if your site is already consuming
-                a feed from the old events system, you shouldn't need to make any changes to your code for the new system. The legacy feeds format could be deprecated at any time (<a href="#legacy-feeds" class="jump-to">legacy feeds note</a>).
+                a feed from the old events system, you shouldn't need to make any changes to your code for the new system.  Keep in mind,
+                however, that the legacy feeds format could be deprecated at any time.
+                (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>.)
             </p>
             <p>
                 Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
