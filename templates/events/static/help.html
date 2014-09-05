@@ -311,13 +311,19 @@
                 checkbox.
             </p>
             <div class="alert alert-warning">
-                <strong>Note:</strong> if an event instance's re-occurence rule is modified, direct URLs to that event may be broken, because
+                <strong>Note:</strong> If an event instance's re-occurence rule is modified, direct URLs to that event may be broken, because
                 links to events contain IDs that correspond to single event instances.  Keep this in mind when sharing direct links to events with others,
                 either directly or through the Main Calendar, where
                 <a class="jump-to" href="#sharing">events are pulled for the This Week/Weekend @ UCF emails and other mediums</a>.
             </div>
             <p>
                 When you're finished making changes, be sure to click the <strong>Update Event</strong> button at the bottom of the form.
+            </p>
+
+            <h4>Updating Copied or Subscribed Events</h4>
+            <p>
+                Events that have either been manually copied or pulled onto your calendar from a subscription can be modified for your calendar;
+                however, <strong>if the original event creator updates their event, your changes will be overridden.</strong>
             </p>
 
             <hr />
@@ -538,6 +544,12 @@
                 subscribed to.  Those subscribed events will also receive updates from the originating calendar, if available.
             </p>
             <p>
+                Subscriptions are best suited for departments or organizations that wish to aggregate events from inner
+                organizations that manage their own calendars.  <strong>When a calendar subscribes to another calendar, all past and future
+                events are copied.</strong>  For copying a small number of events from another calendar, use
+                <a class="jump-to" href="#copy-an-event">event copying</a> instead.
+            </p>
+            <p>
                 Calendar owners and admins are capable of adding new subscriptions.  To subscribe to another calendar, you'll
                 need to find a calendar to subscribe to.  Use the <strong>search bar</strong> from the Live View or Manager View
                 to search by another calendar's title, description, or for events that match some criteria.  Make sure the
@@ -552,13 +564,18 @@
                 <strong>Subscribe</strong> button to save your changes.  This process may take a moment if you're subscribing to a calendar
                 with many events.
             </p>
+            <p>
+                Events that have been populated into your calendar from subscriptions are viewable from the "Subscribed Events" tab in
+                the Manager View (they are also available under the "Posted" tab.)  Subscribed events will have a "<i class="fa fa-share"></i>"
+                icon next to their names.
+            </p>
             <div class="alert alert-warning">
                 <strong>Note:</strong> Your calendar will only receive another calendar's posted events.  Pending events will not be
                 copied to your calendar.
             </div>
             <p>
-                <strong>If you want to copy some, but not all of a calendar's events</strong>, you can
-                <a class="jump-to" href="#copy-an-event">copy individual events</a> to your calendar instead.
+                Calendar subscriptions can be managed from the calendar's edit options.  See the section on Subscriptions in
+                <a class="jump-to" href="#calendar-settings">Calendar Settings and User Management</a> for more information.
             </p>
 
             <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
@@ -645,7 +662,24 @@
             </ul>
 
             <h3 id="copy-an-event">Copy an Event</h3>
-            <p class="todo">TODO</p>
+            <p>
+                All users have the ability to copy an individual existing event to their own calendar(s).  A copied event works similarly to
+                an event copied via a calendar subscription; it will appear in the Manager View under the "Subscribed Events" section
+                with a "<i class="fa fa-share"></i>" icon next to its name, and will receive updates from the original event when they are made.
+            </p>
+            <p>
+                <strong>To copy an event</strong>, navigate to that event's Live View, either through a direct URL or by searching in the search bar.
+                If you are logged in and are added to at least one calendar, you will see a <strong>Add Event To</strong> link to the right
+                of the event title.  Clicking that link will display a form that allows you to select one or more of your calendars to copy
+                the event to.  When you've selected the calendars you want to copy to, click the <strong>Copy Events to Calendar(s)</strong>
+                button to save your changes.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Event copies only run one level deep; event copies will always receive updates from the original event,
+                not from other copies.<br />
+                e.g., if an event was created on Calendar A, then copied to Calendar B, Calendar C will always receive updates from Calendar A's
+                version of the event, even if Calendar C copied from Calendar B.
+            </div>
 
             <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
             <p class="todo">TODO</p>
