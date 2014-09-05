@@ -62,7 +62,7 @@
             </div>
             <p>
                 If you're posting an announcement, please use the <a href="http://www.ucf.edu/announcements">UCF Announcements System</a> instead.
-                Announcements posted in the events system and submitted to for Main Calendar approval will be denied.
+                Announcements posted in the events system and submitted to the Main Calendar for approval will be denied.
             </p>
 
             <h3 id="old-system-changes">Changes from the Old Events System</h3>
@@ -288,14 +288,96 @@
             </p>
 
             <h3 id="update-existing-event">Update an Existing Event</h3>
-            <p class="todo">TODO</p>
+            <p>
+                Any existing event that you've created can be modified at any time.  If other users have subscribed to your calendar or copied the event,
+                their copy of the event will receive any changes you make.
+            </p>
+            <p>
+                To update an existing event, navigate to that event either through the Manager View or directly from the event Live View (and clicking the
+                Edit Event link, while logged in.)  For help finding your event in the Manager View, see the section on Finding Events in
+                <a class="jump-to" href="#manager-view-basics">Using the Manager View</a>.
+            </p>
+            <p>
+                If accessed from the Manager View, you can submit the event to the Main Calendar, cancel the event, delete it, or move it to pending
+                directly from the Manager View by using the <strong>Actions</strong> button next to the event.  To modify other event details, you'll
+                need to edit the event directly.
+            </p>
+            <p>
+                When editing the event directly, you'll see a form similar to the Create Event form.  See the
+                <a class="jump-to" href="#create-new-event">Creating an Event</a> section for more information on each field.  All existing fields
+                can be modified, but if your event has been submitted to the Main Calendar, you cannot modify the Suggest for Main Calendar Approval
+                checkbox.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> if an event instance's re-occurence rule is modified, direct URLs to that event may be broken, because
+                links to events contain IDs that correspond to single event instances.  Keep this in mind when sharing direct links to events with others,
+                either directly or through the Main Calendar, where
+                <a class="jump-to" href="#sharing">events are pulled for the This Week/Weekend @ UCF emails and other mediums</a>.
+            </div>
+            <p>
+                When you're finished making changes, be sure to click the <strong>Update Event</strong> button at the bottom of the form.
+            </p>
 
             <hr />
             
             <h2 id="calendar-management">Calendar Information</h2>
             
             <h3 id="manager-view-basics">Using the Manager View</h3>
-            <p class="todo">TODO</p>
+            <p>
+                The Manager View provides administrative tools for all the upcoming events on your calendar(s).  The default Manager View,
+                the My Calendars view, displays posted, pending, and subscribed events on all of your calendars.  You can also view events on 
+                the Manager View by a specific calendar.
+            </p>
+
+            <h4>Accessing the Manager View</h4>
+            <p>
+                By default, when you log in to the events system, you are automatically directed to the default Manager View.
+            </p>
+            <p>
+                <strong>To access the Manager View</strong> otherwise, click on <strong>My Calendars > View All</strong> from the admin navbar.
+                This will take you to the default Manager View.  <strong>To access the Manager View for a specific calendar</strong>, click a
+                calendar name after clicking <strong>My Calendars</strong> from the admin navbar.
+            </p>
+
+            <h4>Finding Events</h4>
+            <p>
+                By default, events are listed in the Manager View by their status (posted), ordered by date.  Only upcoming (not "archived")
+                events are displayed, unless you're browsing events by a specific date.
+            </p>
+            <p>
+                Events are listed by each generated event instance; if you create an event with multiple instances, it will appear in the
+                Manager View more than once.
+            </p>
+            <p>
+                You can find a specific event several ways:
+            </p>
+            <ul>
+                <li>by changing the current event status grouping from "Posted" to "Pending" or "Subscribed Events",</li>
+                <li>by searching for your event using the search bar,</li>
+                <li>by navigating by date using the sidebar calendar widget and clicking on a date,</li>
+                <li>or by using the pagination at the bottom of the page to browse upcoming events.</li>
+            </ul>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Events that occured in the past (are "archived") will <strong>not</strong> appear when browsing by
+                state, by searching, or by browsing by pagination.  You must navigate to a specific date using the sidebar calendar widget to
+                find an archived event.  Only archived posted events can be navigated to--archived pending events are not accessible.
+            </div>
+
+            <h4>Edit Events in Bulk</h4>
+            <p>
+                The Manager View provides Bulk Action dropdown menus at the top and bottom of event lists for easy access to multiple
+                event editing actions.
+            </p>
+            <p>
+                <strong>To select multiple events</strong>, check the checkbox to the left of each event's name.  You can also
+                <strong>select or unselect all events on the page at once</strong> by clicking the top label checkbox.
+            </p>
+            <p>
+                To perform a bulk action after selecting at least one event, use the <strong>Select Bulk Action</strong> dropdown menu and
+                select an option. Note that these actions will affect all of the events listed and all of their instances.  If you need to
+                modify a single instance of the event,
+                <a class="jump-to" href="#update-existing-event">edit that event individually</a> and modify the specific instance.
+            </p>
 
             <h3 id="calendar-settings">Calendar Settings and User Management</h3>
             <p>
@@ -507,6 +589,11 @@
                 To <strong>suggest an already-posted</strong> event to the Main Calendar, navigate to the Manager View for the event's
                 calendar, find the event, and from the <strong>Actions</strong> dropdown, select "Suggest to Main Calendar".
             </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Only posted events can be suggested to the Main Calendar.  Pending events cannot be suggested.<br/>
+                If a posted event is under review or has been accepted on the Main Calendar, and is then saved as pending on the
+                originating calendar, the event will be removed from the Main Calendar and will need to be re-suggested.
+            </div>
 
             <hr />
             
@@ -525,29 +612,25 @@
                     <a href="http://www.ucf.edu/announcements">submit an announcement instead</a>.
                 </li>
                 <li>
-                    Make sure your event is relevant to the UCF community.  Events that do not directly involve UCF or do not occur on
-                    a UCF campus should not be submitted to the events system.
+                    Make sure your event is relevant to the UCF community.  Events that do not directly involve UCF students, faculty,
+                    staff, alumni, or the university as a whole should not be submitted to the events system.
                 </li>
                 <li>
-                    Keep your event title brief, but concise.  The event title should accurately describe your event.
-                </li>
-                <li>
-                    Your event description should describe everything and anything a user would need to know about attending your event.
-                    List <strong>ticket prices, registration links, directions,</strong> or other required information here.
+                    Event titles and descriptions should accurately describe your event in a readable way.  Please follow UCF's
+                    <a href="http://brand.ucf.edu/writing-style-guide/">Writing Style Guide</a>.  Be brief but concise, avoid complex
+                    terminology, and always proofread your content for spelling and grammatical errors.
                 </li>
                 <li>
                     All events must have a valid description.  <strong>Do not post events with empty descriptions.  <em>"Information
                     coming soon"</em> or <em>"To be determined"</em> are <u>not</u> valid event descriptions.</strong>
                 </li>
                 <li>
-                    All events should have a location.  Please avoid using <em>"No Location"</em> to describe where your event occurs.
+                    All events should have a location.  Avoid using <em>"No Location"</em> or <em>"To be determined"</em> to
+                    describe where your event occurs.
                 </li>
                 <li>
                     All events must provide adequate contact information.  This includes a person or organization name, and an email or 
                     phone number.
-                </li>
-                <li>
-                    Check your event title, description, and tags for spelling and grammatical errors.
                 </li>
             </ul>
 
