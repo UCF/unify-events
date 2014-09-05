@@ -5,7 +5,7 @@
 {% block content_title %}
     <h1>Help &amp; Documentation</h1>
 {% endblock %}
-    
+
 {% block content_body %}
     <style class="text/css">
     /* TODO: REMOVE ME WHEN TODOS ARE DONE */
@@ -18,15 +18,15 @@
         <div class="col-md-8 sidebarfix page-content" id="static-help">
             <h2 id="about">About the Events System</h2>
             <p>
-                <a href="{{ CANONICAL_ROOT }}">{{ CANONICAL_ROOT }}</a> is the online location for listing and promoting UCF events. 
-                The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any 
-                occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start 
+                <a href="{{ CANONICAL_ROOT }}">{{ CANONICAL_ROOT }}</a> is the online location for listing and promoting UCF events.
+                The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any
+                occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start
                 date &amp; time, category and location are all required for submitting an event into the system.
             </p>
             <p>
-                The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend 
-                an event for publication on the main site. If your website promotes UCF events - including lectures, receptions, speakers, 
-                meetings, and shows, the UCF events system can help your users find this information and easily add it to their own 
+                The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend
+                an event for publication on the main site. If your website promotes UCF events - including lectures, receptions, speakers,
+                meetings, and shows, the UCF events system can help your users find this information and easily add it to their own
                 calendars. Here’s what you can do with the new UCF events system:
             </p>
             <ul>
@@ -37,13 +37,13 @@
                 <li>Display a calendar on your site</li>
             </ul>
             <p>
-                As with any IT system at UCF, use of the Events System is governed by the 
+                As with any IT system at UCF, use of the Events System is governed by the
                 <a href="http://policies.ucf.edu/documents/4-002UseofInformationTechnologiesandResourcesFINAL.pdf">
                     Division of Information Technologies and Resources Use of Information Technology and Resources Policy.
-                </a> 
+                </a>
                 Please be sure you have reviewed and understand this policy before logging in and entering content in the Events System.
             </p>
-            
+
             <h3 id="event-or-announcement">Events, or Announcements?</h3>
             <p>
                 Before posting your event in the new events system, please read the guidelines below:
@@ -123,7 +123,9 @@
             <p>
                 In addition, any events published to your calendar are also publicly available through feeds or the events widget.
             </p>
-            <p class="todo">TODO: add social media link info here?</p>
+            <p class="todo">
+                Events can be distributed to social media websites (Facebook, Twitter and Google+) using the social media buttons found on the event live view.
+            </p>
 
             <hr />
 
@@ -131,13 +133,13 @@
 
             <h3 id="sign-up-log-in">Sign Up/Log In</h3>
             <p>
-                To create new events, you'll need to <a href="{% url 'accounts-login' %}">log in</a> to the events system using your NID and 
+                To create new events, you'll need to <a href="{% url 'accounts-login' %}">log in</a> to the events system using your NID and
                 NID password.  If you've never used the events system before, using the login form will set up your events system account for you.
             </p>
             <div class="well">
                 <p>
-                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.  
-                    If you don't know the password associated with that NID, you may reset it using the 
+                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.
+                    If you don't know the password associated with that NID, you may reset it using the
                     <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
                 </p>
                 <p>
@@ -158,8 +160,7 @@
                 Editor or Administrator access to.
             </p>
             <p>
-                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your first
-                calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later.
+                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your first calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later. This step is completely optional.  It is suggested to skip this step if you are going to be added to an existing calendar and do not need your own calendar.
             </p>
 
             <h3 id="create-new-event">Create a New Event</h3>
@@ -244,7 +245,7 @@
                             <p>
                                 <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
                                 the right, where you can add a new location name, room number, and a link to more information about the location, preferrably from
-                                <a href="http://map.ucf.edu">map.ucf.edu</a>.  When you submit a location using a Permalink provided from map.ucf.edu, a map widget
+                                <a href="http://map.ucf.edu">map.ucf.edu</a>.  When you submit a location using a Permalink provided from map.ucf.edu (ex. <a href="http://map.ucf.edu/?show=52">http://map.ucf.edu/?show=52</a>), a map widget
                                 will automatically be generated for you on your event's page.
                             </p>
                             <p>
@@ -300,7 +301,7 @@
             <p>
                 If accessed from the Manager View, you can submit the event to the Main Calendar, cancel the event, delete it, or move it to pending
                 directly from the Manager View by using the <strong>Actions</strong> button next to the event.  To modify other event details, you'll
-                need to edit the event directly.
+                need to select the Edit Event button.
             </p>
             <p>
                 When editing the event directly, you'll see a form similar to the Create Event form.  See the
@@ -319,13 +320,13 @@
             </p>
 
             <hr />
-            
+
             <h2 id="calendar-management">Calendar Information</h2>
-            
+
             <h3 id="manager-view-basics">Using the Manager View</h3>
             <p>
                 The Manager View provides administrative tools for all the upcoming events on your calendar(s).  The default Manager View,
-                the My Calendars view, displays posted, pending, and subscribed events on all of your calendars.  You can also view events on 
+                the My Calendars view, displays posted, pending, and subscribed events on all of your calendars.  You can also view events on
                 the Manager View by a specific calendar.
             </p>
 
@@ -390,7 +391,7 @@
                 <strong>Edit</strong> dropdown on that page.  You can also access these settings from the
                 calendar's Live View by clicking the <strong>Manage</strong> dropdown and selecting an option.
             </p>
-            
+
             <h4>Users &amp; Permissions</h4>
             <p>
                 Calendars are capable of having one or more users assigned to them, using several <strong>user roles</strong>.
@@ -550,7 +551,7 @@
                 <strong>If you want to copy some, but not all of a calendar's events</strong>, you can
                 <a class="jump-to" href="#copy-an-event">copy individual events</a> to your calendar instead.
             </p>
-            
+
             <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
             <p>
                 The Main Calendar serves as the front-facing calendar for the entire university.  It is the calendar displayed from
@@ -596,7 +597,7 @@
             </div>
 
             <hr />
-            
+
             <h2 id="event-information">Event Information</h2>
 
             <h3 id="event-creation-guidelines">Event Creation Guidelines</h3>
@@ -629,7 +630,7 @@
                     describe where your event occurs.
                 </li>
                 <li>
-                    All events must provide adequate contact information.  This includes a person or organization name, and an email or 
+                    All events must provide adequate contact information.  This includes a person or organization name, and an email or
                     phone number.
                 </li>
             </ul>
@@ -639,15 +640,15 @@
 
             <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
             <p class="todo">TODO</p>
-            
+
             <h3 id="recurring-events">Recurring Events</h3>
             <p class="todo">TODO</p>
-            
+
             <h3 id="event-statuses">Event Statuses</h3>
             <p class="todo">TODO</p>
 
             <hr />
-            
+
             <h2 id="for-developers">For Developers</h2>
             <p class="todo">TODO: Add Github link/information about codebase and contributing?</p>
 
@@ -1078,7 +1079,7 @@
                 All properties listed below are optional.
             </p>
             <p>
-                Options are attached to the Events Widget using data attributes; 
+                Options are attached to the Events Widget using data attributes;
                 e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
             </p>
             <div>
