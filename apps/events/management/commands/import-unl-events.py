@@ -1,3 +1,4 @@
+import bleach
 import logging
 from datetime import datetime
 from datetime import timedelta
@@ -77,13 +78,14 @@ class Command(BaseCommand):
                         old_contact_name = old_event.listingcontactname
                         if not old_contact_name:
                             old_contact_name = calendar_creator.first_name
+                        old_contact_name = remove_html(old_contact_name) # Clean before checking length
 
                         # check to see if the contact name is too long
                         if len(old_contact_name) > 64:
                             old_contact_name = old_contact_name[0:63]
 
-                        old_contact_email = old_event.listingcontactemail
-                        old_contact_phone = old_event.listingcontactphone
+                        old_contact_email = remove_html(old_event.listingcontactemail)
+                        old_contact_phone = remove_html(old_event.listingcontactphone)
 
                         if not old_event.description:
                             old_event.description = settings.FALLBACK_EVENT_DESCRIPTION
@@ -234,7 +236,6 @@ class Command(BaseCommand):
                         logging.error('Unable to save location %s: %s' % (name, str(e)))
 
     def get_create_user(self,username):
-
         if username in MISSING_USERNAMES: return None
 
         try:
@@ -280,3 +281,14 @@ class Command(BaseCommand):
                         logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                     else:
                         return user
+
+    def remove_html(value):
+        """
+        Run Bleach on the given value because UNL Events doesn't do HTML sanitization on anything.
+
+        Bleach here does NOT use the configuration settings in settings.py--it will remove
+        ALL tags and attributes found.
+        """
+        if value:
+            value = bleach.clean(value, tags=None, attributes=None, styles=None, strip=True)
+        return value
