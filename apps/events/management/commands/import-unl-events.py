@@ -1,4 +1,3 @@
-import bleach
 import logging
 from datetime import datetime
 from datetime import timedelta
@@ -18,6 +17,7 @@ from unlevents.models import UNLEventtype
 from unlevents.models import UNLSubscription
 from unlevents.models import UNLUserHasPermission
 from util import LDAPHelper
+from events.functions import remove_html
 from events.models import Calendar
 from events.models import Category
 from events.models import Event
@@ -281,14 +281,3 @@ class Command(BaseCommand):
                         logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                     else:
                         return user
-
-    def remove_html(value):
-        """
-        Run Bleach on the given value because UNL Events doesn't do HTML sanitization on anything.
-
-        Bleach here does NOT use the configuration settings in settings.py--it will remove
-        ALL tags and attributes found.
-        """
-        if value:
-            value = bleach.clean(value, tags=None, attributes=None, styles=None, strip=True)
-        return value
