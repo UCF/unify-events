@@ -5,159 +5,1343 @@
 {% block content_title %}
     <h1>Help &amp; Documentation</h1>
 {% endblock %}
-    
+
 {% block content_body %}
     <div class="row">
         <div class="col-md-8 sidebarfix page-content" id="static-help">
             <h2 id="about">About the Events System</h2>
-            
-            <h3 id="overview">Overview</h3>
             <p>
-                <a href="http://events.ucf.edu">http://events.ucf.edu</a> is the online location for listing and promoting UCF events. 
-                The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any 
-                occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start 
-                date &amp; time, category-type and location are all required for submitting an event into the system.
+                <a href="{{ CANONICAL_ROOT }}">{{ CANONICAL_ROOT }}</a> is the online location for listing and promoting UCF events.
+                The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any
+                occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start
+                date &amp; time, category and location are all required for submitting an event into the system.
             </p>
             <p>
-                The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend 
-                an event for publication on the main site. If your website promotes UCF events - including lectures, receptions, speakers, 
-                meetings, and shows, the UCF events system can help your users find this information and easily add it to their own 
-                calendars. Here’s what you can do with the new UCF events system:
+                The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend
+                an event for publication on the main UCF calendar and <a href="http://www.ucf.edu">ucf.edu</a>. If your website promotes
+                UCF events - including lectures, receptions, speakers, meetings, and shows, the UCF events system can help your users find
+                this information and easily add it to their own calendars. Here’s what you can do with the new UCF events system:
             </p>
             <ul>
                 <li>Get a unique events calendar for yourself or your UCF organization</li>
                 <li>Add, edit, and manage your upcoming events</li>
-                <li>Recommend events for posting on the main UCF web site</li>
+                <li>Recommend events for posting on UCF's Main Calendar</li>
                 <li>Share events with other organizations on campus</li>
                 <li>Display a calendar on your site</li>
             </ul>
             <p>
-                As with any IT system at UCF, use of the Events System is governed by the 
+                As with any IT system at UCF, use of the Events System is governed by the
                 <a href="http://policies.ucf.edu/documents/4-002UseofInformationTechnologiesandResourcesFINAL.pdf">
                     Division of Information Technologies and Resources Use of Information Technology and Resources Policy.
-                </a> 
+                </a>
                 Please be sure you have reviewed and understand this policy before logging in and entering content in the Events System.
             </p>
-            
-            <h3 id="event-or-announcement">Events vs. Announcements</h3>
-            
-            <hr />
-            
-            <h2 id="first-time-users">First Time Users</h2>
-            
-            <h3 id="create-an-account">Create an Account</h3>
-            
-            <h3 id="first-time-user-setup">First Time User Setup</h3>
-            
-            <hr />
-            
-            <h2 id="existing-users">Existing Users</h2>
-            
-            <h3 id="log-in-out">Log In/Log Out</h3>
+
+            <h3 id="event-or-announcement">Events, or Announcements?</h3>
             <p>
-                The login for the events system is located at <a href="https://eventsadmin.smca.ucf.edu/">https://eventsadmin.smca.ucf.edu/</a>, 
-                and requires a UCF NID and password.
+                Before posting your event in the new events system, please read the guidelines below:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="well">
+                        An <strong>event</strong> is an occurrence with a <em>start time</em>, <em>end time</em>, and a specific <em>location</em>.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="well">
+                        An <strong>announcement</strong> is a general notice that does not necessarily have a location.
+                    </div>
+                </div>
+            </div>
+            <p>
+                If you're posting an announcement, please use the <a href="http://www.ucf.edu/announcements">UCF Announcements System</a> instead.
+                Announcements posted in the events system and submitted to the Main Calendar for approval will be denied.
+            </p>
+
+            <h3 id="old-system-changes">Changes from the Old Events System</h3>
+            <p>
+                The current events system has been completely rewritten from the ground up to improve the user experience and better encourage
+                the creation and sharing of calendars and events.  Below are some major changes between this events system and the previous one:
+            </p>
+            <ul>
+                <li>
+                    <strong>Users are no longer tied to a single calendar.</strong>  You still need to have access to at least one calendar to be
+                    able to create events, but none of those calendars have to belong to you.
+                </li>
+                <li>
+                    Calendar owners can now <strong>transfer ownership</strong> of their calendar to another registered user.
+                </li>
+                <li>
+                    Calendar owners have better <strong>user management tools</strong> available, and new user roles--administrators and editors--have different
+                    permissions.
+                </li>
+                <li>
+                    <strong>Event creation has been simplified.</strong>  Fewer fields to fill out make creating events easier and faster.
+                </li>
+                <li>
+                    Users have access to a "WYSIWYG" text editor for creating events, and no longer have to add HTML markup themselves to add
+                    links and text styles.
+                </li>
+                <li>
+                    Events with locations available on <a href="http://map.ucf.edu">map.ucf.edu</a> will automatically display a <strong>map widget</strong>
+                    of the event's location on the single event's page.
+                </li>
+                <li>
+                    <strong>Social sharing buttons</strong> are generated automatically for all events.
+                </li>
+                <li>
+                    Users can now create their own <strong>tags</strong> for their events.  Improved color-coded <strong>categories</strong> are also
+                    available to help users find your event.
+                </li>
+                <li>
+                    <strong>Improved calendar subscription tools</strong> and the ability to <strong>copy individual events to your calendar</strong> and receive
+                    updates from the original publisher are available.
+                </li>
+            </ul>
+
+            <h3 id="sharing">Sharing and Distribution of Events and Calendars</h3>
+            <p>
+                Events posted in the events system are distributed across a variety of mediums when they are posted to the Main Calendar.  These mediums
+                include, but are not limited to:
+            </p>
+            <ul>
+                <li><a href="http://www.ucf.edu">ucf.edu</a></li>
+                <li>This Week/Weekend @ UCF emails (weekly)</li>
+                <li>
+                    Any other website that consumes events data, either through <a class="jump-to" href="#feeds">feeds</a> or the
+                    <a class="jump-to" href="#events-widget">events Javascript widget</a>
+                </li>
+            </ul>
+            <p>
+                In addition, events can be distributed to social media websites (Facebook, Twitter and Google+) using the social media buttons found on the
+                event Live View.  These buttons are generated automatically for all events.
+            </p>
+
+            <hr />
+
+            <h2 id="getting-started">Getting Started</h2>
+
+            <h3 id="sign-up-log-in">Sign Up/Log In</h3>
+            <p>
+                To create new events, you'll need to <a href="{% url 'accounts-login' %}">log in</a> to the events system using your NID and
+                NID password.  If you've never used the events system before, using the login form will set up your events system account for you.
+            </p>
+            <div class="well">
+                <p>
+                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.
+                    If you don't know the password associated with that NID, you may reset it using the
+                    <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
+                </p>
+                <p>
+                    If you have issues with retrieving your NID or resetting your password, please contact the Service Desk at 407-823-5117.
+                </p>
+            </div>
+            <p>
+                First time users will be guided through a two-step setup process to confirm user settings and create a first calendar.
             </p>
             <p>
-                If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.  
-                If you don't know the password associated with that NID, you may reset it using the 
-                <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
+                Users that used the previous version of the events system will have all their events, calendars, and subscriptions copied over to
+                the new system and can begin using it right away.
             </p>
-            <p>
-                If you have issues with retrieving your NID or resetting your password, please contact the Service Desk at 407-823-5117.
-            </p>
-            
-            <h3 id="manage-account">Manage Your Account</h3>
-            
-            <hr />
-            
-            <h2 id="calendar-information">Calendars</h2>
-            
+
             <h3 id="create-new-calendar">Create a New Calendar</h3>
-            
-            <h3 id="calendar-management">Calendar Management</h3>
-            
-            <h3 id="subscribing-to-another-calendar">Subscribing to Another Calendar</h3>
-            
-            <hr />
-            
-            <h2 id="event-information">Events</h2>
-            
+            <p>
+                To post a new event in the events system, you must be added to at least one calendar: either one that you create, or one that you have
+                Editor or Administrator access to.
+            </p>
+            <p>
+                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your first calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later. This step is completely optional.  It is suggested to skip this step if you are going to be added to an existing calendar and do not need your own calendar.
+            </p>
+
             <h3 id="create-new-event">Create a New Event</h3>
+            <p>
+                If you are added to or own at least one calendar, you can create a new event.  Click the blue <strong>Create Event</strong> button in the
+                admin navbar to get started.
+            </p>
+            <br/>
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Event Form Fields</h4>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h5>Calendar</h5>
+                            <p>
+                                Select the calendar you want to post the event to.  Events must be posted to an existing calendar before they can be added to the Main Calendar.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Suggest for Main Calendar Approval (optional)</h5>
+                            <p>
+                                To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown.  The event will be reviewed
+                                by Main Calendar admins and posted to the Main Calendar if it
+                                <a class="jump-to" href="#event-or-announcement">meets the criteria for an event</a> and follows the
+                                <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>.
+                            </p>
+                            <p>
+                                See the section on <a class="jump-to" href="#posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</a> for more information.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Title</h5>
+                            <p>
+                                Your event title should be unique, concise, and immediately recognizable to your audience.  Keep it simple.  Max length is 255 characters.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Status</h5>
+                            <p>
+                                Before saving your event, you can determine whether or not the event will display on your front-facing calendar immediately.  To immediately
+                                publish it, select "posted"; to save the event without displaying it on your calendar, select "pending".
+                            </p>
+                            <p>
+                                Note that pending events are still publicly available and accessible by anyone if they know the link to your event.
+                            </p>
+                            <p>
+                                For more information, see the help section on <a class="jump-to" href="#event-statuses">Event Statuses</a>.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Description</h5>
+                            <p>
+                                Your event description should adequately describe the purpose of your event, as well as any other details attendees need to know,
+                                like potential cost, where to register, etc.
+                                <strong>A description is required for all events.  Events submitted to the Main Calendar without an adequate description
+                                will not be approved.</strong>
+                            </p>
+                            <p>
+                                Use the toolbar above the textarea to apply text styling and add links to other webpages.  HTML markup and other code is not permitted
+                                and will be escaped.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>When &amp; Where</h5>
+                            <p>
+                                The When &amp; Where form will start with fields for a single event instance.  This instance must have a start time, end time, and a
+                                location.
+                            </p>
+                            <p>
+                                When an event instance <strong>re-occurs</strong>, instances are automatically generated for you based on the range you specify.
+                                For example, if your event runs from Monday thru Friday daily from 8:00 AM to 5:00 PM, you can create one event instance with a start date
+                                of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday (instead of creating
+                                event instances for each day manually.)
+                            </p>
+                            <p>
+                                <strong>To select an existing location</strong> for your event instance, start typing the name of your location in the text field provided.
+                                A list of suggestions will appear if an existing location is found.  Click the suggestion, or use the up and down arrow keys
+                                and hit Enter to select a suggestion.
+                            </p>
+                            <p>
+                                <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
+                                the right, where you can add a new location name, room number, and a link to more information about the location, preferrably from
+                                <a href="http://map.ucf.edu">map.ucf.edu</a>.<br />
+                                When you submit a location using a Permalink provided from map.ucf.edu
+                                (ex. <a href="http://map.ucf.edu/?show=52">http://map.ucf.edu/?show=52</a>), a map widget will automatically be generated for you on your
+                                event's page.  However, you can submit any URL that provides more information about the location and a link to that URL will be displayed
+                                under the location name.
+                            </p>
+                            <p>
+                                <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance
+                                form.  Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Category</h5>
+                            <p>
+                                A category helps users find your event via browsing or by searching.  Your event should be categorized under whatever category
+                                best describes your event overall.  Only one category can be assigned to an event.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Tags</h5>
+                            <p>
+                                Tags are user-generated phrases that can be used to further describe your events.  An event can have an unlimited number of tags.
+                            </p>
+                            <p>
+                                <strong>To add a tag</strong>, start typing a word or phrase in the text field provided.  If an existing phrase is found, it will be
+                                automatically suggested for you.  Type a comma or the Enter key, or click a suggestion, to add the phrase to your list of tags.
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Contact Information</h5>
+                            <p>
+                                All events require a means by which users can get in touch with the organizer of the event.
+                            </p>
+                            <p>
+                                To quickly use the contact information associated with your NID, check the "Use Your Contact Information" checkbox.  Your name and
+                                email associated with your account will be autopopulated for you.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <p>
+                When you've finished adding the details of your event, click the blue <strong>Create Event</strong> button at the bottom of the form to save.
+            </p>
+
+            <h3 id="update-existing-event">Update an Existing Event</h3>
+            <p>
+                Any existing event that you've created can be modified at any time.  If other users have subscribed to your calendar or copied the event,
+                their copy of the event will receive any changes you make.
+            </p>
+            <p>
+                To update an existing event, navigate to that event either through the Manager View or directly from the event Live View (and clicking the
+                Edit Event link, while logged in.)  For help finding your event in the Manager View, see the section on Finding Events in
+                <a class="jump-to" href="#manager-view-basics">Using the Manager View</a>.
+            </p>
+            <p>
+                If accessed from the Manager View, you can submit the event to the Main Calendar, cancel the event, delete it, or move it to pending
+                directly from the Manager View by using the <strong>Actions</strong> button next to the event.  To modify other event details, you'll
+                need to select the Edit Event button.
+            </p>
+            <p>
+                When editing the event directly, you'll see a form similar to the Create Event form.  See the
+                <a class="jump-to" href="#create-new-event">Creating an Event</a> section for more information on each field.  All existing fields
+                can be modified, but if your event has been submitted to the Main Calendar, you cannot modify the Suggest for Main Calendar Approval
+                checkbox.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> If an event instance's re-occurence rule is modified, direct URLs to that event may be broken, because
+                links to events contain IDs that correspond to single event instances.  Keep this in mind when sharing direct links to events with others,
+                either directly or through the Main Calendar, where
+                <a class="jump-to" href="#sharing">events are pulled for the This Week/Weekend @ UCF emails and other mediums</a>.
+            </div>
+            <p>
+                When you're finished making changes, be sure to click the <strong>Update Event</strong> button at the bottom of the form.
+            </p>
+
+            <h4>Updating Copied or Subscribed Events</h4>
+            <p>
+                Events that have either been manually copied or pulled onto your calendar from a subscription can be modified for your calendar;
+                however, <strong>if the original event creator updates their event, your changes will be overridden.</strong>
+            </p>
+
+            <hr />
+
+            <h2 id="calendar-management">Calendar Information</h2>
+
+            <h3 id="manager-view-basics">Using the Manager View</h3>
+            <p>
+                The Manager View provides administrative tools for all the upcoming events on your calendar(s).  The default Manager View,
+                the My Calendars view, displays posted, pending, and subscribed events on all of your calendars.  You can also view events on
+                the Manager View by a specific calendar.
+            </p>
+
+            <h4>Accessing the Manager View</h4>
+            <p>
+                By default, when you log in to the events system, you are automatically directed to the default Manager View.
+            </p>
+            <p>
+                <strong>To access the Manager View</strong> otherwise, click on <strong>My Calendars > View All</strong> from the admin navbar.
+                This will take you to the default Manager View.  <strong>To access the Manager View for a specific calendar</strong>, click a
+                calendar name after clicking <strong>My Calendars</strong> from the admin navbar.
+            </p>
+
+            <h4>Finding Events</h4>
+            <p>
+                By default, events are listed in the Manager View by their status (posted), ordered by date.  Only upcoming (not "archived")
+                events are displayed, unless you're browsing events by a specific date.
+            </p>
+            <p>
+                Events are listed by each generated event instance; if you create an event with multiple instances, it will appear in the
+                Manager View more than once.
+            </p>
+            <p>
+                You can find a specific event several ways:
+            </p>
+            <ul>
+                <li>by changing the current event status grouping from "Posted" to "Pending" or "Subscribed Events",</li>
+                <li>by searching for your event using the search bar,</li>
+                <li>by navigating by date using the sidebar calendar widget and clicking on a date,</li>
+                <li>or by using the pagination at the bottom of the page to browse upcoming events.</li>
+            </ul>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Events that occured in the past (are "archived") will <strong>not</strong> appear when browsing by
+                state, by searching, or by browsing by pagination.  You must navigate to a specific date using the sidebar calendar widget to
+                find an archived event.  Only archived posted events can be navigated to--archived pending events are not accessible.
+            </div>
+
+            <h4>Edit Events in Bulk</h4>
+            <p>
+                The Manager View provides Bulk Action dropdown menus at the top and bottom of event lists for easy access to multiple
+                event editing actions.
+            </p>
+            <p>
+                <strong>To select multiple events</strong>, check the checkbox to the left of each event's name.  You can also
+                <strong>select or unselect all events on the page at once</strong> by clicking the top label checkbox.
+            </p>
+            <p>
+                To perform a bulk action after selecting at least one event, use the <strong>Select Bulk Action</strong> dropdown menu and
+                select an option. Note that these actions will affect all of the events listed and all of their instances.  If you need to
+                modify a single instance of the event,
+                <a class="jump-to" href="#update-existing-event">edit that event individually</a> and modify the specific instance.
+            </p>
+
+            <h3 id="calendar-settings">Calendar Settings and User Management</h3>
+            <p>
+                Your calendar's user settings, calendar info, and subscriptions can all be accessed by
+                <strong>the calendar owner and all admins</strong> of the calendar.  Editors do not have access to
+                these settings.
+            </p>
+            <p>
+                To access these settings, select a calendar from the admin navbar, then select an option from the
+                <strong>Edit</strong> dropdown on that page.  You can also access these settings from the
+                calendar's Live View by clicking the <strong>Manage</strong> dropdown and selecting an option.
+            </p>
+
+            <h4>Users &amp; Permissions</h4>
+            <p>
+                Calendars are capable of having one or more users assigned to them, using several <strong>user roles</strong>.
+                Each user role has a different set of capabilities and permissions.  Refer to the chart below for a list of all
+                user roles and their permissions:
+            </p>
+            <div>
+                <table class="table table-bordered table-yesno">
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Owner</th>
+                            <th>Admin</th>
+                            <th>Editor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Access Calendar Management Options</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Add/Update Users on Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Remove Users from Calendar (Including Self) <strong>*</strong></td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Reassign Ownership of Calendar</td>
+                            <td>yes</td>
+                            <td>no</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Delete Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Add Events to Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                        <tr>
+                            <td>Subscribe to Another Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>no</td>
+                        </tr>
+                        <tr>
+                            <td>Copy Event to Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                        <tr>
+                            <td>Update, Cancel, or Delete Events on Calendar</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                            <td>yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><small>* Admins cannot remove calendar owners from their calendar.</small></p>
+            </div>
+
+            <p>
+                If you are an owner or an admin of a calendar, you can <strong>add a new user to a calendar</strong> by
+                using the Add New User form.  Type a user's first name, last name or NID to search for him/her in the
+                events system.  Select a user role from the dropdown, then click the <strong>Add User</strong> button.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Can't find the user you're looking for?</strong> The user you're searching for must have logged
+                into the events system at least once to be able to be added to your calendar.  They must have a valid
+                NID to log into the events system.  See the <a class="jump-to" href="#sign-up-log-in">Sign Up/Log In</a>
+                section for more information.
+            </div>
+            <p>
+                Owners and admins can <strong>modify existing calendar users</strong> from the Users With Access to this Calendar
+                table.  Note that some users may not have permission to perform specific actions; see the user role permissions
+                table above.
+            </p>
+
+            <h4>Calendar Info</h4>
+            <p>
+                Owners and admins can modify a calendar's title and description using the Calendar Info form.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> When you update your calendar's title, the <strong>slug</strong> of your calendar is
+                also updated.  Users will be redirected to the correct URL when they access a link to your calendar using the
+                old slug, but if you manage a website that consumes <a class="jump-to" href="#feeds">feed data</a> by using a
+                function that doesn't follow 301 redirects, your website's events may stop displaying.  In that case,
+                you will need to update the slug of your calendar in the URL wherever you consume feed data.
+            </div>
+
+            <h4>Subscriptions</h4>
+            <p>
+                Owners and admins can manage a calendar's existing subscriptions using the Your Subscribed Calendars form.
+                <strong>To unsubscribe from a calendar</strong>, click the <strong>Unsubscribe</strong> button next to the
+                corresponding calendar name.
+            </p>
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> Unsubscribing from a calendar will remove all events
+                that originated from the subscribed calendar off of your calendar.  Do so at your own risk!
+            </div>
+            <p>
+                Owners and admins can view what calendars have subscribed to their calendar from the Subscribing Calendars
+                section.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Calendars subscribed to your calendar will only receive your posted events.  Pending
+                events are not copied to subscribed calendars.
+            </div>
+            <p>
+                To <strong>subscribe to another calendar</strong>, see the section on
+                <a class="jump-to" href="#subscribe-to-another-calendar">Subscribing to Another Calendar</a>.
+            </p>
+
+            <h4>Delete Calendar</h4>
+            <p>
+                Owners and admins have the ability to delete an existing calendar.  Use the <strong>Delete Calendar</strong>
+                link to access the Delete Calendar form.
+            </p>
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> Deleting a calendar will <strong>permanently delete</strong> all of its events,
+                as well as the events on any calendars that are currently subscribed to your calendar.  <strong>Do so at your
+                own risk!</strong>
+            </div>
+
+            <h3 id="subscribe-to-another-calendar">Subscribe to Another Calendar</h3>
+            <p>
+                <strong>Subscriptions</strong> allow calendars to automatically receive posted events from the calendars they are
+                subscribed to.  Those subscribed events will also receive updates from the originating calendar, if available.
+            </p>
+            <p>
+                Subscriptions are best suited for departments or organizations that wish to aggregate events from inner
+                organizations that manage their own calendars.  <strong>When a calendar subscribes to another calendar, all past and future
+                events are copied.</strong>  For copying a small number of events from another calendar, use
+                <a class="jump-to" href="#copy-an-event">event copying</a> instead.
+            </p>
+            <p>
+                Calendar owners and admins are capable of adding new subscriptions.  To subscribe to another calendar, you'll
+                need to find a calendar to subscribe to.  Use the <strong>search bar</strong> from the Live View or Manager View
+                to search by another calendar's title, description, or for events that match some criteria.  Make sure the
+                <strong>All Calendars and Tabs</strong> tab is selected to search other calendars.
+            </p>
+            <p>
+                When you've found a calendar with events you'd like to subscribe to, go to that calendar's Day View, and click the
+                <strong>Subscribe to Calendar</strong> link next to the calendar's name.
+            </p>
+            <p>
+                In the Subscribe to Calendar form, you can select one or more of your existing calendars to subscribe.  Click the
+                <strong>Subscribe</strong> button to save your changes.  This process may take a moment if you're subscribing to a calendar
+                with many events.
+            </p>
+            <p>
+                Events that have been populated into your calendar from subscriptions are viewable from the "Subscribed Events" tab in
+                the Manager View (they are also available under the "Posted" tab.)  Subscribed events will have a "<i class="fa fa-share"></i>"
+                icon next to their names.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Your calendar will only receive another calendar's posted events.  Pending events will not be
+                copied to your calendar.
+            </div>
+            <p>
+                Calendar subscriptions can be managed from the calendar's edit options.  See the section on Subscriptions in
+                <a class="jump-to" href="#calendar-settings">Calendar Settings and User Management</a> for more information.
+            </p>
+
+            <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
+            <p>
+                The Main Calendar serves as the front-facing calendar for the entire university.  It is the calendar displayed from
+                the events system home page, and the calendar from which events on
+                <a class="jump-to" href="#sharing">ucf.edu and other sources</a> are fetched.
+            </p>
+            <p>
+                While users do not have direct access to posting to the Main Calendar themselves, any posted event can be suggested to
+                the Main Calendar.  When an event is suggested to the Main Calendar, it is saved as a pending event on the Main Calendar
+                and will undergo a manual review by Main Calendar admins.  If a submitted event falls under the
+                <a class="jump-to" href="#event-or-announcement">definition of an event</a> and follows the
+                <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>, it will be approved and published on
+                the Main Calendar within <strong>24-48 hours</strong>.
+            </p>
+            <p>
+                You can <strong>review the status of your suggested event</strong> from your event's calendar's Manager View.<br/>
+                The "<i class="fa fa-star-o"></i>" icon shows the current status of your event on the Main Calendar:
+            </p>
+            <ul>
+                <li>
+                    No icon means the event does not exist on the Main Calendar.  The event either hasn't been suggested yet,
+                    or it was denied approval.
+                </li>
+                <li>
+                    A "<i class="fa fa-star-half-full"></i>" icon means the event is pending review on the Main Calendar.
+                </li>
+                <li>
+                    A "<i class="fa fa-star"></i>" icon means the event has been approved and is published on the Main Calendar.
+                </li>
+            </ul>
+            <p>
+                To <strong>suggest a new event to the Main Calendar</strong>, check the "Suggest for Main Calendar Approval" checkbox.
+                See the section on <a class="jump-to" href="#create-new-event">Creating a New Event</a> for more information.
+            </p>
+            <p>
+                To <strong>suggest an already-posted</strong> event to the Main Calendar, navigate to the Manager View for the event's
+                calendar, find the event, and from the <strong>Actions</strong> dropdown, select "Suggest to Main Calendar".
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Only posted events can be suggested to the Main Calendar.  Pending events cannot be suggested.<br/>
+                If a posted event is under review or has been accepted on the Main Calendar, and is then saved as pending on the
+                originating calendar, the event will be removed from the Main Calendar and will need to be re-suggested.
+            </div>
+
+            <hr />
+
+            <h2 id="event-information">Event Information</h2>
 
             <h3 id="event-creation-guidelines">Event Creation Guidelines</h3>
-            
-            <h3 id="posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</h3>
-            
-            <h3 id="modifying-an-event">Modifying an Event</h3>
-            
+            <p>
+                To help maintain the quality of UCF's web content and to help other users learn about your events, please follow the
+                guidelines below when creating an event:
+            </p>
+            <ul>
+                <li>
+                    Make sure your event falls under the <a class="jump-to" href="#event-or-announcement">definition of an event</a>.
+                    If your event does not follow this definition, please
+                    <a href="http://www.ucf.edu/announcements">submit an announcement instead</a>.
+                </li>
+                <li>
+                    Make sure your event is relevant to the UCF community.  Events that do not directly involve UCF students, faculty,
+                    staff, alumni, or the university as a whole should not be submitted to the events system.
+                </li>
+                <li>
+                    Event titles and descriptions should accurately describe your event in a readable way.  Please follow UCF's
+                    <a href="http://brand.ucf.edu/writing-style-guide/">Writing Style Guide</a>.  Be brief but concise, avoid complex
+                    terminology, and always proofread your content for spelling and grammatical errors.
+                </li>
+                <li>
+                    All events must have a valid description.  <strong>Do not post events with empty descriptions.  <em>"Information
+                    coming soon"</em> or <em>"To be determined"</em> are <u>not</u> valid event descriptions.</strong>
+                </li>
+                <li>
+                    All events should have a location.  Avoid using <em>"No Location"</em> or <em>"To be determined"</em> to
+                    describe where your event occurs.
+                </li>
+                <li>
+                    All events must provide adequate contact information.  This includes a person or organization name and an email.
+                    A phone number is suggested, but is not required.
+                </li>
+            </ul>
+
+            <h3 id="copy-an-event">Copy an Event</h3>
+            <p>
+                All users have the ability to copy an individual existing event to their own calendar(s).  A copied event works similarly to
+                an event copied via a calendar subscription; it will appear in the Manager View under the "Subscribed Events" section
+                with a "<i class="fa fa-share"></i>" icon next to its name, and will receive updates from the original event when they are made.
+            </p>
+            <p>
+                <strong>To copy an event</strong>, navigate to that event's Live View, either through a direct URL or by searching in the search bar.
+                If you are logged in and are added to at least one calendar, you will see a <strong>Add Event To</strong> link to the right
+                of the event title.  Clicking that link will display a form that allows you to select one or more of your calendars to copy
+                the event to.  When you've selected the calendars you want to copy to, click the <strong>Copy Events to Calendar(s)</strong>
+                button to save your changes.
+            </p>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Event copies only run one level deep; event copies will always receive updates from the original event,
+                not from other copies.<br />
+                e.g., if an event was created on Calendar A, then copied to Calendar B, Calendar C will always receive updates from Calendar A's
+                version of the event, even if Calendar C copied from Calendar B.
+            </div>
+
+            <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
+            <p>
+                Canceling and Deleting an event can be accomplished by clicking the appropriate button under the event's Actions Selection dropdown.
+            </p>
+
+            <h4>Cancel</h4>
+            <p>
+                Canceling an event prefixes the event with 'CANCELED: ' and leaves the event visible on all the calendars it is posted on
+                (including subscriptions and copied events). Canceling the event helps notify users that the event will no longer occur.
+            </p>
+            <p>
+                You can cancel an event at any time by selecting the "Cancel Event" option from the Manager View actions, or when editing
+                the event.  A canceled event can be un-canceled by selecting "Un-cancel Event".
+            </p>
+
+            <h4>Delete</h4>
+            <p>
+                Deleting an event will remove it from all the calendars it is posted on, including subscribing calendars and calendars that
+                manually copied the single event.  It is suggested to cancel the event if it has had significant visibility, rather than deleting it.
+            </p>
+            <p>
+                You can delete an event at any time by selecting the "Delete Event" option from the Manager View actions, or when editing
+                the event.
+            </p>
+
             <h3 id="recurring-events">Recurring Events</h3>
-            
-            <h3 id="subscribing-to-an-event">Subscribing to an Event</h3>
+            <p>
+                This is a new feature added to the events system. Recurring events reduce the number of steps needed to create repeating events that have the same time and location. The available re-occuring selections are: Never (occurs once), Daily, Weekly, Biweekly, Monthly, and Yearly. Below are a couple of examples of when to use a recurring event rule.
+            </p>
+
+            <p class="alert alert-info">
+                <strong>Example 1:</strong> An event that occurs daily, Monday through Friday, from 8:00 a.m. to 5:00 p.m. at the same location. This can be created with a start date of Monday at 8:00 a.m. and an end date of Monday at 5:00 p.m.; then set the Re-occurs dropdown to "Daily" and the Re-occurs Until field to Friday.
+            </p>
+
+            <p class="alert alert-info">
+                <strong>Example 2:</strong> An event that occurs weekly on Tuesday for two weeks, from 1:00 p.m. to 2:00 p.m. at the same location. This can be created with a start date of Tuesday at 1:00 p.m. and an end date of Tuesday at 2:00 p.m.; then set the Re-occurs dropdown to "Weekly" and the Re-occurs Until field to Tuesday two weeks from now.
+            </p>
+
+            <p>
+                The re-ocurring rule should be used if the events:
+                <ul>
+                    <li>occurs on a regular basis (Daily, Weekly, Biweekly, Monthly, or Yearly)</li>
+                    <li>has the same start time for each occurence</li>
+                    <li>has the end time for each occurence</li>
+                    <li>is at the same location</li>
+                </ul>
+                If an event recurrence breaks any of the above rules, a new event instance should be created. You can create additional event instances by clicking the "Add another event instance &hellip;" and entering in the required information.
+            </p>
+
+            <h3 id="event-statuses">Event Statuses</h3>
+            <p>
+                Event statuses exist to help calendar managers manage and organize their events, particularly for departments and organizations
+                that manage a calendar with multiple users.  Different statuses affect how events are displayed publicly.
+            </p>
+            <p>
+                <strong>Posted</strong> events are completely public and are made available on all front-facing calendar views, feeds, and search
+                results.  Posted events are considered to be "finished" and polished content.
+            </p>
+            <p>
+                <strong>Pending</strong> events are still available publicly, but are not available on any front-facing calendar views, feeds, or
+                search results.  Users would have to know the URL of a pending event to be able to access it.
+            </p>
+            <p>
+                Pending events are useful for cases when, for instance, you want to save event information for later use, but don't yet some details
+                (like the description or location) and need to add them later.  They could also be useful for departments and organizations that
+                require a review process of event content.
+            </p>
+            <p>
+                An event's status can be modified at any time.  From the Manager View,
+                <a class="jump-to" href="#manager-view-basics">navigate to the event</a> you'd like to change, and select "Move to Pending/Posted"
+                from the Actions dropdown button.
+            </p>
+
+            <hr />
+
+            <h2 id="for-developers">For Developers</h2>
+
+            <h3 id="feeds">Feeds</h3>
+            <p>
+                Similar to the previous events system, consumable feeds are available for grabbing and displaying events on your own
+                website.  Feed data can be used to create WordPress, Drupal and Joomla widgets and plugins, or can be written into
+                a completely custom application.
+            </p>
+            <p>
+                Feeds are available in JSON, RSS, XML, and ICS (iCal, Microsoft Outlook) formats.
+            </p>
+            <p>
+                All front-facing views (excluding the Year View) offer a feed of all the events data currently in that view.  Feeds
+                follow similar data structures to those previously available in the old events system; if your site is already consuming
+                a feed from the old events system, you shouldn't need to make any changes to your code for the new system.  Keep in mind,
+                however, that the legacy feeds format could be deprecated at any time.
+                (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>.)
+            </p>
+            <p>
+                Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
+                on a specific calendar.  To fetch events on the Main Calendar, remove the <code>/calendar/[calendar_id]/[calendar_slug]/</code>
+                portion of the example URLs.
+            </p>
+
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>URL Example</th>
+                            <th>Arguments</th>
+                            <th>URL Parameter Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Today's Events (default view)<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current day on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that occur
+                                    within the current day, but don't necessarily start or end on that day, and wouldn't otherwise
+                                    appear in the feed.
+                                </small></p>
+                            </td>
+                            <td>
+                                <code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events This Week<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current week on the given calendar. The
+                                    list always runs from Sunday through Saturday.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the current week, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-week' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events This Month<br/>
+                                <p><small>
+                                    A list of all event instances happening on the current month on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the current month, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-month' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Upcoming Events<br/>
+                                <p><small>
+                                    A list (max 25) of events occurring soon on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return upcoming events, cloned with modified
+                                    start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='upcoming' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events by Day<br/>
+                                <p><small>
+                                    A list of all events occurring on a specific day on the given calendar.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that occur
+                                    within the given day, but don't necessarily start or end on that day, and wouldn't otherwise
+                                    appear in the feed.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'day-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                    <li>
+                                        <code>day</code><br/>
+                                        <small>Example value: <em>28</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events on Week of [day]<br/>
+                                <p><small>
+                                    A list of all events happening on a week determined by the specified day. A weeks' worth of events from the
+                                    Sunday of the week through Saturday are returned, regardless of the day of the week of the specified day.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the given week, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'week-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                    <li>
+                                        <code>day</code><br/>
+                                        <small>Example value: <em>28</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Events by Month<br/>
+                                <p><small>
+                                    A list of all events happening on the specified month.
+                                </small></p>
+                                <p><small>
+                                    Use the <code>mapped_events</code> URL param to return all event instances that fall
+                                    within the given month, cloned with modified start/end datetimes for each day they occur on.
+                                </small></p>
+                            </td>
+                            <td><code>{% url 'month-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>year</code><br/>
+                                        <small>Example value: <em>2014</em></small>
+                                    </li>
+                                    <li>
+                                        <code>month</code><br/>
+                                        <small>Example value: <em>3</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>mapped_events</code><br/>
+                                        <small>Default: <em>false</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Events by Category</td>
+                            <td><code>{% url 'category-by-calendar' pk=1234 slug='my-calendar-slug' category_pk=2 category='category-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>category_id</code><br/>
+                                        <small>Example value: <em>2</em></small>
+                                    </li>
+                                    <li>
+                                        <code>category_slug</code><br/>
+                                        <small>Example value: <em>category-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Events by Tag</td>
+                            <td><code>{% url 'tag-by-calendar' pk=1234 slug='my-calendar-slug' tag_pk=2 tag='tag-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>calendar_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>calendar_slug</code><br/>
+                                        <small>Example value: <em>my-calendar-slug</em></small>
+                                    </li>
+                                    <li>
+                                        <code>tag_id</code><br/>
+                                        <small>Example value: <em>2</em></small>
+                                    </li>
+                                    <li>
+                                        <code>tag_slug</code><br/>
+                                        <small>Example value: <em>tag-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Single Event Profile</td>
+                            <td><code>{% url 'event' pk=1234 slug='my-event-slug' %}feed.json</code></td>
+                            <td>
+                                <ul class="table-list">
+                                    <li>
+                                        <code>event_id</code><br/>
+                                        <small>Example value: <em>1234</em></small>
+                                    </li>
+                                    <li>
+                                        <code>event_slug</code><br/>
+                                        <small>Example value: <em>my-event-slug</em></small>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                n/a
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning" id="legacy-feeds">
+                <strong>Note:</strong> Feeds can also be accessed from any view by using the <code>?format=FORMAT</code> URL parameter, but this is
+                strictly for backward compatibility with the old events system and may be deprecated at any time.  We strongly recommend using
+                the methods listed above for accessing feed data.
+            </div>
+
+            <h3 id="events-widget">Events Widget</h3>
+            <div class="alert alert-danger">
+                <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events
+                system's events widget.  It may be deprecated at any time.  We strongly recommend using <a class="jump-to" href="#feeds">feeds</a> for consuming
+                data instead.
+            </div>
+
+            <h4>Requirements</h4>
+            <p>
+                The UCF Events Widget is built as a jQuery plugin, compatible with jQuery v1.4.2+.
+            </p>
+
+            <h4>Installation</h4>
+            <p>
+                Copy and paste the markup below into your site's code:
+            </p>
+            <ol>
+                <li>
+                    In the header, link the javascript and stylesheet:
+                    <pre>&lt;!-- jQuery is required --&gt;
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+
+&lt;!-- Widget Includes --&gt;
+&lt;script src="http://events.ucf.edu/tools/script.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;link href="http://events.ucf.edu/tools/style.css" rel="stylesheet" type="text/css"&gt;</pre>
+                </li>
+                <li>
+                    Place where you want the widget to display:
+                    <pre>&lt;div class="events"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="http://events.ucf.edu/"&gt;View Calendar&lt;/a&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    $(function(){ $(".events").eventsUCF(); });
+&lt;/script&gt;</pre>
+                </li>
+            </ol>
+
+            <h4>Available Options</h4>
+            <p>
+                All properties listed below are optional.
+            </p>
+            <p>
+                Options are attached to the Events Widget using data attributes;
+                e.g. <code>&lt;div class="events" data-limit="5" data-calendar-id="7"&gt;...</code>
+            </p>
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default Value</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>limit</code></td>
+                            <td><code>number</code></td>
+                            <td><code>4</code></td>
+                            <td>How many events should be included in the event list.</td>
+                        </tr>
+                        <tr>
+                            <td><code>calendar-id</code></td>
+                            <td><code>number</code></td>
+                            <td><code>1</code></td>
+                            <td>Chooses which UCF Event Calendar to use.  Defaults to the Main Calendar.</td>
+                        </tr>
+                        <tr>
+                            <td><code>monthwidget</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>Switches plugin to calendar view.  Defaults to list view.</td>
+                        </tr>
+                        <tr>
+                            <td><code>month</code></td>
+                            <td><code>number</code></td>
+                            <td><code>false</code></td>
+                            <td>Chooses specific calendar month to view.</td>
+                        </tr>
+                        <tr>
+                            <td><code>year</code></td>
+                            <td><code>number</code></td>
+                            <td><code>false</code></td>
+                            <td>Chooses specific calendar year to view.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Demos</h4>
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>List View</h5>
+                    <a class="btn btn-primary" href="{% url 'home' %}tools/demo-list.html">View Live Demo</a><br/><br/>
+                </div>
+                <div class="col-md-9">
+                    <a href="{% url 'home' %}tools/demo-list.html">
+                        <img class="img-responsive img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/event-widget-list.png" alt="List widget screenshot" title="List widget screenshot" />
+                    </a>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Calendar View</h5>
+                    <a class="btn btn-primary" href="{% url 'home' %}tools/demo-calendar.html">View Live Demo</a><br/><br/>
+                </div>
+                <div class="col-md-9">
+                    <a href="{% url 'home' %}tools/demo-calendar.html">
+                        <img class="img-responsive img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/event-widget-calendar.png" alt="Calendar widget screenshot" title="Calendar widget screenshot" />
+                    </a>
+                </div>
+            </div>
         </div>
+
         <aside class="col-md-4 page-sidebar" id="static-help-sidebar">
             <nav data-spy="affix" data-offset-top="50" data-offset-bottom="200">
                 <strong>About the Events System</strong>
                 <ul>
                     <li>
-                        <a href="#overview">Overview</a>
+                        <a href="#about" class="jump-to">Overview</a>
                     </li>
                     <li>
-                        <a href="#event-or-announcement">Events vs. Announcements</a>
-                    </li>
-                </ul>
-                <strong>First Time Users</strong>
-                <ul>
-                    <li>
-                        <a href="#create-an-account">Create an Account</a>
+                        <a href="#event-or-announcement" class="jump-to">Events, or Announcements?</a>
                     </li>
                     <li>
-                        <a href="#first-time-users">First Time User Setup</a>
+                        <a href="#old-system-changes" class="jump-to">Changes from the Old Events System</a>
+                    </li>
+                    <li>
+                        <a href="#sharing" class="jump-to">Sharing and Distribution of Events and Calendars</a>
                     </li>
                 </ul>
-                <strong>Existing Users</strong>
+                <strong>Getting Started</strong>
                 <ul>
                     <li>
-                        <a href="#log-in-out">Log In/Log Out</a>
+                        <a href="#sign-up-log-in" class="jump-to">Sign Up/Log In</a>
                     </li>
                     <li>
-                        <a href="#manage-account">Manage Your Account</a>
+                        <a href="#create-new-calendar" class="jump-to">Create a New Calendar</a>
+                    </li>
+                    <li>
+                        <a href="#create-new-event" class="jump-to">Create a New Event</a>
+                    </li>
+                    <li>
+                        <a href="#update-existing-event" class="jump-to">Update an Existing Event</a>
                     </li>
                 </ul>
                 <strong>Calendar Information</strong>
                 <ul>
                     <li>
-                        <a href="#create-new-calendar">Create a New Calendar</a>
+                        <a href="#manager-view-basics" class="jump-to">Using the Manager View</a>
                     </li>
                     <li>
-                        <a href="#calendar-management">Calendar Management</a>
+                        <a href="#calendar-settings" class="jump-to">Calendar Settings and User Management</a>
                     </li>
                     <li>
-                        <a href="#subscribing-to-another-calendar">Subscribing to Another Calendar</a>
+                        <a href="#subscribe-to-another-calendar" class="jump-to">Subscribe to Another Calendar</a>
+                    </li>
+                    <li>
+                        <a href="#posting-an-event-on-the-main-calendar" class="jump-to">Posting an Event on the Main Calendar</a>
                     </li>
                 </ul>
                 <strong>Event Information</strong>
                 <ul>
                     <li>
-                        <a href="#create-new-event">Create a New Event</a>
+                        <a href="#event-creation-guidelines" class="jump-to">Event Creation Guidelines</a>
                     </li>
                     <li>
-                        <a href="#event-creation-guidelines">Event Creation Guidelines</a>
+                        <a href="#copy-an-event" class="jump-to">Copy an Event</a>
                     </li>
                     <li>
-                        <a href="#posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</a>
+                        <a href="#cancel-delete-an-event" class="jump-to">Cancel or Delete an Event</a>
                     </li>
                     <li>
-                        <a href="#modifying-an-event">Modifying an Event</a>
+                        <a href="#recurring-events" class="jump-to">Recurring Events</a>
                     </li>
                     <li>
-                        <a href="#recurring-events">Recurring Events</a>
+                        <a href="#event-statuses" class="jump-to">Event Statuses</a>
+                    </li>
+                </ul>
+                <strong>For Developers</strong>
+                <ul>
+                    <li>
+                        <a href="#feeds" class="jump-to">Feeds</a>
                     </li>
                     <li>
-                        <a href="#subscribing-to-an-event">Subscribing to an Event</a>
+                        <a href="#events-widget" class="jump-to">Events Widget</a>
                     </li>
                 </ul>
             </nav>
         </aside>
     </div>
+{% endblock %}
+
+{% block footer_scripts %}
+{{ block.super }}
+<script>
+    /* Quick and dirty way of adding check/x icons instead of typing them all out manually */
+    $('.table-yesno tbody td').each(function() {
+        var td = $(this);
+        var text = $.trim(td.text());
+        if (text === 'yes') {
+            td.html('<i class="fa fa-check fa-lg text-success"></i>');
+        }
+        else if (text === 'no') {
+            td.html('<i class="fa fa-times fa-lg text-danger"></i>');
+        }
+    });
+</script>
 {% endblock %}

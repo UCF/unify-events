@@ -351,7 +351,8 @@ header {
       }
     }
 
-    > .well {
+    > .well,
+    > .alert {
       padding-right: 20px;
       margin-right: 10px;
       @include respond-to(xs) {

@@ -93,6 +93,16 @@ ul.errors,
 #static-base ul {
   padding-left: 15px;
 }
+#static-base ul.table-list,
+#static-base ul.list-group,
+ul.table-list {
+  padding-left: 0;
+  list-style-type: none;
+
+  & > li {
+    margin-bottom: 8px;
+  }
+}
 dt {
   @include body-prefix(ie8) {
     float: left;
@@ -129,4 +139,11 @@ dt {
 /* Horizontal Rules */
 hr {
   border-top: 2px dotted $table-border-color;
+}
+
+
+/* Code */
+code {
+  color: $pre-color;
+  background-color: $pre-bg;
 }
