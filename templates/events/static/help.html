@@ -673,7 +673,10 @@
             </div>
 
             <h3 id="cancel-delete-an-event">Cancel or Delete an Event</h3>
-            
+            <p>
+                Cancelling and Deleting an event can be accomplished by clicking the appropriate button under the event's Actions Selection dropdown.
+            </p>
+
             <h4>Cancel</h4>
             <p>
                 Canceling an event prefixes the event with 'CANCELED: ' and leaves the event visible on all the calendars it is posted on
@@ -695,7 +698,28 @@
             </p>
 
             <h3 id="recurring-events">Recurring Events</h3>
-            <p class="todo">TODO</p>
+            <p>
+                This is a new feature added to the events system. Recurring events reduce the number of steps needed to create repeating events that have the same time and location. The available re-occuring selections are: Never (occurs once), Daily, Weekly, Biweekly, Monthly, and Yearly. Below are a couple of examples of when to use a recurring event rule.
+            </p>
+
+            <p class="alert alert-info">
+                <strong>Example 1:</strong> An event that occurs daily, Monday through Friday, from 8:00 a.m. to 5:00 p.m. at the same location. This can be created with a start date of Monday at 8:00 a.m. and an end date of Monday at 5:00 p.m.; then set the Re-occurs dropdown to "Daily" and the Re-occurs Until field to Friday.
+            </p>
+
+            <p class="alert alert-info">
+                <strong>Example 2:</strong> An event that occurs weekly on Tuesday for two weeks, from 1:00 p.m. to 2:00 p.m. at the same location. This can be created with a start date of Tuesday at 1:00 p.m. and an end date of Tuesday at 2:00 p.m.; then set the Re-occurs dropdown to "Weekly" and the Re-occurs Until field to Tuesday two weeks from now.
+            </p>
+
+            <p>
+                The re-ocurring rule should be used if the events:
+                <ul>
+                    <li>occurs on a regular basis (Daily, Weekly, Biweekly, Monthly, or Yearly)</li>
+                    <li>has the same start time for each occurence</li>
+                    <li>has the end time for each occurence</li>
+                    <li>is at the same location</li>
+                </ul>
+                If an event recurrence breaks any of the above rules, a new event instance should be created. You can create additional event instances by clicking the "Add another event instance &hellip;" and entering in the required information.
+            </p>
 
             <h3 id="event-statuses">Event Statuses</h3>
             <p>
