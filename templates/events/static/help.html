@@ -630,8 +630,7 @@
                     describe where your event occurs.
                 </li>
                 <li>
-                    All events must provide adequate contact information.  This includes a person or organization name, and an email or
-                    phone number.
+                    All events must provide adequate contact information.  This includes a person or organization name and an email. Though a phone number is not required it is suggested.
                 </li>
             </ul>
 
@@ -664,7 +663,7 @@
             <p>
                 All front-facing views (excluding the Year View) offer a feed of all the events data currently in that view.  Feeds
                 follow similar data structures to those previously available in the old events system; if your site is already consuming
-                a feed from the old events system, you shouldn't need to make any changes to your code for the new system.
+                a feed from the old events system, you shouldn't need to make any changes to your code for the new system. The legacy feeds format could be deprecated at any time (<a href="#legacy-feeds" class="jump-to">legacy feeds note</a>).
             </p>
             <p>
                 Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
@@ -1029,7 +1028,7 @@
                 </table>
             </div>
 
-            <div class="alert alert-warning">
+            <div class="alert alert-warning" id="legacy-feeds">
                 <strong>Note:</strong> Feeds can also be accessed from any view by using the <code>?format=FORMAT</code> URL parameter, but this is
                 strictly for backward compatibility with the old events system and may be deprecated at any time.  We strongly recommend using
                 the methods listed above for accessing feed data.
