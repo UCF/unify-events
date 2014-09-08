@@ -72,6 +72,27 @@ class CalendarAdminUserValidationMixin(object):
             return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
+class CalendarOwnerUserValidationMixin(object):
+    """
+    Require that the user accessing the calendar is either a superuser
+    or owns the calendar.
+
+    Return 403 Forbidden if false.
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(super(CalendarOwnerUserValidationMixin, self), 'get_calendar'):
+            calendar = self.get_calendar()
+        elif hasattr(super(CalendarOwnerUserValidationMixin, self), 'get_object'):
+            calendar = self.get_object()
+        else:
+            calendar = None
+
+        if not self.request.user.is_superuser and calendar is not None and calendar.owner is not self.request.user:
+            return HttpResponseForbidden('You cannot modify the specified calendar.')
+        else:
+            return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
+
+
 
 class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
     form_class = CalendarForm
@@ -107,18 +128,16 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         )
 
 
-class CalendarDelete(DeleteSuccessMessageMixin, CalendarAdminUserValidationMixin, DeleteView):
+class CalendarDelete(DeleteSuccessMessageMixin, CalendarOwnerUserValidationMixin, DeleteView):
     model = Calendar
     success_message = 'Calendar was successfully deleted.'
     success_url = reverse_lazy('dashboard')
     template_name = 'events/manager/calendar/delete.html'
 
     def delete(self, request, *args, **kwargs):
-        """
-        Prevent deletion of the Main Calendar.
-        """
         self.object = self.get_object()
 
+        # Prevent deletion of the Main Calendar.
         if self.object.is_main_calendar:
             messages.error(self.request, 'This calendar cannot be deleted.')
             return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
