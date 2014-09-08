@@ -216,7 +216,7 @@
                             </p>
                         </li>
                         <li class="list-group-item">
-                            <h5>When &amp; Where</h5>
+                            <h5 id="create-new-event-whenwhere">When &amp; Where</h5>
                             <p>
                                 The When &amp; Where form will start with fields for a single event instance.  This instance must have a start time, end time, and a
                                 location.
@@ -232,6 +232,10 @@
                                 A list of suggestions will appear if an existing location is found.  Click the suggestion, or use the up and down arrow keys
                                 and hit Enter to select a suggestion.
                             </p>
+                            <div class="panel panel-default">
+                                <img class="img-responsive center-block" src="{{ STATIC_URL }}img/help-screenshots/create-event-location-select.gif" alt="How to select an existing location" title="How to select an existing location" /><br/>
+                                <p class="text-center small">Select an existing location: Start typing in the Select a Location field and click a suggestion (or hit the Enter key.)</p>
+                            </div>
                             <p>
                                 <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
                                 the right, where you can add a new location name, room number, and a link to more information about the location, preferrably from
@@ -241,6 +245,10 @@
                                 event's page.  However, you can submit any URL that provides more information about the location and a link to that URL will be displayed
                                 under the location name.
                             </p>
+                            <div class="panel panel-default">
+                                <img class="img-responsive center-block" src="{{ STATIC_URL }}img/help-screenshots/create-event-location-create.gif" alt="How to create a new location" title="How to create a new location" /><br/>
+                                <p class="text-center small">Create a new location: Start typing in the Select a Location field and click the green "+" button.</p>
+                            </div>
                             <p>
                                 <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance
                                 form.  Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
@@ -254,7 +262,7 @@
                             </p>
                         </li>
                         <li class="list-group-item">
-                            <h5>Tags</h5>
+                            <h5 id="create-new-event-tags">Tags</h5>
                             <p>
                                 Tags are user-generated phrases that can be used to further describe your events.  An event can have an unlimited number of tags.
                             </p>
@@ -262,6 +270,13 @@
                                 <strong>To add a tag</strong>, start typing a word or phrase in the text field provided.  If an existing phrase is found, it will be
                                 automatically suggested for you.  Type a comma or the Enter key, or click a suggestion, to add the phrase to your list of tags.
                             </p>
+                            <div class="panel panel-default">
+                                <img class="img-responsive center-block" src="{{ STATIC_URL }}img/help-screenshots/create-event-tags.gif" alt="How to add tags" title="How to add tags" /><br/>
+                                <p class="text-center small">
+                                    Add tags: Start typing in the field provided.  Select an existing tag from the auto-suggestion list or create a new one by hitting the Enter key
+                                    or typing a comma (",").
+                                </p>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <h5>Contact Information</h5>
@@ -1277,6 +1292,14 @@
                     </li>
                     <li>
                         <a href="#create-new-event" class="jump-to">Create a New Event</a>
+                        <ul>
+                            <li>
+                                <a href="#create-new-event-whenwhere" class="jump-to">Add a Location</a>
+                            </li>
+                            <li>
+                                <a href="#create-new-event-tags" class="jump-to">Add Tags</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#update-existing-event" class="jump-to">Update an Existing Event</a>
