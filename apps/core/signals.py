@@ -3,6 +3,8 @@ import logging
 from haystack import signals
 from haystack.exceptions import NotHandled
 
+log = logging.getLogger(__name__)
+
 
 class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
     def handle_save(self, sender, instance, **kwargs):
@@ -22,7 +24,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
-                    logging.error('Failed to update object in search index for instance %s: %s' % (instance, e))
+                    log.error('Failed to update object in search index for instance %s: %s' % (instance, e))
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
@@ -45,7 +47,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
-                    logging.error('Failed to remove object from search index for instance %s: %s.' % (instance, e))
+                    log.error('Failed to remove object from search index for instance %s: %s.' % (instance, e))
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
