@@ -198,7 +198,7 @@ if SEARCH_ENABLED:
     # when that model is saved or deleted.
     # TODO: replace w/cron job for fewer index rebuilds:
     # http://django-haystack.readthedocs.org/en/v2.1.0/tutorial.html#reindex
-    HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+    HAYSTACK_SIGNAL_PROCESSOR = 'core.signals.CustomRealtimeSignalProcessor'
 else:
     HAYSTACK_CONNECTIONS = {
         'default': {},
