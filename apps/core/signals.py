@@ -1,3 +1,5 @@
+import logging
+
 from haystack import signals
 from haystack.exceptions import NotHandled
 
@@ -20,6 +22,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
+                    logging.error('Failed to update object in search index for instance %s: cannot connect to search backend.' % instance)
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
@@ -42,6 +45,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
+                    logging.error('Failed to remove object from search index for instance %s: cannot connect to search backend.' % instance)
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
