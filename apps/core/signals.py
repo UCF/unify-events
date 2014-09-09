@@ -24,7 +24,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
-                    log.error('Failed to update object in search index for instance %s: %s' % (instance, e))
+                    log.error('Failed to update %s object in search index for instance %s: %s' % (instance.__class__.__name__, instance, e))
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
@@ -47,7 +47,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                 except Exception, e:
                     # The search engine can't be accessed, or something went wrong.
                     # Continue anyway
-                    log.error('Failed to remove object from search index for instance %s: %s.' % (instance, e))
+                    log.error('Failed to remove %s object from search index for instance %s: %s.' % (instance.__class__.__name__, instance, e))
                     pass
             except NotHandled, e:
                 # TODO: Maybe log it or let the exception bubble?
