@@ -27,7 +27,7 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                     log.error('Failed to update %s object in search index for instance %s: %s' % (instance.__class__.__name__, instance, e))
                     pass
             except NotHandled, e:
-                # TODO: Maybe log it or let the exception bubble?
+                log.error(e)
                 pass
 
     def handle_delete(self, sender, instance, **kwargs):
@@ -50,5 +50,5 @@ class CustomRealtimeSignalProcessor(signals.RealtimeSignalProcessor):
                     log.error('Failed to remove %s object from search index for instance %s: %s.' % (instance.__class__.__name__, instance, e))
                     pass
             except NotHandled, e:
-                # TODO: Maybe log it or let the exception bubble?
+                log.error(e)
                 pass
