@@ -1,4 +1,5 @@
 import logging
+import time
 from datetime import datetime
 from datetime import timedelta
 
@@ -55,11 +56,11 @@ class Command(BaseCommand):
 
                     # Editors
                     # Assume if they had any permissions at all, they are an editor
-                    # (unless they are the calendar owner)
+                    # (unless they are the calendar owner or a superuser)
                     for uid in UNLUserHasPermission.objects.filter(calendar_id=old_calendar.id).values_list('user_uid').distinct():
                         uid = uid[0]
                         editor = self.get_create_user(str(uid))
-                        if editor is not None and editor != calendar_creator:
+                        if editor is not None and editor != calendar_creator and not editor.is_superuser:
                             new_calendar.editors.add(editor)
 
                     # Events
@@ -245,6 +246,7 @@ class Command(BaseCommand):
         except User.DoesNotExist:
             logging.info('User %s does not exist in new system. Looking up in the NET domain.' % username)
             try:
+                time.sleep(5)
                 ldap_user = LDAPHelper.search_single(ldap.connection,username)
             except LDAPHelper.NoUsersFound:
                 logging.error('User %s does not exist in the NET domain.' % username)
