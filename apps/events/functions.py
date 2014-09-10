@@ -1,4 +1,5 @@
 import bleach
+import HTMLParser
 
 from events.models import Event
 from events.models import State
@@ -40,4 +41,6 @@ def remove_html(value):
     """
     if value:
         value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
+        h = HTMLParser.HTMLParser()
+        value = h.unescape(value)
     return value
