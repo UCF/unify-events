@@ -58,28 +58,32 @@ Note that this importer should only be run on a fresh database, immediately afte
 2. Activate virtual environment
 
         source ../bin/activate
-3. Add old events database information to settings_local.py under DATABASES name 'unlevents'
+3. Add old events database information to settings_local.py under DATABASES name 'unlevents'.  Make sure that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-unl-events
-5. Rebuild the search index
+5. Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to 'True'.
+6. Restart the app
+7. Rebuild the search index
 
         python manage.py rebuild_index
-6. Ban cache and restart app as necessary
+8. Ban cache as necessary
 
 ### Locations Import
 1. cd to the new virtual environment src folder
 2. Activate virtual environment
 
         source ../bin/activate
-3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py
+3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-locations
-5. Rebuild the search index
+5. Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to 'True'.
+6. Restart the app
+7. Rebuild the search index
 
         python manage.py rebuild_index
-6. Ban cache and restart app as necessary
+8. Ban cache as necessary
 
 
 ## Code Contribution

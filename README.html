@@ -82,16 +82,18 @@
 
 <pre><code> source ../bin/activate
 </code></pre></li>
-<li>Add old events database information to settings_local.py under DATABASES name &lsquo;unlevents&rsquo;</li>
+<li>Add old events database information to settings_local.py under DATABASES name &lsquo;unlevents&rsquo;.  Make sure that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to &lsquo;False&rsquo;.</li>
 <li><p>Run import command</p>
 
 <pre><code> python manage.py import-unl-events
 </code></pre></li>
+<li>Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to &lsquo;True&rsquo;.</li>
+<li>Restart the app</li>
 <li><p>Rebuild the search index</p>
 
 <pre><code> python manage.py rebuild_index
 </code></pre></li>
-<li>Ban cache and restart app as necessary</li>
+<li>Ban cache as necessary</li>
 </ol>
 
 
@@ -103,16 +105,18 @@
 
 <pre><code> source ../bin/activate
 </code></pre></li>
-<li>Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py</li>
+<li>Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to &lsquo;False&rsquo;.</li>
 <li><p>Run import command</p>
 
 <pre><code> python manage.py import-locations
 </code></pre></li>
+<li>Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to &lsquo;True&rsquo;.</li>
+<li>Restart the app</li>
 <li><p>Rebuild the search index</p>
 
 <pre><code> python manage.py rebuild_index
 </code></pre></li>
-<li>Ban cache and restart app as necessary</li>
+<li>Ban cache as necessary</li>
 </ol>
 
 
