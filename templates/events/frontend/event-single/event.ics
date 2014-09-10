@@ -1,4 +1,4 @@
-{% load bleach_tags %}{% load core_tags %}{% if not event_instances %}BEGIN:VCALENDAR
+{% load core_tags %}{% if not event_instances %}BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//UNIFY
 {% endif %}
@@ -7,8 +7,8 @@ UID:{{ event_instance.get_absolute_url }}
 DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
 DTSTART:{{ event_instance.start|date:"Ymd\THis" }}
 DTEND:{{ event_instance.end|date:"Ymd\THis" }}
-SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title }}
-DESCRIPTION:{{ event_instance.event.description|html_to_ics }}
+SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title|custom_clean_escapeics }}
+DESCRIPTION:{{ event_instance.event.description|custom_clean_escapeics }}
 END:VEVENT
 {% if not event_instances %}
 END:VCALENDAR

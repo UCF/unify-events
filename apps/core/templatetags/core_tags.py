@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
+from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
 
 from core.views import esi
@@ -78,14 +79,16 @@ for setting, kwarg in possible_settings.iteritems():
         bleach_args[kwarg] = getattr(settings, setting)
 
 
+
 def custom_clean(value):
     """
     Custom function that uses Bleach and BeautifulSoup to remove
     unwanted markup and contents.
     Uses settings from the django-bleach module.
     """
-    # Replace newline instances with linebreaks
+    # Replace newline instances with linebreaks. Remove carriage returns.
     value = value.replace('\n', '<br />')
+    value = value.replace('\r', '')
 
     # Convert brackets so BeautifulSoup can parse django-cleaned stuff.
     # Even if it's an escaped <script> tag, we want to get rid of it.
@@ -101,6 +104,16 @@ def custom_clean(value):
     value = bleach.clean(soup, **bleach_args)
     return value
 
+
+@register.filter(name='custom_clean')
+def custom_clean_safe(value):
+    value = custom_clean(value)
+
+    # Make sure we actually have something left to display
+    if not value.strip():
+        value = settings.FALLBACK_EVENT_DESCRIPTION
+
+    return mark_safe(value)
 
 
 @register.filter
@@ -121,9 +134,8 @@ def clean_and_linkify(value):
     return mark_safe(new_value)
 
 
-
 @register.filter
-def html_to_ics(value):
+def custom_clean_escapeics(value):
     """
     Converts HTML markup to plaintext suitable for ICS format.
     Runs custom_clean() to ensure content is safe.
@@ -138,6 +150,24 @@ def html_to_ics(value):
 
     # Make sure newlines are encoded properly. http://stackoverflow.com/a/12249023
     value = value.replace('\n', '\\n')
+
+    # Make sure we actually have something left to display
+    if not value.strip():
+        value = settings.FALLBACK_EVENT_DESCRIPTION
+
+    return mark_safe(value)
+
+
+@register.filter
+def custom_clean_escapejs(value):
+    """
+    Converts HTML markup to a string that is Javascript-safe.
+    """
+    # Clean the value
+    value = custom_clean(value)
+
+    # Escape value for js use
+    value = escapejs(value)
 
     # Make sure we actually have something left to display
     if not value.strip():
