@@ -1,8 +1,8 @@
-{% load bleach_tags %}{% load core_tags %}{% if not event_instances %}<?xml version="1.0" encoding="UTF-8"?>
+{% load core_tags %}{% if not event_instances %}<?xml version="1.0" encoding="UTF-8"?>
 <events xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="UCBCNEvents_1.9.xsd">
 {% endif %}
     <event>
-        <id>{% if event_instance.unl_eventdatetime_id %}{{ event_instance.unl_eventdatetime_id }}{% else %}{{ event_instance.pk }}{% endif %</id>
+        <id>{% if event_instance.unl_eventdatetime_id %}{{ event_instance.unl_eventdatetime_id }}{% else %}{{ event_instance.pk }}{% endif %}</id>
         <event_id>{{ event_instance.event.pk }}</event_id>
         <eventinstance_id>{{ event_instance.pk }}</eventinstance_id>
 		<title>{{ event_instance.event.get_title_canceled }}</title>
@@ -38,7 +38,7 @@
 		</languages>
 		<event_transparency></event_transparency>
 
-		<description><![CDATA[{{ event_instance.event.description|bleach }}]]></description>
+		<description><![CDATA[{{ event_instance.event.description|custom_clean }}]]></description>
 		<short_description></short_description>
 
 		<refreshments></refreshments>

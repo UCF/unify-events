@@ -1,4 +1,3 @@
-{% load bleach_tags %}
 {% load core_tags %}
 {
 	"event_id": "{{ event_instance.event.pk }}",
@@ -6,7 +5,7 @@
 	"id": {% if event_instance.unl_eventdatetime_id %}"{{ event_instance.unl_eventdatetime_id }}"{% else %}"{{ event_instance.pk }}"{% endif %},
 	"title": "{{ event_instance.event.get_title_canceled|escapejs }}",
 	"subtitle": null,
-	"description": "{{ event_instance.event.description|bleach|escapejs }}",
+	"description": "{{ event_instance.event.description|custom_clean_escapejs }}",
 	"location": {% include_esi 'location' event_instance.location.pk 'comboname-escapejs' %},
 	"location_url": {% if event_instance.location.url %}{% include_esi 'location' event_instance.location.pk 'url-escapejs' %}{% else %}null{% endif %},
 	"starts": "{{ event_instance.start|date:'r' }}",
