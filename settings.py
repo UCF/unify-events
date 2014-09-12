@@ -117,19 +117,29 @@ LOGGING = {
         }
     },
     'loggers': {
+        'core': {
+            'handlers': ['console', 'file'],
+            'propogate': True,
+            'level': 'WARNING'
+        },
         'django': {
             'handlers': ['discard'],
             'propogate': True,
-            'level': 'INFO'
+            'level': 'WARNING'
         },
         'events': {
             'handlers': ['console', 'file'],
             'propogate': True,
-            'level': 'DEBUG'
+            'level': 'WARNING'
+        },
+        'profiles': {
+            'handlers': ['console', 'file'],
+            'propogate': True,
+            'level': 'WARNING'
         },
         'util': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG'
+            'level': 'WARNING'
         }
     }
 }
@@ -198,7 +208,7 @@ if SEARCH_ENABLED:
     # when that model is saved or deleted.
     # TODO: replace w/cron job for fewer index rebuilds:
     # http://django-haystack.readthedocs.org/en/v2.1.0/tutorial.html#reindex
-    HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+    HAYSTACK_SIGNAL_PROCESSOR = 'core.signals.CustomRealtimeSignalProcessor'
 else:
     HAYSTACK_CONNECTIONS = {
         'default': {},
