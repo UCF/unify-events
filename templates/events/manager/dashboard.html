@@ -24,10 +24,12 @@
                     <li>
                         <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share fa-fw"></i> Subscriptions</a>
                     </li>
+                    {% if user == calendar.owner or user.is_superuser %}
                     <li class="divider"></li>
                     <li>
                         <a class="object-modify" href="{% url 'calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o fa-fw"></i> Delete Calendar</a>
                     </li>
+                    {% endif %}
                 </ul>
             </li>
             {% endif %}
