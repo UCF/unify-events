@@ -20,6 +20,16 @@
         margin-right: 0;
       }
     }
+    > .well {
+      @include respond-to(xs-sm) {
+        padding-right: 19px;
+      }
+    }
+    > .alert {
+      @include respond-to(xs-sm) {
+        padding-right: 15px;
+      }
+    }
   }
   
   h2 {

@@ -12,9 +12,9 @@
             <h2 id="about">About the Events System</h2>
             <p>
                 <a href="{{ CANONICAL_ROOT }}">{{ CANONICAL_ROOT }}</a> is the online location for listing and promoting UCF events.
-                The UCF events system makes it easy for you to create events listings and share events with the UCF community. Any
-                occurrence that has a start date and specific location can be entered as an event. A carefully constructed title, start
-                date &amp; time, category and location are all required for submitting an event into the system.
+                The UCF events system makes it easy for you to create event listings and share events with the UCF community.
+                Submitting an event into the events system requires a carefully constructed title, start date &amp; time, category
+                and location.
             </p>
             <p>
                 The intuitive administrative console makes publishing events and calendars on your website simple; or you can recommend
@@ -49,7 +49,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="well">
-                        An <strong>announcement</strong> is a general notice that does not necessarily have a location.
+                        An <strong>announcement</strong> is a general notice that does not necessarily have a location, date/time or
+                        opportunity for the user to participate.
                     </div>
                 </div>
             </div>
@@ -128,8 +129,8 @@
             </p>
             <div class="well">
                 <p>
-                    If you are unsure of what your NID is, you may look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.
-                    If you don't know the password associated with that NID, you may reset it using the
+                    If you don't know your NID, look it up using the <a href="https://my.ucf.edu/nid.html">NID lookup tool</a>.
+                    If you've lost your password, you can reset it using the
                     <a href="http://mynid.ucf.edu/">NID password reset tool</a>. You will need your UCF ID card to complete the password reset.
                 </p>
                 <p>
@@ -150,13 +151,22 @@
                 Editor or Administrator access to.
             </p>
             <p>
-                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your first calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later. This step is completely optional.  It is suggested to skip this step if you are going to be added to an existing calendar and do not need your own calendar.
+                If you're a first time user, the second step of the initial login process will ask you to create a new calendar.  You can create your
+                first calendar during this step, or click <strong>My Calendars > Create New Calendar</strong> in the admin navbar later. This step is
+                completely optional.  It is suggested to skip this step if you are going to be added to an existing calendar and do not need your own calendar.
             </p>
 
             <h3 id="create-new-event">Create a New Event</h3>
             <p>
-                If you are added to or own at least one calendar, you can create a new event.  Click the blue <strong>Create Event</strong> button in the
-                admin navbar to get started.
+                Click the blue <strong>Create Event</strong> button in the admin navbar to get started.  You must own or have access to at least one calendar
+                to create a new event.
+            </p>
+            <div class="well well-sm">
+                <img class="img-responsive center-block img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/create-event-btn.gif" alt="How to create a new event" title="How to create a new event" /><br/>
+                <small class="center-block text-center">Create a new event: Click the Create Event button in the admin navbar to load the form.</small>
+            </div>
+            <p>
+                An event must have all of the fields listed below:
             </p>
             <br/>
             <div>
@@ -175,9 +185,7 @@
                             <h5>Suggest for Main Calendar Approval (optional)</h5>
                             <p>
                                 To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown.  The event will be reviewed
-                                by Main Calendar admins and posted to the Main Calendar if it
-                                <a class="jump-to" href="#event-or-announcement">meets the criteria for an event</a> and follows the
-                                <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>.
+                                for spelling and accuracy, and if approved, will be posted to the Main Calendar.  Review may take up to two to three business days.
                             </p>
                             <p>
                                 See the section on <a class="jump-to" href="#posting-an-event-on-the-main-calendar">Posting an Event on the Main Calendar</a> for more information.
@@ -186,17 +194,18 @@
                         <li class="list-group-item">
                             <h5>Title</h5>
                             <p>
-                                Your event title should be unique, concise, and immediately recognizable to your audience.  Keep it simple.  Max length is 255 characters.
+                                Your event title should be unique, concise, and immediately recognizable to your audience.  Grab their attention and clearly describe your
+                                event.  Max length is 255 characters.
                             </p>
                         </li>
                         <li class="list-group-item">
                             <h5>Status</h5>
                             <p>
-                                Before saving your event, you can determine whether or not the event will display on your front-facing calendar immediately.  To immediately
-                                publish it, select "posted"; to save the event without displaying it on your calendar, select "pending".
+                                Do you want your event published immediately, or saved as a draft for review?  To immediately
+                                publish it, select "posted"; to save the event without displaying it on your calendar or feeds, select "pending".
                             </p>
                             <p>
-                                Note that pending events are still publicly available and accessible by anyone if they know the link to your event.
+                                Note: Pending events are still publicly available and accessible by anyone if they know the link to your event.
                             </p>
                             <p>
                                 For more information, see the help section on <a class="jump-to" href="#event-statuses">Event Statuses</a>.
@@ -205,18 +214,22 @@
                         <li class="list-group-item">
                             <h5>Description</h5>
                             <p>
-                                Your event description should adequately describe the purpose of your event, as well as any other details attendees need to know,
-                                like potential cost, where to register, etc.
+                                Your event description should be engaging, detailed, and should communicate the who, what, and why of your event.  This is also your
+                                chance to let attendees know about where to register, potential costs, etc.
                                 <strong>A description is required for all events.  Events submitted to the Main Calendar without an adequate description
                                 will not be approved.</strong>
                             </p>
                             <p>
-                                Use the toolbar above the textarea to apply text styling and add links to other webpages.  HTML markup and other code is not permitted
-                                and will be escaped.
+                                Use the toolbar above the text area to apply text styling and add links to other webpages.  HTML markup and other code is not permitted
+                                and will be removed.
                             </p>
+                            <div class="well well-sm">
+                                <img class="img-responsive center-block img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/create-event-desc.gif" alt="How to add a description" title="How to add a description" /><br/>
+                                <small class="center-block text-center">Add a description: Use the toolbar above the description text area to style your content.</small>
+                            </div>
                         </li>
                         <li class="list-group-item">
-                            <h5>When &amp; Where</h5>
+                            <h5 id="create-new-event-whenwhere">When &amp; Where</h5>
                             <p>
                                 The When &amp; Where form will start with fields for a single event instance.  This instance must have a start time, end time, and a
                                 location.
@@ -224,14 +237,18 @@
                             <p>
                                 When an event instance <strong>re-occurs</strong>, instances are automatically generated for you based on the range you specify.
                                 For example, if your event runs from Monday thru Friday daily from 8:00 AM to 5:00 PM, you can create one event instance with a start date
-                                of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday (instead of creating
-                                event instances for each day manually.)
+                                of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday.  See the
+                                <a class="jump-to" href="#recurring-events">Recurring Events</a> section for more information.
                             </p>
                             <p>
                                 <strong>To select an existing location</strong> for your event instance, start typing the name of your location in the text field provided.
                                 A list of suggestions will appear if an existing location is found.  Click the suggestion, or use the up and down arrow keys
                                 and hit Enter to select a suggestion.
                             </p>
+                            <div class="well well-sm">
+                                <img class="img-responsive center-block img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/create-event-location-select.gif" alt="How to select an existing location" title="How to select an existing location" /><br/>
+                                <small class="center-block text-center">Select an existing location: Start typing in the Select a Location field and click a suggestion (or hit the Enter key.)</small>
+                            </div>
                             <p>
                                 <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
                                 the right, where you can add a new location name, room number, and a link to more information about the location, preferrably from
@@ -241,6 +258,10 @@
                                 event's page.  However, you can submit any URL that provides more information about the location and a link to that URL will be displayed
                                 under the location name.
                             </p>
+                            <div class="well well-sm">
+                                <img class="img-responsive center-block img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/create-event-location-create.gif" alt="How to create a new location" title="How to create a new location" /><br/>
+                                <small class="center-block text-center">Create a new location: Start typing in the Select a Location field and click the green "+" button.</small>
+                            </div>
                             <p>
                                 <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance
                                 form.  Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
@@ -249,19 +270,26 @@
                         <li class="list-group-item">
                             <h5>Category</h5>
                             <p>
-                                A category helps users find your event via browsing or by searching.  Your event should be categorized under whatever category
-                                best describes your event overall.  Only one category can be assigned to an event.
+                                A category helps users find your event via browsing or by searching.  Your event should be categorized under the category that
+                                best describes your overall event.  Only one category can be assigned to an event.
                             </p>
                         </li>
                         <li class="list-group-item">
-                            <h5>Tags</h5>
+                            <h5 id="create-new-event-tags">Tags</h5>
                             <p>
                                 Tags are user-generated phrases that can be used to further describe your events.  An event can have an unlimited number of tags.
                             </p>
                             <p>
                                 <strong>To add a tag</strong>, start typing a word or phrase in the text field provided.  If an existing phrase is found, it will be
-                                automatically suggested for you.  Type a comma or the Enter key, or click a suggestion, to add the phrase to your list of tags.
+                                automatically suggested for you.  Add a comma, hit the Enter key, or click a suggestion to add the phrase to your list of tags.
                             </p>
+                            <div class="well well-sm">
+                                <img class="img-responsive center-block img-thumbnail" src="{{ STATIC_URL }}img/help-screenshots/create-event-tags.gif" alt="How to add tags" title="How to add tags" /><br/>
+                                <small class="center-block text-center">
+                                    Add tags: Start typing in the field provided.  Select an existing tag from the auto-suggestion list or create a new one by hitting the Enter key
+                                    or typing a comma (",").
+                                </small>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <h5>Contact Information</h5>
@@ -288,7 +316,7 @@
             </p>
             <p>
                 To update an existing event, navigate to that event either through the Manager View or directly from the event Live View (and clicking the
-                Edit Event link, while logged in.)  For help finding your event in the Manager View, see the section on Finding Events in
+                Edit Event link, while logged in).  For help finding your event in the Manager View, see the section on Finding Events in
                 <a class="jump-to" href="#manager-view-basics">Using the Manager View</a>.
             </p>
             <p>
@@ -324,8 +352,8 @@
 
             <h3 id="manager-view-basics">Using the Manager View</h3>
             <p>
-                The Manager View provides administrative tools for all the upcoming events on your calendar(s).  The default Manager View,
-                the My Calendars view, displays posted, pending, and subscribed events on all of your calendars.  You can also view events on
+                The Manager View provides administrative tools for all the upcoming events on your calendar(s); the default Manager View
+                (the My Calendars view) displays posted, pending, and subscribed events on all of your calendars.  You can also view events on
                 the Manager View by a specific calendar.
             </p>
 
@@ -358,7 +386,7 @@
                 <li>or by using the pagination at the bottom of the page to browse upcoming events.</li>
             </ul>
             <div class="alert alert-warning">
-                <strong>Note:</strong> Events that occured in the past (are "archived") will <strong>not</strong> appear when browsing by
+                <strong>Note:</strong> Events that occured in the past ("archived") will <strong>not</strong> appear when browsing by
                 state, by searching, or by browsing by pagination.  You must navigate to a specific date using the sidebar calendar widget to
                 find an archived event.  Only archived posted events can be navigated to--archived pending events are not accessible.
             </div>
@@ -544,8 +572,8 @@
             <p>
                 Calendar owners and admins are capable of adding new subscriptions.  To subscribe to another calendar, you'll
                 need to find a calendar to subscribe to.  Use the <strong>search bar</strong> from the Live View or Manager View
-                to search by another calendar's title, description, or for events that match some criteria.  Make sure the
-                <strong>All Calendars and Tabs</strong> tab is selected to search other calendars.
+                to search by another calendar's title, description, or for events that match some criteria.  Click the
+                <strong>All Calendars and Events</strong> tab to search other calendars.
             </p>
             <p>
                 When you've found a calendar with events you'd like to subscribe to, go to that calendar's Day View, and click the
@@ -582,7 +610,7 @@
                 and will undergo a manual review by Main Calendar admins.  If a submitted event falls under the
                 <a class="jump-to" href="#event-or-announcement">definition of an event</a> and follows the
                 <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>, it will be approved and published on
-                the Main Calendar within <strong>24-48 hours</strong>.
+                the Main Calendar within <strong>two to three business days</strong>.
             </p>
             <p>
                 You can <strong>review the status of your suggested event</strong> from your event's calendar's Manager View.<br/>
@@ -735,7 +763,7 @@
                 search results.  Users would have to know the URL of a pending event to be able to access it.
             </p>
             <p>
-                Pending events are useful for cases when, for instance, you want to save event information for later use, but don't yet some details
+                Pending events are useful for cases when, for instance, you want to save event information for later use, but don't have all the details
                 (like the description or location) and need to add them later.  They could also be useful for departments and organizations that
                 require a review process of event content.
             </p>
@@ -763,7 +791,7 @@
                 follow similar data structures to those previously available in the old events system; if your site is already consuming
                 a feed from the old events system, you shouldn't need to make any changes to your code for the new system.  Keep in mind,
                 however, that the legacy feeds format could be deprecated at any time.
-                (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>.)
+                (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>).
             </p>
             <p>
                 Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
@@ -1277,6 +1305,14 @@
                     </li>
                     <li>
                         <a href="#create-new-event" class="jump-to">Create a New Event</a>
+                        <ul>
+                            <li>
+                                <a href="#create-new-event-whenwhere" class="jump-to">Add a Location</a>
+                            </li>
+                            <li>
+                                <a href="#create-new-event-tags" class="jump-to">Add Tags</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#update-existing-event" class="jump-to">Update an Existing Event</a>
