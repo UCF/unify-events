@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UrlPatterns',
+    'core.middleware.CorsRegex',
     'core.middleware.MinifyHTMLMiddleware',
 )
 

@@ -3,10 +3,17 @@ import re
 from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 
+
 class UrlPatterns:
     def process_request(self, request):
         if re.match('^/events/', request.path_info):
             setattr(request, 'urlconf', 'events_urls')
+
+
+class CorsRegex:
+    def process_response(self, request, response):
+        if re.match(settings.CORS_REGEX, request.path):
+            response['Access-Control-Allow-Origin'] = '*'
 
 
 class SecureRequiredMiddleware(object):

@@ -109,3 +109,5 @@ CSRF_COOKIE_SECURE = HTTPS_SUPPORT
 # Enable cache clearing functionality. Turn off when running data imports.
 ENABLE_CLEARCACHE = True
 VARNISH_NODES = []
+
+CORS_REGEX = '(.json|.rss|.xml)$|(format=(json|rss|xml))'
