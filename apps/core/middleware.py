@@ -14,6 +14,7 @@ class CorsRegex:
     def process_response(self, request, response):
         if re.match(settings.CORS_REGEX, request.path):
             response['Access-Control-Allow-Origin'] = '*'
+        return response
 
 
 class SecureRequiredMiddleware(object):
