@@ -14,6 +14,11 @@ class CorsRegex:
     def process_response(self, request, response):
         if re.match(settings.CORS_REGEX, request.path):
             response['Access-Control-Allow-Origin'] = '*'
+        else:
+            for k in settings.CORS_GET_PARAMS:
+                if k in request.GET and re.match(settings.CORS_GET_PARAMS[k], request.GET[k]):
+                    response['Access-Control-Allow-Origin'] = '*'
+                    break
         return response
 
 

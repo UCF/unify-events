@@ -110,4 +110,8 @@ CSRF_COOKIE_SECURE = HTTPS_SUPPORT
 ENABLE_CLEARCACHE = True
 VARNISH_NODES = []
 
-CORS_REGEX = '(.json|.rss|.xml)$|(format=(json|rss|xml))'
+CORS_REGEX = '.*feed\.(json|xml|rss)'
+CORS_GET_PARAMS = {
+    'is_widget': 'true|True',
+    'format': 'rss|xml|json'
+}
