@@ -552,6 +552,11 @@ ul.event-list-condensed {
     @include respond-to(xs) {
       font-size: 14px;
     }
+
+    ol,
+    ul {
+      padding-left: 25px;
+    }
   }
 
   .event-single-schedule-header {
