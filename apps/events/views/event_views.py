@@ -455,7 +455,7 @@ class HomeEventsListView(DayEventsListView):
                 original event will be fetched.
 
                 If nothing with the eventdatetime_id is found, try searching by pk instead.
-                """ 
+                """
                 instance = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
                 # Is this instance copied to multiple calendars?
                 if instance.count() > 1:

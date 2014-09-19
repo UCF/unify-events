@@ -55,14 +55,14 @@
             </div>
             {% endif %}
             <p class="feeds">
-                <a class="icsformat" href="{% url 'home' %}feed.ics" title="ics format for upcoming events">
+                <a class="icsformat" href="{% if calendar.is_main_calendar %}{{ CANONICAL_ROOT }}/{% else %}{{ calendar.get_absolute_url }}{% endif %}feed.ics" title="ics format for upcoming events">
                     ics format for upcoming events
                 </a>
-                <a class="rssformat" href="{% url 'home' %}feed.rss" title="rss format for upcoming events" target="_blank">
+                <a class="rssformat" href="{% if calendar.is_main_calendar %}{{ CANONICAL_ROOT }}/{% else %}{{ calendar.get_absolute_url }}{% endif %}feed.rss" title="rss format for upcoming events" target="_blank">
                     rss format for upcoming events
                 </a>
             </p>
-            <a class="more" href="{% url 'home' %}">
+            <a class="more" href="{% if calendar.is_main_calendar %}{{ CANONICAL_ROOT }}{% else %}{{ calendar.get_absolute_url }}{% endif %}">
                 More Events
             </a>
         </div>

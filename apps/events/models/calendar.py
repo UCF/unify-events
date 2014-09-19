@@ -126,10 +126,11 @@ class Calendar(TimeCreatedModified):
         """
         Generate permalink for this object
         """
-        return reverse('calendar', kwargs={
-            'pk': self.pk,
-            'slug': self.slug,
-        })
+        relative_path = reverse('calendar', kwargs={
+                            'pk': self.pk,
+                            'slug': self.slug,
+                        })
+        return settings.CANONICAL_ROOT + relative_path
 
     def import_event(self, event):
         """
