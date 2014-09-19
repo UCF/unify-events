@@ -38,7 +38,7 @@
 			'calendar_id'  : 1,
 			'monthwidget'  : false,
 			'month'        : false,
-			'year'         : false,
+			'year'         : false
 		};
 		
 		this.each(function() {
@@ -50,7 +50,7 @@
 				'calendar_id'  : cal.attr('data-calendar-id'),
 				'monthwidget'  : cal.attr('data-monthwidget'),
 				'month'        : cal.attr('data-month'),
-				'year'         : cal.attr('data-year'),
+				'year'         : cal.attr('data-year')
 			};
 			
 			var settings = $.extend({}, defaults, options);
@@ -80,7 +80,7 @@
 			      version = parseFloat(navigator.appVersion.split("MSIE")[1]);
 			    return version;
 			  }
-			}
+			};
 			
 			var useIframe = function(){
 				data.iframe = true;
@@ -94,7 +94,7 @@
 
 				url    = url + "?" + qstring;
 				iframe = $('<iframe src="'+ url +'" scrolling="auto" height="450" frameBorder="0" style="border: none;" />');
-				cal.append(iframe);
+				cal.html(iframe);
 			};
 			
 			// check for IE7
