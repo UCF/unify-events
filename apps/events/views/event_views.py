@@ -448,20 +448,28 @@ class HomeEventsListView(DayEventsListView):
                 Try to fetch by eventdatetime_id (backward compatibility with UNL Events).
 
                 Fetching by unl_eventdatetime_id should always return .count() > 1 with
-                imported events that have been copied to the main calendar.
+                imported events that have been copied to other calendars (and/or the Main Calendar.)
 
                 Assuming no calendar_id value is provided (which is typically the case), the
-                main calendar version of the event will be prioritized.  Otherwise, the
-                original event will be fetched.
+                Main Calendar version of the event will be prioritized.
+                If a version on the Main Calendar doesn't exist, use the copy on the first
+                calendar found.
+                Otherwise, the original event will be fetched.
 
                 If nothing with the eventdatetime_id is found, try searching by pk instead.
                 """
-                instance = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
+                instance_objects = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
+                instance = None
                 # Is this instance copied to multiple calendars?
-                if instance.count() > 1:
-                    instance = instance.filter(event__calendar=calendar)
+                if instance_objects.count() > 1:
+                    instance = instance_objects.filter(event__calendar=calendar)
+                    # Is this an event that has been copied to more than one calendar,
+                    # but not from the calendar returned by self.get_calendar()?
+                    # (We don't know which calendar to prioritize--try to fall back to *something*)
+                    if instance.count() == 0:
+                        instance = instance_objects[0]
                 # Is this a non-imported event instance (or did further filtering return nothing)?
-                if instance.count() == 0:
+                if instance_objects.count() == 0:
                     instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
                 if isinstance(instance, QuerySet):
                     instance = instance[0]
