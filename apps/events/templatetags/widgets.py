@@ -80,10 +80,9 @@ def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manag
         if event.start.date() in month_calendar_map[this_month].keys():
             month_calendar_map[this_month][event.start.date()].append(event)
 
-    
     context = {
         'request': context['request'],
-        'STATIC_URL': settings.STATIC_URL,
+        'CANONICAL_ROOT': context['CANONICAL_ROOT'],
         'is_manager': is_manager,
         'calendar': calendar,
         'this_month': this_month,
