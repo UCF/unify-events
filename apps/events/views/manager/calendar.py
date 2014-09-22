@@ -90,7 +90,7 @@ class CalendarOwnerUserValidationMixin(object):
         if not self.request.user.is_superuser and calendar is not None and calendar.owner is not self.request.user:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
-            return super(CalendarAdminUserValidationMixin, self).dispatch(request, *args, **kwargs)
+            return super(CalendarOwnerUserValidationMixin, self).dispatch(request, *args, **kwargs)
 
 
 
@@ -313,7 +313,7 @@ class SubscribeToCalendar(SuccessMessageMixin, UpdateView):
                     messages.success(self.request, '%s was successfully subscribed to %s.' % (calendar.title, original_calendar.title))
 
         return HttpResponseRedirect(self.get_success_url())
-        
+
 
     def form_invalid(self, form):
         """
