@@ -41,7 +41,7 @@ def generic_ban_urls(sender, instance, **kwargs):
 
     if isinstance(instance, events.models.Calendar):
         # For legacy month widget
-        urls.append('calendar_id=' + str(instance.calendar.pk))
+        urls.append('calendar_id=' + str(instance.pk))
 
         if instance.is_main_calendar:
             urls.extend(get_main_cal_bans())
