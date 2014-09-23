@@ -2,6 +2,7 @@ from datetime import datetime
 import logging
 
 from django.contrib import messages
+from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
@@ -87,7 +88,7 @@ class CalendarOwnerUserValidationMixin(object):
         else:
             calendar = None
 
-        if not self.request.user.is_superuser and calendar is not None and calendar.owner is not self.request.user:
+        if not self.request.user.is_superuser and calendar is not None and calendar.owner != self.request.user:
             return HttpResponseForbidden('You cannot modify the specified calendar.')
         else:
             return super(CalendarOwnerUserValidationMixin, self).dispatch(request, *args, **kwargs)
