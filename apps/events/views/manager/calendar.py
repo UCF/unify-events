@@ -2,7 +2,6 @@ from datetime import datetime
 import logging
 
 from django.contrib import messages
-from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
