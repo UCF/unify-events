@@ -130,7 +130,7 @@ class Calendar(TimeCreatedModified):
                             'pk': self.pk,
                             'slug': self.slug,
                         })
-        return settings.CANONICAL_ROOT + relative_path
+        return relative_path
 
     def import_event(self, event):
         """
