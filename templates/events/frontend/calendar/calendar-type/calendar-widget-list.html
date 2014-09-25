@@ -1,4 +1,5 @@
 {% load static %}
+{% load url %}
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -56,14 +57,14 @@
             </div>
             {% endif %}
             <p class="feeds">
-                <a class="icsformat" href="{{ CANONICAL_ROOT }}{% if calendar.is_main_calendar %}{% url 'main-calendar-named-listing' 'upcoming' 'ics' %}{% else %}{% url 'named-listing' calendar.pk calendar.slug 'upcoming' 'ics' %}{% endif %}" title="ics format for upcoming events">
+                <a class="icsformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='ics' %}" title="ics format for upcoming events">
                     ics format for upcoming events
                 </a>
-                <a class="rssformat" href="{{ CANONICAL_ROOT }}{% if calendar.is_main_calendar %}{% url 'main-calendar-named-listing' 'upcoming' 'rss' %}{% else %}{% url 'named-listing' calendar.pk calendar.slug 'upcoming' 'rss' %}{% endif %}" title="rss format for upcoming events" target="_blank">
+                <a class="rssformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='rss' %}" title="rss format for upcoming events" target="_blank">
                     rss format for upcoming events
                 </a>
             </p>
-            <a class="more" href="{{ CANONICAL_ROOT }}{% if calendar.is_main_calendar %}{% url 'main-calendar-named-listing' 'upcoming' %}{% else %}{% url 'named-listing' calendar.pk calendar.slug 'upcoming' %}{% endif %}">
+            <a class="more" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">
                 More Events
             </a>
         </div>
