@@ -44,7 +44,7 @@ class Location(TimeCreatedModified):
                 location_id = urlparse.parse_qs(parsed_url.query)['show'][0]
             # Check for 'map.ucf.edu/locations/locationID/...'
             elif maps_domain + "/locations/" in self.url:
-                match = re.search('^/locations/([a-z0-9]+)/', parsed_url.path)
+                match = re.search('^/locations/([a-zA-Z0-9_-]+)/', parsed_url.path)
                 if match:
                     location_id = match.group(1)
 
