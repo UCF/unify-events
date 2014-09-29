@@ -168,13 +168,17 @@ class MultipleFormatTemplateViewMixin(object):
         """
         if self.request.GET.get('format') is not None:
             # Backwards compatibility with UNL events
-            if self.request.GET.get('format') == 'hcalendar':
+            if self.request.GET.get('format') == 'hcalendar' or self.request.GET.get('format') == 'ical':
                 format = 'ics'
             else:
                 format = self.request.GET.get('format')
         elif 'format' in self.kwargs and self.kwargs['format'] in self.available_formats:
             format = self.kwargs['format']
         else:
+            format = 'html'
+
+        # Fall back to html if an invalid format is passed
+        if not format or not format in self.available_formats:
             format = 'html'
 
         return format
