@@ -460,7 +460,7 @@ class HomeEventsListView(DayEventsListView):
                 """
                 instance_objects = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
                 instance = None
-                # Is this instance copied to multiple calendars?
+                # Is this imported instance copied to multiple calendars?
                 if instance_objects.count() > 1:
                     instance = instance_objects.filter(event__calendar=calendar)
                     # Is this an event that has been copied to more than one calendar,
@@ -468,11 +468,15 @@ class HomeEventsListView(DayEventsListView):
                     # (We don't know which calendar to prioritize--try to fall back to *something*)
                     if instance.count() == 0:
                         instance = instance_objects[0]
-                # Is this a non-imported event instance (or did further filtering return nothing)?
-                if instance_objects.count() == 0:
+                    # Instance was successfully filtered down to calendar returned by self.get_calendar().
+                    else:
+                        instance = instance[0]
+                # Is this imported event instance on exactly one calendar?
+                elif instance_objects.count() == 1:
+                    instance = instance_objects[0]
+                # Is this a non-imported event instance?
+                elif instance_objects.count() == 0:
                     instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
-                if isinstance(instance, QuerySet):
-                    instance = instance[0]
 
                 new_url_name = 'event'
                 new_kwargs['pk'] = instance.pk
