@@ -111,7 +111,7 @@
 					$.ajax({
 					  url: url,
 					  data: data,
-					  success: function(html){cal.html(html);}
+					  success: function(html){cal.html(html);} // cannot use .parseHTML here--not supported until jquery v1.8
 					});
 				} catch(e){
 					useIframe();
