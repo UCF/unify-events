@@ -1,7 +1,7 @@
 /******************************************************************************\
     Events Listing
 \******************************************************************************/
-#main_body .events , #secondary_interior_page .events , .events  { color:#000000; font-family:Verdana, sans-serif; }
+#main_body .events , #secondary_interior_page .events , .events  { color:#000000; font-size:12px; font-family: "Verdana", sans-serif; text-align:left; }
 #main_body .events h4 , #secondary_interior_page .events h4 , .events h4  { margin:0 0 .6em 0; color:#1A1A1A; font-family:helvetica, arial, sans-serif; font-weight:bold; text-transform:uppercase; }
 #main_body .events table , #secondary_interior_page .events table , .events table  { border-collapse:collapse;  }
 #main_body .events th , #secondary_interior_page .events th , .events th  { border:0; margin:0; padding:0 0 4px 0; vertical-align:top; min-width:35px; text-align:center;	}
@@ -30,7 +30,7 @@
 /******************************************************************************\
     Events Calendar
 \******************************************************************************/
-#sidebar-minical { width: 200px; position: relative; font: 75% 'Lucida Grande',Verdana,Arial; }
+#sidebar-minical { width: 200px; position: relative; font-family: 'Lucida Grande',Verdana,Arial,sans-serif; font-size: 12px; }
 #sidebar-minical .pager {
 	margin: 0;
 	padding: 0;
