@@ -164,7 +164,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         calendar = self.get_calendar()
-        events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+        events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
         if self.get_format() == 'html' or self.is_mapped_feed():
             events = map_event_range(start_date, end_date, events)
         else:
@@ -395,7 +395,7 @@ class HomeEventsListView(DayEventsListView):
         # Backward compatibility with UNL events system.
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
         if self.is_js_feed() and self.is_upcoming():
-            events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
+            events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states())
             if self.is_mapped_feed() and events:
                 events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
                 events = events[:25]
@@ -407,11 +407,11 @@ class HomeEventsListView(DayEventsListView):
                 events = events.filter(start__gte=start_date)[:25]
         # Main Calendar Today HTML views and mapped feeds:
         elif not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
-            events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+            events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
             events = map_event_range(start_date, end_date, events)
         # Main Calendar Today feeds (non-mapped) and js widget:
         else:
-            events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'), start__gte=start_date)
+            events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states(), start__gte=start_date)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
@@ -690,7 +690,7 @@ class UpcomingEventsListView(CalendarEventsListView):
         """
         start_date = self.get_start_date()
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
+        events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states())
 
         if (self.get_format() == 'html' or self.is_mapped_feed()) and events:
             events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
@@ -794,7 +794,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
         tag_pk = kwargs['tag_pk']
         events = EventInstance.objects.filter(event__tags__pk=tag_pk,
                                               end__gte=datetime.now(),
-                                              event__state=State.get_id('posted')
+                                              event__state__in=State.get_published_states()
                                               )
 
         calendar = self.get_calendar()
@@ -826,7 +826,7 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
         category_pk = kwargs['category_pk']
         events = EventInstance.objects.filter(event__category__pk=category_pk,
                                               end__gte=datetime.now(),
-                                              event__state=State.get_id('posted')
+                                              event__state__in=State.get_published_states()
                                               )
 
         calendar = self.get_calendar()
