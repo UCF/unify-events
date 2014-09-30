@@ -395,16 +395,7 @@ class HomeEventsListView(DayEventsListView):
         # Backward compatibility with UNL events system.
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
         if self.is_js_feed() and self.is_upcoming():
-            events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
-            if self.is_mapped_feed() and events:
-                events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
-                events = events[:25]
-                start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-                end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
-                events = map_event_range(start_date, end_date, events)
-                events = [event for event in events if event.start >= datetime.now()][:25]
-            elif events:
-                events = events.filter(start__gte=start_date)[:25]
+            events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted).filter(start__gte=datetime.now())
         # Main Calendar Today HTML views and mapped feeds:
         elif not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
             events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
@@ -676,28 +667,17 @@ class UpcomingEventsListView(CalendarEventsListView):
     Events listing for a calendar's upcoming events with
     no specified range (return up to the 'paginate_by' value.)
     """
-    paginate_by = None
     list_type = 'upcoming'
     list_title = 'Upcoming Events'
 
     def get_queryset(self):
         """
-        Get the first 25 future events.
+        Get events that start after now. Using the function instead
+        of using the self.queryset because apache may hold onto the
+        datetime.now() value.
         """
-        start_date = self.get_start_date()
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted)
-
-        if (self.get_format() == 'html' or self.is_mapped_feed()) and events:
-            events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
-            events = events[:25]
-            start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-            end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
-            events = map_event_range(start_date, end_date, events)
-            events = [event for event in events if event.start >= datetime.now()][:25]
-        elif events:
-            events = events.filter(start__gte=start_date)[:25]
-
+        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted).filter(start__gte=datetime.now())
         self.queryset = events
 
         return events
