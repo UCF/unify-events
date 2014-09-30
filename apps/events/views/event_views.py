@@ -396,15 +396,6 @@ class HomeEventsListView(DayEventsListView):
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
         if self.is_js_feed() and self.is_upcoming():
             events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
-            if self.is_mapped_feed() and events:
-                events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
-                events = events[:25]
-                start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-                end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
-                events = map_event_range(start_date, end_date, events)
-                events = [event for event in events if event.start >= datetime.now()][:25]
-            elif events:
-                events = events.filter(start__gte=start_date)[:25]
         # Main Calendar Today HTML views and mapped feeds:
         elif not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
             events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
@@ -691,16 +682,6 @@ class UpcomingEventsListView(CalendarEventsListView):
         """
         calendar = self.get_calendar()
         events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
-
-        if (self.get_format() == 'html' or self.is_mapped_feed()) and events:
-            events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
-            events = events[:25]
-            start_date = datetime.combine(events[0].start.date(), datetime.min.time())
-            end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
-            events = map_event_range(start_date, end_date, events)
-            events = [event for event in events if event.start >= datetime.now()][:25]
-        elif events:
-            events = events.filter(start__gte=start_date)[:25]
 
         self.queryset = events
 
