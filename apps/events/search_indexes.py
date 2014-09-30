@@ -25,7 +25,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
         (no pending or rereview events; allow canceled.)
         """
         now = datetime.now()
-        unarchived_event_pks = EventInstance.objects.filter(end__gte=now, event__state=State.posted).values('event__pk')
+        unarchived_event_pks = EventInstance.objects.filter(end__gte=now, event__state__in=State.get_published_states()).values('event__pk')
         published_events = self.get_model().objects.filter(pk__in=unarchived_event_pks)
 
         return published_events

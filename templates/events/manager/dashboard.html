@@ -214,6 +214,8 @@
                                         {% if not event_instance.calendar.is_main_calendar %}
                                             {% if event_instance.event.get_main_state == 0 %}
                                                 <abbr title="Pending Approval"><i class="fa fa-star-half-full"></i></abbr>
+                                            {% elif event_instance.event.get_main_state == 2 %}
+                                                <abbr title="Pending Rereview (event is still posted on the Main Calendar but edits have not yet been approved)"><i class="fa fa-star-half-full"></i></abbr>
                                             {% elif event_instance.event.get_main_state == 1 %}
                                                 <abbr title="Approved for Main Calendar"><i class="fa fa-star"></i></abbr>
                                             {% endif %}

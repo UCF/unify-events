@@ -164,7 +164,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         calendar = self.get_calendar()
-        events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+        events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
         if self.get_format() == 'html' or self.is_mapped_feed():
             events = map_event_range(start_date, end_date, events)
         else:
@@ -395,14 +395,23 @@ class HomeEventsListView(DayEventsListView):
         # Backward compatibility with UNL events system.
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
         if self.is_js_feed() and self.is_upcoming():
-            events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted).filter(start__gte=datetime.now())
+            events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
+            if self.is_mapped_feed() and events:
+                events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
+                events = events[:25]
+                start_date = datetime.combine(events[0].start.date(), datetime.min.time())
+                end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
+                events = map_event_range(start_date, end_date, events)
+                events = [event for event in events if event.start >= datetime.now()][:25]
+            elif events:
+                events = events.filter(start__gte=start_date)[:25]
         # Main Calendar Today HTML views and mapped feeds:
         elif not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
-            events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'))
+            events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
             events = map_event_range(start_date, end_date, events)
         # Main Calendar Today feeds (non-mapped) and js widget:
         else:
-            events = calendar.range_event_instances(start_date, end_date).filter(event__state=State.get_id('posted'), start__gte=start_date)
+            events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states(), start__gte=start_date)
 
         # Backwards compatibility with JS Widget
         if self.is_js_widget():
@@ -451,7 +460,7 @@ class HomeEventsListView(DayEventsListView):
                 """
                 instance_objects = EventInstance.objects.filter(unl_eventdatetime_id=self.request.GET.get('eventdatetime_id'))
                 instance = None
-                # Is this instance copied to multiple calendars?
+                # Is this imported instance copied to multiple calendars?
                 if instance_objects.count() > 1:
                     instance = instance_objects.filter(event__calendar=calendar)
                     # Is this an event that has been copied to more than one calendar,
@@ -459,11 +468,15 @@ class HomeEventsListView(DayEventsListView):
                     # (We don't know which calendar to prioritize--try to fall back to *something*)
                     if instance.count() == 0:
                         instance = instance_objects[0]
-                # Is this a non-imported event instance (or did further filtering return nothing)?
-                if instance_objects.count() == 0:
+                    # Instance was successfully filtered down to calendar returned by self.get_calendar().
+                    else:
+                        instance = instance[0]
+                # Is this imported event instance on exactly one calendar?
+                elif instance_objects.count() == 1:
+                    instance = instance_objects[0]
+                # Is this a non-imported event instance?
+                elif instance_objects.count() == 0:
                     instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
-                if isinstance(instance, QuerySet):
-                    instance = instance[0]
 
                 new_url_name = 'event'
                 new_kwargs['pk'] = instance.pk
@@ -677,7 +690,18 @@ class UpcomingEventsListView(CalendarEventsListView):
         datetime.now() value.
         """
         calendar = self.get_calendar()
-        events = calendar.future_event_instances().order_by('start').filter(event__state=State.posted).filter(start__gte=datetime.now())
+        events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
+
+        if (self.get_format() == 'html' or self.is_mapped_feed()) and events:
+            events_reverse = events.reverse()[:25] # Reversing an already-sliced queryset can return None here, so reverse initial queryset first
+            events = events[:25]
+            start_date = datetime.combine(events[0].start.date(), datetime.min.time())
+            end_date = datetime.combine(events_reverse[0].end.date(), datetime.max.time())
+            events = map_event_range(start_date, end_date, events)
+            events = [event for event in events if event.start >= datetime.now()][:25]
+        elif events:
+            events = events.filter(start__gte=start_date)[:25]
+
         self.queryset = events
 
         return events
@@ -770,7 +794,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
         tag_pk = kwargs['tag_pk']
         events = EventInstance.objects.filter(event__tags__pk=tag_pk,
                                               end__gte=datetime.now(),
-                                              event__state=State.get_id('posted')
+                                              event__state__in=State.get_published_states()
                                               )
 
         calendar = self.get_calendar()
@@ -802,7 +826,7 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
         category_pk = kwargs['category_pk']
         events = EventInstance.objects.filter(event__category__pk=category_pk,
                                               end__gte=datetime.now(),
-                                              event__state=State.get_id('posted')
+                                              event__state__in=State.get_published_states()
                                               )
 
         calendar = self.get_calendar()

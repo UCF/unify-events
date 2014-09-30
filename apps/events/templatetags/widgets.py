@@ -68,11 +68,11 @@ def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manag
     calendar = None
     events = list()
     if (isinstance(calendars, Calendar)):
-        events.extend(calendars.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
+        events.extend(calendars.range_event_instances(start, end).filter(event__state__in=State.get_published_states()))
         calendar = calendars
     else:
         for cal in calendars:
-            events.extend(cal.range_event_instances(start, end).filter(event__state=State.get_id('posted')))
+            events.extend(cal.range_event_instances(start, end).filter(event__state__in=State.get_published_states()))
 
     # Assign event to all days the event falls on.
     events = map_event_range(start, end, events)

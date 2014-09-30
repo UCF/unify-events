@@ -140,6 +140,11 @@ class State:
         id_lookup = dict((k,v) for k,v in cls.choices)
         return id_lookup.get(id)
 
+    # Return states that represent an event that is available publicly
+    @classmethod
+    def get_published_states(self):
+        return [self.get_id('posted'), self.get_id('rereview')]
+
 
 class Event(TimeCreatedModified):
     """
