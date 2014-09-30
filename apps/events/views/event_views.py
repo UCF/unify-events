@@ -394,13 +394,14 @@ class HomeEventsListView(DayEventsListView):
 
         # Backward compatibility with UNL events system.
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
-        if self.is_js_feed() and self.is_upcoming():
+        # Also used for js widget
+        if self.is_js_widget() or (self.is_js_feed() and self.is_upcoming()):
             events = calendar.future_event_instances().order_by('start').filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
         # Main Calendar Today HTML views and mapped feeds:
         elif not self.is_js_widget() and self.get_format() == 'html' or self.is_mapped_feed():
             events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
             events = map_event_range(start_date, end_date, events)
-        # Main Calendar Today feeds (non-mapped) and js widget:
+        # Main Calendar Today feeds (non-mapped):
         else:
             events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states(), start__gte=start_date)
 
