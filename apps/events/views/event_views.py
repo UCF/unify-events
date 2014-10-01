@@ -152,7 +152,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         returned queryset.  This is false by default and must be explicitly defined
         via the query param 'mapped_events=true'.
         """
-        if self.get_format() != 'html' and self.request.GET.get('mapped_events') is not None and self.request.GET.get('mapped_events').lower() == 'true':
+        if self.get_format() != 'html' and self.request.GET.get('mapped_events') and self.request.GET.get('mapped_events').lower() == 'true':
             return True
         return False
 
@@ -260,7 +260,7 @@ class HomeEventsListView(DayEventsListView):
         Determine whether or not the view should accomodate for JS Widget-related
         query parameters and manipulate the view accordingly.
         """
-        if self.request.GET.get('is_widget') is not None and self.request.GET.get('is_widget').lower() == 'true':
+        if self.request.GET.get('is_widget') and self.request.GET.get('is_widget').lower() == 'true':
             return True
         return False
 
@@ -269,7 +269,7 @@ class HomeEventsListView(DayEventsListView):
         Determine whether or not the view should accomodate for the 'format' query
         parameter (NOT kwarg).
         """
-        if self.request.GET.get('format') is not None and self.get_format() != 'html':
+        if self.request.GET.get('format') and self.request.GET.get('format') in self.available_formats and self.get_format() != 'html':
             return True
         return False
 
@@ -278,7 +278,7 @@ class HomeEventsListView(DayEventsListView):
         Check for a url query param of 'upcoming' for backwards compatibility
         with UNL events system url structure
         """
-        if self.request.GET.get('upcoming') is not None:
+        if self.request.GET.get('upcoming'):
             return True
         return False
 
@@ -287,7 +287,7 @@ class HomeEventsListView(DayEventsListView):
         Check for a url query param of 'eventdatetime_id' for backwards
         compatibility with UNL events system url structure
         """
-        if self.request.GET.get('eventdatetime_id') is not None:
+        if self.request.GET.get('eventdatetime_id') and self.request.GET.get('eventdatetime_id').isdigit():
             return True
         return False
 
@@ -296,7 +296,7 @@ class HomeEventsListView(DayEventsListView):
         Check for a url query param of 'calendar_id' for backwards compatibility
         with UNL events system url structure
         """
-        if self.request.GET.get('calendar_id') is not None:
+        if self.request.GET.get('calendar_id') and self.request.GET.get('calendar_id').isdigit():
             return True
         return False
 
@@ -409,7 +409,7 @@ class HomeEventsListView(DayEventsListView):
         if self.is_js_widget():
             limit = self.request.GET.get('limit')
             # Set a default limit if one is not provided
-            if not limit:
+            if not limit or not limit.isdigit():
                 limit = 5
             # Prevent really big limits
             if int(limit) > 25:
@@ -432,7 +432,7 @@ class HomeEventsListView(DayEventsListView):
             new_kwargs = {}
             new_url_name = ''
 
-            if self.request.GET.get('format') is not None:
+            if self.is_js_feed():
                 new_kwargs['format'] = self.request.GET.get('format')
 
             if self.is_event_instance():
