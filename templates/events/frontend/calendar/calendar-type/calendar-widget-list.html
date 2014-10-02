@@ -1,69 +1,56 @@
 {% load static %}
 {% load url %}
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>UCF Events Calendar</title>
-        <base target="_blank" />
-        <link rel="stylesheet" href="{{ CANONICAL_ROOT }}{% static 'events-widget/style.css' %}" charset="utf-8" />
-    </head>
-    <body>
-        <div class="events">
-            <h4 class="upcoming-header">Upcoming Events</h4>
-            {% if event_instances %}
-            <table class="eventlisting">
-                <thead>
-                    <th class="date" scope="col">
-                        Date
-                    </th>
-                    <th class="description" scope="col">
-                        Description
-                    </th>
-                </thead>
-                <tbody>
-                {% for event_instance in event_instances %}
-                    <tr class="vevent{% cycle ' alt' '' %}">
-                        <td class="date">
-                            {{ event_instance.start|date:"M j h:i a" }}
-                        </td>
-                        <td class="description">
-                            <a class="url summary" href="{{ event_instance.get_absolute_url }}">
-                                {{ event_instance.title }}
-                            </a>
-                            <span class="location">
-                                {% if event_instance.location.url %}
-                                <a href="{{ event_instance.location.url }}">
-                                {% endif %}
-                                    {{ event_instance.location.comboname }}
-                                {% if event_instance.location.url %}
-                                </a>
-                                {% endif %}
-                            </span>
-                            <div class="details">
-                                {{ event_instance.event.description }}
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <div class="well well-empty">
-                No events found.
-            </div>
-            {% endif %}
-            <p class="feeds">
-                <a class="icsformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='ics' %}" title="ics format for upcoming events">
-                    ics format for upcoming events
+<h4 class="upcoming-header">Upcoming Events</h4>
+{% if event_instances %}
+<table class="eventlisting">
+    <thead>
+        <th class="date" scope="col">
+            Date
+        </th>
+        <th class="description" scope="col">
+            Description
+        </th>
+    </thead>
+    <tbody>
+    {% for event_instance in event_instances %}
+        <tr class="vevent{% cycle ' alt' '' %}">
+            <td class="date">
+                {{ event_instance.start|date:"M j h:i a" }}
+            </td>
+            <td class="description">
+                <a class="url summary" href="{{ event_instance.get_absolute_url }}">
+                    {{ event_instance.title }}
                 </a>
-                <a class="rssformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='rss' %}" title="rss format for upcoming events" target="_blank">
-                    rss format for upcoming events
-                </a>
-            </p>
-            <a class="more" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">
-                More Events
-            </a>
-        </div>
-    </body>
-</html>
+                <span class="location">
+                    {% if event_instance.location.url %}
+                    <a href="{{ event_instance.location.url }}">
+                    {% endif %}
+                        {{ event_instance.location.comboname }}
+                    {% if event_instance.location.url %}
+                    </a>
+                    {% endif %}
+                </span>
+                <div class="details">
+                    {{ event_instance.event.description }}
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="well well-empty">
+    No events found.
+</div>
+{% endif %}
+<p class="feeds">
+    <a class="icsformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='ics' %}" title="ics format for upcoming events">
+        ics format for upcoming events
+    </a>
+    <a class="rssformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='rss' %}" title="rss format for upcoming events" target="_blank">
+        rss format for upcoming events
+    </a>
+</p>
+<a class="more" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">
+    More Events
+</a>

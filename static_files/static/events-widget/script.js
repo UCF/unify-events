@@ -42,7 +42,7 @@
 		};
 		
 		this.each(function() {
-			// pull options from data attriburte
+			// pull options from data attribute
 			var cal = $(this);
 			var options = {
 				'url'          : cal.attr('data-url'),
@@ -82,19 +82,12 @@
 			  }
 			};
 			
-			var useIframe = function(){
-				data.iframe = true;
-				var qstring = '';
-				for (var key in data){
-					if (qstring.length > 0){
-						qstring += '&';
-					}
-					qstring += key + '=' + data[key];
-				}
-
-				url    = url + "?" + qstring;
-				iframe = $('<iframe src="'+ url +'" scrolling="auto" height="450" frameBorder="0" style="border: none;" />');
-				cal.html(iframe);
+			var showFallbackMsg = function(){
+				// Old IE always gets a link to the upcoming view
+				var qstring = 'calendar_id='+ data.calendar_id + '&upcoming=upcoming';
+				url = url + '?' + qstring;
+				msg = '<a href="'+ url +'">View Calendar</a>';
+				cal.html(msg);
 			};
 			
 			// check for IE7
@@ -105,7 +98,7 @@
 			}
 			
 			if(sadtimes) {
-				useIframe();
+				showFallbackMsg();
 			} else {
 				try {
 					$.ajax({
@@ -114,7 +107,7 @@
 					  success: function(html){cal.html(html);} // cannot use .parseHTML here--not supported until jquery v1.8
 					});
 				} catch(e){
-					useIframe();
+					showFallbackMsg();
 				}
 			}
 		});
