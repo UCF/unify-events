@@ -1,4 +1,6 @@
 {% load widgets %}
 {% load static %}
 
-{% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date %}
+<div class="events">
+    {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date %}
+</div>
