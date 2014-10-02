@@ -296,7 +296,7 @@ class HomeEventsListView(DayEventsListView):
         Check for a url query param of 'calendar_id' for backwards compatibility
         with UNL events system url structure
         """
-        if self.request.GET.get('calendar_id') and self.request.GET.get('calendar_id').isdigit():
+        if self.request.GET.get('calendar_id'):
             return True
         return False
 
@@ -310,7 +310,12 @@ class HomeEventsListView(DayEventsListView):
         Overrides the calendar if requesting the JS widget.
         """
         if self.is_alternate_calendar():
-            calendar = get_object_or_404(Calendar, pk=int(self.request.GET.get('calendar_id')))
+            # Throw a 404 if calendar_id param was provided, but is invalid
+            if self.request.GET.get('calendar_id').isdigit():
+                pk = int(self.request.GET.get('calendar_id'))
+            else:
+                raise Http404
+            calendar = get_object_or_404(Calendar, pk=pk)
         else:
             calendar = get_main_calendar()
 
