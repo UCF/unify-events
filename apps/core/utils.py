@@ -45,7 +45,7 @@ def pre_save_unique_slug(sender, **kwargs):
 
 def pre_save_strip_strings(sender, **kwargs):
     """
-    Check all kwargs passed by the sender for strings and
+    Check all fields passed by the sender for strings and
     strip whitespace at the start and end of string before saving.
     """
     instance = kwargs['instance']
@@ -61,8 +61,8 @@ def pre_save_strip_strings(sender, **kwargs):
                     setattr(instance, fieldname, val.strip())
             except ValueError:
                 # Pass when trying to get fields that we cannot access, e.g.
-                # Taggit in particular will not allow you to access
-                # the tags attr on an event before the event finishes saving.
+                # Taggit in particular will not allow you to access the
+                # tags attr on an event before the event finishes saving.
                 pass
         except FieldDoesNotExist:
             # Probably a foreign key, just pass
