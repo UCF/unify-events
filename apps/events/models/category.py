@@ -5,6 +5,7 @@ from django.db.models.signals import post_delete
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from core.utils import pre_save_strip_strings
 from events.utils import generic_ban_urls
 
 
@@ -27,5 +28,6 @@ class Category(TimeCreatedModified):
         return unicode(self.title)
 
 pre_save.connect(pre_save_slug, sender=Category)
+pre_save.connect(pre_save_strip_strings, sender=Category)
 post_save.connect(generic_ban_urls, sender=Category)
 post_delete.connect(generic_ban_urls, sender=Category)
