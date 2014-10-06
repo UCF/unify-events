@@ -287,7 +287,7 @@ class HomeEventsListView(DayEventsListView):
         Check for a url query param of 'eventdatetime_id' for backwards
         compatibility with UNL events system url structure
         """
-        if self.request.GET.get('eventdatetime_id') and self.request.GET.get('eventdatetime_id').isdigit():
+        if self.request.GET.get('eventdatetime_id'):
             return True
         return False
 
