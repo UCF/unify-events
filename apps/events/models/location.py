@@ -3,10 +3,12 @@ import re
 
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import pre_save
 from django.db.models.signals import post_save
 from django.db.models.signals import post_delete
 
 from core.models import TimeCreatedModified
+from core.utils import pre_save_strip_strings
 from events.utils import generic_ban_urls
 
 
@@ -65,5 +67,6 @@ class Location(TimeCreatedModified):
     def __unicode__(self):
         return unicode(self.comboname)
 
+pre_save.connect(pre_save_strip_strings, sender=Location)
 post_save.connect(generic_ban_urls, sender=Location)
 post_delete.connect(generic_ban_urls, sender=Location)

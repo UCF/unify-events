@@ -1,3 +1,4 @@
+from django.db.models.fields import FieldDoesNotExist
 from django.template.defaultfilters import slugify
 
 import events.models
@@ -40,6 +41,32 @@ def pre_save_unique_slug(sender, **kwargs):
     """
     instance = kwargs['instance']
     instance.slug = generate_unique_slug(instance.title, sender, True)
+
+
+def pre_save_strip_strings(sender, **kwargs):
+    """
+    Check all fields passed by the sender for strings and
+    strip whitespace at the start and end of string before saving.
+    """
+    instance = kwargs['instance']
+    for fieldname in instance._meta.get_all_field_names():
+        try:
+            # get_field_by_name returns (field_object, model, direct, m2m)
+            field = instance._meta.get_field_by_name(fieldname)
+            field = field[0]
+            try:
+                # Only update directly-accessible strings
+                val = getattr(instance, fieldname)
+                if isinstance(val, basestring):
+                    setattr(instance, fieldname, val.strip())
+            except ValueError:
+                # Pass when trying to get fields that we cannot access, e.g.
+                # Taggit in particular will not allow you to access the
+                # tags attr on an event before the event finishes saving.
+                pass
+        except FieldDoesNotExist:
+            # Probably a foreign key, just pass
+            pass
 
 
 def format_to_mimetype(format):

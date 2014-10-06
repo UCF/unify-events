@@ -18,6 +18,7 @@ from taggit.models import Tag
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from core.utils import pre_save_strip_strings
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
 import events.models
@@ -361,6 +362,7 @@ class Event(TimeCreatedModified):
         return '<' + str(self.calendar) + '/' + self.title + '>'
 
 pre_save.connect(pre_save_slug, sender=Event)
+pre_save.connect(pre_save_strip_strings, sender=Event)
 post_save.connect(event_ban_urls, sender=Event)
 post_delete.connect(event_ban_urls, sender=Event)
 
