@@ -106,7 +106,7 @@ def map_event_range(start, end, events):
             if event.start in days:
                 mapped_events.append(event)
 
-    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), x.event.title))
+    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -(x.end - datetime.now()).total_seconds()))
 
     return mapped_events
 
@@ -398,7 +398,7 @@ class EventInstance(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
-        ordering = ['start', 'event__title']
+        ordering = ['start', '-end', 'id']
 
     def get_rrule(self):
         """
