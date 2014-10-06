@@ -62,7 +62,7 @@ def get_events_by_range(start, end, calendar=None, user=None):
     else:
         raise AttributeError('Either a calendar or user must be supplied.')
 
-    return EventInstance.objects.filter(_filter, event__calendar__in=calendars).order_by('start')
+    return EventInstance.objects.filter(_filter, event__calendar__in=calendars)
 
 
 def map_event_range(start, end, events):
@@ -107,7 +107,7 @@ def map_event_range(start, end, events):
             if event.start in days:
                 mapped_events.append(event)
 
-    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), x.end.time()))
+    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -(x.end - datetime.now()).total_seconds()))
 
     return mapped_events
 
@@ -400,7 +400,7 @@ class EventInstance(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
-        ordering = ['start']
+        ordering = ['start', '-end', 'id']
 
     def get_rrule(self):
         """
