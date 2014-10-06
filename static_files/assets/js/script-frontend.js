@@ -46,11 +46,16 @@ var resizeMapWidgets = function() {
 
     // on window resize (with timeout to prevent a crapload of Map requests)
     var timeout = false;
+    var windowWidth = $(window).width();
+
     $(window).on('resize', function() {
         if (timeout !== false) {
             clearTimeout(timeout);
         }
-        timeout = setTimeout(performResize, 200);
+        if (windowWidth !== $(window).width()) {
+            timeout = setTimeout(performResize, 200);
+            windowWidth = $(window).width();
+        }
     });
 };
 
