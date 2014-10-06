@@ -59,7 +59,7 @@ def pre_save_strip_strings(sender, **kwargs):
                 val = getattr(instance, fieldname)
                 if isinstance(val, basestring):
                     setattr(instance, fieldname, val.strip())
-            except ValueError:
+            except (ValueError, AttributeError):
                 # Pass when trying to get fields that we cannot access, e.g.
                 # Taggit in particular will not allow you to access the
                 # tags attr on an event before the event finishes saving.
