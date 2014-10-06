@@ -106,7 +106,8 @@ def map_event_range(start, end, events):
             if event.start in days:
                 mapped_events.append(event)
 
-    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -(x.end - datetime.now()).total_seconds()))
+    # added to support python version < 2.7, otherwise timedelta has total_seconds()
+    mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -((x.end - datetime.now()).microseconds + ((x.end - datetime.now()).seconds + (x.end - datetime.now()).days*24*3600) * 1e6) /1e6))
 
     return mapped_events
 
