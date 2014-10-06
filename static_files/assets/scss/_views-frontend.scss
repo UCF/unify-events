@@ -439,10 +439,15 @@ ul.event-list-condensed {
   h2 {
     margin-bottom: 20px;
   }
+  .event-list .calendar {
+    display: none;
+  }
+}
+#calendar-events-day,
+#calendar-events-week {
   .event-list {
     .start-date,
-    .dtend,
-    .calendar {
+    .dtend {
       display: none;
     }
   }

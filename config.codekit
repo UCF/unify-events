@@ -3829,6 +3829,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/static_files\/assets\/js\/script-frontend.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/assets\/js\/script-frontend.js",
+		"outputAbbreviatedPath": "\/static_files\/static\/js\/script-frontend.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 1,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/static_files\/assets\/js\/script-manager.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -4081,6 +4092,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/static_files\/static\/events-widget\/script.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/static\/events-widget\/script.js",
+		"outputAbbreviatedPath": "\/static_files\/static\/events-widget\/min\/script-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/static_files\/static\/events-widget\/style.css": {
 		"fileType": 16,
 		"ignore": 0,
@@ -4177,6 +4199,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
+		},
+	"\/static_files\/static\/js\/script-frontend.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/static_files\/static\/js\/script-frontend.min.js",
+		"outputAbbreviatedPath": "\/static_files\/static\/js\/min\/script-frontend.min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		},
 	"\/static_files\/static\/js\/script-manager.min.js": {
 		"fileType": 64,
@@ -7808,20 +7841,29 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-upcoming.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-upcoming.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-week.html": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-week.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-widget-list.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-widget-list.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-widget-month.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/events\/frontend\/calendar\/calendar-type\/calendar-widget-month.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
