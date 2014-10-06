@@ -166,7 +166,7 @@ class MultipleFormatTemplateViewMixin(object):
         Determine the page format passed in the URL. Fall back to html
         if nothing is set.
         """
-        if self.request.GET.get('format') is not None:
+        if self.request.GET.get('format'):
             # Backwards compatibility with UNL events
             if self.request.GET.get('format') == 'hcalendar' or self.request.GET.get('format') == 'ical':
                 format = 'ics'
