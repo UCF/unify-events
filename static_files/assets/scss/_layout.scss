@@ -196,7 +196,9 @@ header {
       }
 
       .action-text {
-        text-decoration: none !important; /* TODO: !important is bad */
+        // !important necessary for proper cascading when .create-event
+        // is not referenced as a child of .nav-actions
+        text-decoration: none !important;
       }
     }
   }

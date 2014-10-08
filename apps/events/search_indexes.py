@@ -21,8 +21,8 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """
         Used when the entire index for model is updated.
-        Only retrieve posted events that are not archived
-        (no pending or rereview events; allow canceled.)
+        Only retrieve published events that are not archived
+        (no pending events; allow canceled.)
         """
         now = datetime.now()
         unarchived_event_pks = EventInstance.objects.filter(end__gte=now, event__state__in=State.get_published_states()).values('event__pk')
