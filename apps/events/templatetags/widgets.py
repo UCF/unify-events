@@ -175,6 +175,9 @@ def feed_btns(url):
     """
     Generates feed buttons (ics/json/rss/xml) based off of a given URL.
     """
+    if url.find('?') > -1:
+        url = url[:url.find('?')]
+
     if url.endswith('/') == False:
         url = url + '/'
 
