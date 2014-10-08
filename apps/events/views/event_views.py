@@ -345,7 +345,7 @@ class HomeEventsListView(DayEventsListView):
             else:
                 raise AttributeError('Param is not a date parameter (day, month, or year).')
         else:
-            return super(CalendarEventsListView, self)._get_date_by_parameter(param)
+            return super(HomeEventsListView, self)._get_date_by_parameter(param)
 
     def get_start_date(self):
         """
@@ -353,7 +353,7 @@ class HomeEventsListView(DayEventsListView):
         """
         start_date = self.start_date
         if not start_date:
-            start_date = super(CalendarEventsListView, self).get_start_date()
+            start_date = super(HomeEventsListView, self).get_start_date()
             # Backwards compatibility with JS Widget
             # Attempt to set start_date as the 1st day of the month with the
             # params provided.
@@ -368,7 +368,7 @@ class HomeEventsListView(DayEventsListView):
         """
         Overrides the end date if requesting the JS widget in month mode
         """
-        end_date = super(CalendarEventsListView, self).get_end_date()
+        end_date = super(HomeEventsListView, self).get_end_date()
         if not end_date:
             start_date = self.get_start_date()
             # Backwards compatibility with JS Widget
@@ -497,7 +497,7 @@ class HomeEventsListView(DayEventsListView):
             return HttpResponsePermanentRedirect(reverse(new_url_name, kwargs=new_kwargs))
 
         else:
-            return super(DayEventsListView, self).dispatch(request, *args, **kwargs)
+            return super(HomeEventsListView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):
         if self.is_js_widget():
