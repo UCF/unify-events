@@ -675,11 +675,12 @@ class YearEventsListView(CalendarEventsListView):
         return list()
 
 
-class UpcomingEventsListView(CalendarEventsListView):
+class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     """
     Events listing for a calendar's upcoming events with
     no specified range (return up to the 'paginate_by' value.)
     """
+    paginate_by = 25
     list_type = 'upcoming'
     list_title = 'Upcoming Events'
 

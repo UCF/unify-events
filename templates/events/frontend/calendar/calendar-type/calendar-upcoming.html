@@ -1,27 +1,4 @@
+{% extends 'events/frontend/calendar/calendar-type/calendar-default.html' %}
 {% load widgets %}
 
-<div class="row">
-    <div class="col-md-8 col-sm-8 sidebarfix page-content" id="calendar-events-upcoming">
-        <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
-        {% if event_instances %}
-        <ul class="event-list">
-            {% with listing_templ="events/frontend/event-listing/listing.html" %}
-            {% include listing_templ %}
-            {% endwith %}
-        </ul>
-        {% else %}
-        <div class="well well-empty">
-            No events found.
-        </div>
-        {% endif %}
-    </div>
-    <aside class="col-md-4 col-sm-4 page-sidebar" id="calendar-events-sidebar">
-        {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}
-
-        <h3 class="alt h4">Filter by Category:</h3>
-        {% category_filters calendar=calendar.pk %}
-
-        <h3 class="alt h4 pull-left">Feeds:</h3>
-        {% feed_btns url=request.build_absolute_uri %}
-    </aside>
-</div>
+{% block page_content_id %}calendar-events-upcoming{% endblock %}

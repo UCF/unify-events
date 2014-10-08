@@ -66,7 +66,7 @@
     {% if list_type == 'day' %}
         {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
     {% elif list_type == 'week' %}
-        {% include 'events/frontend/calendar/calendar-type/calendar-week.html' %}
+        {% include 'events/frontend/calendar/calendar-type/calendar-week.html' with use_grouping=True %}
     {% elif list_type == 'month' %}
         {% include 'events/frontend/calendar/calendar-type/calendar-month.html' %}
     {% elif list_type == 'year' %}

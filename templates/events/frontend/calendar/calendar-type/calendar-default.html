@@ -3,31 +3,41 @@
     <div class="col-md-8 col-sm-8 sidebarfix page-content" id="{% block page_content_id %}calendar-events-default{% endblock %}">
         <h2>{% block list_title %}{{ list_title }}{% endblock %}</h2>
         {% if event_instances %}
-            {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
 
-            {% if not start_date %}
-            <ul class="event-list">
-            {% endif %}
+            {% if use_grouping %}
+                {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
 
-            {% for day in dates %}
-                {% if start_date %}
-                <span class="day-heading">{{ day.grouper }}</span>
+                {% if not start_date %}
                 <ul class="event-list">
                 {% endif %}
 
-                {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=day.list %}
+                {% for day in dates %}
+                    {% if start_date %}
+                    <span class="day-heading">{{ day.grouper }}</span>
+                    <ul class="event-list">
+                    {% endif %}
+
+                    {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=day.list %}
+                    {% include listing_templ %}
+                    {% endwith %}
+
+                    {% if start_date %}
+                    </ul>
+                    {% if not forloop.last %}<hr/>{% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if not start_date %}
+                </ul>
+                <hr/>
+                {% endif %}
+
+            {% else %}
+            <ul class="event-list">
+                {% with listing_templ="events/frontend/event-listing/listing.html" %}
                 {% include listing_templ %}
                 {% endwith %}
-
-                {% if start_date %}
-                </ul>
-                {% if not forloop.last %}<hr/>{% endif %}
-                {% endif %}
-            {% endfor %}
-
-            {% if not start_date %}
             </ul>
-            <hr/>
             {% endif %}
 
         {% else %}
