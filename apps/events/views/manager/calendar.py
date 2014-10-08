@@ -184,7 +184,7 @@ class CalendarUserUpdate(CalendarAdminUserValidationMixin, DetailView):
         context = super(CalendarUserUpdate, self).get_context_data(**kwargs)
 
         ctx = {
-            'users': User.objects.all(),
+            'users': User.objects.all().order_by('last_name', 'first_name')
         }
         ctx.update(context)
 

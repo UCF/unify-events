@@ -20,6 +20,7 @@ class Category(TimeCreatedModified):
     class Meta:
         app_label = 'events'
         verbose_name_plural = 'categories'
+        ordering = ['title']
 
     def __str__(self):
         return self.title

@@ -53,7 +53,7 @@ class ProfileList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
 
     def get_queryset(self):
         queryset = super(ProfileList, self).get_queryset()
-        return queryset.order_by('-is_superuser', 'last_name')
+        return queryset.order_by('-is_superuser', 'last_name', 'first_name')
 
 
 
