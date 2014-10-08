@@ -16,7 +16,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
             <h3 class="event-title">
                 <a class="summary" href="{% url 'event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
                 {% if object.is_recurring %}
-                <i class="fa fa-repeat"></i><span class="sr-only">(Recurring Event)</span>
+                <i class="fa fa-refresh"></i><span class="sr-only">(Recurring Event)</span>
                 {% endif %}
             </h3>
 
