@@ -372,15 +372,10 @@ class HomeEventsListView(DayEventsListView):
         if not end_date:
             start_date = self.get_start_date()
             # Backwards compatibility with JS Widget
-            if self.is_js_widget():
-                # Set end date to last day of the month (relative to start_date) for
-                # monthwidget.  Just use +1 month from start_date for default list widget.
-                if self.request.GET.get('monthwidget') == 'true':
-                    end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1) - timedelta(days=1)
-                    end_date = datetime.combine(end_date, datetime.max.time())
-                else:
-                    end_date = start_date + relativedelta(months=1)
-
+            # Set end date to last day of the month (relative to start_date) for monthwidget.
+            if self.is_js_widget() and self.request.GET.get('monthwidget') == 'true':
+                end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1) - timedelta(days=1)
+                end_date = datetime.combine(end_date, datetime.max.time())
                 self.end_date = end_date
             else:
                 end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
