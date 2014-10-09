@@ -16,7 +16,24 @@ from events.models import Location
 from events.models import Category
 
 
-class CalendarForm(forms.ModelForm):
+class ModelFormStringValidationMixin(forms.ModelForm):
+    """
+    Mixin that trims any string values passed through
+    the given form's fields.
+    """
+    def clean(self):
+        cleaned_data = super(ModelFormStringValidationMixin, self).clean()
+
+        for field in cleaned_data:
+            val = cleaned_data.get(field)
+            if isinstance(val, basestring):
+                val = val.strip()
+                cleaned_data[field] = val
+
+        return cleaned_data
+
+
+class CalendarForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for the Calendar
     """
@@ -58,7 +75,7 @@ class CalendarSubscribeForm(forms.ModelForm):
         fields = ('calendars',)
 
 
-class EventForm(forms.ModelForm):
+class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for an Event
     """
@@ -89,21 +106,22 @@ class EventForm(forms.ModelForm):
 
     def clean(self):
         self._validate_unique = True
+        cleaned_data = super(EventForm, self).clean()
 
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
-        tags = self.cleaned_data['tags']
+        tags = cleaned_data['tags']
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
-        return self.cleaned_data        
+        return cleaned_data        
 
     class Meta:
         model = Event
         fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
-class EventInstanceForm(forms.ModelForm):
+class EventInstanceForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for the EventInstance
     """
@@ -217,7 +235,7 @@ class EventCopyForm(forms.Form):
     calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
 
 
-class LocationForm(forms.ModelForm):
+class LocationForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for adding/creating locations for an EventInstance
     """
@@ -226,7 +244,7 @@ class LocationForm(forms.ModelForm):
         fields = ('title', 'room', 'url', 'reviewed')
 
 
-class CategoryForm(forms.ModelForm):
+class CategoryForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for adding/creating categories for Events
     """
@@ -235,7 +253,7 @@ class CategoryForm(forms.ModelForm):
         fields = ('title', 'color')
 
 
-class TagForm(forms.ModelForm):
+class TagForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for tags
     """
