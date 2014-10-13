@@ -1,6 +1,8 @@
 import bleach
 import HTMLParser
 
+from django.core.exceptions import MultipleObjectsReturned
+
 from events.models import Event
 from events.models import State
 
@@ -19,13 +21,19 @@ def update_subscriptions(event, is_main_rereview=False):
         for copied_event in copied_events:
             copy = copied_event.pull_updates(is_main_rereview)
 
+        # Get the original event-- the event passed to this function might be a copy!
+        if event.created_from:
+            original_event = event.created_from
+        else:
+            original_event = event
+
         # Check to see if the event needs to be Created/Posted for any subscribed calendars
         for subscribed_calendar in event.calendar.subscribed_calendars.all():
             try:
-                copied = subscribed_calendar.events.get(created_from=event)
+                copied = subscribed_calendar.events.get(created_from=original_event)
             except Event.DoesNotExist:
                 # Does not exist so import the event
-                subscribed_calendar.import_event(event)
+                subscribed_calendar.import_event(original_event)
             except MultipleObjectsReturned:
                 # Found multiple objects...should never happen but pass since
                 # there is atleast one event copied don't do anything.
