@@ -794,10 +794,10 @@
                 (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>).
             </p>
             <p>
-                URL parameter option <code>mapped_events</code> (default: <em>false</em>) changes the way mutli-day events are listed in the feed.
-                Multi-day events are events that spans multiple days (ex: September 10 at 9:00am - September 12 at 1:00pm). By default the feeds display
+                The URL parameter option <code>mapped_events</code> (default: <em>false</em>) changes the way multi-day events are listed in the feed.
+                Multi-day events are events that spans multiple days (ex: September 10 at 9:00am - September 12 at 1:00pm). By default, all feeds display
                 a single event item/entry for a multi-day event. This gives the consumer the ability to handle multi-day events how they prefer. Enabling
-                <code>mapped_events</code> will take a multi-day event and create an event item/entry for every day it occurs on. An event that spans September 10 at 9:00am - September 12 at 1:00pm would create events items/entries for Septemeber 10 from 9:00 - 23:59, September 11 from 00:00 - 23:59, and September 12 from 00:00am - 13:00 if <code>mapped_events</code> is set to <code>true</code>.
+                <code>mapped_events</code> will take a multi-day event and create an event item/entry for every day it occurs on; e.g. an event that spans September 10 at 9:00am - September 12 at 1:00pm would create events items/entries for September 10 from 9:00 - 23:59, September 11 from 00:00 - 23:59, and September 12 from 00:00 - 13:00. Note that this parameter option is not available for all views; see the table below for compatible views.
             </p>
             <p>
                 Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
@@ -923,11 +923,7 @@
                             <td>
                                 Upcoming Events<br/>
                                 <p><small>
-                                    A list (max 25) of events occurring soon on the given calendar.
-                                </small></p>
-                                <p><small>
-                                    Use the <code>mapped_events</code> URL param to return upcoming events, cloned with modified
-                                    start/end datetimes for each day they occur on.
+                                    A list of events occurring soon on the given calendar.
                                 </small></p>
                             </td>
                             <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='upcoming' %}feed.json</code></td>
