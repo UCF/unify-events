@@ -58,7 +58,7 @@ class EventCreate(CreateView):
         context = super(EventCreate, self).get_context_data(**kwargs)
         ctx = {
                'locations': Location.objects.all(),
-               'tags': Tag.objects.all()
+               'tags': Tag.objects.all().order_by('name')
         }
         ctx.update(context)
 
@@ -164,7 +164,7 @@ class EventUpdate(UpdateView):
 
         ctx = {
                'locations': Location.objects.all(), # Always pass all locations here so that users can modify events with locations that are in review
-               'tags': Tag.objects.all(),
+               'tags': Tag.objects.all().order_by('name'),
                # Needed to determine whether to show the cancel/un-cancel button
                'posted_state': State.posted
         }

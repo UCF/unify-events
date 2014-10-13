@@ -59,6 +59,7 @@ class Calendar(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
+        ordering = ['title']
 
     @property
     def is_main_calendar(self):
