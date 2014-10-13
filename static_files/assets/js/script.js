@@ -69,10 +69,11 @@ var hideDropdownScrollbars = function() {
 
 /**
  * Replace browser's default hover effect for <abbr> elements with Bootstrap tooltips,
- * due to wide browser inconsistency on how the hover state works
+ * due to wide browser inconsistency on how the hover state works.
+ * Also activate tooltips on any other element that uses Bootstrap's default usage.
  **/
-var abbrTooltips = function() {
-    $('abbr').each(function() { $(this).tooltip(); } );
+var activateTooltips = function() {
+    $('abbr, [data-toggle="tooltip"]').each(function() { $(this).tooltip(); } );
 };
 
 
@@ -314,7 +315,7 @@ $(document).ready(function() {
     addBodyClasses();
     ie8StyleClasses();
     hideDropdownScrollbars();
-    abbrTooltips();
+    activateTooltips();
     autoOpenTagByAnchor();
     jumpTo();
     toggleModalModifyObject();
