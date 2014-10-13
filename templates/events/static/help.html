@@ -794,6 +794,12 @@
                 (See <a href="#legacy-feeds" class="jump-to">legacy feeds note</a>).
             </p>
             <p>
+                URL parameter option <code>mapped_events</code> (default: <em>false</em>) changes the way mutli-day events are listed in the feed.
+                Multi-day events are events that spans multiple days (ex: September 10 at 9:00am - September 12 at 1:00pm). By default the feeds display
+                a single event item/entry for a multi-day event. This gives the consumer the ability to handle multi-day events how they prefer. Enabling
+                <code>mapped_events</code> will take a multi-day event and create an event item/entry for every day it occurs on. An event that spans September 10 at 9:00am - September 12 at 1:00pm would create events items/entries for Septemeber 10 from 9:00 - 23:59, September 11 from 00:00 - 23:59, and September 12 from 00:00am - 13:00 if <code>mapped_events</code> is set to <code>true</code>.
+            </p>
+            <p>
                 Listed below are all available feed locations. All calendar-based views listed below assume you're trying to fetch events
                 on a specific calendar.  To fetch events on the Main Calendar, remove the <code>/calendar/[calendar_id]/[calendar_slug]/</code>
                 portion of the example URLs.
@@ -938,12 +944,7 @@
                                 </ul>
                             </td>
                             <td>
-                                <ul class="table-list">
-                                    <li>
-                                        <code>mapped_events</code><br/>
-                                        <small>Default: <em>false</em></small>
-                                    </li>
-                                </ul>
+                                n/a
                             </td>
                         </tr>
                         <tr>
