@@ -56,6 +56,7 @@ class Location(TimeCreatedModified):
 
     class Meta:
         app_label = 'events'
+        ordering = ['title', 'room']
 
     def __repr__(self):
         return '<' + self.comboname + '>'
