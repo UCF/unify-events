@@ -1,6 +1,7 @@
 MODULE = __import__(__name__)
 
 from datetime import date, timedelta
+import calendar as calgenerator
 
 from dateutil import rrule
 from dateutil.relativedelta import relativedelta
@@ -15,6 +16,7 @@ from ordereddict import OrderedDict
 from taggit.models import Tag
 
 from events.models import *
+from events.functions import get_valid_years
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
@@ -135,6 +137,23 @@ class CalendarEventsBaseListView(ListView):
         context['start_date'] = self.get_start_date()
         context['end_date'] = self.get_end_date()
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Prevent dynamically generated pages from returning
+        content from too far into the future or the past.
+        This primarily exists to prevent google from crawling
+        to infinity and beyond.
+        """
+        start_date = self.get_start_date()
+        valid_years = get_valid_years()
+        earliest_valid_date = datetime(valid_years[0], 1, 1)
+        latest_valid_date = datetime(valid_years[-1], 12, calgenerator.monthrange(valid_years[-1], 12)[1])
+
+        if start_date < earliest_valid_date or start_date > latest_valid_date:
+            raise Http404
+        else:
+            return super(CalendarEventsBaseListView, self).dispatch(request, *args, **kwargs)
 
 
 class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, CalendarEventsBaseListView):
@@ -612,7 +631,7 @@ class MonthEventsListView(CalendarEventsListView):
                     ('December', '12')
                 ])
         if 'all_years' not in context:
-            context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
+            context['all_years'] = get_valid_years()
 
         return context
 
@@ -656,7 +675,7 @@ class YearEventsListView(CalendarEventsListView):
             context['list_title'] = 'Events by Year: %s' % (start_date.strftime("%Y"))
 
         if 'all_years' not in context:
-            context['all_years'] = range(2009, (date.today() + relativedelta(years=+2)).year)
+            context['all_years'] = get_valid_years()
         if 'all_months' not in context:
             context['all_months'] = range(1, 13)
 

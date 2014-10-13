@@ -225,8 +225,7 @@ class PaginationRedirectMixin(object):
                 return HttpResponseRedirect(url)
             else:
                 # re-raise Http404, as the reason for the 404 was not that maximum pages was exceeded
-                raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
-                          % {'class_name': self.__class__.__name__})
+                raise Http404
 
 
 class InvalidSlugRedirectMixin(object):

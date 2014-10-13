@@ -1,6 +1,8 @@
 import bleach
+from datetime import date
 import HTMLParser
 
+from dateutil.relativedelta import relativedelta
 from django.core.exceptions import MultipleObjectsReturned
 
 from events.models import Event
@@ -52,3 +54,14 @@ def remove_html(value):
         h = HTMLParser.HTMLParser()
         value = h.unescape(value)
     return value
+
+
+def get_valid_years():
+    """
+    Returns a range of valid year values for returning data.
+    Useful when needing to prevent dynamically-generated data from
+    expanding beyond an excessive amount of time.
+    """
+    this_year = date(date.today().year, 1, 1).year
+    years = range(2009, this_year+3) # add two years, plus 1 for last index
+    return years
