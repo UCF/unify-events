@@ -345,7 +345,7 @@ class HomeEventsListView(DayEventsListView):
             else:
                 raise AttributeError('Param is not a date parameter (day, month, or year).')
         else:
-            return super(CalendarEventsListView, self)._get_date_by_parameter(param)
+            return super(HomeEventsListView, self)._get_date_by_parameter(param)
 
     def get_start_date(self):
         """
@@ -353,7 +353,7 @@ class HomeEventsListView(DayEventsListView):
         """
         start_date = self.start_date
         if not start_date:
-            start_date = super(CalendarEventsListView, self).get_start_date()
+            start_date = super(HomeEventsListView, self).get_start_date()
             # Backwards compatibility with JS Widget
             # Attempt to set start_date as the 1st day of the month with the
             # params provided.
@@ -368,19 +368,14 @@ class HomeEventsListView(DayEventsListView):
         """
         Overrides the end date if requesting the JS widget in month mode
         """
-        end_date = super(CalendarEventsListView, self).get_end_date()
+        end_date = super(HomeEventsListView, self).get_end_date()
         if not end_date:
             start_date = self.get_start_date()
             # Backwards compatibility with JS Widget
-            if self.is_js_widget():
-                # Set end date to last day of the month (relative to start_date) for
-                # monthwidget.  Just use +1 month from start_date for default list widget.
-                if self.request.GET.get('monthwidget') == 'true':
-                    end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1) - timedelta(days=1)
-                    end_date = datetime.combine(end_date, datetime.max.time())
-                else:
-                    end_date = start_date + relativedelta(months=1)
-
+            # Set end date to last day of the month (relative to start_date) for monthwidget.
+            if self.is_js_widget() and self.request.GET.get('monthwidget') == 'true':
+                end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1) - timedelta(days=1)
+                end_date = datetime.combine(end_date, datetime.max.time())
                 self.end_date = end_date
             else:
                 end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
@@ -502,7 +497,7 @@ class HomeEventsListView(DayEventsListView):
             return HttpResponsePermanentRedirect(reverse(new_url_name, kwargs=new_kwargs))
 
         else:
-            return super(DayEventsListView, self).dispatch(request, *args, **kwargs)
+            return super(HomeEventsListView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):
         if self.is_js_widget():
