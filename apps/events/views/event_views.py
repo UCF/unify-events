@@ -1,7 +1,6 @@
 MODULE = __import__(__name__)
 
 from datetime import date, timedelta
-import calendar as calgenerator
 
 from dateutil import rrule
 from dateutil.relativedelta import relativedelta
@@ -12,11 +11,13 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from ordereddict import OrderedDict
 from taggit.models import Tag
 
 from events.models import *
 from events.functions import get_valid_years
+from events.functions import is_date_in_valid_range
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
@@ -145,15 +146,11 @@ class CalendarEventsBaseListView(ListView):
         This primarily exists to prevent google from crawling
         to infinity and beyond.
         """
-        start_date = self.get_start_date()
-        valid_years = get_valid_years()
-        earliest_valid_date = datetime(valid_years[0], 1, 1)
-        latest_valid_date = datetime(valid_years[-1], 12, calgenerator.monthrange(valid_years[-1], 12)[1])
-
-        if start_date < earliest_valid_date or start_date > latest_valid_date:
-            raise Http404
-        else:
+        start_date = self.get_start_date().date()
+        if is_date_in_valid_range(start_date):
             return super(CalendarEventsBaseListView, self).dispatch(request, *args, **kwargs)
+        else:
+            raise Http404
 
 
 class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, CalendarEventsBaseListView):
@@ -838,3 +835,23 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
         events = events.filter(event__calendar=calendar)
 
         return events
+
+
+class CalendarWidgetView(TemplateView):
+    """
+    View that handles sidebar calendar widget and js widget requests.
+    """
+    template_name = 'events/widgets/calendar-by-url.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Prevent dynamically generated pages from returning
+        content from too far into the future or the past.
+        This primarily exists to prevent google from crawling
+        to infinity and beyond.
+        """
+        start_date = date(int(self.kwargs.get('year')), int(self.kwargs.get('month')), 1)
+        if is_date_in_valid_range(start_date):
+            return super(CalendarWidgetView, self).dispatch(request, *args, **kwargs)
+        else:
+            raise Http404

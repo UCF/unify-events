@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 import itertools
 from ordereddict import OrderedDict
 
+from events.functions import is_date_in_valid_range
 from events.models import Calendar
 from events.models import State
 from events.models import Category
@@ -50,6 +51,12 @@ def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manag
         this_month = date(relative_day.year, relative_day.month, 1)
     next_month = date((this_month + relativedelta(months=+1)).year, (this_month + relativedelta(months=+1)).month, 1)
     last_month = date((this_month + relativedelta(months=-1)).year, (this_month + relativedelta(months=-1)).month, 1)
+
+    # Make sure last and next month fall within a valid year/month range
+    if not is_date_in_valid_range(next_month):
+        next_month = None
+    if not is_date_in_valid_range(last_month):
+        last_month = None
 
     # Create new list of days in month (strip week grouping)
     this_month_cal = list(itertools.chain.from_iterable(calgenerator.Calendar(settings.FIRST_DAY_OF_WEEK).monthdatescalendar(this_month.year, this_month.month)))

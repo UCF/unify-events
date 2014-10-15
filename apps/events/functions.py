@@ -1,8 +1,8 @@
 import bleach
+import calendar as calgenerator
 from datetime import date
 import HTMLParser
 
-from dateutil.relativedelta import relativedelta
 from django.core.exceptions import MultipleObjectsReturned
 
 from events.models import Event
@@ -65,3 +65,18 @@ def get_valid_years():
     this_year = date(date.today().year, 1, 1).year
     years = range(2009, this_year+3) # add two years, plus 1 for last index
     return years
+
+
+def is_date_in_valid_range(the_date):
+    """
+    Returns true or false if the date passed falls within a
+    valid year range (as defined by get_valid_years()).
+    """
+    valid_years = get_valid_years()
+    earliest_valid_date = date(valid_years[0], 1, 1)
+    latest_valid_date = date(valid_years[-1], 12, calgenerator.monthrange(valid_years[-1], 12)[1])
+
+    if the_date < earliest_valid_date or the_date > latest_valid_date:
+        return False
+    else:
+        return True
