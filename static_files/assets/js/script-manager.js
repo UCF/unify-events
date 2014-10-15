@@ -1,4 +1,4 @@
-/* global eventLocations, eventTags, usersFullName, usersEmail */
+/* global eventLocations, eventTags, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE */
 
 /* Scripts listed below should only need to be executed on the site backend (manager views.) */
 
@@ -214,7 +214,9 @@ var initiateDatePickers = function(fields) {
                 .datepicker({
                     format: 'mm/dd/yyyy',
                     autoclose: true,
-                    todayHighlight: true
+                    todayHighlight: true,
+                    startDate: EARLIEST_VALID_DATE,
+                    endDate: LATEST_VALID_DATE
                 })
                 .on('changeDate', function(e) {
                     // Look for a nearby related start/end date field.  Apply

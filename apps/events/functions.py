@@ -67,14 +67,29 @@ def get_valid_years():
     return years
 
 
+def get_earliest_valid_date(date_format=None):
+    valid_years = get_valid_years()
+    the_date = date(valid_years[0], 1, 1)
+    if date_format:
+        the_date = the_date.strftime(date_format)
+    return the_date
+
+
+def get_latest_valid_date(date_format=None):
+    valid_years = get_valid_years()
+    the_date = date(valid_years[-1], 12, calgenerator.monthrange(valid_years[-1], 12)[1])
+    if date_format:
+        the_date = the_date.strftime(date_format)
+    return the_date
+
+
 def is_date_in_valid_range(the_date):
     """
     Returns true or false if the date passed falls within a
     valid year range (as defined by get_valid_years()).
     """
-    valid_years = get_valid_years()
-    earliest_valid_date = date(valid_years[0], 1, 1)
-    latest_valid_date = date(valid_years[-1], 12, calgenerator.monthrange(valid_years[-1], 12)[1])
+    earliest_valid_date = get_earliest_valid_date()
+    latest_valid_date = get_latest_valid_date()
 
     if the_date < earliest_valid_date or the_date > latest_valid_date:
         return False

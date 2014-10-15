@@ -251,6 +251,13 @@ $bootstrap-dtp-border-radius: 4px;
     line-height: 40px;
     width: 38px;
   }
+
+  .year.old {
+    color: inherit;
+  }
+  .disabled {
+    color: $gray-lighter !important;
+  }
 }
 
 .ui-timepicker-wrapper {
