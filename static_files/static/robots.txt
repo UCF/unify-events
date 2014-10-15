@@ -5,4 +5,5 @@ Disallow: /manager/
 Disallow: /events/manager/
 Disallow: /search/
 Disallow: /events/search/
+Disallow: /calendar-widget/
 Disallow: /*?
