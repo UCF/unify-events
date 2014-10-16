@@ -9,6 +9,9 @@ from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
+from events.functions import is_date_in_valid_range
+from events.functions import get_earliest_valid_date
+from events.functions import get_latest_valid_date
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
@@ -164,6 +167,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, forms.ModelForm):
 
         start = cleaned_data.get('start')
         end = cleaned_data.get('end')
+        until = cleaned_data.get('until')
         location = cleaned_data.get('location')
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
@@ -171,11 +175,21 @@ class EventInstanceForm(ModelFormStringValidationMixin, forms.ModelForm):
         if start and end:
             if start > end:
                 self._errors['end'] = self.error_class(['The end day/time must occur after the start day/time'])
+            if not is_date_in_valid_range(start.date()):
+                self._errors['start'] = self.error_class(['Please provide a start date that falls between %s and %s' % (get_earliest_valid_date(date_format='%m/%d/%Y'), get_latest_valid_date(date_format='%m/%d/%Y'))])
+            if not is_date_in_valid_range(end.date()):
+                self._errors['end'] = self.error_class(['Please provide a end date that falls between %s and %s' % (get_earliest_valid_date(date_format='%m/%d/%Y'), get_latest_valid_date(date_format='%m/%d/%Y'))])
         else:
             if not start:
-                self._errors['start'] = self.error_class(['A valid start date and time was not provided'])
+                self._errors['start'] = self.error_class(['Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM'])
             if not end:
-                self._errors['end'] = self.error_class(['A valid end date and time was not provided'])
+                self._errors['end'] = self.error_class(['Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM'])
+
+        if until:
+            if not is_date_in_valid_range(until):
+                self._errors['until'] = self.error_class(['Please provide an until date that falls between %s and %s' % (get_earliest_valid_date(date_format='%m/%d/%Y'), get_latest_valid_date(date_format='%m/%d/%Y'))])
+            if end.date() >= until:
+                self._errors['until'] = self.error_class(['The until date must fall after the end date/time'])
 
         if not location:
             if new_location_title:

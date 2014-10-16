@@ -185,21 +185,13 @@
                                         <label class="label-inner" for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
                                         <label class="label-inner" for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
                                         {{ ei_form.start }}
-                                        {% if ei_form.start.errors %}
-                                        <ul class="errorlist">
-                                            <li>Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM</li>
-                                        </ul>
-                                        {% endif %}
+                                        {{ ei_form.start.errors }}
                                     </div>
                                     <div class="col-md-6 col-sm-6 whenwhere end {% if ei_form.end.errors %}error{% endif %}">
                                         <label class="label-inner" for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
                                         <label class="label-inner" for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
                                         {{ ei_form.end }}
-                                        {% if ei_form.end.errors %}
-                                        <ul class="errorlist">
-                                            <li>Please enter a valid date/time, e.g. 11/16/2014 at 12:45 PM</li>
-                                        </ul>
-                                        {% endif %}
+                                        {{ ei_form.end.errors }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -218,7 +210,7 @@
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
                                         <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
-                                        {{ ei_form.location|add_class:"location-dropdown" }}
+                                        {{ ei_form.location|add_class:"location-dropdown form-control" }}
                                         {{ ei_form.location.errors }}
                                     </div>
                                     <div class="col-md-6 col-sm-6 location-selected">
