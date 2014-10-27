@@ -7,16 +7,28 @@ from events.models import Event
 from events.models import EventInstance
 
 
+"""
+Each SearchIndex class uses one 'text' field, which contains a string
+of all searchable terms/phrases for each object.  This string is generated in
+templates/search/indexes/events/ in a [modelname]_text.txt file.
+The 'text' naming convention must be consistent throughout all classes.
+
+All other fields exist for filtering purposes.  Currently, only the 'created_from'
+field is used for filtering in this app; other fields are available for debugging.
+"""
+
 class EventIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     calendar = indexes.CharField(model_attr='calendar')
-    description = indexes.CharField(model_attr='description')
     category = indexes.CharField(model_attr='category')
-    tags = indexes.CharField(model_attr='tags')
+    tags = indexes.MultiValueField()
     created_from = indexes.CharField(model_attr='created_from', default='None')
 
     def get_model(self):
         return Event
+
+    def prepare_tags(self, obj):
+        return [tag.name for tag in obj.tags.all()]
 
     def index_queryset(self, using=None):
         """
@@ -33,7 +45,6 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
 
 class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    description = indexes.CharField(model_attr='description', null=True)
     created_from = indexes.CharField(default='None') # Necessary for GlobalSearchView when fetching original events
 
     def get_model(self):

@@ -2,5 +2,4 @@
 {{ object.calendar }}
 {{ object.description }}
 {{ object.category }}
-{{ object.tags }}
-{{ object.created_from }}
+{% for tag in object.tags.all %}{{ tag.name }} {% endfor %}
