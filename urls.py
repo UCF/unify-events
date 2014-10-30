@@ -29,8 +29,6 @@ baseurlpatterns = patterns('',
     url(r'^category/', include('events.urls.category')),
     url(r'^tag/', include('events.urls.tag')),
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
-    # TODO: production-ready static file delivery
-    url(r'^tools/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT + '/events-widget/'}),
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', CalendarWidgetView.as_view(), name='calendar-widget'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/calendar/(?P<pk>\d+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', CalendarWidgetView.as_view(), name='calendar-widget-by-calendar'),
     url(r'^esi/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
