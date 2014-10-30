@@ -64,7 +64,8 @@
 
 /* Dashboard/My Calendars View */
 .manager-item-table {
-  .field-recommended {
+  .field-recommended,
+  .location-imported {
     width: 5%;
     @include respond-to(xs) { width: 8%; }
   }

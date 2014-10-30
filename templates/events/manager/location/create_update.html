@@ -31,6 +31,15 @@
             </div>
         </div>
     {% endif %}
+    {% if object and location.import_id %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <p><i class="fa fa-cloud-download"></i> <strong>Heads up!</strong> You're modifying a location that was imported from map.ucf.edu.  The next time a location import is executed, <em>your changes will be overridden.</em></p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content_title %}
@@ -45,16 +54,16 @@
     {% if object %}
         Use the form below to update the location "{{ location.comboname }}". Events with this location will be updated with these changes.
     {% else %}
-        Use the form below to create a new location
+        Use the form below to create a new location.
     {% endif %}
 {% endblock %}
 
 {% block content_body %}
-	{% if object %}
+	  {% if object %}
         <form class="form-horizontal" action="{% url 'location-update' pk=location.pk %}" method="post" enctype="multipart/form-data">
     {% else %}
         <form class="form-horizontal" action="{% url 'location-create' %}" method="post" enctype="multipart/form-data">
-	{% endif %}
+	  {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="form-group large">
