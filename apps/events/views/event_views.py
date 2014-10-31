@@ -118,7 +118,11 @@ class CalendarEventsBaseListView(ListView):
         start_date = self.start_date
         if not start_date:
             day_month_year = self.get_day_month_year()
-            start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+            try:
+                start_date = datetime(day_month_year[2], day_month_year[1] or 1, day_month_year[0] or 1)
+            except ValueError:
+                # Date is invalid; stop here
+                raise Http404
 
         self.start_date = start_date
         return start_date
@@ -850,7 +854,11 @@ class CalendarWidgetView(TemplateView):
         This primarily exists to prevent google from crawling
         to infinity and beyond.
         """
-        start_date = date(int(self.kwargs.get('year')), int(self.kwargs.get('month')), 1)
+        try:
+            start_date = date(int(self.kwargs.get('year')), int(self.kwargs.get('month')), 1)
+        except ValueError:
+            # Invalid date
+            raise Http404
         if is_date_in_valid_range(start_date):
             return super(CalendarWidgetView, self).dispatch(request, *args, **kwargs)
         else:
