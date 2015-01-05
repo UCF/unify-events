@@ -13,6 +13,7 @@ from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
 
 from core.views import esi
+from events.functions import remove_html
 import settings
 
 register = template.Library()
@@ -63,6 +64,15 @@ def parse_date(value):
 @register.filter
 def quote_plus(value):
     return urllib.quote_plus(value.encode('utf-8'))
+
+
+@register.filter(name='remove_html')
+def custom_striptags(value):
+    """
+    Non-regex-based striptags replacement, using Bleach.
+    """
+    value = remove_html(value)
+    return value
 
 
 bleach_args = {}
@@ -148,7 +158,8 @@ def custom_clean_escapeics(value):
     h2t.body_width = 0
     value = h2t.handle(value)
 
-    # Make sure newlines are encoded properly. http://stackoverflow.com/a/12249023
+    # Make sure newlines are encoded properly.
+    # http://stackoverflow.com/a/12249023
     value = value.replace('\n', '\\n')
 
     # Make sure we actually have something left to display
