@@ -5,7 +5,6 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.forms.models import inlineformset_factory
@@ -77,11 +76,11 @@ class EventCreate(CreateView):
         # Update View.  We explicitly use a new inlineformset_factory here to accomodate.
         #event_instance_formset = EventInstanceFormSet()
         event_instance_formset = inlineformset_factory(Event,
-                                             EventInstance,
-                                             form=EventInstanceForm,
-                                             formset=RequiredModelFormSet,
-                                             extra=1,
-                                             max_num=12)
+                                                       EventInstance,
+                                                       form=EventInstanceForm,
+                                                       formset=RequiredModelFormSet,
+                                                       extra=1,
+                                                       max_num=12)
 
         return self.render_to_response(self.get_context_data(form=form,
                                                              event_instance_formset=event_instance_formset))
@@ -118,7 +117,7 @@ class EventCreate(CreateView):
         if form.cleaned_data['submit_to_main']:
             if self.object.state == State.posted:
                 get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main Calendar.')
+                messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
             else:
                 messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
 
@@ -231,7 +230,7 @@ class EventUpdate(UpdateView):
         if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
             if self.object.state == State.posted:
                 get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main Calendar.')
+                messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
             else:
                 messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
         elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
@@ -312,9 +311,9 @@ def submit_event_to_main(request, pk=None):
                     log.error(str(e))
                     messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
                 else:
-                    messages.success(request, 'Event %s was successfully submitted to the Main Calendar.' % event.title)
+                    messages.success(request, 'Event %s was successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.' % event.title)
             else:
-                messages.warning(request, 'Event %s has already been submitted to the Main Calendar.' % event.title)
+                messages.warning(request, 'Event %s has already been submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.' % event.title)
         else:
             messages.error(request, 'Event %s can not be submitted to the Main Calendar unless it is posted on your calendar.' % event.title)
 
