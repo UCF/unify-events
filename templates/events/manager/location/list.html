@@ -67,6 +67,7 @@
                                             <label class="sr-only" for="bulk-select-all">Select All</label>
                                             <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                                         </th>
+                                        <th class="location-imported"><abbr title="Is Imported Location"><i class="fa fa-cloud-download"></i></abbr></th>
                                         <th class="location-title"><span class="line-break">Location Name</span></th>
                                         <th class="location-room">Room</th>
                                         <th class="location-url">URL</th>
@@ -81,6 +82,11 @@
                                         <td class="field-bulk-select">
                                             <label class="sr-only" for="bulk-select">Bulk Action Select</label>
                                             <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
+                                        </td>
+                                        <td class="location-imported">
+                                            {% if location.import_id %}
+                                            <abbr title="This location was imported from map.ucf.edu"><i class="fa fa-cloud-download"></i></abbr>
+                                            {% endif %}
                                         </td>
                                         <td class="location-title">
                                             <a class="line-break" href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
