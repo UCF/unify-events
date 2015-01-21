@@ -15,18 +15,21 @@ def event_ban_urls(sender, instance, **kwargs):
     urls = []
 
     for event_instance in instance.event_instances.all():
-        urls.append('/event/' + str(event_instance.pk) +'/')
+        urls.append('/event/' + str(event_instance.pk) + '/')
         urls.append('/eventinstance/' + str(event_instance.pk) + '/')
-    urls.append('/calendar/'+ str(instance.calendar.pk) +'/')
+
+    urls.append('/calendar/' + str(instance.calendar.pk) + '/')
     # For legacy month widget
     urls.append('calendar_id=' + str(instance.calendar.pk))
-    urls.append('/category/'+ str(instance.category.pk) +'/')
-    for tag in instance.tags.all():
-        urls.append('/tag/'+ str(instance.calendar.pk) +'/')
 
-    cal = instance.calendar
     if instance.calendar.is_main_calendar:
         urls.extend(get_main_cal_bans())
+
+    urls.append('/category/' + str(instance.category.pk) + '/')
+
+    tag_list = instance.tags.all()
+    for tag in tag_list:
+        urls.append('/tag/' + str(tag.pk) + '/')
 
     ban_urls(urls)
 

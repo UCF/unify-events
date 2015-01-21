@@ -8,9 +8,9 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import pre_save
 from django.db.models.signals import post_save
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django_bleach.models import BleachField
 from taggit.managers import TaggableManager
@@ -364,10 +364,18 @@ class Event(TimeCreatedModified):
 
 pre_save.connect(pre_save_slug, sender=Event)
 post_save.connect(event_ban_urls, sender=Event)
-post_delete.connect(event_ban_urls, sender=Event)
+# using pre_delete because all the objects may not exist if done via
+# post_delete (ex. event.calendar or event.tags if deleting a calendar)
+# No harm done if the delete doesn't go through. Just causes a single
+# miss on varnish.
+pre_delete.connect(event_ban_urls, sender=Event)
 
 post_save.connect(generic_ban_urls, sender=Tag)
-post_delete.connect(generic_ban_urls, sender=Tag)
+# using pre_delete because all the objects may not exist if done via
+# post_delete (ex. event.calendar or event.tags if deleting a calendar)
+# No harm done if the delete doesn't go through. Just causes a single
+# miss on varnish.
+pre_delete.connect(generic_ban_urls, sender=Tag)
 
 
 class EventInstance(TimeCreatedModified):
