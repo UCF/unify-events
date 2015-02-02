@@ -2,18 +2,17 @@ import bleach
 from bs4 import BeautifulSoup
 from dateutil import parser
 import html2text
+import re
 import urllib
 
 from django import template
 from django.conf import settings
-from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
 
 from core.views import esi
-import settings
 
 register = template.Library()
 
@@ -77,7 +76,6 @@ possible_settings = {
 for setting, kwarg in possible_settings.iteritems():
     if hasattr(settings, setting):
         bleach_args[kwarg] = getattr(settings, setting)
-
 
 
 def custom_clean(value):
@@ -174,3 +172,21 @@ def custom_clean_escapejs(value):
         value = settings.FALLBACK_EVENT_DESCRIPTION
 
     return mark_safe(value)
+
+@register.filter
+def custom_clean_escapexml(value):
+    """
+    Cleans xml text based on w3 standards http://www.w3.org/TR/REC-xml/
+
+    Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]  /* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
+    """
+    value = custom_clean_safe(value)
+
+    illegal_xml_chars_regex = re.compile(settings.ILLEGAL_XML_CHARS)
+    value = illegal_xml_chars_regex.sub('', value)
+
+    # Make sure we actually have something left to display
+    if not value.strip():
+        value = settings.FALLBACK_EVENT_DESCRIPTION
+
+    return value
