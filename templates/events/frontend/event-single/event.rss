@@ -3,13 +3,13 @@
 	<channel>
 		<title>Events at UCF</title>
 		<link>{{ request.build_absolute_uri }}</link>
-		<description>Event Details - {{ event_instance.event.get_title_canceled }}</description>
+		<description>Event Details - {{ event_instance.event.get_title_canceled|custom_clean_escapexml }}</description>
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
 {% endif %}
 		<item>
 			<title>{{ event_instance.event.get_title_canceled }}</title>
 			<link>{{ event_instance.get_absolute_url }}</link>
-			<description><![CDATA[{{ event_instance.event.description|custom_clean }}]]></description>
+			<description><![CDATA[{{ event_instance.event.description|custom_clean_escapexml }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
 			<guid>{{ event_instance.get_absolute_url }}</guid>
 			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>
@@ -20,9 +20,9 @@
 				<ucfevent:mapurl>{% if event_instance.location.url %}{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}{% endif %}</ucfevent:mapurl>
 			</ucfevent:location>
 			<ucfevent:contact>
-				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name }}{% endif %}</ucfevent:contactname>
-				<ucfevent:contactphone>{% if event_instance.event.contact_phone %}{{ event_instance.event.contact_phone }}{% endif %}</ucfevent:contactphone>
-				<ucfevent:contactemail>{% if event_instance.event.contact_email %}{{ event_instance.event.contact_email }}{% endif %}</ucfevent:contactemail>
+				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name|custom_clean_escapexml }}{% endif %}</ucfevent:contactname>
+				<ucfevent:contactphone>{% if event_instance.event.contact_phone %}{{ event_instance.event.contact_phone|custom_clean_escapexml }}{% endif %}</ucfevent:contactphone>
+				<ucfevent:contactemail>{% if event_instance.event.contact_email %}{{ event_instance.event.contact_email|custom_clean_escapexml }}{% endif %}</ucfevent:contactemail>
 			</ucfevent:contact>
 			<ucfevent:category>{% include_esi 'category' event_instance.event.category.pk 'title' %}</ucfevent:category>
 			<ucfevent:tags>
