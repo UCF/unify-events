@@ -173,6 +173,7 @@ def custom_clean_escapejs(value):
 
     return mark_safe(value)
 
+
 @register.filter
 def custom_clean_escapexml(value):
     """
@@ -180,7 +181,7 @@ def custom_clean_escapexml(value):
 
     Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]  /* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
     """
-    value = custom_clean_safe(value)
+    value = custom_clean(value)
 
     illegal_xml_chars_regex = re.compile(settings.ILLEGAL_XML_CHARS)
     value = illegal_xml_chars_regex.sub('', value)
@@ -189,4 +190,4 @@ def custom_clean_escapexml(value):
     if not value.strip():
         value = settings.FALLBACK_EVENT_DESCRIPTION
 
-    return value
+    return mark_safe(value)
