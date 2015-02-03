@@ -21,7 +21,6 @@ from core.utils import pre_save_slug
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
 import events.models
-import settings
 
 
 def first_login(self):

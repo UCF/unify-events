@@ -5,7 +5,6 @@ from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
 
 from core.models import TimeCreatedModified
 from events.utils import generic_ban_urls
@@ -36,7 +35,7 @@ class Location(TimeCreatedModified):
         """
         maps_domain = settings.MAPS_DOMAIN
         widget_url = False
-        widget_url_base = "//"+ maps_domain +"/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
+        widget_url_base = "//" + maps_domain + "/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
         location_id = None
         if maps_domain in self.url:
             parsed_url = urlparse.urlparse(self.url)

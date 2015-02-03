@@ -45,7 +45,7 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
         url = 'esi/' + model_name + '/' + template_html
 
         context = { 'object': the_object }
-        
+
         # Add params, if any, to context.
         if params:
             params = parse_qs(params)
@@ -235,7 +235,7 @@ class InvalidSlugRedirectMixin(object):
 
     Useful for redirecting urls with an incorrect object slug to the correct
     url when an object's name has changed.
-    
+
     Note that this mixin assumes its view utilizes a consistent url
     schema, where the by_model is referenced in the url by '/<by_model>_pk/<by_model>/'
     and an additional calendar filter is referenced by '/<pk>/<slug>/'.
@@ -287,7 +287,7 @@ class InvalidSlugRedirectMixin(object):
             # prevent feed.None from being passed into new redirect url
             if 'format' in r_kwargs and r_kwargs['format'] is None:
                 r_kwargs.pop('format', None)
-                
+
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=r_kwargs))
         else:
             return super(InvalidSlugRedirectMixin, self).dispatch(request, *args, **kwargs)
