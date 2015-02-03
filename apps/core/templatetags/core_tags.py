@@ -85,11 +85,10 @@ def custom_clean(value):
     Uses settings from the django-bleach module.
     """
     if value:
-        # not null or empty string
+        # not None or empty string
 
         # Replace newline instances with linebreaks. Remove carriage returns.
         value = value.replace('\n', '<br />')
-        # if not value:
         value = value.replace('\r', '')
 
         # Convert brackets so BeautifulSoup can parse django-cleaned stuff.
@@ -109,9 +108,8 @@ def custom_clean(value):
 
 @register.filter(name='custom_clean')
 def custom_clean_safe(value):
-    if not value:
-        # null or empty string
-        return value
+    if value is None:
+        value = ''
 
     value = custom_clean(value)
 
@@ -127,9 +125,8 @@ def clean_and_linkify(value):
     """
     Removes unwanted HTML markup and contents and auto-generates link tags.
     """
-    if not value:
-        # null or empty string
-        return value
+    if value is None:
+        value = ''
 
     # Clean everything.
     stripped = custom_clean(value)
@@ -150,9 +147,8 @@ def custom_clean_escapeics(value):
     Converts HTML markup to plaintext suitable for ICS format.
     Runs custom_clean() to ensure content is safe.
     """
-    if not value:
-        # null or empty string
-        return value
+    if value is None:
+        value = ''
 
     # Clean the value
     value = custom_clean(value)
@@ -177,9 +173,8 @@ def custom_clean_escapejs(value):
     """
     Converts HTML markup to a string that is Javascript-safe.
     """
-    if not value:
-        # null or empty string
-        return value
+    if value is None:
+        value = ''
 
     # Clean the value
     value = custom_clean(value)
@@ -201,9 +196,8 @@ def custom_clean_escapexml(value):
 
     Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]  /* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
     """
-    if not value:
-        # null or empty string
-        return value
+    if value is None:
+        value = ''
 
     value = custom_clean(value)
 
