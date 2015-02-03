@@ -27,7 +27,7 @@
 			<location_type></location_type>
 			<location_hours></location_hours>
 			<location_phone></location_phone>
-			<location_website>{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}</location_website>
+			<location_website>{% if event_instance.location.url %}{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}{% endif %}</location_website>
 			<directions></directions>
 			<map_link></map_link>
 			<additional_public_info></additional_public_info>
