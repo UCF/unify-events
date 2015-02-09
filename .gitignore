@@ -6,6 +6,7 @@ settings_local_events.py
 apache/python.wsgi
 apache/python_events.wsgi
 newrelic.ini
+static_files/static/robots.txt
 ._*
 Thumbs.db
 .DS_Store
