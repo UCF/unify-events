@@ -7,7 +7,7 @@
 		<lastBuildDate>{% now "r" %}</lastBuildDate>
 {% endif %}
 		<item>
-			<title>{{ event_instance.event.get_title_canceled }}</title>
+			<title>{{ event_instance.event.get_title_canceled|custom_clean_escapexml }}</title>
 			<link>{{ event_instance.get_absolute_url }}</link>
 			<description><![CDATA[{{ event_instance.event.description|custom_clean_escapexml }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
