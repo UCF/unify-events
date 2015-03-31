@@ -14,7 +14,7 @@ result list item that displays details for all instances of the parent event.
 {% with event=object.event %}
 <li>
     <h3 class="search-object-title event-title">
-        <a href="{{ event.get_absolute_url }}">
+        <a href="{% url 'event' pk=event.pk slug=event.slug %}">
             {{ event.get_title_canceled }}
         </a>
     </h3>
