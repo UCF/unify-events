@@ -58,8 +58,11 @@ class Command(BaseCommand):
         return value
 
     def update_progress(self, idx):
-        progress = idx / self.count * 100
-        sys.stdout.write('\r[{0}] {1}% {2}/{3}'.format('#'*(progress/10), progress, idx, self.count))
+        percent = float(idx) / self.count
+        hashes = '#' * int(round(percent * 20))
+        spaces = ' ' * (20 - len(hashes))
+        #sys.stdout.write('\r{0}/{1}'.format(idx, self.count))
+        sys.stdout.write('\r[{0}] {1}% {2}/{3}'.format(hashes + spaces, int(round(percent * 100)), idx, self.count))
         sys.stdout.flush()
 
     def clean_data(self):
