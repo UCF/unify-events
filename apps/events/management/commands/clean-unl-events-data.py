@@ -10,6 +10,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from events.models import Event
+from events.functions import remove_html
+
 
 class Command(BaseCommand):
     count = 0
@@ -26,7 +28,8 @@ class Command(BaseCommand):
         if value:
             # not None or empty string
 
-            # Replace newline instances with linebreaks. Remove carriage returns.
+            # Replace newline instances with linebreaks. Remove carriage
+            # returns.
             value = value.replace('\n', '<br />')
             value = value.replace('\r', '')
 
@@ -44,24 +47,11 @@ class Command(BaseCommand):
             value = bleach.clean(soup)
         return value
 
-    def remove_html(self, value):
-        """
-        Run Bleach on the given value because UNL Events doesn't do HTML sanitization on anything.
-
-        Bleach here does NOT use the configuration settings in settings.py--it will remove
-        ALL tags and attributes found.
-        """
-        if value:
-            value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
-            h = HTMLParser.HTMLParser()
-            value = h.unescape(value)
-        return value
-
     def update_progress(self, idx):
         percent = float(idx) / self.count
         hashes = '#' * int(round(percent * 20))
         spaces = ' ' * (20 - len(hashes))
-        #sys.stdout.write('\r{0}/{1}'.format(idx, self.count))
+        # sys.stdout.write('\r{0}/{1}'.format(idx, self.count))
         sys.stdout.write('\r[{0}] {1}% {2}/{3}'.format(hashes + spaces, int(round(percent * 100)), idx, self.count))
         sys.stdout.flush()
 
@@ -69,7 +59,7 @@ class Command(BaseCommand):
         events = Event.objects.all()
         self.count = len(events)
         for idx, event in enumerate(events):
-            event.title = self.remove_html(event.title)
+            event.title = remove_html(event.title)
             event.description = self.custom_clean(event.description)
             try:
                 event.save()
