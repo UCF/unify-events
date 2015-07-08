@@ -44,7 +44,7 @@ class Command(BaseCommand):
             value = bleach.clean(soup)
         return value
 
-    def remove_html(value):
+    def remove_html(self, value):
         """
         Run Bleach on the given value because UNL Events doesn't do HTML sanitization on anything.
 
