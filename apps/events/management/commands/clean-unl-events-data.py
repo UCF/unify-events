@@ -3,6 +3,7 @@ import time
 import sys
 
 import bleach
+import HTMLParser
 from bs4 import BeautifulSoup
 
 from django.conf import settings
@@ -43,8 +44,21 @@ class Command(BaseCommand):
             value = bleach.clean(soup)
         return value
 
+    def remove_html(value):
+        """
+        Run Bleach on the given value because UNL Events doesn't do HTML sanitization on anything.
+
+        Bleach here does NOT use the configuration settings in settings.py--it will remove
+        ALL tags and attributes found.
+        """
+        if value:
+            value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
+            h = HTMLParser.HTMLParser()
+            value = h.unescape(value)
+        return value
+
     def update_progress(self, idx):
-        progress = idx / self.count
+        progress = idx / self.count * 100
         sys.stdout.write('\r[{0}] {1}% {2}/{3}'.format('#'*(progress/10), progress, idx, self.count))
         sys.stdout.flush()
 
@@ -52,7 +66,12 @@ class Command(BaseCommand):
         events = Event.objects.all()
         self.count = len(events)
         for idx, event in enumerate(events):
-            event.title = self.custom_clean(event.title)
+            event.title = self.remove_html(event.title)
             event.description = self.custom_clean(event.description)
-            event.save()
+            try:
+                event.save()
+            except Exception, e:
+                print e.message
+                print 'Title: ', event.title
+                print 'Decsription: ', event.description
             self.update_progress(idx)
