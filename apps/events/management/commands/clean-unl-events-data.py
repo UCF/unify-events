@@ -13,6 +13,13 @@ from events.models import Event
 from events.functions import remove_html
 
 
+"""
+Use this script if data imported from the UNL events system
+(via import-unl-events.py) was dirty (event titles,
+descriptions contained unfiltered markup).
+"""
+
+
 class Command(BaseCommand):
     count = 0
 
