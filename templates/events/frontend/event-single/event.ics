@@ -7,8 +7,8 @@ UID:{{ event_instance.get_absolute_url }}
 DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
 DTSTART:{{ event_instance.start|date:"Ymd\THis" }}
 DTEND:{{ event_instance.end|date:"Ymd\THis" }}
-SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title|custom_clean_escapeics }}
-DESCRIPTION:{{ event_instance.event.description|custom_clean_escapeics }}
+SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title|escapeics }}
+DESCRIPTION:{{ event_instance.event.description.strip|escapeics|default:FALLBACK_EVENT_DESCRIPTION }}
 END:VEVENT
 {% if not event_instances %}
 END:VCALENDAR
