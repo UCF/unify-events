@@ -16,6 +16,19 @@ from events.functions import remove_html
 class Command(BaseCommand):
     count = 0
 
+    bleach_args = {}
+    possible_settings = {
+        'BLEACH_ALLOWED_TAGS': 'tags',
+        'BLEACH_ALLOWED_ATTRIBUTES': 'attributes',
+        'BLEACH_ALLOWED_STYLES': 'styles',
+        'BLEACH_STRIP_TAGS': 'strip',
+        'BLEACH_STRIP_COMMENTS': 'strip_comments',
+    }
+
+    for setting, kwarg in possible_settings.iteritems():
+        if hasattr(settings, setting):
+            bleach_args[kwarg] = getattr(settings, setting)
+
     def handle(self, *args, **options):
         self.clean_data()
 
@@ -44,7 +57,7 @@ class Command(BaseCommand):
                 if tag.name in settings.BANNED_TAGS:
                     tag.extract()
 
-            value = bleach.clean(soup)
+            value = bleach.clean(soup, **self.bleach_args)
         return value
 
     def update_progress(self, idx):
