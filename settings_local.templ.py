@@ -134,7 +134,8 @@ BLEACH_STRIP_COMMENTS = True
 ILLEGAL_XML_CHARS = u'[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]'
 
 # A custom list of elements whose markup and contents should be stripped
-# completely from values filtered with the 'clean_and_linkify' filter.
+# completely from values from event descriptions modified by
+# clean-unl-events-data.py (in apps/events/management/commands/).
 # (Bleach strips tags, but keeps contents.)
 BANNED_TAGS = ['style', 'script', 'link', 'noscript']
 
