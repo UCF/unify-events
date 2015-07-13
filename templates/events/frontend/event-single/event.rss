@@ -9,7 +9,7 @@
 		<item>
 			<title>{{ event_instance.event.get_title_canceled|escapexml }}</title>
 			<link>{{ event_instance.get_absolute_url }}</link>
-			<description><![CDATA[{{ event_instance.event.description.strip|escapexml|default:FALLBACK_EVENT_DESCRIPTION }}]]></description>
+			<description><![CDATA[{{ event_instance.event.description.strip|escapexml|safe|default:FALLBACK_EVENT_DESCRIPTION }}]]></description>
 			<pubDate>{{ event_instance.start|date:"r" }}</pubDate>
 			<guid>{{ event_instance.get_absolute_url }}</guid>
 			<ucfevent:type>{% if event_instance.event.has_instances %}ongoing{% else %}day{% endif %}</ucfevent:type>

@@ -38,7 +38,7 @@
 		</languages>
 		<event_transparency></event_transparency>
 
-		<description><![CDATA[{{ event_instance.event.description.strip|escapexml|default:FALLBACK_EVENT_DESCRIPTION }}]]></description>
+		<description><![CDATA[{{ event_instance.event.description.strip|escapexml|safe|default:FALLBACK_EVENT_DESCRIPTION }}]]></description>
 		<short_description></short_description>
 
 		<refreshments></refreshments>

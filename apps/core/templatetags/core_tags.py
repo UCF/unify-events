@@ -102,4 +102,4 @@ def escapexml(value):
     illegal_xml_chars_regex = re.compile(settings.ILLEGAL_XML_CHARS)
     value = illegal_xml_chars_regex.sub('', value)
 
-    return mark_safe(value)
+    return value
