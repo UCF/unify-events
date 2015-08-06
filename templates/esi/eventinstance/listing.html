@@ -24,7 +24,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 
             <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
             <p class="description">
-                {{ object.event.description|striptags|truncatewords:60 }}
+                {{ object.event.description|remove_html|truncatewords:60 }}
             </p>
             {% if not calendar %}
             <span class="calendar">
