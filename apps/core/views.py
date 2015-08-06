@@ -60,9 +60,9 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
     except TypeError:
         log.error('Unable to convert ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
     except LookupError:
-        log.error('Unable to get model %s from app %s with template %s.' % (model_name, app_label, template))
+        log.error('Unable to get model %s from app %s with template %s.' % (model_name, app_label, template_name))
     except ObjectDoesNotExist:
-        log.error('Unable to get the object with pk %s from model %s from app %s with template %s or calendar with pk %s.' % (object_id, model_name, app_label, template, calendar_id))
+        log.error('Unable to get the object with pk %s from model %s from app %s with template %s or calendar with pk %s.' % (object_id, model_name, app_label, template_name, calendar_id))
 
     raise Http404
 
