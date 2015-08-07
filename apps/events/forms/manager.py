@@ -111,13 +111,41 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         self._validate_unique = True
         cleaned_data = super(EventForm, self).clean()
 
+        # Only support the Basic Multilingual Plane on CharFields for mysql
+        # utf-8 support
+        cleaned_data['title'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['title'])
+        cleaned_data['description'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['description'])
+        cleaned_data['contact_name'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['contact_name'])
+
+        # Phone number valid characters should be more limited. Note: we aren't
+        # trying to determine if the phone number here is actually valid; we
+        # just want to limit the allowed characters to basic ASCII.
+        cleaned_data['contact_phone'] = re.sub(r'([^\x00-\x7F])', '', cleaned_data['contact_phone'])
+
+        # Delete any cleaned data that are now empty and let the user know
+        if not cleaned_data['title']:
+            self._errors['title'] = self.error_class(['Please enter a valid title.'])
+            del cleaned_data['title']
+
+        if not cleaned_data['description']:
+            self._errors['description'] = self.error_class(['Please enter a valid description.'])
+            del cleaned_data['description']
+
+        if not cleaned_data['contact_name']:
+            self._errors['contact_name'] = self.error_class(['Please enter a valid name.'])
+            del cleaned_data['contact_name']
+
+        if not cleaned_data['contact_phone']:
+            self._errors['contact_phone'] = self.error_class(['Please enter a valid phone number.'])
+            del cleaned_data['contact_phone']
+
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
         tags = cleaned_data['tags']
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
-        return cleaned_data        
+        return cleaned_data
 
     class Meta:
         model = Event
