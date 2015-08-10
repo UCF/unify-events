@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.template.defaultfilters import slugify
 
 import events.models
@@ -8,6 +10,9 @@ def generate_unique_slug(title, clazz, unique):
     Generate a unique slug for the given class
     """
     slug = slugify(title)
+
+    if not slug:
+        slug = '%s-%s' % (clazz.__name__.lower(), datetime.now().strftime('%Y%m%d%H%M%S'))
 
     if unique:
         slug_cnt = 0
