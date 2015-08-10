@@ -116,7 +116,7 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         tags = cleaned_data['tags']
 
         if len(tags) > 5:
-            self.errors['tags'] = self.error_class(['You may only submit 5 tags for each event.'])
+            self.errors['tags'] = self.error_class(['Please provide no more than 5 tags that best describe your event.'])
 
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
