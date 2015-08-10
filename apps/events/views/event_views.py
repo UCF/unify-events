@@ -607,6 +607,9 @@ class MonthEventsListView(CalendarEventsListView):
             except ValueError:
                 # Date is invalid; stop here
                 raise Http404
+            except TypeError:
+                # Year parameter was passed as a string
+                raise Http404
 
         self.start_date = start_date
         return start_date
