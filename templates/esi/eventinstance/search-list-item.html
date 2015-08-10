@@ -27,7 +27,7 @@ result list item that displays details for all instances of the parent event.
     </div>
 
     <p class="description">
-        {{ event.description|striptags|truncatewords:60 }}
+        {{ event.description|remove_html|truncatewords:60 }}
     </p>
     <div class="result-meta">
         <div class="event-calendar">

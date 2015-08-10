@@ -13,6 +13,8 @@ from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
 
 from core.views import esi
+from events.functions import remove_html
+import settings
 
 register = template.Library()
 
@@ -63,6 +65,13 @@ def parse_date(value):
 def quote_plus(value):
     return urllib.quote_plus(value.encode('utf-8'))
 
+@register.filter(name='remove_html')
+def custom_striptags(value):
+    """
+    Non-regex-based striptags replacement, using Bleach.
+    """
+    value = remove_html(value)
+    return value
 
 @register.filter
 def bleach_linkify_noemail(value):
