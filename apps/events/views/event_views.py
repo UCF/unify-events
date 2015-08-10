@@ -74,7 +74,6 @@ class CalendarEventsBaseListView(ListView):
                     # Value is None so return right away no date url parameter was provided.
                     return date_param
                 else:
-                    print date_param
                     if (param in ['day', 'month'] and len(date_param) > 2) or (param == 'year' and len(date_param) > 4):
                         return date_param
                     else:
