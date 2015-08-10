@@ -113,6 +113,13 @@ class EventCreate(CreateView):
         try:
             self.object = form.save()
         except MySQLdb.Warning, e:
+            """
+            The ModelFormUtf8BmpValidationMixin mixin should catch and strip
+            out any unicode characters greater than 3 bytes in length (for
+            compatibility with mysql's utf-8 charset spec) from unicode
+            strings, so this exception should never be hit.  It serves as an
+            absolute fallback.
+            """
             messages.error(self.request,
                            'Something went wrong while trying to save this \
                            event. Please try again.')
@@ -230,6 +237,13 @@ class EventUpdate(UpdateView):
         try:
             self.object = form.save()
         except MySQLdb.Warning, e:
+            """
+            The ModelFormUtf8BmpValidationMixin mixin should catch and strip
+            out any unicode characters greater than 3 bytes in length (for
+            compatibility with mysql's utf-8 charset spec) from unicode
+            strings, so this exception should never be hit.  It serves as an
+            absolute fallback.
+            """
             messages.error(self.request,
                            'Something went wrong while trying to save this \
                            event. Please try again.')
