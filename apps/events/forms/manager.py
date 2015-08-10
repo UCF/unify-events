@@ -52,7 +52,7 @@ class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
             required = form_fields[field].required
 
             if isinstance(val, unicode):
-                cleaned_data_copy[field] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data_copy[field])
+                cleaned_data_copy[field] = re.sub(ur'[^\u0000-\uD7FF\uE000-\uFFFF]', '', cleaned_data_copy[field])
 
                 # Delete any cleaned data that are now empty and let the user know
                 if not cleaned_data_copy[field]:
