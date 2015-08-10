@@ -114,10 +114,14 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
         tags = cleaned_data['tags']
+
+        if len(tags) > 5:
+            self.errors['tags'] = self.error_class(['You may only submit 5 tags for each event.'])
+
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
-        return cleaned_data        
+        return cleaned_data     
 
     class Meta:
         model = Event
