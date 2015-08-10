@@ -1,0 +1,21 @@
+{
+	"name": "Unify-Events",
+	"version": "v1.1.0",
+	"homepage": "https://github.com/UCF/unify-events",
+	"authors": [
+		"UCF Web Communications"
+	],
+	"license": "MIT",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"bootstrap-sass-official": "~3.3.4",
+		"font-awesome": "~4.0.3"
+	}
+}
