@@ -202,14 +202,6 @@ class CalendarList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     paginate_by = 25
     template_name = 'events/manager/calendar/list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(CalendarList, self).get_context_data(**kwargs)
-        ctx = {
-            'calendars': Calendar.objects.all().exclude(slug='')
-        }
-        ctx.update(context)
-        return ctx
-
 
 @login_required
 def add_update_user(request, pk, username, role):
