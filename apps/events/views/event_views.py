@@ -129,6 +129,9 @@ class CalendarEventsBaseListView(ListView):
             except ValueError:
                 # Date is invalid; stop here
                 raise Http404
+            except TypeError:
+                # Year param was passed as a string
+                raise Http404
 
         self.start_date = start_date
         return start_date
@@ -593,7 +596,26 @@ class MonthEventsListView(CalendarEventsListView):
     list_title = 'Events This Month'
 
     def get_start_date(self):
-        return datetime(datetime.now().year, datetime.now().month, 1)
+        """
+        Returns the start date or creates an start date based on the url parameters.
+        """
+        start_date = self.start_date
+        if not start_date:
+            day_month_year = self.get_day_month_year()
+            try:
+                if day_month_year[1] in xrange(1, 13):
+                    start_date = datetime(day_month_year[2] or 1, day_month_year[1] or 1, day_month_year[0] or 1)
+                else:
+                    raise Http404
+            except ValueError:
+                # Date is invalid; stop here
+                raise Http404
+            except TypeError:
+                # Year parameter was passed as a string
+                raise Http404
+
+        self.start_date = start_date
+        return start_date
 
     def get_end_date(self):
         """
@@ -666,7 +688,23 @@ class YearEventsListView(CalendarEventsListView):
     list_title = 'Events This Year'
 
     def get_start_date(self):
-        return datetime(datetime.now().year, 1, 1)
+        """
+        Returns the start date or creates an start date based on the url parameters.
+        """
+        start_date = self.start_date
+        if not start_date:
+            day_month_year = self.get_day_month_year()
+            try:
+                start_date = datetime(day_month_year[2] or 1, 1, 1) 
+            except ValueError:
+                # Date is invalid; stop here
+                raise Http404
+            except TypeError:
+                # Year param was passed as a string
+                raise Http404
+
+        self.start_date = start_date
+        return start_date
 
     def get_end_date(self):
         """
