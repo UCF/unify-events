@@ -1,3 +1,4 @@
+from copy import deepcopy
 import re
 
 from django import forms
@@ -36,7 +37,33 @@ class ModelFormStringValidationMixin(forms.ModelForm):
         return cleaned_data
 
 
-class CalendarForm(ModelFormStringValidationMixin, forms.ModelForm):
+class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
+    """
+    Mixin that strips characters outside of the Basic Multilingual Plane
+    out of string values.
+    """
+    def clean(self):
+        cleaned_data = super(ModelFormUtf8BmpValidationMixin, self).clean()
+        cleaned_data_copy = deepcopy(cleaned_data)  # Make a copy because python won't let you modify a dict while it's being iterated
+
+        form_fields = self.fields
+
+        for field, val in cleaned_data.iteritems():
+            required = form_fields[field].required
+
+            if isinstance(val, unicode):
+                cleaned_data_copy[field] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data_copy[field])
+
+                # Delete any cleaned data that are now empty and let the user know
+                if not cleaned_data_copy[field]:
+                    if required:
+                        self._errors[field] = self.error_class(['Sorry, special characters are not permitted here. Please enter a different value.'])
+                    del cleaned_data_copy[field]
+
+        return cleaned_data_copy
+
+
+class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for the Calendar
     """
@@ -78,7 +105,7 @@ class CalendarSubscribeForm(forms.ModelForm):
         fields = ('calendars',)
 
 
-class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
+class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for an Event
     """
@@ -111,34 +138,6 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         self._validate_unique = True
         cleaned_data = super(EventForm, self).clean()
 
-        # Only support the Basic Multilingual Plane on CharFields for mysql
-        # utf-8 support
-        cleaned_data['title'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['title'])
-        cleaned_data['description'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['description'])
-        cleaned_data['contact_name'] = re.sub(r'[^\u0000-\uFFFF]', '', cleaned_data['contact_name'])
-
-        # Phone number valid characters should be more limited. Note: we aren't
-        # trying to determine if the phone number here is actually valid; we
-        # just want to limit the allowed characters to basic ASCII.
-        cleaned_data['contact_phone'] = re.sub(r'([^\x00-\x7F])', '', cleaned_data['contact_phone'])
-
-        # Delete any cleaned data that are now empty and let the user know
-        if not cleaned_data['title']:
-            self._errors['title'] = self.error_class(['Please enter a valid title.'])
-            del cleaned_data['title']
-
-        if not cleaned_data['description']:
-            self._errors['description'] = self.error_class(['Please enter a valid description.'])
-            del cleaned_data['description']
-
-        if not cleaned_data['contact_name']:
-            self._errors['contact_name'] = self.error_class(['Please enter a valid name.'])
-            del cleaned_data['contact_name']
-
-        if not cleaned_data['contact_phone']:
-            self._errors['contact_phone'] = self.error_class(['Please enter a valid phone number.'])
-            del cleaned_data['contact_phone']
-
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
         tags = cleaned_data['tags']
@@ -152,7 +151,7 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
-class EventInstanceForm(ModelFormStringValidationMixin, forms.ModelForm):
+class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for the EventInstance
     """
@@ -277,7 +276,7 @@ class EventCopyForm(forms.Form):
     calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
 
 
-class LocationForm(ModelFormStringValidationMixin, forms.ModelForm):
+class LocationForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for adding/creating locations for an EventInstance
     """
@@ -286,7 +285,7 @@ class LocationForm(ModelFormStringValidationMixin, forms.ModelForm):
         fields = ('title', 'room', 'url', 'reviewed')
 
 
-class CategoryForm(ModelFormStringValidationMixin, forms.ModelForm):
+class CategoryForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for adding/creating categories for Events
     """
@@ -295,7 +294,7 @@ class CategoryForm(ModelFormStringValidationMixin, forms.ModelForm):
         fields = ('title', 'color')
 
 
-class TagForm(ModelFormStringValidationMixin, forms.ModelForm):
+class TagForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for tags
     """
