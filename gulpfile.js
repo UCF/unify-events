@@ -10,10 +10,9 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	jshintStylish = require('jshint-stylish'),
 	scsslint = require('gulp-scss-lint'),
-	vinylPaths = require('vinyl-paths'),
-	del = require('del'),
-	browserSync = require('browser-sync').create(),
-	reload = browserSync.reload;
+	vinylPaths = require('vinyl-paths');
+	// browserSync = require('browser-sync').create(),
+	// reload = browserSync.reload;
 
 var config = {
 	sassPath: './static_files/assets/scss',
@@ -28,61 +27,75 @@ gulp.task('bower', function() {
 	bower()
 		.pipe(gulp.dest(config.bowerDir))
 		.on('end', function() {
-			var unneededFiles = [
-				config.bowerDir + '/**/*.html',
-				config.bowerDir + '/**/*.txt',
-				config.bowerDir + '/**/LICENSE',
-				config.bowerDir + '/**/*.md',
-				config.bowerDir + '/**/*.markdown',
-				config.bowerDir + '/**/.*',
-				config.bowerDir + '/**/Makefile',
-				config.bowerDir + '/**/README'
-			];
-
-			gulp.src(unneededFiles)
-				.pipe(vinylPaths(del));
-
+      // Copy gylphicon font files out to config.fontPath
 			gulp.src(config.bowerDir + '/bootstrap-sass-official/assets/fonts/bootstrap/*')
 				.pipe(gulp.dest(config.fontPath));
 
+      // Copy fontawesome font files out to config.fontPath
 			gulp.src(config.bowerDir + '/font-awesome/fonts/*')
 				.pipe(gulp.dest(config.fontPath));
 		});
 });
 
 gulp.task('css', function() {
+  // style.min.css
 	gulp.src(config.sassPath + '/*.scss')
 		.pipe(scsslint())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(minifyCss({compatibility: 'ie8'}))
 		.pipe(rename('style.min.css'))
 		.pipe(bless())
-		.pipe(gulp.dest(config.cssPath))
-		.pipe(browserSync.stream());
+		.pipe(gulp.dest(config.cssPath));
+		//.pipe(browserSync.stream());
+
+  // style-backend.min.css
+  gulp.src([
+    config.bowerDir + '/jquery-timepicker-jt/jquery.timepicker.css',
+    config.bowerDir + '/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+    config.bowerDir + '/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.css'
+  ])
+    .pipe(minifyCss({compatibility: 'ie8'}))
+    .pipe(concat('style-backend.min.css'))
+    .pipe(bless())
+    .pipe(gulp.dest(config.cssPath));
 });
 
 gulp.task('js', function() {
+  // lint scripts in config.jsPath
 	gulp.src([config.jsPath + '/*.js', '!' + config.jsPath + '/*.min.js'])
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
 
-	gulp.src(config.jsPath + '/script.js')
+  // script.min.js
+	gulp.src([
+    config.bowerDir + '/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
+    config.bowerDir + '/jquery-placeholder/jquery-placeholder.js',
+    config.jsPath + '/script.js'
+  ])
 		.pipe(concat('script.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(config.jsMinPath));
 
+  // script-frontend.min.js
 	gulp.src(config.jsPath + '/script-frontend.js')
-		.pipe(concat('script-frontend.min.js'))
+		.pipe(rename('script-frontend.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(config.jsMinPath));
 
-	gulp.src(config.jsPath + '/script-manager.js')
+  // script-backend.min.js
+	gulp.src([
+    config.bowerDir + '/bootstrap3-typeahead/bootstrap3-typeahead.js',
+    config.bowerDir + '/jquery-timepicker-jt/jquery-timepicker.js',
+    config.bowerDir + '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
+    config.jsPath + '/script-manager.js'
+  ])
 		.pipe(concat('script-manager.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(config.jsMinPath));
 
-	gulp.src(config.bowerDir + '/bootstrap-sass-official/assets/javascripts/bootstrap.min.js')
+  // bootstrap3-wysiwyg (do not concat into script-backend.min.js--it's huge on its own)
+	gulp.src(config.bowerDir + '/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.all.min.js')
 		.pipe(gulp.dest(config.jsMinPath));
 });
 

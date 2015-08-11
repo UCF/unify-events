@@ -1,21 +1,26 @@
 {
-	"name": "Unify-Events",
-	"version": "v1.1.0",
-	"homepage": "https://github.com/UCF/unify-events",
-	"authors": [
-		"UCF Web Communications"
-	],
-	"license": "MIT",
-	"private": true,
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
-		"bootstrap-sass-official": "~3.3.4",
-		"font-awesome": "~4.0.3"
-	}
+  "name": "Unify-Events",
+  "version": "v1.1.0",
+  "homepage": "https://github.com/UCF/unify-events",
+  "authors": [
+    "UCF Web Communications"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.4",
+    "font-awesome": "~4.0.3",
+    "bootstrap3-typeahead": "~3.1.1",
+    "jquery-placeholder": "~2.1.2",
+    "jquery-timepicker-jt": "~1.8.1",
+    "bootstrap-datepicker": "~1.4.0",
+    "bootstrap3-wysiwyg": "~0.3.3"
+  }
 }
