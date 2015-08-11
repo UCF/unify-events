@@ -52,7 +52,7 @@ gulp.task('css', function() {
   gulp.src([
     config.bowerDir + '/jquery-timepicker-jt/jquery.timepicker.css',
     config.bowerDir + '/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-    config.bowerDir + '/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.css'
+    config.bowerDir + '/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css'
   ])
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat('style-backend.min.css'))
@@ -69,8 +69,8 @@ gulp.task('js', function() {
 
   // script.min.js
 	gulp.src([
+    config.bowerDir + '/jquery-placeholder/jquery.placeholder.js',
     config.bowerDir + '/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
-    config.bowerDir + '/jquery-placeholder/jquery-placeholder.js',
     config.jsPath + '/script.js'
   ])
 		.pipe(concat('script.min.js'))
@@ -86,7 +86,7 @@ gulp.task('js', function() {
   // script-backend.min.js
 	gulp.src([
     config.bowerDir + '/bootstrap3-typeahead/bootstrap3-typeahead.js',
-    config.bowerDir + '/jquery-timepicker-jt/jquery-timepicker.js',
+    config.bowerDir + '/jquery-timepicker-jt/jquery.timepicker.js',
     config.bowerDir + '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
     config.jsPath + '/script-manager.js'
   ])
@@ -94,9 +94,14 @@ gulp.task('js', function() {
 		.pipe(uglify())
 		.pipe(gulp.dest(config.jsMinPath));
 
-  // bootstrap3-wysiwyg (do not concat into script-backend.min.js--it's huge on its own)
-	gulp.src(config.bowerDir + '/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.all.min.js')
-		.pipe(gulp.dest(config.jsMinPath));
+  // wysiwyg.min.js
+  gulp.src([
+    config.bowerDir + '/wysihtml5/dist/wysihtml5-0.3.0.js',
+    config.bowerDir + '/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.js'
+  ])
+    .pipe(concat('wysiwyg.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(config.jsMinPath));
 });
 
 gulp.task('watch', function() {

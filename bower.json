@@ -21,6 +21,7 @@
     "jquery-placeholder": "~2.1.2",
     "jquery-timepicker-jt": "~1.8.1",
     "bootstrap-datepicker": "~1.4.0",
-    "bootstrap3-wysiwyg": "~0.3.3"
+    "wysihtml5": "0.3.0",
+    "bootstrap3-wysihtml5-bower": "0.1.0"
   }
 }
