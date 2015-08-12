@@ -1,4 +1,5 @@
 import logging
+import MySQLdb
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -109,22 +110,38 @@ class EventCreate(CreateView):
         Creates an event instance and redirects to success url.
         """
         form.instance.creator = self.request.user
-        self.object = form.save()
-        event_instance_formset.instance = self.object
-        event_instance_formset.save()
+        try:
+            self.object = form.save()
+        except MySQLdb.Warning, e:
+            """
+            The ModelFormUtf8BmpValidationMixin mixin should catch and strip
+            out any unicode characters greater than 3 bytes in length (for
+            compatibility with mysql's utf-8 charset spec) from unicode
+            strings, so this exception should never be hit.  It serves as an
+            absolute fallback.
+            """
+            messages.error(self.request,
+                           'Something went wrong while trying to save this \
+                           event. Please try again.')
+            return self.render_to_response(
+                self.get_context_data(form=form,
+                                      event_instance_formset=event_instance_formset))
+        else:
+            event_instance_formset.instance = self.object
+            event_instance_formset.save()
 
-        # Import to main calendar if requested and state is posted
-        if form.cleaned_data['submit_to_main']:
-            if self.object.state == State.posted:
-                get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
-            else:
-                messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
+            # Import to main calendar if requested and state is posted
+            if form.cleaned_data['submit_to_main']:
+                if self.object.state == State.posted:
+                    get_main_calendar().import_event(self.object)
+                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                else:
+                    messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
 
-        update_subscriptions(self.object)
+            update_subscriptions(self.object)
 
-        messages.success(self.request, 'Event successfully saved')
-        return HttpResponseRedirect(self.get_success_url())
+            messages.success(self.request, 'Event successfully saved')
+            return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, event_instance_formset):
         """
@@ -217,29 +234,45 @@ class EventUpdate(UpdateView):
         Called if all forms are valid. Creates an event instance
         and redirects to success url.
         """
-        self.object = form.save()
-        event_instance_formset.save()
+        try:
+            self.object = form.save()
+        except MySQLdb.Warning, e:
+            """
+            The ModelFormUtf8BmpValidationMixin mixin should catch and strip
+            out any unicode characters greater than 3 bytes in length (for
+            compatibility with mysql's utf-8 charset spec) from unicode
+            strings, so this exception should never be hit.  It serves as an
+            absolute fallback.
+            """
+            messages.error(self.request,
+                           'Something went wrong while trying to save this \
+                           event. Please try again.')
+            return self.render_to_response(
+                self.get_context_data(form=form,
+                                      event_instance_formset=event_instance_formset))
+        else:
+            event_instance_formset.save()
 
-        # Check if main calendar submission should be re-reviewed
-        is_main_rereview = False
-        if any(s in form.changed_data for s in ['description', 'title']):
-            is_main_rereview = True
+            # Check if main calendar submission should be re-reviewed
+            is_main_rereview = False
+            if any(s in form.changed_data for s in ['description', 'title']):
+                is_main_rereview = True
 
-        # Import to main calendar if posted, is requested and
-        # is NOT already submitted to main calendar
-        if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
-            if self.object.state == State.posted:
-                get_main_calendar().import_event(self.object)
-                messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
-            else:
-                messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
-        elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
-            messages.info(self.request, 'Event was removed from the Main Calendar since the event is not posted on your calendar.')
+            # Import to main calendar if posted, is requested and
+            # is NOT already submitted to main calendar
+            if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
+                if self.object.state == State.posted:
+                    get_main_calendar().import_event(self.object)
+                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                else:
+                    messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
+            elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
+                messages.info(self.request, 'Event was removed from the Main Calendar since the event is not posted on your calendar.')
 
-        update_subscriptions(self.object, is_main_rereview)
+            update_subscriptions(self.object, is_main_rereview)
 
-        messages.success(self.request, 'Event successfully saved')
-        return HttpResponseRedirect(self.get_success_url())
+            messages.success(self.request, 'Event successfully saved')
+            return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, event_instance_formset):
         """

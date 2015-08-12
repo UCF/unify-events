@@ -1,3 +1,4 @@
+from copy import deepcopy
 import re
 
 from django import forms
@@ -36,7 +37,33 @@ class ModelFormStringValidationMixin(forms.ModelForm):
         return cleaned_data
 
 
-class CalendarForm(ModelFormStringValidationMixin, forms.ModelForm):
+class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
+    """
+    Mixin that strips characters outside of the Basic Multilingual Plane
+    out of string values.
+    """
+    def clean(self):
+        cleaned_data = super(ModelFormUtf8BmpValidationMixin, self).clean()
+        cleaned_data_copy = deepcopy(cleaned_data)  # Make a copy because python won't let you modify a dict while it's being iterated
+
+        form_fields = self.fields
+
+        for field, val in cleaned_data.iteritems():
+            required = form_fields[field].required
+
+            if isinstance(val, unicode):
+                cleaned_data_copy[field] = re.sub(ur'[^\u0000-\uD7FF\uE000-\uFFFF]', '', cleaned_data_copy[field])
+
+                # Delete any cleaned data that are now empty and let the user know
+                if not cleaned_data_copy[field]:
+                    if required:
+                        self._errors[field] = self.error_class(['Sorry, special characters are not permitted here. Please enter a different value.'])
+                    del cleaned_data_copy[field]
+
+        return cleaned_data_copy
+
+
+class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for the Calendar
     """
@@ -78,7 +105,7 @@ class CalendarSubscribeForm(forms.ModelForm):
         fields = ('calendars',)
 
 
-class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
+class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for an Event
     """
@@ -121,14 +148,14 @@ class EventForm(ModelFormStringValidationMixin, forms.ModelForm):
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
-        return cleaned_data     
+        return cleaned_data
 
     class Meta:
         model = Event
         fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
 
 
-class EventInstanceForm(ModelFormStringValidationMixin, forms.ModelForm):
+class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for the EventInstance
     """
@@ -253,7 +280,7 @@ class EventCopyForm(forms.Form):
     calendars = forms.ModelMultipleChoiceField(queryset=Calendar.objects.none(), label='Calendars to copy to:')
 
 
-class LocationForm(ModelFormStringValidationMixin, forms.ModelForm):
+class LocationForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for adding/creating locations for an EventInstance
     """
@@ -262,7 +289,7 @@ class LocationForm(ModelFormStringValidationMixin, forms.ModelForm):
         fields = ('title', 'room', 'url', 'reviewed')
 
 
-class CategoryForm(ModelFormStringValidationMixin, forms.ModelForm):
+class CategoryForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for adding/creating categories for Events
     """
@@ -271,7 +298,7 @@ class CategoryForm(ModelFormStringValidationMixin, forms.ModelForm):
         fields = ('title', 'color')
 
 
-class TagForm(ModelFormStringValidationMixin, forms.ModelForm):
+class TagForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
     """
     Form for tags
     """
