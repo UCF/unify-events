@@ -15,8 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-sass-official": "~3.3.4",
-    "font-awesome": "~4.0.3",
+    "bootstrap-sass-official": "~3.3.5",
+    "font-awesome": "~4.4.0",
     "bootstrap3-typeahead": "~3.1.1",
     "jquery-placeholder": "~2.1.2",
     "jquery-timepicker-jt": "~1.8.1",
