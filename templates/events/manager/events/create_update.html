@@ -346,8 +346,8 @@
 
 {% block footer_scripts %}
 <script type="text/javascript">
-    var usersFullName = '{{ user.get_full_name}}';
+    var usersFullName = '{{ user.get_full_name }}';
     var usersEmail = '{{ user.email }}';
 </script>
-{{ block.super}}
+{{ block.super }}
 {% endblock %}

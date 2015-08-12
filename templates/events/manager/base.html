@@ -3,9 +3,7 @@
 {% block title %}{{ block.super }} Admin{% endblock %}
 
 {% block links %}
-    <link href="{{ STATIC_URL }}vendor/js/jonthornton-jquery-timepicker/jquery.timepicker.css" rel="stylesheet" media="all" />
-    <link href="{{ STATIC_URL }}vendor/js/datepicker/css/datepicker.css" rel="stylesheet" media="all" />
-    <link href="{{ STATIC_URL }}vendor/js/bootstrap3-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" media="all" />
+    <link href="{{ STATIC_URL }}css/style-backend.min.css" rel="stylesheet" media="all">
     {{ block.super }}
 {% endblock %}
 
@@ -52,13 +50,8 @@
 
 {% block footer_scripts_base %}
     {{ block.super }}
-    <script src="{{ STATIC_URL }}vendor/js/bootstrap3-typeahead.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}vendor/js/jonthornton-jquery-timepicker/jquery.timepicker.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}vendor/js/datepicker/js/bootstrap-datepicker.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}vendor/js/wysihtml5-base/dist/wysihtml5-0.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}vendor/js/bootstrap3-wysihtml5/bootstrap3-wysihtml5.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 {% block footer_scripts %}
-    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/wysiwyg.min.js"></script>
     <script src="{{ STATIC_URL }}js/script-manager.min.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

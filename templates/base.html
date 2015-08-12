@@ -4,7 +4,7 @@
     {% block head %}
         <title>{% block title %}University of Central Florida Events{% endblock %}</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
-        
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{% block meta_description %}{% endblock %}">
@@ -40,7 +40,7 @@
                 ga('create', GA_ACCOUNT, 'ucf.edu');
                 ga('send', 'pageview');
             }
-            
+
             var HTTPHOST = '{{ request.META.HTTP_HOST }}';
             var EARLIEST_VALID_DATE = '{{ EARLIEST_VALID_DATE }}';
             var LATEST_VALID_DATE = '{{ LATEST_VALID_DATE }}';
@@ -126,11 +126,9 @@
         {% block footer_scripts_base %}
         <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js" async></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <script src="{{ STATIC_URL }}vendor/bootstrap/javascripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="{{ STATIC_URL }}vendor/js/jquery.placeholder.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ STATIC_URL }}js/script.min.js" type="text/javascript" charset="utf-8"></script>
         {% endblock %}
         {% block footer_scripts %}
-        <script src="{{ STATIC_URL }}js/script.min.js" type="text/javascript" charset="utf-8"></script>
         {% endblock %}
     </body>
 </html>

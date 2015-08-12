@@ -22,3 +22,9 @@ Thumbs.db
 
 # SASS
 .sass-cache
+
+# Bower
+static_files/assets/components/*
+
+# Gulp
+node_modules/*

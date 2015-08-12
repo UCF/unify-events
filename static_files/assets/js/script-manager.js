@@ -253,7 +253,7 @@ var initiateTimePickers = function(fields) {
             }
 
             var fieldParent = field.parent().parent();
-            
+
             // Assign click event to icon
             fieldParent
                 .find('i')
@@ -288,23 +288,17 @@ var initiateWysiwyg = function(textarea) {
                 // use fontawesome icons where possible
                 $('ul.wysihtml5-toolbar')
                     .find('li a[data-wysihtml5-command="createLink"]')
-                        .html('<i class="fa fa-link"></i>')
+                        .html('<span class="fa fa-link"></span>')
                         .end()
                     .find('li.dropdown a')
                         .attr('tabindex', '-1')
                         .end()
-                    .find('i.glyphicon-list')
+                    .find('span.glyphicon-list')
                         .attr('class', 'fa fa-list-ul')
                         .end()
-                    .find('i.glyphicon-th-list')
+                    .find('span.glyphicon-th-list')
                         .attr('class', 'fa fa-list-ol')
                         .end()
-                    // .find('i.glyphicon-indent-left')
-                    //     .attr('class', 'fa fa-indent')
-                    //     .end()
-                    //.find('i.glyphicon-indent-right')
-                        //.attr('class', 'fa fa-outdent')
-                        //.end()
                     .find('li a[data-wysihtml5-command="Outdent"]')
                         .remove()
                         .end()
@@ -312,13 +306,13 @@ var initiateWysiwyg = function(textarea) {
                         .remove()
                         .end()
                     .find('li a[data-wysihtml5-command="bold"]')
-                        .html('<i class="fa fa-bold"></i>')
+                        .html('<span class="fa fa-bold"></span>')
                         .end()
                     .find('li a[data-wysihtml5-command="italic"]')
-                        .html('<i class="fa fa-italic"></i>')
+                        .html('<span class="fa fa-italic"></span>')
                         .end()
                     .find('li a[data-wysihtml5-command="underline"]')
-                        .html('<i class="fa fa-underline"></i>');
+                        .html('<span class="fa fa-underline"></span>');
 
                 // Fix a stupid IE10 error in IE8,9 browser mode where focus is not applied
                 // to the correct DOM position on page load... so just remove any focus entirely.
@@ -535,7 +529,7 @@ var userSearchTypeahead = function() {
                         .addClass('disabled')
                         .bind('click', handler);
                 }
-                
+
             }
         };
         toggleAddBtn();
@@ -684,7 +678,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                     // TODO: better way of determining if a match has been found?
                     var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
                     var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
-                    
+
                     // Show addBtn if no match is found and the user didn't type Enter or a comma.
                     if (self.autocompleteField.val() !== '') {
                         if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
@@ -756,7 +750,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 return '';
             };
 
-            autocomplete.init(); 
+            autocomplete.init();
         });
     }
 };
@@ -880,7 +874,7 @@ var eventTagging = function() {
                 // TODO: better way of determining if a match has been found?
                 var typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
                 var matchFound = (typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible')) ? true : false;
-                
+
                 // Show addBtn if no match is found and the user didn't type Enter or a comma.
                 if (self.autocompleteField.val() !== '') {
                     if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
