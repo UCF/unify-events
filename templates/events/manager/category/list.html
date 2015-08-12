@@ -19,75 +19,73 @@
 
         {% if categories %}
         <div class="panel panel-default">
-            <div class="table-responsive">
-                <table class="table table-hover manager-item-table">
-                    <thead>
-                        <tr>
-                            <th class="category-title">Category</th>
-                            <th class="category-events">
-                                <abbr title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
-                                    <span class="line-break">Event Count</span>
-                                </abbr>
-                            </th>
-                            <th class="category-color">Color</th>
-                            <th class="category-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for category in categories %}
-                        <tr>
-                            <td class="category-title">
-                                <a class="line-break" href="{% url 'category-update' pk=category.pk %}">{{ category.title }}</a>
-                            </td>
-                            <td class="category-events">
-                                {{ category.events.count }}
-                            </td>
-                            <td class="category-color">
-                                <span class="category-label {{ category.slug }}">{{ category.color }}</span>
-                            </td>
-                            <td class="category-actions actions-col">
-                                <div class="dropdown btn-group">
-                                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Select
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li role="presentation">
-                                            <a href="{% url 'category-update' pk=category.pk %}">
-                                                <i class="fa fa-pencil fa-fw"></i>
-                                                Edit Category
-                                            </a>
-                                        </li>
-                                        {% if category.events.count > 0 %}
-                                        <li role="presentation">
-                                            <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}" data-object-pk="{{ category.pk }}">
-                                                <i class="fa fa-compress fa-fw"></i>
-                                                Merge Category
-                                            </a>
-                                        </li>
-                                        {% else %}
-                                        <li role="presentation">
-                                            <a class="object-modify" href="{% url 'category-delete' pk=category.pk %}">
-                                                <i class="fa fa-trash-o fa-fw"></i>
-                                                Delete Category
-                                            </a>
-                                        </li>
-                                        {% endif %}
-                                        <li class="divider"></li>
-                                        <li role="presentation">
-                                            <a href="{% url 'category' category_pk=category.pk category=category.slug %}">
-                                                <i class="fa fa-play-circle fa-fw"></i>
-                                                Live View
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-hover manager-item-table">
+                <thead>
+                    <tr>
+                        <th class="category-title">Category</th>
+                        <th class="category-events">
+                            <abbr title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
+                                <span class="line-break">Event Count</span>
+                            </abbr>
+                        </th>
+                        <th class="category-color">Color</th>
+                        <th class="category-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td class="category-title">
+                            <a class="line-break" href="{% url 'category-update' pk=category.pk %}">{{ category.title }}</a>
+                        </td>
+                        <td class="category-events">
+                            {{ category.events.count }}
+                        </td>
+                        <td class="category-color">
+                            <span class="category-label {{ category.slug }}">{{ category.color }}</span>
+                        </td>
+                        <td class="category-actions actions-col">
+                            <div class="dropdown btn-group">
+                                <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    Select
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li role="presentation">
+                                        <a href="{% url 'category-update' pk=category.pk %}">
+                                            <i class="fa fa-pencil fa-fw"></i>
+                                            Edit Category
+                                        </a>
+                                    </li>
+                                    {% if category.events.count > 0 %}
+                                    <li role="presentation">
+                                        <a class="category-merge" href="{% url 'category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}" data-object-pk="{{ category.pk }}">
+                                            <i class="fa fa-compress fa-fw"></i>
+                                            Merge Category
+                                        </a>
+                                    </li>
+                                    {% else %}
+                                    <li role="presentation">
+                                        <a class="object-modify" href="{% url 'category-delete' pk=category.pk %}">
+                                            <i class="fa fa-trash-o fa-fw"></i>
+                                            Delete Category
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="divider"></li>
+                                    <li role="presentation">
+                                        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">
+                                            <i class="fa fa-play-circle fa-fw"></i>
+                                            Live View
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

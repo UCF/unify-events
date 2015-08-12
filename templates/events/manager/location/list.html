@@ -59,90 +59,88 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover manager-item-table">
-                                <thead>
-                                    <tr>
-                                        <th class="field-bulk-select">
-                                            <label class="sr-only" for="bulk-select-all">Select All</label>
-                                            <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
-                                        </th>
-                                        <th class="location-imported"><abbr title="Is Imported Location"><i class="fa fa-cloud-download"></i></abbr></th>
-                                        <th class="location-title"><span class="line-break">Location Name</span></th>
-                                        <th class="location-room">Room</th>
-                                        <th class="location-url">URL</th>
-                                        <th class="location-count"><abbr title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar."><span class="line-break">Event Count</span></abbr></th>
-                                        <th class="location-status">Status</th>
-                                        <th class="location-actions">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {% for location in locations %}
-                                    <tr>
-                                        <td class="field-bulk-select">
-                                            <label class="sr-only" for="bulk-select">Bulk Action Select</label>
-                                            <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
-                                        </td>
-                                        <td class="location-imported">
-                                            {% if location.import_id %}
-                                            <abbr title="This location was imported from map.ucf.edu"><i class="fa fa-cloud-download"></i></abbr>
-                                            {% endif %}
-                                        </td>
-                                        <td class="location-title">
-                                            <a class="line-break" href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
-                                        </td>
-                                        <td class="location-room">
-                                            <span class="line-break">{{ location.room }}</span>
-                                        </td>
-                                        <td class="location-url">
-                                            <a class="text-overflow" href="{{ location.url }}" target="_blank">{{ location.url }}</a>
-                                        </td>
-                                        <td class="location-count">
-                                            {{ location.event_count }}
-                                        </td>
-                                        <td class="location-status">
-                                            {% if location.reviewed %}
-                                            Approved
-                                            {% else %}
-                                            Needs Review
-                                            {% endif %}
-                                        </td>
-                                        <td class="location-actions">
-                                            <div class="dropdown btn-group">
-                                                <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                    Select
-                                                    <span class="caret"></span>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li role="presentation">
-                                                        <a href="{% url 'location-update' pk=location.pk %}">
-                                                            <i class="fa fa-pencil fa-fw"></i>
-                                                            Edit Location
-                                                        </a>
-                                                    </li>
-                                                    {% if location.event_instances.count > 0 %}
-                                                    <li role="presentation">
-                                                        <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
-                                                            <i class="fa fa-compress fa-fw"></i>
-                                                            Merge Location
-                                                        </a>
-                                                    </li>
-                                                    {% else %}
-                                                    <li role="presentation">
-                                                        <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
-                                                            <i class="fa fa-trash-o fa-fw"></i>
-                                                            Delete Location
-                                                        </a>
-                                                    </li>
-                                                    {% endif %}
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table table-hover manager-item-table">
+                            <thead>
+                                <tr>
+                                    <th class="field-bulk-select">
+                                        <label class="sr-only" for="bulk-select-all">Select All</label>
+                                        <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
+                                    </th>
+                                    <th class="location-imported"><abbr title="Is Imported Location"><i class="fa fa-cloud-download"></i></abbr></th>
+                                    <th class="location-title"><span class="line-break">Location Name</span></th>
+                                    <th class="location-room">Room</th>
+                                    <th class="location-url">URL</th>
+                                    <th class="location-count"><abbr title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar."><span class="line-break">Event Count</span></abbr></th>
+                                    <th class="location-status">Status</th>
+                                    <th class="location-actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for location in locations %}
+                                <tr>
+                                    <td class="field-bulk-select">
+                                        <label class="sr-only" for="bulk-select">Bulk Action Select</label>
+                                        <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
+                                    </td>
+                                    <td class="location-imported">
+                                        {% if location.import_id %}
+                                        <abbr title="This location was imported from map.ucf.edu"><i class="fa fa-cloud-download"></i></abbr>
+                                        {% endif %}
+                                    </td>
+                                    <td class="location-title">
+                                        <a class="line-break" href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
+                                    </td>
+                                    <td class="location-room">
+                                        <span class="line-break">{{ location.room }}</span>
+                                    </td>
+                                    <td class="location-url">
+                                        <a class="text-overflow" href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                                    </td>
+                                    <td class="location-count">
+                                        {{ location.event_count }}
+                                    </td>
+                                    <td class="location-status">
+                                        {% if location.reviewed %}
+                                        Approved
+                                        {% else %}
+                                        Needs Review
+                                        {% endif %}
+                                    </td>
+                                    <td class="location-actions">
+                                        <div class="dropdown btn-group">
+                                            <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                Select
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li role="presentation">
+                                                    <a href="{% url 'location-update' pk=location.pk %}">
+                                                        <i class="fa fa-pencil fa-fw"></i>
+                                                        Edit Location
+                                                    </a>
+                                                </li>
+                                                {% if location.event_instances.count > 0 %}
+                                                <li role="presentation">
+                                                    <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
+                                                        <i class="fa fa-compress fa-fw"></i>
+                                                        Merge Location
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                <li role="presentation">
+                                                    <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
+                                                        <i class="fa fa-trash-o fa-fw"></i>
+                                                        Delete Location
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                         <div class="panel-footer">
                             <div class="form-group">
                                 <label for="bulk-action_1" class="control-label sr-only">Bulk Action:</label>

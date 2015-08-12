@@ -19,64 +19,62 @@
 
         {% if tags %}
         <div class="panel panel-default">
-            <div class="table-responsive">
-                <table class="table table-hover manager-item-table">
-                    <thead>
-                        <tr>
-                            <th class="tag-title">Tag</th>
-                            <th class="tag-events"><abbr title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
-                            <th class="tag-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for tag in tags %}
-                        <tr>
-                            <td class="tag-name">
-                                <a href="{% url 'tag-update' pk=tag.pk %}">{{ tag.name }}</a>
-                            </td>
-                            <td class="tag-events">
-                                {{ tag.event_count }}
-                            </td>
-                            <td class="tag-actions actions-col">
-                                <div class="dropdown btn-group">
-                                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Select
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li role="presentation">
-                                            <a href="{% url 'tag-update' pk=tag.pk %}">
-                                                <i class="fa fa-pencil fa-fw"></i>
-                                                Edit Tag
-                                            </a>
-                                        </li>
-                                        <li role="presentation">
-                                            <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
-                                                <i class="fa fa-compress fa-fw"></i>
-                                                Merge Tag
-                                            </a>
-                                        </li>
-                                        <li role="presentation">
-                                            <a class="object-modify" href="{% url 'tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
-                                                <i class="fa fa-trash-o fa-fw"></i>
-                                                Delete Tag
-                                            </a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li role="presentation">
-                                            <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">
-                                                <i class="fa fa-play-circle fa-fw"></i>
-                                                Live View
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-hover manager-item-table">
+                <thead>
+                    <tr>
+                        <th class="tag-title">Tag</th>
+                        <th class="tag-events"><abbr title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
+                        <th class="tag-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td class="tag-name">
+                            <a href="{% url 'tag-update' pk=tag.pk %}">{{ tag.name }}</a>
+                        </td>
+                        <td class="tag-events">
+                            {{ tag.event_count }}
+                        </td>
+                        <td class="tag-actions actions-col">
+                            <div class="dropdown btn-group">
+                                <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    Select
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li role="presentation">
+                                        <a href="{% url 'tag-update' pk=tag.pk %}">
+                                            <i class="fa fa-pencil fa-fw"></i>
+                                            Edit Tag
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
+                                            <i class="fa fa-compress fa-fw"></i>
+                                            Merge Tag
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="object-modify" href="{% url 'tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
+                                            <i class="fa fa-trash-o fa-fw"></i>
+                                            Delete Tag
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li role="presentation">
+                                        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">
+                                            <i class="fa fa-play-circle fa-fw"></i>
+                                            Live View
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

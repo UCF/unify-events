@@ -23,65 +23,63 @@
         <div class="col-md-12 page-content">
             {% if calendars.count > 0 %}
             <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table table-hover manager-item-table">
-                        <thead>
-                            <tr>
-                                <th class="calendar-title">Calendar</th>
-                                <th class="calendar-owner">Owner</th>
-                                <th class="calendar-actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for calendar in calendars %}
-                            <tr>
-                                <td class="calendar-title">
-                                    <a class="line-break" href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
-                                </td>
-                                <td class="calendar-owner">
-                                    <span class="line-break">
-                                    {{ calendar.owner.username }}<br/>
-                                    {% if calendar.owner.first_name and calendar.owner.last_name %}
-                                        ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
-                                    {% else %}
-                                        (n/a)
-                                    {% endif %}
-                                    </span>
-                                </td>
-                                <td class="calendar-actions actions-col">
-                                    <div class="btn-group dropdown">
-                                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            Select
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li role="presentation">
-                                                <a href="{% url 'dashboard' pk=calendar.pk %}">
-                                                    <i class="fa fa-calendar-o fa-fw"></i>
-                                                    Manage Events
-                                                </a>
-                                            </li>
-                                            <li role="presentation">
-                                                <a href="{% url 'calendar-update' pk=calendar.pk %}">
-                                                    <i class="fa fa-pencil fa-fw"></i>
-                                                    Edit Calendar
-                                                </a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li role="presentation">
-                                                <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
-                                                    <i class="fa fa-play-circle fa-fw"></i>
-                                                    Live View
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-hover manager-item-table">
+                    <thead>
+                        <tr>
+                            <th class="calendar-title">Calendar</th>
+                            <th class="calendar-owner">Owner</th>
+                            <th class="calendar-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for calendar in calendars %}
+                        <tr>
+                            <td class="calendar-title">
+                                <a class="line-break" href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
+                            </td>
+                            <td class="calendar-owner">
+                                <span class="line-break">
+                                {{ calendar.owner.username }}<br/>
+                                {% if calendar.owner.first_name and calendar.owner.last_name %}
+                                    ({{ calendar.owner.first_name }} {{ calendar.owner.last_name }})
+                                {% else %}
+                                    (n/a)
+                                {% endif %}
+                                </span>
+                            </td>
+                            <td class="calendar-actions actions-col">
+                                <div class="btn-group dropdown">
+                                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        Select
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li role="presentation">
+                                            <a href="{% url 'dashboard' pk=calendar.pk %}">
+                                                <i class="fa fa-calendar-o fa-fw"></i>
+                                                Manage Events
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="{% url 'calendar-update' pk=calendar.pk %}">
+                                                <i class="fa fa-pencil fa-fw"></i>
+                                                Edit Calendar
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
+                                                <i class="fa fa-play-circle fa-fw"></i>
+                                                Live View
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

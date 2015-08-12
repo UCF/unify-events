@@ -71,62 +71,60 @@
 
             <h2>Users With Access to this Calendar</h2>
             <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table table-hover manager-item-table" id="manager-calendar-access">
-                        <thead>
-                            <tr>
-                                <th class="calendar-access-name">Name</th>
-                                <th class="calendar-access-username">NID</th>
-                                <th class="calendar-access-role"><span class="line-break">Access Role</span></th>
-                                <th class="calendar-access-actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Calendar Owner -->
-                            <tr {% if user == calendar.owner %}class="info"{% endif %}>
-                                <td class="calendar-access-name"><span class="line-break">{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</span></td>
-                                <td class="calendar-access-username">{{ calendar.owner.username }}</td>
-                                <td class="calendar-access-role">Owner</td>
-                                <td class="calendar-access-actions actions-col">
-                                    {% if calendar in user.owned_calendars.all or user.is_superuser %}
-                                        {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
-                                        <a class="btn btn-default btn-xs" href="#calendar-reassign-ownership" data-toggle="modal"><i class="fa fa-exchange"></i> Re-assign Ownership</a>
-                                        {% endif %}
+                <table class="table table-hover manager-item-table" id="manager-calendar-access">
+                    <thead>
+                        <tr>
+                            <th class="calendar-access-name">Name</th>
+                            <th class="calendar-access-username">NID</th>
+                            <th class="calendar-access-role"><span class="line-break">Access Role</span></th>
+                            <th class="calendar-access-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Calendar Owner -->
+                        <tr {% if user == calendar.owner %}class="info"{% endif %}>
+                            <td class="calendar-access-name"><span class="line-break">{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</span></td>
+                            <td class="calendar-access-username">{{ calendar.owner.username }}</td>
+                            <td class="calendar-access-role">Owner</td>
+                            <td class="calendar-access-actions actions-col">
+                                {% if calendar in user.owned_calendars.all or user.is_superuser %}
+                                    {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
+                                    <a class="btn btn-default btn-xs" href="#calendar-reassign-ownership" data-toggle="modal"><i class="fa fa-exchange"></i> Re-assign Ownership</a>
                                     {% endif %}
-                                </td>
-                            </tr>
-                            <!-- Calendar Admins -->
-                            {% for admin in calendar.admins.all %}
-                            <tr {% if user == admin %}class="info"{% endif %}>
-                                <td class="calendar-access-name"><span class="line-break">{{ admin.first_name }} {{ admin.last_name }}</span></td>
-                                <td class="calendar-access-username">{{ admin.username }}</td>
-                                <td class="calendar-access-role">Admin</td>
-                                <td class="calendar-access-actions actions-col">
-                                    {% if user == admin %}
-                                    <a class="btn btn-default btn-xs" href="#calendar-demote-self-editor" data-toggle="modal"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
-                                    <a class="btn btn-default btn-xs" href="#calendar-remove-self" data-toggle="modal"><i class="fa fa-times-circle"></i> Remove User</a>
-                                    {% else %}
-                                    <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'calendar-delete-user' pk=calendar.pk username=admin.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            <!-- Calendar Editors -->
-                            {% for editor in calendar.editors.all %}
-                            <tr {% if user == editor %}class="info"{% endif %}>
-                                <td class="calendar-access-name"><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
-                                <td class="calendar-access-username">{{ editor.username }}</td>
-                                <td class="calendar-access-role">Editor</td>
-                                <td class="calendar-access-actions actions-col">
-                                    <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-arrow-circle-up"></i> Make Admin</a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'calendar-delete-user' pk=calendar.pk username=editor.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <!-- Calendar Admins -->
+                        {% for admin in calendar.admins.all %}
+                        <tr {% if user == admin %}class="info"{% endif %}>
+                            <td class="calendar-access-name"><span class="line-break">{{ admin.first_name }} {{ admin.last_name }}</span></td>
+                            <td class="calendar-access-username">{{ admin.username }}</td>
+                            <td class="calendar-access-role">Admin</td>
+                            <td class="calendar-access-actions actions-col">
+                                {% if user == admin %}
+                                <a class="btn btn-default btn-xs" href="#calendar-demote-self-editor" data-toggle="modal"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
+                                <a class="btn btn-default btn-xs" href="#calendar-remove-self" data-toggle="modal"><i class="fa fa-times-circle"></i> Remove User</a>
+                                {% else %}
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-delete-user' pk=calendar.pk username=admin.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Calendar Editors -->
+                        {% for editor in calendar.editors.all %}
+                        <tr {% if user == editor %}class="info"{% endif %}>
+                            <td class="calendar-access-name"><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
+                            <td class="calendar-access-username">{{ editor.username }}</td>
+                            <td class="calendar-access-role">Editor</td>
+                            <td class="calendar-access-actions actions-col">
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-arrow-circle-up"></i> Make Admin</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-delete-user' pk=calendar.pk username=editor.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
             <!-- Reassign ownership modal -->

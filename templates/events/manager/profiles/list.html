@@ -18,44 +18,42 @@
         <div class="col-md-12 page-content">
         {% if users.count > 0 %}
             <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table table-hover manager-item-table">
-                        <thead>
-                            <tr>
-                                <th class="user-title">Username</th>
-                                <th class="user-fullname">Full Name</th>
-                                <th class="user-permissions">Permissions</th>
-                                <th class="user-actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for theUser in users %}
-                            <tr>
-                                <td class="user-title">
-                                    <span class="line-break">{{ theUser.username }}</span>
-                                </td>
-                                <td class="user-fullname">
-                                    <span class="line-break">{{ theUser.first_name }} {{ theUser.last_name }}</span>
-                                </td>
-                                <td class="user-permissions">
-                                    {% if theUser.is_superuser %}
-                                    Superuser
-                                    {% else %}
-                                    User
-                                    {% endif %}
-                                </td>
-                                <td class="user-actions actions-col">
-                                    {% if theUser.is_superuser %}
-                                    <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
-                                    {% else %}
-                                    <a class="btn btn-default btn-xs" href="{% url 'profile-promote' user_id=theUser.pk %}"><i class="fa fa-arrow-circle-up"></i> Make Superuser</a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-hover manager-item-table">
+                    <thead>
+                        <tr>
+                            <th class="user-title">Username</th>
+                            <th class="user-fullname">Full Name</th>
+                            <th class="user-permissions">Permissions</th>
+                            <th class="user-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for theUser in users %}
+                        <tr>
+                            <td class="user-title">
+                                <span class="line-break">{{ theUser.username }}</span>
+                            </td>
+                            <td class="user-fullname">
+                                <span class="line-break">{{ theUser.first_name }} {{ theUser.last_name }}</span>
+                            </td>
+                            <td class="user-permissions">
+                                {% if theUser.is_superuser %}
+                                Superuser
+                                {% else %}
+                                User
+                                {% endif %}
+                            </td>
+                            <td class="user-actions actions-col">
+                                {% if theUser.is_superuser %}
+                                <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
+                                {% else %}
+                                <a class="btn btn-default btn-xs" href="{% url 'profile-promote' user_id=theUser.pk %}"><i class="fa fa-arrow-circle-up"></i> Make Superuser</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
             {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

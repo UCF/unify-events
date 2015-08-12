@@ -54,37 +54,35 @@
             </p>
             {% if calendar.subscriptions.all %}
             <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table manager-item-table table-hover" id="manager-calendar-your-subscriptions">
-                        <thead>
-                            <tr>
-                                <th class="calendar-subscriptions-name"><span class="line-break">Calendar Name</span></th>
-                                <th class="calendar-subscriptions-owner">Owner</th>
-                                <th class="calendar-subscriptions-actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for sub_cal in calendar.subscriptions.all %}
-                            <tr>
-                                <td class="calendar-subscriptions-name">
-                                    <a class="line-break" href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
-                                </td>
-                                <td class="calendar-subscriptions-owner">
-                                    <span class="line-break">
-                                        {{ sub_cal.owner }}
-                                        {% if sub_cal.owner.first_name and sub_cal.owner.last_name %}
-                                            ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})
-                                        {% endif %}
-                                    </span>
-                                </td>
-                                <td class="calendar-subscriptions-actions">
-                                    <a class="btn btn-default btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-times-circle"></i> Unsubscribe</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table manager-item-table table-hover" id="manager-calendar-your-subscriptions">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name"><span class="line-break">Calendar Name</span></th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                            <th class="calendar-subscriptions-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscriptions.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a class="line-break" href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">
+                                <span class="line-break">
+                                    {{ sub_cal.owner }}
+                                    {% if sub_cal.owner.first_name and sub_cal.owner.last_name %}
+                                        ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="calendar-subscriptions-actions">
+                                <a class="btn btn-default btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-times-circle"></i> Unsubscribe</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <div class="alert alert-info">
@@ -103,30 +101,28 @@
             </p>
             {% if calendar.subscribing_calendars %}
             <div class="panel panel-default">
-                <div class="table-responsive">
-                    <table class="table manager-item-table table-hover" id="manager-calendar-subscribing-cals">
-                        <thead>
-                            <tr>
-                                <th class="calendar-subscriptions-name"><span class="line-break">Calendar Name</span></th>
-                                <th class="calendar-subscriptions-owner">Owner</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for sub_cal in calendar.subscribing_calendars.all %}
-                            <tr>
-                                <td class="calendar-subscriptions-name">
-                                    <a class="line-break" href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
-                                </td>
-                                <td class="calendar-subscriptions-owner">
-                                    <span class="line-break">
-                                        {{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})
-                                    </span>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table manager-item-table table-hover" id="manager-calendar-subscribing-cals">
+                    <thead>
+                        <tr>
+                            <th class="calendar-subscriptions-name"><span class="line-break">Calendar Name</span></th>
+                            <th class="calendar-subscriptions-owner">Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub_cal in calendar.subscribing_calendars.all %}
+                        <tr>
+                            <td class="calendar-subscriptions-name">
+                                <a class="line-break" href="{% url 'calendar' pk=sub_cal.pk slug=sub_cal.slug %}">{{ sub_cal.title }}</a>
+                            </td>
+                            <td class="calendar-subscriptions-owner">
+                                <span class="line-break">
+                                    {{ sub_cal.owner }} ({{ sub_cal.owner.first_name }} {{ sub_cal.owner.last_name }})
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <div class="alert alert-info">
