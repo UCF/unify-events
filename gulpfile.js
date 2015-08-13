@@ -70,7 +70,7 @@ gulp.task('js', function() {
   // script.min.js
   gulp.src([
     config.bowerDir + '/jquery-placeholder/jquery.placeholder.js',
-    config.bowerDir + '/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
+    config.bowerDir + '/bootstrap-sass-official/assets/javascripts/bootstrap.js',
     config.jsPath + '/script.js'
   ])
     .pipe(concat('script.min.js'))
