@@ -22,8 +22,8 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
         Given an individual model instance, determine which backends the
         update should be sent to & update the object on those backends.
 
-        Updated for thie app to degrade gracefully if the search backend
-        bombs for whatever reason.
+        Updated for this app to actually log an error on NotHandled (by
+        default, BaseSignalProcessor just passes).
 
         Args:
           sender   (obj): The model class to receive signals from.
@@ -46,8 +46,8 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
         Given an individual model instance, determine which backends the
         delete should be sent to & delete the object on those backends.
 
-        Updated for this app to degrade gracefully if the search backend
-        bombs for whatever reason.
+        Updated for this app to actually log an error on NotHandled (by
+        default, BaseSignalProcessor just passes).
 
         Args:
           sender   (obj): The model class to receive signals from.
