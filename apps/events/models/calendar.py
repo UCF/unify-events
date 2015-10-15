@@ -4,11 +4,13 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
 
 from core.models import TimeCreatedModified
+from core.signals import CustomHaystackSignalProcessor
 from core.utils import pre_save_slug
 import events.models
 from events.models.event import get_events_by_range
@@ -163,8 +165,10 @@ class Calendar(TimeCreatedModified):
 
 pre_save.connect(pre_save_slug, sender=Calendar)
 post_save.connect(generic_ban_urls, sender=Calendar)
+post_save.connect(CustomHaystackSignalProcessor.handle_save, sender=Calendar)
 # using pre_delete because all the objects may not exist if done via
 # post_delete (ex. event.calendar or event.tags if deleting a calendar)
 # No harm done if the delete doesn't go through. Just causes a single
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Calendar)
+post_delete.connect(CustomHaystackSignalProcessor.handle_delete, sender=Calendar)

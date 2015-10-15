@@ -195,7 +195,7 @@ if SEARCH_ENABLED:
     }
     # Enables updating of models with an associated SearchIndex
     # when that model is saved or deleted.
-    HAYSTACK_SIGNAL_PROCESSOR = 'core.signals.CustomRealtimeSignalProcessor'
+    HAYSTACK_SIGNAL_PROCESSOR = 'core.signals.CustomHaystackSignalProcessor'
 else:
     HAYSTACK_CONNECTIONS = {
         'default': {},
