@@ -35,9 +35,7 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
             try:
                 index = self.connections[using].get_unified_index().get_index(sender)
                 index.update_object(instance, using=using)
-            except Exception as e:
-                # The search engine can't be accessed, or something went wrong.
-                # Continue anyway
+            except NotHandled as e:
                 log.error(
                     'Failed to update %s object in search index for instance %s: %s' %
                     (instance.__class__.__name__, instance, e))
@@ -61,9 +59,7 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
             try:
                 index = self.connections[using].get_unified_index().get_index(sender)
                 index.remove_object(instance, using=using)
-            except Exception as e:
-                # The search engine can't be accessed, or something went wrong.
-                # Continue anyway
+            except NotHandled as e:
                 log.error(
                     'Failed to remove %s object from search index for instance %s: %s.' %
                     (instance.__class__.__name__, instance, e))
