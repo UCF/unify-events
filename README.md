@@ -12,6 +12,7 @@
         - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
 
 3. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
+  - via Homebrew: `brew install openldap`
 4. Install Virtualenv for Python
   - via pip: `[sudo] pip install virtualenv`
 5. Create virtual environment and `cd` to it

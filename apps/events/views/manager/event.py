@@ -272,7 +272,11 @@ class EventUpdate(UpdateView):
             update_subscriptions(self.object, is_main_rereview)
 
             messages.success(self.request, 'Event successfully saved')
-            return HttpResponseRedirect(self.get_success_url())
+
+            initial_state = self.request.POST.get('initial_state', State.posted)
+            success_url = '/manager/state/' + str(State.get_string(int(initial_state)));
+
+            return HttpResponseRedirect(success_url)
 
     def form_invalid(self, form, event_instance_formset):
         """
