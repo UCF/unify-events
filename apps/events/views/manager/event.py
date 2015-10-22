@@ -232,14 +232,12 @@ class EventUpdate(UpdateView):
         """
         try:
             self.object = form.save()
-        except MySQLdb.Warning, e:
+            event_instance_formset.save()
+        except Exception, e:
             """
-            The ModelFormUtf8BmpValidationMixin mixin should catch and strip
-            out any unicode characters greater than 3 bytes in length (for
-            compatibility with mysql's utf-8 charset spec) from unicode
-            strings, so this exception should never be hit.  It serves as an
-            absolute fallback.
+            Try to catch errors gracefully here, but make sure they're logged
             """
+            log(str(e))
             messages.error(self.request,
                            'Something went wrong while trying to save this \
                            event. Please try again.')
@@ -247,8 +245,6 @@ class EventUpdate(UpdateView):
                 self.get_context_data(form=form,
                                       event_instance_formset=event_instance_formset))
         else:
-            event_instance_formset.save()
-
             # Check if main calendar submission should be re-reviewed
             is_main_rereview = False
             if any(s in form.changed_data for s in ['description', 'title']):
