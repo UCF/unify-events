@@ -229,6 +229,20 @@ class EventUpdate(UpdateView):
         else:
             return self.form_invalid(form, event_instance_formset)
 
+    def get_success_url(self):
+        """
+        Returns the supplied success URL.
+        """
+        if self.success_url:
+            # Forcing possible reverse_lazy evaluation
+            initial_state = self.request.POST.get('initial_state', State.posted)
+            url = '/manager/state/' + str(State.get_string(int(initial_state)));
+            # url = reverse('event-pend', kwargs={'state':State.pending})
+        else:
+            raise ImproperlyConfigured(
+                "No URL to redirect to. Provide a success_url.")
+        return url
+
     def form_valid(self, form, event_instance_formset):
         """
         Called if all forms are valid. Creates an event instance
@@ -273,10 +287,7 @@ class EventUpdate(UpdateView):
 
             messages.success(self.request, 'Event successfully saved')
 
-            initial_state = self.request.POST.get('initial_state', State.posted)
-            success_url = '/manager/state/' + str(State.get_string(int(initial_state)));
-
-            return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, event_instance_formset):
         """
