@@ -260,12 +260,26 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         fields = ('start', 'end', 'interval', 'until', 'location')
 
 
-EventInstanceFormSet = inlineformset_factory(Event,
-                                             EventInstance,
-                                             form=EventInstanceForm,
-                                             formset=RequiredModelFormSet,
-                                             extra=1,
-                                             max_num=12)
+"""
+Define formsets for EventInstances, for use within Event forms.
+
+Two separate formsets are defined for Create and Update views to allow for
+a different number of extra blank forms (we want a blank form for the Event
+Create view, but not for the Event Update view).
+"""
+EventInstanceCreateFormSet = inlineformset_factory(Event,
+                                                   EventInstance,
+                                                   form=EventInstanceForm,
+                                                   formset=RequiredModelFormSet,
+                                                   extra=1,
+                                                   max_num=12)
+
+EventInstanceUpdateFormSet = inlineformset_factory(Event,
+                                                   EventInstance,
+                                                   form=EventInstanceForm,
+                                                   formset=RequiredModelFormSet,
+                                                   extra=0,
+                                                   max_num=12)
 
 
 class EventCopyForm(forms.Form):

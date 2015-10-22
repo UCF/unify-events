@@ -20,7 +20,8 @@ from core.views import DeleteSuccessMessageMixin
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceForm
-from events.forms.manager import EventInstanceFormSet
+from events.forms.manager import EventInstanceCreateFormSet
+from events.forms.manager import EventInstanceUpdateFormSet
 from events.functions import update_subscriptions
 from events.models import get_main_calendar
 from events.models import Calendar
@@ -72,16 +73,9 @@ class EventCreate(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        # For some reason, defining event_instance_formset with EventInstanceFormSet()
-        # here will return an empty formset when navigating to the Create View from the
-        # Update View.  We explicitly use a new inlineformset_factory here to accomodate.
-        #event_instance_formset = EventInstanceFormSet()
-        event_instance_formset = inlineformset_factory(Event,
-                                                       EventInstance,
-                                                       form=EventInstanceForm,
-                                                       formset=RequiredModelFormSet,
-                                                       extra=1,
-                                                       max_num=12)
+
+        event = Event()
+        event_instance_formset = EventInstanceCreateFormSet(instance=event)
 
         return self.render_to_response(self.get_context_data(form=form,
                                                              event_instance_formset=event_instance_formset))
@@ -94,13 +88,18 @@ class EventCreate(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        event_instance_formset = EventInstanceFormSet(self.request.POST)
-        if form.is_valid() and event_instance_formset.is_valid():
-            # Can user add an event to this calendar?
-            if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-                return HttpResponseForbidden('You cannot add an event to this calendar.')
 
-            return self.form_valid(form, event_instance_formset)
+        # Can user add an event to this calendar?
+        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+            return HttpResponseForbidden('You cannot add an event to this calendar.')
+
+        if form.is_valid():
+            event = form.save(commit=False)
+            event_instance_formset = EventInstanceCreateFormSet(self.request.POST, instance=event)
+            if event_instance_formset.is_valid():
+                return self.form_valid(form, event_instance_formset)
+            else:
+                return self.form_invalid(form, event_instance_formset)
         else:
             return self.form_invalid(form, event_instance_formset)
 
@@ -112,6 +111,7 @@ class EventCreate(CreateView):
         form.instance.creator = self.request.user
         try:
             self.object = form.save()
+            event_instance_formset.save()
         except MySQLdb.Warning, e:
             """
             The ModelFormUtf8BmpValidationMixin mixin should catch and strip
@@ -127,9 +127,6 @@ class EventCreate(CreateView):
                 self.get_context_data(form=form,
                                       event_instance_formset=event_instance_formset))
         else:
-            event_instance_formset.instance = self.object
-            event_instance_formset.save()
-
             # Import to main calendar if requested and state is posted
             if form.cleaned_data['submit_to_main']:
                 if self.object.state == State.posted:
@@ -202,9 +199,8 @@ class EventUpdate(UpdateView):
             return HttpResponseForbidden('You cannot modify the specified event.')
 
         # Remove extra form and set related object to get all event instances
-        EventInstanceFormSet.extra = 0
-        event_instance_formset = EventInstanceFormSet(instance=self.object,
-                                                      queryset=self.object.event_instances.filter(parent=None))
+        event_instance_formset = EventInstanceUpdateFormSet(instance=self.object,
+                                                            queryset=self.object.event_instances.filter(parent=None))
         return self.render_to_response(self.get_context_data(form=form,
                                                              event_instance_formset=event_instance_formset))
 
@@ -222,7 +218,7 @@ class EventUpdate(UpdateView):
         if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
             return HttpResponseForbidden('You cannot add an event to this calendar.')
 
-        event_instance_formset = EventInstanceFormSet(data=self.request.POST,
+        event_instance_formset = EventInstanceUpdateFormSet(data=self.request.POST,
                                                       instance=self.object)
         if form.is_valid() and event_instance_formset.is_valid():
             return self.form_valid(form, event_instance_formset)
