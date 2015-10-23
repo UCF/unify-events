@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
@@ -38,7 +39,7 @@ class EventCreate(CreateView):
     form_class = EventForm
     prefix = 'event'
     template_name = 'events/manager/events/create_update.html'
-    success_url = '/manager/'
+    success_url = reverse_lazy('dashboard')
 
     def get_initial(self):
         """
@@ -159,7 +160,7 @@ class EventUpdate(UpdateView):
     form_class = EventForm
     prefix = 'event'
     template_name = 'events/manager/events/create_update.html'
-    success_url = '/manager/'
+    success_url = reverse_lazy('dashboard')
 
     def get_initial(self):
         """
@@ -231,17 +232,16 @@ class EventUpdate(UpdateView):
 
     def get_success_url(self):
         """
-        Returns the supplied success URL.
+        Returns the success URL in the context of the provided
+        initial_state (to return the user to the dashboard view they were
+        likely viewing previously), or the supplied success URL for the view.
         """
-        if self.success_url:
-            # Forcing possible reverse_lazy evaluation
-            initial_state = self.request.POST.get('initial_state', State.posted)
-            url = '/manager/state/' + str(State.get_string(int(initial_state)));
-            # url = reverse('event-pend', kwargs={'state':State.pending})
-        else:
-            raise ImproperlyConfigured(
-                "No URL to redirect to. Provide a success_url.")
-        return url
+        initial_state = self.request.POST.get('initial_state')
+        if initial_state:
+            return reverse_lazy('dashboard-state', kwargs={
+                'state': str(State.get_string(int(initial_state)))
+            })
+        return super(EventUpdate, self).get_success_url()
 
     def form_valid(self, form, event_instance_formset):
         """
