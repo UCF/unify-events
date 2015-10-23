@@ -115,7 +115,7 @@ class EventCreate(CreateView):
             """
             Try to catch errors gracefully here, but make sure they're logged
             """
-            log(str(e))
+            log.error(str(e))
             messages.error(self.request,
                            'Something went wrong while trying to create this \
                            event. Please try again.')
@@ -233,7 +233,7 @@ class EventUpdate(UpdateView):
             """
             Try to catch errors gracefully here, but make sure they're logged
             """
-            log(str(e))
+            log.error(str(e))
             messages.error(self.request,
                            'Something went wrong while trying to save this \
                            event. Please try again.')
