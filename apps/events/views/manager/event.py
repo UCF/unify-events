@@ -238,7 +238,7 @@ class EventUpdate(UpdateView):
         """
         initial_state = self.request.POST.get('initial_state')
         if initial_state:
-            return reverse_lazy('dashboard-state', kwargs={
+            return reverse('dashboard-state', kwargs={
                 'state': str(State.get_string(int(initial_state)))
             })
         return super(EventUpdate, self).get_success_url()
