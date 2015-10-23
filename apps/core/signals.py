@@ -1,6 +1,5 @@
 import logging
 
-from django.db import models
 from haystack import signals
 from haystack.exceptions import NotHandled
 
