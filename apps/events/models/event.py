@@ -18,7 +18,6 @@ from taggit.managers import TaggableManager
 from taggit.models import Tag
 
 from core.models import TimeCreatedModified
-from core.signals import CustomHaystackSignalProcessor
 from core.utils import pre_save_slug
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
@@ -365,13 +364,11 @@ class Event(TimeCreatedModified):
 
 pre_save.connect(pre_save_slug, sender=Event)
 post_save.connect(event_ban_urls, sender=Event)
-post_save.connect(CustomHaystackSignalProcessor.handle_save, sender=Event)
 # using pre_delete because all the objects may not exist if done via
 # post_delete (ex. event.calendar or event.tags if deleting a calendar)
 # No harm done if the delete doesn't go through. Just causes a single
 # miss on varnish.
 pre_delete.connect(event_ban_urls, sender=Event)
-post_delete.connect(CustomHaystackSignalProcessor.handle_delete, sender=Event)
 
 post_save.connect(generic_ban_urls, sender=Tag)
 # using pre_delete because all the objects may not exist if done via
@@ -379,6 +376,13 @@ post_save.connect(generic_ban_urls, sender=Tag)
 # No harm done if the delete doesn't go through. Just causes a single
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Tag)
+
+if settings.SEARCH_ENABLED:
+    from core.signals import CustomHaystackSignalProcessor
+    post_save.connect(CustomHaystackSignalProcessor.handle_save,
+                      sender=Event)
+    post_delete.connect(CustomHaystackSignalProcessor.handle_delete,
+                        sender=Event)
 
 
 class EventInstance(TimeCreatedModified):
