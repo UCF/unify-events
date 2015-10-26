@@ -94,12 +94,21 @@ class EventCreate(CreateView):
 
         if form.is_valid():
             event = form.save(commit=False)
-            event_instance_formset = EventInstanceCreateFormSet(self.request.POST, instance=event)
+            event_instance_formset = EventInstanceCreateFormSet(
+                self.request.POST,
+                instance=event
+            )
+
             if event_instance_formset.is_valid():
                 return self.form_valid(form, event_instance_formset)
             else:
                 return self.form_invalid(form, event_instance_formset)
         else:
+            event = Event()
+            event_instance_formset = EventInstanceCreateFormSet(
+                self.request.POST,
+                instance=event
+            )
             return self.form_invalid(form, event_instance_formset)
 
     def form_valid(self, form, event_instance_formset):
