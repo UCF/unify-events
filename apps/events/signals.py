@@ -3,6 +3,12 @@ import logging
 from haystack import signals
 from haystack.exceptions import NotHandled
 
+from django.db.models.signals import post_delete
+from django.db.models.signals import post_save
+
+from events.models.event import Event
+from events.models.calendar import Calendar
+
 log = logging.getLogger(__name__)
 
 
@@ -10,11 +16,25 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
     """
     A convenient way to attach Haystack to Django's signals & cause things to
     index.
-
-    Signals that trigger handle_save and handle_delete are defined where the
-    respective model is defined (e.g. events/models/event.py).  Only models
-    that get indexed by Haystack should trigger the signal processor.
     """
+
+    def setup(self):
+        """
+        Listen for Events and Calendars.
+        """
+        post_save.connect(self.handle_save, sender=Event)
+        post_delete.connect(self.handle_delete, sender=Event)
+        post_save.connect(self.handle_save, sender=Calendar)
+        post_delete.connect(self.handle_delete, sender=Calendar)
+
+    def teardown(self):
+        """
+        Disconnect for Events and Calendars.
+        """
+        post_save.disconnect(self.handle_save, sender=Event)
+        post_delete.disconnect(self.handle_delete, sender=Event)
+        post_save.disconnect(self.handle_save, sender=Calendar)
+        post_delete.disconnect(self.handle_delete, sender=Calendar)
 
     def handle_save(self, sender, instance, **kwargs):
         """

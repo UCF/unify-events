@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
@@ -13,7 +12,6 @@ from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 import events.models
 from events.models.event import get_events_by_range
-from events.signals import CustomHaystackSignalProcessor
 from events.utils import generic_ban_urls
 import settings
 
@@ -171,8 +169,4 @@ post_save.connect(generic_ban_urls, sender=Calendar)
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Calendar)
 
-if settings.SEARCH_ENABLED:
-    post_save.connect(CustomHaystackSignalProcessor.handle_save,
-                      sender=Calendar)
-    post_delete.connect(CustomHaystackSignalProcessor.handle_delete,
-                        sender=Calendar)
+# NOTE: Haystack signals are handled in events/signals.py

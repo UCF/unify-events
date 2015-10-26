@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
@@ -19,7 +18,6 @@ from taggit.models import Tag
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
-from events.signals import CustomHaystackSignalProcessor
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
 import events.models
@@ -378,11 +376,7 @@ post_save.connect(generic_ban_urls, sender=Tag)
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Tag)
 
-if settings.SEARCH_ENABLED:
-    post_save.connect(CustomHaystackSignalProcessor.handle_save,
-                      sender=Event)
-    post_delete.connect(CustomHaystackSignalProcessor.handle_delete,
-                        sender=Event)
+# NOTE: Haystack signals are handled in events/signals.py
 
 
 class EventInstance(TimeCreatedModified):
