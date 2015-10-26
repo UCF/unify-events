@@ -171,8 +171,8 @@ post_save.connect(generic_ban_urls, sender=Calendar)
 pre_delete.connect(generic_ban_urls, sender=Calendar)
 
 if settings.SEARCH_ENABLED:
-    import core.signals as core_signals
-    post_save.connect(core_signals.CustomHaystackSignalProcessor.handle_save,
+    import events.signals as events_signals
+    post_save.connect(events_signals.CustomHaystackSignalProcessor.handle_save,
                       sender=Calendar)
-    post_delete.connect(core_signals.CustomHaystackSignalProcessor.handle_delete,
+    post_delete.connect(events_signals.CustomHaystackSignalProcessor.handle_delete,
                         sender=Calendar)
