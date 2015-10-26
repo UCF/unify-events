@@ -19,6 +19,7 @@ from taggit.models import Tag
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
+from events.signals import CustomHaystackSignalProcessor
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
 import events.models
@@ -378,10 +379,9 @@ post_save.connect(generic_ban_urls, sender=Tag)
 pre_delete.connect(generic_ban_urls, sender=Tag)
 
 if settings.SEARCH_ENABLED:
-    import events.signals as events_signals
-    post_save.connect(events_signals.CustomHaystackSignalProcessor.handle_save,
+    post_save.connect(CustomHaystackSignalProcessor.handle_save,
                       sender=Event)
-    post_delete.connect(events_signals.CustomHaystackSignalProcessor.handle_delete,
+    post_delete.connect(CustomHaystackSignalProcessor.handle_delete,
                         sender=Event)
 
 

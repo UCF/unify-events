@@ -13,6 +13,7 @@ from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 import events.models
 from events.models.event import get_events_by_range
+from events.signals import CustomHaystackSignalProcessor
 from events.utils import generic_ban_urls
 import settings
 
@@ -171,8 +172,7 @@ post_save.connect(generic_ban_urls, sender=Calendar)
 pre_delete.connect(generic_ban_urls, sender=Calendar)
 
 if settings.SEARCH_ENABLED:
-    import events.signals as events_signals
-    post_save.connect(events_signals.CustomHaystackSignalProcessor.handle_save,
+    post_save.connect(CustomHaystackSignalProcessor.handle_save,
                       sender=Calendar)
-    post_delete.connect(events_signals.CustomHaystackSignalProcessor.handle_delete,
+    post_delete.connect(CustomHaystackSignalProcessor.handle_delete,
                         sender=Calendar)
