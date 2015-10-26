@@ -123,6 +123,7 @@
                     <p class="label-desc" id="help-label-state" tabindex="-1">Specify how your event should be saved.</p>
                 </div>
                 <div class="controls col-md-3 col-sm-4">
+                    <input type="hidden" name="initial_state" value="{{ form.state.value }}">
                     {% render_field form.state class="form-control" aria-describedby="help-label-state" %}
                     {{ form.state.errors }}
                 </div>
