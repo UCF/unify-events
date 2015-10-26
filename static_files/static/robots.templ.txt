@@ -8,3 +8,27 @@ Disallow: /events/search/
 Disallow: /calendar-widget/
 Disallow: /esi/
 Disallow: /*?
+
+Crawl-delay: 30
+
+# GOOGLE BOTS
+User-agent: Mediapartners-Google
+Disallow: Crawl-delay: 10
+User-agent: Googlebot
+Disallow: Crawl-delay: 10
+User-agent: Adsbot-Google
+Disallow: Crawl-delay: 30
+User-agent: Googlebot-Image
+Disallow: Crawl-delay: 30
+User-agent: Googlebot-Mobile
+Disallow: Crawl-delay: 10
+#MICROSOFT BOTS
+User-agent: msnbot
+Disallow: Crawl-delay: 10
+User-agent: bingbot
+Disallow: Crawl-delay: 10
+#YAHOO BOTS
+User-agent: Slurp Disallow:
+Crawl-delay: 30
+User-agent: Yahoo! Slurp
+Disallow:Crawl-delay: 30
