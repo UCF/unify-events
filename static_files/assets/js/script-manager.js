@@ -949,148 +949,367 @@ var eventTagging = function() {
 
 
 /**
- * Clone fieldsets of a form; auto-increment field IDs as necessary.
+ * Clone fieldsets of the EventInstance formset of the Event Create/Update form.
+ * Auto-increment field IDs as necessary.
  **/
-var cloneableFieldsets = function() {
-    if ($('.cloneable').length > 0) {
-        var cloneableWrap = $('.cloneable').parent(),
-            cloneable = cloneableWrap.children(':first'),
-            cloneBtn = cloneableWrap.parent().find('.cloner'),
-            prefix = cloneable.attr('data-form-prefix');
+function cloneableEventInstances() {
+  var $form,
+      formPrefix,
+      $instanceTemplate,
+      instanceTemplateIndex,
+      instanceTemplatePrefix,
+      $clonerBtn,
+      $instanceTotal,
+      instanceMaxVal;
 
-        // Add content to cloner btn
-        cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="fa fa-plus"></i></a>');
+  /**
+   * Generates a jQuery object suitable for cloning from for new
+   * Event Instances
+   **/
+  function getInstanceTemplate() {
+    var $instance = $form.find('.cloneable').first().clone(false);
 
-        // Update the index in the ID, name, or 'for' attr of the form element
-        var updateElementIndex = function(element, prefix, index) {
-            var id_regex = new RegExp('(' + prefix + '-\\d+-)');
-            var replacement = prefix + '-' + index + '-';
-            if ($(element).attr('for')) {
-                $(element).attr('for', $(element).attr('for').replace(id_regex, replacement));
-            }
-            if (element.id) {
-                element.id = element.id.replace(id_regex, replacement);
-            }
-            if (element.name) {
-                element.name = element.name.replace(id_regex, replacement);
-            }
-        };
+    $instance = updateInstancePrefix($instance, instanceTemplatePrefix);
 
-        var toggleRemoveBtn = function(prefix) {
-            // Toggle the 'hidden' class off of each cloneable element
-            // if there are more than one cloneables on the screen
-            if ($('#id_' + prefix + '-TOTAL_FORMS').val() === 1 || $('.cloneable').length < 2) {
-                cloneableWrap.find('.remove-instance').addClass('hidden');
-            }
-            else {
-                cloneableWrap.find('.remove-instance').removeClass('hidden');
-            }
-        };
+    // Clear all existing input values of the cloned instance;
+    // make sure a selected location's information is no longer
+    // displayed
+    $instance
+      .find('checkbox')
+        .removeAttr('checked')
+        .prop('checked', false)
+        .end()
+      .find('input')
+        .val('')
+        .end()
+      .find('select')
+        .removeAttr('selected')
+        .prop('selected', false)
+        .val('')
+      .find('.location-selected-title, .location-selected-room, .location-selected-url')
+        .text('');
+      //   .end()
+      // .find('.location-selected-remove')
+      //   .remove();
 
-        // Delete a cloneable element
-        var deleteForm = function(btn, prefix) {
-            var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
-            if (formCount > 1) {
-                // Delete the cloneable
-                $(btn)
-                    .parents('.cloneable')
-                        .slideUp(300)
-                        .find('input[id*="-DELETE"]')
-                            .prop('checked', true);
+    return $instance;
+  }
 
-                setTimeout(function() {
-                    // Remove deleted cloneable; update totals/indexes after removal
-                    if ($(btn).parents('.cloneable').find('input[id$="-id"]').val() === '') {
-                        $(btn).parents('.cloneable').remove();
-                    }
+  // function getInstanceIndex($instance) {
+  //   // Assume formPrefix will always equal the instance wrapper's ID
+  //   // without a '-<INDEX>' suffix or a 'id_' prefix.
+  //   var chunks = $instance.attr('id').split(formPrefix);
+  //   return chunks[1];
+  // }
 
-                    var forms = $('.cloneable'); // Get all the cloneable items
+  /**
+   * Updates IDs, labels, etc. as necessary for Event Instance formsets
+   **/
+  function updateInstancePrefix($instance, newPrefix) {
+    var oldPrefix = $instance.attr('id');
 
-                    // Update the total number of cloneables (1 less than before)
-                    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    // Update $instance's ID
+    $instance.attr('id', newPrefix);
 
-                    var i = 0;
-                    // Go through the cloneables and set their indexes, names and IDs
-                    for (formCount=forms.length; i<formCount; i++) {
-                        var formFields = $(forms.get(i)).find('input, textarea, select, label');
-                        for (var j=0; j<formFields.length; j++) {
-                            updateElementIndex(formFields.get(j), prefix, i);
-                        }
-                    }
+    // Update $instance's child node attributes
+    instanceHTML = $instance.get(0).innerHTML;
+    var regex = '/' + oldPrefix + '/g';
+    instanceHTML.replace(regex, newPrefix);
+    console.log(instanceHTML);
+    $instance.html(instanceHTML);
 
-                    // Toggle remove buttons, if necessary
-                    toggleRemoveBtn(prefix);
-                }, 300);
-            }
-            return false;
-        };
+    return $instance;
+  }
 
-        // Clone a cloneable element
-        var addForm = function(btn, prefix) {
-            var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
+  /**
+   * Clone $instanceTemplate and insert at the bottom of the
+   * Event Instance form
+   **/
+  function addInstance() {
+    var instanceTotal = getInstanceTotalVal();
+    if (instanceTotal < instanceMaxVal) {
+      var $instance = $instanceTemplate.clone(false),
+          newPrefix = formPrefix + '-' + getInstanceTotalVal();
 
-            // You can only submit a maximum of 12 instances
-            if (formCount < $('#id_' + prefix + '-MAX_NUM_FORMS').val()) {
-                // Clone a form from the first form
-                var row = cloneable.clone(false).get(0);
+      $instance = updateInstancePrefix($instance, newPrefix);
 
-                $(row)
-                    // Insert it after the last form
-                    .removeAttr('id')
-                    .addClass('clone')
-                    .hide()
-                    .insertAfter('.cloneable:last')
-                    .slideDown(300)
-                    // Relabel or rename all the relevant bits
-                    .find('input, textarea, select, label')
-                    .each(function () {
-                        updateElementIndex(this, prefix, formCount);
-                        var element = $(this);
-                        if (element.is('select')) {
-                            if (element.attr('id').indexOf('interval') >= 0) {
-                                element.find('option:first').attr('selected', 'selected');
-                            }
-                        } else {
-                            element.val('');
-                        }
-                });
+      setupInstanceEventHandlers($instance);
 
-                // Add an event handler for the delete item/form link
-                $(row).find('.remove-instance').click(function () {
-                    return deleteForm(this, prefix);
-                });
-                // Add event handlers for date/time widgets
-                initiateDatePickers($(row).find('.field-date'));
-                initiateTimePickers($(row).find('.field-time'));
-                // Add event handler for location autocomplete
-                eventLocationsSearch($(row).find('.location-dropdown'));
+      // Animate insertion into DOM
+      // TODO: CSS animations
+      $instance
+        .addClass('clone')
+        .hide()
+        .insertAfter($form.find('.cloneable:last'))
+        .slideDown(300);
 
-                // Update the total form count
-                $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
-
-                // Toggle remove buttons, if necessary
-                toggleRemoveBtn(prefix);
-            }
-            else {
-                window.alert('Sorry, you can only create a maximum of twelve time/locations.');
-            }
-            return false;
-        };
-
-        // On load
-        toggleRemoveBtn(prefix);
-
-        // Register the click event handlers
-        cloneBtn.click(function(e) {
-            e.preventDefault();
-            return addForm(this, prefix);
-        });
-        $('.remove-instance').click(function(e) {
-            e.preventDefault();
-            return deleteForm(this, prefix);
-        });
+      incrementInstanceTotal();
+      toggleRemoveBtns();
     }
-};
+    else {
+      window.alert('Sorry, you cannot create more than ' + instanceMaxVal + ' unique event instances.');
+    }
+  }
+
+  function addBtnClickHandler(e) {
+    e.preventDefault();
+    addInstance();
+  }
+
+  /**
+   * Hide the given Event Instance and mark it for removal
+   * on form submit.  Update remaining Event Instance prefixes.
+   **/
+  function removeInstance($instance) {
+    var instanceTotal = getInstanceTotalVal();
+    if (instanceTotal > 1) {
+      // Animate hiding from DOM; check DELETE checkbox needed
+      // for Django to remove the instance on the backend.
+      // TODO: CSS animations
+      $instance
+        .slideUp(300)
+        .removeClass('cloneable')
+        .addClass('cloneable-removed')
+        .find('id_' + $instance.attr('id') + '-DELETE')
+            .prop('checked', true);
+
+      instanceTotal = decrementInstanceTotal();
+
+      // Go through the remaining instances and update prefixes
+      var $instances = $form.find('.cloneable');
+
+      for (var index = 0; index < instanceTotal; i++) {
+        newPrefix = formPrefix + '-' + index;
+        updateInstancePrefix($instances.eq(index), newPrefix);
+      }
+
+      toggleRemoveBtns();
+    }
+  }
+
+  function removeBtnClickHandler(e) {
+    e.preventDefault();
+    var $btn = $(e.target);
+    removeInstance($($btn.attr('data-instance')));
+  }
+
+  function getInstanceTotalVal() {
+    return parseInt($instanceTotal.val(), 10);
+  }
+
+  function incrementInstanceTotal() {
+    var oldInstanceTotalVal = getInstanceTotalVal(),
+        newInstanceTotalVal = oldInstanceTotalVal + 1;
+
+    $instanceTotal.val(newInstanceTotalVal);
+
+    return newInstanceTotalVal;
+  }
+
+  function decrementInstanceTotal() {
+    var oldInstanceTotalVal = getInstanceTotalVal(),
+        newInstanceTotalVal = oldInstanceTotalVal - 1;
+
+    $instanceTotal.val(newInstanceTotalVal);
+
+    return newInstanceTotalVal;
+  }
+
+  function toggleRemoveBtns() {
+    var $instances = $form.find('.cloneable'),
+        $removeBtns = $instances.find('.remove-instance');
+    if ($instances.length === 1) {
+      $removeBtns.addClass('hidden');
+    }
+    else {
+      $removeBtns.removeClass('hidden');
+    }
+  }
+
+  function setupInstanceEventHandlers($instance) {
+    $instance.on('click', '.remove-instance', removeBtnClickHandler);
+
+    // Add event handlers for date/time widgets
+    initiateDatePickers($instance.find('.field-date'));
+    initiateTimePickers($instance.find('.field-time'));
+
+    // Add event handler for location autocomplete
+    eventLocationsSearch($instance.find('.location-dropdown'));
+  }
+
+  function setupFormEventHandlers() {
+    $clonerBtn.on('click', addBtnClickHandler);
+  }
+
+  function initialFormSetup() {
+    // Show the cloner button
+    $clonerBtn.removeClass('hidden');
+
+    setupFormEventHandlers();
+    toggleRemoveBtns();
+  }
+
+  function init() {
+    $form = $('#event-instance-form');
+
+    if ($form.length) {
+      formPrefix = $form.attr('data-form-prefix');
+
+      instanceTemplateIndex = 'xxxxx';
+      instanceTemplatePrefix = formPrefix + '-' + instanceTemplateIndex;
+      $instanceTemplate = getInstanceTemplate();
+
+      $clonerBtn = $form.find('#cloner');
+      $instanceTotal = $form.siblings('#id_' + formPrefix + '-TOTAL_FORMS');
+      instanceMaxVal = parseInt($form.siblings('#id_' + formPrefix + '-MAX_NUM_FORMS').val(), 10);
+
+      initialFormSetup();
+    }
+  }
+
+  init();
+}
+
+// var cloneableFieldsets = function() {
+//     if ($('.cloneable').length > 0) {
+//         var cloneableWrap = $('.cloneable').parent(),
+//             cloneable = cloneableWrap.children(':first'),
+//             cloneBtn = cloneableWrap.parent().find('.cloner'),
+//             prefix = cloneable.attr('data-form-prefix');
+
+//         // Add content to cloner btn
+//         cloneBtn.html('<div>Add another event instance...</div><a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance"><i class="fa fa-plus"></i></a>');
+
+//         // Update the index in the ID, name, or 'for' attr of the form element
+//         var updateElementIndex = function(element, prefix, index) {
+//             var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+//             var replacement = prefix + '-' + index + '-';
+//             if ($(element).attr('for')) {
+//                 $(element).attr('for', $(element).attr('for').replace(id_regex, replacement));
+//             }
+//             if (element.id) {
+//                 element.id = element.id.replace(id_regex, replacement);
+//             }
+//             if (element.name) {
+//                 element.name = element.name.replace(id_regex, replacement);
+//             }
+//         };
+
+//         var toggleRemoveBtn = function(prefix) {
+//             // Toggle the 'hidden' class off of each cloneable element
+//             // if there are more than one cloneables on the screen
+//             if ($('#id_' + prefix + '-TOTAL_FORMS').val() === 1 || $('.cloneable').length < 2) {
+//                 cloneableWrap.find('.remove-instance').addClass('hidden');
+//             }
+//             else {
+//                 cloneableWrap.find('.remove-instance').removeClass('hidden');
+//             }
+//         };
+
+//         // Delete a cloneable element
+//         var deleteForm = function(btn, prefix) {
+//             var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
+//             if (formCount > 1) {
+//                 // Delete the cloneable
+//                 $(btn)
+//                     .parents('.cloneable')
+//                         .slideUp(300)
+//                         .find('input[id*="-DELETE"]')
+//                             .prop('checked', true);
+
+//                 setTimeout(function() {
+//                     // Remove deleted cloneable; update totals/indexes after removal
+//                     if ($(btn).parents('.cloneable').find('input[id$="-id"]').val() === '') {
+//                         $(btn).parents('.cloneable').remove();
+//                     }
+
+//                     var forms = $('.cloneable'); // Get all the cloneable items
+
+//                     // Update the total number of cloneables (1 less than before)
+//                     $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+
+//                     var i = 0;
+//                     // Go through the cloneables and set their indexes, names and IDs
+//                     for (formCount=forms.length; i<formCount; i++) {
+//                         var formFields = $(forms.get(i)).find('input, textarea, select, label');
+//                         for (var j=0; j<formFields.length; j++) {
+//                             updateElementIndex(formFields.get(j), prefix, i);
+//                         }
+//                     }
+
+//                     // Toggle remove buttons, if necessary
+//                     toggleRemoveBtn(prefix);
+//                 }, 300);
+//             }
+//             return false;
+//         };
+
+//         // Clone a cloneable element
+//         var addForm = function(btn, prefix) {
+//             var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val(), 10);
+
+//             // You can only submit a maximum of 12 instances
+//             if (formCount < $('#id_' + prefix + '-MAX_NUM_FORMS').val()) {
+//                 // Clone a form from the first form
+//                 var row = cloneable.clone(false).get(0);
+
+//                 $(row)
+//                     // Insert it after the last form
+//                     .removeAttr('id')
+//                     .addClass('clone')
+//                     .hide()
+//                     .insertAfter('.cloneable:last')
+//                     .slideDown(300)
+//                     // Relabel or rename all the relevant bits
+//                     .find('input, textarea, select, label')
+//                     .each(function () {
+//                         updateElementIndex(this, prefix, formCount);
+//                         var element = $(this);
+//                         if (element.is('select')) {
+//                             if (element.attr('id').indexOf('interval') >= 0) {
+//                                 element.find('option:first').attr('selected', 'selected');
+//                             }
+//                         } else {
+//                             element.val('');
+//                         }
+//                 });
+
+//                 // Add an event handler for the delete item/form link
+//                 $(row).find('.remove-instance').click(function () {
+//                     return deleteForm(this, prefix);
+//                 });
+//                 // Add event handlers for date/time widgets
+//                 initiateDatePickers($(row).find('.field-date'));
+//                 initiateTimePickers($(row).find('.field-time'));
+//                 // Add event handler for location autocomplete
+//                 eventLocationsSearch($(row).find('.location-dropdown'));
+
+//                 // Update the total form count
+//                 $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
+
+//                 // Toggle remove buttons, if necessary
+//                 toggleRemoveBtn(prefix);
+//             }
+//             else {
+//                 window.alert('Sorry, you can only create a maximum of twelve time/locations.');
+//             }
+//             return false;
+//         };
+
+//         // On load
+//         toggleRemoveBtn(prefix);
+
+//         // Register the click event handlers
+//         cloneBtn.click(function(e) {
+//             e.preventDefault();
+//             return addForm(this, prefix);
+//         });
+//         $('.remove-instance').click(function(e) {
+//             e.preventDefault();
+//             return deleteForm(this, prefix);
+//         });
+//     }
+// };
 
 
 /**
@@ -1141,6 +1360,7 @@ $(document).ready(function() {
     eventLocationsSearch($('select.location-dropdown'));
     eventTagging();
 
-    cloneableFieldsets();
+    // cloneableFieldsets();
+    cloneableEventInstances();
     eventContactInfo();
 });
