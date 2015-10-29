@@ -996,9 +996,9 @@ function cloneableEventInstances() {
         .end()
       .find('select')
         .find('option[selected]')
+          .prop('selected', false)
           .removeAttr('selected')
           .end()
-        .prop('selected', false)
         .val('')
         .end()
       .find('.location-selected-title, .location-selected-room, .location-selected-url')
@@ -1048,7 +1048,7 @@ function cloneableEventInstances() {
     // Update $instance's ID
     $instance.attr('id', newPrefix);
 
-    // Update $instance's child node attributes to use
+    // Update $instance's child node attributes
     instanceHTML = $instance.get(0).innerHTML;
     var regex = new RegExp(oldPrefix, 'gm');
     updatedHTML = instanceHTML.replace(regex, newPrefix);
@@ -1081,14 +1081,15 @@ function cloneableEventInstances() {
       setupInstanceEventHandlers($instance);
 
       incrementInstanceTotal();
-      toggleRemoveBtns();
+
+      $form.trigger('formChanged');
     }
     else {
-      window.alert('Sorry, you cannot create more than ' + instanceMaxVal + ' unique event instances.');
+      window.alert('Sorry, an event cannot have more than ' + instanceMaxVal + ' unique event instances.');
     }
   }
 
-  function addBtnClickHandler(e) {
+  function clonerBtnClickHandler(e) {
     e.preventDefault();
     addInstance();
   }
@@ -1118,17 +1119,15 @@ function cloneableEventInstances() {
           setupInstanceEventHandlers($theInstance);
         }
       }
-
-      $form.trigger('eventInstanceRemovalDone'); // Custom event
     }
     else {
       $removedInstance
         .addClass('cloneable-removed')
         .find('#id_' + $removedInstance.attr('id') + '-DELETE')
           .prop('checked', true);
-
-      $form.trigger('eventInstanceRemovalDone'); // Custom event
     }
+
+    $form.trigger('formChanged');
   }
 
   /**
@@ -1142,7 +1141,7 @@ function cloneableEventInstances() {
       // NOTE slideUp used here in lieu of CSS animations for IE8 support
       $instance.slideUp(300, updateInstancesPostRemoval);
 
-      instanceTotal = decrementInstanceTotal();
+      decrementInstanceTotal();
     }
   }
 
@@ -1186,6 +1185,20 @@ function cloneableEventInstances() {
     }
   }
 
+  function toggleClonerBtn() {
+    if ($form.find('.cloneable:not(.cloneable-removed)').length < instanceMaxVal) {
+      $clonerBtn.removeClass('disabled');
+    }
+    else {
+      $clonerBtn.addClass('disabled');
+    }
+  }
+
+  function formChangedEventHandler() {
+    toggleRemoveBtns();
+    toggleClonerBtn();
+  }
+
   /**
    * NOTE: this function should NOT be run until after
    * $instanceTemplate has been defined!
@@ -1209,7 +1222,7 @@ function cloneableEventInstances() {
     // Show the cloner button, add event handler
     $clonerBtn
       .removeClass('hidden')
-      .on('click', addBtnClickHandler);
+      .on('click', clonerBtnClickHandler);
 
     // Apply event handlers to existing instances on page load
     var $instances = $form.find('.cloneable');
@@ -1217,8 +1230,9 @@ function cloneableEventInstances() {
       setupInstanceEventHandlers($instances.eq(i));
     }
 
-    toggleRemoveBtns();
-    $form.on('eventInstanceRemovalDone', toggleRemoveBtns);
+    $form
+      .on('formChanged', formChangedEventHandler)
+      .trigger('formChanged');
   }
 
   function init() {
