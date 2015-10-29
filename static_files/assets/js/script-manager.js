@@ -713,7 +713,7 @@ var eventLocationsSearch = function(locationDropdowns) {
                 });
 
                 // Stupid selectedIndex fix for cloned location values
-                if (self.dataField.parents('.cloneable').hasClass('clone')) {
+                if (self.dataField.parents('.event-instance').hasClass('clone')) {
                     self.dataField.get(0).selectedIndex = self.dataField.children('option[selected="selected"]').val();
                 }
             };
@@ -974,7 +974,7 @@ function cloneableEventInstances() {
    * Event Instances
    **/
   function getInstanceTemplate() {
-    var $instance = $form.find('.cloneable').first().clone(false);
+    var $instance = $form.find('.event-instance').first().clone(false);
 
     $instance = updateInstancePrefix($instance, $instance.attr('id'), instanceTemplatePrefix);
 
@@ -1048,7 +1048,7 @@ function cloneableEventInstances() {
     var activeInstanceTotal = getActiveInstanceTotal();
     if (activeInstanceTotal < instanceMaxVal) {
       var $instance = $instanceTemplate.clone(false),
-          $instances = $form.find('.cloneable'),
+          $instances = $form.find('.event-instance'),
           newPrefix = formPrefix + '-' + $instances.length;
 
       $instance = updateInstancePrefix($instance, $instance.attr('id'), newPrefix);
@@ -1058,7 +1058,7 @@ function cloneableEventInstances() {
       $instance
         .addClass('clone')
         .hide()
-        .insertAfter($form.find('.cloneable:last'))
+        .insertAfter($form.find('.event-instance:last'))
         .slideDown(300);
 
       setupInstanceEventHandlers($instance);
@@ -1090,14 +1090,14 @@ function cloneableEventInstances() {
     if ($removedInstance.hasClass('clone')) {
       $removedInstance.remove();
 
-      var $instances = $form.find('.cloneable');
+      var $instances = $form.find('.event-instance');
 
       // Go through all instances and update prefixes on clones, since
       // they may be out of order now
       for (var index = 0; index < $instances.length; index++) {
         var $theInstance = $instances.eq(index);
 
-        // Only modify prefixes clones (non-clones should never fall out of order)
+        // Only modify prefixes of clones (non-clones should never fall out of order)
         if ($theInstance.hasClass('clone')) {
           var newPrefix = formPrefix + '-' + index;
           updateInstancePrefix($theInstance, $theInstance.attr('id'), newPrefix);
@@ -1107,7 +1107,7 @@ function cloneableEventInstances() {
     }
     else {
       $removedInstance
-        .addClass('cloneable-removed')
+        .addClass('event-instance-removed')
         .find('#id_' + $removedInstance.attr('id') + '-DELETE')
           .prop('checked', true);
     }
@@ -1121,7 +1121,8 @@ function cloneableEventInstances() {
    **/
   function removeInstance($instance) {
     var activeInstanceTotal = getActiveInstanceTotal(),
-        isClone = $instance.hasClass('.clone');
+        isClone = $instance.hasClass('clone');
+
     if (activeInstanceTotal > 1) {
       // Animate hiding from DOM; perform post-removal actions as needed.
       // NOTE slideUp used here in lieu of CSS animations for IE8 support
@@ -1143,11 +1144,11 @@ function cloneableEventInstances() {
   }
 
   /**
-   * Returns the number of .cloneable's in the form that are not marked
+   * Returns the number of .event-instance's in the form that are not marked
    * for deletion (instances that are "actively" visible).
    **/
   function getActiveInstanceTotal() {
-    return $form.find('.cloneable:not(.cloneable-removed)').length;
+    return $form.find('.event-instance:not(.event-instance-removed)').length;
   }
 
   /**
@@ -1231,7 +1232,7 @@ function cloneableEventInstances() {
       .on('click', clonerBtnClickHandler);
 
     // Apply event handlers to existing instances on page load
-    var $instances = $form.find('.cloneable');
+    var $instances = $form.find('.event-instance');
     for (var i = 0; i < $instances.length; i++) {
       setupInstanceEventHandlers($instances.eq(i));
     }

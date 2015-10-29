@@ -175,7 +175,7 @@
                 <div class="controls col-md-8">
                 {% if event_instance_formset|length > 0 %}
                     {% for ei_form in event_instance_formset %}
-                    <div class="row cloneable" id="{{ ei_form.prefix }}">
+                    <div class="row event-instance" id="{{ ei_form.prefix }}">
                         {{ ei_form.id }}
                         <div class="col-md-10 col-sm-11 col-xs-11">
                             <a class="btn btn-danger remove-instance hidden" data-instance="#{{ ei_form.prefix }}" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
