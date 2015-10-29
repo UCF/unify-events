@@ -983,10 +983,7 @@ function cloneableEventInstances() {
     // displayed
     $instance
       // Specifically remove unneeded inputs for clones (they don't exist/have an ID yet)
-      .find('#id_' + instanceTemplatePrefix + '-id')
-        .remove()
-        .end()
-      .find('.clone-delete-hiddenfield')
+      .find('#id_' + instanceTemplatePrefix + '-id, .clone-delete-hiddenfield')
         .remove()
         .end()
       .find('input')
