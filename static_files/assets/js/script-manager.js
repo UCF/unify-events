@@ -982,12 +982,11 @@ function cloneableEventInstances() {
     // make sure a selected location's information is no longer
     // displayed
     $instance
-      .find('checkbox')
-        .removeAttr('checked')
-        .prop('checked', false)
-        .end()
-      // Specifically delete the Event Instance ID input for clones (they don't exist/have an ID yet)
+      // Specifically remove unneeded inputs for clones (they don't exist/have an ID yet)
       .find('#id_' + instanceTemplatePrefix + '-id')
+        .remove()
+        .end()
+      .find('.clone-delete-hiddenfield')
         .remove()
         .end()
       .find('input')
@@ -1049,8 +1048,8 @@ function cloneableEventInstances() {
    * Event Instance form
    **/
   function addInstance() {
-    var instanceTotal = getInstanceTotalVal();
-    if (instanceTotal < instanceMaxVal) {
+    var activeInstanceTotal = getActiveInstanceTotal();
+    if (activeInstanceTotal < instanceMaxVal) {
       var $instance = $instanceTemplate.clone(false),
           $instances = $form.find('.cloneable'),
           newPrefix = formPrefix + '-' + $instances.length;
@@ -1082,7 +1081,7 @@ function cloneableEventInstances() {
   }
 
   /**
-   * Callback after an event instance is removed (hidden)
+   * Callback after an event instance is "removed"
    **/
   function updateInstancesPostRemoval() {
 
@@ -1124,13 +1123,19 @@ function cloneableEventInstances() {
    * on form submit.  Update remaining Event Instance prefixes.
    **/
   function removeInstance($instance) {
-    var instanceTotal = getInstanceTotalVal();
-    if (instanceTotal > 1) {
+    var activeInstanceTotal = getActiveInstanceTotal(),
+        isClone = $instance.hasClass('.clone');
+    if (activeInstanceTotal > 1) {
       // Animate hiding from DOM; perform post-removal actions as needed.
       // NOTE slideUp used here in lieu of CSS animations for IE8 support
       $instance.slideUp(300, updateInstancesPostRemoval);
 
-      decrementInstanceTotal();
+      // Only decrease the instance total if $instance is a clone--Django's
+      // form validation requires non-clones marked as deletion to still be
+      // counted toward the total number of instances.
+      if (isClone) {
+        decrementInstanceTotal();
+      }
     }
   }
 
@@ -1140,12 +1145,20 @@ function cloneableEventInstances() {
     removeInstance($form.find($btn.attr('data-instance')));
   }
 
-  function getInstanceTotalVal() {
-    return parseInt($instanceTotal.val(), 10);
+  /**
+   * Returns the number of .cloneable's in the form that are not marked
+   * for deletion (instances that are "actively" visible).
+   **/
+  function getActiveInstanceTotal() {
+    return $form.find('.cloneable:not(.cloneable-removed)').length;
   }
 
+  /**
+   * Increments $instanceTotal's value by 1.  This function should always
+   * be called any time an instance is added to $form.
+   **/
   function incrementInstanceTotal() {
-    var oldInstanceTotalVal = getInstanceTotalVal(),
+    var oldInstanceTotalVal = parseInt($instanceTotal.val(), 10),
         newInstanceTotalVal = oldInstanceTotalVal + 1;
 
     $instanceTotal.val(newInstanceTotalVal);
@@ -1153,8 +1166,13 @@ function cloneableEventInstances() {
     return newInstanceTotalVal;
   }
 
+  /**
+   * Decreases $instanceTotal's value by 1.  This function should
+   * only be called when a clone is removed--existing instances marked
+   * for deletion must still be counted toward $instanceTotal's value.
+   **/
   function decrementInstanceTotal() {
-    var oldInstanceTotalVal = getInstanceTotalVal(),
+    var oldInstanceTotalVal = parseInt($instanceTotal.val(), 10),
         newInstanceTotalVal = oldInstanceTotalVal - 1;
 
     $instanceTotal.val(newInstanceTotalVal);
@@ -1163,10 +1181,10 @@ function cloneableEventInstances() {
   }
 
   function toggleRemoveBtns() {
-    var $instances = $form.find('.cloneable:not(.cloneable-removed)'),
-        $removeBtns = $instances.find('.remove-instance');
+    var activeInstanceTotal = getActiveInstanceTotal(),
+        $removeBtns = $form.find('.remove-instance');
 
-    if ($instances.length === 1) {
+    if (activeInstanceTotal === 1) {
       $removeBtns.addClass('hidden');
     }
     else {
@@ -1175,7 +1193,9 @@ function cloneableEventInstances() {
   }
 
   function toggleClonerBtn() {
-    if ($form.find('.cloneable:not(.cloneable-removed)').length < instanceMaxVal) {
+    var activeInstanceTotal = getActiveInstanceTotal();
+
+    if (activeInstanceTotal < instanceMaxVal) {
       $clonerBtn.removeClass('disabled');
     }
     else {
