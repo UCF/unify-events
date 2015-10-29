@@ -79,7 +79,7 @@
             </div>
         </div>
         <form class="form-horizontal" action="{% url 'event-update' pk=event.pk %}" method="post" enctype="multipart/form-data">
-    {% else%}
+    {% else %}
         <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
             {% csrf_token %}

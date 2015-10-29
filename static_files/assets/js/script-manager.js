@@ -1008,51 +1008,38 @@ function cloneableEventInstances() {
   }
 
   /**
-   * Updates IDs, labels, etc. as necessary for Event Instance formsets
+   * Updates IDs, labels, etc. as necessary for Event Instance formsets.
+   * This function checks for form elements specific to Event Instances
+   * (checkboxes, inputs, selects)--if new form elements are ever added to
+   * the Event Instance formset, this function may need to be updated.
    **/
   function updateInstancePrefix($instance, oldPrefix, newPrefix) {
-
-    // Force 'value'/'checked'/'selected' attributes to be updated in the DOM
-    // (so that those values are not lost when fetching $instance.innerHTML)
-    var $checkboxes = $instance.find('checkbox'),
-        $inputs = $instance.find('input'),
-        $selects = $instance.find('select');
-
-    for (var i = 0; i < $checkboxes.length; i++) {
-      var $checkbox = $checkboxes.eq(i);
-
-      if ($checkbox.prop('checked') || $checkbox.val() == 'on') {
-        $checkbox
-          .attr('checked', 'checked');
-      }
-    }
-    for (var j = 0; j < $inputs.length; j++) {
-      var $input = $inputs.eq(j),
-          inputVal = $input.val();
-
-      if (inputVal) {
-        $input.attr('value', inputVal);
-      }
-    }
-    for (var k = 0; k < $checkboxes.length; k++) {
-      var $select = $selects.eq(k),
-          selectVal = $select.val();
-
-      if (selectVal) {
-        $select
-          .find('option[value="' + selectVal + '"]')
-            .attr('selected', 'selected');
-      }
-    }
 
     // Update $instance's ID
     $instance.attr('id', newPrefix);
 
-    // Update $instance's child node attributes
-    instanceHTML = $instance.get(0).innerHTML;
-    var regex = new RegExp(oldPrefix, 'gm');
-    updatedHTML = instanceHTML.replace(regex, newPrefix);
-    $instance.html(updatedHTML);
+    var $prefixedElements = $instance.find('checkbox, input, select, label'),
+        $removeBtn = $instance.find('.remove-instance'),
+        regex = new RegExp(oldPrefix, 'gm');
+
+    for (var i = 0; i < $prefixedElements.length; i++) {
+      var $elem = $prefixedElements.eq(i),
+          attrFor = $elem.attr('for'),
+          attrID = $elem.attr('id'),
+          attrName = $elem.attr('name');
+
+      if (attrFor) {
+        $elem.attr('for', attrFor.replace(regex, newPrefix));
+      }
+      if (attrID) {
+        $elem.attr('id', attrID.replace(regex, newPrefix));
+      }
+      if (attrName) {
+        $elem.attr('name', attrName.replace(regex, newPrefix));
+      }
+    }
+
+    $removeBtn.attr('data-instance', '#' + newPrefix);
 
     return $instance;
   }
@@ -1098,14 +1085,16 @@ function cloneableEventInstances() {
    * Callback after an event instance is removed (hidden)
    **/
   function updateInstancesPostRemoval() {
-    var $removedInstance = $(this), // passed from slideUp() callback
-        $instances = $form.find('.cloneable');
+
+    var $removedInstance = $(this); // passed from slideUp() callback
 
     // If this instance was never saved to the backend (is a clone),
     // remove it from the DOM entirely.  Else, keep it in the DOM but
     // check the DELETE checkbox for the instance
     if ($removedInstance.hasClass('clone')) {
       $removedInstance.remove();
+
+      var $instances = $form.find('.cloneable');
 
       // Go through all instances and update prefixes on clones, since
       // they may be out of order now
