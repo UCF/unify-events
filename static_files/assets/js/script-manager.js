@@ -711,11 +711,6 @@ var eventLocationsSearch = function(locationDropdowns) {
                         self.addBtn.hide();
                     }
                 });
-
-                // Stupid selectedIndex fix for cloned location values
-                if (self.dataField.parents('.event-instance').hasClass('clone')) {
-                    self.dataField.get(0).selectedIndex = self.dataField.children('option[selected="selected"]').val();
-                }
             };
 
             autocomplete.typeaheadUpdater = function(item) {
