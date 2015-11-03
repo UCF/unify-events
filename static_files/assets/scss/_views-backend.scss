@@ -175,6 +175,10 @@ form#manager-calendar-add-user {
 }
 
 // When/Where
+#event_instances-__prefix__ {
+  display: none;
+}
+
 .whenwhere-wrap,
 #cloner > div {
   border-radius: 4px 0 4px 4px;

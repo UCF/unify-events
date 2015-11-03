@@ -965,40 +965,6 @@ function cloneableEventInstances() {
       instanceMaxVal;          // Grabbed from hidden input used by Django; the max number of instances that can be saved to an event
 
   /**
-   * Generates a jQuery object suitable for cloning from for new
-   * Event Instances
-   **/
-  function getInstanceTemplate() {
-    var $instance = $form.find('.event-instance').first().clone(false);
-
-    $instance = updateInstancePrefix($instance, $instance.attr('id'), instanceTemplatePrefix);
-
-    // Clear all existing input values of the cloned instance;
-    // make sure a selected location's information is no longer
-    // displayed
-    $instance
-      // Specifically remove unneeded inputs for clones (they don't exist/have an ID yet)
-      .find('#id_' + instanceTemplatePrefix + '-id, .clone-delete-hiddenfield')
-        .remove()
-        .end()
-      .find('input')
-        .val('')
-        .removeAttr('value')
-        .end()
-      .find('select')
-        .find('option[selected]')
-          .prop('selected', false)
-          .removeAttr('selected')
-          .end()
-        .val('')
-        .end()
-      .find('.location-selected-title, .location-selected-room, .location-selected-url')
-        .text('');
-
-    return $instance;
-  }
-
-  /**
    * Updates IDs, labels, etc. as necessary for Event Instance formsets.
    * This function checks for form elements specific to Event Instances
    * (checkboxes, inputs, selects)--if new form elements are ever added to
@@ -1243,9 +1209,9 @@ function cloneableEventInstances() {
     if ($form.length) {
       formPrefix = $form.attr('data-form-prefix');
 
-      instanceTemplateIndex = 'xxxxx';
+      instanceTemplateIndex = '__prefix__';
       instanceTemplatePrefix = formPrefix + '-' + instanceTemplateIndex;
-      $instanceTemplate = getInstanceTemplate();
+      $instanceTemplate = $form.find('#' + instanceTemplatePrefix).detach();
 
       $clonerBtn = $form.find('#cloner');
       $instanceTotal = $form.siblings('#id_' + formPrefix + '-TOTAL_FORMS');
