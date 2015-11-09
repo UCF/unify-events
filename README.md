@@ -153,17 +153,17 @@ Partial Sass files are generally separated out by function, and must be compiled
 This project combines vendor javascript libraries with our own so fewer files need to be delivered to the client. The list below lays out the basic concatenation/uglification scheme.
 
 * script.min.js
-  * jquery.placeholder.js - *vender*
+  * jquery.placeholder.js - *vendor*
   * bootstrap.js - *vendor*
   * script.js - *project*
 * script-frontend.min.js
   * script-frontend.js - *project*
-*script-backend.min.js
+* script-backend.min.js
   * bootstrap3-typeahead.js - *vendor*
   * jquery.timepicker.js - *vendor*
   * bootstrap-datepicker.js - *vendor*
   * script-manager.js - *project*
-* wysiwyg.min.js
+  * wysiwyg.min.js
   * wysihtml5-0.3.0.js - *vendor*
   * bootstrap3-wysihtml5.js - *vendor*
 
