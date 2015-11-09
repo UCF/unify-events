@@ -1,0 +1,84 @@
+{% load widget_tweaks %}
+{% load locations %}
+<div class="row event-instance" id="{{ ei_form.prefix }}">
+    {% if not ei_prefix_template %}
+    {{ ei_form.id }}
+    {% endif %}
+    <div class="col-md-10 col-sm-11 col-xs-11">
+        <a class="btn btn-danger remove-instance hidden" data-instance="#{{ ei_form.prefix }}" href="#" alt="Remove this event instance" title="Remove this event instance">&times;</a>
+        <div class="whenwhere-wrap">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 whenwhere start {% if ei_form.start.errors %}error{% endif %}">
+                    <label class="label-inner" for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
+                    <label class="label-inner" for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
+                    {{ ei_form.start }}
+                    {{ ei_form.start.errors }}
+                </div>
+                <div class="col-md-6 col-sm-6 whenwhere end {% if ei_form.end.errors %}error{% endif %}">
+                    <label class="label-inner" for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
+                    <label class="label-inner" for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
+                    {{ ei_form.end }}
+                    {{ ei_form.end.errors }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 whenwhere-interval">
+                    <label class="label-inner vertical-label-inner" for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
+                    {{ ei_form.interval|add_class:"form-control" }}
+                    {{ ei_form.interval.errors }}
+                </div>
+                <div class="col-md-6 col-sm-6 whenwhere-until">
+                    <label class="label-inner vertical-label-inner" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
+                    {{ ei_form.until|add_class:"field-date form-control" }}
+                    {{ ei_form.until.errors }}
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
+                    <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
+                    {{ ei_form.location|add_class:"location-dropdown form-control" }}
+                    {{ ei_form.location.errors }}
+                </div>
+                <div class="col-md-6 col-sm-6 location-selected">
+                    <span class="location-selected-title">
+                        {% if ei_form.location.value %}
+                            {{ locations|locations_title:ei_form.location.value }}
+                        {% endif %}
+                    </span>
+                    <span class="location-selected-room">
+                        {% if ei_form.location.value %}
+                            {{ locations|locations_room:ei_form.location.value }}
+                        {% endif %}
+                    </span>
+                    <span class="location-selected-url">
+                        {% if ei_form.location.value %}
+                        <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
+                            <i class="fa fa-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
+                        </a>
+                        {% endif %}
+                    </span>
+                    <div class="location-new-form">
+                        <label class="label-inner {% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
+                        {{ ei_form.new_location_title|add_class:"form-control" }}
+                        {{ ei_form.new_location_title.errors }}
+
+                        <label class="label-inner vertical-label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                        {{ ei_form.new_location_room|add_class:"form-control" }}
+                        {{ ei_form.new_location_room.errors }}
+
+                        <label class="label-inner vertical-label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                        {{ ei_form.new_location_url|add_class:"form-control" }}
+                        {{ ei_form.new_location_url.errors }}
+                    </div>
+                    {% if not ei_prefix_template %}
+                    <div class="clone-delete-hiddenfield">
+                        <label for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
+                        {{ ei_form.DELETE }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

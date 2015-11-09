@@ -175,8 +175,12 @@ form#manager-calendar-add-user {
 }
 
 // When/Where
+#event_instances-__prefix__ {
+  display: none;
+}
+
 .whenwhere-wrap,
-.cloner > div {
+#cloner > div {
   border-radius: 4px 0 4px 4px;
   background: #f9f9f9;
   padding: 20px;
@@ -228,7 +232,7 @@ form#manager-calendar-add-user {
   z-index: 3;
 }
 
-.cloner {
+#cloner {
   position: relative;
 
   &:hover {
@@ -260,7 +264,22 @@ form#manager-calendar-add-user {
       padding: 8px 9px;
       right: -15px;
     }
-   }
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    cursor: not-allowed;
+
+    > div {
+      background-color: #fcfcfc;
+      border-color: #ddd;
+      color: #bbb;
+    }
+
+    > a {
+      @extend .btn.disabled;
+    }
+  }
 }
 
 .remove-instance {
