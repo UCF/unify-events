@@ -168,3 +168,5 @@ post_save.connect(generic_ban_urls, sender=Calendar)
 # No harm done if the delete doesn't go through. Just causes a single
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Calendar)
+
+# NOTE: Haystack signals are handled in events/signals.py

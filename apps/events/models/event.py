@@ -376,6 +376,8 @@ post_save.connect(generic_ban_urls, sender=Tag)
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Tag)
 
+# NOTE: Haystack signals are handled in events/signals.py
+
 
 class EventInstance(TimeCreatedModified):
     """
