@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {# url 'category-delete' pk=category.pk #}
+    {% url 'category-delete' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
 {% endblock %}
 
 {% block content_form_id %}category-delete{% endblock %}

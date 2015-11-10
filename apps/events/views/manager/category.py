@@ -16,13 +16,14 @@ from django.views.generic import DeleteView
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
 from core.views import PaginationRedirectMixin
+from core.views import SuccessPreviousViewRedirectMixin
 from events.forms.manager import CategoryForm
 from events.models import Category
 
 log = logging.getLogger(__name__)
 
 
-class CategoryCreate(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+class CategoryCreate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was created successfully.'
@@ -30,7 +31,7 @@ class CategoryCreate(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'events/manager/category/create_update.html'
 
 
-class CategoryUpdate(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+class CategoryUpdate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was updated successfully.'
@@ -38,7 +39,7 @@ class CategoryUpdate(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'events/manager/category/create_update.html'
 
 
-class CategoryDelete(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+class CategoryDelete(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     form_class = CategoryForm
     model = Category
     success_message = 'Category was deleted successfully.'
@@ -67,7 +68,6 @@ class CategoryList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
         context['category_list'] = Category.objects.all()
 
         return context
-
 
 
 @login_required

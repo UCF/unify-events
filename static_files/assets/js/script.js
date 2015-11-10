@@ -135,66 +135,69 @@ var jumpTo = function() {
  * in the toggle link's 'href' attribute.
  **/
 var toggleModalModifyObject = function() {
-    $('.object-modify').on('click', function(e) {
-        e.preventDefault();
+  $('.object-modify').on('click', function(e) {
+    e.preventDefault();
 
-        var modifyBtn = $(this),
-            staticPgUrl = modifyBtn.attr('href'),
-            modal = $('#object-modify-modal');
+    var $modifyBtn = $(this),
+        staticPgUrl = $modifyBtn.attr('href'),
+        $modal = $('#object-modify-modal');
 
-        if (modal) {
-            $.ajax({
-                url: staticPgUrl,
-                timeout: 3000 // allow 3 seconds to pass before failing the ajax request
-            })
-                .done(function(html) {
-                    // Assign returned html to some element so we can traverse the dom successfully
-                    var markup = $('<div />');
-                    markup.html(html);
+    if ($modal) {
+        $.ajax({
+          url: staticPgUrl,
+          timeout: 3000 // allow 3 seconds to pass before failing the ajax request
+        })
+          .done(function(html) {
+            // Assign returned html to some element so we can traverse the dom successfully
+            var $markup = $('<div />');
+            $markup.html(html);
 
-                    var modalTitle = '',
-                        modalBody = '',
-                        modalFooter = '',
-                        formId = '';
+            var $form = $markup.find('.object-modify-form'),
+                modalTitle = '',
+                modalBody = '',
+                modalFooter = '',
+                formAction = staticPgUrl,
+                formId = '';
 
-                    // Grab data from the requested page. Check it to make sure it's not
-                    // an error message or something we don't want
-                    if (markup.find('.object-modify-form').length > 0) {
-                        modalTitle = markup.find('h1').html();
-                        modalBody = markup.find('.modal-body-content').html();
-                        modalFooter = markup.find('.modal-footer-content').html();
-                        formId = markup.find('.object-modify-form').attr('id');
-                    }
-                    else {
-                        modalTitle = 'Error';
-                        modalBody = '<p>You do not have access to this content.</p>';
-                        modalFooter = '<a class="btn" data-dismiss="modal" href="#">Close</a>';
-                        formId = 'object-modify';
-                    }
+            // Grab data from the requested page. Check it to make sure it's not
+            // an error message or something we don't want
+            if ($form.length) {
+              modalTitle = $markup.find('h1').html();
+              modalBody = $markup.find('.modal-body-content').html();
+              modalFooter = $markup.find('.modal-footer-content').html();
+              formAction = $form.attr('action') || formAction;
+              formId = $form.attr('id');
+            }
+            else {
+              modalTitle = 'Error';
+              modalBody = '<p>You do not have access to this content.</p>';
+              modalFooter = '<a class="btn" data-dismiss="modal" href="#">Close</a>';
+              formId = 'object-modify';
+            }
 
-                    modal
-                        .find('h2')
-                            .html(modalTitle)
-                            .end()
-                        .find('form')
-                            .attr('action', staticPgUrl)
-                            .attr('id', formId)
-                            .end()
-                        .find('.modal-body')
-                            .html(modalBody)
-                            .end()
-                        .find('.modal-footer')
-                            .html(modalFooter)
-                            .end()
-                        .modal('show');
-                })
-                .fail(function() {
-                    // Just redirect to the static modify/delete page for the object
-                    window.location = staticPgUrl;
-                });
-        }
-        else { window.location = staticPgUrl; }
-    });
+            $modal
+              .find('h2')
+                .html(modalTitle)
+                .end()
+              .find('form')
+                .attr('action', formAction)
+                .attr('id', formId)
+                .end()
+              .find('.modal-body')
+                .html(modalBody)
+                .end()
+              .find('.modal-footer')
+                .html(modalFooter)
+                .end()
+              .modal('show');
+          })
+          .fail(function() {
+              // Just redirect to the static modify/delete page for the object
+              window.location = staticPgUrl;
+          });
+    }
+    else { window.location = staticPgUrl; }
+  });
 };
 
 
@@ -311,7 +314,7 @@ var gaEventTracking = function() {
 
 $(document).ready(function() {
     $('input, textarea').placeholder();
-    
+
     addBodyClasses();
     ie8StyleClasses();
     hideDropdownScrollbars();

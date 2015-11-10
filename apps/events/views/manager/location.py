@@ -17,6 +17,7 @@ from django.views.generic import DeleteView
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
 from core.views import PaginationRedirectMixin
+from core.views import SuccessPreviousViewRedirectMixin
 from events.forms.manager import LocationForm
 from events.models import Location
 
@@ -64,7 +65,7 @@ class LocationListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView
         return queryset
 
 
-class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+class LocationCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
     form_class = LocationForm
@@ -72,7 +73,7 @@ class LocationCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView
     success_message = '%(title)s was created successfully.'
 
 
-class LocationUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+class LocationUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     model = Location
     template_name = 'events/manager/location/create_update.html'
     form_class = LocationForm
@@ -80,7 +81,7 @@ class LocationUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView
     success_message = '%(title)s was updated successfully.'
 
 
-class LocationDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+class LocationDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Location
     template_name = 'events/manager/location/delete.html'
     success_url = reverse_lazy('location-list')

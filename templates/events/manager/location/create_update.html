@@ -59,10 +59,10 @@
 {% endblock %}
 
 {% block content_body %}
-	  {% if object %}
-        <form class="form-horizontal" action="{% url 'location-update' pk=location.pk %}" method="post" enctype="multipart/form-data">
+	{% if object %}
+        <form class="form-horizontal" action="{% url 'location-update' pk=location.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
     {% else %}
-        <form class="form-horizontal" action="{% url 'location-create' %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'location-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
 	  {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}

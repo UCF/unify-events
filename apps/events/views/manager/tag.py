@@ -18,6 +18,7 @@ from taggit.models import Tag
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
 from core.views import PaginationRedirectMixin
+from core.views import SuccessPreviousViewRedirectMixin
 from events.forms.manager import TagForm
 from events.models import Event
 
@@ -35,7 +36,7 @@ class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
         return queryset.annotate(event_count=Count('taggit_taggeditem_items'))
 
 
-class TagCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+class TagCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
     form_class = TagForm
@@ -43,7 +44,7 @@ class TagCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = '%(name)s was created successfully.'
 
 
-class TagUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+class TagUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
     success_url = reverse_lazy('tag-list')
@@ -51,7 +52,7 @@ class TagUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = '%(name)s was created successfully.'
 
 
-class TagDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+class TagDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Tag
     template_name = 'events/manager/tag/delete.html'
     success_url = reverse_lazy('tag-list')

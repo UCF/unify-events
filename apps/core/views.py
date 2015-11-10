@@ -1,5 +1,8 @@
 import logging
 
+import urllib
+from urlparse import urljoin
+from urlparse import urlparse
 from urlparse import parse_qs
 
 from django.http import Http404
@@ -8,10 +11,10 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponsePermanentRedirect
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db.models.loading import get_model
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -292,3 +295,71 @@ class InvalidSlugRedirectMixin(object):
         else:
             return super(InvalidSlugRedirectMixin, self).dispatch(request, *args, **kwargs)
 
+
+class SuccessPreviousViewRedirectMixin(object):
+    """
+    Updates the success_url of an EditView to redirect the user to the view
+    they were on previously before editing the object.
+
+    Includes validation of specified previous views to prevent arbitrary
+    redirection to invalid paths or pages outside of the app.
+
+    NOTE: this mixin depends on the HTTP_REFERER header, which may not be
+    100% accurate.  The mixin will also fail when the requested view is opened
+    in a new tab or window or requested the view directly by its absolute URL.
+    The view's success_url is used as a fallback.
+    """
+    def path_is_valid(self, path):
+        """
+        Validates a relative URL path as a legit view.  Returns True if the
+        path resolves and False on failure.
+        """
+        try:
+            match = resolve(path)
+        except Http404:
+            # url in 'path' variable did not resolve to a view
+            return False
+        else:
+            return True
+
+    def get_context_data(self, **kwargs):
+        """
+        Adds 'form_action_next' context for use in Create, Update and Delete
+        Views to add query parameters to the <form> element's 'action'
+        attribute.
+        """
+        context = super(SuccessPreviousViewRedirectMixin, self).get_context_data(**kwargs)
+        context['form_action_next'] = ''
+
+        next = self.request.META.get('HTTP_REFERER', None)
+        if next:
+            next_parsed = urlparse(next)
+            next_path = next_relative = next_parsed[2]
+            next_params = next_parsed[4]
+            if next_params:
+                next_relative = '%s?%s' % (next_path, next_params)
+            success_url = self.success_url
+            if next_relative != success_url and self.path_is_valid(next_path):
+                context['form_action_next'] = urllib.quote_plus(next)
+
+        return context
+
+    def get_success_url(self):
+        """
+        Returns the relative path of the url provided in the 'next' param,
+        or the view's default success_url if 'next' is invalid or unavailable.
+        """
+        success_url = super(SuccessPreviousViewRedirectMixin, self).get_success_url()
+        next = self.request.GET.get('next')
+
+        if next:
+            next = urllib.unquote_plus(next)  # unencode
+            next_parsed = urlparse(next)  # break into parts
+            next_path = next_relative = next_parsed[2]
+            if self.path_is_valid(next_path):
+                next_params = next_parsed[4]
+                if next_params:
+                    next_relative = '%s?%s' % (next_path, next_params)
+                success_url = next_relative
+
+        return success_url

@@ -44,9 +44,9 @@
 
 {% block content_body %}
     {% if object %}
-        <form class="form-horizontal" action="{% url 'category-update' pk=category.pk %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'category-update' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
     {% else %}
-        <form class="form-horizontal" action="{% url 'category-create' %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'category-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
     {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
