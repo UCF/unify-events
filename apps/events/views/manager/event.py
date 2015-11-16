@@ -1,11 +1,13 @@
 import logging
 import MySQLdb
+import urllib
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
@@ -18,6 +20,8 @@ from django.views.generic import UpdateView
 
 from core.forms import RequiredModelFormSet
 from core.views import DeleteSuccessMessageMixin
+from core.views import SuccessPreviousViewRedirectMixin
+from core.views import success_previous_view_redirect
 from events.forms.manager import EventCopyForm
 from events.forms.manager import EventForm
 from events.forms.manager import EventInstanceForm
@@ -155,7 +159,7 @@ class EventCreate(CreateView):
                                   event_instance_formset=event_instance_formset))
 
 
-class EventUpdate(UpdateView):
+class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
     model = Event
     form_class = EventForm
     prefix = 'event'
@@ -230,19 +234,6 @@ class EventUpdate(UpdateView):
         else:
             return self.form_invalid(form, event_instance_formset)
 
-    def get_success_url(self):
-        """
-        Returns the success URL in the context of the provided
-        initial_state (to return the user to the dashboard view they were
-        likely viewing previously), or the supplied success URL for the view.
-        """
-        initial_state = self.request.POST.get('initial_state')
-        if initial_state:
-            return reverse('dashboard-state', kwargs={
-                'state': str(State.get_string(int(initial_state)))
-            })
-        return super(EventUpdate, self).get_success_url()
-
     def form_valid(self, form, event_instance_formset):
         """
         Called if all forms are valid. Creates an event instance
@@ -300,11 +291,34 @@ class EventUpdate(UpdateView):
                                   event_instance_formset=event_instance_formset))
 
 
-class EventDelete(DeleteSuccessMessageMixin, DeleteView):
+class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Event
     template_name = 'events/manager/events/delete.html'
-    success_url = '/manager/'
+    success_url = reverse_lazy('dashboard')
     success_message = 'Event was successfully deleted.'
+
+    def get_context_data(self, **kwargs):
+        """
+        Override form_action_next added from SuccessPreviousViewRedirectMixin
+        if the previous view is the Event Update view (redirecting to this view
+        on a successful delete will return a 404.)
+        """
+        context = super(EventDelete, self).get_context_data(**kwargs)
+        form_action_next = context.get('form_action_next', None)
+
+        if form_action_next:
+            next = urllib.unquote_plus(form_action_next)
+            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
+            try:
+                view, v_args, v_kwargs = resolve(next_path)
+            except Http404:
+                # url in 'path' variable did not resolve to a view
+                pass
+            else:
+                if view.__name__ == 'EventUpdate':
+                    context['form_action_next'] = ''
+
+        return context
 
     def delete(self, request, *args, **kwargs):
         """
@@ -374,13 +388,16 @@ def update_state(request, pk=None, state=None):
     View to update the state of the event.
     """
     event = update_event_state(request, pk, state)
-    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
+    return success_previous_view_redirect(request, reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
 @login_required
 def submit_to_main(request, pk=None):
+    """
+    View to submit the event to the main calendar.
+    """
     event = submit_event_to_main(request, pk)
-    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': event.calendar.id}))
+    return success_previous_view_redirect(request, reverse('dashboard', kwargs={'pk': event.calendar.id}))
 
 
 @login_required
@@ -391,7 +408,7 @@ def bulk_action(request):
 
         if action_0 == action_1 == 'empty':
             messages.error(request, 'No action selected.')
-            return HttpResponseRedirect(request.META.HTTP_REFERER)
+            return success_previous_view_redirect(request, reverse('dashboard'))
 
         action = action_0
         if action == 'empty':
@@ -399,7 +416,7 @@ def bulk_action(request):
 
         if action not in ['submit-to-main', 'posted', 'pending', 'delete']:
             messages.error(request, 'Unrecognized action selected %s.' % action)
-            return HttpResponseRedirect(request.META.HTTP_REFERER)
+            return success_previous_view_redirect(request, reverse('dashboard'))
 
         # remove duplicates
         event_ids = list(set(request.POST.getlist('object_ids', [])))
@@ -455,7 +472,7 @@ def bulk_action(request):
 
             messages.success(request, message)
 
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return success_previous_view_redirect(request, reverse('dashboard'))
     raise Http404
 
 
@@ -488,7 +505,7 @@ def cancel_uncancel(request, pk=None):
             message = 'Event successfully canceled.'
 
         messages.success(request, message)
-    return HttpResponseRedirect(reverse('dashboard', kwargs={'pk': original_event.calendar.id}))
+    return success_previous_view_redirect(request, reverse('dashboard', kwargs={'pk': original_event.calendar.id}))
 
 
 @login_required

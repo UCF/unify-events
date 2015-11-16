@@ -322,6 +322,21 @@ class SuccessPreviousViewRedirectMixin(object):
         else:
             return True
 
+    def get_relative_path_with_params(self, absolute_url):
+        """
+        Parses an absolute url.  Returns a tuple containing the following:
+
+        url_relative: string containing path + params combination
+        url_path: string containing relative path only
+        url_params: string containing query params only
+        """
+        url_parsed = urlparse(absolute_url)
+        url_path = url_relative = url_parsed[2]
+        url_params = url_parsed[4]
+        if url_params:
+            url_relative = '%s?%s' % (url_path, url_params)
+        return url_relative, url_path, url_params
+
     def get_context_data(self, **kwargs):
         """
         Adds 'form_action_next' context for use in Create, Update and Delete
@@ -333,11 +348,7 @@ class SuccessPreviousViewRedirectMixin(object):
 
         next = self.request.META.get('HTTP_REFERER', None)
         if next:
-            next_parsed = urlparse(next)
-            next_path = next_relative = next_parsed[2]
-            next_params = next_parsed[4]
-            if next_params:
-                next_relative = '%s?%s' % (next_path, next_params)
+            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
             success_url = self.success_url
             if next_relative != success_url and self.path_is_valid(next_path):
                 context['form_action_next'] = urllib.quote_plus(next)
@@ -354,12 +365,32 @@ class SuccessPreviousViewRedirectMixin(object):
 
         if next:
             next = urllib.unquote_plus(next)  # unencode
-            next_parsed = urlparse(next)  # break into parts
-            next_path = next_relative = next_parsed[2]
+            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
             if self.path_is_valid(next_path):
-                next_params = next_parsed[4]
-                if next_params:
-                    next_relative = '%s?%s' % (next_path, next_params)
                 success_url = next_relative
 
         return success_url
+
+
+def success_previous_view_redirect(request, fallback_view_url):
+    """
+    A simplified, function-based implementation of
+    SuccessPreviousViewRedirectMixin.
+
+    Should be used in views that are not class-based when that view should
+    redirect back to the previous page on success, instead of a direct
+    HttpResponseRedirect call.
+    """
+    next = fallback_view_url
+    try:
+        previous_view_url = request.META.get('HTTP_REFERER', None)
+        if previous_view_url:
+            Mixin = SuccessPreviousViewRedirectMixin()
+            prev_relative, prev_path, prev_params = Mixin.get_relative_path_with_params(previous_view_url)
+            if Mixin.path_is_valid(prev_path):
+                next = prev_relative
+    except Exception:
+        # Just move on/use fallback_view_url
+        pass
+
+    return HttpResponseRedirect(next)

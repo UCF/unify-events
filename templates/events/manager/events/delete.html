@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'event-delete' pk=event.pk %}
+    {% url 'event-delete' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
 {% endblock %}
 
 {% block content_form_id %}event-delete{% endblock %}
