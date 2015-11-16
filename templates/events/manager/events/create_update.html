@@ -149,7 +149,7 @@
                     <p class="label-desc" id="help-label-description" tabindex="-1">A description for your event.</p>
                 </div>
                 <div class="controls col-md-8">
-                    {% render_field form.description id=form.description.auto_id class="form-control wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
+                    {% render_field form.description id=form.description.auto_id class="form-control froala-widget" title=form.description.label aria-describedby="help-label-description" %}
                     {{ form.description.errors }}
                 </div>
             </fieldset>
@@ -350,5 +350,7 @@
     var usersFullName = '{{ user.get_full_name }}';
     var usersEmail = '{{ user.email }}';
 </script>
+<script src="{{ STATIC_URL }}js/froala_editor.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/lists.min.js" type="text/javascript"></script>
 {{ block.super }}
 {% endblock %}

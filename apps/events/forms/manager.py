@@ -132,6 +132,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             self.fields['submit_to_main'].initial = True
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'froala-wysiwyg'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
 
     def clean(self):

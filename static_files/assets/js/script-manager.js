@@ -1121,6 +1121,24 @@ var eventContactInfo = function() {
     }
 };
 
+var froalaWidget = function() {
+    var editors = $('.froala-widget');
+
+    if (editors) {
+        editors.editable({
+            inlineMode: false,
+            buttons: [
+                'bold',
+                'italic',
+                'underline',
+                'insertUnorderedList',
+                'insertOrderedList',
+                'createLink'
+            ]
+        });
+    }
+};
+
 
 $(document).ready(function() {
     bulkSelectAll();
@@ -1143,4 +1161,5 @@ $(document).ready(function() {
 
     cloneableFieldsets();
     eventContactInfo();
+    froalaWidget();
 });
