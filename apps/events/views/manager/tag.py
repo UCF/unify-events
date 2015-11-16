@@ -4,7 +4,6 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseForbidden
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
@@ -19,6 +18,7 @@ from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
 from core.views import PaginationRedirectMixin
 from core.views import SuccessPreviousViewRedirectMixin
+from core.views import success_previous_view_redirect
 from events.forms.manager import TagForm
 from events.models import Event
 
@@ -82,6 +82,6 @@ def merge(request, tag_from_id=None, tag_to_id=None):
             messages.error(request, 'Merging tag failed.')
         else:
             messages.success(request, 'Tag successfully merged.')
-        return HttpResponseRedirect(reverse('tag-list'))
+        return success_previous_view_redirect(request, reverse('tag-list'))
 
     raise Http404

@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Count
 from django.http import HttpResponseForbidden
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic import CreateView
@@ -18,6 +17,7 @@ from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
 from core.views import PaginationRedirectMixin
 from core.views import SuccessPreviousViewRedirectMixin
+from core.views import success_previous_view_redirect
 from events.forms.manager import LocationForm
 from events.models import Location
 
@@ -106,7 +106,7 @@ def bulk_action(request):
 
         if action_0 == action_1 == 'empty':
             messages.error(request, 'No action selected.')
-            return HttpResponseRedirect(request.META.HTTP_REFERER)
+            return success_previous_view_redirect(request, reverse('location-list'))
 
         action = action_0
         if action == 'empty':
@@ -114,7 +114,7 @@ def bulk_action(request):
 
         if action not in ['approve', 'review', 'delete']:
             messages.error(request, 'Unrecognized action selected %s.' % action)
-            return HttpResponseRedirect(request.META.HTTP_REFERER)
+            return success_previous_view_redirect(request, reverse('location-list'))
 
         # remove duplicates
         location_ids = request.POST.getlist('object_ids')
@@ -175,7 +175,7 @@ def bulk_action(request):
 
             messages.success(request, message)
 
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return success_previous_view_redirect(request, reverse('location-list'))
     raise Http404
 
 
@@ -205,6 +205,6 @@ def merge(request, location_from_id=None, location_to_id=None):
                 messages.success(request, 'Location successfully merged.')
         else:
             messages.error(request, 'Cannot merge this location: location has no events. Delete this location instead of merging.')
-        return HttpResponseRedirect(reverse('location-list'))
+        return success_previous_view_redirect(request, reverse('location-list'))
 
     raise Http404
