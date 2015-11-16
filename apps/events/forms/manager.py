@@ -124,7 +124,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             if instance.created_from.description is instance.description:
                 self.fields['new_description'] = forms.CharField(required=False,
                                                                  initial=instance.description,
-                                                                 widget=forms.Textarea(attrs={'disabled': 'disabled'}))
+                                                                 widget=forms.Textarea(attrs={'disabled': 'disabled', 'class': 'froala-widget'}))
 
         self.fields['submit_to_main'] = forms.BooleanField(required=False)
         if instance and instance.is_submit_to_main:
@@ -132,7 +132,6 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             self.fields['submit_to_main'].initial = True
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
-    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'froala-wysiwyg'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
 
     def clean(self):

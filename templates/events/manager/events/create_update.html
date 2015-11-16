@@ -163,7 +163,7 @@
                     <p class="label-desc" id="help-label-new_description" tabindex="-1">The new description from the originating event.</p>
                 </div>
                 <div class="controls col-md-8">
-                    <textarea id="new_description" class="form-control wysiwyg disabled-wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
+                    <textarea id="new_description" class="form-control froala-widget" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
                     {{ event.created_from.description.errors }}
                 </div>
             </fieldset>
