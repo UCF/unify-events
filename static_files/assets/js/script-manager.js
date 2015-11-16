@@ -1044,10 +1044,10 @@ var eventContactInfo = function() {
 };
 
 var froalaWidget = function() {
-    var editors = $('.froala-widget');
+    var $editors = $('.froala-widget');
 
-    if (editors) {
-        editors.editable({
+    if ($editors) {
+        $editors.editable({
             inlineMode: false,
             buttons: [
                 'bold',
