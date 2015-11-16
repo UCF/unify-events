@@ -351,7 +351,7 @@
     var usersEmail = '{{ user.email }}';
 </script>
 <script type="text/javascript">
-    $.Editable.DEFAULTS.key = {{ FROALA_LICENSE_KEY }};
+    $.Editable.DEFAULTS.key = "{{ FROALA_LICENSE_KEY }}";
 </script>
 {{ block.super }}
 {% endblock %}
