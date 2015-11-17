@@ -5,6 +5,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
