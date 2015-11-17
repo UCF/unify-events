@@ -308,9 +308,9 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
 
         if form_action_next:
             next = urllib.unquote_plus(form_action_next)
-            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
+            next_relative = self.get_relative_path_with_query(next)
             try:
-                view, v_args, v_kwargs = resolve(next_path)
+                view, v_args, v_kwargs = resolve(next_relative.path)
             except Http404:
                 # url in 'path' variable did not resolve to a view
                 pass

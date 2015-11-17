@@ -1,5 +1,6 @@
 import logging
 
+from collections import namedtuple
 import urllib
 from urlparse import urljoin
 from urlparse import urlparse
@@ -322,20 +323,21 @@ class SuccessPreviousViewRedirectMixin(object):
         else:
             return True
 
-    def get_relative_path_with_params(self, absolute_url):
+    def get_relative_path_with_query(self, absolute_url):
         """
-        Parses an absolute url.  Returns a tuple containing the following:
+        Parses an absolute url.  Returns a namedtuple containing the following:
 
-        url_relative: string containing path + params combination
-        url_path: string containing relative path only
-        url_params: string containing query params only
+        relative: string containing path + query params combination
+        path: string containing relative path only
+        query: string containing query params only
         """
+        retval = namedtuple('RelativePath', ['relative', 'path', 'query'])
         url_parsed = urlparse(absolute_url)
-        url_path = url_relative = url_parsed[2]
-        url_params = url_parsed[4]
-        if url_params:
-            url_relative = '%s?%s' % (url_path, url_params)
-        return url_relative, url_path, url_params
+        retval.path = retval.relative = url_parsed.path
+        retval.query = url_parsed.query
+        if retval.query:
+            retval.relative = '%s?%s' % (retval.path, retval.query)
+        return retval
 
     def get_context_data(self, **kwargs):
         """
@@ -348,9 +350,9 @@ class SuccessPreviousViewRedirectMixin(object):
 
         next = self.request.META.get('HTTP_REFERER', None)
         if next:
-            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
+            next_relative = self.get_relative_path_with_query(next)
             success_url = self.success_url
-            if next_relative != success_url and self.path_is_valid(next_path):
+            if next_relative.relative != success_url and self.path_is_valid(next_relative.path):
                 context['form_action_next'] = urllib.quote_plus(next)
 
         return context
@@ -365,9 +367,9 @@ class SuccessPreviousViewRedirectMixin(object):
 
         if next:
             next = urllib.unquote_plus(next)  # unencode
-            next_relative, next_path, next_params = self.get_relative_path_with_params(next)
-            if self.path_is_valid(next_path):
-                success_url = next_relative
+            next_relative = self.get_relative_path_with_query(next)
+            if self.path_is_valid(next_relative.path):
+                success_url = next_relative.relative
 
         return success_url
 
@@ -386,9 +388,9 @@ def success_previous_view_redirect(request, fallback_view_url):
         previous_view_url = request.META.get('HTTP_REFERER', None)
         if previous_view_url:
             Mixin = SuccessPreviousViewRedirectMixin()
-            prev_relative, prev_path, prev_params = Mixin.get_relative_path_with_params(previous_view_url)
-            if Mixin.path_is_valid(prev_path):
-                next = prev_relative
+            prev_relative = Mixin.get_relative_path_with_query(previous_view_url)
+            if Mixin.path_is_valid(prev_relative.path):
+                next = prev_relative.relative
     except Exception:
         # Just move on/use fallback_view_url
         pass
