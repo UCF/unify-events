@@ -269,12 +269,38 @@ $bootstrap-dtp-border-radius: 4px;
 
 
 /* WYSIWYG editors */
-ul.wysihtml5-toolbar {
-  a[data-wysihtml5-command="bold"],
-  a[data-wysihtml5-command="italic"],
-  a[data-wysihtml5-command="underline"] {
-    font-weight: normal;
+.froala-editor {
+  border-color: #c7c7c7;
+  border-width: 1px;
+  font-family: $font-family-base;
+
+  &:not(.froala-modal):before {
+    top: -6px;
   }
+
+  &.f-inline,
+  .froala-popup {
+    border-radius: 4px;
+  }
+
+  &.f-basic {
+    background-color: #f1f1f1;
+    border-radius: 4px 4px 0 0;
+  }
+
+  input[type="text"] {
+    @extend .form-control;
+  }
+
+  button {
+    @extend .btn;
+    @extend .btn-xs;
+  }
+}
+
+.froala-wrapper.f-basic {
+  border: 1px solid #c7c7c7;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 
 

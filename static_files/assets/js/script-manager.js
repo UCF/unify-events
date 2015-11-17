@@ -1056,7 +1056,8 @@ var froalaWidget = function() {
                 'insertUnorderedList',
                 'insertOrderedList',
                 'createLink'
-            ]
+            ],
+            minHeight: 175
         });
     }
 };
