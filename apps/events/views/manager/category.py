@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic import CreateView
@@ -16,13 +15,15 @@ from django.views.generic import DeleteView
 from core.views import SuperUserRequiredMixin
 from core.views import DeleteSuccessMessageMixin
 from core.views import PaginationRedirectMixin
+from core.views import SuccessPreviousViewRedirectMixin
+from core.views import success_previous_view_redirect
 from events.forms.manager import CategoryForm
 from events.models import Category
 
 log = logging.getLogger(__name__)
 
 
-class CategoryCreate(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+class CategoryCreate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was created successfully.'
@@ -30,7 +31,7 @@ class CategoryCreate(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'events/manager/category/create_update.html'
 
 
-class CategoryUpdate(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+class CategoryUpdate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was updated successfully.'
@@ -38,7 +39,7 @@ class CategoryUpdate(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'events/manager/category/create_update.html'
 
 
-class CategoryDelete(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+class CategoryDelete(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     form_class = CategoryForm
     model = Category
     success_message = 'Category was deleted successfully.'
@@ -69,7 +70,6 @@ class CategoryList(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
         return context
 
 
-
 @login_required
 def merge(request, category_from_id=None, category_to_id=None):
     """
@@ -96,6 +96,6 @@ def merge(request, category_from_id=None, category_to_id=None):
                 messages.success(request, 'Category successfully merged.')
         else:
             messages.error(request, 'Cannot merge this category: category has no events. Delete this category instead of merging.')
-        return HttpResponseRedirect(reverse('category-list'))
+        return success_previous_view_redirect(request, reverse('category-list'))
 
     raise Http404

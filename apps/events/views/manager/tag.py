@@ -4,7 +4,6 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseForbidden
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
@@ -18,6 +17,8 @@ from taggit.models import Tag
 from core.views import DeleteSuccessMessageMixin
 from core.views import SuperUserRequiredMixin
 from core.views import PaginationRedirectMixin
+from core.views import SuccessPreviousViewRedirectMixin
+from core.views import success_previous_view_redirect
 from events.forms.manager import TagForm
 from events.models import Event
 
@@ -35,7 +36,7 @@ class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
         return queryset.annotate(event_count=Count('taggit_taggeditem_items'))
 
 
-class TagCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
+class TagCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
     form_class = TagForm
@@ -43,7 +44,7 @@ class TagCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = '%(name)s was created successfully.'
 
 
-class TagUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
+class TagUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
     success_url = reverse_lazy('tag-list')
@@ -51,7 +52,7 @@ class TagUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = '%(name)s was created successfully.'
 
 
-class TagDeleteView(SuperUserRequiredMixin, DeleteSuccessMessageMixin, DeleteView):
+class TagDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Tag
     template_name = 'events/manager/tag/delete.html'
     success_url = reverse_lazy('tag-list')
@@ -81,6 +82,6 @@ def merge(request, tag_from_id=None, tag_to_id=None):
             messages.error(request, 'Merging tag failed.')
         else:
             messages.success(request, 'Tag successfully merged.')
-        return HttpResponseRedirect(reverse('tag-list'))
+        return success_previous_view_redirect(request, reverse('tag-list'))
 
     raise Http404
