@@ -52,7 +52,8 @@ gulp.task('css', function() {
   gulp.src([
     config.bowerDir + '/jquery-timepicker-jt/jquery.timepicker.css',
     config.bowerDir + '/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-    config.bowerDir + '/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css'
+    config.bowerDir + '/froala/css/froala_editor.css',
+    config.bowerDir + '/froala/css/froala_style.css'
   ])
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat('style-backend.min.css'))
@@ -94,14 +95,13 @@ gulp.task('js', function() {
     .pipe(uglify())
     .pipe(gulp.dest(config.jsMinPath));
 
-  // wysiwyg.min.js
   gulp.src([
-    config.bowerDir + '/wysihtml5/dist/wysihtml5-0.3.0.js',
-    config.bowerDir + '/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.js'
-  ])
-    .pipe(concat('wysiwyg.min.js'))
-    .pipe(uglify())
+    config.bowerDir + '/froala/js/froala_editor.min.js',
+    config.bowerDir + '/froala/js/plugins/lists.min.js'
+    ]
+  )
     .pipe(gulp.dest(config.jsMinPath));
+
 });
 
 gulp.task('watch', function() {

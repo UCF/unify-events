@@ -268,84 +268,6 @@ var initiateTimePickers = function(fields) {
         .placeholder(); // Force init placeholder for old browsers
 };
 
-
-/**
- * WYSIWYG Textarea Init
- **/
-var initiateWysiwyg = function(textarea) {
-    textarea.wysihtml5({
-        "font-styles": false, // Font styling, e.g. h1, h2, etc. Default true
-        "emphasis": true, // Italics, bold, etc. Default true
-        "lists": true, // (Un)ordered lists, e.g. Bullets, Numbers. Default true
-        "html": false, // Button which allows you to edit the generated HTML. Default false
-        "link": true, // Button to insert a link. Default true
-        "image": false, // Button to insert an image. Default true,
-        "color": false, // Button to change color of font
-        "size": "md", // Button size like sm, xs etc.
-        events: {
-            "load": function() {
-                // Make the 'Insert Link' button more obvious;
-                // use fontawesome icons where possible
-                $('ul.wysihtml5-toolbar')
-                    .find('li a[data-wysihtml5-command="createLink"]')
-                        .html('<span class="fa fa-link"></span>')
-                        .end()
-                    .find('li.dropdown a')
-                        .attr('tabindex', '-1')
-                        .end()
-                    .find('span.glyphicon-list')
-                        .attr('class', 'fa fa-list-ul')
-                        .end()
-                    .find('span.glyphicon-th-list')
-                        .attr('class', 'fa fa-list-ol')
-                        .end()
-                    .find('li a[data-wysihtml5-command="Outdent"]')
-                        .remove()
-                        .end()
-                    .find('li a[data-wysihtml5-command="Indent"]')
-                        .remove()
-                        .end()
-                    .find('li a[data-wysihtml5-command="bold"]')
-                        .html('<span class="fa fa-bold"></span>')
-                        .end()
-                    .find('li a[data-wysihtml5-command="italic"]')
-                        .html('<span class="fa fa-italic"></span>')
-                        .end()
-                    .find('li a[data-wysihtml5-command="underline"]')
-                        .html('<span class="fa fa-underline"></span>');
-
-                // Fix a stupid IE10 error in IE8,9 browser mode where focus is not applied
-                // to the correct DOM position on page load... so just remove any focus entirely.
-                $(document.activeElement).blur();
-            }
-        }
-    });
-};
-
-
-/**
- * Display wysiwyg without control bar
- **/
-var initiateDisabledWysiwyg = function(textarea) {
-    textarea.wysihtml5({
-        "font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
-        "emphasis": false, //Italics, bold, etc. Default true
-        "lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
-        "html": false, //Button which allows you to edit the generated HTML. Default false
-        "link": false, //Button to insert a link. Default true
-        "image": false, //Button to insert an image. Default true,
-        "color": false, //Button to change color of font
-        events: {
-            "load": function() {
-                // Fix a stupid IE10 error in IE8,9 browser mode where focus is not applied
-                // to the correct DOM position on page load... so just remove any focus entirely.
-                $(document.activeElement).blur();
-            }
-        }
-    });
-};
-
-
 /**
  * Adds copied rereview data to their respective fields on the
  * Event Update view.
@@ -1253,6 +1175,25 @@ var eventContactInfo = function() {
     }
 };
 
+var froalaWidget = function() {
+    var $editors = $('.froala-widget');
+
+    if ($editors) {
+        $editors.editable({
+            inlineMode: false,
+            buttons: [
+                'bold',
+                'italic',
+                'underline',
+                'insertUnorderedList',
+                'insertOrderedList',
+                'createLink'
+            ],
+            minHeight: 175
+        });
+    }
+};
+
 
 $(document).ready(function() {
     bulkSelectAll();
@@ -1263,8 +1204,6 @@ $(document).ready(function() {
     calendarOwnershipModal();
     toggleModalUserDemote();
 
-    initiateWysiwyg($('textarea.wysiwyg:not(".disabled-wysiwyg")'));
-    initiateDisabledWysiwyg($('textarea.wysiwyg.disabled-wysiwyg'));
     initiateReReviewCopy();
 
     userSearchTypeahead();
@@ -1272,4 +1211,5 @@ $(document).ready(function() {
 
     cloneableEventInstances();
     eventContactInfo();
+    froalaWidget();
 });

@@ -59,7 +59,8 @@ class EventCreate(CreateView):
         context = super(EventCreate, self).get_context_data(**kwargs)
         ctx = {
                'locations': Location.objects.all(),
-               'tags': Tag.objects.all().order_by('name')
+               'tags': Tag.objects.all().order_by('name'),
+               'froala_license': settings.FROALA_LICENSE_KEY
         }
         ctx.update(context)
 

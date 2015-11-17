@@ -151,3 +151,5 @@ CORS_GET_PARAMS = {
     'is_widget': 'true|True',
     'format': 'rss|xml|json'
 }
+
+FROALA_LICENSE_KEY = ''
