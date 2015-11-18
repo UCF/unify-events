@@ -148,7 +148,7 @@
                     <p class="label-desc" id="help-label-description" tabindex="-1">A description for your event.</p>
                 </div>
                 <div class="controls col-md-8">
-                    {% render_field form.description id=form.description.auto_id class="form-control froala-widget" title=form.description.label aria-describedby="help-label-description" %}
+                    {% render_field form.description id=form.description.auto_id class="form-control wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
                     {{ form.description.errors }}
                 </div>
             </fieldset>
@@ -162,7 +162,7 @@
                     <p class="label-desc" id="help-label-new_description" tabindex="-1">The new description from the originating event.</p>
                 </div>
                 <div class="controls col-md-8">
-                    <textarea id="new_description" class="form-control froala-widget" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
+                    <textarea id="new_description" class="form-control wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
                     {{ event.created_from.description.errors }}
                 </div>
             </fieldset>
@@ -278,7 +278,4 @@
     var usersEmail = '{{ user.email }}';
 </script>
 {{ block.super }}
-<script type="text/javascript">
-    $.Editable.DEFAULTS.key = "{{ froala_license }}";
-</script>
 {% endblock %}

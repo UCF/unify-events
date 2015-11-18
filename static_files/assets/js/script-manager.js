@@ -1175,41 +1175,44 @@ var eventContactInfo = function() {
     }
 };
 
-var froalaWidget = function() {
-    var $editors = $('.froala-widget');
+var initiateWysiwygs = function() {
+  var $editors = $('.wysiwyg');
 
-    if ($editors) {
-        $editors.editable({
-            inlineMode: false,
-            buttons: [
-                'bold',
-                'italic',
-                'underline',
-                'insertUnorderedList',
-                'insertOrderedList',
-                'createLink'
-            ],
-            minHeight: 175
-        });
-    }
+  if ($editors.length) {
+    tinymce.init({
+      selector: '.wysiwyg',
+      plugins: 'link paste autoresize',
+      // valid elems/styles configuration below should match with
+      // BLEACH_ALLOWED_[] settings in settings_local.py
+      valid_elements: 'p[style],br,strong/b,em/i,u,a[href|title|style|alt|target=_blank],ul,ol,li',
+      valid_styles: {
+        'p': 'font-weight,text-decoration',
+        'a': 'font-weight,text-decoration'
+      },
+      statusbar: false,
+      menubar: false,
+      toolbar: 'bold italic underline | bullist numlist | link',
+      autoresize_bottom_margin: 10
+    });
+  }
 };
 
 
 $(document).ready(function() {
-    bulkSelectAll();
-    bulkActionSubmit();
-    toggleEventListRecurrences();
+  bulkSelectAll();
+  bulkActionSubmit();
+  toggleEventListRecurrences();
 
-    toggleModalMergeObject();
-    calendarOwnershipModal();
-    toggleModalUserDemote();
+  toggleModalMergeObject();
+  calendarOwnershipModal();
+  toggleModalUserDemote();
 
-    initiateReReviewCopy();
+  initiateReReviewCopy();
 
-    userSearchTypeahead();
-    eventTagging();
+  userSearchTypeahead();
+  eventTagging();
 
-    cloneableEventInstances();
-    eventContactInfo();
-    froalaWidget();
+  cloneableEventInstances();
+  eventContactInfo();
+  initiateWysiwygs();
 });

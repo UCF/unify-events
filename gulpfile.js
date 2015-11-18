@@ -51,9 +51,7 @@ gulp.task('css', function() {
   // style-backend.min.css
   gulp.src([
     config.bowerDir + '/jquery-timepicker-jt/jquery.timepicker.css',
-    config.bowerDir + '/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-    config.bowerDir + '/froala/css/froala_editor.css',
-    config.bowerDir + '/froala/css/froala_style.css'
+    config.bowerDir + '/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css'
   ])
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat('style-backend.min.css'))
@@ -95,12 +93,24 @@ gulp.task('js', function() {
     .pipe(uglify())
     .pipe(gulp.dest(config.jsMinPath));
 
-  gulp.src([
-    config.bowerDir + '/froala/js/froala_editor.min.js',
-    config.bowerDir + '/froala/js/plugins/lists.min.js'
-    ]
-  )
-    .pipe(gulp.dest(config.jsMinPath));
+  // WYSIWYG scripts + assets
+  gulp.src([config.bowerDir + '/tinymce/tinymce.min.js'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg'));
+
+  gulp.src([config.bowerDir + '/tinymce/themes/modern/**/*'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/themes/modern/'));
+
+  gulp.src([config.bowerDir + '/tinymce/skins/lightgray/**/*'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/skins/lightgray/'));
+
+  gulp.src([config.bowerDir + '/tinymce/plugins/paste/**/*'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/plugins/paste/'));
+
+  gulp.src([config.bowerDir + '/tinymce/plugins/link/**/*'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/plugins/link/'));
+
+  gulp.src([config.bowerDir + '/tinymce/plugins/autoresize/**/*'])
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/plugins/autoresize/'));
 
 });
 

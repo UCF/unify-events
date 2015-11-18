@@ -124,7 +124,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             if instance.created_from.description is instance.description:
                 self.fields['new_description'] = forms.CharField(required=False,
                                                                  initial=instance.description,
-                                                                 widget=forms.Textarea(attrs={'disabled': 'disabled', 'class': 'froala-widget'}))
+                                                                 widget=forms.Textarea(attrs={'disabled': 'disabled', 'class': 'wysiwyg'}))
 
         self.fields['submit_to_main'] = forms.BooleanField(required=False)
         if instance and instance.is_submit_to_main:
