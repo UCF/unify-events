@@ -1192,7 +1192,8 @@ var initiateWysiwygs = function() {
       statusbar: false,
       menubar: false,
       toolbar: 'bold italic underline | bullist numlist | link',
-      autoresize_bottom_margin: 10
+      autoresize_bottom_margin: 10,
+      forced_root_block: false,
     });
   }
 };

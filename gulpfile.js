@@ -16,7 +16,8 @@ var gulp = require('gulp'),
 
 var config = {
   sassPath: './static_files/assets/scss',
-  cssPath: './static_files/static/css',
+  cssPath: './static_files/assets/css',
+  cssMinPath: './static_files/static/css',
   jsPath: './static_files/assets/js',
   jsMinPath: './static_files/static/js',
   fontPath: './static_files/static/fonts',
@@ -45,7 +46,7 @@ gulp.task('css', function() {
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(rename('style.min.css'))
     .pipe(bless())
-    .pipe(gulp.dest(config.cssPath));
+    .pipe(gulp.dest(config.cssMinPath));
     //.pipe(browserSync.stream());
 
   // style-backend.min.css
@@ -56,7 +57,7 @@ gulp.task('css', function() {
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat('style-backend.min.css'))
     .pipe(bless())
-    .pipe(gulp.dest(config.cssPath));
+    .pipe(gulp.dest(config.cssMinPath));
 });
 
 gulp.task('js', function() {
@@ -101,7 +102,15 @@ gulp.task('js', function() {
     .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/themes/modern/'));
 
   gulp.src([config.bowerDir + '/tinymce/skins/lightgray/**/*'])
-    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/skins/lightgray/'));
+    .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/skins/lightgray/'))
+    .on('end', function() {
+      gulp.src([
+        config.bowerDir + '/tinymce/skins/lightgray/content.min.css',
+        config.cssPath + '/wysiwyg-content.css'
+      ])
+        .pipe(concat('content.min.css'))
+        .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/skins/lightgray/'));
+    });
 
   gulp.src([config.bowerDir + '/tinymce/plugins/paste/**/*'])
     .pipe(gulp.dest(config.jsMinPath + '/wysiwyg/plugins/paste/'));
