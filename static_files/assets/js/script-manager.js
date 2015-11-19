@@ -1184,16 +1184,16 @@ var initiateWysiwygs = function() {
       plugins: 'link paste autoresize',
       // valid elems/styles configuration below should match with
       // BLEACH_ALLOWED_[] settings in settings_local.py
-      valid_elements: 'p[style],br,strong/b,em/i,u,a[href|title|style|alt|target=_blank],ul,ol,li',
+      valid_elements: 'p[style],span[style],br,strong/b,em/i,u,a[href|title|style|alt|target=_blank],ul,ol,li',
       valid_styles: {
         'p': 'font-weight,text-decoration',
+        'span': 'font-weight,text-decoration',
         'a': 'font-weight,text-decoration'
       },
       statusbar: false,
       menubar: false,
       toolbar: 'bold italic underline | bullist numlist | link',
-      autoresize_bottom_margin: 10,
-      forced_root_block: false,
+      autoresize_bottom_margin: 10
     });
   }
 };

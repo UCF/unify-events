@@ -114,6 +114,7 @@ VARNISH_NODES = []
 # designated fields (i.e. wysiwyg editor content).
 BLEACH_ALLOWED_TAGS = [
     'p',
+    'span',
     'br',
     'b',
     'i',
