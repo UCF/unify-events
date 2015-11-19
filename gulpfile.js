@@ -125,7 +125,7 @@ gulp.task('js', function() {
 
 gulp.task('watch', function() {
   gulp.watch(config.sassPath + '/*.scss', ['css']);
-  gulp.watch(config.jsPath + '/*.js', ['js']);
+  gulp.watch([config.jsPath + '/*.js', config.cssPath + '/wysiwyg-content.css'], ['js']);
 });
 
 gulp.task('default', ['bower', 'css', 'js']);
