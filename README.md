@@ -96,9 +96,7 @@ If you use a branch to develop a feature, make sure to delete the old branch onc
 
 ## Development
 
-### Sass
-
-#### Gulp Setup
+### Gulp Setup
 This project uses gulp to handle various tasks, such as installation of bower packages, compiling and minifying sass files and minifying/uglifying javascript. Use the following steps to setup gulp for this project.
 
 1. Make sure an up to date version of npm is installed.
@@ -109,15 +107,15 @@ This project uses gulp to handle various tasks, such as installation of bower pa
 3. Install all front-end components and compile static assests by running `gulp default`. During development, run `gulp watch` to detect static file changes automatically. When a change is detected, minification and compilation commands will run automatically.
 4. Make sure up-to-date concatenated/minified files ("artifacts") are pushed to the repo when making changes to static files.
 
+### Sass
+
 #### Bootstrap
 This project uses the official Sass port of Twitter Bootstrap (https://github.com/twbs/bootstrap-sass) for base styling of templates. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/scss/style.scss`.
-
-The current version of Bootstrap is v3.3.5.
 
 To upgrade Bootstrap, specify the version number in `bower.json`.
 
 #### Font Awesome
-Version 4.0.3 of Font Awesome (http://fontawesome.io/) is used as a replacement for Bootstrap's Glyphicon icon library. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/scss/style.scss`.
+Font Awesome (http://fontawesome.io/) is used as a replacement for Bootstrap's Glyphicon icon library. **Do not modify the files in this directory**--override variables as necessary in `static_files/assets/scss/style.scss`.
 
 Note that these icons do not overwrite the Glyphicon library; both are available to use, but Font Awesome fonts are preferred. See the Font Awesome docs for usage.
 
@@ -163,10 +161,13 @@ This project combines vendor javascript libraries with our own so fewer files ne
   * jquery.timepicker.js - *vendor*
   * bootstrap-datepicker.js - *vendor*
   * script-manager.js - *project*
-  * wysiwyg.min.js
-  * wysihtml5-0.3.0.js - *vendor*
-  * bootstrap3-wysihtml5.js - *vendor*
 
 Scripts marked `*vendor*` can be found in `static_files/assets/components` and are installed by bower during the gulp processing. These files should not be edited.
 
 Scripts marked `*project*` are scripts maintained by this project and can found in `static_files/assets/js`.
+
+#### TinyMCE
+In addition to the scripts listed above, the TinyMCE library is copied over from `static_files/assets/components` into its own subdirectory, `static_files/static/js/wysiwyg`.  TinyMCE, by default, expects its themes, plugins, and skins to be in subdirectories relative to the root directory of the primary TinyMCE script, so we maintain the directory structure as closely as possible while still picking out only the specific plugins/skins/themes needed for the events system to avoid bloat in the repo.
+
+We also apply customizations to the default TinyMCE skin, "lightgray", after its directory finishes copying over from the components directory.  These customizations should be modified in `static_files/assets/css/wysiwyg-content.css`.  **Do NOT modify files in `static_files/static/js/wysiwyg/`**!
+
