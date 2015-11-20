@@ -31,7 +31,7 @@
       }
     }
   }
-  
+
   h2 {
     padding-bottom: 10px;
     padding-left: 0;
@@ -561,6 +561,10 @@ ul.event-list-condensed {
     ol,
     ul {
       padding-left: 25px;
+    }
+
+    p {
+      min-height: 1.5em; // should match .event-content line-height
     }
   }
 
