@@ -94,14 +94,14 @@ class EventCreate(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
-        # Can user add an event to this calendar?
-        if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
-            return HttpResponseForbidden('You cannot add an event to this calendar.')
-
         if form.is_valid():
+            # Can user add an event to this calendar?
+            if not self.request.user.is_superuser and form.instance.calendar not in self.request.user.calendars:
+                return HttpResponseForbidden('You cannot add an event to this calendar.')
+
             event = form.save(commit=False)
             event_instance_formset = EventInstanceCreateFormSet(
-                self.request.POST,
+                data=self.request.POST,
                 instance=event
             )
 
@@ -112,7 +112,7 @@ class EventCreate(CreateView):
         else:
             event = Event()
             event_instance_formset = EventInstanceCreateFormSet(
-                self.request.POST,
+                data=self.request.POST,
                 instance=event
             )
             return self.form_invalid(form, event_instance_formset)
