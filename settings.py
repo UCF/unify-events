@@ -3,7 +3,10 @@ import os
 import sys
 
 
-APP_VERSION = 'v1.2.1'
+try:
+    from app_version import APP_VERSION
+except ImportError:
+    APP_VERSION = ''
 
 os.environ['LANG'] = 'en_US.UTF-8'
 

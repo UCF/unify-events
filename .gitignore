@@ -1,6 +1,7 @@
 static/*
 *.pyc
 *.sqlite3
+app_version.py
 settings_local.py
 settings_local_events.py
 apache/python.wsgi

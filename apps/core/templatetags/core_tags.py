@@ -61,13 +61,16 @@ def static_ver(path):
     Appends a simple version stamp at the end of a given path.
     """
     url = settings.STATIC_URL + path
-    separator = '?v='
-    if '?' in path:
-        separator = '&v='
 
     try:
-        url_versioned = url + separator + settings.APP_VERSION
-        return url_versioned
+        separator = '?v='
+        if '?' in path:
+            separator = '&v='
+
+        if settings.APP_VERSION:
+            return url + separator + settings.APP_VERSION
+        else:
+            return url
     except AttributeError:
         # settings.APP_VERSION isn't defined
         return url
