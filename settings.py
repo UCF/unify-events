@@ -6,7 +6,7 @@ import sys
 try:
     from app_version import APP_VERSION
 except ImportError:
-    APP_VERSION = ''
+    pass
 
 os.environ['LANG'] = 'en_US.UTF-8'
 

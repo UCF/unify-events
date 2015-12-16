@@ -2,7 +2,6 @@ import bleach
 from bs4 import BeautifulSoup
 from dateutil import parser
 import html2text
-import os
 import re
 import urllib
 
@@ -67,10 +66,7 @@ def static_ver(path):
         if '?' in path:
             separator = '&v='
 
-        if settings.APP_VERSION:
-            return url + separator + settings.APP_VERSION
-        else:
-            return url
+        return url + separator + settings.APP_VERSION
     except AttributeError:
         # settings.APP_VERSION isn't defined
         return url
