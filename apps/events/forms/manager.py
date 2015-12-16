@@ -140,7 +140,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
-        tags = cleaned_data['tags']
+        tags = cleaned_data.get('tags', [])
 
         if len(tags) > 5:
             self.errors['tags'] = self.error_class(['Please provide no more than 5 tags that best describe your event.'])
