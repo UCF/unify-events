@@ -126,7 +126,7 @@
         {% block footer_scripts_base %}
         <script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1" async></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <script src="{{ STATIC_URL }}js/script.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static_ver 'js/script.min.js' %}" type="text/javascript" charset="utf-8"></script>
         {% endblock %}
         {% block footer_scripts %}
         {% endblock %}

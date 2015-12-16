@@ -2,6 +2,7 @@ import bleach
 from bs4 import BeautifulSoup
 from dateutil import parser
 import html2text
+import os
 import re
 import urllib
 
@@ -52,6 +53,32 @@ def include_esi(context, model, object_id, template_name, calendar_id=None, para
         # up ESIs that are used for HTML classes
         # Example: <div class="pull-left <esi:include src='/esi/category/1/slug/' />"></div>
         return "<esi:include src='%s' />" % url
+
+
+@register.simple_tag
+def static_ver(path):
+    """
+    Appends a simple version stamp at the end of a given path using the file's
+    modification time.
+
+    Function expects that Varnish is configured to strip GET params when the
+    separator specified below is included in a given URL.
+
+    Based on https://bitbucket.org/ad3w/django-sstatic
+    """
+    full_path = os.path.join(settings.STATIC_ROOT, path)
+    separator = '?ver='
+
+    if '?' in full_path:
+        separator = '&ver='
+
+    try:
+        # Get file modification time.
+        mtime = int(os.path.getmtime(full_path))
+        return '%s%s%s%s' % (settings.STATIC_URL, path, separator, mtime)
+    except OSError:
+        # Returns normal url if this file was not found in filesystem.
+        return '%s%s' % (settings.STATIC_URL, path)
 
 
 @register.filter

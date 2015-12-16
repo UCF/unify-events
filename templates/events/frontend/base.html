@@ -23,5 +23,5 @@
 {% endblock %}
 
 {% block footer_scripts %}
-    <script src="{{ STATIC_URL }}js/script-frontend.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static_ver 'js/script-frontend.min.js' %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
