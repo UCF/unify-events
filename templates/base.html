@@ -54,8 +54,8 @@
 
         {% block links %}
             <link rel="canonical" href="{% block canonical_url %}{{ CANONICAL_URL }}{% endblock %}" />
-            <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
-            <link href="{{ STATIC_URL }}css/style.min.css" rel="stylesheet" media="all" />
+            <link rel="shortcut icon" href="{% static_ver 'img/favicon.ico' %}" />
+            <link href="{% static_ver 'css/style.min.css' %}" rel="stylesheet" media="all" />
         {% endblock %}
 
         {% block category_color_styles %}

@@ -2,6 +2,9 @@
 import os
 import sys
 
+
+APP_VERSION = 'v1.2.1'
+
 os.environ['LANG'] = 'en_US.UTF-8'
 
 PROJECT_FOLDER = os.path.dirname(os.path.abspath(__file__))

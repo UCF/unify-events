@@ -3,7 +3,7 @@
 {% block title %}{{ block.super }} Admin{% endblock %}
 
 {% block links %}
-    <link href="{{ STATIC_URL }}css/style-backend.min.css" rel="stylesheet" media="all">
+    <link href="{% static_ver 'css/style-backend.min.css' %}" rel="stylesheet" media="all">
     {{ block.super }}
 {% endblock %}
 
