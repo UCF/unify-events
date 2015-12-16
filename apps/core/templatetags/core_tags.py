@@ -59,14 +59,11 @@ def include_esi(context, model, object_id, template_name, calendar_id=None, para
 def static_ver(path):
     """
     Appends a simple version stamp at the end of a given path.
-
-    Function expects that Varnish is configured to strip GET params when the
-    separator specified below is included in a given URL.
     """
     url = settings.STATIC_URL + path
-    separator = '?ver='
+    separator = '?v='
     if '?' in path:
-        separator = '&ver='
+        separator = '&v='
 
     try:
         url_versioned = url + separator + settings.APP_VERSION
