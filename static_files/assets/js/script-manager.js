@@ -280,12 +280,7 @@ var initiateReReviewCopy = function() {
 
     $('#copy_description').click(function (e) {
         e.preventDefault();
-        var $copyElement = $('#' + $(this).attr('data-copy-to')),
-            newDescriptionVal = $('#new_description').val();
-        // Manually update the iframe and textarea, there appears to be a bug in the bootstrap-wysiwyg editor
-        // https://github.com/bootstrap-wysiwyg/bootstrap3-wysiwyg/issues/135
-        $('#id_event-description_ifr').contents().find('#tinymce').html(newDescriptionVal);
-        $copyElement.html(newDescriptionVal);
+        tinyMCE.get($(this).attr('data-copy-to')).setContent($('#new_description').val());
     });
 };
 
