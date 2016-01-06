@@ -278,9 +278,14 @@ var initiateReReviewCopy = function() {
         $('#' + $(this).attr('data-copy-to')).val($('#new_title').val());
     });
 
-    $('#copy_description').click(function(e) {
+    $('#copy_description').click(function (e) {
         e.preventDefault();
-        $('#' + $(this).attr('data-copy-to')).data('wysihtml5').editor.setValue($('#new_description').val());
+        var $copyElement = $('#' + $(this).attr('data-copy-to')),
+            newDescriptionVal = $('#new_description').val();
+        // Manually update the iframe and textarea, there appears to be a bug in the bootstrap-wysiwyg editor
+        // https://github.com/bootstrap-wysiwyg/bootstrap3-wysiwyg/issues/135
+        $('#id_event-description_ifr').contents().find('#tinymce').html(newDescriptionVal);
+        $copyElement.html(newDescriptionVal);
     });
 };
 

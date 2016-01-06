@@ -1,12 +1,3 @@
-/* Body */
-body {
-  background: url('../img/gradient.png') top left repeat-x;
-
-  &.logged-in {
-    background: url('../img/gradient-admin.png') top left repeat-x;
-  }
-}
-
 
 /* Header */
 header {

@@ -128,17 +128,17 @@
                 </div>
             </fieldset>
             {% if event.is_re_review %}
-            <div class="pull-right">
-                <button id="copy_title" class="btn btn-info" data-copy-to="{{ form.title.auto_id }}">Copy</button>
-            </div>
             <fieldset class="form-group large {% if event.created_from.title.errors %}error{% endif %}">
                 <div class="control-label-group col-md-3">
                     <label class="control-label" for="new_title" tabindex="-1">New Title</label>
                     <p class="label-desc" id="help-label-new_title" tabindex="-1">The new title for the originating event</p>
                 </div>
-                <div class="controls col-md-6">
+                <div class="controls col-md-5">
                     <input id="new_title" class="form-control" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
                     {{ event.created_from.title.errors }}
+                </div>
+                <div class="controls col-md-1">
+                    <button id="copy_title" class="btn btn-info pull-right" data-copy-to="{{ form.title.auto_id }}">Copy</button>
                 </div>
             </fieldset>
             {% endif %}
@@ -153,13 +153,11 @@
                 </div>
             </fieldset>
             {% if event.is_re_review %}
-            <div class="col-md-1 pull-right">
-                <button id="copy_description" class="btn btn-info" data-copy-to="{{ form.description.auto_id }}">Copy</button>
-            </div>
             <fieldset class="form-group large {% if event.created_from.description.errors %}error{% endif %}">
                 <div class="control-label-group col-md-3">
                     <label class="control-label" for="new_description" tabindex="-1">New Description</label>
                     <p class="label-desc" id="help-label-new_description" tabindex="-1">The new description from the originating event.</p>
+                    <button id="copy_description" class="btn btn-info" data-copy-to="{{ form.description.auto_id }}">Copy</button>
                 </div>
                 <div class="controls col-md-8">
                     <textarea id="new_description" class="form-control wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
