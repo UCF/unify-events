@@ -1,4 +1,7 @@
-{% load core_tags %}{% if not event_instances %}BEGIN:VTIMEZONE
+{% load core_tags %}{% if not event_instances %}BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//UNIFY
+BEGIN:VTIMEZONE
 TZID:America/New_York
 X-LIC-LOCATION:America/New_York
 BEGIN:DAYLIGHT
@@ -16,9 +19,6 @@ DTSTART:19701101T020000
 RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//UNIFY
 {% endif %}
 BEGIN:VEVENT
 UID:{{ event_instance.get_absolute_url }}
