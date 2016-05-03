@@ -105,14 +105,14 @@ def escapeics(value):
     if value is None:
         value = ''
 
+    # Converts non-ASCII content to ASCII
+    value = unidecode(value)
+
     # Translates HTML to plain ASCII text (e.g. convert <br> to newlines)
     h2t = html2text.HTML2Text()
     h2t.body_width = 0
     h2t.ignore_emphasis = 1
     value = h2t.handle(value)
-
-    # Converts non-ASCII content to ASCII
-    value = unidecode(value)
 
     # Remove ending newlines. ('\n' counts as ONE char)
     if value.endswith('\n'):
