@@ -267,7 +267,7 @@ class InvalidSlugRedirectMixin(object):
                 kwargs[by_model_lc] = by_object.slug
 
             # Check if a calendar pk/slug are provided (i.e. Events on Calendar by Category, Tag)
-            if 'pk' in r_kwargs:
+            if 'pk' in kwargs:
                 calendar_pk = kwargs['pk']
                 calendar_slug = kwargs['slug']
                 calendar = get_object_or_404(Calendar, pk=calendar_pk)
