@@ -288,29 +288,6 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
             self.get_context_data(form=form,
                                   event_instance_formset=event_instance_formset))
 
-    def path_is_valid(self, path):
-        """
-        Validates a relative URL path as a legit view.  Returns True if the
-        path resolves and False on failure.
-        """
-        try:
-            match = resolve(path)
-
-            # Try to catch if the user came from a EventDetailView that
-            # references an EventInstance deleted in this request.  For some
-            # reason, resolve() won't catch this properly.
-            if match.url_name == 'event':
-                instance_pk = match.kwargs['pk']
-                try:
-                    instance = EventInstance.objects.get(pk=instance_pk)
-                except EventInstance.DoesNotExist:
-                    raise Http404
-        except Http404:
-            # url in 'path' variable did not resolve to a view
-            return False
-        else:
-            return True
-
 
 class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Event
@@ -333,14 +310,13 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             try:
                 view, v_args, v_kwargs = resolve(next_relative.path)
             except Http404:
-                # url in 'path' variable did not resolve to a view
                 pass
             else:
                 if view.__name__ == 'EventUpdate':
                     ctx = {
                         'form_action_next': urllib.quote_plus(reverse(
-                            'dashboard-calendar-state',
-                            kwargs={
+                                'dashboard-calendar-state',
+                            kwargs = {
                                 'pk': self.object.calendar.pk,
                                 'state': State.get_string(self.object.state)
                             }
