@@ -251,48 +251,48 @@ class InvalidSlugRedirectMixin(object):
         Return a 301 redirect if the provided object slug(s) don't
         match the by_object's actual slug, or dispatch if all is well.
         """
+
         by_model_lc = str(self.by_model.__name__).lower()
         needs_redirect = False
-        r_kwargs = request.resolver_match.kwargs
 
         # Catch <by_model slug> in url (i.e. Events by Category, Tag)
-        if by_model_lc in r_kwargs:
-            by_object_pk = r_kwargs[by_model_lc + '_pk']
-            by_object_slug = r_kwargs[by_model_lc]
+        if by_model_lc in kwargs:
+            by_object_pk = kwargs[by_model_lc + '_pk']
+            by_object_slug = kwargs[by_model_lc]
             by_object = get_object_or_404(self.by_model, pk=by_object_pk)
 
             # If the provided by_object slug is incorrect, fix it
             if by_object_slug != by_object.slug:
                 needs_redirect = True
-                r_kwargs[by_model_lc] = by_object.slug
+                kwargs[by_model_lc] = by_object.slug
 
             # Check if a calendar pk/slug are provided (i.e. Events on Calendar by Category, Tag)
-            if 'pk' in r_kwargs:
-                calendar_pk = r_kwargs['pk']
-                calendar_slug = r_kwargs['slug']
+            if 'pk' in kwargs:
+                calendar_pk = kwargs['pk']
+                calendar_slug = kwargs['slug']
                 calendar = get_object_or_404(Calendar, pk=calendar_pk)
 
                 # If the provided calendar slug isn't correct, fix it
                 if calendar_slug != calendar.slug:
                     needs_redirect = True
-                    r_kwargs['slug'] = calendar.slug
+                    kwargs['slug'] = calendar.slug
         else:
-            by_object_pk = r_kwargs['pk']
-            by_object_slug = r_kwargs['slug']
+            by_object_pk = kwargs['pk']
+            by_object_slug = kwargs['slug']
             by_object = get_object_or_404(self.by_model, pk=by_object_pk)
 
             # If the provided by_object slug is incorrect, fix it
             if by_object_slug != by_object.slug:
                 needs_redirect = True
-                r_kwargs['slug'] = by_object.slug
+                kwargs['slug'] = by_object.slug
 
         if needs_redirect:
             url_name = request.resolver_match.url_name
             # prevent feed.None from being passed into new redirect url
-            if 'format' in r_kwargs and r_kwargs['format'] is None:
-                r_kwargs.pop('format', None)
+            if 'format' in kwargs and kwargs['format'] is None:
+                kwargs.pop('format', None)
 
-            return HttpResponsePermanentRedirect(reverse(url_name, kwargs=r_kwargs))
+            return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
         else:
             return super(InvalidSlugRedirectMixin, self).dispatch(request, *args, **kwargs)
 
@@ -316,7 +316,10 @@ class SuccessPreviousViewRedirectMixin(object):
         path resolves and False on failure.
         """
         try:
-            match = resolve(path)
+            view, args, kwargs = resolve(path)
+            kwargs['request'] = self.request
+            if 'delete' not in self.request.path:
+                view(*args, **kwargs)
         except Http404:
             # url in 'path' variable did not resolve to a view
             return False
