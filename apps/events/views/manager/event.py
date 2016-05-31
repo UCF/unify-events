@@ -310,14 +310,13 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             try:
                 view, v_args, v_kwargs = resolve(next_relative.path)
             except Http404:
-                # url in 'path' variable did not resolve to a view
                 pass
             else:
                 if view.__name__ == 'EventUpdate':
                     ctx = {
                         'form_action_next': urllib.quote_plus(reverse(
-                            'dashboard-calendar-state',
-                            kwargs={
+                                'dashboard-calendar-state',
+                            kwargs = {
                                 'pk': self.object.calendar.pk,
                                 'state': State.get_string(self.object.state)
                             }
