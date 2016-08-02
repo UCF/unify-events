@@ -163,7 +163,17 @@ class MultipleFormatTemplateViewMixin(object):
     the url parameter of format.
     """
     template_name = None
-    available_formats = ['html', 'json', 'xml', 'rss', 'ics']
+    feed_formats = ['json', 'xml', 'rss', 'ics']
+    available_formats = ['html'] + feed_formats
+
+    def get_paginate_by(self, queryset):
+        """
+        Only paginate if the page is not a feed format.
+        """
+        if self.get_format() in self.feed_formats:
+            return None
+        else:
+            return self.paginate_by
 
     def get_format(self):
         """
