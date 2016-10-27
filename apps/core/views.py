@@ -318,6 +318,15 @@ class SuccessPreviousViewRedirectMixin(object):
         try:
             view, args, kwargs = resolve(path)
             kwargs['request'] = self.request
+
+            """
+            Avoid recursion bug on invalid form submissions--don't
+            allow mixin logic to occur further in dynamically generated
+            views
+            """
+            if 'ignore_success_mixin' not in kwargs:
+                kwargs['ignore_success_mixin'] = True
+
             if 'delete' not in self.request.path:
                 view(*args, **kwargs)
         except Http404:
@@ -349,14 +358,17 @@ class SuccessPreviousViewRedirectMixin(object):
         attribute.
         """
         context = super(SuccessPreviousViewRedirectMixin, self).get_context_data(**kwargs)
-        context['form_action_next'] = ''
+        ignore_success_mixin = self.kwargs.get('ignore_success_mixin', None)
 
-        next = self.request.META.get('HTTP_REFERER', None)
-        if next:
-            next_relative = self.get_relative_path_with_query(next)
-            success_url = self.success_url
-            if next_relative.relative != success_url and self.path_is_valid(next_relative.path):
-                context['form_action_next'] = urllib.quote_plus(next)
+        if ignore_success_mixin is not True:
+            context['form_action_next'] = ''
+
+            next = self.request.META.get('HTTP_REFERER', None)
+            if next:
+                next_relative = self.get_relative_path_with_query(next)
+                success_url = self.success_url
+                if next_relative.relative != success_url and self.path_is_valid(next_relative.path):
+                    context['form_action_next'] = urllib.quote_plus(next)
 
         return context
 
@@ -366,13 +378,16 @@ class SuccessPreviousViewRedirectMixin(object):
         or the view's default success_url if 'next' is invalid or unavailable.
         """
         success_url = super(SuccessPreviousViewRedirectMixin, self).get_success_url()
-        next = self.request.GET.get('next')
+        ignore_success_mixin = self.kwargs.get('ignore_success_mixin', None)
 
-        if next:
-            next = urllib.unquote_plus(next)  # unencode
-            next_relative = self.get_relative_path_with_query(next)
-            if self.path_is_valid(next_relative.path):
-                success_url = next_relative.relative
+        if ignore_success_mixin is not True:
+            next = self.request.GET.get('next')
+
+            if next:
+                next = urllib.unquote_plus(next)  # unencode
+                next_relative = self.get_relative_path_with_query(next)
+                if self.path_is_valid(next_relative.path):
+                    success_url = next_relative.relative
 
         return success_url
 
