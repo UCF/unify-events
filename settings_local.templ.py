@@ -12,6 +12,9 @@ ADMINS = (
 # Determine if in Development mode. Used for things like ESIs.
 DEV_MODE = False
 
+# For emergency situations where the manager and logins must be disabled
+READ_ONLY_MODE = False
+
 LOGIN_URL = '/manager/login/'
 LOGOUT_URL = '/manager/logout/'
 LOGIN_REDIRECT_URL = '/manager/'
