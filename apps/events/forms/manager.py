@@ -67,8 +67,6 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
     """
     Form for the Calendar
     """
-    editors = InlineLDAPSearchField(queryset=User.objects.none(), required=False)
-
     def __init__(self, *args, **kwargs):
         super(CalendarForm, self).__init__(*args, **kwargs)
         calendar = kwargs['instance']
@@ -86,7 +84,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'editors')
+        fields = ('title', 'description')
 
 
 class CalendarSubscribeForm(forms.ModelForm):
