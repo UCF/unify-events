@@ -2,17 +2,11 @@
 {
 	"event_id": "{{ event_instance.event.pk }}",
 	"eventinstance_id": "{{ event_instance.pk }}",
-	"retrieved_calendar": {
+	"calendar": {
 		"id": {{event_instance.event.calendar.id}},
 		"title": "{{event_instance.event.calendar.title}}",
 		"url": "{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}"
 	},
-	"copied_calendar":
-	{% if event_instance.event.created_from %} {
-		"id": {{event_instance.event.created_from.calendar.id}},
-		"title": "{{event_instance.event.created_from.calendar.title}}",
-		"url": "{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{% url 'calendar' pk=event_instance.event.created_from.calendar.pk slug=event_instance.event.created_from.calendar.slug %}"
-	}, {% else %} null, {% endif %}
 	"id": {% if event_instance.unl_eventdatetime_id %}"{{ event_instance.unl_eventdatetime_id }}"{% else %}"{{ event_instance.pk }}"{% endif %},
 	"title": "{{ event_instance.event.get_title_canceled|escapejs }}",
 	"subtitle": null,
