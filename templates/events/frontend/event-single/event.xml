@@ -9,7 +9,7 @@
 			<id>{{ event_instance.event.calendar.id}}</id>
 			<title>{{ event_instance.event.calendar.title }}</title>
 			<slug>{{ event_instance.event.calendar.slug }}</slug>
-			<url>https://{{request.get_host}}{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}</url>
+			<url>{{event_instance.event.calendar.get_absolute_url}}</url>
 		</calendar>
 		<title>{{ event_instance.event.get_title_canceled|escapexml }}</title>
 		<subtitle></subtitle>
