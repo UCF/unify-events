@@ -5,6 +5,16 @@
         <id>{% if event_instance.unl_eventdatetime_id %}{{ event_instance.unl_eventdatetime_id }}{% else %}{{ event_instance.pk }}{% endif %}</id>
         <event_id>{{ event_instance.event.pk }}</event_id>
         <eventinstance_id>{{ event_instance.pk }}</eventinstance_id>
+		<retrieved_calendar>
+			<id>{{ event_instance.event.calendar.id}}</id>
+			<title>{{ event_instance.event.calendar.title }}</title>
+			<url>{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}</url>
+		</retrieved_calendar>
+		<copied_calendar>
+			<id>{{ event_instance.event.created_from.calendar.id}}</id>
+			<title>{{ event_instance.event.created_from.calendar.title}}</title>
+			<url>{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'calendar' pk=event_instance.event.created_from.calendar.pk slug=event_instance.event.created_from.calendar.slug %}</url>
+		</copied_calendar>
 		<title>{{ event_instance.event.get_title_canceled|escapexml }}</title>
 		<subtitle></subtitle>
 		<start_date>{{ event_instance.start|date:'r' }}</start_date>
