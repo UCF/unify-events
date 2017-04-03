@@ -6,7 +6,7 @@
 		"id": {{event_instance.event.calendar.id}},
 		"title": "{{event_instance.event.calendar.title}}",
 		"slug": "{{event_instance.event.calendar.slug}}",
-		"url": "https://{{request.get_host}}{% url 'calendar' pk=event_instance.event.calendar.pk slug=event_instance.event.calendar.slug %}"
+		"url": "{{event_instance.event.calendar.get_absolute_url}}"
 	},
 	"id": {% if event_instance.unl_eventdatetime_id %}"{{ event_instance.unl_eventdatetime_id }}"{% else %}"{{ event_instance.pk }}"{% endif %},
 	"title": "{{ event_instance.event.get_title_canceled|escapejs }}",
