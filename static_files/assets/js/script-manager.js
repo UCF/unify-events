@@ -781,7 +781,7 @@ var eventTagging = function() {
 
                 // Update help text
                 var helpText = self.dataField.siblings('.help-block');
-                helpText.text('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.');
+                helpText.html('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.<br><br>Please note that tags are case-insensitive.');
             }
 
             // Handle addBtn clicks

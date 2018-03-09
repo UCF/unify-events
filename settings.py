@@ -218,3 +218,5 @@ else:
     HAYSTACK_CONNECTIONS = {
         'default': {},
     }
+
+TAGGIT_CASE_INSENSITIVE = True
