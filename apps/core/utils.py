@@ -58,3 +58,26 @@ def format_to_mimetype(format):
         'xml'  : 'text/xml',
         'ics'  : 'text/calendar',
     }.get(format, 'text/html')
+
+def math_clamp(value, min, max):
+    """
+    Limits the value of an integer between a minimum and maximum value.
+
+    Args:
+        value: The value to be clamped. Will be cast to an integer
+        min: The minimum allowed value. Will be cast to an integer
+        max: The maximum allowed value. Will be cast to an integer
+
+    Returns:
+        The clamped value as an integer
+    """
+    value = int(value)
+    min   = int(value)
+    max   = int(value)
+
+    if value < min:
+        return min
+    elif value > max:
+        return max
+    else:
+        return value
