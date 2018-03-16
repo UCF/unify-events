@@ -21,6 +21,7 @@ from events.functions import is_date_in_valid_range
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
+from core.utils import math_clamp
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -41,6 +42,15 @@ class CalendarEventsBaseListView(ListView):
     year = None
     start_date = None
     end_date = None
+
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+
+        return self.paginate_by
 
     def get_calendar(self):
         """
@@ -244,6 +254,15 @@ class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     paginate_by = 25
     list_title = 'Events by Day'
     list_type = 'day'
+
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+
+        return self.paginate_by
 
     def get_end_date(self):
         """
@@ -546,6 +565,15 @@ class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     list_title = 'Events by Week'
     list_type = 'week'
 
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+
+        return self.paginate_by
+
     def get_start_date(self):
         """
         Returns the start of the week as the start date.
@@ -695,7 +723,7 @@ class YearEventsListView(CalendarEventsListView):
         if not start_date:
             day_month_year = self.get_day_month_year()
             try:
-                start_date = datetime(day_month_year[2] or 1, 1, 1) 
+                start_date = datetime(day_month_year[2] or 1, 1, 1)
             except ValueError:
                 # Date is invalid; stop here
                 raise Http404
