@@ -21,6 +21,7 @@ from events.functions import is_date_in_valid_range
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
+from core.views import PerPageOverrideMixin
 from core.utils import math_clamp
 from settings_local import FIRST_DAY_OF_WEEK
 
@@ -48,7 +49,11 @@ class CalendarEventsBaseListView(ListView):
         Update paginate by using the per_page variable is it is set
         """
         if self.request.GET.get('per_page') is not None:
-            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
 
         return self.paginate_by
 
@@ -260,7 +265,11 @@ class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         Update paginate by using the per_page variable is it is set
         """
         if self.request.GET.get('per_page') is not None:
-            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
 
         return self.paginate_by
 
@@ -570,7 +579,11 @@ class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         Update paginate by using the per_page variable is it is set
         """
         if self.request.GET.get('per_page') is not None:
-            return math_clamp(self.request.GET.get('per_page'), 1, 100)
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
 
         return self.paginate_by
 
@@ -777,6 +790,19 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     list_type = 'upcoming'
     list_title = 'Upcoming Events'
 
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
+
+        return self.paginate_by
+
     def get_queryset(self):
         """
         Get events that start after now. Using the function instead
@@ -866,6 +892,19 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
 
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
+
+        return self.paginate_by
+
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()
         context['tag'] = get_object_or_404(Tag, pk=self.kwargs['tag_pk'])
@@ -897,6 +936,19 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
     model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
+
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
+
+        return self.paginate_by
 
     def get_context_data(self, **kwargs):
         context = super(EventsByCategoryList, self).get_context_data()
