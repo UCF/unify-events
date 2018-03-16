@@ -22,7 +22,6 @@ from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
 from core.views import PerPageOverrideMixin
-from core.utils import math_clamp
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -33,7 +32,7 @@ class EventDetailView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsBaseListView(ListView):
+class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
     model = EventInstance
     context_object_name = 'event_instances'
     paginate_by = 25
@@ -43,19 +42,6 @@ class CalendarEventsBaseListView(ListView):
     year = None
     start_date = None
     end_date = None
-
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
 
     def get_calendar(self):
         """
@@ -259,19 +245,6 @@ class DayEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     paginate_by = 25
     list_title = 'Events by Day'
     list_type = 'day'
-
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
 
     def get_end_date(self):
         """
@@ -574,19 +547,6 @@ class WeekEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     list_title = 'Events by Week'
     list_type = 'week'
 
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
-
     def get_start_date(self):
         """
         Returns the start of the week as the start date.
@@ -790,19 +750,6 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
     list_type = 'upcoming'
     list_title = 'Upcoming Events'
 
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
-
     def get_queryset(self):
         """
         Get events that start after now. Using the function instead
@@ -881,7 +828,7 @@ class ListViewByCalendarMixin(object):
             return super(ListViewByCalendarMixin, self).dispatch(request, *args, **kwargs)
 
 
-class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
+class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
@@ -891,19 +838,6 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
-
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
 
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()
@@ -926,7 +860,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
         return events
 
 
-class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
+class EventsByCategoryList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
@@ -936,19 +870,6 @@ class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewM
     model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/category/category.'
-
-    def get_paginate_by(self, queryset):
-        """
-        Update paginate by using the per_page variable is it is set
-        """
-        if self.request.GET.get('per_page') is not None:
-            try:
-                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
-                return retval
-            except TypeError:
-                return self.get_paginate_by
-
-        return self.paginate_by
 
     def get_context_data(self, **kwargs):
         context = super(EventsByCategoryList, self).get_context_data()
