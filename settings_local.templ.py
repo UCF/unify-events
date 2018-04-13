@@ -68,7 +68,7 @@ LDAP_NET_SEARCH_SIZELIMIT = 5
 USER_SEARCHLIMIT = 5
 
 # Root path by which canonical urls are built. Include protocol. Do not include trailing slash.
-CANONICAL_ROOT = 'http://unify-events.smca.ucf.edu'
+CANONICAL_ROOT = 'https://events.ucf.edu'
 
 # Calendar Displayed on the Front Page
 FRONT_PAGE_CALENDAR_PK = 1
