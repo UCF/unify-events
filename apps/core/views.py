@@ -21,6 +21,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from core.utils import format_to_mimetype
+from core.utils import math_clamp
 from events.models import Calendar
 
 log = logging.getLogger(__name__)
@@ -390,6 +391,21 @@ class SuccessPreviousViewRedirectMixin(object):
                     success_url = next_relative.relative
 
         return success_url
+
+
+class PerPageOverrideMixin(object):
+    def get_paginate_by(self, queryset):
+        """
+        Update paginate by using the per_page variable is it is set
+        """
+        if self.request.GET.get('per_page') is not None:
+            try:
+                retval = math_clamp(self.request.GET.get('per_page'), 1, 100)
+                return retval
+            except TypeError:
+                return self.get_paginate_by
+
+        return self.paginate_by
 
 
 def success_previous_view_redirect(request, fallback_view_url):

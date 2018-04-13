@@ -21,6 +21,7 @@ from events.functions import is_date_in_valid_range
 from core.views import MultipleFormatTemplateViewMixin
 from core.views import PaginationRedirectMixin
 from core.views import InvalidSlugRedirectMixin
+from core.views import PerPageOverrideMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
 
@@ -31,7 +32,7 @@ class EventDetailView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsBaseListView(ListView):
+class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
     model = EventInstance
     context_object_name = 'event_instances'
     paginate_by = 25
@@ -695,7 +696,7 @@ class YearEventsListView(CalendarEventsListView):
         if not start_date:
             day_month_year = self.get_day_month_year()
             try:
-                start_date = datetime(day_month_year[2] or 1, 1, 1) 
+                start_date = datetime(day_month_year[2] or 1, 1, 1)
             except ValueError:
                 # Date is invalid; stop here
                 raise Http404
@@ -827,7 +828,7 @@ class ListViewByCalendarMixin(object):
             return super(ListViewByCalendarMixin, self).dispatch(request, *args, **kwargs)
 
 
-class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
+class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events tagged with a specific tag.
     Events can optionally be filtered by calendar.
@@ -859,7 +860,7 @@ class EventsByTagList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin,
         return events
 
 
-class EventsByCategoryList(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
+class EventsByCategoryList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PaginationRedirectMixin, ListViewByCalendarMixin, ListView):
     """
     Page that lists all upcoming events categorized with a specific tag.
     Events can optionally be filtered by calendar.
