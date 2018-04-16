@@ -1,5 +1,5 @@
 {% load core_tags %}{% if not event_instances %}<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:ucfevent="http://events.ucf.edu">
+<rss version="2.0" xmlns:ucfevent="https://events.ucf.edu">
 	<channel>
 		<title>Events at UCF</title>
 		<link>{{ request.build_absolute_uri }}</link>

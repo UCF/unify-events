@@ -1,4 +1,4 @@
-/*	
+/*
 	EVENTS CALENDAR WIDGETS
 	UCF Web Communcations
 	Summer 2010
@@ -7,18 +7,18 @@
 (function($) {
 	$.getUCFEvents = function(options, callback){
 		var settings = $.extend({
-			'url'         : 'http://events.ucf.edu',
+			'url'         : 'https://events.ucf.edu',
 			'calendar_id' : 1,
 			'limit'       : 4
 		}, options);
-		
+
 		var data = {
 			'format'      : 'json',
 			'upcoming'    : 'upcoming',
 			'calendar_id' : settings.calendar_id,
 			'limit'       : settings.limit
 		};
-		
+
 		$.ajax({
 			dataType : 'json',
 			url      : settings.url,
@@ -29,18 +29,18 @@
 			}
 		});
 	};
-	
+
 	$.fn.eventsUCF = function() {
 		// all values are optional
 		var defaults = {
-			'url'          : 'http://events.ucf.edu',
+			'url'          : 'https://events.ucf.edu',
 			'limit'        : 4,
 			'calendar_id'  : 1,
 			'monthwidget'  : false,
 			'month'        : false,
 			'year'         : false
 		};
-		
+
 		this.each(function() {
 			// pull options from data attribute
 			var cal = $(this);
@@ -52,17 +52,17 @@
 				'month'        : cal.attr('data-month'),
 				'year'         : cal.attr('data-year')
 			};
-			
+
 			var settings = $.extend({}, defaults, options);
 			var url      = settings.url;
-			
+
 			// set the ajax data / query string according to options
 			var data = {
 				'is_widget'   : true,
 				'calendar_id' : settings['calendar_id'],
 				'limit'       : settings['limit']
 			};
-			
+
 			if(settings.monthwidget){
 				data.monthwidget = true;
 			}
@@ -71,7 +71,7 @@
 				data.year = (settings.year) ? settings.year : d.getFullYear();
 				data.month = (settings.month) ? settings.month : d.getMonth() + 1;
 			}
-			
+
 			var Browser = {
 			  Version: function() {
 			    var version = 999; // we assume a sane browser
@@ -81,7 +81,7 @@
 			    return version;
 			  }
 			};
-			
+
 			var showFallbackMsg = function(){
 				// Old IE always gets a link to the upcoming view
 				var qstring = 'calendar_id='+ data.calendar_id + '&upcoming=upcoming';
@@ -89,14 +89,14 @@
 				msg = '<a href="'+ url +'">View Calendar</a>';
 				cal.html(msg);
 			};
-			
+
 			// check for IE7
 			var sadtimes = false;
 			if (navigator.appVersion.indexOf("MSIE") != -1){
 				var version = parseFloat(navigator.appVersion.split("MSIE")[1]);
 				if(version<8) sadtimes = true;
 			}
-			
+
 			if(sadtimes) {
 				showFallbackMsg();
 			} else {

@@ -1,4 +1,4 @@
-# Unify Events - [Calendar of Events and Activities at the University of Central Florida and Orlando, FL](http://events.ucf.edu/upcoming/)
+# Unify Events - [Calendar of Events and Activities at the University of Central Florida and Orlando, FL](https://events.ucf.edu/upcoming/)
 
 ## Installation and Setup
 1. Install Elasticsearch on your server (tested with v1.1.0) (http://www.elasticsearch.org/overview/elkdownloads/).  Requires at least Java 6.
