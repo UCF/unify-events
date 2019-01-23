@@ -20,6 +20,6 @@ python-dateutil==2.2
 python-ldap==2.4.14
 requests==2.1.0
 simplejson==3.3.2
-six==1.5.2
+six==1.9.0
 urllib3==1.7.1
 wsgiref==0.1.2
