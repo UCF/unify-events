@@ -24,6 +24,8 @@ from core.utils import format_to_mimetype
 from core.utils import math_clamp
 from events.models import Calendar
 
+from haystack.views import SearchView
+
 log = logging.getLogger(__name__)
 
 
@@ -323,9 +325,9 @@ class SuccessPreviousViewRedirectMixin(object):
             """
             Avoid recursion bug on invalid form submissions--don't
             allow mixin logic to occur further in dynamically generated
-            views
+            views. Exclude for the search view
             """
-            if 'ignore_success_mixin' not in kwargs:
+            if 'ignore_success_mixin' not in kwargs and 'search' not in path:
                 kwargs['ignore_success_mixin'] = True
 
             if 'delete' not in self.request.path:
