@@ -24,8 +24,6 @@ from core.utils import format_to_mimetype
 from core.utils import math_clamp
 from events.models import Calendar
 
-from haystack.views import SearchView
-
 log = logging.getLogger(__name__)
 
 
