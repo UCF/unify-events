@@ -42,6 +42,7 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
     year = None
     start_date = None
     end_date = None
+    location = None
 
     def get_calendar(self):
         """
@@ -143,6 +144,20 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
         """
         return self.end_date
 
+    def get_location(self):
+        """
+        Return the location
+        """
+        location = self.request.GET.get('location', '')
+
+        if location:
+            try:
+                self.location = Location.objects.get(import_id=location)
+            except Location.DoesNotExist, e:
+                self.location = None
+
+        return self.location
+
     def get_context_data(self, **kwargs):
         """
         Set the calendar in the context.
@@ -199,6 +214,9 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             events = map_event_range(start_date, end_date, events)
         else:
             events = events.filter(start__gte=start_date)
+
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
 
         self.queryset = events
         return events
