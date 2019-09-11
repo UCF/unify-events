@@ -439,7 +439,6 @@ class HomeEventsListView(DayEventsListView):
         start_date = self.get_start_date()
         end_date = self.get_end_date()
         calendar = self.get_calendar()
-        location = self.get_location()
 
         # Backward compatibility with UNL events system.
         # Make sure upcoming feeds via ?upcoming=upcoming mimic UpcomingEventsListView!
