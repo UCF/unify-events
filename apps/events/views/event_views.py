@@ -759,6 +759,8 @@ class YearEventsListView(CalendarEventsListView):
         Avoid double queryset fetches (this view uses the calendar_widget templatetag,
         which does its own event instance query)
         """
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
         return list()
 
 
@@ -779,6 +781,9 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         """
         calendar = self.get_calendar()
         events = calendar.future_event_instances().filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
+
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
 
         self.queryset = events
 
