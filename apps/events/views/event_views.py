@@ -465,6 +465,9 @@ class HomeEventsListView(DayEventsListView):
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
+
         self.queryset = events
         return events
 
