@@ -759,8 +759,6 @@ class YearEventsListView(CalendarEventsListView):
         Avoid double queryset fetches (this view uses the calendar_widget templatetag,
         which does its own event instance query)
         """
-        if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
         return list()
 
 
