@@ -465,6 +465,9 @@ class HomeEventsListView(DayEventsListView):
             if limit and self.request.GET.get('monthwidget') != 'true':
                 self.paginate_by = int(limit)
 
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
+
         self.queryset = events
         return events
 
@@ -776,6 +779,9 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         """
         calendar = self.get_calendar()
         events = calendar.future_event_instances().filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
+
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
 
         self.queryset = events
 
