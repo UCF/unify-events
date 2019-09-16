@@ -819,6 +819,22 @@ def named_listing(request, pk, slug, type, format=None):
 
 
 class ListViewByCalendarMixin(object):
+    location = None
+
+    def get_location(self):
+        """
+        Return the location
+        """
+        location = self.request.GET.get('location', '')
+
+        if location:
+            try:
+                self.location = Location.objects.get(import_id=location)
+            except Location.DoesNotExist, e:
+                self.location = None
+
+        return self.location
+
     def get_calendar(self):
         """
         Returns the calendar object specified for the view; if no calendar
@@ -881,6 +897,9 @@ class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFo
         calendar = self.get_calendar()
         events = events.filter(event__calendar=calendar)
 
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
+
         return events
 
 
@@ -912,6 +931,9 @@ class EventsByCategoryList(PerPageOverrideMixin, InvalidSlugRedirectMixin, Multi
 
         calendar = self.get_calendar()
         events = events.filter(event__calendar=calendar)
+
+        if self.get_format() != 'html' and self.get_location():
+            events = events.filter(location=self.location)
 
         return events
 
