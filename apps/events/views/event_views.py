@@ -154,7 +154,7 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
             try:
                 self.location = Location.objects.get(import_id=location)
             except Location.DoesNotExist, e:
-                self.location = None
+                self.location = e
 
         return self.location
 
@@ -216,7 +216,11 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             events = events.filter(start__gte=start_date)
 
         if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
+            # The location wasn't valid, return an empty queryset
+            if isinstance(self.location, Location.DoesNotExist):
+                events = Event.objects.none()
+            else:
+                events = events.filter(location=self.location)
 
         self.queryset = events
         return events
@@ -466,7 +470,11 @@ class HomeEventsListView(DayEventsListView):
                 self.paginate_by = int(limit)
 
         if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
+            # Location doesn't exist, return empty query set
+            if isinstance(self.location, Location.DoesNotExist):
+                events = Event.objects.none()
+            else:
+                events = events.filter(location=self.location)
 
         self.queryset = events
         return events
@@ -781,7 +789,11 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         events = calendar.future_event_instances().filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
 
         if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
+            # Location doesn't exist, return empty query set.
+            if isinstance(self.location, Location.DoesNotExist):
+                events = Event.objects.none()
+            else:
+                events = events.filter(location=self.location)
 
         self.queryset = events
 
@@ -831,7 +843,7 @@ class ListViewByCalendarMixin(object):
             try:
                 self.location = Location.objects.get(import_id=location)
             except Location.DoesNotExist, e:
-                self.location = None
+                self.location = e
 
         return self.location
 
@@ -898,7 +910,11 @@ class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFo
         events = events.filter(event__calendar=calendar)
 
         if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
+            # Location doesn't exist, return an empty queryset
+            if isinstance(self.location, Location.DoesNotExist):
+                events = Event.objects.none()
+            else:
+                events = events.filter(location=self.location)
 
         return events
 
@@ -933,7 +949,11 @@ class EventsByCategoryList(PerPageOverrideMixin, InvalidSlugRedirectMixin, Multi
         events = events.filter(event__calendar=calendar)
 
         if self.get_format() != 'html' and self.get_location():
-            events = events.filter(location=self.location)
+            # Explicitly return an empty queryset
+            if isinstance(self.location, Location.DoesNotExist):
+                events = Event.objects.none()
+            else:
+                events = events.filter(location=self.location)
 
         return events
 
