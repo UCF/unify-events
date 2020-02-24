@@ -3,4 +3,37 @@
 {% load core_tags %}
 {% load url %}
 
-TODO add json-y results here
+[
+{% if query %}
+    {% with results=page_obj.object_list %}
+        {% if results %}
+            {% comment %}
+            Prioritize Main Calendar events. Assume that Main Calendar events
+            will always be copied from somewhere else.
+
+            Events use the first instance's search-list-item.html esi template.
+            See esi/eventinstance/search-list-item.html for info.
+            {% endcomment %}
+
+            {% block results_list %}
+
+            {% for result in results %}
+                {% if result.model_name == 'calendar' %}
+                    {
+                        "todo": "todo"
+                    }
+                {% elif result.model_name == 'event' %}
+                    {% with object=result.object.get_main_event|default:result.object %}
+                        {
+                            "todo": "todo"
+                        }{% if not forloop.last %},{% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+
+            {% endblock %}
+
+        {% endif %}
+    {% endwith %}
+{% endif %}
+]
