@@ -27,6 +27,17 @@
 
         cd src
         pip install -r requirements.txt
+
+    **NOTE:** if `pip install` returns a block of error text including `fatal error: 'sasl.h' file not found` upon installing `python-ldap`, do the following:
+
+    1. In requirements.txt, comment out the `python-ldap` requirement.
+    2. Re-run `pip install -r requirements.txt`.  It should complete successfully.
+    3. Run the following, replacing "VERSION" with the version number specified for the `python-ldap` package in requirements.txt:
+
+            pip install python-ldap==VERSION \
+            --global-option=build_ext \
+            --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"```
+    4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
 9. Set up local settings using the local_settings.templ.py file
 10. Set up apache/python.wsgi using apache/python.templ.wsgi
 11. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
@@ -44,9 +55,11 @@
 15. Rebuild the search index
 
         python manage.py rebuild_index
-16. Collect static files
+16. Collect static files.
 
         python manage.py collectstatic -cl
+
+    **NOTE:** if Django complains that the `static` directory doesn't exist when running this command, just create it manually (`mkdir static`) and re-run the command.
 
 
 ## Importing Data
