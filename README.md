@@ -36,7 +36,7 @@
 
             pip install python-ldap==VERSION \
             --global-option=build_ext \
-            --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"```
+            --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"
     4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
 9. Set up local settings using the local_settings.templ.py file
 10. Set up apache/python.wsgi using apache/python.templ.wsgi
