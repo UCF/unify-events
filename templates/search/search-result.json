@@ -1,5 +1,3 @@
-
-
 {
     "object_type": "{{ result.model_name }}",
     "object_id": "{{ item.pk }}",
