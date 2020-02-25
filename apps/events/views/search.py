@@ -9,6 +9,7 @@ log = logging.getLogger(__name__)
 
 
 class GlobalSearchView(MultipleFormatTemplateViewMixin, SearchView):
+    paginate_by = 25
     template_name = 'search/search.'
     available_formats = ['html', 'json']
 
