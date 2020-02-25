@@ -134,6 +134,18 @@ class Calendar(TimeCreatedModified):
                         })
         return canonical_root + relative_path
 
+    def get_json_details(self):
+        """
+        Generate a permalink to the single object details for this object
+        """
+        canonical_root = settings.CANONICAL_ROOT
+        relative_path = reverse('calendar', kwargs={
+            'pk': self.pk,
+            'slug': self.slug,
+            'format': 'json'
+        })
+        return canonical_root + relative_path
+
     def import_event(self, event):
         """
         Given an event, will duplicate that event and import it into this
