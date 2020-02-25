@@ -791,7 +791,7 @@
                 a completely custom application.
             </p>
             <p>
-                Feeds are available in JSON, RSS, XML, and ICS (iCal, Microsoft Outlook) formats.
+                Feeds are available in JSON, RSS, XML, and ICS (iCal, Microsoft Outlook) formats, unless otherwise noted.
             </p>
             <p>
                 All front-facing views (excluding the Year View) offer a feed of all the events data currently in that view.  Feeds
@@ -1197,6 +1197,38 @@
                             </td>
                             <td>
                                 n/a
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              Search Results
+                              <p><small>
+                                  A list of event and calendars, ordered by relevance based on the provided query.
+                              </small></p>
+                              <p><small>
+                                <strong>Note:</strong> Search result feeds are currently only available in JSON format.
+                              </small></p>
+                            </td>
+                            <td><code>{% url 'haystack_search' format='json' %}</code></td>
+                            <td>
+                                n/a
+                            </td>
+                            <td>
+                                <ul class="table-list">
+                                  <li>
+                                    <code>q</code><br />
+                                    <small>Default: <em>None</em></small>
+                                  </li>
+                                  <li>
+                                    <code>page</code><br />
+                                    <small>Default: <em>1</em></small>
+                                  </li>
+                                  <li>
+                                    <code>models</code><br />
+                                    <small>Default: <em>(all models)</em></small><br />
+                                    <small>Options: <em>events.calendar</em>, <em>events.event</em></small>
+                                  </li>
+                                </ul>
                             </td>
                         </tr>
                     </tbody>
