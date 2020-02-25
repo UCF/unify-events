@@ -1,0 +1,8 @@
+{
+    "object_type": "{{ result.model_name }}",
+    "object_id": "{{ item.pk }}",
+    "title": "{% if result.model_name == 'event' %}{{ item.get_title_canceled|escapejs }}{% else %}{{ item.title|escapejs }}{% endif %}",
+    "description": "{% if result.model_name == 'event' %}{{ item.description.strip|escapejs|default:FALLBACK_EVENT_DESCRIPTION }}{% else %}{{ item.description.strip|escapejs }}{% endif %}",
+    "url": "{{ item.get_absolute_url }}",
+    "details": "{{ item.get_json_details }}"
+}

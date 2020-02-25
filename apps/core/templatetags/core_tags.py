@@ -73,6 +73,21 @@ def static_ver(path):
         return url
 
 
+@register.simple_tag(takes_context=True)
+def absolute_uri_query_transform(context, **kwargs):
+    """
+    Takes a request and generates an absolute URL with given
+    kwargs as query parameters (updating existing param values
+    if present).
+    """
+    request = context['request']
+    updated = request.GET.copy()
+    for k, v in kwargs.items():
+        updated[k] = v
+
+    return request.build_absolute_uri('?' + updated.urlencode())
+
+
 @register.filter
 def parse_date(value):
     if isinstance(value, basestring):
