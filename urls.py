@@ -16,7 +16,6 @@ from events.views.event_views import YearEventsListView
 from events.views.event_views import CalendarWidgetView
 
 if settings.SEARCH_ENABLED:
-    from haystack.views import search_view_factory
     from events.views.search import GlobalSearchView
 
 admin.autodiscover()
