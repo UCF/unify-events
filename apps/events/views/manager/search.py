@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 
 
 class ManagerSearchView(SearchView):
+    template_name = 'search/manager-search.html'
+
     """
     Only return Event results that exist on the current user's
     calendars.

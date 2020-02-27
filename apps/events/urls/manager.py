@@ -30,7 +30,6 @@ from events.views.manager.tag import TagListView
 from events.views.manager.tag import TagUpdateView
 
 if settings.SEARCH_ENABLED:
-    from haystack.views import search_view_factory
     from events.views.manager.search import ManagerSearchView
 
 urlpatterns = patterns('',
@@ -143,10 +142,7 @@ urlpatterns += patterns('events.views.manager',
 # Search-related URLs
 if settings.SEARCH_ENABLED:
     urlpatterns += patterns('haystack.views',
-        url(r'^search/$', login_required(search_view_factory(
-            view_class=ManagerSearchView,
-            template='search/manager-search.html'
-        )), name='haystack_search_manager'),
+        url(r'^search/$', ManagerSearchView.as_view(), name='haystack_search_manager'),
     )
 else:
     urlpatterns += patterns('events.views.manager',
