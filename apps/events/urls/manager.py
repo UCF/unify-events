@@ -142,7 +142,7 @@ urlpatterns += patterns('events.views.manager',
 # Search-related URLs
 if settings.SEARCH_ENABLED:
     urlpatterns += patterns('haystack.views',
-        url(r'^search/$', ManagerSearchView.as_view(), name='haystack_search_manager'),
+        url(r'^search/$', login_required(ManagerSearchView.as_view()), name='haystack_search_manager'),
     )
 else:
     urlpatterns += patterns('events.views.manager',
