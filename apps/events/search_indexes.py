@@ -47,18 +47,6 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
         """
         return self.get_filtered_event_queryset()
 
-    def read_queryset(self, using=None):
-        """
-        Get the default QuerySet for read actions.
-        """
-        return self.get_filtered_event_queryset()
-
-    def build_queryset(self, using=None, start_date=None, end_date=None):
-        """
-        Get the default QuerySet to index when doing an index update.
-        """
-        return self.get_filtered_event_queryset()
-
     def load_all_queryset(self):
         """
         Provides the ability to override how objects get loaded
