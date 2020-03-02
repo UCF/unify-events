@@ -349,7 +349,7 @@ def update_event_state(request, pk=None, state=None):
         try:
             event.save()
         except Exception, e:
-            log(str(e))
+            log.error(str(e))
             messages.error(request, 'Unable to set Event %(1)s to %(2)s.' % {"1": event.title, "2": State.get_string(state)})
         else:
             if event.is_submit_to_main and event.state != State.posted and not event.calendar.is_main_calendar:
