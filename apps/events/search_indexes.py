@@ -30,9 +30,8 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
 
-    def index_queryset(self, using=None):
+    def get_filtered_event_queryset(self):
         """
-        Used when the entire index for model is updated.
         Only retrieve published events that are not archived
         (no pending events; allow canceled.)
         """
@@ -41,6 +40,19 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
         published_events = self.get_model().objects.filter(pk__in=unarchived_event_pks)
 
         return published_events
+
+    def index_queryset(self, using=None):
+        """
+        Used when the entire index for model is updated.
+        """
+        return self.get_filtered_event_queryset()
+
+    def load_all_queryset(self):
+        """
+        Provides the ability to override how objects get loaded
+        in conjunction with `RelatedSearchQuerySet.load_all`.
+        """
+        return self.get_filtered_event_queryset()
 
 
 class CalendarIndex(indexes.SearchIndex, indexes.Indexable):
