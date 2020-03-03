@@ -6,7 +6,7 @@ from haystack.exceptions import NotHandled
 from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 
-from events.models.event import Event
+from events.models.event import Event, State
 from events.models.calendar import Calendar
 
 log = logging.getLogger(__name__)
@@ -42,7 +42,8 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
         update should be sent to & update the object on those backends.
 
         Updated for this app to actually log an error on NotHandled (by
-        default, BaseSignalProcessor just passes).
+        default, BaseSignalProcessor just passes) and properly manage
+        Event state changes.
 
         Args:
           sender   (obj): The model class to receive signals from.
@@ -53,7 +54,15 @@ class CustomHaystackSignalProcessor(signals.BaseSignalProcessor):
         for using in using_backends:
             try:
                 index = self.connections[using].get_unified_index().get_index(sender)
-                index.update_object(instance, using=using)
+                model_name = instance.__class__.__name__
+                if model_name == 'Event':
+                    is_not_published = instance.state not in State.get_published_states()
+                    if is_not_published:
+                        index.remove_object(instance, using=using)
+                    else:
+                        index.update_object(instance, using=using)
+                else:
+                    index.update_object(instance, using=using)
             except NotHandled as e:
                 log.error(
                     'Failed to update %s object in search index for instance %s: %s' %

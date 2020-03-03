@@ -69,9 +69,9 @@
 
         <div class="row">
             <div class="col-md-12 page-content">
-                <p><em>{{ page.paginator.count }} result(s) found.</em></p>
+                <p><em>{{ page_obj.paginator.count }} result(s) found.</em></p>
                 {% if query %}
-                    {% with results=page.object_list %}
+                    {% with results=page_obj.object_list %}
                         {% if results %}
                             {% comment %}
                             Prioritize Main Calendar events. Assume that Main Calendar events
