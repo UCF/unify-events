@@ -28,24 +28,6 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
 
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
-    'django.contrib.messages.context_processors.messages',
-    'core.context_processors.global_settings'
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'core.middleware.SecureRequiredMiddleware',
@@ -159,8 +141,24 @@ FILE_UPLOAD_PATH = 'uploads'
 
 DATABASE_ROUTERS = ['unlevents.dbrouter.UNLEventsRouter']
 
-TEMPL_FOLDER = os.path.join(BASE_DIR, 'templates')
-TEMPLATE_DIRS = (TEMPL_FOLDER, )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            'templates'
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'core.context_processors.global_settings'
+            ],
+        },
+    },
+]
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"

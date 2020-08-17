@@ -39,15 +39,14 @@ class EventsURLNode(URLNode):
         # {% url ... as var %} construct in which case return nothing.
         url = ''
         try:
-            url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
+            url = reverse(view_name, args=args, kwargs=kwargs)
         except NoReverseMatch:
             exc_info = sys.exc_info()
             if settings.SETTINGS_MODULE:
                 project_name = settings.SETTINGS_MODULE.split('.')[0]
                 try:
                     url = reverse(project_name + '.' + view_name,
-                              args=args, kwargs=kwargs,
-                              current_app=context.current_app)
+                              args=args, kwargs=kwargs)
                 except NoReverseMatch:
                     if self.asvar is None:
                         # Re-raise the original exception, not the one with

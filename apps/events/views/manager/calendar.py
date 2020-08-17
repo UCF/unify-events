@@ -234,7 +234,7 @@ def add_update_user(request, pk, username, role):
         return HttpResponseForbidden('Not a legitimate role value.')
 
     calendar.save()
-    url_name = 'calendar-update-users'
+    url_name = 'events.views.manager.calendar-update-users'
     if request.user == user and role == 'editor' and not request.user.is_superuser:
         url_name = 'dashboard'
 
@@ -255,7 +255,7 @@ def delete_user(request, pk, username):
     if request.user == user:
         return HttpResponseRedirect(reverse('dashboard'))
     else:
-        return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
+        return HttpResponseRedirect(reverse('events.views.manager.calendar-update-users', args=(pk,)))
 
 @login_required
 def reassign_ownership(request, pk, username):
@@ -270,7 +270,7 @@ def reassign_ownership(request, pk, username):
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
-    return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
+    return HttpResponseRedirect(reverse('events.views.manager.calendar-update-users', args=(pk,)))
 
 
 class SubscribeToCalendar(SuccessMessageMixin, UpdateView):

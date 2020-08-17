@@ -26,7 +26,7 @@
     {% url 'calendar-subscribe' pk=calendar.pk %}
 {% endblock %}
 
-{% block content_form_id %}calendar-subscribe{% endblock %}
+{% block content_form_id %}events.views.manager.calendar-subscribe{% endblock %}
 
 {% block content_form_body %}
     {% csrf_token %}
