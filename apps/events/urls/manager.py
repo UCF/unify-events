@@ -149,9 +149,9 @@ urlpatterns += [
 # Search-related URLs
 if settings.SEARCH_ENABLED:
     urlpatterns += [
-        url(r'^search/$', login_required(ManagerSearchView.as_view()), name='haystack.views.haystack_search_manager'),
+        url(r'^search/$', login_required(ManagerSearchView.as_view()), name='search_manager_view'),
     ]
 else:
     urlpatterns += [
-        url(r'^search/$', login_required(Dashboard.as_view()), name='events.views.manager.haystack_search_manager'),
+        url(r'^search/$', login_required(Dashboard.as_view()), name='search_manager_view'),
     ]

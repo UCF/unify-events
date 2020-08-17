@@ -169,7 +169,7 @@
     <section class="row">
         <div class="col-md-8 sidebarfix page-content">
             {% if event_instances %}
-            <form action="{% url 'event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
+            <form action="{% url 'events.views.manager.event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                 {% csrf_token %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
