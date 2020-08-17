@@ -13,7 +13,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 {% with instance_start=instance_start.0|default:object.start instance_end=instance_end.0|default:object.end %}
     {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
         <li>
-            <a href="{% url 'event' pk=object.pk slug=object.slug %}">
+            <a href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">
                 <time>
                     {% if instance_start.time %}
                         {{ instance_start|date:"f a" }}
