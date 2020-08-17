@@ -38,11 +38,11 @@ urlpatterns = [
 # Append search urls (this MUST go before Main Calendar overrides; else a 404 is returned on the haystack_search view!)
 if settings.SEARCH_ENABLED:
     urlpatterns += [
-        url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='haystack.views.haystack_search'),
+        url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
     ]
 else:
     urlpatterns += [
-        url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
+        url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='search_view'),
     ]
 
 
