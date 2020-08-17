@@ -106,10 +106,10 @@ urlpatterns += [
     ),
 
     url(r'^location/?$', login_required(LocationListView.as_view()), name='events.views.manager.location-list'),
-    url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='events.views.manager.ocation-create'),
+    url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='events.views.manager.location-create'),
     url(r'^location/(?P<pk>\d+)/update', login_required(LocationUpdateView.as_view()), name='events.views.manager.location-update'),
     url(r'^location/(?P<location_from_id>\d+)/merge/(?P<location_to_id>\d+)', view=location.merge, name='events.views.manager.location-merge'),
-    url(r'^location/(?P<pk>\d+)/delete', login_required(LocationDeleteView.as_view()), name='events.views.manager.ocation-delete'),
+    url(r'^location/(?P<pk>\d+)/delete', login_required(LocationDeleteView.as_view()), name='events.views.manager.location-delete'),
     url(r'^location/(?P<state>[\w]+)?$', login_required(LocationListView.as_view()), name='events.views.manager.location-state'),
     url(r'^location/bulk-action/', view=location.bulk_action, name='events.views.manager.location-bulk-action'),
 
