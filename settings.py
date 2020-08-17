@@ -67,6 +67,8 @@ AUTHENTICATION_BACKENDS = (
 sys.path.append(APP_FOLDER)
 sys.path.append(INC_FOLDER)
 
+WSGI_APPLICATION = 'wsgi.application'
+
 INSTALLED_APPS = (
     'core', # On top to lengthen the first and last name field for the user
     'django.contrib.admin',
