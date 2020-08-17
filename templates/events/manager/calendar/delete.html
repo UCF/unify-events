@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'calendar-delete' pk=calendar.pk %}
+    {% url 'events.views.manager.calendar-delete' pk=calendar.pk %}
 {% endblock %}
 
 {% block content_form_id %}calendar-delete{% endblock %}
