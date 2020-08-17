@@ -349,7 +349,7 @@ class Event(TimeCreatedModified):
         # Get the first event instance's pk
         instance = self.get_first_instance
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('event', kwargs={'pk': instance.pk, 'slug': self.slug})
+        relative_path = reverse('events.views.event_views.event', kwargs={'pk': instance.pk, 'slug': self.slug})
         return canonical_root + relative_path
 
     def get_json_details(self):
@@ -359,7 +359,7 @@ class Event(TimeCreatedModified):
         # Get the first event instance's pk
         instance = self.get_first_instance
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('event', kwargs={
+        relative_path = reverse('events.views.event_views.event', kwargs={
             'pk': instance.pk,
             'slug': self.slug,
             'format': 'json'
@@ -496,7 +496,7 @@ class EventInstance(TimeCreatedModified):
         Generate permalink for this object
         """
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('event', kwargs={'pk': self.pk, 'slug': self.slug})
+        relative_path = reverse('events.views.event_views.event', kwargs={'pk': self.pk, 'slug': self.slug})
         return canonical_root + relative_path
 
     def save(self, *args, **kwargs):
