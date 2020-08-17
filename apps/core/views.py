@@ -36,7 +36,7 @@ def esi_template(request, path):
     """
     Returns ESI code if not in DEV mode.
     """
-    return render_to_response(path, {}, request)
+    return render(request=request, template_name=path, context={})
 
 
 def esi(request, model_name, object_id, template_name, calendar_id=None, params=None):
@@ -66,7 +66,7 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
             calendar = Calendar.objects.get(pk=calendar_id_int)
             context['calendar'] = calendar
 
-        return render_to_response(url, context, request)
+        return render(request=request, template_name=url, context=context)
     except TypeError:
         log.error('Unable to convert ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
     except LookupError:
