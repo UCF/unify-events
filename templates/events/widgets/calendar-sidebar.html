@@ -39,14 +39,14 @@
         {% else %}
             {% if last_month %}
                 <li class="previous">
-                    <a rel="nofollow" class="btn btn-default left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=last_month.year month=last_month.month %}">
+                    <a rel="nofollow" class="btn btn-default left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=last_month.year month=last_month.month %}">
                         <i class="fa fa-chevron-left"></i><span class="sr-only">{{ last_month|date:"F" }}</span>
                     </a>
                 </li>
             {% endif %}
             {% if next_month %}
                 <li class="next">
-                    <a rel="nofollow" class="btn btn-default right" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=next_month.year month=next_month.month %}">
+                    <a rel="nofollow" class="btn btn-default right" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=next_month.year month=next_month.month %}">
                         <i class="fa fa-chevron-right"></i><span class="sr-only">{{ next_month|date:"F" }}</span>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                 {% if is_manager %}
                     {{ this_month|date:"F" }} {{ this_month.year }}
                 {% else %}
-                    <a href="{{ CANONICAL_ROOT }}{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{{ CANONICAL_ROOT }}{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
+                    <a href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{{ CANONICAL_ROOT }}{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
                 {% endif %}
              {% endif %}
          </h3>
@@ -92,7 +92,7 @@
                                     </a>
                                 {% endif %}
                             {% else %}
-                                <a href="{{ CANONICAL_ROOT }}{% url 'day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}">
+                                <a href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}">
                                     {{ day.day }}
                                 </a>
                             {% endif %}
