@@ -74,7 +74,7 @@
                                     {% endif %}
                                     <li class="divider"></li>
                                     <li role="presentation">
-                                        <a href="{% url 'category' category_pk=category.pk category=category.slug %}">
+                                        <a href="{% url 'events.views.category.category' category_pk=category.pk category=category.slug %}">
                                             <i class="fa fa-play-circle fa-fw"></i>
                                             Live View
                                         </a>
