@@ -128,7 +128,7 @@
                                                 </li>
                                                 {% else %}
                                                 <li role="presentation">
-                                                    <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
+                                                    <a class="object-modify" href="{% url 'events.views.manager.location-delete' pk=location.pk %}">
                                                         <i class="fa fa-trash-o fa-fw"></i>
                                                         Delete Location
                                                     </a>

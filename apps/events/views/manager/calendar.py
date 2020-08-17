@@ -166,7 +166,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
 
         if self.object.is_main_calendar and title and title != self.object.title:
             messages.error(self.request, 'The main calendar title (and its slug) cannot be updated while the application is running.')
-            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('events.views.manager.calendar-update', kwargs={'pk': self.object.pk}))
         else:
             return super(CalendarUpdate, self).post(self, request, *args, **kwargs)
 
