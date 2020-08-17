@@ -18,19 +18,19 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs hidden-xs">
                 <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
-                    <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
+                    <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
                 </li>
                 <li{% if list_type == 'week' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
+                    <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
                 </li>
                 <li{% if list_type == 'month' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
+                    <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
                 </li>
                 <li{% if list_type == 'year' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
+                    <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
                 </li>
                 <li{% if list_type == 'upcoming' %} class="active"{% endif %}>
-                    <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
+                    <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
                 </li>
             </ul>
             <div class="btn-group dropdown mobile-nav-tabs visible-xs">
@@ -39,19 +39,19 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li{% if list_type == None or list_type == 'day' %} class="active"{% endif %}>
-                        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
+                        <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">Day View</a>
                     </li>
                     <li{% if list_type == 'week' %} class="active"{% endif %}>
-                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
+                        <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-week' %}">Week View</a>
                     </li>
                     <li{% if list_type == 'month' %} class="active"{% endif %}>
-                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
+                        <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-month' %}">Month View</a>
                     </li>
                     <li{% if list_type == 'year' %} class="active"{% endif %}>
-                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
+                        <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='this-year' %}">Year View</a>
                     </li>
                     <li{% if list_type == 'upcoming' %} class="active"{% endif %}>
-                        <a href="{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
+                        <a href="{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">Upcoming</a>
                     </li>
                 </ul>
             </div>

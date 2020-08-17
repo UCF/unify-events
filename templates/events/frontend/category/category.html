@@ -14,7 +14,7 @@
 {% block content_title %}
     <h1 class="col-md-12">
         {% if not calendar.is_main_calendar %}
-        <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}"><span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
+        <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'events.views.event_views.category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=category.pk category=category.slug %}"><span class="alt">by Category <em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% else %}
         <a href="{% url 'events.views.category.category' category_pk=category.pk category=category.slug %}">Events By Category: <span class="alt"><em>&ldquo;{{ category.title }}&rdquo;</em></span></a>
         {% endif %}

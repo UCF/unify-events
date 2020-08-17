@@ -1,1 +1,1 @@
-<a href="{% url 'calendar' pk=object.pk slug=object.slug %}">{{ object.title }}</a>
+<a href="{% url 'events.views.event_views.calendar' pk=object.pk slug=object.slug %}">{{ object.title }}</a>

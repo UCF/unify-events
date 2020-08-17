@@ -56,7 +56,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-primary btn-block-xs">Subscribe</button>
-    <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

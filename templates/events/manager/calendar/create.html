@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block content_body %}
-    <form action="{% url 'calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
+    <form action="{% url 'events.views.manager.calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
         {% csrf_token %}
         <div class="form-group large">
             <label class="control-label col-md-3" for="id_title">Calendar Name</label>

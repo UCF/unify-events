@@ -34,7 +34,7 @@
             </li>
             {% endif %}
             <li>
-                <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}"><i class="fa fa-play-circle"></i>Live View</a>
+                <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}"><i class="fa fa-play-circle"></i>Live View</a>
             </li>
         </ul>
     </div>
@@ -401,7 +401,7 @@
      <section class="row">
         <div class="col-md-12 page-content">
             <div class="well well-empty">
-                It doesn't look like you have any calendars.  Why not go <a href="{% url 'calendar-create' %}">create one?</a>
+                It doesn't look like you have any calendars.  Why not go <a href="{% url 'events.views.manager.calendar-create' %}">create one?</a>
             </div>
         </div>
     </section>
