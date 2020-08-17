@@ -17,7 +17,7 @@
             <a href="{% url 'haystack.views.haystack_search' %}?q={{ request.GET.q|quote_plus }}">All Calendars and Events</a>
         </li>
         <li>
-            <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q|quote_plus }}">Just My Events</a>
+            <a href="{% url 'haystack.views.haystack_search_manager' %}?q={{ request.GET.q|quote_plus }}">Just My Events</a>
         </li>
     </ul>
 </div>
