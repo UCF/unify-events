@@ -35,7 +35,7 @@
                         <ul class="nav-actions actions-primary">
                             {% if user.calendars %}
                             <li class="create-event">
-                                <a class="btn btn-primary btn-sm" href="{% url 'event-create' %}">
+                                <a class="btn btn-primary btn-sm" href="{% url 'events.views.manager.event-create' %}">
                                     <span class="fa-stack fa-md">
                                         <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
                                         <i class="fa fa-pencil fa-stack-1x text-primary"></i>

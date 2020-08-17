@@ -560,7 +560,7 @@ def copy(request, pk=None):
         else:
             messages.error(request, 'Something went wrong when trying to copy to one of the selected calendars. Please try again.')
             error = True
-            return HttpResponseRedirect(reverse('event-copy', kwargs={'pk': event.id}))
+            return HttpResponseRedirect(reverse('events.views.manager.event-copy', kwargs={'pk': event.id}))
     else:
         form = EventCopyForm(calendars=user_calendars)
     view = TemplateView.as_view(template_name=tmpl)

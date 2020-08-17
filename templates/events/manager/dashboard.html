@@ -169,7 +169,7 @@
     <section class="row">
         <div class="col-md-8 sidebarfix page-content">
             {% if event_instances %}
-            <form action="{% url 'events.views.manager.event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
+            <form action="{% url 'event-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                 {% csrf_token %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -231,7 +231,7 @@
                                               <i class="fa fa-share"></i>
                                           </abbr>
                                       {% endif %}
-                                      <a href="{% url 'event-update' pk=event_instance.event.pk %}">
+                                      <a href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
                                           {{ event_instance.event.get_title_canceled }}
                                       </a>
                                   </td>
@@ -276,14 +276,14 @@
                                           </a>
                                           <ul class="dropdown-menu dropdown-menu-right">
                                               <li role="presentation">
-                                                  <a href="{% url 'event-update' pk=event_instance.event.pk %}">
+                                                  <a href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
                                                       <i class="fa fa-pencil fa-fw"></i>
                                                       Edit Event
                                                   </a>
                                               </li>
                                               {% if not event_instance.event.is_submit_to_main and state != 'pending' %}
                                               <li role="presentation">
-                                                  <a href="{% url 'event-submit-to-main' pk=event_instance.event.pk %}">
+                                                  <a href="{% url 'events.views.manager.event-submit-to-main' pk=event_instance.event.pk %}">
                                                       <i class="fa fa-star-o fa-fw"></i>
                                                       Suggest to Main Calendar
                                                   </a>
@@ -292,7 +292,7 @@
                                               {% with created_from=event_instance.event.created_from user_calendars=request.user.calendars %}
                                                   {% if not created_from and event_instance.event.calendar in user_calendars and event_instance.event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
                                                       <li role="presentation">
-                                                          <a href="{% url 'event-cancel-uncancel' pk=event_instance.event.pk %}">
+                                                          <a href="{% url 'events.views.manager.event-cancel-uncancel' pk=event_instance.event.pk %}">
                                                               <i class="fa fa-ban fa-fw"></i>
                                                               {% if event_instance.event.canceled %}
                                                                   Un-Cancel Event
@@ -304,7 +304,7 @@
                                                   {% endif %}
                                               {% endwith %}
                                               <li role="presentation">
-                                                  <a class="object-modify" href="{% url 'event-delete' pk=event_instance.event.pk %}">
+                                                  <a class="object-modify" href="{% url 'events.views.manager.event-delete' pk=event_instance.event.pk %}">
                                                       <i class="fa fa-trash-o fa-fw"></i>
                                                       Delete Event
                                                   </a>
@@ -312,7 +312,7 @@
                                               <li class="divider"></li>
                                               {% if event_instance.event.state != 1 %}
                                               <li role="presentation">
-                                                  <a href="{% url 'event-post' pk=event_instance.event.pk %}">
+                                                  <a href="{% url 'events.views.manager.event-post' pk=event_instance.event.pk %}">
                                                       <i class="fa fa-check fa-fw"></i>
                                                       Add to Posted
                                                   </a>
@@ -320,7 +320,7 @@
                                               {% endif %}
                                               {% if event_instance.event.state != 0 %}
                                               <li role="presentation">
-                                                  <a href="{% url 'event-pend' pk=event_instance.event.pk %}">
+                                                  <a href="{% url 'events.views.manager.event-pend' pk=event_instance.event.pk %}">
                                                       <i class="fa fa-inbox fa-fw"></i>
                                                       Move to Pending
                                                   </a>
@@ -359,7 +359,7 @@
 
             {% else %}
             <div class="well well-empty">
-                No events found. Want to <a href="{% url 'event-create' %}">create one?</a>
+                No events found. Want to <a href="{% url 'events.views.manager.event-create' %}">create one?</a>
             </div>
             {% endif %}
 

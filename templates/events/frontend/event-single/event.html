@@ -32,10 +32,10 @@
     <div class="hide edit-options col-md-3 col-sm-4">
         <ul>
             <li class="hide" id="event-edit">
-                <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
+                <a href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
             </li>
             <li>
-                <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
+                <a class="object-modify hide" id="event-subscription" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
             </li>
         </ul>
     </div>
