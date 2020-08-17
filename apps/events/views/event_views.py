@@ -251,10 +251,13 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
             if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
-            if url_name == 'calendar':
+            # Remove app prefixes from url name:
+            url_name_suffix = url_name.rsplit('.', 1)[-1]
+
+            if url_name_suffix == 'calendar':
                 url_name = 'home'
-            elif not 'main-calendar-' in url_name:
-                url_name = 'main-calendar-' + url_name
+            elif not 'main-calendar-' in url_name_suffix:
+                url_name = 'main-calendar-' + url_name_suffix
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
         else:
             return super(CalendarEventsListView, self).dispatch(request, *args, **kwargs)

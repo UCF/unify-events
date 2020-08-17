@@ -41,7 +41,9 @@ class EventsURLNode(URLNode):
                 if view_name == 'calendar':
                     view_name = 'home'
                 else:
-                    view_name = 'main-calendar-%s' % view_name
+                    # Remove app prefixes from url name:
+                    view_name_suffix = view_name.rsplit('.', 1)[-1]
+                    view_name = 'main-calendar-{0}'.format(view_name_suffix)
 
         # Try to look up the URL twice: once given the view name, and again
         # relative to what we guess is the "main" app. If they both fail,
