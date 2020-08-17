@@ -61,7 +61,7 @@
                 {% if is_manager %}
                     {{ this_month|date:"F" }} {{ this_month.year }}
                 {% else %}
-                    <a href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{{ CANONICAL_ROOT }}{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
+                    <a href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}">{{ this_month|date:"F" }}</a> <a href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
                 {% endif %}
              {% endif %}
          </h3>
@@ -87,7 +87,7 @@
                                     {{ day.day }}
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'manager-day-listing' calendar.pk day.year day.month day.day %}">
+                                    <a href="{% url 'events.views.manager.manager-day-listing' calendar.pk day.year day.month day.day %}">
                                         {{ day.day }}
                                     </a>
                                 {% endif %}
