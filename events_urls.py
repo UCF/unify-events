@@ -10,18 +10,18 @@ import urls
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = ['',
     (r'^events/', include(urls.baseurlpatterns)),
-)
+]
 
 handler500 = urls.handler500
 handler404 = urls.handler404
 
 if settings.SEARCH_ENABLED:
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^events/search/', include('haystack.urls')),
-    )
+    ]
 else:
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^events/search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
-    )
+    ]

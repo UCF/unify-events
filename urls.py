@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls import include
-from django.conf.urls import patterns
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -15,13 +14,15 @@ from events.views.event_views import WeekEventsListView
 from events.views.event_views import YearEventsListView
 from events.views.event_views import CalendarWidgetView
 
+import core
+
 if settings.SEARCH_ENABLED:
     from events.views.search import GlobalSearchView
 
 admin.autodiscover()
 
-baseurlpatterns = patterns('',
-    (r'^admin/', include(admin.site.urls)),
+urlpatterns = [
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^manager/', include('events.urls.manager')),
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^event/', include('events.urls.event_urls')),
@@ -30,34 +31,26 @@ baseurlpatterns = patterns('',
     url(r'^help/$', TemplateView.as_view(template_name='events/static/help.html'), name='help'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', CalendarWidgetView.as_view(), name='calendar-widget'),
     url(r'^calendar-widget/(?P<view>[\w-]+)/calendar/(?P<pk>\d+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', CalendarWidgetView.as_view(), name='calendar-widget-by-calendar'),
-    url(r'^esi/template/(?P<path>.*)', view='core.views.esi_template', name='esi-template'),
-    url(r'^esi/(?P<model_name>[\w-]+)/(?P<object_id>[\d]+)/(calendar/(?P<calendar_id>[\d]+)/)?(?P<template_name>.*)', view='core.views.esi')
-)
-
-
-# Add static file location for debug
-baseurlpatterns += staticfiles_urlpatterns()
-urlpatterns = patterns('',
-    (r'^', include(baseurlpatterns)),
-)
-
+    url(r'^esi/template/(?P<path>.*)', view=core.views.esi_template, name='esi-template'),
+    url(r'^esi/(?P<model_name>[\w-]+)/(?P<object_id>[\d]+)/(calendar/(?P<calendar_id>[\d]+)/)?(?P<template_name>.*)', view=core.views.esi)
+]
 
 # Append search urls (this MUST go before Main Calendar overrides; else a 404 is returned on the haystack_search view!)
 if settings.SEARCH_ENABLED:
-    urlpatterns += patterns('haystack.views',
-        url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='haystack_search'),
-    )
+    urlpatterns += [
+        url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='haystack.views.haystack_search'),
+    ]
 else:
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='haystack_search'),
-    )
+    ]
 
 
 # Get Main Calendar so we have access to its slug:
 main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
 # Append Main Calendar url overrides
-urlpatterns += patterns('',
+urlpatterns += [
     url(r'^(feed\.(?P<format>[\w]+))?$',
         HomeEventsListView.as_view(),
         kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
@@ -88,7 +81,7 @@ urlpatterns += patterns('',
         kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
         name='main-calendar-named-listing'
     ),
-)
+]
 
 
 # Error handling
@@ -96,7 +89,7 @@ handler404 = 'core.views.handler404'
 handler500 = 'core.views.handler500'
 
 if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^debug/500-templ/$', TemplateView.as_view(template_name='500.html')),
-        (r'^debug/404-templ/$', TemplateView.as_view(template_name='404.html')),
-    )
+    urlpatterns += [
+        url(r'^debug/500-templ/$', TemplateView.as_view(template_name='500.html')),
+        url(r'^debug/404-templ/$', TemplateView.as_view(template_name='404.html')),
+    ]

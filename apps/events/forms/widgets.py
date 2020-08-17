@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.widgets import SplitDateTimeWidget, DateInput, TimeInput
-from django.forms.util import to_current_timezone
+from django.forms.utils import to_current_timezone
 from django.utils.safestring import mark_safe
 
 
