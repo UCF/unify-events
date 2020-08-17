@@ -315,7 +315,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
                 if view.__name__ == 'EventUpdate':
                     ctx = {
                         'form_action_next': urllib.quote_plus(reverse(
-                                'dashboard-calendar-state',
+                                'events.views.manager.dashboard-calendar-state',
                             kwargs = {
                                 'pk': self.object.calendar.pk,
                                 'state': State.get_string(self.object.state)

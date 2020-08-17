@@ -140,7 +140,7 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarOwnerUserValidationMixin
         # Prevent deletion of the Main Calendar.
         if self.object.is_main_calendar:
             messages.error(self.request, 'This calendar cannot be deleted.')
-            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('events.views.manager.calendar-update', kwargs={'pk': self.object.pk}))
         else:
             return super(CalendarDelete, self).delete(self, request, *args, **kwargs)
 
@@ -150,7 +150,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
     model = Calendar
     success_message = '%(title)s was updated successfully.'
     template_name = 'events/manager/calendar/update.html'
-    success_view_name = 'calendar-update'
+    success_view_name = 'events.views.manager.calendar-update'
     copy_kwargs = ['pk']
 
     def post(self, request, *args, **kwargs):
@@ -343,4 +343,4 @@ def unsubscribe_from_calendar(request, pk=None, subscribed_calendar_id=None):
             messages.error(request, 'Removing subscribed calendar failed.')
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
-    return HttpResponseRedirect(reverse('calendar-update-subscriptions', args=(pk,)) + '#subscriptions')
+    return HttpResponseRedirect(reverse('events.views.manager.calendar-update-subscriptions', args=(pk,)) + '#subscriptions')
