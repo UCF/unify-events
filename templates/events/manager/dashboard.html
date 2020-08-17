@@ -56,24 +56,24 @@
             <ul class="nav nav-tabs hidden-xs">
             {% if calendar %}
                 <li class="{% if state == 'posted' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='posted' %}">
+                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
                         Posted
                     </a>
                 </li>
                 {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
                 <li class="{% if state == 'rereview' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
+                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
                         Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
                     </a>
                 </li>
                 {% endif %}
                 <li class="{% if state == 'pending' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='pending' %}">
+                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
                         Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
                     </a>
                 </li>
                 <li class="{% if state == 'subscribed' %} active{% endif %}">
-                    <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
+                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
                         Subscribed Events
                     </a>
                 </li>
@@ -109,24 +109,24 @@
                 <ul class="dropdown-menu" role="menu">
                     {% if calendar %}
                         <li class="{% if state == 'posted' %} active{% endif %}">
-                            <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='posted' %}">
+                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
                                 Posted
                             </a>
                         </li>
                         {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
                         <li class="{% if state == 'rereview' %} active{% endif %}">
-                            <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
+                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
                                 Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
                             </a>
                         </li>
                         {% endif %}
                         <li class="{% if state == 'pending' %} active{% endif %}">
-                            <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='pending' %}">
+                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
                                 Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
                             </a>
                         </li>
                         <li class="{% if state == 'subscribed' %} active{% endif %}">
-                            <a href="{% url 'dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
+                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
                                 Subscribed Events
                             </a>
                         </li>
