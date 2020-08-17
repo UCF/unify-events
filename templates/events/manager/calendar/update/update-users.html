@@ -8,13 +8,13 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs hidden-xs">
                 <li class="active">
-                    <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+                    <a href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
+                    <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
                 </li>
                 <li>
-                    <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+                    <a href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                 </li>
             </ul>
             <div class="btn-group dropdown mobile-nav-tabs visible-xs">
@@ -23,13 +23,13 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li class="active">
-                        <a href="{% url 'calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+                        <a href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update' pk=calendar.pk %}">Calendar Info</a>
+                        <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
                     </li>
                     <li>
-                        <a href="{% url 'calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+                        <a href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
                     </li>
                 </ul>
             </div>
