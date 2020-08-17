@@ -20,7 +20,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-danger btn-block-xs">Delete Tag</button>
-    <a href="{% url 'tag-update' pk=tag.pk %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}
