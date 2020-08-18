@@ -880,6 +880,12 @@ class ListViewByCalendarMixin(object):
             # Remove app prefixes from url name:
             url_name_suffix = url_name.rsplit('.', 1)[-1]
             url_name = url_name_suffix.replace('-by-calendar', '')
+
+            if url_name == 'tag':
+                url_name = 'events.views.tag.' + url_name
+            elif url_name == 'category':
+                url_name = 'events.views.category.' + url_name
+
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
         else:
             return super(ListViewByCalendarMixin, self).dispatch(request, *args, **kwargs)
