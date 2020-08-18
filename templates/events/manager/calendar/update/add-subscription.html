@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'calendar-subscribe' pk=calendar.pk %}
+    {% url 'events.views.manager.calendar-subscribe' pk=calendar.pk %}
 {% endblock %}
 
 {% block content_form_id %}events.views.manager.calendar-subscribe{% endblock %}

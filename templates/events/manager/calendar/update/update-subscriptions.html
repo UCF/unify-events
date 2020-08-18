@@ -77,7 +77,7 @@
                                 </span>
                             </td>
                             <td class="calendar-subscriptions-actions">
-                                <a class="btn btn-default btn-xs" href="{% url 'calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-times-circle"></i> Unsubscribe</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'events.views.manager.calendar-unsubscribe' pk=calendar.pk subscribed_calendar_id=sub_cal.pk %}"><i class="fa fa-times-circle"></i> Unsubscribe</a>
                             </td>
                         </tr>
                         {% endfor %}

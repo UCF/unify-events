@@ -49,7 +49,7 @@
             <h2>Add New User</h2>
             <label for="id_username_d" class="sr-only">Search a user</label>
             <label for="id_role" class="sr-only">Select a role</label>
-            <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
+            <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
                 <div class="form-group">
                     <select id="id_username_d" name="username_d" class="form-control">
                         {% for user in users %}
@@ -105,7 +105,7 @@
                                 <a class="btn btn-default btn-xs" href="#calendar-demote-self-editor" data-toggle="modal"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
                                 <a class="btn btn-default btn-xs" href="#calendar-remove-self" data-toggle="modal"><i class="fa fa-times-circle"></i> Remove User</a>
                                 {% else %}
-                                <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}"><i class="fa fa-arrow-circle-down"></i> Make Editor</a>
                                 <a class="btn btn-default btn-xs" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=admin.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
                                 {% endif %}
                             </td>
@@ -118,7 +118,7 @@
                             <td class="calendar-access-username">{{ editor.username }}</td>
                             <td class="calendar-access-role">Editor</td>
                             <td class="calendar-access-actions actions-col">
-                                <a class="btn btn-default btn-xs" href="{% url 'calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-arrow-circle-up"></i> Make Admin</a>
+                                <a class="btn btn-default btn-xs" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}"><i class="fa fa-arrow-circle-up"></i> Make Admin</a>
                                 <a class="btn btn-default btn-xs" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=editor.username %}"><i class="fa fa-times-circle"></i> Remove User</a>
                             </td>
                         </tr>
@@ -157,7 +157,7 @@
                             </select>
                         </div>
                         <div class="modal-footer">
-                            <a href="{% url 'calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
+                            <a href="{% url 'events.views.manager.calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary">Reassign Ownership</a>
                             <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
                         </div>
                     </div>
@@ -181,7 +181,7 @@
                             </p>
                         </div>
                         <div class="modal-footer">
-                            <a href="{% url 'calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger">Continue</a>
+                            <a href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger">Continue</a>
                             <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
                         </div>
                     </div>
