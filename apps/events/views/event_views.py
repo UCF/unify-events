@@ -533,7 +533,7 @@ class HomeEventsListView(DayEventsListView):
                     elif instance_objects.count() == 0:
                         instance = get_object_or_404(EventInstance, pk=self.request.GET.get('eventdatetime_id'))
 
-                    new_url_name = 'event'
+                    new_url_name = 'events.views.event_views.event'
                     new_kwargs['pk'] = instance.pk
                     new_kwargs['slug'] = instance.slug
                 else:
@@ -544,7 +544,7 @@ class HomeEventsListView(DayEventsListView):
                 if calendar.is_main_calendar:
                     new_url_name = 'main-calendar-named-listing'
                 else:
-                    new_url_name = 'named-listing'
+                    new_url_name = 'events.views.event_views.named-listing'
                     new_kwargs['pk'] = calendar.pk
                     new_kwargs['slug'] = calendar.slug
 
@@ -554,7 +554,7 @@ class HomeEventsListView(DayEventsListView):
                 else:
                     new_kwargs['pk'] = calendar.pk
                     new_kwargs['slug'] = calendar.slug
-                    new_url_name = 'calendar'
+                    new_url_name = 'events.views.event_views.calendar'
 
             return HttpResponsePermanentRedirect(reverse(new_url_name, kwargs=new_kwargs))
 
@@ -877,7 +877,9 @@ class ListViewByCalendarMixin(object):
             if 'format' in kwargs and kwargs['format'] is None: # prevent feed.None from being passed into new redirect url
                 kwargs.pop('format', None)
 
-            url_name = url_name.replace('-by-calendar', '')
+            # Remove app prefixes from url name:
+            url_name_suffix = url_name.rsplit('.', 1)[-1]
+            url_name = url_name_suffix.replace('-by-calendar', '')
             return HttpResponsePermanentRedirect(reverse(url_name, kwargs=kwargs))
         else:
             return super(ListViewByCalendarMixin, self).dispatch(request, *args, **kwargs)
