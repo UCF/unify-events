@@ -5,7 +5,7 @@
         <a href="{% url 'search_view' %}?q={{ request.GET.q|quote_plus }}">All Calendars and Events</a>
     </li>
     <li class="active">
-        <a href="{% url 'haystack_search_manager' %}?q={{ request.GET.q|quote_plus }}">Just My Events</a>
+        <a href="{% url 'search_manager_view' %}?q={{ request.GET.q|quote_plus }}">Just My Events</a>
     </li>
 </ul>
 <div class="btn-group dropdown mobile-nav-tabs visible-xs">
