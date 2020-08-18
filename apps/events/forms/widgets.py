@@ -4,6 +4,13 @@ from django.forms.widgets import SplitDateTimeWidget, DateInput, TimeInput
 from django.forms.utils import to_current_timezone
 from django.utils.safestring import mark_safe
 
+class Wysiwyg(forms.Textarea):
+    def use_required_attribute(self, initial):
+        return False
+
+class TaggitField(forms.TextInput):
+    def use_required_attribute(self, initial):
+        return False
 
 class InlineLDAPSearch(forms.Widget):
 
