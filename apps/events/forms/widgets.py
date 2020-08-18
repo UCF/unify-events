@@ -4,6 +4,8 @@ from django.forms.widgets import SplitDateTimeWidget, DateInput, TimeInput
 from django.forms.utils import to_current_timezone
 from django.utils.safestring import mark_safe
 
+import datetime
+
 class Wysiwyg(forms.Textarea):
     def use_required_attribute(self, initial):
         return False
@@ -60,3 +62,12 @@ class BootstrapSplitDateTimeWidget(SplitDateTimeWidget):
             value = to_current_timezone(value)
             return [value.date(), value.time().replace(microsecond=0)]
         return [None, None]
+
+    def value_from_datadict(self, data, files, name):
+        values = super(BootstrapSplitDateTimeWidget, self).value_from_datadict(data, files, name)
+        value = "{0} {1}".format(values[0], values[1])
+
+        try:
+            return datetime.datetime.strptime(value, '%m/%d/%Y %I:%M %p')
+        except:
+            return None
