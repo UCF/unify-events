@@ -1,14 +1,13 @@
 import logging
 
-from haystack.generic_views import SearchView
-
 from core.views import MultipleFormatTemplateViewMixin
-from events.models import Event
+from django.views.generic.list import ListView
+from events.models import Event, Calendar
 
 log = logging.getLogger(__name__)
 
 
-class GlobalSearchView(MultipleFormatTemplateViewMixin, SearchView):
+class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
     paginate_by = 25
     template_name = 'search/search.'
     available_formats = ['html', 'json']
@@ -17,6 +16,12 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, SearchView):
     Only return unique events (do not return events copied to other calendars.)
     """
     def get_queryset(self):
-        queryset = super(GlobalSearchView, self).get_queryset()
-        queryset = queryset.filter(created_from='None') # Yes, this has to be a string. Haystack will not return results by NoneType
+        query = self.request.GET.get('q')
+        queryset = Event.objects.filter(title__icontains=query).filter(created_from=None)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(GlobalSearchView, self).get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q')
+        context['calendars'] = Calendar.objects.filter(title__icontains=context['query'])
+        return context

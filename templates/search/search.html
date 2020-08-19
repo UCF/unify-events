@@ -71,7 +71,7 @@
             <div class="col-md-12 page-content">
                 <p><em>{{ page_obj.paginator.count }} result(s) found.</em></p>
                 {% if query %}
-                    {% with results=page_obj.object_list %}
+                    {% with results=object_list %}
                         {% if results %}
                             {% comment %}
                             Prioritize Main Calendar events. Assume that Main Calendar events
@@ -81,19 +81,13 @@
                             See esi/eventinstance/search-list-item.html for info.
                             {% endcomment %}
 
-                            {% block results_list %}
                             <ul class="search-results-list">
                             {% for result in results %}
-                                {% if result.model_name == 'calendar' %}
-                                    {% include_esi 'calendar' result.object.pk 'search-list-item' %}
-                                {% elif result.model_name == 'event' %}
-                                    {% with object=result.object.get_main_event|default:result.object %}
-                                        {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
-                                    {% endwith %}
-                                {% endif %}
+                              {% with object=result.get_main_event|default:result %}
+                                  {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
+                              {% endwith %}
                             {% endfor %}
                             </ul>
-                            {% endblock %}
 
                         {% endif %}
                     {% endwith %}
