@@ -15,10 +15,15 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
-from django.db.models.loading import get_model
+
+try:
+    from django.db.models.loading import get_model
+except ImportError:
+    from django.apps import apps
+    get_model = apps.get_model
+
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 from core.utils import format_to_mimetype
 from core.utils import math_clamp
@@ -31,7 +36,7 @@ def esi_template(request, path):
     """
     Returns ESI code if not in DEV mode.
     """
-    return render_to_response(path, {}, RequestContext(request))
+    return render(request=request, template_name=path, context={})
 
 
 def esi(request, model_name, object_id, template_name, calendar_id=None, params=None):
@@ -61,7 +66,7 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
             calendar = Calendar.objects.get(pk=calendar_id_int)
             context['calendar'] = calendar
 
-        return render_to_response(url, context, RequestContext(request))
+        return render(request=request, template_name=url, context=context)
     except TypeError:
         log.error('Unable to convert ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
     except LookupError:
@@ -73,17 +78,17 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
 
 
 def handler404(request):
-    response = render_to_response('404.html',
-                                  {},
-                                  RequestContext(request))
+    response = render(request,
+                        '404.html',
+                        {})
     response.status_code = 404
     return response
 
 
 def handler500(request):
-    response = render_to_response('500.html',
-                                  {},
-                                  RequestContext(request))
+    response = render(request,
+                        '500.html',
+                        {})
     response.status_code = 500
     return response
 

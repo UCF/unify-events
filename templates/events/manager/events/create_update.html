@@ -64,7 +64,7 @@
                 <div class="pull-right">
                     {% with created_from=event.created_from user_calendars=request.user.calendars %}
                         {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
-                            <a class="btn btn-warning event-update-cancel" href="{% url 'event-cancel-uncancel' pk=event.pk %}">
+                            <a class="btn btn-warning event-update-cancel" href="{% url 'events.views.manager.event-cancel-uncancel' pk=event.pk %}">
                                 <i class="fa fa-ban"></i>
                             {% if event.canceled %}
                                 Un-Cancel Event
@@ -74,13 +74,13 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="btn btn-danger object-modify event-update-delete" href="{% url 'event-delete' pk=event.pk %}"><i class="fa fa-trash-o"></i> Delete Event</a>
+                    <a class="btn btn-danger object-modify event-update-delete" href="{% url 'events.views.manager.event-delete' pk=event.pk %}"><i class="fa fa-trash-o"></i> Delete Event</a>
                 </div>
             </div>
         </div>
-        <form class="form-horizontal" action="{% url 'event-update' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'events.views.manager.event-update' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
     {% else %}
-        <form class="form-horizontal" action="{% url 'event-create' %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{% url 'events.views.manager.event-create' %}" method="post" enctype="multipart/form-data">
     {% endif %}
             {% csrf_token %}
             <fieldset class="form-group large">

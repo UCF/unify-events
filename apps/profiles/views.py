@@ -24,7 +24,7 @@ class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
     form_class = UserForm
     model = User
     success_message = 'Profile was updated successfully.'
-    success_url = reverse_lazy('profile-settings')
+    success_url = reverse_lazy('profile.views.profile-settings')
     template_name = 'events/manager/profiles/profile.html'
     first_login_template_name = 'events/manager/firstlogin/profile.html'
 
@@ -38,7 +38,7 @@ class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
 
         if form.is_valid():
             if request.user.first_login:
-                return HttpResponseRedirect(reverse_lazy('calendar-create'))
+                return HttpResponseRedirect(reverse_lazy('events.views.manager.calendar-create'))
             else:
                 return self.form_valid(form)
         else:
@@ -85,6 +85,6 @@ def update_permissions(request, user_id=None, permissions=False):
     # The request user is not updated with changes that have been made to the modified user.
     # This requires a check to see if the usernames match and whether they have superuser permissions.
     if request.user.username != modified_user.username or (request.user.username == modified_user.username and modified_user.is_superuser):
-        return HttpResponseRedirect(reverse('profile-list'))
+        return HttpResponseRedirect(reverse('profiles.views.profile-list'))
     else:
         return HttpResponseRedirect(reverse('dashboard'))

@@ -50,7 +50,7 @@
                 </p>
 
                 <h2 class="h4 step-heading">Please review your personal information and confirm it is correct.</h2>
-                <form action="{% url 'profile-settings' %}" method="post" class="form-horizontal">
+                <form action="{% url 'profiles.views.profile-settings' %}" method="post" class="form-horizontal">
                     {% csrf_token %}
                     <div class="form-group">
                         <label class="control-label col-md-3" for="id_first_name">First Name</label>

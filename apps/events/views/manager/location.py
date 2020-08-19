@@ -69,7 +69,7 @@ class LocationCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixi
     model = Location
     template_name = 'events/manager/location/create_update.html'
     form_class = LocationForm
-    success_url = reverse_lazy('location-list')
+    success_url = reverse_lazy('events.views.manager.location-list')
     success_message = '%(title)s was created successfully.'
 
 
@@ -77,14 +77,14 @@ class LocationUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixi
     model = Location
     template_name = 'events/manager/location/create_update.html'
     form_class = LocationForm
-    success_url = reverse_lazy('location-list')
+    success_url = reverse_lazy('events.views.manager.location-list')
     success_message = '%(title)s was updated successfully.'
 
 
 class LocationDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Location
     template_name = 'events/manager/location/delete.html'
-    success_url = reverse_lazy('location-list')
+    success_url = reverse_lazy('events.views.manager.location-list')
     success_message = 'Location was deleted successfully.'
 
     def post(self, request, *args, **kwargs):
@@ -106,7 +106,7 @@ def bulk_action(request):
 
         if action_0 == action_1 == 'empty':
             messages.error(request, 'No action selected.')
-            return success_previous_view_redirect(request, reverse('location-list'))
+            return success_previous_view_redirect(request, reverse('events.views.manager.location-list'))
 
         action = action_0
         if action == 'empty':
@@ -114,7 +114,7 @@ def bulk_action(request):
 
         if action not in ['approve', 'review', 'delete']:
             messages.error(request, 'Unrecognized action selected %s.' % action)
-            return success_previous_view_redirect(request, reverse('location-list'))
+            return success_previous_view_redirect(request, reverse('events.views.manager.location-list'))
 
         # remove duplicates
         location_ids = request.POST.getlist('object_ids')
@@ -175,7 +175,7 @@ def bulk_action(request):
 
             messages.success(request, message)
 
-        return success_previous_view_redirect(request, reverse('location-list'))
+        return success_previous_view_redirect(request, reverse('events.views.manager.location-list'))
     raise Http404
 
 
@@ -205,6 +205,6 @@ def merge(request, location_from_id=None, location_to_id=None):
                 messages.success(request, 'Location successfully merged.')
         else:
             messages.error(request, 'Cannot merge this location: location has no events. Delete this location instead of merging.')
-        return success_previous_view_redirect(request, reverse('location-list'))
+        return success_previous_view_redirect(request, reverse('events.views.manager.location-list'))
 
     raise Http404

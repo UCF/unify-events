@@ -10,9 +10,10 @@ except ImportError:
 
 os.environ['LANG'] = 'en_US.UTF-8'
 
-PROJECT_FOLDER = os.path.dirname(os.path.abspath(__file__))
-APP_FOLDER = os.path.join(PROJECT_FOLDER, 'apps')
-INC_FOLDER = os.path.join(PROJECT_FOLDER, 'third-party')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+APP_FOLDER = os.path.join(BASE_DIR, 'apps')
+INC_FOLDER = os.path.join(BASE_DIR, 'third-party')
 ROOT_URLCONF = 'urls'
 
 LOGIN_URL = 'login'
@@ -26,24 +27,6 @@ TIME_INPUT_FORMATS = ('%I:%M %p', '%H:%M:%S')
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
-
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
-    'django.contrib.messages.context_processors.messages',
-    'core.context_processors.global_settings'
-)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -89,13 +72,13 @@ INSTALLED_APPS = (
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'filters': {
         'require_debug_true': {
-            '()': 'logs.RequiredDebugTrue',
+            '()': 'django.utils.log.RequireDebugTrue',
         },
         'require_debug_false': {
-            '()': 'logs.RequiredDebugFalse',
+            '()': 'django.utils.log.RequireDebugFalse',
         }
     },
     'formatters': {
@@ -109,7 +92,7 @@ LOGGING = {
     'handlers': {
         'discard': {
             'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler'
+            'class': 'logging.NullHandler'
         },
         'console': {
             'level': 'DEBUG',
@@ -120,8 +103,8 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(PROJECT_FOLDER,'logs', 'application.log'),
-            'formatter': 'concise',
+            'filename': os.path.join(BASE_DIR, 'logs', 'application.log'),
+            'formatter': 'talkative',
             'filters': ['require_debug_false']
         }
     },
@@ -132,7 +115,7 @@ LOGGING = {
             'level': 'WARNING'
         },
         'django': {
-            'handlers': ['discard'],
+            'handlers': ['console', 'file'],
             'propogate': True,
             'level': 'WARNING'
         },
@@ -158,12 +141,28 @@ FILE_UPLOAD_PATH = 'uploads'
 
 DATABASE_ROUTERS = ['unlevents.dbrouter.UNLEventsRouter']
 
-TEMPL_FOLDER = os.path.join(PROJECT_FOLDER, 'templates')
-TEMPLATE_DIRS = (TEMPL_FOLDER, )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'core.context_processors.global_settings'
+            ],
+        },
+    },
+]
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_FOLDER, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -174,7 +173,7 @@ MEDIA_URL = '/events/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_FOLDER, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -185,7 +184,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_FOLDER, 'static_files/static'),
+    os.path.join(BASE_DIR, 'static_files/static'),
 )
 
 # List of finder classes that know how to find static files in

@@ -35,7 +35,7 @@
                     {% for calendar in calendars %}
                         <tr>
                             <td class="calendar-title">
-                                <a class="line-break" href="{% url 'calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
+                                <a class="line-break" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
                             </td>
                             <td class="calendar-owner">
                                 <span class="line-break">
@@ -61,14 +61,14 @@
                                             </a>
                                         </li>
                                         <li role="presentation">
-                                            <a href="{% url 'calendar-update' pk=calendar.pk %}">
+                                            <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">
                                                 <i class="fa fa-pencil fa-fw"></i>
                                                 Edit Calendar
                                             </a>
                                         </li>
                                         <li class="divider"></li>
                                         <li role="presentation">
-                                            <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}">
+                                            <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">
                                                 <i class="fa fa-play-circle fa-fw"></i>
                                                 Live View
                                             </a>
@@ -86,7 +86,7 @@
 
             {% else %}
             <div class="well well-empty">
-                No calendars found. Want to <a href="{% url 'calendar-create' %}">create one?</a>
+                No calendars found. Want to <a href="{% url 'events.views.manager.calendar-create' %}">create one?</a>
             </div>
             {% endif %}
         </div>
