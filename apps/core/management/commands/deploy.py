@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
         # Tables exists, but there are no migrations run
         if 'django_migrations' not in all_tables:
-            call_command('migrate', 'django')
+            call_command('showmigrations')
             self.stdout.write("Create migration table")
 
         migration_count = MigrationRecorder.Migration.objects.filter(applied__isnull=False).count()
