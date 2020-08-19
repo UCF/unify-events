@@ -25,7 +25,7 @@ class Command(BaseCommand):
             call_command('migrate', '--fake-initial')
             self.stdout.write("Running initial migrations")
         else:
-            # Run the normal migration is all other instances
+            # Run the normal migration in all other instances
             call_command('migrate')
             self.stdout.write("Running migrations")
 
