@@ -3,7 +3,8 @@ from django.db.models import Q
 
 from core.views import MultipleFormatTemplateViewMixin
 from django.views.generic.list import ListView
-from events.models import Event, Calendar
+from events.models import Event, Calendar, State
+from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -19,7 +20,9 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
     def get_queryset(self):
         query = self.request.GET.get('q', None)
         if query:
-            queryset = Event.objects.filter(Q(title__icontains=query) | Q(calendar__title__icontains=query)).filter(created_from=None)
+            queryset = Event.objects.filter(Q(title__icontains=query) | Q(calendar__title__icontains=query)) \
+                        .filter(state__in=State.get_published_states(), event_instances__start__gte=datetime.now()) \
+                        .filter(created_from=None)
         else:
             queryset = Event.objects.none()
         return queryset
