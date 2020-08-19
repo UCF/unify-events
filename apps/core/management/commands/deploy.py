@@ -8,15 +8,16 @@ class Command(BaseCommand):
     help = 'Runs deployment related tasks.'
 
     def handle(self, *args, **options):
-        migration_count = MigrationRecorder.Migration.objects.filter(applied__isnull=False).count()
         all_tables = connection.introspection.table_names()
 
         # Tables exists, but there are no migrations run
         if 'django_migrations' not in all_tables:
             call_command('migrate', 'django')
-            call_command('migrate', '--fake-initial')
-            self.stdout.write("Running initial migrations")
-        elif migration_count == 0 and 'events_event' in all_tables:
+            self.stdout.write("Create migration table")
+
+        migration_count = MigrationRecorder.Migration.objects.filter(applied__isnull=False).count()
+
+        if migration_count == 0 and 'events_event' in all_tables:
             call_command('migrate', '--fake-initial')
             self.stdout.write("Running initial migrations")
         else:
