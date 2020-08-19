@@ -77,11 +77,6 @@ FRONT_PAGE_CALENDAR_PK = 1
 # 0 is Monday, 6 is Sunday.
 FIRST_DAY_OF_WEEK = 6
 
-# Enables the search bar in the base template and sets up
-# Haystack configuration. Turn off when debugging if
-# Elasticsearch is not set up yet.
-SEARCH_ENABLED = True
-
 # Domain name of map service. Update this value to DEV/QA environments when appropriate.
 MAPS_DOMAIN = 'map.ucf.edu'
 

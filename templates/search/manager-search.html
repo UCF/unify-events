@@ -40,7 +40,6 @@ See esi/eventinstance/search-list-item.html for info.
 
 <ul class="search-results-list">
 {% for result in object_list %}
-  {{ result.get_first_instance.pk }}
   {% include_esi 'eventinstance' result.get_first_instance.pk 'search-list-item' %}
 {% endfor %}
 </ul>
