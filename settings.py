@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'haystack',
     'profiles',
     'taggit',
     'events',
@@ -203,21 +202,5 @@ except ImportError:
         'Local settings file was not found. ' +
         'Ensure settings_local.py exists in project root.'
     )
-
-if SEARCH_ENABLED:
-    HAYSTACK_CONNECTIONS = {
-        'default': {
-            'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-            'URL': 'http://127.0.0.1:9200/',
-            'INDEX_NAME': 'unify_events_haystack',
-        },
-    }
-    # Enables updating of models with an associated SearchIndex
-    # when that model is saved or deleted.
-    HAYSTACK_SIGNAL_PROCESSOR = 'events.signals.CustomHaystackSignalProcessor'
-else:
-    HAYSTACK_CONNECTIONS = {
-        'default': {},
-    }
 
 TAGGIT_CASE_INSENSITIVE = True
