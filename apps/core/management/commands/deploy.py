@@ -13,6 +13,7 @@ class Command(BaseCommand):
 
         # Tables exists, but there are no migrations run
         if 'django_migrations' not in all_tables:
+            call_command('migrate', 'django')
             call_command('migrate', '--fake-initial')
             self.stdout.write("Running initial migrations")
         elif migration_count == 0 and 'events_event' in all_tables:
