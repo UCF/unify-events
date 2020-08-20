@@ -90,19 +90,18 @@
             {% endblock %}
             {% block calendar_results_block %}
             <div class="col-md-4 page-content">
+              <p><em>{{ calendars.count }} calendar(s) found.</em></p>
               {% if query %}
-                    {% with results=calendars %}
-                        {% if results %}
-                            <ul class="search-results-list">
-                            {% for result in results %}
-                             {% include_esi 'calendar' result.pk 'search-list-item' %}
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                {% else %}
-                    <p>Search for something using the search bar.</p>
-                {% endif %}
+                  {% with results=calendars %}
+                      {% if results %}
+                          <ul class="search-results-list">
+                          {% for result in results %}
+                            {% include_esi 'calendar' result.pk 'search-list-item' %}
+                          {% endfor %}
+                          </ul>
+                      {% endif %}
+                  {% endwith %}
+              {% endif %}
             </div>
             {% endblock %}
         </div>
