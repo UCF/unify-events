@@ -26,7 +26,7 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
             queryset = Event.objects.filter(
                         Q(title__icontains=query) | Q(calendar__title__icontains=query)
                         ).filter(state__in=State.get_published_states(),
-                        ).filter(Q(event_instances__start__gte=now) | Q(event_instances__end__lte=now) | Q(event_instances__until__gte=now)
+                        ).filter(Q(event_instances__start__gte=now) | Q(event_instances__start__lt=now, event_instances__end__gte=now)
                         ).filter(created_from=None)
         else:
             queryset = Event.objects.none()
