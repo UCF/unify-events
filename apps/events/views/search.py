@@ -5,6 +5,7 @@ from core.views import MultipleFormatTemplateViewMixin
 from django.views.generic.list import ListView
 from events.models import Event, Calendar, State
 from datetime import datetime
+import settings
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
         context = super(GlobalSearchView, self).get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q')
         if context['query']:
-            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'])
+            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'])[:settings.CALENDAR_RESULTS_LIMIT]
         else:
             context['calendars'] = Calendar.objects.none()
         return context
