@@ -56,8 +56,8 @@
             </div>
         </form>
         {% endblock %}
-
         <div class="row">
+          {% block event_results_block %}
             <div class="col-md-8 page-content">
                 <p><em>{{ page_obj.paginator.count }} event(s) found.</em></p>
                 {% if query %}
@@ -87,21 +87,23 @@
                     <p>Search for something using the search bar.</p>
                 {% endif %}
             </div>
+            {% endblock %}
+            {% block calendar_results_block %}
             <div class="col-md-4 page-content">
+              <p><em>{{ calendars.count }} calendar(s) found.</em></p>
               {% if query %}
-                    {% with results=calendars %}
-                        {% if results %}
-                            <ul class="search-results-list">
-                            {% for result in results %}
-                             {% include_esi 'calendar' result.pk 'search-list-item' %}
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                {% else %}
-                    <p>Search for something using the search bar.</p>
-                {% endif %}
+                  {% with results=calendars %}
+                      {% if results %}
+                          <ul class="search-results-list">
+                          {% for result in results %}
+                            {% include_esi 'calendar' result.pk 'search-list-item' %}
+                          {% endfor %}
+                          </ul>
+                      {% endif %}
+                  {% endwith %}
+              {% endif %}
             </div>
+            {% endblock %}
         </div>
     </div>
 </div>

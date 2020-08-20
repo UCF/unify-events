@@ -38,8 +38,4 @@ Events use the first instance's search-list-item.html esi template.
 See esi/eventinstance/search-list-item.html for info.
 {% endcomment %}
 
-<ul class="search-results-list">
-{% for result in object_list %}
-  {% include_esi 'eventinstance' result.get_first_instance.pk 'search-list-item' %}
-{% endfor %}
-</ul>
+{% block calendar_results_block %}{% endblock %}

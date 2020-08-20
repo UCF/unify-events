@@ -77,6 +77,9 @@ FRONT_PAGE_CALENDAR_PK = 1
 # 0 is Monday, 6 is Sunday.
 FIRST_DAY_OF_WEEK = 6
 
+# The number of calendar results displayed on the search
+CALENDAR_RESULTS_LIMIT = 10
+
 # Domain name of map service. Update this value to DEV/QA environments when appropriate.
 MAPS_DOMAIN = 'map.ucf.edu'
 
