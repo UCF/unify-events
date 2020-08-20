@@ -36,8 +36,7 @@ from events.views.manager import category
 from events.views.manager import location
 from events.views.manager import tag
 
-if settings.SEARCH_ENABLED:
-    from events.views.manager.search import ManagerSearchView
+from events.views.manager.search import ManagerSearchView
 
 urlpatterns = [
     url(r'^login/$',
@@ -147,11 +146,6 @@ urlpatterns += [
 ]
 
 # Search-related URLs
-if settings.SEARCH_ENABLED:
-    urlpatterns += [
-        url(r'^search/$', login_required(ManagerSearchView.as_view()), name='search_manager_view'),
-    ]
-else:
-    urlpatterns += [
-        url(r'^search/$', login_required(Dashboard.as_view()), name='search_manager_view'),
-    ]
+urlpatterns += [
+    url(r'^search/$', login_required(ManagerSearchView.as_view()), name='search_manager_view'),
+]

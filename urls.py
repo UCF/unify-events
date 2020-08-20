@@ -16,8 +16,7 @@ from events.views.event_views import CalendarWidgetView
 
 import core
 
-if settings.SEARCH_ENABLED:
-    from events.views.search import GlobalSearchView
+from events.views.search import GlobalSearchView
 
 admin.autodiscover()
 
@@ -36,14 +35,9 @@ urlpatterns = [
 ]
 
 # Append search urls (this MUST go before Main Calendar overrides; else a 404 is returned on the haystack_search view!)
-if settings.SEARCH_ENABLED:
-    urlpatterns += [
-        url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
-    ]
-else:
-    urlpatterns += [
-        url(r'^search/', DayEventsListView.as_view(), kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK}, name='search_view'),
-    ]
+urlpatterns += [
+    url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
+]
 
 
 # Get Main Calendar so we have access to its slug:

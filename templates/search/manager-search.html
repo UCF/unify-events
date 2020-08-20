@@ -23,8 +23,7 @@
         <div class="col-md-6">
             <div class="input-group">
                 <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
-                {% render_field form.q class="search-query form-control" placeholder="Search my events" %}
-
+                <input type="text" id="q" name="q" class="search-query form-control" placeholder="Search all events and calendars" value="{{query}}">
                 <div class="input-group-btn">
                     <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
                 </div>
@@ -39,12 +38,8 @@ Events use the first instance's search-list-item.html esi template.
 See esi/eventinstance/search-list-item.html for info.
 {% endcomment %}
 
-{% block results_list %}
 <ul class="search-results-list">
-{% for result in results %}
-    {% if result.model_name == 'event' %}
-        {% include_esi 'eventinstance' result.object.get_first_instance.pk 'search-list-item' %}
-    {% endif %}
+{% for result in object_list %}
+  {% include_esi 'eventinstance' result.get_first_instance.pk 'search-list-item' %}
 {% endfor %}
 </ul>
-{% endblock %}
