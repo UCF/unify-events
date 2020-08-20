@@ -56,8 +56,8 @@
             </div>
         </form>
         {% endblock %}
-        {% block event_results_block %}
         <div class="row">
+          {% block event_results_block %}
             <div class="col-md-8 page-content">
                 <p><em>{{ page_obj.paginator.count }} event(s) found.</em></p>
                 {% if query %}
