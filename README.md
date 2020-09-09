@@ -31,7 +31,7 @@
     4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
 7. Set up local settings using the settings_local.templ.py file
 8. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
-9. Run the deployment command: `python manage.py deploy`
+9. Run the deployment command: `python manage.py deploy`. This runs any migrations and collects the static files.
 10. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
 
         python manage.py shell
