@@ -39,23 +39,22 @@
             --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"
     4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
 9. Set up local settings using the local_settings.templ.py file
-10. Set up apache/python.wsgi using apache/python.templ.wsgi
-11. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
-12. If necessary, configure VirtualHosts using apache/vhost.conf template
-13. Sync the database. Create a new admin user when prompted. This user should have a unique (non-NID based) username.
+10. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
+11. If necessary, configure VirtualHosts using apache/vhost.conf template
+12. Sync the database. Create a new admin user when prompted. This user should have a unique (non-NID based) username.
 
         python manage.py syncdb
-14. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
+13. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
 
         python manage.py shell
         >>> from events.models import Calendar
         >>> c = Calendar(title='Events at UCF')
         >>> c.save()
         >>> exit()
-15. Rebuild the search index
+14. Rebuild the search index
 
         python manage.py rebuild_index
-16. Collect static files.
+15. Collect static files.
 
         python manage.py collectstatic -cl
 
