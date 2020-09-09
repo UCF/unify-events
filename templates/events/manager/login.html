@@ -26,7 +26,7 @@
                         </ul>
                     </div>
                     {% endif %}
-                    <form class="form-horizontal" action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">
+                    <form class="form-horizontal" action="{% url 'accounts-login' %}" method="post" id="login-form">
                         {% csrf_token %}
                         <div class="form-group {% if form.password.errors %}error{% endif %}">
                             <label class="control-label col-md-3" for="id_username">NID</label>

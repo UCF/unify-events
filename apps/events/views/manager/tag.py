@@ -40,14 +40,14 @@ class TagCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, Su
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
     form_class = TagForm
-    success_url = reverse_lazy('tag-list')
+    success_url = reverse_lazy('events.views.manager.tag-list')
     success_message = '%(name)s was created successfully.'
 
 
 class TagUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, UpdateView):
     model = Tag
     template_name = 'events/manager/tag/create_update.html'
-    success_url = reverse_lazy('tag-list')
+    success_url = reverse_lazy('events.views.manager.tag-list')
     form_class = TagForm
     success_message = '%(name)s was created successfully.'
 
@@ -55,7 +55,7 @@ class TagUpdateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, Su
 class TagDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, DeleteView):
     model = Tag
     template_name = 'events/manager/tag/delete.html'
-    success_url = reverse_lazy('tag-list')
+    success_url = reverse_lazy('events.views.manager.tag-list')
     success_message = 'Tag deleted successfully.'
 
 
@@ -82,6 +82,6 @@ def merge(request, tag_from_id=None, tag_to_id=None):
             messages.error(request, 'Merging tag failed.')
         else:
             messages.success(request, 'Tag successfully merged.')
-        return success_previous_view_redirect(request, reverse('tag-list'))
+        return success_previous_view_redirect(request, reverse('events.views.manager.tag-list'))
 
     raise Http404

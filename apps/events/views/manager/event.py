@@ -315,7 +315,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
                 if view.__name__ == 'EventUpdate':
                     ctx = {
                         'form_action_next': urllib.quote_plus(reverse(
-                                'dashboard-calendar-state',
+                                'events.views.manager.dashboard-calendar-state',
                             kwargs = {
                                 'pk': self.object.calendar.pk,
                                 'state': State.get_string(self.object.state)
@@ -560,7 +560,7 @@ def copy(request, pk=None):
         else:
             messages.error(request, 'Something went wrong when trying to copy to one of the selected calendars. Please try again.')
             error = True
-            return HttpResponseRedirect(reverse('event-copy', kwargs={'pk': event.id}))
+            return HttpResponseRedirect(reverse('events.views.manager.event-copy', kwargs={'pk': event.id}))
     else:
         form = EventCopyForm(calendars=user_calendars)
     view = TemplateView.as_view(template_name=tmpl)

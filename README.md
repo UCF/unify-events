@@ -1,29 +1,19 @@
 # Unify Events - [Calendar of Events and Activities at the University of Central Florida and Orlando, FL](https://events.ucf.edu/upcoming/)
 
 ## Installation and Setup
-1. Install Elasticsearch on your server (tested with v1.1.0) (http://www.elasticsearch.org/overview/elkdownloads/).  Requires at least Java 6.
-    - via Homebrew: `brew install elasticsearch`
-    - via apt/yum: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-repositories.html
-2. Start Elasticsearch
-    - Unix: `bin/elasticsearch`
-    - Windows: `bin/elasticsearch.bat`
-    - See Linux service docs:
-        - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html
-        - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
-
-3. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
+1. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
   - via Homebrew: `brew install openldap`
-4. Install Virtualenv for Python
+2. Install Virtualenv for Python
   - via pip: `[sudo] pip install virtualenv`
-5. Create virtual environment and `cd` to it
+3. Create virtual environment and `cd` to it
 
         virtualenv ENV
         cd ENV
-6. Clone repo to a subdirectory (ex. `git clone REPO_URL src`)
-7. Activate virtual environment
+4. Clone repo to a subdirectory (ex. `git clone REPO_URL src`)
+5. Activate virtual environment
 
         source bin/activate
-8. `cd` to new src directory and install requirements
+6. `cd` to new src directory and install requirements
 
         cd src
         pip install -r requirements.txt
@@ -37,29 +27,18 @@
             pip install python-ldap==VERSION \
             --global-option=build_ext \
             --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"
-    4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
-9. Set up local settings using the local_settings.templ.py file
-10. Set up apache/python.wsgi using apache/python.templ.wsgi
-11. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
-12. If necessary, configure VirtualHosts using apache/vhost.conf template
-13. Sync the database. Create a new admin user when prompted. This user should have a unique (non-NID based) username.
 
-        python manage.py syncdb
-14. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
+    4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
+7. Set up local settings using the settings_local.templ.py file
+8. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
+9. Run the deployment command: `python manage.py deploy`. This runs any migrations and collects the static files.
+10. If you don't intend on importing any existing calendar data, create a Main Calendar. Otherwise, skip this step
 
         python manage.py shell
         >>> from events.models import Calendar
         >>> c = Calendar(title='Events at UCF')
         >>> c.save()
         >>> exit()
-15. Rebuild the search index
-
-        python manage.py rebuild_index
-16. Collect static files.
-
-        python manage.py collectstatic -cl
-
-    **NOTE:** if Django complains that the `static` directory doesn't exist when running this command, just create it manually (`mkdir static`) and re-run the command.
 
 
 ## Importing Data
@@ -73,32 +52,24 @@ Note that this importer should only be run on a fresh database, immediately afte
 2. Activate virtual environment
 
         source ../bin/activate
-3. Add old events database information to settings_local.py under DATABASES name 'unlevents'.  Make sure that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
+3. Add old events database information to settings_local.py under DATABASES name 'unlevents'.  Make sure that ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-unl-events
-5. Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to 'True'.
-6. Restart the app
-7. Rebuild the search index
-
-        python manage.py rebuild_index
-8. Ban cache as necessary
+5. Restart the app
+6. Ban cache as necessary
 
 ### Locations Import
 1. cd to the new virtual environment src folder
 2. Activate virtual environment
 
         source ../bin/activate
-3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
+3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-locations
-5. Set SEARCH_ENABLED and ENABLE_CLEARCACHE in settings_local.py back to 'True'.
-6. Restart the app
-7. Rebuild the search index
-
-        python manage.py rebuild_index
-8. Ban cache as necessary
+5. Restart the app
+6. Ban cache as necessary
 
 
 ## Code Contribution

@@ -26,16 +26,16 @@
 
 {% block content_title %}
     <h1 class="col-md-12">
-        <a class="summary url" href="{% url 'event' pk=event_instance.pk slug=event_instance.slug %}">{{ event_instance.event.get_title_canceled }}</a>
+        <a class="summary url" href="{% url 'events.views.event_views.event' pk=event_instance.pk slug=event_instance.slug %}">{{ event_instance.event.get_title_canceled }}</a>
     </h1>
 
     <div class="hide edit-options col-md-3 col-sm-4">
         <ul>
             <li class="hide" id="event-edit">
-                <a href="{% url 'event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
+                <a href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
             </li>
             <li>
-                <a class="object-modify hide" id="event-subscription" href="{% url 'event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
+                <a class="object-modify hide" id="event-subscription" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
             </li>
         </ul>
     </div>
@@ -134,7 +134,7 @@
                     {% for instance in event_instance.event.event_instances.all %}
                     <tr {% if instance.pk == event_instance.pk %}class="info"{% endif %}>
                         <td>
-                            <a class="row-link" href="{% url 'event' pk=instance.pk slug=event_instance.slug %}">
+                            <a class="row-link" href="{% url 'events.views.event_views.event' pk=instance.pk slug=event_instance.slug %}">
                                 {{ instance.start|date:"F j, Y" }}{% if instance.start.time %}, {{ instance.start.time }}{% endif %}
                             </a>
                         </td>

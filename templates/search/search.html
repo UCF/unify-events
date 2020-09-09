@@ -47,31 +47,21 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
-                        {% render_field form.q class="search-query form-control" placeholder="Search all events, calendars" %}
-
+                        <input type="text" id="q" name="q" class="search-query form-control" placeholder="Search all events and calendars" value="{{query}}">
                         <div class="input-group-btn">
                             <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
-                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-form dropdown-menu-right" id="{{ form.models.auto_id }}" role="menu">
-                                {% for model in form.models %}
-                                <li>{{ model }}</li>
-                                {% endfor %}
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
         {% endblock %}
-
         <div class="row">
-            <div class="col-md-12 page-content">
-                <p><em>{{ page_obj.paginator.count }} result(s) found.</em></p>
+          {% block event_results_block %}
+            <div class="col-md-8 page-content">
+                <p><em>{{ page_obj.paginator.count }} event(s) found.</em></p>
                 {% if query %}
-                    {% with results=page_obj.object_list %}
+                    {% with results=object_list %}
                         {% if results %}
                             {% comment %}
                             Prioritize Main Calendar events. Assume that Main Calendar events
@@ -81,19 +71,13 @@
                             See esi/eventinstance/search-list-item.html for info.
                             {% endcomment %}
 
-                            {% block results_list %}
                             <ul class="search-results-list">
                             {% for result in results %}
-                                {% if result.model_name == 'calendar' %}
-                                    {% include_esi 'calendar' result.object.pk 'search-list-item' %}
-                                {% elif result.model_name == 'event' %}
-                                    {% with object=result.object.get_main_event|default:result.object %}
-                                        {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
-                                    {% endwith %}
-                                {% endif %}
+                              {% with object=result.get_main_event|default:result %}
+                                  {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
+                              {% endwith %}
                             {% endfor %}
                             </ul>
-                            {% endblock %}
 
                         {% endif %}
                     {% endwith %}
@@ -103,6 +87,23 @@
                     <p>Search for something using the search bar.</p>
                 {% endif %}
             </div>
+            {% endblock %}
+            {% block calendar_results_block %}
+            <div class="col-md-4 page-content">
+              <p><em>{{ calendars.count }} calendar(s) found.</em></p>
+              {% if query %}
+                  {% with results=calendars %}
+                      {% if results %}
+                          <ul class="search-results-list">
+                          {% for result in results %}
+                            {% include_esi 'calendar' result.pk 'search-list-item' %}
+                          {% endfor %}
+                          </ul>
+                      {% endif %}
+                  {% endwith %}
+              {% endif %}
+            </div>
+            {% endblock %}
         </div>
     </div>
 </div>

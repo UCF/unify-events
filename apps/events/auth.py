@@ -4,7 +4,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 
 from util import LDAPHelper
-
+from datetime import datetime
 
 class Backend(ModelBackend):
 
@@ -38,7 +38,7 @@ class Backend(ModelBackend):
                 # Must use create_user() here instead of initiating a new
                 # User object directly so that password hashing is handled
                 # properly
-                user = User.objects.create_user(username=username)
+                user = User.objects.create_user(username=username, last_login=datetime.now())
 
                 # Try to extract some other details
                 try:

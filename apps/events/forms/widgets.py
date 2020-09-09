@@ -1,9 +1,20 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.widgets import SplitDateTimeWidget, DateInput, TimeInput
-from django.forms.util import to_current_timezone
+from django.forms.utils import to_current_timezone
 from django.utils.safestring import mark_safe
 
+from taggit.forms import TagWidget
+
+import datetime
+
+class Wysiwyg(forms.Textarea):
+    def use_required_attribute(self, initial):
+        return False
+
+class TaggitField(TagWidget):
+    def use_required_attribute(self, initial):
+        return False
 
 class InlineLDAPSearch(forms.Widget):
 
@@ -53,3 +64,12 @@ class BootstrapSplitDateTimeWidget(SplitDateTimeWidget):
             value = to_current_timezone(value)
             return [value.date(), value.time().replace(microsecond=0)]
         return [None, None]
+
+    def value_from_datadict(self, data, files, name):
+        values = super(BootstrapSplitDateTimeWidget, self).value_from_datadict(data, files, name)
+        value = "{0} {1}".format(values[0], values[1])
+
+        try:
+            return datetime.datetime.strptime(value, '%m/%d/%Y %I:%M %p')
+        except:
+            return None

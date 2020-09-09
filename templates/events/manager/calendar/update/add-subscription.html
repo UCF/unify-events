@@ -23,10 +23,10 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'calendar-subscribe' pk=calendar.pk %}
+    {% url 'events.views.manager.calendar-subscribe' pk=calendar.pk %}
 {% endblock %}
 
-{% block content_form_id %}calendar-subscribe{% endblock %}
+{% block content_form_id %}events.views.manager.calendar-subscribe{% endblock %}
 
 {% block content_form_body %}
     {% csrf_token %}
@@ -56,7 +56,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-primary btn-block-xs">Subscribe</button>
-    <a href="{% url 'calendar' pk=calendar.pk slug=calendar.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

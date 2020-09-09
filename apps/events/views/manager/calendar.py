@@ -140,7 +140,7 @@ class CalendarDelete(DeleteSuccessMessageMixin, CalendarOwnerUserValidationMixin
         # Prevent deletion of the Main Calendar.
         if self.object.is_main_calendar:
             messages.error(self.request, 'This calendar cannot be deleted.')
-            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('events.views.manager.calendar-update', kwargs={'pk': self.object.pk}))
         else:
             return super(CalendarDelete, self).delete(self, request, *args, **kwargs)
 
@@ -150,7 +150,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
     model = Calendar
     success_message = '%(title)s was updated successfully.'
     template_name = 'events/manager/calendar/update.html'
-    success_view_name = 'calendar-update'
+    success_view_name = 'events.views.manager.calendar-update'
     copy_kwargs = ['pk']
 
     def post(self, request, *args, **kwargs):
@@ -166,7 +166,7 @@ class CalendarUpdate(SuccessMessageMixin, SuccessUrlReverseKwargsMixin, Calendar
 
         if self.object.is_main_calendar and title and title != self.object.title:
             messages.error(self.request, 'The main calendar title (and its slug) cannot be updated while the application is running.')
-            return HttpResponseRedirect(reverse_lazy('calendar-update', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('events.views.manager.calendar-update', kwargs={'pk': self.object.pk}))
         else:
             return super(CalendarUpdate, self).post(self, request, *args, **kwargs)
 
@@ -234,7 +234,7 @@ def add_update_user(request, pk, username, role):
         return HttpResponseForbidden('Not a legitimate role value.')
 
     calendar.save()
-    url_name = 'calendar-update-users'
+    url_name = 'events.views.manager.calendar-update-users'
     if request.user == user and role == 'editor' and not request.user.is_superuser:
         url_name = 'dashboard'
 
@@ -255,7 +255,7 @@ def delete_user(request, pk, username):
     if request.user == user:
         return HttpResponseRedirect(reverse('dashboard'))
     else:
-        return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
+        return HttpResponseRedirect(reverse('events.views.manager.calendar-update-users', args=(pk,)))
 
 @login_required
 def reassign_ownership(request, pk, username):
@@ -270,7 +270,7 @@ def reassign_ownership(request, pk, username):
     calendar.admins.remove(user)
     calendar.editors.remove(user)
     calendar.save()
-    return HttpResponseRedirect(reverse('calendar-update-users', args=(pk,)))
+    return HttpResponseRedirect(reverse('events.views.manager.calendar-update-users', args=(pk,)))
 
 
 class SubscribeToCalendar(SuccessMessageMixin, UpdateView):
@@ -343,4 +343,4 @@ def unsubscribe_from_calendar(request, pk=None, subscribed_calendar_id=None):
             messages.error(request, 'Removing subscribed calendar failed.')
         else:
             messages.success(request, 'Calendar successfully unsubscribed.')
-    return HttpResponseRedirect(reverse('calendar-update-subscriptions', args=(pk,)) + '#subscriptions')
+    return HttpResponseRedirect(reverse('events.views.manager.calendar-update-subscriptions', args=(pk,)) + '#subscriptions')

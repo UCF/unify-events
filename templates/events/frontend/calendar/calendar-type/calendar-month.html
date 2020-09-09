@@ -5,7 +5,7 @@
     <div class="col-md-12 page-content" id="calendar-events-month">
         <div class="row">
             <div class="col-md-4">
-                <form class="form-inline" id="month-toggle" method="GET" action="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
+                <form class="form-inline" id="month-toggle" method="GET" action="{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
                     <label for="id_year" class="sr-only">Switch Year</label>
                     <select id="id_year" name="year" class="form-control">
                         {% for year in all_years %}

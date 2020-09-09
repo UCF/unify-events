@@ -27,7 +27,7 @@ class CategoryCreate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, S
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was created successfully.'
-    success_url = reverse_lazy('category-list')
+    success_url = reverse_lazy('events.views.manager.category-list')
     template_name = 'events/manager/category/create_update.html'
 
 
@@ -35,7 +35,7 @@ class CategoryUpdate(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, S
     form_class = CategoryForm
     model = Category
     success_message = '%(title)s was updated successfully.'
-    success_url = reverse_lazy('category-list')
+    success_url = reverse_lazy('events.views.manager.category-list')
     template_name = 'events/manager/category/create_update.html'
 
 
@@ -43,7 +43,7 @@ class CategoryDelete(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, D
     form_class = CategoryForm
     model = Category
     success_message = 'Category was deleted successfully.'
-    success_url = reverse_lazy('category-list')
+    success_url = reverse_lazy('events.views.manager.category-list')
     template_name = 'events/manager/category/delete.html'
 
     def post(self, request, *args, **kwargs):
@@ -96,6 +96,6 @@ def merge(request, category_from_id=None, category_to_id=None):
                 messages.success(request, 'Category successfully merged.')
         else:
             messages.error(request, 'Cannot merge this category: category has no events. Delete this category instead of merging.')
-        return success_previous_view_redirect(request, reverse('category-list'))
+        return success_previous_view_redirect(request, reverse('events.views.manager.category-list'))
 
     raise Http404

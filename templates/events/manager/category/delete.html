@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'category-delete' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
+    {% url 'events.views.manager.category-delete' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
 {% endblock %}
 
 {% block content_form_id %}category-delete{% endblock %}
@@ -20,7 +20,7 @@
 
 {% block content_form_footer %}
     <button type="submit" class="btn btn-danger btn-block-xs">Delete Category</button>
-    <a href="{% url 'category-update' pk=category.pk %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+    <a href="{% url 'events.views.manager.category-update' pk=category.pk %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}

@@ -20,15 +20,15 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li class="{{ state|yesno:',,active' }}">
-                    <a href="{% url 'location-state' %}">All</a>
+                    <a href="{% url 'events.views.manager.location-state' %}">All</a>
                 </li>
                 <li class="{% if state == 'review' %} active{% endif %}">
-                    <a href="{% url 'location-state' state='review' %}">
+                    <a href="{% url 'events.views.manager.location-state' state='review' %}">
                         Review {% if review_count and review_count > 0 %}<span class="badge">{{ review_count }}</span>{% endif %}
                     </a>
                 </li>
                 <li class="{% if state == 'approved' %} active{% endif %}">
-                    <a href="{% url 'location-state' state='approved' %}">Approved</a>
+                    <a href="{% url 'events.views.manager.location-state' state='approved' %}">Approved</a>
                 </li>
             </ul>
         </div>
@@ -38,12 +38,12 @@
 {% block content_body %}
     <div class="row">
         <div class="col-md-12 page-content">
-            <a class="btn btn-primary page-top-action" href="{% url 'location-create' %}">
+            <a class="btn btn-primary page-top-action" href="{% url 'events.views.manager.location-create' %}">
                 <i class="fa fa-plus"></i> Create New Location
             </a>
 
             {% if locations %}
-                <form action="{% url 'location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
+                <form action="{% url 'events.views.manager.location-bulk-action' %}" class="form-horizontal bulk-action-form" method="post">
                     {% csrf_token %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -88,7 +88,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="location-title">
-                                        <a class="line-break" href="{% url 'location-update' pk=location.pk %}">{{ location.title }}</a>
+                                        <a class="line-break" href="{% url 'events.views.manager.location-update' pk=location.pk %}">{{ location.title }}</a>
                                     </td>
                                     <td class="location-room">
                                         <span class="line-break">{{ location.room }}</span>
@@ -114,21 +114,21 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li role="presentation">
-                                                    <a href="{% url 'location-update' pk=location.pk %}">
+                                                    <a href="{% url 'events.views.manager.location-update' pk=location.pk %}">
                                                         <i class="fa fa-pencil fa-fw"></i>
                                                         Edit Location
                                                     </a>
                                                 </li>
                                                 {% if location.event_instances.count > 0 %}
                                                 <li role="presentation">
-                                                    <a class="location-merge" href="{% url 'location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
+                                                    <a class="location-merge" href="{% url 'events.views.manager.location-merge' location_from_id=location.pk location_to_id=1 %}" data-object-title="{{ location.comboname }}" data-object-pk="{{ location.pk }}">
                                                         <i class="fa fa-compress fa-fw"></i>
                                                         Merge Location
                                                     </a>
                                                 </li>
                                                 {% else %}
                                                 <li role="presentation">
-                                                    <a class="object-modify" href="{% url 'location-delete' pk=location.pk %}">
+                                                    <a class="object-modify" href="{% url 'events.views.manager.location-delete' pk=location.pk %}">
                                                         <i class="fa fa-trash-o fa-fw"></i>
                                                         Delete Location
                                                     </a>
@@ -158,7 +158,7 @@
                 </form>
             {% else %}
                 <div class="well well-empty">
-                    No locations found. Want to <a href="{% url 'location-create' %}">create one?</a>
+                    No locations found. Want to <a href="{% url 'events.views.manager.location-create' %}">create one?</a>
                 </div>
             {% endif %}
                 {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}

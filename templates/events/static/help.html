@@ -840,7 +840,7 @@
                                 </small></p>
                             </td>
                             <td>
-                                <code>{% url 'calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code>
+                                <code>{% url 'events.views.event_views.calendar' pk=1234 slug='my-calendar-slug' %}feed.json</code>
                             </td>
                             <td>
                                 <ul class="table-list">
@@ -879,7 +879,7 @@
                                     within the current week, cloned with modified start/end datetimes for each day they occur on.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-week' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.named-listing' pk=1234 slug='my-calendar-slug' type='this-week' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -916,7 +916,7 @@
                                     within the current month, cloned with modified start/end datetimes for each day they occur on.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='this-month' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.named-listing' pk=1234 slug='my-calendar-slug' type='this-month' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -949,7 +949,7 @@
                                     A list of events occurring soon on the given calendar.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'named-listing' pk=1234 slug='my-calendar-slug' type='upcoming' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.named-listing' pk=1234 slug='my-calendar-slug' type='upcoming' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -983,7 +983,7 @@
                                     appear in the feed.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'day-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.day-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1033,7 +1033,7 @@
                                     within the given week, cloned with modified start/end datetimes for each day they occur on.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'week-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.week-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 day=28 %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1082,7 +1082,7 @@
                                     within the given month, cloned with modified start/end datetimes for each day they occur on.
                                 </small></p>
                             </td>
-                            <td><code>{% url 'month-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.month-listing' pk=1234 slug='my-calendar-slug' year=2014 month=3 %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1118,7 +1118,7 @@
                         </tr>
                         <tr>
                             <td>Events by Category</td>
-                            <td><code>{% url 'category-by-calendar' pk=1234 slug='my-calendar-slug' category_pk=2 category='category-slug' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.category-by-calendar' pk=1234 slug='my-calendar-slug' category_pk=2 category='category-slug' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1150,7 +1150,7 @@
                         </tr>
                         <tr>
                             <td>Events by Tag</td>
-                            <td><code>{% url 'tag-by-calendar' pk=1234 slug='my-calendar-slug' tag_pk=2 tag='tag-slug' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.tag-by-calendar' pk=1234 slug='my-calendar-slug' tag_pk=2 tag='tag-slug' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1182,7 +1182,7 @@
                         </tr>
                         <tr>
                             <td>Single Event Profile</td>
-                            <td><code>{% url 'event' pk=1234 slug='my-event-slug' %}feed.json</code></td>
+                            <td><code>{% url 'events.views.event_views.event' pk=1234 slug='my-event-slug' %}feed.json</code></td>
                             <td>
                                 <ul class="table-list">
                                     <li>
@@ -1209,7 +1209,7 @@
                                 <strong>Note:</strong> Search result feeds are currently only available in JSON format.
                               </small></p>
                             </td>
-                            <td><code>{% url 'haystack_search' format='json' %}</code></td>
+                            <td><code>{% url 'search_view' format='json' %}</code></td>
                             <td>
                                 n/a
                             </td>

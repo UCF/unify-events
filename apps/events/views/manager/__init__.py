@@ -122,6 +122,6 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
         log in for the first time
         """
         if self.request.user.first_login:
-            return HttpResponseRedirect(reverse('profile-settings'))
+            return HttpResponseRedirect(reverse('profiles.views.profile-settings'))
         else:
             return super(Dashboard, self).render_to_response(context, **response_kwargs)

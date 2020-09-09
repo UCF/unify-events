@@ -1,1 +1,1 @@
-{% if calendar %}<a href="{% url 'category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=object.pk category=object.slug %}">{% else %}<a href="{% url 'category' category_pk=object.pk category=object.slug %}">{% endif %}{{ object.title }}</a>
+{% if calendar %}<a href="{% url 'events.views.event_views.category-by-calendar' pk=calendar.pk slug=calendar.slug category_pk=object.pk category=object.slug %}">{% else %}<a href="{% url 'events.views.category.category' category_pk=object.pk category=object.slug %}">{% endif %}{{ object.title }}</a>

@@ -4,7 +4,7 @@
     {% for key, cal in calendar_map.items %}
     <h2>
         {% if key.month == this_month.month %}
-           <a href="{% url 'month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}"><span class="alt">{{ this_month|date:"F" }}</span></a> <a href="{% url 'year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
+           <a href="{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=this_month.year month=this_month.month %}"><span class="alt">{{ this_month|date:"F" }}</span></a> <a href="{% url 'events.views.event_views.year-listing' pk=calendar.pk slug=calendar.slug year=this_month.year %}">{{ this_month.year }}</a>
         {% endif %}
     </h2>
     <div class="calendar-grid calendar-grid-labels">
@@ -26,7 +26,7 @@
             </a>
             {% endif %}
             <div>
-                <a class="date" href="{% url 'day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}"><span>{{ day|date:"F" }}</span>{{ day|date:"j" }}</a>
+                <a class="date" href="{% url 'events.views.event_views.day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}"><span>{{ day|date:"F" }}</span>{{ day|date:"j" }}</a>
                 <!--<span class="holiday"></span>-->
                 {% if event_instances %}
                 <ul class="event-list-condensed">

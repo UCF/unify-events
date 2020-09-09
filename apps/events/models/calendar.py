@@ -128,7 +128,7 @@ class Calendar(TimeCreatedModified):
         Generate permalink for this object
         """
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('calendar', kwargs={
+        relative_path = reverse('events.views.event_views.calendar', kwargs={
                             'pk': self.pk,
                             'slug': self.slug,
                         })
@@ -139,7 +139,7 @@ class Calendar(TimeCreatedModified):
         Generate a permalink to the single object details for this object
         """
         canonical_root = settings.CANONICAL_ROOT
-        relative_path = reverse('calendar', kwargs={
+        relative_path = reverse('events.views.event_views.calendar', kwargs={
             'pk': self.pk,
             'slug': self.slug,
             'format': 'json'

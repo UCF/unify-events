@@ -1,1 +1,1 @@
-<a class="event-tag" href="{% url 'tag' tag_pk=object.pk tag=object.slug %}">{{ object }}</a>
+<a class="event-tag" href="{% url 'events.views.tag.tag' tag_pk=object.pk tag=object.slug %}">{{ object }}</a>

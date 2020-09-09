@@ -7,7 +7,6 @@ from dateutil.relativedelta import relativedelta
 from dateutil import rrule
 from django import template
 from django.http import Http404
-from django.template import Context
 from django.template import loader
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -106,7 +105,7 @@ def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manag
     else:
         template = loader.get_template('events/widgets/calendar-large.html')
 
-    html = template.render(Context(context))
+    html = template.render(context)
 
     return html
 
@@ -172,7 +171,7 @@ def pager(paginator, current_page, url):
     }
 
     template = loader.get_template('events/widgets/pager.html')
-    html = template.render(Context(context))
+    html = template.render(context)
 
     return html
 
@@ -193,7 +192,7 @@ def feed_btns(url):
     }
 
     template = loader.get_template('events/widgets/feed-btns.html')
-    html = template.render(Context(context))
+    html = template.render(context)
 
     return html
 
@@ -210,7 +209,7 @@ def social_btns(url, page_title):
     }
 
     template = loader.get_template('events/widgets/social-btns.html')
-    html = template.render(Context(context))
+    html = template.render(context)
 
     return html
 
@@ -232,6 +231,6 @@ def category_filters(context, calendar=None):
     }
 
     template = loader.get_template('events/widgets/category-filters.html')
-    html = template.render(Context(context))
+    html = template.render(context)
 
     return html

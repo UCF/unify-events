@@ -10,6 +10,8 @@ from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
+from events.forms.widgets import TaggitField
+from events.forms.widgets import Wysiwyg
 from events.functions import is_date_in_valid_range
 from events.functions import get_earliest_valid_date
 from events.functions import get_latest_valid_date
@@ -112,6 +114,8 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+        self.fields['description'].widget = Wysiwyg()
+        self.fields['tags'].widget = TaggitField()
 
         instance = kwargs['instance']
         if instance and instance.created_from:

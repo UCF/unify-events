@@ -48,9 +48,9 @@
 
 {% block content_body %}
     {% if object %}
-        <form class="form-horizontal" action="{% url 'tag-update' pk=tag.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
+        <form class="form-horizontal" action="{% url 'events.views.manager.tag-update' pk=tag.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
     {% else %}
-        <form class="form-horizontal" action="{% url 'tag-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
+        <form class="form-horizontal" action="{% url 'events.views.manager.tag-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
     {% endif %}
             {% csrf_token %}
             {{ form.non_field_errors }}
@@ -65,7 +65,7 @@
                 <div class="col-md-5 col-md-offset-3">
                     {% if object %}
                         <button class="btn btn-primary btn-block-xs" type="submit">Update Tag</button>
-                        <a href="{% url 'tag-list' %}" class="btn btn-default btn-block-xs">Cancel</a>
+                        <a href="{% url 'events.views.manager.tag-list' %}" class="btn btn-default btn-block-xs">Cancel</a>
                     {% else %}
                         <button class="btn btn-primary btn-block-xs" type="submit">Create Tag</button>
                     {% endif %}
