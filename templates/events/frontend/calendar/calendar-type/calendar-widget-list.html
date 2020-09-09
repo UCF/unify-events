@@ -45,14 +45,14 @@
     </div>
     {% endif %}
     <p class="feeds">
-        <a class="icsformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='ics' %}" title="ics format for upcoming events">
+        <a class="icsformat" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='ics' %}" title="ics format for upcoming events">
             ics format for upcoming events
         </a>
-        <a class="rssformat" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='rss' %}" title="rss format for upcoming events" target="_blank">
+        <a class="rssformat" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' format='rss' %}" title="rss format for upcoming events" target="_blank">
             rss format for upcoming events
         </a>
     </p>
-    <a class="more" href="{{ CANONICAL_ROOT }}{% url 'named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">
+    <a class="more" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.named-listing' pk=calendar.pk slug=calendar.slug type='upcoming' %}">
         More Events
     </a>
 </div>

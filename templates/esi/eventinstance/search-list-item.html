@@ -14,11 +14,11 @@ result list item that displays details for all instances of the parent event.
 {% with event=object.event %}
 <li>
     <h3 class="search-object-title event-title">
-        <a href="{% url 'event' pk=object.pk slug=event.slug %}">
+        <a href="{% url 'events.views.event_views.event' pk=object.pk slug=event.slug %}">
             {{ event.get_title_canceled }}
         </a>
     </h3>
-    <a class="event-edit hide" href="{% url 'event-update' pk=event.pk %}" data-calendar-pk="{{ event.calendar.pk }}">
+    <a class="event-edit hide" href="{% url 'events.views.manager.event-update' pk=event.pk %}" data-calendar-pk="{{ event.calendar.pk }}">
         <i class="fa fa-pencil"></i>Edit Event
     </a>
 

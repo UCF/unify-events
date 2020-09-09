@@ -13,7 +13,7 @@
 {% block content_body %}
 <div class="row">
     <div class="col-md-12 page-content">
-        <a class="btn btn-primary page-top-action" href="{% url 'tag-create' %}">
+        <a class="btn btn-primary page-top-action" href="{% url 'events.views.manager.tag-create' %}">
             <i class="fa fa-plus"></i> Create New Tag
         </a>
 
@@ -31,7 +31,7 @@
                 {% for tag in tags %}
                     <tr>
                         <td class="tag-name">
-                            <a href="{% url 'tag-update' pk=tag.pk %}">{{ tag.name }}</a>
+                            <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">{{ tag.name }}</a>
                         </td>
                         <td class="tag-events">
                             {{ tag.event_count }}
@@ -44,26 +44,26 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li role="presentation">
-                                        <a href="{% url 'tag-update' pk=tag.pk %}">
+                                        <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">
                                             <i class="fa fa-pencil fa-fw"></i>
                                             Edit Tag
                                         </a>
                                     </li>
                                     <li role="presentation">
-                                        <a class="tag-merge" href="{% url 'tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
+                                        <a class="tag-merge" href="{% url 'events.views.manager.tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
                                             <i class="fa fa-compress fa-fw"></i>
                                             Merge Tag
                                         </a>
                                     </li>
                                     <li role="presentation">
-                                        <a class="object-modify" href="{% url 'tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
+                                        <a class="object-modify" href="{% url 'events.views.manager.tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
                                             <i class="fa fa-trash-o fa-fw"></i>
                                             Delete Tag
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li role="presentation">
-                                        <a href="{% url 'tag' tag_pk=tag.pk tag=tag.slug %}">
+                                        <a href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">
                                             <i class="fa fa-play-circle fa-fw"></i>
                                             Live View
                                         </a>
@@ -113,7 +113,7 @@
         </div>
     {% else %}
         <div class="well well-empty">
-            No tags found. Want to <a href="{% url 'tag-create' %}">create one?</a>
+            No tags found. Want to <a href="{% url 'events.views.manager.tag-create' %}">create one?</a>
         </div>
     {% endif %}
     </div>

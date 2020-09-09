@@ -26,14 +26,14 @@ def include_esi_template(context, template, params='', kwargs=None):
     Return ESI code if not in Development mode.
     """
     if settings.DEV_MODE:
-        return render_to_string(template, context)
+        return render_to_string(template, context.flatten())
     else:
         if params:
             url = reverse('esi-template', args=(template,)) + '?' + params
         else:
             url = reverse('esi-template', args=(template,))
 
-        return '<esi:include src="%s" />' % url
+        return mark_safe('<esi:include src="%s" />' % url)
 
 
 @register.simple_tag(takes_context=True)
@@ -52,7 +52,7 @@ def include_esi(context, model, object_id, template_name, calendar_id=None, para
         # Keep the single quotes around src='' so that it doesn't mess
         # up ESIs that are used for HTML classes
         # Example: <div class="pull-left <esi:include src='/esi/category/1/slug/' />"></div>
-        return "<esi:include src='%s' />" % url
+        return mark_safe("<esi:include src='%s' />" % url)
 
 
 @register.simple_tag
