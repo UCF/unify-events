@@ -78,21 +78,6 @@ var activateTooltips = function() {
 
 
 /**
- * Activate active nav tab when anchor is specified in url
- **/
-var autoOpenTagByAnchor = function() {
-    var anchor = window.location.hash.substring(1),
-        tab = $('.nav-tabs li a[href="#'+ anchor +'"]').parent('li'),
-        tabPane = $('#' + anchor);
-    if (anchor !== null && tabPane.length > 0 && tabPane.hasClass('tab-pane')) {
-        $('.nav-tabs li.active, .tab-pane.active').removeClass('active');
-        tab.addClass('active');
-        tabPane.addClass('active');
-    }
-};
-
-
-/**
  * Jump to an anchor on the page with smooth scrolling and highlight it
  **/
 var jumpTo = function() {
@@ -319,7 +304,6 @@ $(document).ready(function() {
     ie8StyleClasses();
     hideDropdownScrollbars();
     activateTooltips();
-    autoOpenTagByAnchor();
     jumpTo();
     toggleModalModifyObject();
     calendarSliders();
