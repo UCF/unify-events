@@ -52,7 +52,7 @@ Note that this importer should only be run on a fresh database, immediately afte
 2. Activate virtual environment
 
         source ../bin/activate
-3. Add old events database information to settings_local.py under DATABASES name 'unlevents'.  Make sure that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
+3. Add old events database information to settings_local.py under DATABASES name 'unlevents'.  Make sure that ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-unl-events
@@ -64,7 +64,7 @@ Note that this importer should only be run on a fresh database, immediately afte
 2. Activate virtual environment
 
         source ../bin/activate
-3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that SEARCH_ENABLED and ENABLE_CLEARCACHE are set to 'False'.
+3. Make sure that MAPS_DOMAIN and LOCATION_DATA_URL are set in settings_local.py, and that ENABLE_CLEARCACHE are set to 'False'.
 4. Run import command
 
         python manage.py import-locations
