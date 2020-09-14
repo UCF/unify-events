@@ -4,17 +4,6 @@ from django.conf import settings
 from django.http import HttpResponsePermanentRedirect, Http404
 
 
-class UrlPatterns:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        if re.match('^/events/', request.path_info):
-            setattr(request, 'urlconf', 'events_urls')
-
-        return self.get_response(request)
-
-
 class CorsRegex:
     def __init__(self, get_response):
         self.get_response = get_response

@@ -28,10 +28,6 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
 
-#TODO
-# ALL OF THESE MIDDLEWARE modules need to be updated
-# to properly work with the new version of django
-
 MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'core.middleware.SecureRequiredMiddleware',
@@ -39,7 +35,6 @@ MIDDLEWARE = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UrlPatterns',
     'core.middleware.CorsRegex',
     'core.middleware.MinifyHTMLMiddleware',
 )
