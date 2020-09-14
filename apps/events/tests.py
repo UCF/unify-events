@@ -6,8 +6,8 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from models import *
-from fields import *
+from .models import *
+from .fields import *
 
 
 class SimpleTest(TestCase):

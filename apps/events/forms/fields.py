@@ -27,11 +27,11 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
             try:
                 ldap = LDAPHelper()
                 LDAPHelper.bind(ldap.connection, settings.LDAP_NET_SEARCH_USER,settings.LDAP_NET_SEARCH_PASS)
-            except Exception, e:
+            except Exception as e:
                 logging.error(str(e))
                 raise ValidationError('Unable to connect to LDAP')
             else:
-                if isinstance(guids_usernames, basestring):
+                if isinstance(guids_usernames, str):
                     guids_usernames = (guids_usernames,)
                 for guid, username in (tuple(gu.split('|')) for gu in guids_usernames):
                     try:
@@ -39,7 +39,7 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
                     except User.DoesNotExist:
                         try:
                             ldap_user = LDAPHelper.search_single(ldap.connection, username)
-                        except Exception, e:
+                        except Exception as e:
                             logging.error(str(e))
                             raise ValidationError('Looking up `%s` in LDAP failed.' % username)
                         else:
@@ -62,7 +62,7 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
                                 user.save()
                                 user.profile.guid = guid
                                 user.profile.save()
-                            except Exception, e:
+                            except Exception as e:
                                 logging.error(str(e))
                                 raise ValidationError('Saving user `%s` failed.' % username)
                     users.append(user)

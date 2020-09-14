@@ -1,6 +1,6 @@
 import logging
 import simplejson as json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -14,7 +14,7 @@ from events.models import Location
 class Command(BaseCommand):
     def handle(self, *args, **options):
         locations_feed_url = 'https://' + settings.MAPS_DOMAIN + settings.LOCATION_DATA_URL
-        data_file = urllib.urlopen(locations_feed_url)
+        data_file = urllib.request.urlopen(locations_feed_url)
         data = json.load(data_file)
 
         self.create_locations(data)
@@ -57,13 +57,13 @@ class Command(BaseCommand):
                 # Update the existing location if it exists; else, save the new location
                 try:
                     old_location = Location.objects.get(import_id=import_id)
-                except Exception, e:
+                except Exception as e:
                     logging.debug('No existing location found for %s: %s. Creating new location...' % (title, e))
                     # No existing matches found, or the matches were duplicate
                     new_location = Location(title=title, url=mapurl, room='', import_id=import_id, reviewed=True)
                     try:
                         new_location.save()
-                    except Exception, e:
+                    except Exception as e:
                         logging.error('Unable to save new location %s: %s' % (title, str(e)))
                     else:
                         parsed_objects += 1
@@ -76,7 +76,7 @@ class Command(BaseCommand):
                     old_location.reviewed = True
                     try:
                         old_location.save()
-                    except Exception, e:
+                    except Exception as e:
                         logging.error('Unable to save existing location %s: %s' % (title, str(e)))
                     else:
                         parsed_objects += 1

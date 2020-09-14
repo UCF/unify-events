@@ -25,7 +25,7 @@ class Category(TimeCreatedModified):
         return self.title
 
     def __unicode__(self):
-        return unicode(self.title)
+        return str(self.title)
 
 pre_save.connect(pre_save_slug, sender=Category)
 post_save.connect(generic_ban_urls, sender=Category)

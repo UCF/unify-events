@@ -15,21 +15,18 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		call_command('reset', 'events', 'auth', interactive=False)
 		
-		print 'Creating test users...',
+		print('Creating test users...', end=' ')
 		# Create users
 		test_user = User.objects.create(username="test", password="test", first_name="Patrick", last_name="Burt")
-		print 'done'
+		print('done')
 		
-		print 'Creating calendars for test users...',
+		print('Creating calendars for test users...', end=' ')
 		# Create calendars
 		cal = test_user.owned_calendars.create(name="Test Calendar")
-		print 'done'
+		print('done')
 		
-		print 'Creating events for new calendars...',
-		tag_choices = map(
-			lambda t: Tag.objects.create(name=t),
-			set(lorem_ipsum.words(20, False).lower().split())
-		)
+		print('Creating events for new calendars...', end=' ')
+		tag_choices = [Tag.objects.create(name=t) for t in set(lorem_ipsum.words(20, False).lower().split())]
 		contact_name_choices  = (None, 'Spork Belvadere', 'Captain ImABadGuy', 'Bill Paxton', 'Admiral Evildude')
 		contact_phone_choices = (None, '407-123-3215', '563-456-4123', '123-456-4448')
 		contact_email_choices = (None, 'john@doe.com', 'anon@ymous.com', 'event@contact.com')
@@ -68,4 +65,4 @@ class Command(BaseCommand):
 				interval=EventInstance.Recurs.weekly,
 				until=datetime(datetime.now().year + 1, 1, 1)
 			)
-		print 'done'
+		print('done')

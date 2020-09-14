@@ -3,7 +3,7 @@ import time
 import sys
 
 import bleach
-import HTMLParser
+import html.parser
 from bs4 import BeautifulSoup
 
 from django.conf import settings
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         'BLEACH_STRIP_COMMENTS': 'strip_comments',
     }
 
-    for setting, kwarg in possible_settings.iteritems():
+    for setting, kwarg in possible_settings.items():
         if hasattr(settings, setting):
             bleach_args[kwarg] = getattr(settings, setting)
 
@@ -82,8 +82,8 @@ class Command(BaseCommand):
             event.description = self.custom_clean(event.description)
             try:
                 event.save()
-            except Exception, e:
-                print e.message
-                print 'Title: ', event.title
-                print 'Decsription: ', event.description
+            except Exception as e:
+                print(e.message)
+                print('Title: ', event.title)
+                print('Decsription: ', event.description)
             self.update_progress(idx)

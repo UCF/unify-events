@@ -5,7 +5,6 @@ from django.conf import settings
 from django.template.base import kwarg_re
 from django.template.defaulttags import URLNode
 from django.utils.encoding import smart_text
-from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape
 
@@ -22,7 +21,7 @@ class EventsURLNode(URLNode):
         args = [arg.resolve(context) for arg in self.args]
         kwargs = {
             force_text(k, 'ascii'): v.resolve(context)
-            for k, v in self.kwargs.items()
+            for k, v in list(self.kwargs.items())
         }
         view_name = self.view_name.resolve(context)
         try:

@@ -8,7 +8,7 @@ class Profile(models.Model):
     """
     A User Profile
     """
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     guid = models.CharField(max_length=100, null=True, unique=True)
 
 

@@ -34,7 +34,7 @@ class InlineLDAPSearch(forms.Widget):
                 display = user.first_name + ' ' + user.last_name + ' (' + user.username + ')'
                 html.append('<option value="%d">%s</option>' % (user_id, display))
         html.append('</select></div>')
-        return mark_safe(u'\n'.join(html))
+        return mark_safe('\n'.join(html))
 
 
 class BootstrapSplitDateTimeWidget(SplitDateTimeWidget):

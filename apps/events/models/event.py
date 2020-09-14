@@ -4,7 +4,7 @@ import copy
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
@@ -118,7 +118,7 @@ class State:
     take place and the purpose and name of the event as well as the calendar to
     which the events belong.
     """
-    pending, posted, rereview = range(0, 3)
+    pending, posted, rereview = list(range(0, 3))
     # All available choices
     choices = (
         (pending, 'pending'),
@@ -152,9 +152,9 @@ class Event(TimeCreatedModified):
     Used to store a one time event or store the base information
     for a recurring event.
     """
-    calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True)
-    creator = models.ForeignKey(User, related_name='created_events', null=True)
-    created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True)
+    calendar = models.ForeignKey('Calendar', related_name='events', blank=True, null=True, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, related_name='created_events', null=True, on_delete=models.CASCADE)
+    created_from = models.ForeignKey('Event', related_name='duplicated_to', blank=True, null=True, on_delete=models.CASCADE)
     state = models.SmallIntegerField(choices=State.user_choices, default=State.posted)
     canceled = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
@@ -163,7 +163,7 @@ class Event(TimeCreatedModified):
     contact_name = models.CharField(max_length=64)
     contact_email = models.EmailField(max_length=128, blank=False, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
-    category = models.ForeignKey('Category', related_name='events')
+    category = models.ForeignKey('Category', related_name='events', on_delete=models.CASCADE)
     tags = TaggableManager()
 
     class Meta:
@@ -370,7 +370,7 @@ class Event(TimeCreatedModified):
         return self.title
 
     def __unicode__(self):
-        return unicode(self.title)
+        return str(self.title)
 
     def __repr__(self):
         return '<' + str(self.calendar) + '/' + self.title + '>'
@@ -402,7 +402,7 @@ class EventInstance(TimeCreatedModified):
         """
         Object which describes the time and place that an event is occurring
         """
-        never, daily, weekly, biweekly, monthly, yearly = range(0, 6)
+        never, daily, weekly, biweekly, monthly, yearly = list(range(0, 6))
         choices = (
             (never, 'Never'),
             (daily, 'Daily'),
@@ -413,9 +413,9 @@ class EventInstance(TimeCreatedModified):
         )
 
     unl_eventdatetime_id = models.PositiveIntegerField(blank=True, null=True) # Necessary to map redirects to events from UNL Events system
-    event = models.ForeignKey(Event, related_name='event_instances')
-    parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True)
-    location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances');
+    event = models.ForeignKey(Event, related_name='event_instances', on_delete=models.CASCADE)
+    parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True, on_delete=models.CASCADE)
+    location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances', on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)

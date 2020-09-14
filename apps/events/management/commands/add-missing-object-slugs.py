@@ -31,9 +31,9 @@ class Command(BaseCommand):
     def clean_data(self):
         from core.utils import generate_unique_slug
 
-        calendars = Calendar.objects.filter(slug=u'')
-        categories = Category.objects.filter(slug=u'')
-        events = Event.objects.filter(slug=u'')
+        calendars = Calendar.objects.filter(slug='')
+        categories = Category.objects.filter(slug='')
+        events = Event.objects.filter(slug='')
 
         self.count = len(calendars) + len(categories) + len(events)
 
@@ -48,10 +48,10 @@ class Command(BaseCommand):
                 try:
                     cal.slug = generate_unique_slug(cal.title, Calendar, False)
                     cal.save()
-                except Exception, e:
-                    print e.message
-                    print 'Title: ', cal.title
-                    print 'Slug: ', cal.slug
+                except Exception as e:
+                    print(e.message)
+                    print('Title: ', cal.title)
+                    print('Slug: ', cal.slug)
                 self.update_progress(idx)
 
         if categories:
@@ -59,10 +59,10 @@ class Command(BaseCommand):
                 try:
                     cat.slug = generate_unique_slug(cat.title, Category, False)
                     cat.save()
-                except Exception, e:
-                    print e.message
-                    print 'Title: ', cat.title
-                    print 'Slug: ', cat.slug
+                except Exception as e:
+                    print(e.message)
+                    print('Title: ', cat.title)
+                    print('Slug: ', cat.slug)
                 self.update_progress(idx)
 
         if events:
@@ -70,8 +70,8 @@ class Command(BaseCommand):
                 try:
                     event.slug = generate_unique_slug(event.title, Event, False)
                     event.save()
-                except Exception, e:
-                    print e.message
-                    print 'Title: ', event.title
-                    print 'Slug: ', event.slug
+                except Exception as e:
+                    print(e.message)
+                    print('Title: ', event.title)
+                    print('Slug: ', event.slug)
                 self.update_progress(idx)

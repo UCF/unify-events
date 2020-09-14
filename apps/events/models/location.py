@@ -1,4 +1,4 @@
-import urlparse
+import urllib.parse
 import re
 
 from django.conf import settings
@@ -38,10 +38,10 @@ class Location(TimeCreatedModified):
         widget_url_base = "https://" + maps_domain + "/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
         location_id = None
         if maps_domain in self.url:
-            parsed_url = urlparse.urlparse(self.url)
+            parsed_url = urllib.parse.urllib.parse(self.url)
             # Check for 'map.ucf.edu/?show=locationID'
             if maps_domain + "/?show=" in self.url:
-                location_id = urlparse.parse_qs(parsed_url.query)['show'][0]
+                location_id = urllib.parse.parse_qs(parsed_url.query)['show'][0]
             # Check for 'map.ucf.edu/locations/locationID/...'
             elif maps_domain + "/locations/" in self.url:
                 match = re.search('^/locations/([a-zA-Z0-9_-]+)/', parsed_url.path)
@@ -64,7 +64,7 @@ class Location(TimeCreatedModified):
         return self.comboname
 
     def __unicode__(self):
-        return unicode(self.comboname)
+        return str(self.comboname)
 
 post_save.connect(generic_ban_urls, sender=Location)
 # using pre_delete because all the objects may not exist if done via

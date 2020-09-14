@@ -3,7 +3,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import login, logout
 
 from events.models import State
 from events.views.manager import Dashboard

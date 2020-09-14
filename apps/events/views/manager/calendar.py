@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -306,7 +306,7 @@ class SubscribeToCalendar(SuccessMessageMixin, UpdateView):
                     if original_calendar not in calendar.subscriptions.all():
                         calendar.subscriptions.add(original_calendar)
                         original_calendar.copy_future_events(calendar)
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(self.request, 'Could not subscribe your calendar %s to %s.' % (calendar.title, original_calendar.title))
                 else:
@@ -338,7 +338,7 @@ def unsubscribe_from_calendar(request, pk=None, subscribed_calendar_id=None):
         try:
             calendar.subscriptions.remove(subscribed_calendar)
             calendar.delete_subscribed_events(subscribed_calendar)
-        except Exception, e:
+        except Exception as e:
             log.error(str(e))
             messages.error(request, 'Removing subscribed calendar failed.')
         else:

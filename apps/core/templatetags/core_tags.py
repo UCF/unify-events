@@ -4,11 +4,11 @@ from dateutil import parser
 import html2text
 import re
 from unidecode import unidecode
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from django import template
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
@@ -82,7 +82,7 @@ def absolute_uri_query_transform(context, **kwargs):
     """
     request = context['request']
     updated = request.GET.copy()
-    for k, v in kwargs.items():
+    for k, v in list(kwargs.items()):
         updated[k] = v
 
     return request.build_absolute_uri('?' + updated.urlencode())
@@ -90,14 +90,14 @@ def absolute_uri_query_transform(context, **kwargs):
 
 @register.filter
 def parse_date(value):
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         value = parser.parse(value)
     return value
 
 
 @register.filter
 def quote_plus(value):
-    return urllib.quote_plus(value.encode('utf-8'))
+    return urllib.parse.quote_plus(value.encode('utf-8'))
 
 @register.filter(name='remove_html')
 def custom_striptags(value):

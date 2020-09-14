@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
-from ordereddict import OrderedDict
+from collections import OrderedDict
 from taggit.models import Tag
 
 from events.models import *
@@ -124,7 +124,7 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
         if not start_date:
             day_month_year = self.get_day_month_year()
             try:
-                if day_month_year[0] in xrange(1, 32) and day_month_year[1] in xrange(1, 13):
+                if day_month_year[0] in range(1, 32) and day_month_year[1] in range(1, 13):
                     start_date = datetime(day_month_year[2] or 1, day_month_year[1] or 1, day_month_year[0] or 1)
                 else:
                     raise Http404
@@ -153,7 +153,7 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
         if location:
             try:
                 self.location = Location.objects.get(import_id=location)
-            except Location.DoesNotExist, e:
+            except Location.DoesNotExist as e:
                 self.location = e
 
         return self.location
@@ -636,7 +636,7 @@ class MonthEventsListView(CalendarEventsListView):
         if not start_date:
             day_month_year = self.get_day_month_year()
             try:
-                if day_month_year[1] in xrange(1, 13):
+                if day_month_year[1] in range(1, 13):
                     start_date = datetime(day_month_year[2] or 1, day_month_year[1] or 1, day_month_year[0] or 1)
                 else:
                     raise Http404
@@ -761,7 +761,7 @@ class YearEventsListView(CalendarEventsListView):
         if 'all_years' not in context:
             context['all_years'] = get_valid_years()
         if 'all_months' not in context:
-            context['all_months'] = range(1, 13)
+            context['all_months'] = list(range(1, 13))
 
         return context
 
@@ -845,7 +845,7 @@ class ListViewByCalendarMixin(object):
         if location:
             try:
                 self.location = Location.objects.get(import_id=location)
-            except Location.DoesNotExist, e:
+            except Location.DoesNotExist as e:
                 self.location = e
 
         return self.location

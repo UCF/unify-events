@@ -1,5 +1,5 @@
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django.core.urlresolvers import resolve
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import resolve
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
@@ -126,7 +126,7 @@ class EventCreate(CreateView):
         try:
             self.object = form.save()
             event_instance_formset.save()
-        except Exception, e:
+        except Exception as e:
             """
             Try to catch errors gracefully here, but make sure they're logged
             """
@@ -244,7 +244,7 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
         try:
             self.object = form.save()
             event_instance_formset.save()
-        except Exception, e:
+        except Exception as e:
             """
             Try to catch errors gracefully here, but make sure they're logged
             """
@@ -305,7 +305,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
         form_action_next = context.get('form_action_next', None)
 
         if form_action_next:
-            next = urllib.unquote_plus(form_action_next)
+            next = urllib.parse.unquote_plus(form_action_next)
             next_relative = self.get_relative_path_with_query(next)
             try:
                 view, v_args, v_kwargs = resolve(next_relative.path)
@@ -314,7 +314,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             else:
                 if view.__name__ == 'EventUpdate':
                     ctx = {
-                        'form_action_next': urllib.quote_plus(reverse(
+                        'form_action_next': urllib.parse.quote_plus(reverse(
                                 'events.views.manager.dashboard-calendar-state',
                             kwargs = {
                                 'pk': self.object.calendar.pk,
@@ -348,7 +348,7 @@ def update_event_state(request, pk=None, state=None):
         event.state = state
         try:
             event.save()
-        except Exception, e:
+        except Exception as e:
             log.error(str(e))
             messages.error(request, 'Unable to set Event %(1)s to %(2)s.' % {"1": event.title, "2": State.get_string(state)})
         else:
@@ -375,7 +375,7 @@ def submit_event_to_main(request, pk=None):
             if not event.is_submit_to_main:
                 try:
                     get_main_calendar().import_event(event)
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(request, 'Unable to submit Event %s to the Main Calendar.' % event.title)
                 else:
@@ -430,7 +430,7 @@ def bulk_action(request):
         for event_id in event_ids:
             try:
                 event = Event.objects.get(pk=event_id)
-            except Event.DoesNotExist, e:
+            except Event.DoesNotExist as e:
                 # The subscription event may not exist anymore since
                 # the original event has been deleted, thus deleting
                 # the subscription events. Log and fail gracefully.
@@ -453,7 +453,7 @@ def bulk_action(request):
             elif action == 'delete':
                 try:
                     event.delete()
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(request, 'Unable to delete Event %s.' % event.title)
 
@@ -502,7 +502,7 @@ def cancel_uncancel(request, pk=None):
         for copied_event in event.duplicated_to.all():
             copy = copied_event.pull_updates()
 
-    except Exception, e:
+    except Exception as e:
         log.error(str(e))
         messages.error(request, 'Canceling/Un-Canceling event failed.')
     else:

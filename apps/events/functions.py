@@ -1,7 +1,7 @@
 import bleach
 import calendar as calgenerator
 from datetime import date
-import HTMLParser
+import html.parser
 
 from django.core.exceptions import MultipleObjectsReturned
 
@@ -51,7 +51,7 @@ def remove_html(value):
     """
     if value:
         value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
-        h = HTMLParser.HTMLParser()
+        h = html.parser.HTMLParser()
         value = h.unescape(value)
     return value
 
@@ -63,7 +63,7 @@ def get_valid_years():
     expanding beyond an excessive amount of time.
     """
     this_year = date(date.today().year, 1, 1).year
-    years = range(2009, this_year+3) # add two years, plus 1 for last index
+    years = list(range(2009, this_year+3)) # add two years, plus 1 for last index
     return years
 
 

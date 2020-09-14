@@ -2,9 +2,9 @@ import logging
 
 from collections import namedtuple
 import urllib
-from urlparse import urljoin
-from urlparse import urlparse
-from urlparse import parse_qs
+from urllib.parse import urljoin
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -12,9 +12,9 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponsePermanentRedirect
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import resolve
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import resolve
+from django.urls import reverse
+from django.urls import reverse_lazy
 
 try:
     from django.db.models.loading import get_model
@@ -77,7 +77,7 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
     raise Http404
 
 
-def handler404(request):
+def handler404(request, exception):
     response = render(request,
                         '404.html',
                         {})
@@ -350,7 +350,7 @@ class SuccessPreviousViewRedirectMixin(object):
         query: string containing query params only
         """
         retval = namedtuple('RelativePath', ['relative', 'path', 'query'])
-        url_parsed = urlparse(absolute_url)
+        url_parsed = urllib.parse(absolute_url)
         retval.path = retval.relative = url_parsed.path
         retval.query = url_parsed.query
         if retval.query:

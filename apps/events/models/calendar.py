@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -52,7 +52,7 @@ class Calendar(TimeCreatedModified):
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
-    owner = models.ForeignKey(User, related_name='owned_calendars', null=True)
+    owner = models.ForeignKey(User, related_name='owned_calendars', null=True, on_delete=models.CASCADE)
     editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True, null=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True, null=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, null=True, symmetrical=False)
@@ -168,7 +168,7 @@ class Calendar(TimeCreatedModified):
         return self.title
 
     def __unicode__(self):
-        return unicode(self.title)
+        return str(self.title)
 
     def __repr__(self):
         """docstring for __repr__"""

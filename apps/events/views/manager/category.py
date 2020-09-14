@@ -1,7 +1,7 @@
 import logging
 
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
@@ -89,7 +89,7 @@ def merge(request, category_from_id=None, category_to_id=None):
                     event.category = category_to
                     event.save()
                 category_from.delete()
-            except Exception, e:
+            except Exception as e:
                 log.error(str(e))
                 messages.error(request, 'Merging category failed.')
             else:

@@ -27,7 +27,7 @@ class Backend(ModelBackend):
                     try:
                         user.username = username
                         user.save()
-                    except Exception, e:
+                    except Exception as e:
                         logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                         return None
 
@@ -58,7 +58,7 @@ class Backend(ModelBackend):
                     user.save()
                     user.profile.guid = guid
                     user.profile.save()
-                except Exception, e:
+                except Exception as e:
                     logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                     return None
 

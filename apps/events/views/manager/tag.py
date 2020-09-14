@@ -4,8 +4,8 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseForbidden
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
@@ -77,7 +77,7 @@ def merge(request, tag_from_id=None, tag_to_id=None):
                 event.tags.add(tag_to)
                 event.save()
             tag_from.delete()
-        except Exception, e:
+        except Exception as e:
             log.error(str(e))
             messages.error(request, 'Merging tag failed.')
         else:

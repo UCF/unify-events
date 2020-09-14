@@ -1,7 +1,7 @@
 from datetime import date
 from datetime import datetime
 import urllib
-from urlparse import urlparse, urlunparse, parse_qs
+from urllib.parse import urlparse, urlunparse, parse_qs
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -11,7 +11,7 @@ from django.template import loader
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import itertools
-from ordereddict import OrderedDict
+from collections import OrderedDict
 
 from events.functions import is_date_in_valid_range
 from events.models import Calendar
@@ -67,8 +67,8 @@ def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manag
     month_calendar_map = dict({this_month: this_month_cal})
 
     # Get a date range by which we will fetch events
-    start = this_month_cal.keys()[0]
-    end = datetime.combine(this_month_cal.keys()[-1], datetime.max.time())
+    start = list(this_month_cal.keys())[0]
+    end = datetime.combine(list(this_month_cal.keys())[-1], datetime.max.time())
 
     # Fetch posted events within our date range.
     calendar = None
@@ -132,8 +132,8 @@ def pager(paginator, current_page, url):
 
     # Calculate range of pages to return
     range_length -= 1
-    range_min = max(current_page - (range_length / 2), 1)
-    range_max = min(current_page + (range_length / 2), paginator.num_pages)
+    range_min = int(max(current_page - (range_length / 2), 1))
+    range_max = int(min(current_page + (range_length / 2), paginator.num_pages))
     range_diff = range_max - range_min
     if range_diff < range_length:
         shift = range_length - range_diff

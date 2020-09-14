@@ -21,7 +21,7 @@ from events.views.search import GlobalSearchView
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^manager/', include('events.urls.manager')),
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^event/', include('events.urls.event_urls')),

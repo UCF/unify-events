@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
@@ -76,7 +76,7 @@ def update_permissions(request, user_id=None, permissions=False):
             modified_user.is_staff = permissions
             modified_user.is_superuser = permissions
             modified_user.save()
-        except Exception, e:
+        except Exception as e:
             log.error(str(e))
             messages.error(request, 'Updating user permissions failed.')
         else:

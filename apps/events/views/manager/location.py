@@ -3,8 +3,8 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
@@ -122,7 +122,7 @@ def bulk_action(request):
         for location_id in location_ids:
             try:
                 location = Location.objects.get(pk=location_id)
-            except Location.DoesNotExist, e:
+            except Location.DoesNotExist as e:
                 log.error(str(e))
                 continue
 
@@ -135,7 +135,7 @@ def bulk_action(request):
                 try:
                     location.reviewed = True
                     location.save()
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(request, 'Unable to set Location %s to Approved.' % location.comboname)
 
@@ -144,7 +144,7 @@ def bulk_action(request):
                 try:
                     location.reviewed = False
                     location.save()
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(request, 'Unable to set Location %s to Review.' % location.comboname)
 
@@ -152,7 +152,7 @@ def bulk_action(request):
                 # Delete all Locations
                 try:
                     location.delete()
-                except Exception, e:
+                except Exception as e:
                     log.error(str(e))
                     messages.error(request, 'Unable to delete Location %s.' % location.comboname)
 
@@ -198,7 +198,7 @@ def merge(request, location_from_id=None, location_to_id=None):
                     event_instance.location = location_to
                     event_instance.save()
                 location_from.delete()
-            except Exception, e:
+            except Exception as e:
                 log.error(str(e))
                 messages.error(request, 'Merging location failed.')
             else:

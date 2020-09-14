@@ -28,7 +28,7 @@ class UNLAccount(models.Model):
     website = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'account'
+        db_table = 'account'
 
 
 class UNLAdmissioncharge(models.Model):
@@ -38,7 +38,7 @@ class UNLAdmissioncharge(models.Model):
     description = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'admissioncharge'
+        db_table = 'admissioncharge'
 
 
 class UNLAdmissioninfo(models.Model):
@@ -56,7 +56,7 @@ class UNLAdmissioninfo(models.Model):
     opendate = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        db_table = u'admissioninfo'
+        db_table = 'admissioninfo'
 
 class UNLAttendancerestriction(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -64,7 +64,7 @@ class UNLAttendancerestriction(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'attendancerestriction'
+        db_table = 'attendancerestriction'
 
 
 class UNLAudience(models.Model):
@@ -73,7 +73,7 @@ class UNLAudience(models.Model):
     standard = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        db_table = u'audience'
+        db_table = 'audience'
 
 
 class UNLCalendar(models.Model):
@@ -97,7 +97,7 @@ class UNLCalendar(models.Model):
     externalforms = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'calendar'
+        db_table = 'calendar'
 
 
 class UNLCalendarHasEvent(models.Model):
@@ -112,7 +112,7 @@ class UNLCalendarHasEvent(models.Model):
     uidlastupdated = models.CharField(max_length=300, blank=True)
 
     class Meta:
-        db_table = u'calendar_has_event'
+        db_table = 'calendar_has_event'
 
 
 class UNLDocument(models.Model):
@@ -122,7 +122,7 @@ class UNLDocument(models.Model):
     url = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'document'
+        db_table = 'document'
 
 
 class UNLEvent(models.Model):
@@ -155,7 +155,7 @@ class UNLEvent(models.Model):
     uidlastupdated = models.CharField(max_length=300, blank=True)
 
     class Meta:
-        db_table = u'event'
+        db_table = 'event'
 
 
 class UNLEventHasEventtype(models.Model):
@@ -164,7 +164,7 @@ class UNLEventHasEventtype(models.Model):
     eventtype_id = models.IntegerField()
 
     class Meta:
-        db_table = u'event_has_eventtype'
+        db_table = 'event_has_eventtype'
 
 
 class UNLEventHasKeyword(models.Model):
@@ -173,7 +173,7 @@ class UNLEventHasKeyword(models.Model):
     keyword_id = models.IntegerField()
 
     class Meta:
-        db_table = u'event_has_keyword'
+        db_table = 'event_has_keyword'
 
 
 class UNLEventHasSponsor(models.Model):
@@ -182,7 +182,7 @@ class UNLEventHasSponsor(models.Model):
     sponsor_id = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        db_table = u'event_has_sponsor'
+        db_table = 'event_has_sponsor'
 
 
 class UNLEventIsopentoAudience(models.Model):
@@ -191,7 +191,7 @@ class UNLEventIsopentoAudience(models.Model):
     audience_id = models.IntegerField()
 
     class Meta:
-        db_table = u'event_isopento_audience'
+        db_table = 'event_isopento_audience'
 
 
 class UNLEventTargetsAudience(models.Model):
@@ -200,7 +200,7 @@ class UNLEventTargetsAudience(models.Model):
     audience_id = models.IntegerField()
 
     class Meta:
-        db_table = u'event_targets_audience'
+        db_table = 'event_targets_audience'
 
 
 class UNLEventdatetime(models.Model):
@@ -215,7 +215,7 @@ class UNLEventdatetime(models.Model):
     additionalpublicinfo = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'eventdatetime'
+        db_table = 'eventdatetime'
 
 
 class UNLEventtype(models.Model):
@@ -227,7 +227,7 @@ class UNLEventtype(models.Model):
     standard = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        db_table = u'eventtype'
+        db_table = 'eventtype'
 
 
 class UNLKeyword(models.Model):
@@ -235,7 +235,7 @@ class UNLKeyword(models.Model):
     name = models.CharField(max_length=300)
 
     class Meta:
-        db_table = u'keyword'
+        db_table = 'keyword'
 
 
 class UNLLocation(models.Model):
@@ -257,7 +257,7 @@ class UNLLocation(models.Model):
 
     class Meta:
         #standard = models.IntegerField(null=True, blank=True)
-        db_table = u'location'
+        db_table = 'location'
 
 
 class UNLPerformer(models.Model):
@@ -274,7 +274,7 @@ class UNLPerformer(models.Model):
     type = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'performer'
+        db_table = 'performer'
 
 
 class UNLPermission(models.Model):
@@ -283,7 +283,7 @@ class UNLPermission(models.Model):
     description = models.CharField(max_length=765, blank=True)
 
     class Meta:
-        db_table = u'permission'
+        db_table = 'permission'
 
 
 class UNLPubliccontact(models.Model):
@@ -304,7 +304,7 @@ class UNLPubliccontact(models.Model):
     webpageurl = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'publiccontact'
+        db_table = 'publiccontact'
 
 class UNLRelatedevent(models.Model):
     event_id = models.IntegerField()
@@ -312,7 +312,7 @@ class UNLRelatedevent(models.Model):
     relationtype = models.CharField(max_length=300)
 
     class Meta:
-        db_table = u'relatedevent'
+        db_table = 'relatedevent'
 
 
 class UNLRole(models.Model):
@@ -321,7 +321,7 @@ class UNLRole(models.Model):
     standard = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        db_table = u'role'
+        db_table = 'role'
 
 
 class UNLSession(models.Model):
@@ -330,7 +330,7 @@ class UNLSession(models.Model):
     data = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'session'
+        db_table = 'session'
 
 
 class UNLSponsor(models.Model):
@@ -341,7 +341,7 @@ class UNLSponsor(models.Model):
     webpageurl = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'sponsor'
+        db_table = 'sponsor'
 
 
 class UNLSubscription(models.Model):
@@ -358,14 +358,14 @@ class UNLSubscription(models.Model):
     uidlastupdated = models.CharField(max_length=300, blank=True)
 
     class Meta:
-        db_table = u'subscription'
+        db_table = 'subscription'
 
 
 class UNLTestTable(models.Model):
     id = models.IntegerField(primary_key=True)
 
     class Meta:
-        db_table = u'test_table'
+        db_table = 'test_table'
 
 
 class UNLUser(models.Model):
@@ -379,7 +379,7 @@ class UNLUser(models.Model):
     uidlastupdated = models.CharField(max_length=300, blank=True)
 
     class Meta:
-        db_table = u'user'
+        db_table = 'user'
 
 
 class UNLUserHasPermission(models.Model):
@@ -389,7 +389,7 @@ class UNLUserHasPermission(models.Model):
     calendar_id = models.IntegerField()
 
     class Meta:
-        db_table = u'user_has_permission'
+        db_table = 'user_has_permission'
 
 
 class UNLWebcast(models.Model):
@@ -403,7 +403,7 @@ class UNLWebcast(models.Model):
     additionalinfo = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'webcast'
+        db_table = 'webcast'
 
 
 class UNLWebcastlink(models.Model):
@@ -414,4 +414,4 @@ class UNLWebcastlink(models.Model):
     related = models.CharField(max_length=3, blank=True)
 
     class Meta:
-        db_table = u'webcastlink'
+        db_table = 'webcastlink'

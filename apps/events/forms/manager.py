@@ -32,7 +32,7 @@ class ModelFormStringValidationMixin(forms.ModelForm):
 
         for field in cleaned_data:
             val = cleaned_data.get(field)
-            if isinstance(val, basestring):
+            if isinstance(val, str):
                 val = val.strip()
                 cleaned_data[field] = val
 
@@ -50,11 +50,11 @@ class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
 
         form_fields = self.fields
 
-        for field, val in cleaned_data.iteritems():
+        for field, val in cleaned_data.items():
             required = form_fields[field].required
 
-            if isinstance(val, unicode):
-                cleaned_data_copy[field] = re.sub(ur'[^\u0000-\uD7FF\uE000-\uFFFF]', '', cleaned_data_copy[field])
+            if isinstance(val, str):
+                cleaned_data_copy[field] = re.sub(r'[^\u0000-\uD7FF\uE000-\uFFFF]', '', cleaned_data_copy[field])
 
                 # Delete any cleaned data that are now empty and let the user know
                 if not cleaned_data_copy[field]:

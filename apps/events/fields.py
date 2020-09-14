@@ -10,11 +10,10 @@ class ImageField(models.ImageField):
 	pass
 
 
-class CoordinatesField(models.Field):
+class CoordinatesField(models.Field, metaclass=models.SubfieldBase):
 	"""Stores coordinates of arbitrary number of dimensions."""
 	
 	description   = "Set of coordinates"
-	__metaclass__ = models.SubfieldBase
 	
 	def __init__(self, *args, **kwargs):
 		super(CoordinatesField, self).__init__(*args, **kwargs)
@@ -47,11 +46,10 @@ class CoordinatesField(models.Field):
 		return ','.join(value)
 
 
-class SettingsField(models.Field):
+class SettingsField(models.Field, metaclass=models.SubfieldBase):
 	"""Stores arbitrary simple key-value pairings presented as a python 
 	dictionary."""
 	description   = "Settings Field"
-	__metaclass__ = models.SubfieldBase
 	
 	"""docstring for SettingsField"""
 	def __init__(self, *args, **kwargs):
@@ -68,7 +66,7 @@ class SettingsField(models.Field):
 		
 		
 		if isinstance(value, str().__class__) or\
-			isinstance(value, unicode().__class__):
+			isinstance(value, str().__class__):
 			import json
 			try:
 				value = json.loads(value)

@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 new_calendar.pk = old_calendar.id
                 try:
                     new_calendar.save()
-                except Exception, e:
+                except Exception as e:
                     logging.error('Unable to save calendar `%s`: %s' % (old_calendar.name, str(e)))
                 else:
 
@@ -119,7 +119,7 @@ class Command(BaseCommand):
 
                             try:
                                 new_event.save()
-                            except Exception, e:
+                            except Exception as e:
                                 logging.error('Unable to save new event `%s`: %s' % (new_event.title,str(e)))
                                 continue
                             else:
@@ -167,7 +167,7 @@ class Command(BaseCommand):
 
                                     try:
                                         new_instance.save()
-                                    except Exception, e:
+                                    except Exception as e:
                                         logging.error('Unable to save event instance for event `%s`: %s' % (new_event.title,str(e)))
 
         # Process all subscriptions.
@@ -233,7 +233,7 @@ class Command(BaseCommand):
                     new_location = Location(title=name, url=mapurl, room=room)
                     try:
                         new_location.save()
-                    except Exception, e:
+                    except Exception as e:
                         logging.error('Unable to save location %s: %s' % (name, str(e)))
 
     def get_create_user(self,username):
@@ -251,7 +251,7 @@ class Command(BaseCommand):
             except LDAPHelper.NoUsersFound:
                 logging.error('User %s does not exist in the NET domain.' % username)
                 MISSING_USERNAMES.append(username)
-            except Exception, e:
+            except Exception as e:
                 logging.error(str(e) + ' ' + username)
             else:
                 try:
@@ -279,7 +279,7 @@ class Command(BaseCommand):
                         user.save()
                         user.profile.guid = guid
                         user.profile.save()
-                    except Exception, e:
+                    except Exception as e:
                         logging.error('Unable to save user `%s`: %s' % (username,str(e)))
                     else:
                         return user

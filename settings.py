@@ -28,16 +28,20 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
 
-MIDDLEWARE_CLASSES = (
+#TODO
+# ALL OF THESE MIDDLEWARE modules need to be updated
+# to properly work with the new version of django
+
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
-    'core.middleware.SecureRequiredMiddleware',
+    # 'core.middleware.SecureRequiredMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UrlPatterns',
-    'core.middleware.CorsRegex',
-    'core.middleware.MinifyHTMLMiddleware',
+    # 'core.middleware.UrlPatterns',
+    # 'core.middleware.CorsRegex',
+    # 'core.middleware.MinifyHTMLMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -57,6 +61,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',
