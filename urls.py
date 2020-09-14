@@ -40,42 +40,47 @@ urlpatterns += [
 ]
 
 
-# Get Main Calendar so we have access to its slug:
-main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
+try:
+    # Get Main Calendar so we have access to its slug:
+    main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
-# Append Main Calendar url overrides
-urlpatterns += [
-    url(r'^(feed\.(?P<format>[\w]+))?$',
-        HomeEventsListView.as_view(),
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='home'
-    ),
-    url(r'^(?P<year>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
-        YearEventsListView.as_view(),
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='main-calendar-year-listing'
-    ),
-    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
-        MonthEventsListView.as_view(),
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='main-calendar-month-listing'
-    ),
-    url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
-        DayEventsListView.as_view(),
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='main-calendar-day-listing'
-    ),
-    url(r'^week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
-        WeekEventsListView.as_view(),
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='main-calendar-week-listing'
-    ),
-    url(r'^(?P<type>[\w-]+)/(?:feed\.(?P<format>[\w]+))?$',
-        view=named_listing,
-        kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
-        name='main-calendar-named-listing'
-    ),
-]
+    # Append Main Calendar url overrides
+    urlpatterns += [
+        url(r'^(feed\.(?P<format>[\w]+))?$',
+            HomeEventsListView.as_view(),
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='home'
+        ),
+        url(r'^(?P<year>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+            YearEventsListView.as_view(),
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='main-calendar-year-listing'
+        ),
+        url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+            MonthEventsListView.as_view(),
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='main-calendar-month-listing'
+        ),
+        url(r'^(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+            DayEventsListView.as_view(),
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='main-calendar-day-listing'
+        ),
+        url(r'^week-of/(?P<year>[\d]+)/(?P<month>[\d]+)/(?P<day>[\d]+)/(?:feed\.(?P<format>[\w]+))?$',
+            WeekEventsListView.as_view(),
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='main-calendar-week-listing'
+        ),
+        url(r'^(?P<type>[\w-]+)/(?:feed\.(?P<format>[\w]+))?$',
+            view=named_listing,
+            kwargs={'pk': settings.FRONT_PAGE_CALENDAR_PK, 'slug': main_calendar.slug},
+            name='main-calendar-named-listing'
+        ),
+    ]
+except Exception:
+    # An exception can occur here if the app db hasn't been set up yet.
+    # Just skip registration of these URLs then
+    pass
 
 
 # Error handling
