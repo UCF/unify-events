@@ -4,6 +4,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 
 from events.models import State
 from events.views.manager import Dashboard
@@ -40,12 +41,10 @@ from events.views.manager.search import ManagerSearchView
 
 urlpatterns = [
     url(r'^login/$',
-        view=login,
-        kwargs={'template_name': 'events/manager/login.html'},
+        view=LoginView.as_view(template_name='events/manager/login.html'),
         name='accounts-login'),
     url(r'^logout/$',
-        view=logout,
-        kwargs={'template_name': 'events/manager/logout.html'},
+        view=LogoutView.as_view(template_name='events/manager/logout.html'),
         name='accounts-logout')
 ]
 
