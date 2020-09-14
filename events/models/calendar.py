@@ -53,9 +53,9 @@ class Calendar(TimeCreatedModified):
     slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owned_calendars', null=True, on_delete=models.CASCADE)
-    editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True, null=True)
-    admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True, null=True)
-    subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, null=True, symmetrical=False)
+    editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True)
+    admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True)
+    subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
 
     class Meta:
         app_label = 'events'
