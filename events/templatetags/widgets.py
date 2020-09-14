@@ -154,7 +154,7 @@ def pager(paginator, current_page, url):
 
     if query:
         query.pop('page', None)
-        url_parsed = url_parsed._replace(query=urllib.urlencode(query, True))
+        url_parsed = url_parsed._replace(query=urlencode(query, True))
 
     url = urlunparse(url_parsed)
 
