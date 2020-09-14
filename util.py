@@ -103,7 +103,7 @@ class LDAPHelper(object):
     @classmethod
     def _extract_attribute(cls, ldap_user, attribute):
         try:
-            return ldap_user[attribute][0]
+            return ldap_user[attribute][0].decode('utf-8')
         except KeyError as e:
             raise LDAPHelper.MissingAttribute(e)
         except ValueError as e:
