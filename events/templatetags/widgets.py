@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 from urllib.parse import urlparse
 from urllib.parse import urlunparse
 from urllib.parse import parse_qs
+from urllib.parse import quote_plus
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule
@@ -207,7 +208,7 @@ def social_btns(url, page_title):
     context = {
         'url': url,
         'page_title': page_title,
-        'tweet_title': urllib.quote_plus('UCF Events: ' + page_title.encode('utf-8'))
+        'tweet_title': quote_plus('UCF Events: {0}'.format(page_title))
     }
 
     template = loader.get_template('events/widgets/social-btns.html')
