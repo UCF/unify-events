@@ -26,7 +26,7 @@ def include_esi_template(context, template, params='', kwargs=None):
     Return ESI code if not in Development mode.
     """
     if settings.DEV_MODE:
-        return mark_safe(render_to_string(template, context.flatten()).decode('utf-8'))
+        return render_to_string(template, context.flatten())
     else:
         if params:
             url = reverse('esi-template', args=(template,)) + '?' + params
