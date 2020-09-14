@@ -8,13 +8,12 @@ from datetime import datetime
 
 class Backend(ModelBackend):
 
-    def authenticate(self, username=None, password=None):
-
+    def authenticate(self, request, username=None, password=None):
         try:
             ldap_helper = LDAPHelper()
             LDAPHelper.bind(ldap_helper.connection, username, password)
             ldap_user = LDAPHelper.search_single(ldap_helper.connection, username)
-        except LDAPHelper.LDAPHelperException:
+        except LDAPHelper.LDAPHelperException as e:
             return None
         else:
             # Extract the GUID
