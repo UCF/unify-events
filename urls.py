@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^esi/(?P<model_name>[\w-]+)/(?P<object_id>[\d]+)/(calendar/(?P<calendar_id>[\d]+)/)?(?P<template_name>.*)', view=core.views.esi)
 ]
 
-# Append search urls (this MUST go before Main Calendar overrides; else a 404 is returned on the haystack_search view!)
+# Append search urls
 urlpatterns += [
     url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
 ]

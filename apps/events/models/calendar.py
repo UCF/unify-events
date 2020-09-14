@@ -182,4 +182,3 @@ post_save.connect(generic_ban_urls, sender=Calendar)
 # miss on varnish.
 pre_delete.connect(generic_ban_urls, sender=Calendar)
 
-# NOTE: Haystack signals are handled in events/signals.py
