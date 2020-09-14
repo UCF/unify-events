@@ -24,7 +24,7 @@ class ProfileUpdate(FirstLoginTemplateMixin, SuccessMessageMixin, UpdateView):
     form_class = UserForm
     model = User
     success_message = 'Profile was updated successfully.'
-    success_url = reverse_lazy('profile.views.profile-settings')
+    success_url = reverse_lazy('profiles.views.profile-settings')
     template_name = 'events/manager/profiles/profile.html'
     first_login_template_name = 'events/manager/firstlogin/profile.html'
 
