@@ -50,10 +50,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-# Add local apps folder to python path
-sys.path.append(APP_FOLDER)
-sys.path.append(INC_FOLDER)
-
 WSGI_APPLICATION = 'wsgi.application'
 
 INSTALLED_APPS = (
