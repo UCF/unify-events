@@ -26,7 +26,7 @@ def include_esi_template(context, template, params='', kwargs=None):
     Return ESI code if not in Development mode.
     """
     if settings.DEV_MODE:
-        return render_to_string(template, context.flatten())
+        return mark_safe(render_to_string(template, context.flatten()).decode('utf-8'))
     else:
         if params:
             url = reverse('esi-template', args=(template,)) + '?' + params
@@ -40,7 +40,8 @@ def include_esi_template(context, template, params='', kwargs=None):
 def include_esi(context, model, object_id, template_name, calendar_id=None, params=None):
     if settings.DEV_MODE:
         response = esi(context['request'], model, str(object_id), template_name, str(calendar_id), params)
-        return response.content
+        content = mark_safe(response.content.decode(response.charset))
+        return content
     else:
         if calendar_id is not None:
             url = '/esi/' + model + '/' + str(object_id) + '/calendar/' + str(calendar_id) + '/' + template_name + '/'
