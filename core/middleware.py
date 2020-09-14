@@ -1,17 +1,27 @@
 import re
 
 from django.conf import settings
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect, Http404
 
 
 class UrlPatterns:
-    def process_request(self, request):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
         if re.match('^/events/', request.path_info):
             setattr(request, 'urlconf', 'events_urls')
 
+        return self.get_response(request)
+
 
 class CorsRegex:
-    def process_response(self, request, response):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+
         if re.match(settings.CORS_REGEX, request.path):
             response['Access-Control-Allow-Origin'] = '*'
         else:
@@ -23,18 +33,19 @@ class CorsRegex:
 
 
 class SecureRequiredMiddleware(object):
-    def __init__(self):
+    def __init__(self, get_response):
+        self.get_response = get_response
         self.paths = getattr(settings, 'SECURE_REQUIRED_PATHS')
         self.enabled = self.paths and getattr(settings, 'HTTPS_SUPPORT')
 
-    def process_request(self, request):
+    def __call__(self, request):
         if self.enabled and not request.is_secure():
             for path in self.paths:
                 if request.get_full_path().startswith(path):
                     request_url = request.build_absolute_uri(request.get_full_path())
                     secure_url = request_url.replace('http://', 'https://')
                     return HttpResponsePermanentRedirect(secure_url)
-        return None
+        return self.get_response(request)
 
 
 """
@@ -46,7 +57,12 @@ rendering of a text node.
 RE_MULTISPACE = re.compile(r"\s{2,}")
 
 class MinifyHTMLMiddleware(object):
-    def process_response(self, request, response):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+
         if 'text/html' in response['Content-Type'] and settings.COMPRESS_HTML:
-            response.content = RE_MULTISPACE.sub(" ", response.content)
+            response.content = RE_MULTISPACE.sub(" ", response.content.decode('utf-8'))
         return response
