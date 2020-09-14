@@ -1,4 +1,5 @@
 asgiref==3.2.10
+beautifulsoup4==4.9.1
 bleach==3.1.5
 certifi==2020.6.20
 chardet==3.0.4
@@ -28,6 +29,7 @@ requests==2.24.0
 rjsmin==1.1.0
 simplejson==3.17.2
 six==1.15.0
+soupsieve==2.0.1
 sqlparse==0.3.1
 urllib3==1.25.10
 webencodings==0.5.1
