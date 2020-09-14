@@ -1,7 +1,9 @@
 from datetime import date
 from datetime import datetime
-import urllib
-from urllib.parse import urlparse, urlunparse, parse_qs
+from urllib.parse import urlencode
+from urllib.parse import urlparse
+from urllib.parse import urlunparse
+from urllib.parse import parse_qs
 
 from dateutil.relativedelta import relativedelta
 from dateutil import rrule

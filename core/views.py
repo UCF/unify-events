@@ -1,10 +1,10 @@
 import logging
 
 from collections import namedtuple
-import urllib
-from urllib.parse import urljoin
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+from urllib.parse import quote_plus
+from urllib.parse import unquote_plus
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -350,7 +350,7 @@ class SuccessPreviousViewRedirectMixin(object):
         query: string containing query params only
         """
         retval = namedtuple('RelativePath', ['relative', 'path', 'query'])
-        url_parsed = urllib.parse(absolute_url)
+        url_parsed = urlparse(absolute_url)
         retval.path = retval.relative = url_parsed.path
         retval.query = url_parsed.query
         if retval.query:
@@ -374,7 +374,7 @@ class SuccessPreviousViewRedirectMixin(object):
                 next_relative = self.get_relative_path_with_query(next)
                 success_url = self.success_url
                 if next_relative.relative != success_url and self.path_is_valid(next_relative.path):
-                    context['form_action_next'] = urllib.quote_plus(next)
+                    context['form_action_next'] = quote_plus(next)
 
         return context
 
@@ -390,7 +390,7 @@ class SuccessPreviousViewRedirectMixin(object):
             next = self.request.GET.get('next')
 
             if next:
-                next = urllib.unquote_plus(next)  # unencode
+                next = unquote_plus(next)  # unencode
                 next_relative = self.get_relative_path_with_query(next)
                 if self.path_is_valid(next_relative.path):
                     success_url = next_relative.relative

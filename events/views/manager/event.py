@@ -1,5 +1,6 @@
 import logging
-import urllib.request, urllib.parse, urllib.error
+from urllib.parse import quote_plus
+from urllib.parse import unquote_plus
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
@@ -305,7 +306,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
         form_action_next = context.get('form_action_next', None)
 
         if form_action_next:
-            next = urllib.parse.unquote_plus(form_action_next)
+            next = unquote_plus(form_action_next)
             next_relative = self.get_relative_path_with_query(next)
             try:
                 view, v_args, v_kwargs = resolve(next_relative.path)
@@ -314,7 +315,7 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             else:
                 if view.__name__ == 'EventUpdate':
                     ctx = {
-                        'form_action_next': urllib.parse.quote_plus(reverse(
+                        'form_action_next': quote_plus(reverse(
                                 'events.views.manager.dashboard-calendar-state',
                             kwargs = {
                                 'pk': self.object.calendar.pk,

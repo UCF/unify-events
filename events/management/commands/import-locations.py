@@ -1,6 +1,6 @@
 import logging
 import simplejson as json
-import urllib.request, urllib.parse, urllib.error
+from urllib import request
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -14,7 +14,7 @@ from events.models import Location
 class Command(BaseCommand):
     def handle(self, *args, **options):
         locations_feed_url = 'https://' + settings.MAPS_DOMAIN + settings.LOCATION_DATA_URL
-        data_file = urllib.request.urlopen(locations_feed_url)
+        data_file = request.urlopen(locations_feed_url)
         data = json.load(data_file)
 
         self.create_locations(data)

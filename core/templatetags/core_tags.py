@@ -4,7 +4,7 @@ from dateutil import parser
 import html2text
 import re
 from unidecode import unidecode
-import urllib.request, urllib.parse, urllib.error
+from urllib.parse import quote_plus
 
 from django import template
 from django.conf import settings
@@ -97,7 +97,7 @@ def parse_date(value):
 
 @register.filter
 def quote_plus(value):
-    return urllib.parse.quote_plus(value.encode('utf-8'))
+    return quote_plus(value.encode('utf-8'))
 
 @register.filter(name='remove_html')
 def custom_striptags(value):
