@@ -17,12 +17,9 @@ class EventsURLNode(URLNode):
     adjusts those values as necessary (i.e. for Main Calendar views.)
     """
     def render(self, context):
-        from django.urls import reverse, NoReverseMatch
+        from django.urls import NoReverseMatch, reverse
         args = [arg.resolve(context) for arg in self.args]
-        kwargs = {
-            force_text(k, 'ascii'): v.resolve(context)
-            for k, v in list(self.kwargs.items())
-        }
+        kwargs = {k: v.resolve(context) for k, v in self.kwargs.items()}
         view_name = self.view_name.resolve(context)
         try:
             current_app = context.request.current_app
@@ -87,7 +84,7 @@ def url(parser, token):
     """
     bits = token.split_contents()
     if len(bits) < 2:
-        raise TemplateSyntaxError("'%s' takes at least one argument, the name of a url()." % bits[0])
+        raise TemplateSyntaxError("'%s' takes at least one argument, a URL pattern name." % bits[0])
     viewname = parser.compile_filter(bits[1])
     args = []
     kwargs = {}
@@ -97,15 +94,14 @@ def url(parser, token):
         asvar = bits[-1]
         bits = bits[:-2]
 
-    if len(bits):
-        for bit in bits:
-            match = kwarg_re.match(bit)
-            if not match:
-                raise TemplateSyntaxError("Malformed arguments to url tag")
-            name, value = match.groups()
-            if name:
-                kwargs[name] = parser.compile_filter(value)
-            else:
-                args.append(parser.compile_filter(value))
+    for bit in bits:
+        match = kwarg_re.match(bit)
+        if not match:
+            raise TemplateSyntaxError("Malformed arguments to url tag")
+        name, value = match.groups()
+        if name:
+            kwargs[name] = parser.compile_filter(value)
+        else:
+            args.append(parser.compile_filter(value))
 
     return EventsURLNode(viewname, args, kwargs, asvar)
