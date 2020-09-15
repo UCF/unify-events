@@ -29,3 +29,4 @@ static_files/assets/components/*
 
 # Gulp
 node_modules/*
+gulp-config.json
