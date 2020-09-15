@@ -1,50 +1,69 @@
-/* Buttons */
+//
+// Buttons
+//
+
 .btn {
   // Override default .btn line-height, which is a rounded value that browsers interpret differently.
   line-height: 20px;
 }
+
 .btn.disabled {
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .125) inset;
 }
+
 .btn-mini {
   font-weight: 500;
-  letter-spacing: 0.3px;
+  letter-spacing: .3px;
 }
+
 .btn-block-xs {
   @include respond-to(xs) {
-    width: 100%;
-    margin-right: 0 !important;
     margin-bottom: 4px;
     margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
   }
 }
 
 
-/* Panels */
+//
+// Panels
+//
+
 .panel-heading .form-group.last-child,
 .panel-footer .form-group.last-child {
   margin-bottom: 0;
 }
+
 .panel-heading .form-group:last-child,
 .panel-footer .form-group:last-child {
   margin-bottom: 0;
 }
+
 .panel-default > .panel-heading {
   background-color: #f1f1f1;
 }
+
 .panel-body {
   padding: 15px 30px;
-  @include respond-to(xs) { padding: 5px 20px; }
+
+  @include respond-to(xs) {
+    padding: 5px 20px;
+  }
 }
 
 
-/* Dropdowns */
+//
+// Dropdowns
+//
+
 .dropdown {
   &.open a.btn.dropdown-toggle {
     background-image: none;
     outline: 0 none;
   }
 }
+
 .dropdown-menu {
   max-height: 270px;
   @include scrollbox();
@@ -52,23 +71,26 @@
   &.dropdown-menu-form {
     padding: 8px;
 
-    input[type="checkbox"],
-    input[type="radio"] {
+    input[type='checkbox'],
+    input[type='radio'] {
       margin-right: 4px;
     }
   }
 
   li {
     &.dropdown-header {
-      text-transform: uppercase;
-      font-weight: bold;
       font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
     }
   }
 }
 
 
-/* Modals */
+//
+// Modals
+//
+
 .modal {
   padding-top: $ucf-header-height;
 
@@ -82,23 +104,27 @@
   }
 
   &.bootstrap-wysihtml5-insert-link-modal .checkbox {
-    left: 20px; /* Prevent "open link in new window" checkbox from overflowing outside of modal */
+    left: 20px; // Prevent "open link in new window" checkbox from overflowing outside of modal
   }
 
   .modal-dialog {
     @include body-prefix(ie8) {
-      width: 600px;
       margin: 30px auto;
+      width: 600px;
     }
   }
 }
+
 .modal-header .object-type,
 .modal-footer .object-type {
   text-transform: capitalize;
 }
 
 
-/* Pagination */
+//
+// Pagination
+//
+
 .pagination {
   margin-top: 30px;
 
@@ -115,16 +141,21 @@
 }
 
 
-/* Wells */
+//
+// Wells
+//
+
 .well-empty {
   padding: 60px 30px;
 }
 
 
-/* Progress Bars */
+//
+// Progress Bars
+//
 .progress + .progress-desc {
   color: $gray-light;
   font-weight: 500;
-  margin-top: -10px;
   margin-bottom: 20px;
+  margin-top: -10px;
 }

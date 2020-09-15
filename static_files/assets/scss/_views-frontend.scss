@@ -1,11 +1,19 @@
-/* Static Pages */
+//
+// Static Pages
+//
+
 #static-base {
   margin-top: 25px;
-  @include respond-to(xs) { margin-top: 15px; }
+
+  @include respond-to(xs) {
+    margin-top: 15px;
+  }
 
   .sidebarfix {
     > * {
-      @include respond-to(xs-sm) { padding-right: 0; }
+      @include respond-to(xs-sm) {
+        padding-right: 0;
+      }
     }
 
     > hr {
@@ -20,11 +28,13 @@
         margin-right: 0;
       }
     }
+
     > .well {
       @include respond-to(xs-sm) {
         padding-right: 19px;
       }
     }
+
     > .alert {
       @include respond-to(xs-sm) {
         padding-right: 15px;
@@ -33,11 +43,12 @@
   }
 
   h2 {
+    border-bottom: 1px solid $gray-lighter;
+    margin-bottom: 10px;
+    margin-right: 10px;
     padding-bottom: 10px;
     padding-left: 0;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid $gray-lighter;
+
     @include respond-to(xs-sm) {
       margin-right: 0;
     }
@@ -58,13 +69,13 @@
   }
 
   hr {
-    margin-top: 30px;
     margin-bottom: 30px;
+    margin-top: 30px;
   }
 
   .page-sidebar strong {
-    margin-bottom: 5px;
     display: block;
+    margin-bottom: 5px;
   }
 
   .panel-title,
@@ -82,48 +93,58 @@
 }
 
 
-/* Search View */
+//
+// Search View
+//
+
 #search {
   form {
-    margin-top: 20px;
     margin-bottom: 0;
+    margin-top: 20px;
+
     @include respond-to(xs) {
-      margin-top: 10px;
       clear: both;
+      margin-top: 10px;
     }
   }
+
   .mobile-nav-tabs {
     margin-bottom: 10px;
     width: 50%;
   }
+
   .form-group {
     margin-bottom: 0;
   }
+
   .page-content {
     margin-top: 20px;
   }
 }
+
 .search-results-list {
   list-style-type: none;
   margin-top: 30px;
 
   & > li {
-    overflow: hidden;
-    margin: 20px 0;
-    padding: 0 0 12px 0; /* +8px spacing added by margin-bottom on .result-meta */
     border-bottom: 2px dotted $table-border-color;
+    margin: 20px 0;
+    overflow: hidden;
+    padding: 0 0 12px; // +8px spacing added by margin-bottom on .result-meta
   }
+
   & > li.last-child {
-    border-bottom: 0px transparent;
+    border-bottom: 0 transparent;
   }
+
   & > li:last-child {
-    border-bottom: 0px transparent;
+    border-bottom: 0 transparent;
   }
 
   .result-meta {
     font-size: 13px;
-    overflow: hidden;
     margin-bottom: 8px;
+    overflow: hidden;
   }
 
   .calendar-title {
@@ -131,24 +152,29 @@
   }
 
   .start-end {
-    margin: 2px 0 8px 0;
+    margin: 2px 0 8px;
   }
 
   time {
+    color: #000;
     font-size: 15px;
     line-height: 1em;
-    color: #000;
-    @include respond-to(xs-sm) { font-size: 16px; }
+
+    @include respond-to(xs-sm) {
+      font-size: 16px;
+    }
   }
 
   .description,
   .calendar-description {
-    display: block;
     clear: both;
+    display: block;
   }
+
   .calendar-description {
     margin-top: 5px;
   }
+
   .description {
     @include respond-to(xs) {
       @include text-overflow();
@@ -173,28 +199,32 @@
       margin-right: 6px;
 
       &:after {
-        content: ",";
+        content: ',';
       }
+
       &.last-child:after {
-        content: "";
+        content: '';
       }
+
       &:last-child:after {
-        content: "";
+        content: '';
       }
     }
   }
+
   .category-text,
   .event-calendar {
     font-weight: bold;
   }
+
   .event-tags i,
   .event-category i,
   .event-calendar i,
   .event-copy-info i,
   .event-duplicate-info i {
+    color: $gray;
     display: block;
     float: left;
-    color: $gray;
     line-height: 1.4em;
     padding-right: 3px;
 
@@ -204,33 +234,37 @@
   }
 
   .event-edit {
-    display: inline;
     color: #888;
-    margin-left: 15px;
+    display: inline;
     font-weight: bold;
+    margin-left: 15px;
     white-space: nowrap;
   }
 
   .event-copy-info,
   .event-duplicate-info {
-    font-size: 11px;
-    float: left;
     clear: both;
+    float: left;
+    font-size: 11px;
 
     i {
       display: inline-block;
       float: none;
     }
+
     a {
       font-weight: 500;
     }
+
     ul {
       display: inline;
     }
+
     li {
       display: block;
       float: left;
       margin-right: 8px;
+
       @include respond-to(xs) {
         width: 100%;
       }
@@ -239,72 +273,86 @@
     .info-text {
       display: block;
       float: left;
-      margin-right: 4px;
       font-style: italic;
+      margin-right: 4px;
+
       @include respond-to(xs) {
         width: 100%;
       }
     }
   }
+
   .event-copy-info + .event-duplicate-info {
     @include respond-to(xs) {
       margin-top: 4px;
     }
   }
 }
+
 .search-object-title {
+  display: inline;
   font-size: 21px;
   line-height: 1em;
-  display: inline;
   margin-top: 0;
 }
 
 
-/* Frontend Calendar View - Base */
+//
+// Frontend Calendar View - Base
+//
+
 #calendar-base {
   margin-top: 25px;
-  @include respond-to(xs) { margin-top: 15px; }
-}
 
-#calendar-base .page-content {
-  h2 {
-    &.heading-location,
-    &.heading-contact {
-      margin-bottom: 5px;
-    }
+  @include respond-to(xs) {
+    margin-top: 15px;
   }
 
-  .day-heading {
-    display: block;
-    font-size: 15px;
-    line-height: 1em;
-    margin-bottom: 15px;
-    margin-top: 30px;
-    color: $gray-light;
-    text-transform: uppercase;
-    @include respond-to(xs-sm) {
-      font-size: 13px;
-      margin-top: 15px;
+  .page-content {
+    h2 {
+      &.heading-location,
+      &.heading-contact {
+        margin-bottom: 5px;
+      }
+    }
+
+    .day-heading {
+      color: $gray-light;
+      display: block;
+      font-size: 15px;
+      line-height: 1em;
+      margin-bottom: 15px;
+      margin-top: 30px;
+      text-transform: uppercase;
+
+      @include respond-to(xs-sm) {
+        font-size: 13px;
+        margin-top: 15px;
+      }
     }
   }
 }
 
 ul.event-list {
-  margin-bottom: 30px;
   list-style-type: none;
+  margin-bottom: 30px;
   margin-left: 0;
-  @include respond-to(xs-sm) { margin-bottom: 15px; }
+
+  @include respond-to(xs-sm) {
+    margin-bottom: 15px;
+  }
 
   li.event {
+    border-left: 3px solid $gray-lighter;
     display: block;
-    position: relative;
+    margin: 20px 0;
     overflow: hidden;
     padding: 10px 20px;
-    margin: 20px 0;
-    border-left: 3px solid $gray-lighter;
+    position: relative;
+
     @include respond-to(xs-sm) {
-      padding: 10px 15px;
       margin: 10px 0;
+      padding: 10px 15px;
     }
 
     &:first-child {
@@ -312,19 +360,23 @@ ul.event-list {
     }
 
     .event-title {
+      font-weight: 400;
       line-height: 1em;
       margin-top: 0;
-      font-weight: 400;
+
       @include respond-to(xs-sm) {
         font-size: 18px;
         margin-bottom: 8px;
       }
 
       i {
+        color: $brand-primary;
         font-size: 16px;
         vertical-align: top;
-        color: $brand-primary;
-        @include respond-to(xs-sm) { font-size: 14px; }
+
+        @include respond-to(xs-sm) {
+          font-size: 14px;
+        }
       }
     }
 
@@ -334,17 +386,23 @@ ul.event-list {
     }
 
     time {
-      font-size: 20px;
-      line-height: 1em;
-      font-weight: bold;
-      margin-top: 0;
       color: #000;
-      @include respond-to(xs-sm) { font-size: 16px; }
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1em;
+      margin-top: 0;
+
+      @include respond-to(xs-sm) {
+        font-size: 16px;
+      }
 
       &.dtend {
         font-size: 14px;
         margin-top: 5px;
-        @include respond-to(xs-sm) { font-size: 12px; }
+
+        @include respond-to(xs-sm) {
+          font-size: 12px;
+        }
       }
     }
 
@@ -352,6 +410,7 @@ ul.event-list {
       font-size: 16px;
       line-height: 1em;
       margin: 12px 0;
+
       @include respond-to(xs-sm) {
         font-size: 14px;
         margin: 8px 0;
@@ -359,8 +418,9 @@ ul.event-list {
     }
 
     .description {
-      margin-bottom: 0;
       font-size: 13px;
+      margin-bottom: 0;
+
       @include respond-to(xs-sm) {
         font-size: 12px;
         @include text-overflow();
@@ -368,15 +428,16 @@ ul.event-list {
     }
 
     .calendar {
-      display: block;
-      margin-top: 15px;
-      font-size: 12px;
-      text-transform: uppercase;
-      font-weight: bold;
       color: $gray-light;
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 15px;
+      text-transform: uppercase;
+
       @include respond-to(xs-sm) {
-        margin-top: 12px;
         font-size: 11px;
+        margin-top: 12px;
       }
 
       i {
@@ -385,12 +446,13 @@ ul.event-list {
     }
 
     > a {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
       bottom: 0;
+      display: block;
       left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+
       @include body-prefix(ie8) {
         background: transparent url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
         background-repeat: no-repeat;
@@ -400,10 +462,12 @@ ul.event-list {
     &:hover {
       background-color: $gray-lighter;
     }
+
     &:hover .event-title a,
     &:hover .event-title i {
       color: $link-hover-color;
     }
+
     &:hover .event-title a {
       text-decoration: underline;
     }
@@ -416,13 +480,13 @@ ul.event-list {
 
 ul.event-list-condensed {
   list-style-type: none;
-  width: 100%;
   margin-top: 5px;
+  width: 100%;
 
   li {
-    width: 114px;
     font-size: 11px;
     line-height: 23px;
+    width: 114px;
     @include text-overflow();
 
     time {
@@ -432,17 +496,22 @@ ul.event-list-condensed {
 }
 
 
-/* Frontend Calendar View - Day, Week, Upcoming */
+//
+// Frontend Calendar View - Day, Week, Upcoming
+//
+
 #calendar-events-day,
 #calendar-events-week,
 #calendar-events-upcoming {
   h2 {
     margin-bottom: 20px;
   }
+
   .event-list .calendar {
     display: none;
   }
 }
+
 #calendar-events-day,
 #calendar-events-week {
   .event-list {
@@ -454,29 +523,35 @@ ul.event-list-condensed {
 }
 
 
-/* Frontend Calendar View - Month */
+//
+// Frontend Calendar View - Month
+//
+
 #calendar-events-month {
   &.page-content h2 {
     text-align: center;
+
     @include respond-to(xs) {
-      margin-bottom: 0;
       display: block;
+      margin-bottom: 0;
     }
   }
+
   .calendar-large h2 {
     display: none;
   }
 }
 
 #month-toggle {
-  margin: 15px 0 0 0;
-  width: 280px;
+  left: 0;
+  margin: 15px 0 0;
   position: relative;
   top: 0;
-  left: 0;
+  width: 280px;
+
   @include respond-to(xs) {
-    width: 100%;
     overflow: hidden;
+    width: 100%;
   }
 
   select {
@@ -488,72 +563,90 @@ ul.event-list-condensed {
       width: 125px;
     }
 
-    @include respond-to(xs) { margin-right: 4px; }
+    @include respond-to(xs) {
+      margin-right: 4px;
+    }
   }
 
   select,
   button {
-    @include respond-to(xs) { float: left; }
+    @include respond-to(xs) {
+      float: left;
+    }
   }
 }
 
 
-/* Frontend Calendar View - Year */
+//
+// Frontend Calendar View - Year
+//
+
 #calendar-events-year h2 {
   text-align: center;
 }
 
 
-/* Frontend Events - by Category, Tag */
+//
+// Frontend Events - by Category, Tag
+//
+
 #term-events ul.event-list li.event .calendar {
   display: none;
 }
 
 
-/* Frontend Single Event View */
+//
+// Frontend Single Event View
+//
 
 // Title/Subtitle
 #page-subtitle-event-date {
   font-size: 24px;
   line-height: 1.4em;
+
   @include respond-to(xs) {
     font-size: 18px;
     line-height: 1em;
   }
 
   .event-single-date {
-    font-weight: bold;
     color: #9e0b0f;
+    font-weight: bold;
     padding-right: 8px;
+
     @include respond-to(xs) {
       display: block;
-      margin-top: 15px;
       margin-bottom: 5px;
+      margin-top: 15px;
     }
   }
 
   .event-single-time {
     @include respond-to(xs) {
-      margin-top: 5px;
       line-height: 1em;
+      margin-top: 5px;
     }
   }
 }
-
 
 // Body
 #event-single,
 #event-single-sidebar {
   margin-top: 25px;
-  @include respond-to(xs) { margin-top: 20px; }
+
+  @include respond-to(xs) {
+    margin-top: 20px;
+  }
 }
+
 #event-single {
   .event-content {
     font-size: 15px;
     line-height: 1.5em;
     margin-bottom: 35px;
-    word-wrap: break-word;
     overflow: hidden;
+    word-wrap: break-word;
+
     @include respond-to(xs) {
       font-size: 14px;
     }
@@ -571,22 +664,24 @@ ul.event-list-condensed {
   .event-single-schedule-header {
     color: $gray-light;
     margin-bottom: 20px;
+
     @include respond-to(xs) {
-      margin-top: 15px;
       margin-bottom: 15px;
+      margin-top: 15px;
     }
   }
 
   .event-single-schedule {
-    max-height: 285px;
+    border: 1px solid $table-border-color;
     margin-bottom: 30px;
     margin-right: 10px;
+    max-height: 285px;
     padding-right: 0;
-    border: 1px solid $table-border-color;
     @include scrollbox();
+
     @include respond-to(xs) {
-      max-height: 190px;
       margin-right: 0;
+      max-height: 190px;
     }
 
     .table {
@@ -596,47 +691,45 @@ ul.event-list-condensed {
 }
 
 .map-widget-wrap {
-  position: relative;
+  background-color: $gray-light;
   height: 300px;
   margin-bottom: 20px;
-  background-color: $gray-light;
+  position: relative;
+
   @include respond-to(xs) {
     height: 200px;
-    margin-top: 10px;
     margin-bottom: 10px;
+    margin-top: 10px;
   }
 
   &:after {
-    content: $fa-var-spinner;
-    font-size: 28px;
+    // Animations from font-awesome _spinning.scss
+    // Font declarations stolen from font-awesome _core.scss
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    animation: spin 2s infinite linear;
     color: #fff;
-    /* Font declarations stolen from font-awesome _core.scss */
+    content: $fa-var-spinner;
     display: block;
-    position: absolute;
-    z-index: 1;
-    top: 47%;
-    left: 48.5%;
     font-family: FontAwesome;
+    font-size: 28px;
     font-style: normal;
     font-weight: normal;
+    left: 48.5%;
     line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Animations from font-awesome _spinning.scss */
-    -webkit-animation: spin 2s infinite linear;
-    -moz-animation: spin 2s infinite linear;
-    -o-animation: spin 2s infinite linear;
-    animation: spin 2s infinite linear;
+    position: absolute;
+    top: 47%;
+    z-index: 1;
   }
 }
+
 .map-widget {
   border: 0;
-  width: 100% !important;
   height: 100% !important;
   position: relative;
+  width: 100% !important;
   z-index: 2;
 }
-
 
 // Sidebar
 #event-single-sidebar {
@@ -653,42 +746,51 @@ ul.event-list-condensed {
 
 .event-location .location-title {
   margin-top: 0;
-  @include respond-to(xs) { font-size: 18px; }
+
+  @include respond-to(xs) {
+    font-size: 18px;
+  }
 }
 
 .event-location-url {
   display: block;
   margin-top: 10px;
-  @include respond-to(xs) { margin-bottom: 10px; }
+
+  @include respond-to(xs) {
+    margin-bottom: 10px;
+  }
 }
 
 .event-location-note {
   margin-top: 15px;
+
   @include respond-to(xs) {
-    margin-top: 0;
     margin-bottom: 30px;
+    margin-top: 0;
   }
 }
 
 .event-contact-info {
-  @include respond-to(xs) { margin-bottom: 20px; }
+  @include respond-to(xs) {
+    margin-bottom: 20px;
+  }
 }
+
 .event-contact-email,
 .event-contact-phone {
   display: block;
-  position: relative;
-  padding: 5px 0 0 0;
   margin: 0;
+  padding: 5px 0 0;
+  position: relative;
   @include text-overflow();
 
   &:before {
-    content: "•";
+    content: '•';
     display: block;
     float: left;
     padding-right: 6px;
   }
 }
-
 
 // Event Meta (On Calendar, Category, Tag)
 #event-meta {
@@ -710,7 +812,10 @@ ul.event-list-condensed {
 .event-meta-tags {
   font-size: 17.5px;
   font-weight: bold;
-  @include respond-to(xs) { margin-bottom: 15px; }
+
+  @include respond-to(xs) {
+    margin-bottom: 15px;
+  }
 }
 
 .event-meta-tags {
@@ -718,7 +823,10 @@ ul.event-list-condensed {
 }
 
 
-/* Canceled Event overrides */
+//
+// Canceled Event overrides
+//
+
 .canceled {
   time,
   #page-subtitle-event-date,

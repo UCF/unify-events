@@ -1,11 +1,15 @@
 
-/* Header */
+//
+// Header
+//
+
 header {
+  margin-bottom: -20px; // Pull up #page-title-wrap
   padding-top: 15px;
-  margin-bottom: -20px; /* Pull up #page-title-wrap */
+
   @include respond-to(xs) {
+    margin-bottom: -15px; // Add more space btwn .header-title and #page-title-wrap
     padding-top: 5px;
-    margin-bottom: -15px; /* Add more space btwn .header-title and #page-title-wrap */
   }
 
   a,
@@ -15,16 +19,18 @@ header {
 
   .header-title {
     font-weight: 500;
-    margin: 10px 0 0 0;
+    margin: 10px 0 0;
   }
 }
+
 .header-actions {
-  text-align: right;
   padding-top: 10px;
+  text-align: right;
+
   @include respond-to(xs) {
-    text-align: left;
-    padding-top: 5px;
     margin-bottom: 5px;
+    padding-top: 5px;
+    text-align: left;
   }
 
   a,
@@ -35,21 +41,24 @@ header {
 
   .login {
     @include respond-to(xs) {
-      /* Align login link with site/page title */
+      // Align login link with site/page title
       float: right;
+      margin-bottom: -26px;
       position: relative;
       top: -26px;
-      margin-bottom: -26px;
     }
   }
 }
 
 
-/* Main Navigation (subheader) */
+//
+// Main Navigation (subheader)
+//
+
 .nav-wrap {
   background-color: #f1f1f1;
   border-bottom: 1px solid #c7c7c7;
-  box-shadow: 0 4px 3px -3px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 3px -3px rgba(0, 0, 0, .15);
 
   &.affix {
     top: 0;
@@ -72,25 +81,29 @@ header {
     }
 
     .nav-divider {
-      width: 3px;
+      background-color: #e1e1e1;
       height: 38px;
       margin: 6px 12px;
-      background-color: #e1e1e1;
+      width: 3px;
     }
 
     .navbar-title {
       font-weight: bold;
+
       @include respond-to(xs-sm) {
         display: none;
 
         & + .nav-divider {
-          /* Hide the divider at >768px, but don't remove entirely so that vertical alignment of .user is maintained */
+          // Hide the divider at >768px, but don't remove
+          // entirely so that vertical alignment of .user
+          // is maintained
+          background-color: transparent;
           margin-left: 0;
           margin-right: 0;
           width: 0;
-          background-color: transparent;
         }
       }
+
       @include body-prefix(ie8) {
         width: 135px;
       }
@@ -112,10 +125,11 @@ header {
       }
 
       &.nav-divider {
-        padding-left: 0;
         margin-right: 0;
+        padding-left: 0;
       }
     }
+
     > li > a {
       &:hover,
       &:focus,
@@ -130,7 +144,10 @@ header {
       > i {
         color: $brand-primary;
         font-size: 16px;
-        @include respond-to(xs) { margin-right: 0; }
+
+        @include respond-to(xs) {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -142,16 +159,19 @@ header {
         @include text-hide();
       }
     }
-    .action-text{
+
+    .action-text {
       max-width: 180px;
       @include text-overflow();
+
       @include respond-to(sm) {
         max-width: 125px;
       }
     }
+
     > i {
       @include respond-to(xs) {
-        margin-right: -4px; /* push caret closer to icon */
+        margin-right: -4px; // push caret closer to icon
       }
     }
   }
@@ -178,9 +198,12 @@ header {
       color: #fff;
       font-size: 14px;
       line-height: 1.8em;
-      padding-top: 3px;
       padding-bottom: 3px;
-      @include respond-to(xs) { padding-right: 6px; }
+      padding-top: 3px;
+
+      @include respond-to(xs) {
+        padding-right: 6px;
+      }
 
       > i {
         color: #fff;
@@ -196,25 +219,33 @@ header {
 }
 
 
-/* Alert Messages */
+//
+// Alert Messages
+//
+
 #messages {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
 }
+
 #calendar-base #messages {
   margin: 15px 0;
 }
 
 
-/* Page Title */
+//
+// Page Title
+//
+
 #page-title-wrap {
   position: relative;
 
   h1 {
-    margin-top: 0;
     margin-bottom: 10px;
+    margin-top: 0;
+
     @include respond-to(xs) {
-      margin-top: 5px;
       margin-bottom: 0;
+      margin-top: 5px;
     }
 
     a {
@@ -223,13 +254,17 @@ header {
   }
 
   .edit-options {
-    margin-top: 2px;
     margin-bottom: 0;
-    @include respond-to(xs) { margin-top: 8px; }
+    margin-top: 2px;
+
+    @include respond-to(xs) {
+      margin-top: 8px;
+    }
 
     > ul {
-      list-style-type: none;
       float: right;
+      list-style-type: none;
+
       @include respond-to(xs) {
         float: left;
         margin-bottom: 4px;
@@ -238,6 +273,7 @@ header {
       > li {
         float: left;
         margin-right: 15px;
+
         @include body-prefix(ie8) {
           margin-right: 8px;
         }
@@ -245,13 +281,14 @@ header {
         &.last-child {
           margin-right: 0 !important;
         }
+
         &:last-child {
           margin-right: 0;
         }
 
         > a {
-          font-weight: bold;
           color: #888;
+          font-weight: bold;
 
           > .caret {
             border-top: 4px solid #888;
@@ -263,59 +300,75 @@ header {
 }
 
 
-/* Page Subtitle */
+//
+// Page Subtitle
+//
+
 .page-subtitle {
   color: $gray-light;
-  margin-top: 0;
   margin-bottom: 5px;
+  margin-top: 0;
   position: relative;
   top: -5px;
-  @include respond-to(xs) { display: none; }
+
+  @include respond-to(xs) {
+    display: none;
+  }
 }
 
 .subtitle-backlink-wrap {
-  margin-top: -5px;
   margin-bottom: 25px;
+  margin-top: -5px;
 
   .subtitle-backlink {
-    font-weight: bold;
     color: $gray-light;
+    font-weight: bold;
   }
 }
 
 
-/* Page Navigation */
+//
+// Page Navigation
+//
+
 .nav.nav-tabs {
-  margin-top: 10px;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
+
 .mobile-nav-tabs {
   @include respond-to(xs) {
-    width: 35%;
     float: left;
+    width: 35%;
   }
 
   .btn {
     width: 100%;
   }
 }
+
 .secondary-nav-action {
   float: right;
+  margin-bottom: -33px; // Push .page-content back up
   position: relative;
   top: -33px;
-  margin-bottom: -33px; /* Push .page-content back up */
 
   &.searchbar {
-    width: 294px;
     top: -45px;
-    @include respond-to(sm) { width: 200px; }
+    width: 294px;
+
+    @include respond-to(sm) {
+      width: 200px;
+    }
+
     @include respond-to(xs) {
-      top: 0;
       margin-bottom: 0;
+      top: 0;
       width: 60%;
     }
   }
 }
+
 .secondary-nav-action,
 .mobile-nav-tabs {
   @include respond-to(xs) {
@@ -324,12 +377,18 @@ header {
 }
 
 
-/* Page Content - General */
+//
+// Page Content - General
+//
+
 .page-content {
   &.sidebarfix {
-    > * {/* This does dumb things to tables. Wrap tables in a div to accomodate */
+    > * { // This does dumb things to tables. Wrap tables in a div to accomodate
       padding-right: 10px;
-      @include respond-to(xs) { padding-right: 0; }
+
+      @include respond-to(xs) {
+        padding-right: 0;
+      }
     }
 
     > .modal {
@@ -337,8 +396,9 @@ header {
     }
 
     > hr {
-      padding-right: 0;
       margin-right: 10px;
+      padding-right: 0;
+
       @include respond-to(xs) {
         margin-right: 0;
       }
@@ -346,8 +406,9 @@ header {
 
     > .well,
     > .alert {
-      padding-right: 20px;
       margin-right: 10px;
+      padding-right: 20px;
+
       @include respond-to(xs) {
         margin-right: 0;
       }
@@ -358,8 +419,9 @@ header {
     }
 
     > .map-widget-wrap {
-      padding-right: 0;
       margin-right: 10px;
+      padding-right: 0;
+
       @include respond-to(xs) {
         margin-right: 0;
       }
@@ -371,17 +433,20 @@ header {
     margin-top: 20px;
   }
 }
+
 .page-content .page-top-action,
 .panel-page {
-  margin: 20px 0 0 0;
+  margin: 20px 0 0;
 
   .step-heading {
     margin-top: 30px;
   }
 }
+
 .page-top-action + .well-empty {
   margin-top: 20px;
 }
+
 .page-content-no-heading > *:first-child {
   @include respond-to(xs) {
     margin-top: 10px;
@@ -389,7 +454,10 @@ header {
 }
 
 
-/* Sidebar */
+//
+// Sidebar
+//
+
 .page-sidebar {
   .affix {
     top: 70px;
@@ -397,74 +465,110 @@ header {
     &,
     &.affix-bottom {
       @include respond-to(xs-sm) {
-        margin-top: 60px;
         margin-bottom: 30px;
+        margin-top: 60px;
         position: static !important;
       }
     }
   }
+
   h3 {
     clear: both;
   }
 }
 
 .social {
-  overflow: hidden;
   margin-bottom: 20px;
+  overflow: hidden;
 
   a {
     background-repeat: no-repeat;
-    text-indent: 200%;
-    white-space: nowrap;
-    overflow: hidden;
     display: block;
     float: left;
-    margin-right: 4px;
-    width: 70px;
     height: 31px;
+    margin-right: 4px;
+    overflow: hidden;
+    text-indent: 200%;
+    white-space: nowrap;
+    width: 70px;
     @include img-retina('../../static/img/social-share.png', '../../static/img/social-share-r.png', 212px, 62px);
-    @include respond-to(sm) { margin-right: 3px; }
 
-    &.share-twitter { background-position: -71px 0; }
-    &.share-twitter:hover { background-position: -71px -31px; }
-    &.share-facebook { background-position: 0 0; }
-    &.share-facebook:hover { background-position: 0 -31px; }
-    &.share-googleplus { background-position: -142px 0; }
-    &.share-googleplus:hover { background-position: -142px -31px; }
+    @include respond-to(sm) {
+      margin-right: 3px;
+    }
+
+    &.share-twitter {
+      background-position: -71px 0;
+
+      &:hover {
+        background-position: -71px -31px;
+      }
+    }
+
+    &.share-facebook {
+      background-position: 0 0;
+
+      &:hover {
+        background-position: 0 -31px;
+      }
+    }
+
+    &.share-googleplus {
+      background-position: -142px 0;
+
+      &:hover {
+        background-position: -142px -31px;
+      }
+    }
   }
 }
 
 .feeds-list {
   float: left;
+  margin-bottom: 20px;
   margin-left: 10px;
   margin-top: 3px;
-  margin-bottom: 20px;
+
   @include respond-to(sm) {
     margin-left: 0;
     margin-top: 0;
   }
 
   a {
+    background-repeat: no-repeat;
+    border-radius: 20px;
     display: inline-block;
+    height: 33px;
+    overflow: hidden;
+    padding: 0 17px;
     text-indent: 50px;
     white-space: nowrap;
-    overflow: hidden;
     width: 10px;
-    height: 33px;
-    background-repeat: no-repeat;
-    padding: 0 17px;
-    border-radius: 20px;
     @include img-retina('../../static/img/feeds.png', '../../static/img/feeds-r.png', 21px, 150px);
 
     &:hover {
       background-color: $gray-lighter;
     }
 
-    &.ical { background-position: 7px -25px; }
-    &.outlook { background-position: 7px -60px; }
-    &.rss { background-position: 6px 5px; }
-    &.xml { background-position: 6px -121px; }
-    &.json { background-position: 6px -93px; }
+    &.ical {
+      background-position: 7px -25px;
+    }
+
+    &.outlook {
+      background-position: 7px -60px;
+    }
+
+    &.rss {
+      background-position: 6px 5px;
+    }
+
+    &.xml {
+      background-position: 6px -121px;
+    }
+
+    &.json {
+      background-position: 6px -93px;
+    }
   }
 }
 
@@ -476,18 +580,27 @@ header {
     margin: 5px 0;
 
     a {
-      font-weight: 500;
       font-size: 18px;
-      @include respond-to(sm) { font-size: 16px; }
+      font-weight: 500;
+
+      @include respond-to(sm) {
+        font-size: 16px;
+      }
     }
   }
 }
 
 
-/* Footer */
+//
+// Footer
+//
+
 footer {
   margin: 40px 0;
-  @include respond-to(xs) { margin: 0 0 20px 0; }
+
+  @include respond-to(xs) {
+    margin: 0 0 20px;
+  }
 
   ul {
     list-style-type: none;
@@ -496,8 +609,8 @@ footer {
     li {
       display: block;
       float: left;
-      width: 100%;
       margin-bottom: 10px;
+      width: 100%;
     }
   }
 
