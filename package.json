@@ -7,7 +7,7 @@
     "font-awesome-4": "github:FortAwesome/Font-Awesome#v4.7.0",
     "jquery-placeholder": "^2.3.1",
     "timepicker": "^1.13.14",
-    "tinymce": "^5.4.2"
+    "tinymce": "<5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -31,5 +31,9 @@
     "gulp-sass-lint": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "merge": "^1.2.1"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie 11"
+  ]
 }
