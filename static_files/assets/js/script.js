@@ -17,11 +17,14 @@
 
 /**
  * Assign browser-specific body classes on page load
+ *
+ * @returns {void}
  **/
 const addBodyClasses = function () {
   let bodyClass = '';
-  // Old IE:
-  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) { // test for MSIE x.x;
+
+  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+    // test for MSIE x.x;
     const ieversion = Number(RegExp.$1); // capture x.x portion and store as a number
     if (ieversion >= 10) {
       bodyClass = 'ie ie10';
@@ -32,21 +35,18 @@ const addBodyClasses = function () {
     } else if (ieversion >= 7) {
       bodyClass = 'ie ie7';
     }
-  }
-  // IE11+:
-  else if (navigator.appName === 'Netscape' && Boolean(navigator.userAgent.match(/Trident\/7.0/))) {
+  } else if (navigator.appName === 'Netscape' && Boolean(navigator.userAgent.match(/Trident\/7.0/))) {
+    // IE11+:
     bodyClass = 'ie ie11';
-  }
-  // iOS:
-  else if (navigator.userAgent.match(/iPhone/i)) {
+  } else if (navigator.userAgent.match(/iPhone/i)) {
+    // iOS:
     bodyClass = 'iphone';
   } else if (navigator.userAgent.match(/iPad/i)) {
     bodyClass = 'ipad';
   } else if (navigator.userAgent.match(/iPod/i)) {
     bodyClass = 'ipod';
-  }
-  // Android:
-  else if (navigator.userAgent.match(/Android/i)) {
+  } else if (navigator.userAgent.match(/Android/i)) {
+    // Android:
     bodyClass = 'android';
   }
 
@@ -55,7 +55,10 @@ const addBodyClasses = function () {
 
 
 /**
- * Add classes to elements in IE8 that require non-supported CSS selectors for styling
+ * Add classes to elements in IE8 that require non-supported
+ * CSS selectors for styling
+ *
+ * @return {void}
  **/
 const ie8StyleClasses = function () {
   const addClassBySelector = function (selector, classToAdd) {
@@ -77,7 +80,10 @@ const ie8StyleClasses = function () {
 
 
 /**
- * Attempt to remove scrollbars on dropdown menus if they don't scroll vertically
+ * Attempt to remove scrollbars on dropdown menus if
+ * they don't scroll vertically
+ *
+ * @return {void}
  **/
 const hideDropdownScrollbars = function () {
   $('.dropdown').each(function () {
@@ -94,9 +100,14 @@ const hideDropdownScrollbars = function () {
 
 
 /**
- * Replace browser's default hover effect for <abbr> elements with Bootstrap tooltips,
- * due to wide browser inconsistency on how the hover state works.
- * Also activate tooltips on any other element that uses Bootstrap's default usage.
+ * Replace browser's default hover effect for <abbr> elements
+ * with Bootstrap tooltips, due to wide browser inconsistency on
+ * how the hover state works.
+ *
+ * Also activate tooltips on any other element that uses
+ * Bootstrap's default usage.
+ *
+ * @return {void}
  **/
 const activateTooltips = function () {
   $('abbr, [data-toggle="tooltip"]').each(function () {
@@ -107,14 +118,16 @@ const activateTooltips = function () {
 
 /**
  * Jump to an anchor on the page with smooth scrolling and highlight it
+ *
+ * @return {void}
  **/
 const jumpTo = function () {
   $('.jump-to').on('click', function () {
-    let id = $(this).attr('href'),
-      elem = $(id),
-      useGlow = $(this).hasClass('jump-to-glow'),
-      adminBar = $('.nav-wrap'),
-      pageTopPadding = 20; // some default padding btwn top of pg and content
+    const id = $(this).attr('href');
+    const elem = $(id);
+    const useGlow = $(this).hasClass('jump-to-glow');
+    const adminBar = $('.nav-wrap');
+    let pageTopPadding = 20; // some default padding btwn top of pg and content
 
     if (adminBar.length) {
       pageTopPadding += adminBar.height();
@@ -146,14 +159,16 @@ const jumpTo = function () {
  *
  * Populates modal contents with the static form specified
  * in the toggle link's 'href' attribute.
+ *
+ * @return {void}
  **/
 const toggleModalModifyObject = function () {
   $('.object-modify').on('click', function (e) {
     e.preventDefault();
 
-    const $modifyBtn = $(this),
-      staticPgUrl = $modifyBtn.attr('href'),
-      $modal = $('#object-modify-modal');
+    const $modifyBtn  = $(this);
+    const staticPgUrl = $modifyBtn.attr('href');
+    const $modal      = $('#object-modify-modal');
 
     if ($modal) {
       $.ajax({
@@ -165,12 +180,12 @@ const toggleModalModifyObject = function () {
           const $markup = $('<div />');
           $markup.html(html);
 
-          let $form = $markup.find('.object-modify-form'),
-            modalTitle = '',
-            modalBody = '',
-            modalFooter = '',
-            formAction = staticPgUrl,
-            formId = '';
+          const $form = $markup.find('.object-modify-form');
+          let modalTitle = '';
+          let modalBody = '';
+          let modalFooter = '';
+          let formAction = staticPgUrl;
+          let formId = '';
 
           // Grab data from the requested page. Check it to make sure it's not
           // an error message or something we don't want
@@ -216,6 +231,8 @@ const toggleModalModifyObject = function () {
 
 /**
  * Calendar grid sliders
+ *
+ * @return {void}
  **/
 const calendarSliders = function () {
   $('body').on('click', '.calendar-slider ul.pager li a', function (e) {
@@ -231,6 +248,8 @@ const calendarSliders = function () {
 
 /**
  * Add support for forms within Bootstrap .dropdown-menus.
+ *
+ * @return {void}
  **/
 const dropdownMenuForms = function () {
   $('.dropdown-menu').on('click', function (e) {
@@ -244,6 +263,8 @@ const dropdownMenuForms = function () {
 /**
  * Add ability to make an entire table row a clickable link out,
  * based on a provided link in the row.
+ *
+ * @return {void}
  **/
 const clickableTableRows = function () {
   $('.table-clickable tr')
@@ -261,6 +282,8 @@ const clickableTableRows = function () {
 
 /**
  * Functionality for content expanders (i.e. event descriptions)
+ *
+ * @return {void}
  **/
 const contentExpanders = function () {
   $('.content-expander').each(function () {
@@ -281,7 +304,10 @@ const contentExpanders = function () {
 
 
 /**
- * Remove .dropdown-menu-right class from .edit-options list items @ mobile size
+ * Remove .dropdown-menu-right class from
+ * .edit-options list items @ mobile size
+ *
+ * @return {void}
  **/
 const mobileEditOptions = function () {
   const removeClass = function () {
@@ -304,17 +330,19 @@ const mobileEditOptions = function () {
  * category: the interaction category; for social interactions, this is the 'socialNetwork' value
  * action: the name of the object and the action taken, e.g. 'Contact Email click' or 'like' for social ('socialAction' value)
  * label: the page the user is leaving; for social, this is the 'socialTarget' value
+ *
+ * @return {void}
  **/
 const gaEventTracking = function () {
   $('.ga-event').on('click', function (e) {
     e.preventDefault();
 
-    const link = $(this),
-      url = link.attr('href'),
-      interaction = link.attr('data-ga-interaction') ? link.attr('data-ga-interaction') : 'event',
-      category = link.attr('data-ga-category') ? link.attr('data-ga-category') : 'Outbound Links',
-      action = link.attr('data-ga-action'),
-      label = link.attr('data-ga-label');
+    const link = $(this);
+    const url = link.attr('href');
+    const interaction = link.attr('data-ga-interaction') ? link.attr('data-ga-interaction') : 'event';
+    const category = link.attr('data-ga-category') ? link.attr('data-ga-category') : 'Outbound Links';
+    const action = link.attr('data-ga-action');
+    const label = link.attr('data-ga-label');
 
     if (typeof ga !== 'undefined' && action !== null && label !== null) {
       ga('send', interaction, category, action, label);
@@ -328,7 +356,7 @@ const gaEventTracking = function () {
 };
 
 
-$(document).ready(() => {
+$(document).on('ready', () => {
   $('input, textarea').placeholder();
 
   addBodyClasses();

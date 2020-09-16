@@ -1,4 +1,4 @@
-/* global eventLocations, eventTags, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE */
+/* global eventLocations, eventTags, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE */
 
 //
 // Import third-party assets
@@ -18,6 +18,8 @@
 
 /**
  * Bulk Select for lists of events
+ *
+ * @return {void}
  **/
 const bulkSelectAll = function () {
   $('#bulk-select-all').click(function () {
@@ -30,16 +32,18 @@ const bulkSelectAll = function () {
 
 /**
  * Bulk action submit.
+ *
+ * @return {void}
  **/
 const bulkActionSubmit = function () {
   const bulkActionSelects = $('#bulk-action_0, #bulk-action_1');
   bulkActionSelects.removeAttr('onchange');
   $('#bulk-action_0, #bulk-action_1').change(function () {
-    let bulkForm = this.form,
-      actionInput = $(this),
-      actionInputValue = actionInput.find('option:selected'),
-      eventsSelected = $('input:checkbox:checked[name="object_ids"]'),
-      recurringEvents = false;
+    const bulkForm = this.form;
+    const actionInput = $(this);
+    const actionInputValue = actionInput.find('option:selected');
+    const eventsSelected = $('input:checkbox:checked[name="object_ids"]');
+    let recurringEvents = false;
 
     if (!actionInputValue.attr('value') || actionInputValue.attr('value') === 'empty' || !eventsSelected.length) {
       // Don't do anything if there isn't a value
@@ -48,7 +52,7 @@ const bulkActionSubmit = function () {
       eventsSelected.each(function () {
         const checkbox = $(this);
 
-        if (parseInt(checkbox.attr('data-event-instance-count')) > 1) {
+        if (parseInt(checkbox.attr('data-event-instance-count'), 10) > 1) {
           recurringEvents = true;
           return false;
         }
@@ -71,8 +75,10 @@ const bulkActionSubmit = function () {
 
 
 /**
-* Toggle recurrences in Dashboard event list
-**/
+ * Toggle recurrences in Dashboard event list
+ *
+ * @return {void}
+ **/
 const toggleEventListRecurrences = function () {
   $('.recurrences-toggle').click(function (e) {
     e.preventDefault();
@@ -83,6 +89,8 @@ const toggleEventListRecurrences = function () {
 
 /**
  * Toggle 'Merge Tag/Category' modal
+ *
+ * @return {void}
  **/
 const toggleModalMergeObject = function () {
   const modal = $('#object-merge-modal');
@@ -90,9 +98,9 @@ const toggleModalMergeObject = function () {
   $('.category-merge, .tag-merge, .location-merge').click(function (e) {
     e.preventDefault();
 
-    const objectTitle = $(this).attr('data-object-title'),
-      objectPk    = $(this).attr('data-object-pk'),
-      mergeURL    = $(this).attr('href');
+    const objectTitle = $(this).attr('data-object-title');
+    const objectPk    = $(this).attr('data-object-pk');
+    const mergeURL    = $(this).attr('href');
 
     let objectType = '';
     if ($(this).hasClass('category-merge')) {
@@ -129,8 +137,8 @@ const toggleModalMergeObject = function () {
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
   submitBtn.click(() => {
-    let newObject = $('#new-object-select').val(),
-      url = submitBtn.attr('href');
+    const newObject = $('#new-object-select').val();
+    let url = submitBtn.attr('href');
     if (newObject !== '') {
       url = url.replace(/merge\/[A-Za-z0-9]+$/, `merge/${newObject}`);
       submitBtn.attr('href', url);
@@ -142,14 +150,16 @@ const toggleModalMergeObject = function () {
 /**
  * Update Calendar Ownership Reassignment url value in modal;
  * enable/disable submit button
+ *
+ * @return {void}
  **/
 const calendarOwnershipModal = function () {
   if ($('#calendar-reassign-ownership')) {
     const modal = $('#calendar-reassign-ownership');
     const submitBtn = modal.find('.modal-footer a.btn:first-child');
     submitBtn.click(() => {
-      let newOwner = $('#new-owner-select').val(),
-        url = submitBtn.attr('href');
+      const newOwner = $('#new-owner-select').val();
+      let url = submitBtn.attr('href');
       if (newOwner !== '') {
         url = url.replace(/user\/[A-Za-z0-9]+$/, `user/${newOwner}`);
         submitBtn.attr('href', url);
@@ -161,6 +171,8 @@ const calendarOwnershipModal = function () {
 
 /**
  * Toggle Calendar user 'demote' modal
+ *
+ * @return {void}
  **/
 const toggleModalUserDemote = function () {
   const modal = $('#user-demote-modal');
@@ -168,8 +180,8 @@ const toggleModalUserDemote = function () {
   $('.demote-self').click(function (e) {
     e.preventDefault();
 
-    const userName  = $(this).attr('data-user-name'),
-      demoteURL = $(this).attr('href');
+    const userName  = $(this).attr('data-user-name');
+    const demoteURL = $(this).attr('href');
 
     /* Insert user name in modal text */
     modal
@@ -184,8 +196,8 @@ const toggleModalUserDemote = function () {
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
   submitBtn.click(() => {
-    let newObject = $('#new-object-select').val(),
-      url = submitBtn.attr('href');
+    const newObject = $('#new-object-select').val();
+    let url = submitBtn.attr('href');
     if (newObject !== '') {
       url = url.replace(/merge\/[A-Za-z0-9]+$/, `merge/${newObject}`);
       submitBtn.attr('href', url);
@@ -195,8 +207,11 @@ const toggleModalUserDemote = function () {
 
 
 /**
- * Date/Timepicker Init.
- * Use Bootstrap datepicker/jQuery timepicker plugins.
+ * Defines an onclick event when icons within date/timepickers
+ * are clicked.
+ *
+ * @param {jQuery} icon an icon element.
+ * @return {void}
  **/
 const fallbackDtpOnClick = function (icon) {
   const input = icon.siblings('input');
@@ -204,6 +219,15 @@ const fallbackDtpOnClick = function (icon) {
     input.focus();
   }
 };
+
+
+/**
+ * Datepicker Init.
+ * Uses Bootstrap datepicker plugin.
+ *
+ * @param {jQuery} fields a selection of form fields to initialize against
+ * @return {void}
+ **/
 const initiateDatePickers = function (fields) {
   fields
     .each(function () {
@@ -250,6 +274,15 @@ const initiateDatePickers = function (fields) {
     .placeholder(); // Force init placeholder for old browsers
 
 };
+
+
+/**
+ * Timepicker init.
+ * Uses the jQuery timepicker plugin.
+ *
+ * @param {jQuery} fields a selection of form fields to initialize against
+ * @return {void}
+ */
 const initiateTimePickers = function (fields) {
   fields
     .each(function () {
@@ -282,9 +315,12 @@ const initiateTimePickers = function (fields) {
     .placeholder(); // Force init placeholder for old browsers
 };
 
+
 /**
  * Adds copied rereview data to their respective fields on the
  * Event Update view.
+ *
+ * @return {void}
  **/
 const initiateReReviewCopy = function () {
   $('#copy_title').click(function (e) {
@@ -301,8 +337,16 @@ const initiateReReviewCopy = function () {
 
 /**
  * Generic autocomplete class that searches string values from an existing
- * <select> field, or other data, and updates that field as suggestions are found.
+ * <select> field, or other data, and updates that field as suggestions are
+ * found.
+ *
  * Methods can be overridden before calling init to customize data parsing.
+ *
+ * @param {jQuery} autocompleteField jQuery object of the <input> field to
+ *     perform autocomplete on
+ * @param {jQuery} dataField jQuery object of the <select> field of options
+ *     to search against and submit when the form is submitted
+ * @return {void}
  **/
 const selectFieldAutocomplete = function (autocompleteField, dataField) {
   this.autocompleteField = autocompleteField; // jQuery object of the <input> field to perform autocomplete on
@@ -348,9 +392,9 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
     const self = this;
     if (self.dataField.is('select')) {
       $.each(self.dataField.children('option:not([disabled])'), function () {
-        let option = $(this),
-          key = option.val(),
-          val = option.text();
+        const option = $(this);
+        const key = option.val();
+        let val = option.text();
         if ($.trim(val).length < 1) {
           val = `${key} (name n/a)`;
         }
@@ -417,13 +461,15 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
 
 /**
  * User search typeahead + form validation
+ *
+ * @return {void}
  **/
 const userSearchTypeahead = function () {
-  const autocompleteField = $('#id_add_user'),
-    usersField = $('#id_username_d'),
-    roleField = $('#id_role'),
-    form = usersField.parents('form'),
-    addBtn = form.find('button');
+  const autocompleteField = $('#id_add_user');
+  const usersField = $('#id_username_d');
+  const roleField = $('#id_role');
+  const form = usersField.parents('form');
+  const addBtn = form.find('button');
 
   // Initiate autocomplete form
   const autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
@@ -445,9 +491,9 @@ const userSearchTypeahead = function () {
     const toggleAddBtn = function () {
       if (
         self.autocompleteField.val() === '' ||
-                !self.dataField.val() ||
-                self.roleField.val() === '' ||
-                self.autocompleteField.val() === self.autocompleteField.attr('placeholder')
+        !self.dataField.val() ||
+        self.roleField.val() === '' ||
+        self.autocompleteField.val() === self.autocompleteField.attr('placeholder')
       ) {
         self.addBtn
           .addClass('disabled')
@@ -479,9 +525,9 @@ const userSearchTypeahead = function () {
       if (self.autocompleteField.is(':focus')) {
         return false;
       } else if (self.form.find('button').hasClass('disabled') === false) {
-        let url = self.form.attr('action'),
-          username = self.dataField.children('option:selected').val(),
-          role = self.roleField.val();
+        let url = self.form.attr('action');
+        const username = self.dataField.children('option:selected').val();
+        const role = self.roleField.val();
         url = url.replace('/username/role', `/${username}/${role}`);
         self.form.attr('action', url);
       }
@@ -494,18 +540,21 @@ const userSearchTypeahead = function () {
 /**
  * Create/Update Event location searching + creation
  * Arg: $('select.location-dropdown')
+ *
+ * @param {jQuery} locationDropdowns Dropdown element(s) to initialize against
+ * @return {void}
  **/
 const eventLocationsSearch = function (locationDropdowns) {
   if (locationDropdowns.length > 0) {
     locationDropdowns.each(function () {
-      const locationsField = $(this), // 'dropdown'
-        autocompleteId = `${locationsField.attr('id')}-autocomplete`,
-        autocompleteField = $(`<input type="text" id="${autocompleteId}" class="form-control location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />`),
-        locationRow = locationsField.parent('.location-search').parent('.row'),
-        locationTitleSpan = locationRow.find('.location-selected-title'),
-        locationRoomSpan = locationRow.find('.location-selected-room'),
-        locationUrlSpan = locationRow.find('.location-selected-url'),
-        newLocationForm = locationRow.find('.location-new-form');
+      const locationsField = $(this); // 'dropdown'
+      const autocompleteId = `${locationsField.attr('id')}-autocomplete`;
+      const autocompleteField = $(`<input type="text" id="${autocompleteId}" class="form-control location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />`);
+      const locationRow = locationsField.parent('.location-search').parent('.row');
+      const locationTitleSpan = locationRow.find('.location-selected-title');
+      const locationRoomSpan = locationRow.find('.location-selected-room');
+      const locationUrlSpan = locationRow.find('.location-selected-url');
+      const newLocationForm = locationRow.find('.location-new-form');
 
       const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
@@ -625,13 +674,13 @@ const eventLocationsSearch = function (locationDropdowns) {
           if (self.autocompleteField.val() !== '') {
             if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
               self.addBtn.show();
-            }
-            // Create a new location if the user didn't find a match,
-            // but entered either a comma or Enter
-            else if (
+            } else if (
               !matchFound && (event.type === 'keydown' && event.keyCode === 13) ||
                             event.type === 'keydown' && event.keyCode === 188
             ) {
+              // Create a new location if the user didn't find a match,
+              // but entered either a comma or Enter:
+
               // Add the location data to the New Location form
               const item = self.autocompleteField.val();
               self.createNewLocation(item);
@@ -640,9 +689,8 @@ const eventLocationsSearch = function (locationDropdowns) {
               // Don't allow form submission to pass!
               return false;
             }
-          }
-          // Make sure the addBtn is hidden otherwise.
-          else {
+          } else {
+            // Make sure the addBtn is hidden otherwise.
             self.addBtn.hide();
           }
         });
@@ -696,12 +744,14 @@ const eventLocationsSearch = function (locationDropdowns) {
 /**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
+ *
+ * @return {void}
  **/
 const eventTagging = function () {
-  const autocompleteField = $('<input type="text" class="form-control" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />'),
-    tagsField = $('#id_event-tags'),
-    addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="fa fa-plus"></i></a>'),
-    selectedTagsList = $('#event-tags-selected');
+  const autocompleteField = $('<input type="text" class="form-control" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
+  const tagsField = $('#id_event-tags');
+  const addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="fa fa-plus"></i></a>');
+  const selectedTagsList = $('#event-tags-selected');
 
   if (tagsField.length > 0) {
     // Initiate autocomplete form
@@ -768,7 +818,7 @@ const eventTagging = function () {
         }
         if (existingTaglistVal !== '') {
           // Create array from existingTaglistVal. $.grep removes empty results.
-          const tagArray = $.grep(existingTaglistVal.replace(/(&quot;?)|\"/g, '').split(','), (val) => {
+          const tagArray = $.grep(existingTaglistVal.replace(/(&quot;?)|"/g, '').split(','), (val) => {
             return val !== '';
           });
           self.selectedTagsArray = self.selectedTagsArray.concat(tagArray);
@@ -816,13 +866,13 @@ const eventTagging = function () {
         if (self.autocompleteField.val() !== '') {
           if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
             self.addBtn.show();
-          }
-          // Create a new tag if the user didn't find a match,
-          // but entered either a comma or Enter
-          else if (
+          } else if (
             !matchFound && (event.type === 'keydown' && event.keyCode === 13) ||
                         event.type === 'keydown' && event.keyCode === 188
           ) {
+            // Create a new tag if the user didn't find a match,
+            // but entered either a comma or Enter:
+
             // Add the tag to the tag list.  Taggit handles creation of new
             // or assignment of existing tags
             const item = self.getCleanItemVal(autocompleteField.val());
@@ -834,9 +884,8 @@ const eventTagging = function () {
             // Don't allow form submission to pass!
             return false;
           }
-        }
-        // Make sure the addBtn is hidden otherwise.
-        else {
+        } else {
+          // Make sure the addBtn is hidden otherwise.
           self.addBtn.hide();
         }
       });
@@ -888,6 +937,8 @@ const eventTagging = function () {
 /**
  * Clone fieldsets of the EventInstance formset of the Event Create/Update form.
  * Auto-increment field IDs as necessary.
+ *
+ * @return {void}
  **/
 function cloneableEventInstances() {
   let $clonerBtn, // Not technically a form, but the <fieldset> that wraps the event instance forms
@@ -904,21 +955,26 @@ function cloneableEventInstances() {
    * This function checks for form elements specific to Event Instances
    * (checkboxes, inputs, selects)--if new form elements are ever added to
    * the Event Instance formset, this function may need to be updated.
+   *
+   * @param {jQuery} $instance an element containing an Event Instance formset
+   * @param {str} oldPrefix an old prefix to replace in formset element attrs
+   * @param {str} newPrefix a new prefix to inject into formset element attrs
+   * @return {jQuery}
    **/
   function updateInstancePrefix($instance, oldPrefix, newPrefix) {
 
     // Update $instance's ID
     $instance.attr('id', newPrefix);
 
-    const $prefixedElements = $instance.find('checkbox, input, select, label'),
-      $removeBtn = $instance.find('.remove-instance'),
-      regex = new RegExp(oldPrefix, 'gm');
+    const $prefixedElements = $instance.find('checkbox, input, select, label');
+    const $removeBtn = $instance.find('.remove-instance');
+    const regex = new RegExp(oldPrefix, 'gm');
 
     for (let i = 0; i < $prefixedElements.length; i++) {
-      const $elem = $prefixedElements.eq(i),
-        attrFor = $elem.attr('for'),
-        attrID = $elem.attr('id'),
-        attrName = $elem.attr('name');
+      const $elem = $prefixedElements.eq(i);
+      const attrFor = $elem.attr('for');
+      const attrID = $elem.attr('id');
+      const attrName = $elem.attr('name');
 
       if (attrFor) {
         $elem.attr('for', attrFor.replace(regex, newPrefix));
@@ -939,13 +995,15 @@ function cloneableEventInstances() {
   /**
    * Clone $instanceTemplate and insert at the bottom of the
    * Event Instance form
+   *
+   * @return {void}
    **/
   function addInstance() {
     const activeInstanceTotal = getActiveInstanceTotal();
     if (activeInstanceTotal < instanceMaxVal) {
-      let $instance = $instanceTemplate.clone(false),
-        $instances = $form.find('.event-instance'),
-        newPrefix = `${formPrefix}-${$instances.length}`;
+      let $instance = $instanceTemplate.clone(false);
+      const $instances = $form.find('.event-instance');
+      const newPrefix = `${formPrefix}-${$instances.length}`;
 
       $instance = updateInstancePrefix($instance, $instance.attr('id'), newPrefix);
 
@@ -974,6 +1032,8 @@ function cloneableEventInstances() {
 
   /**
    * Callback after an event instance is "removed"
+   *
+   * @return {void}
    **/
   function updateInstancesPostRemoval() {
 
@@ -1012,6 +1072,9 @@ function cloneableEventInstances() {
   /**
    * Hide the given Event Instance and mark it for removal
    * on form submit.  Update remaining Event Instance prefixes.
+   *
+   * @param {jQuery} $instance an element surrounding an Event Instance formset
+   * @return {void}
    **/
   function removeInstance($instance) {
     const activeInstanceTotal = getActiveInstanceTotal(),
@@ -1040,6 +1103,8 @@ function cloneableEventInstances() {
   /**
    * Returns the number of .event-instance's in the form that are not marked
    * for deletion (instances that are "actively" visible).
+   *
+   * @return {void}
    **/
   function getActiveInstanceTotal() {
     return $form.find('.event-instance:not(.event-instance-removed)').length;
@@ -1048,10 +1113,12 @@ function cloneableEventInstances() {
   /**
    * Increments $instanceTotal's value by 1.  This function should always
    * be called any time an instance is added to $form.
+   *
+   * @return {int}
    **/
   function incrementInstanceTotal() {
-    const oldInstanceTotalVal = parseInt($instanceTotal.val(), 10),
-      newInstanceTotalVal = oldInstanceTotalVal + 1;
+    const oldInstanceTotalVal = parseInt($instanceTotal.val(), 10);
+    const newInstanceTotalVal = oldInstanceTotalVal + 1;
 
     $instanceTotal.val(newInstanceTotalVal);
 
@@ -1062,10 +1129,12 @@ function cloneableEventInstances() {
    * Decreases $instanceTotal's value by 1.  This function should
    * only be called when a clone is removed--existing instances marked
    * for deletion must still be counted toward $instanceTotal's value.
+   *
+   * @return {int}
    **/
   function decrementInstanceTotal() {
-    const oldInstanceTotalVal = parseInt($instanceTotal.val(), 10),
-      newInstanceTotalVal = oldInstanceTotalVal - 1;
+    const oldInstanceTotalVal = parseInt($instanceTotal.val(), 10);
+    const newInstanceTotalVal = oldInstanceTotalVal - 1;
 
     $instanceTotal.val(newInstanceTotalVal);
 
@@ -1073,8 +1142,8 @@ function cloneableEventInstances() {
   }
 
   function toggleRemoveBtns() {
-    const activeInstanceTotal = getActiveInstanceTotal(),
-      $removeBtns = $form.find('.remove-instance');
+    const activeInstanceTotal = getActiveInstanceTotal();
+    const $removeBtns = $form.find('.remove-instance');
 
     if (activeInstanceTotal === 1) {
       $removeBtns.addClass('hidden');
@@ -1101,6 +1170,9 @@ function cloneableEventInstances() {
   /**
    * NOTE: this function should NOT be run until after
    * $instanceTemplate has been defined!
+   *
+   * @param {jQuery} $instance an element containing an Event Instance formset
+   * @return {jQuery}
    **/
   function setupInstanceEventHandlers($instance) {
     // Remove any previously assigned click handler
@@ -1158,14 +1230,16 @@ function cloneableEventInstances() {
 
 /**
  * Sets the event contact information to the current user.
+ *
+ * @return {void}
  **/
 const eventContactInfo = function () {
   const checkbox = $('#add-user-contact-info');
   // usersFullName and usersEmail are defined in event create/update template
   if (typeof usersFullName !== 'undefined' && typeof usersEmail !== 'undefined') {
     checkbox.on('change', () => {
-      const currentName = $('#id_event-contact_name'),
-        currentEmail = $('#id_event-contact_email');
+      const currentName = $('#id_event-contact_name');
+      const currentEmail = $('#id_event-contact_email');
 
       if (usersFullName && usersEmail) {
         if (checkbox.is(':checked')) {
@@ -1183,10 +1257,11 @@ const eventContactInfo = function () {
 };
 
 const initiateWysiwygs = function () {
+  /* eslint-disable camelcase */
   const $editors = $('.wysiwyg');
 
   if ($editors.length) {
-    tinymce.init({
+    tinyMCE.init({
       selector: '.wysiwyg',
       plugins: 'link paste autoresize',
       // valid elems/styles configuration below should match with
@@ -1203,10 +1278,11 @@ const initiateWysiwygs = function () {
       autoresize_bottom_margin: 10
     });
   }
+  /* eslint-enable camelcase */
 };
 
 
-$(document).ready(() => {
+$(document).on('ready', () => {
   bulkSelectAll();
   bulkActionSubmit();
   toggleEventListRecurrences();

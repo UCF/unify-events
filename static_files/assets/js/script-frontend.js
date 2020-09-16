@@ -4,23 +4,27 @@
 /**
  * Update frontend calendar month view month/year form
  * "action" value on dropdown change
+ *
+ * @return {void}
  **/
 const updateMonthviewDropdown = function () {
-  const form = $('#month-toggle'),
-    yearSelect = form.find('#id_year'),
-    monthSelect = form.find('#id_month');
+  const form = $('#month-toggle');
+  const yearSelect = form.find('#id_year');
+  const monthSelect = form.find('#id_month');
+
   monthSelect.change(function () {
-    const action = form.attr('action'),
-      newMonth = `/${$(this).val()}/`,
-      oldMonth = action.slice(action.length - 4, action.length),
-      newAction = action.replace(oldMonth, newMonth);
+    const action = form.attr('action');
+    const newMonth = `/${$(this).val()}/`;
+    const oldMonth = action.slice(action.length - 4, action.length);
+    const newAction = action.replace(oldMonth, newMonth);
     form.attr('action', newAction);
   });
+
   yearSelect.change(function () {
-    const action = form.attr('action'),
-      newYear = `/${$(this).val()}/`,
-      oldYear = action.slice(action.length - 9, action.length - 3),
-      newAction = action.replace(oldYear, newYear);
+    const action = form.attr('action');
+    const newYear = `/${$(this).val()}/`;
+    const oldYear = action.slice(action.length - 9, action.length - 3);
+    const newAction = action.replace(oldYear, newYear);
     form.attr('action', newAction);
   });
 };
@@ -28,14 +32,16 @@ const updateMonthviewDropdown = function () {
 
 /**
  * Force repaint of map widget on window resize
+ *
+ * @return {void}
  **/
 const resizeMapWidgets = function () {
   const performResize = function () {
     $('.map-widget').each(function () {
-      const widget = $(this),
-        widgetWrap = widget.parent('.map-widget-wrap'),
-        src = widget.attr('src'),
-        regex = /width=\d+\&height=\d+/;
+      const widget = $(this);
+      const widgetWrap = widget.parent('.map-widget-wrap');
+      const src = widget.attr('src');
+      const regex = /width=\d+&height=\d+/;
 
       const newSrc = src.replace(regex, `width=${widgetWrap.width()}&height=${widgetWrap.height()}`);
       widget.attr('src', newSrc);
@@ -61,6 +67,8 @@ const resizeMapWidgets = function () {
 
 /**
  * Used to add styles to the esi data.
+ *
+ * @return {void}
  **/
 const esiStyle = function () {
   // Style event pages
@@ -70,7 +78,7 @@ const esiStyle = function () {
 };
 
 
-$(document).ready(() => {
+$(document).on('ready', () => {
   updateMonthviewDropdown();
   resizeMapWidgets();
   esiStyle();
