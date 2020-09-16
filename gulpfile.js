@@ -12,6 +12,7 @@ const sass         = require('gulp-sass');
 const sassLint     = require('gulp-sass-lint');
 const uglify       = require('gulp-uglify');
 const merge        = require('merge');
+const exec         = require('child_process').exec;
 
 
 let config = {
@@ -96,6 +97,21 @@ function buildJS(src, dest) {
       extname: '.min.js'
     }))
     .pipe(gulp.dest(dest));
+}
+
+// Executes Django `collectstatic` command
+function collectStatic(done) {
+  exec(
+    'source ../bin/activate && python manage.py collectstatic --noinput && deactivate',
+    {
+      cwd: __dirname
+    },
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      done(err);
+    }
+  );
 }
 
 // BrowserSync reload function
@@ -240,8 +256,8 @@ gulp.task('js', gulp.series('es-lint', 'js-build-global', 'js-build-frontend', '
 gulp.task('watch', (done) => {
   serverServe(done);
 
-  gulp.watch(`${config.src.scssPath}/**/*.scss`, gulp.series('css', serverReload));
-  gulp.watch(`${config.src.jsPath}/**/*.js`, gulp.series('js', serverReload));
+  gulp.watch(`${config.src.scssPath}/**/*.scss`, gulp.series('css', collectStatic, serverReload));
+  gulp.watch(`${config.src.jsPath}/**/*.js`, gulp.series('js', collectStatic, serverReload));
 });
 
 
