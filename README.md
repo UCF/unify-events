@@ -3,17 +3,15 @@
 ## Installation and Setup
 1. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
   - via Homebrew: `brew install openldap`
-2. Install Virtualenv for Python
-  - via pip: `[sudo] pip install virtualenv`
-3. Create virtual environment and `cd` to it
+2. Create virtual environment and `cd` to it
 
-        virtualenv ENV
+        python3 -m venv ENV
         cd ENV
-4. Clone repo to a subdirectory (ex. `git clone REPO_URL src`)
-5. Activate virtual environment
+3. Clone repo to a subdirectory (ex. `git clone REPO_URL src`)
+4. Activate virtual environment
 
         source bin/activate
-6. `cd` to new src directory and install requirements
+5. `cd` to new src directory and install requirements
 
         cd src
         pip install -r requirements.txt
@@ -29,11 +27,11 @@
             --global-option="-I$(xcrun --show-sdk-path)/usr/include/sasl"
 
     4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
-7. Set up local settings using the settings_local.templ.py file
-8. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
-9. Run the deployment command: `python manage.py deploy`. This runs any migrations and collects the static files.
-10. Create a superuser: `python manage.py createsuperuser`
-11. If you don't intend on importing any existing calendar data, create a Main Calendar and assign your superuser account as the owner. Otherwise, skip this step
+6. Set up local settings using the settings_local.templ.py file
+7. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
+8. Run the deployment command: `python manage.py deploy`. This runs any migrations and collects the static files.
+9. Create a superuser: `python manage.py createsuperuser`
+10. If you don't intend on importing any existing calendar data, create a Main Calendar and assign your superuser account as the owner. Otherwise, skip this step
 
         python manage.py shell
         >>> from django.contrib.auth.models import User
