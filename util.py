@@ -115,15 +115,15 @@ class LDAPHelper(object):
 
     @classmethod
     def extract_firstname(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'givenName').decode('utf-8', 'replace')
+        return LDAPHelper._extract_attribute(ldap_user, 'givenName').decode('utf-8')
 
     @classmethod
     def extract_lastname(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'sn').decode('utf-8', 'replace')
+        return LDAPHelper._extract_attribute(ldap_user, 'sn').decode('utf-8')
 
     @classmethod
     def extract_email(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'mail').decode('utf-8', 'replace')
+        return LDAPHelper._extract_attribute(ldap_user, 'mail').decode('utf-8')
 
     @classmethod
     def extract_username(cls, ldap_user):
