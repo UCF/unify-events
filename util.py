@@ -127,4 +127,4 @@ class LDAPHelper(object):
 
     @classmethod
     def extract_username(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'cn').decode('utf-8', 'replace')
+        return LDAPHelper._extract_attribute(ldap_user, 'cn').decode('utf-8')
