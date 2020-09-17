@@ -72,9 +72,9 @@ class LDAPHelper(object):
             return results[0]
 
     @classmethod
-    def search(cls, connection, filter_params, filter_string='cn=%s', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
+    def search(cls, connection, filter_params, filter_string='cn={0}', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
         try:
-            ldap_filter = filter_string % filter_params
+            ldap_filter = filter_string.format(filter_params)
             result_id = connection.search_ext(settings.LDAP_NET_BASE_DN,
                                               ldap.SCOPE_SUBTREE,
                                               ldap_filter,
