@@ -122,11 +122,11 @@ LOGGING = {
         'profiles': {
             'handlers': ['console', 'file'],
             'propogate': True,
-            'level': 'WARNING'
+            'level': 'DEBUG'
         },
         'util': {
             'handlers': ['console', 'file'],
-            'level': 'WARNING'
+            'level': 'DEBUG'
         }
     }
 }
