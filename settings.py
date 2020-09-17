@@ -117,7 +117,7 @@ LOGGING = {
         'events': {
             'handlers': ['console', 'file'],
             'propogate': True,
-            'level': 'WARNING'
+            'level': 'DEBUG'
         },
         'profiles': {
             'handlers': ['console', 'file'],
