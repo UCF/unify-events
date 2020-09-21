@@ -33,8 +33,8 @@ class UserSelect2ListView(JSONDataView):
 
         if q is not None and len(q) > 2:
             users = User.objects.filter(
-                Q(first_name__icontains=q) or
-                Q(last_name__icontains=q) or
+                Q(first_name__icontains=q) |
+                Q(last_name__icontains=q) |
                 Q(username__icontains=q)
             )
 
