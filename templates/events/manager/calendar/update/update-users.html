@@ -218,21 +218,7 @@
 {% endblock %}
 
 {% block footer_scripts %}
-    {{ block.super }}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script>
-      jQuery('#id_username_d').select2({
-        ajax: {
-          url: "{% url 'events.views.manager.user-select2' %}",
-          data: function (params) {
-            var query = {
-              'q': params.term
-            };
-
-            return query
-          },
-          delay: 250
-        }
-      });
-    </script>
+    <script>USERSELECT_URL = "{% url 'events.views.manager.user-select2' %}"; </script>
+    {{ block.super }}
 {% endblock %}
