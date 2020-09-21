@@ -56,7 +56,8 @@
             <label for="id_role" class="sr-only">Select a role</label>
             <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
                 <div class="form-group">
-                    <select id="id_username_d" name="username_d" class="form-control"></select>
+                  <select id="id_username_d" name="username_d" class="form-control" style="min-width: 320px">
+                  </select>
                 </div>
                 <div class="form-group">
                     <select id="id_role" class="form-control" name="role">
