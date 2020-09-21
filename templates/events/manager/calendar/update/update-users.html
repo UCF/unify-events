@@ -1,6 +1,11 @@
 {% extends 'events/manager/calendar/update.html' %}
 {% load widget_tweaks %}
 
+{% block links %}
+  {{ block.super }}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block calendar_edit_title %}Users and Permissions{% endblock %}
 
 {% block content_tabs %}
@@ -51,14 +56,7 @@
             <label for="id_role" class="sr-only">Select a role</label>
             <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
                 <div class="form-group">
-                    <select id="id_username_d" name="username_d" class="form-control">
-                        {% for user in users %}
-                        <option value="{{ user.username|escapejs }}" {% if user in calendar.admins.all or user in calendar.editors.all or user == calendar.owner %}disabled="disabled"{% endif %}>{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input id="id_add_user" style="display:none;" class="form-control user-search" type="text" autocomplete="off" placeholder="Search by first, last name or NID" name="add_user">
+                    <select id="id_username_d" name="username_d" class="form-control"></select>
                 </div>
                 <div class="form-group">
                     <select id="id_role" class="form-control" name="role">
@@ -221,4 +219,20 @@
 
 {% block footer_scripts %}
     {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+      jQuery('#id_username_d').select2({
+        ajax: {
+          url: "{% url 'events.views.manager.user-select2' %}",
+          data: function (params) {
+            var query = {
+              'q': params.term
+            };
+
+            return query
+          },
+          delay: 250
+        }
+      });
+    </script>
 {% endblock %}

@@ -464,77 +464,77 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
  *
  * @return {void}
  **/
-const userSearchTypeahead = function () {
-  const autocompleteField = $('#id_add_user');
-  const usersField = $('#id_username_d');
-  const roleField = $('#id_role');
-  const form = usersField.parents('form');
-  const addBtn = form.find('button');
+// const userSearchTypeahead = function () {
+//   const autocompleteField = $('#id_add_user');
+//   const usersField = $('#id_username_d');
+//   const roleField = $('#id_role');
+//   const form = usersField.parents('form');
+//   const addBtn = form.find('button');
 
-  // Initiate autocomplete form
-  const autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
-  autocomplete.roleField = roleField;
-  autocomplete.addBtn = addBtn;
+//   // Initiate autocomplete form
+//   const autocomplete = new selectFieldAutocomplete(autocompleteField, usersField);
+//   autocomplete.roleField = roleField;
+//   autocomplete.addBtn = addBtn;
 
-  autocomplete.setupForm = function () {
-    const self = this;
+//   autocomplete.setupForm = function () {
+//     const self = this;
 
-    // Enable autocomplete field. Hide data field.
-    self.dataField.hide();
-    self.autocompleteField.show();
-    $(`label[for="${self.dataField.attr('id')}"]`).attr('for', self.autocompleteField.attr('id'));
+//     // Enable autocomplete field. Hide data field.
+//     self.dataField.hide();
+//     self.autocompleteField.show();
+//     $(`label[for="${self.dataField.attr('id')}"]`).attr('for', self.autocompleteField.attr('id'));
 
-    // Handle form validation (don't allow new users to be submitted w/o valid name, role)
-    const handler = function (e) {
-      e.preventDefault();
-    };
-    const toggleAddBtn = function () {
-      if (
-        self.autocompleteField.val() === '' ||
-        !self.dataField.val() ||
-        self.roleField.val() === '' ||
-        self.autocompleteField.val() === self.autocompleteField.attr('placeholder')
-      ) {
-        self.addBtn
-          .addClass('disabled')
-          .bind('click', handler);
-      } else {
-        const selected = self.dataField.children('option').selected || self.dataField.children('option[selected="selected"]');
-        if (typeof selected !== 'undefined' && selected.length > 0 && selected.text() === self.autocompleteField.val()) {
-          self.addBtn
-            .removeClass('disabled')
-            .unbind('click', handler);
-        } else {
-          self.addBtn
-            .addClass('disabled')
-            .bind('click', handler);
-        }
+//     // Handle form validation (don't allow new users to be submitted w/o valid name, role)
+//     const handler = function (e) {
+//       e.preventDefault();
+//     };
+//     const toggleAddBtn = function () {
+//       if (
+//         self.autocompleteField.val() === '' ||
+//         !self.dataField.val() ||
+//         self.roleField.val() === '' ||
+//         self.autocompleteField.val() === self.autocompleteField.attr('placeholder')
+//       ) {
+//         self.addBtn
+//           .addClass('disabled')
+//           .bind('click', handler);
+//       } else {
+//         const selected = self.dataField.children('option').selected || self.dataField.children('option[selected="selected"]');
+//         if (typeof selected !== 'undefined' && selected.length > 0 && selected.text() === self.autocompleteField.val()) {
+//           self.addBtn
+//             .removeClass('disabled')
+//             .unbind('click', handler);
+//         } else {
+//           self.addBtn
+//             .addClass('disabled')
+//             .bind('click', handler);
+//         }
 
-      }
-    };
-    toggleAddBtn();
-    $([self.autocompleteField, self.dataField, self.roleField]).each(function () {
-      $(this).on('change', () => {
-        toggleAddBtn();
-      });
-    });
-  };
-  autocomplete.onFormSubmission = function () {
-    const self = this;
-    self.form.on('submit', () => {
-      if (self.autocompleteField.is(':focus')) {
-        return false;
-      } else if (self.form.find('button').hasClass('disabled') === false) {
-        let url = self.form.attr('action');
-        const username = self.dataField.children('option:selected').val();
-        const role = self.roleField.val();
-        url = url.replace('/username/role', `/${username}/${role}`);
-        self.form.attr('action', url);
-      }
-    });
-  };
-  autocomplete.init();
-};
+//       }
+//     };
+//     toggleAddBtn();
+//     $([self.autocompleteField, self.dataField, self.roleField]).each(function () {
+//       $(this).on('change', () => {
+//         toggleAddBtn();
+//       });
+//     });
+//   };
+//   autocomplete.onFormSubmission = function () {
+//     const self = this;
+//     self.form.on('submit', () => {
+//       if (self.autocompleteField.is(':focus')) {
+//         return false;
+//       } else if (self.form.find('button').hasClass('disabled') === false) {
+//         let url = self.form.attr('action');
+//         const username = self.dataField.children('option:selected').val();
+//         const role = self.roleField.val();
+//         url = url.replace('/username/role', `/${username}/${role}`);
+//         self.form.attr('action', url);
+//       }
+//     });
+//   };
+//   autocomplete.init();
+// };
 
 
 /**

@@ -38,6 +38,7 @@ from events.views.manager import location
 from events.views.manager import tag
 
 from events.views.manager.search import ManagerSearchView
+from events.views.manager.search import UserSelect2ListView
 
 urlpatterns = [
     url(r'^login/$',
@@ -137,7 +138,7 @@ urlpatterns += [
         view=category.merge,
         name='events.views.manager.category-merge'
     ),
-
+    url(r'^userselect2/?$', login_required(UserSelect2ListView.as_view()), name='events.views.manager.user-select2'),
     url(r'^profiles/', include('profiles.urls')),
 
     url(r'^$', login_required(Dashboard.as_view()), name='dashboard'),
