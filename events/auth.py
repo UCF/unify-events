@@ -19,7 +19,7 @@ class Backend(ModelBackend):
             # Extract the GUID
             try:
 
-                guid = LDAPHelper.extract_guid(ldap_user)
+                guid = LDAPHelper.extract_guid(ldap_user).decode('utf-8')
                 user = User.objects.get(profile__guid=guid)
 
                 if user.username != username:
