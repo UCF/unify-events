@@ -216,9 +216,14 @@ def add_update_user(request, pk, username, role):
     else:
         user = get_object_or_404(User, username=username)
 
-    get_role = request.GET.get('role')
-    if not role and get_role == 'admin' or get_role == 'editor':
-        role = get_role
+    get_role = request.GET.get('role', None)
+    if role is not None and role not in ['admin', 'editor']:
+        if get_role is not None and get_role in ['admin', 'editor']:
+            role = get_role
+        else:
+            role = None
+    else:
+        role = None
 
     # Update user...
     if user == calendar.owner:
