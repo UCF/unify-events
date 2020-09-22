@@ -28,14 +28,13 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'core.middleware.SecureRequiredMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UrlPatterns',
     'core.middleware.CorsRegex',
     'core.middleware.MinifyHTMLMiddleware',
 )
@@ -46,10 +45,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-# Add local apps folder to python path
-sys.path.append(APP_FOLDER)
-sys.path.append(INC_FOLDER)
-
 WSGI_APPLICATION = 'wsgi.application'
 
 INSTALLED_APPS = (
@@ -57,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',

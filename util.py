@@ -51,14 +51,14 @@ class LDAPHelper(object):
             ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
             ldap.set_option(ldap.OPT_REFERRALS, 0)
             return ldap.initialize(settings.LDAP_NET_HOST)
-        except ldap.LDAPError, e:
+        except ldap.LDAPError as e:
             raise LDAPHelper.UnableToConnect(e)
 
     @classmethod
     def bind(cls, connection, username, password):
         try:
             connection.simple_bind_s(username + settings.LDAP_NET_USER_SUFFIX, password)
-        except ldap.LDAPError, e:
+        except ldap.LDAPError as e:
             raise LDAPHelper.UnableToBind(e)
 
     @classmethod
@@ -72,15 +72,15 @@ class LDAPHelper(object):
             return results[0]
 
     @classmethod
-    def search(cls, connection, filter_params, filter_string='cn=%s', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
+    def search(cls, connection, filter_params, filter_string='cn={0}', sizelimit=settings.LDAP_NET_SEARCH_SIZELIMIT):
         try:
-            ldap_filter = filter_string % filter_params
+            ldap_filter = filter_string.format(filter_params)
             result_id = connection.search_ext(settings.LDAP_NET_BASE_DN,
                                               ldap.SCOPE_SUBTREE,
                                               ldap_filter,
                                               None,
                                               sizelimit=sizelimit)
-        except ldap.LDAPError, e:
+        except ldap.LDAPError as e:
             raise LDAPHelper.UnableToSearch(e)
         else:
             results = []
@@ -104,9 +104,9 @@ class LDAPHelper(object):
     def _extract_attribute(cls, ldap_user, attribute):
         try:
             return ldap_user[attribute][0]
-        except KeyError, e:
+        except KeyError as e:
             raise LDAPHelper.MissingAttribute(e)
-        except ValueError, e:
+        except ValueError as e:
             raise LDAPHelper.MissingAttribute(e)
 
     @classmethod
@@ -115,16 +115,16 @@ class LDAPHelper(object):
 
     @classmethod
     def extract_firstname(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'givenName')
+        return LDAPHelper._extract_attribute(ldap_user, 'givenName').decode('utf-8')
 
     @classmethod
     def extract_lastname(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'sn')
+        return LDAPHelper._extract_attribute(ldap_user, 'sn').decode('utf-8')
 
     @classmethod
     def extract_email(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'mail')
+        return LDAPHelper._extract_attribute(ldap_user, 'mail').decode('utf-8')
 
     @classmethod
     def extract_username(cls, ldap_user):
-        return LDAPHelper._extract_attribute(ldap_user, 'cn')
+        return LDAPHelper._extract_attribute(ldap_user, 'cn').decode('utf-8')
