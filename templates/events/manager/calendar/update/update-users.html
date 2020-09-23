@@ -1,11 +1,6 @@
 {% extends 'events/manager/calendar/update.html' %}
 {% load widget_tweaks %}
 
-{% block links %}
-  {{ block.super }}
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-{% endblock %}
-
 {% block calendar_edit_title %}Users and Permissions{% endblock %}
 
 {% block content_tabs %}
@@ -219,7 +214,6 @@
 {% endblock %}
 
 {% block footer_scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>USERSELECT_URL = "{% url 'events.views.manager.user-select2' %}"; </script>
     {{ block.super }}
 {% endblock %}

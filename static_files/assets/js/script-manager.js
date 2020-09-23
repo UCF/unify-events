@@ -7,6 +7,7 @@
 // =require '/bootstrap-3-typeahead/bootstrap3-typeahead.js'
 // =require '/timepicker/jquery.timepicker.js'
 // =require '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
+// =require '/select2/dist/js/select2.js
 
 
 //
