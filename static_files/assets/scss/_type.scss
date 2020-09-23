@@ -1,7 +1,11 @@
-/* Headings */
+//
+// Headings
+//
+
 h1,
 .h1 {
   font-size: 30px;
+
   @include respond-to(xs) {
     font-size: 26px;
     line-height: 1em;
@@ -32,10 +36,13 @@ h6.alt,
 h2,
 .h2 {
   font-size: 24px;
-  line-height: 1em;
-  letter-spacing: 0;
   font-weight: 300;
-  @include respond-to(xs) { font-size: 22px; }
+  letter-spacing: 0;
+  line-height: 1em;
+
+  @include respond-to(xs) {
+    font-size: 22px;
+  }
 
   .alt,
   &.alt {
@@ -46,25 +53,27 @@ h2,
 h3,
 .h3 {
   font-size: 20px;
-  @include respond-to(xs) { font-size: 19px; }
+
+  @include respond-to(xs) {
+    font-size: 19px;
+  }
 }
 
 h4 {
-  @include respond-to(xs) { font-size: 17px; }
+  @include respond-to(xs) {
+    font-size: 17px;
+  }
 }
 
-// form a:not([class]),
-// .page-content a:not([class]),
-// .page-sidebar a:not([class]) {
-//   /* Add color to links that don't have a class assigned to them */
-//   color: #3566C9;
-// }
 
+//
+// Links
+//
 
-/* Links */
 i.icon-right-margin {
   margin-right: 6px;
 }
+
 a:not(.btn) > i {
   margin-right: 6px;
 }
@@ -74,47 +83,60 @@ a:hover > i {
 }
 
 
-/* Icons */
+//
+// Icons
+//
+
 a.icon-left-margin {
   margin-left: 6px;
 }
+
 i + a:not(.btn) {
   margin-left: 6px;
 }
 
 
-/* Lists */
+//
+// Lists
+//
+
 ul {
   padding-left: 0;
 }
+
 ul.bullets,
 ul.errors,
 #messages ul,
 #static-base ul {
   padding-left: 15px;
 }
+
 #static-base ul.table-list,
 #static-base ul.list-group,
 ul.table-list {
-  padding-left: 0;
   list-style-type: none;
+  padding-left: 0;
 
   & > li {
     margin-bottom: 8px;
   }
 }
+
 dt {
   @include body-prefix(ie8) {
-    float: left;
-    width: ($dl-horizontal-offset - 20);
     clear: left;
+    float: left;
     text-align: right;
+    width: ($dl-horizontal-offset - 20);
     @include text-overflow();
   }
 }
 
 
-/* Tables */
+//
+// Tables
+//
+
 .table > thead > tr > th,
 .table > thead > tr > td,
 .table > tbody > tr > th,
@@ -123,27 +145,35 @@ dt {
 .table > tfoot > tr > td {
   border-top: 2px dotted $table-border-color;
 }
+
 .table > thead > tr:first-child > th,
 .table > thead > tr:first-child > td,
 .table > tbody > tr:first-child > th,
 .table > tbody > tr:first-child > td,
 .table > tfoot > tr:first-child > th,
 .table > tfoot > tr:first-child > td {
-  border-top: 0px solid transparent;
+  border-top: 0 solid transparent;
 }
+
 .table-responsive {
   overflow-y: visible;
 }
 
 
-/* Horizontal Rules */
+//
+// Horizontal Rules
+//
+
 hr {
   border-top: 2px dotted $table-border-color;
 }
 
 
-/* Code */
+//
+// Code
+//
+
 code {
-  color: $pre-color;
   background-color: $pre-bg;
+  color: $pre-color;
 }
