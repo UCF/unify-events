@@ -39,9 +39,17 @@ class UserSelect2ListView(JSONDataView):
             )
 
             for user in users:
+                name_text = ''
+                if user.first_name != '':
+                    name_text += "{0} ".format(user.first_name)
+                if user.last_name != '':
+                    name_text += "{0} ".format(user.last_name)
+                if user.username != '':
+                    name_text += "- {0}".format(user.username) if len(name_text) > 0 else user.username
+
                 r = {
                     'id': user.username,
-                    'text': "{0} {1} - {2}".format(user.first_name, user.last_name, user.username)
+                    'text': name_text
                 }
                 results.append(r)
 
