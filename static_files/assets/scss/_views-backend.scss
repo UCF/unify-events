@@ -1,12 +1,18 @@
-/* General */
+//
+// General
+//
+
 #manager-base {
   margin-top: 25px;
-  @include respond-to(xs) { margin-top: 15px; }
+
+  @include respond-to(xs) {
+    margin-top: 15px;
+  }
 
   .sidebarfix > * {
     @include respond-to(sm) {
-      padding-right: 0;
       margin-right: 0;
+      padding-right: 0;
     }
   }
 }
@@ -21,31 +27,39 @@
   & > tfoot > tr > th,
   & > tfoot > tr > td {
     border-top: 1px solid $table-border-color;
+
     @include respond-to(xs) {
       font-size: 11.5px;
       line-height: 1.2em;
     }
   }
+
   & > thead > tr > th {
-    padding-top: 12px;
     padding-bottom: 12px;
+    padding-top: 12px;
   }
+
   & > tbody > tr > td {
     background-color: #fafafa;
   }
+
   & > thead > tr > th > abbr {
     display: inline-block;
   }
 
   .field-bulk-select {
     width: 5%;
-    @include respond-to(xs) { width: 8%; }
+
+    @include respond-to(xs) {
+      width: 8%;
+    }
   }
 
   .text-overflow {
     display: block;
     @include text-overflow();
   }
+
   .line-break {
     display: block;
     white-space: normal;
@@ -59,51 +73,83 @@
       margin-bottom: 3px;
     }
   }
+
+  .location-title {
+    width: 20%;
+  }
+
+  .location-room {
+    width: 15%;
+  }
+
+  .location-url {
+    width: 30%;
+  }
 }
 
 
-/* Dashboard/My Calendars View */
+//
+// Dashboard/My Calendars View
+//
+
 .manager-item-table {
   .field-recommended,
   .location-imported {
     width: 5%;
-    @include respond-to(xs) { width: 8%; }
-  }
-  .event-title { width: 42%; }
-  .event-time { width: 30%; }
 
-  .event-title abbr {
-    margin-right: 6px;
+    @include respond-to(xs) {
+      width: 8%;
+    }
+  }
+
+  .event-title {
+    width: 42%;
+
+    abbr {
+      margin-right: 6px;
+    }
+  }
+
+  .event-time {
+    width: 30%;
   }
 
   .recurrences-toggle {
+    color: #777;
     display: block;
     font-size: 11px;
     font-weight: bold;
-    color: #777;
-    @include respond-to(xs) { margin-top: 4px; }
+
+    @include respond-to(xs) {
+      margin-top: 4px;
+    }
   }
+
   .recurrences {
     display: none;
     font-size: 12px;
     line-height: 16px;
     margin-left: 0;
-    padding-left: 20px;
     max-height: 152px;
+    padding-left: 20px;
     @include scrollbox();
 
     .archived-instance {
-      text-decoration: line-through;
       color: #888;
+      text-decoration: line-through;
     }
   }
 }
 
 
-/* Calendar Create View */
+//
+// Calendar Create View
+//
+
 #manager-calendar-delete {
-  font-weight: bold;
   color: #B71713;
+  font-weight: bold;
+
   @include respond-to(xs) {
     margin-bottom: 0;
     top: 7px;
@@ -111,19 +157,27 @@
 }
 
 
-/* Calendar Update View - Calendar Info (base) */
+//
+// Calendar Update View - Calendar Info (base)
+//
+
 form#calendar-update {
   margin-bottom: 0;
 }
 
 
-/* Calendar Update View - Users */
+//
+// Calendar Update View - Users
+//
+
 input#id_add_user {
   width: 300px;
 }
+
 select#id_role {
   width: 150px;
 }
+
 input#id_add_user,
 select#id_role {
   @include respond-to(xs) {
@@ -138,8 +192,8 @@ select#id_role {
 }
 
 form#manager-calendar-add-user {
-  position: relative;
   margin-bottom: 30px;
+  position: relative;
 
   > .form-group {
     @include respond-to(xs) {
@@ -149,29 +203,28 @@ form#manager-calendar-add-user {
 }
 
 
-/* Category List View */
+//
+// Category List View
+//
+
 .category-color span {
-  display: block;
-  padding: 0 5px;
-  font-weight: bold;
   color: #fff;
+  display: block;
+  font-weight: bold;
+  padding: 0 5px;
 }
 
 
-/* Location List View */
-.manager-item-table {
-  .location-title { width: 20%; }
-  .location-room { width: 15%; }
-  .location-url { width: 30%; }
-}
-
-
-/* Event Create/Update View */
+//
+// Event Create/Update View
+//
 
 // Cancel/Delete btns
 .event-update-cancel,
 .event-update-delete {
-  @include respond-to(xs) { margin-top: 15px; }
+  @include respond-to(xs) {
+    margin-top: 15px;
+  }
 }
 
 // When/Where
@@ -181,22 +234,23 @@ form#manager-calendar-add-user {
 
 .whenwhere-wrap,
 #cloner > div {
-  border-radius: 4px 0 4px 4px;
   background: #f9f9f9;
-  padding: 20px;
   border: 1px solid #c8c8c8;
+  border-radius: 4px 0 4px 4px;
   margin-bottom: 5px;
+  padding: 20px;
 }
+
 .cloneable:only-child .whenwhere-wrap {
   border-radius: 4px;
 }
 
 .whenwhere-wrap {
   hr {
-    border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
-    border-width: 1px 0;
-    border-top: 1px solid #c8c8c8;
     border-bottom: 1px solid #c8c8c8;
+    border-color: #c8c8c8 -moz-use-text-color #c8c8c8;
+    border-top: 1px solid #c8c8c8;
+    border-width: 1px 0;
     margin-top: 15px;
   }
 }
@@ -205,16 +259,23 @@ form#manager-calendar-add-user {
 .whenwhere-until,
 .location-selected {
   float: right;
-  // margin-right: 10px;
-  @include respond-to(xs) { float: none; }
-  @include body-prefix(ie8) { float: right !important; }
+
+  @include respond-to(xs) {
+    float: none;
+  }
+
+  @include body-prefix(ie8) {
+    float: right !important;
+  }
 }
+
 .whenwhere.end,
 .whenwhere-until {
   @include respond-to(xs) {
     margin-right: 0;
   }
 }
+
 .location-selected {
   @include respond-to(xs) {
     margin-right: 20px;
@@ -225,10 +286,10 @@ form#manager-calendar-add-user {
 .whenwhere.start label,
 .whenwhere.end label {
   display: block;
-  width: auto;
   float: left;
   margin-right: 4px;
   position: relative;
+  width: auto;
   z-index: 3;
 }
 
@@ -246,20 +307,21 @@ form#manager-calendar-add-user {
   }
 
   > div {
-    padding: 8px 20px;
-    border-style: dashed;
     border-radius: 4px 0 0 4px;
+    border-style: dashed;
+    color: #646464;
     font-size: 14px;
     font-weight: bold;
-    color: #646464;
+    padding: 8px 20px;
   }
 
   > a {
-    position: absolute;
-    top: 0;
-    right: -25px;
     border-radius: 0 4px 4px 0;
     padding: 8px 14px;
+    position: absolute;
+    right: -25px;
+    top: 0;
+
     @include respond-to(xs) {
       padding: 8px 9px;
       right: -15px;
@@ -283,11 +345,11 @@ form#manager-calendar-add-user {
 }
 
 .remove-instance {
-  position: absolute;
-  right: -25px;
   border-radius: 0 4px 4px 0;
   font-size: 18px;
   padding: 8px 14px;
+  position: absolute;
+  right: -25px;
 
   @include respond-to(xs) {
     padding: 8px 9px;
@@ -303,10 +365,12 @@ form#manager-calendar-add-user {
     }
   }
 }
+
 .remove-instance:hover + .whenwhere-wrap,
 .remove-instance:focus + .whenwhere-wrap {
   background-color: #F2DEDE;
   border-color: #EE5F5B;
+
   @include body-prefix(ie8) {
     background-color: #f9f9f9;
     border-color: #c8c8c8;
@@ -317,7 +381,7 @@ form#manager-calendar-add-user {
 .tag-search {
   position: relative;
 
-  input[type="text"] {
+  input[type='text'] {
     @include ie-no-ms-clear();
   }
 }
@@ -331,13 +395,14 @@ form#manager-calendar-add-user {
 }
 
 .location-selected-remove {
-  font-weight: bold;
+  color: #A8A8A8;
   font-size: 20px;
+  font-weight: bold;
   padding: 0 6px 1px 6px;
   position: absolute;
-  top: -6px;
   right: 0;
-  color: #A8A8A8;
+  top: -6px;
+
   @include respond-to(xs) {
     right: -15px;
   }
@@ -349,7 +414,7 @@ form#manager-calendar-add-user {
   }
 
   &:hover ~ span,
-  &:focus ~ span{
+  &:focus ~ span {
     text-decoration: line-through;
   }
 }
@@ -359,8 +424,8 @@ form#manager-calendar-add-user {
 .location-selected-url {
   display: block;
   float: left;
-  width: 95%; /* Add spacing between .location-selected-remove */
   overflow: hidden;
+  width: 95%; // Add spacing between .location-selected-remove
   word-wrap: break-word;
 }
 
@@ -370,34 +435,34 @@ form#manager-calendar-add-user {
 
 // Tags
 #event-tags-selected li {
+  background: #aaa;
+  border-radius: 20px;
+  color: #fff;
   display: block;
   float: left;
-  margin: 0 5px 5px 0;
-  border-radius: 20px;
-  padding: 2px 12px 2px 28px;
-  background: #aaa;
-  color: #fff;
   font-size: 12px;
   font-weight: bold;
+  margin: 0 5px 5px 0;
+  padding: 2px 12px 2px 28px;
   position: relative;
 
   a {
-    padding: 0 5px 0 9px;
     border-radius: 20px 0 0 20px;
     color: #fff;
+    font-size: 14px;
     font-weight: bold;
+    height: 100%;
+    left: 0;
+    line-height: 22px;
     margin-right: 6px;
+    padding: 0 5px 0 9px;
     position: absolute;
     top: 0;
-    left: 0;
-    height: 100%;
-    font-size: 14px;
-    line-height: 22px;
 
     &:hover,
     &:focus {
-      text-decoration: none;
       background-color: #EE5F5B;
+      text-decoration: none;
     }
   }
 }
