@@ -828,7 +828,7 @@ def named_listing(request, pk, slug, type, format=None):
             month = None
 
         view = c.as_view(day=day, month=month, year=year)
-        return view(request, pk=pk, slug=slug, format=format)
+        return view(request, pk=pk, slug=slug, type=type, format=format)
     raise Http404
 
 

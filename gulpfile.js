@@ -106,7 +106,7 @@ function collectStatic(done) {
     {
       cwd: __dirname
     },
-    function(err, stdout, stderr) {
+    (err, stdout, stderr) => {
       console.log(stdout);
       console.log(stderr);
       done(err);
