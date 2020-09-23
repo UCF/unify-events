@@ -117,16 +117,16 @@ LOGGING = {
         'events': {
             'handlers': ['console', 'file'],
             'propogate': True,
-            'level': 'DEBUG'
+            'level': 'WARNING'
         },
         'profiles': {
             'handlers': ['console', 'file'],
             'propogate': True,
-            'level': 'DEBUG'
+            'level': 'WARNING'
         },
         'util': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG'
+            'level': 'WARNING'
         }
     }
 }
