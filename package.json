@@ -30,7 +30,8 @@
     "gulp-sass": "~4.1.0",
     "gulp-sass-lint": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "merge": "^1.2.1"
+    "merge": "^1.2.1",
+    "select2": "^4.0.13"
   },
   "browserslist": [
     "last 2 versions",
