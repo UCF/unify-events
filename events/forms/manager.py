@@ -4,6 +4,7 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
+from django.core.exceptions import ValidationError
 from taggit.models import Tag
 
 from core.forms import RequiredModelFormSet
@@ -20,6 +21,8 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
+
+import settings
 
 
 class ModelFormStringValidationMixin(forms.ModelForm):
@@ -79,6 +82,11 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
     def clean_title(self):
         # Prevent main calendar title from being modified
         calendar = self.instance
+        title = self.cleaned_data['title']
+
+        if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+            raise ValidationError(f"Calendar titles cannot be any of the following: {', '.join(settings.DISALLOWED_CALENDAR_TITLES)}")
+
         if calendar and calendar.is_main_calendar:
             return calendar.title
         else:
