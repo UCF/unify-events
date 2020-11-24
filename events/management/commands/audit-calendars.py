@@ -38,8 +38,8 @@ class Command(BaseCommand):
         for cal in inactive:
             output.append({
                 'title': cal.title,
-                'owner_name': cal.owner.get_full_name(),
-                'owner_email': cal.owner.email
+                'owner_name': cal.owner.get_full_name() if cal.owner else None,
+                'owner_email': cal.owner.email if cal.owner else None
             })
 
         with open(self.file, 'w') as csv_file:
