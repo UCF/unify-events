@@ -1,4 +1,5 @@
 import csv
+import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -34,6 +35,7 @@ class Command(BaseCommand):
     def empty_calendars(self):
         inactive = Calendar.objects.inactive_calendars()
         output = []
+        filepath = filepath = os.path.abspath(self.file)
 
         for cal in inactive:
             output.append({
@@ -51,7 +53,12 @@ class Command(BaseCommand):
             for row in output:
                 writer.writerow(row)
 
-        print("All done")
+        stats = f"""
+Inactive Calendars Found: {inactive.count()}
+CSV File exported to: {filepath}
+        """
+
+        print(stats)
 
     def invalid_names(self):
         invalid = Calendar.objects.invalid_named_calendars()
@@ -73,4 +80,9 @@ class Command(BaseCommand):
             for row in output:
                 writer.writerow(row)
 
-        print("All done")
+                stats = f"""
+Invalid Calendar Names Found: {inactive.count()}
+CSV File exported to: {filepath}
+        """
+
+        print(stats)
