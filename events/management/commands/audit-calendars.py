@@ -54,4 +54,23 @@ class Command(BaseCommand):
         print("All done")
 
     def invalid_names(self):
-        pass
+        invalid = Calendar.objects.invalid_named_calendars()
+        output = []
+
+        for cal in invalid:
+            output.append({
+                'title': cal.title,
+                'owner_name': cal.owner.get_full_name() if cal.owner else None,
+                'owner_email': cal.owner.email if cal.owner else None
+            })
+
+        with open(self.file, 'w') as csv_file:
+            fieldnames = ['title', 'owner_name', 'owner_email']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+            writer.writeheader()
+
+            for row in output:
+                writer.writerow(row)
+
+        print("All done")

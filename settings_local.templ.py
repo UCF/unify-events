@@ -157,3 +157,11 @@ CORS_GET_PARAMS = {
 # than datetime.now() - the number of days below
 # it is considered expired.
 CALENDAR_EXPIRATION_DAYS = 365
+
+# List of disallowed calendar names
+# Note: Enter new names all lower case
+DISALLOWED_CALENDAR_TITLES = [
+    'events at ucf',
+    'events',
+    'ucf events'
+]

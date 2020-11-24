@@ -53,6 +53,9 @@ class CalendarManager(models.Manager):
         active = self.active_calendars()
         return Calendar.objects.exclude(pk__in=active)
 
+    def invalid_named_calendars(self):
+        return Calendar.objects.filter(title__in=settings.DISALLOWED_CALENDAR_TITLES).exclude(pk=settings.FRONT_PAGE_CALENDAR_PK)
+
 class Calendar(TimeCreatedModified):
     """
     Calendar
