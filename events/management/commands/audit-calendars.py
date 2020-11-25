@@ -35,7 +35,7 @@ class Command(BaseCommand):
     def empty_calendars(self):
         inactive = Calendar.objects.inactive_calendars()
         output = []
-        filepath = filepath = os.path.abspath(self.file)
+        filepath = os.path.abspath(self.file)
 
         for cal in inactive:
             output.append({
@@ -63,6 +63,7 @@ CSV File exported to: {filepath}
     def invalid_names(self):
         invalid = Calendar.objects.invalid_named_calendars()
         output = []
+        filepath = os.path.abspath(self.file)
 
         for cal in invalid:
             output.append({
