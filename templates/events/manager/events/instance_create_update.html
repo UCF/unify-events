@@ -35,6 +35,17 @@
             </div>
             <hr />
             <div class="row">
+              <div class="col-xs-12">
+                Select the location type(s).
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="physicalLocationCheckbox" name="physicalLocationCheckbox">
+                    Physical Location
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div id="physicalLocation" class="row">
                 <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
                     <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
                     {{ ei_form.location|add_class:"location-dropdown form-control" }}
@@ -78,6 +89,22 @@
                     </div>
                     {% endif %}
                 </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="virtualLocationCheckbox" name="virtualLocationCheckbox">
+                    Virtual Location
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div id="virtualLocation" class="row">
+              <div class="col-xs-12">
+                <label class="label-inner" for="{{ ei_form.virtual_url.auto_id }}">Enter the event's virtual URL</label>
+                    {{ ei_form.virtual_url|add_class:"form-control" }}
+              </div>
             </div>
         </div>
     </div>
