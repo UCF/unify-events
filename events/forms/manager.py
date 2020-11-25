@@ -202,6 +202,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         end = cleaned_data.get('end')
         until = cleaned_data.get('until')
         location = cleaned_data.get('location')
+        virtual_url = cleaned_data.get('virtual_url')
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
 
@@ -259,7 +260,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
 
     class Meta:
         model = EventInstance
-        fields = ('start', 'end', 'interval', 'until', 'location')
+        fields = ('start', 'end', 'interval', 'until', 'location', 'virtual_url')
 
 
 """
