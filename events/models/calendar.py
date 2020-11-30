@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -44,6 +44,17 @@ def editable_calendars(self):
     return Calendar.objects.filter(Q(owner=self) | Q(admins=self)).distinct()
 setattr(User, 'editable_calendars', property(editable_calendars))
 
+class CalendarManager(models.Manager):
+    def active_calendars(self):
+        expiration = datetime.now() - timedelta(days=settings.CALENDAR_EXPIRATION_DAYS)
+        return self.filter(events__event_instances__start__gte=expiration).distinct()
+
+    def inactive_calendars(self):
+        active = self.active_calendars()
+        return Calendar.objects.exclude(pk__in=active)
+
+    def invalid_named_calendars(self):
+        return Calendar.objects.filter(title__in=settings.DISALLOWED_CALENDAR_TITLES).exclude(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
 class Calendar(TimeCreatedModified):
     """
@@ -56,6 +67,7 @@ class Calendar(TimeCreatedModified):
     editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
+    objects = CalendarManager()
 
     class Meta:
         app_label = 'events'
