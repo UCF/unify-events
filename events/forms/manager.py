@@ -85,6 +85,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
         title = self.cleaned_data['title']
 
         if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+            #TODO Make a help section explaining which titles are not allowed and link to it.
             raise ValidationError(f"The calendar title you entered is not allowed.")
 
         if calendar and calendar.is_main_calendar:
