@@ -3,6 +3,8 @@ import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.auth.models import User
+from django.db.models import Q
 
 from events.models import Calendar
 
@@ -11,7 +13,7 @@ class Command(BaseCommand):
         parser.add_argument(
             'audit',
             type=str,
-            help='The audit to run. Choices are: empty-calendars and invalid-names'
+            help='The audit to run. Choices are: empty-calendars, invalid-names and pii-in-title'
         )
 
         parser.add_argument(
@@ -29,6 +31,8 @@ class Command(BaseCommand):
             self.empty_calendars()
         elif self.audit_to_run == 'invalid-names':
             self.invalid_names()
+        elif self.audit_to_run == 'pii-in-title':
+            self.pii_in_titles()
         else:
             raise CommandError(f"{self.audit_to_run} is not a valid audit.")
 
@@ -83,6 +87,41 @@ CSV File exported to: {filepath}
 
                 stats = f"""
 Invalid Calendar Names Found: {inactive.count()}
+CSV File exported to: {filepath}
+        """
+
+        print(stats)
+
+    def pii_in_titles(self):
+        usernames = [x.username for x in User.objects.all()]
+        query = Q()
+
+        for username in usernames:
+            query = query | Q(title__istartswith=username.lower())
+
+        invalid = Calendar.objects.filter(query)
+
+        output = []
+        filepath = os.path.abspath(self.file)
+
+        for cal in invalid:
+            output.append({
+                'title': cal.title,
+                'owner_name': cal.owner.get_full_name() if cal.owner else None,
+                'owner_email': cal.owner.email if cal.owner else None
+            })
+
+        with open(self.file, 'w') as csv_file:
+            fieldnames = ['title', 'owner_name', 'owner_email']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+            writer.writeheader()
+
+            for row in output:
+                writer.writerow(row)
+
+            stats = f"""
+NIDs In Title Found: {invalid.count()}
 CSV File exported to: {filepath}
         """
 
