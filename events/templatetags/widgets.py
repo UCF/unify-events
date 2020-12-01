@@ -30,13 +30,13 @@ register = template.Library()
 def calendar_widget(context, calendars, year, month, pk=None, day=None, is_manager=0, size='small', use_pagers=True):
 
     # Catch requests for frontend widget with no specified calendar
-    if calendars is "" and is_manager is 0:
+    if calendars == "" and is_manager == 0:
         raise Http404
 
     if pk:
         calendars = get_object_or_404(Calendar, pk=pk)
 
-    if day is None or day is "":
+    if day is None or day == "":
         relative_day = None
     else:
         if isinstance(day, datetime):

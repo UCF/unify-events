@@ -150,3 +150,18 @@ CORS_GET_PARAMS = {
     'is_widget': 'true|True',
     'format': 'rss|xml|json'
 }
+
+# Used to determine if a calendar is
+# active or not. If the calendar does not
+# have any events with a start time greater
+# than datetime.now() - the number of days below
+# it is considered expired.
+CALENDAR_EXPIRATION_DAYS = 365
+
+# List of disallowed calendar names
+# Note: Enter new names all lower case
+DISALLOWED_CALENDAR_TITLES = [
+    'events at ucf',
+    'events',
+    'ucf events'
+]
