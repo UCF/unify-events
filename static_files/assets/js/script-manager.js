@@ -687,6 +687,58 @@ const eventLocationsSearch = function (locationDropdowns) {
   }
 };
 
+/**
+ * TODO: Description for this function
+ *
+ * @return {void}
+ **/
+const toggleLocationField = function (locationField, locationCheckbox, locationContent) {
+  if (locationField.val() === '') {
+    locationContent.hide();
+  } else {
+    locationCheckbox.attr('checked', true);
+  }
+
+  locationCheckbox.on('change', () => {
+    locationContent.toggle();
+
+    if (locationField.val() !== '' && locationCheckbox.attr('checked', false)) {
+      const locationRemoveBtn = locationContent.find('.location-selected-remove');
+
+      if (locationRemoveBtn) {
+        locationRemoveBtn.trigger('click');
+      }
+
+      locationField.attr('value', '');
+    }
+  });
+};
+
+
+/**
+ * TODO: Description for this function
+ *
+ * @return {void}
+ **/
+const eventLocationTypes = function (locations) {
+  // foreach locationTypes div in each instance
+  if (locations.length > 0) {
+    locations.each(function () {
+      const locationsDiv = $(this);
+
+      const physicalLocationSelect = locationsDiv.find('.location-dropdown');
+      const physicalLocationCheckbox = locationsDiv.find('.physical-location-checkbox');
+      const physicalLocationContent = locationsDiv.find('.physical-location');
+      toggleLocationField(physicalLocationSelect, physicalLocationCheckbox, physicalLocationContent);
+
+      const virtualLocationSelect = locationsDiv.find('.virtual-url');
+      const virtualLocationCheckbox = locationsDiv.find('.virtual-location-checkbox');
+      const virtualLocationContent = locationsDiv.find('.virtual-location');
+      toggleLocationField(virtualLocationSelect, virtualLocationCheckbox, virtualLocationContent);
+    });
+  }
+};
+
 
 /**
  * Search for and add tags to an event.
@@ -1132,6 +1184,9 @@ function cloneableEventInstances() {
 
     // Add event handler for location autocomplete
     eventLocationsSearch($instance.find('.location-dropdown'));
+
+    // Add event handler for location type visibility
+    eventLocationTypes($instance.find('.event_instances-locations'));
 
     return $instance;
   }
