@@ -216,6 +216,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         virtual_url = cleaned_data.get('virtual_url')
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
+        physical_checkbox = cleaned_data.get('physical_checkbox')
+        virtual_checkbox = cleaned_data.get('virtual_checkbox')
 
         if start and end:
             if start > end:
@@ -239,18 +241,11 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         if not location and not virtual_url:
             raise ValidationError("Either a physical or virtual location is required.")
 
-        if physical_checkbox:
+        if physical_checkbox and not location:
             self._errors['location'] = self.error_class(['No location was specified'])
 
-        if virtual_checkbox:
-            self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
-
-        # if not location:
-        #     if new_location_title:
-        #         if not new_location_url:
-        #             self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
-        #     else:
-        #         self._errors['location'] = self.error_class(['No location was specified'])
+        if virtual_checkbox and not virtual_url:
+            self._errors['virtual_url'] = self.error_class(['URL needs to be provided for new locations'])
 
         return cleaned_data
 
