@@ -194,6 +194,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
     new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
     new_location_url = forms.URLField(required=False)
+    physical_checkbox = forms.BooleanField(required=False)
+    virtual_checkbox = forms.BooleanField(required=False)
 
     def clean(self):
         cleaned_data = super(EventInstanceForm, self).clean()
