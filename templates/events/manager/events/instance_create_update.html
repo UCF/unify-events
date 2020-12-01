@@ -34,76 +34,78 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
-              <div class="col-xs-12">
-                Select the location type(s).
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" id="physicalLocationCheckbox" name="physicalLocationCheckbox">
-                    Physical Location
-                  </label>
+            <div class="event_instances-locations">
+              <div class="row">
+                <div class="col-xs-12">
+                  Select the location type(s).
+                  <div class="checkbox">
+                    <label for="{{ ei_form.physical_checkbox.auto_id }}">
+                      {{ ei_form.physical_checkbox|add_class:"physical-location-checkbox" }}
+                      Physical Location
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div id="physicalLocation" class="row">
-                <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
-                    <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
-                    {{ ei_form.location|add_class:"location-dropdown form-control" }}
-                    {{ ei_form.location.errors }}
-                </div>
-                <div class="col-md-6 col-sm-6 location-selected">
-                    <span class="location-selected-title">
-                        {% if ei_form.location.value %}
-                            {{ locations|locations_title:ei_form.location.value }}
-                        {% endif %}
-                    </span>
-                    <span class="location-selected-room">
-                        {% if ei_form.location.value %}
-                            {{ locations|locations_room:ei_form.location.value }}
-                        {% endif %}
-                    </span>
-                    <span class="location-selected-url">
-                        {% if ei_form.location.value %}
-                        <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
-                            <i class="fa fa-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
-                        </a>
-                        {% endif %}
-                    </span>
-                    <div class="location-new-form">
-                        <label class="label-inner {% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
-                        {{ ei_form.new_location_title|add_class:"form-control" }}
-                        {{ ei_form.new_location_title.errors }}
+              <div class="row physical-location">
+                  <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
+                      <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
+                      {{ ei_form.location|add_class:"location-dropdown form-control" }}
+                      {{ ei_form.location.errors }}
+                  </div>
+                  <div class="col-md-6 col-sm-6 location-selected">
+                      <span class="location-selected-title">
+                          {% if ei_form.location.value %}
+                              {{ locations|locations_title:ei_form.location.value }}
+                          {% endif %}
+                      </span>
+                      <span class="location-selected-room">
+                          {% if ei_form.location.value %}
+                              {{ locations|locations_room:ei_form.location.value }}
+                          {% endif %}
+                      </span>
+                      <span class="location-selected-url">
+                          {% if ei_form.location.value %}
+                          <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
+                              <i class="fa fa-external-link"></i>{{ locations|locations_url:ei_form.location.value }}
+                          </a>
+                          {% endif %}
+                      </span>
+                      <div class="location-new-form">
+                          <label class="label-inner {% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
+                          {{ ei_form.new_location_title|add_class:"form-control" }}
+                          {{ ei_form.new_location_title.errors }}
 
-                        <label class="label-inner vertical-label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
-                        {{ ei_form.new_location_room|add_class:"form-control" }}
-                        {{ ei_form.new_location_room.errors }}
+                          <label class="label-inner vertical-label-inner {% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                          {{ ei_form.new_location_room|add_class:"form-control" }}
+                          {{ ei_form.new_location_room.errors }}
 
-                        <label class="label-inner vertical-label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
-                        {{ ei_form.new_location_url|add_class:"form-control" }}
-                        {{ ei_form.new_location_url.errors }}
-                    </div>
-                    {% if not ei_prefix_template %}
-                    <div class="clone-delete-hiddenfield">
-                        <label for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
-                        {{ ei_form.DELETE }}
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" id="virtualLocationCheckbox" name="virtualLocationCheckbox">
-                    Virtual Location
-                  </label>
+                          <label class="label-inner vertical-label-inner {% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                          {{ ei_form.new_location_url|add_class:"form-control" }}
+                          {{ ei_form.new_location_url.errors }}
+                      </div>
+                      {% if not ei_prefix_template %}
+                      <div class="clone-delete-hiddenfield">
+                          <label for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
+                          {{ ei_form.DELETE }}
+                      </div>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="checkbox">
+                    <label for="{{ ei_form.virtual_checkbox.auto_id }}">
+                      {{ ei_form.virtual_checkbox|add_class:"virtual-location-checkbox" }}
+                      Virtual Location
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div id="virtualLocation" class="row">
-              <div class="col-xs-12">
-                <label class="label-inner" for="{{ ei_form.virtual_url.auto_id }}">Enter the event's virtual URL</label>
-                    {{ ei_form.virtual_url|add_class:"form-control" }}
+              <div class="virtual-location row">
+                <div class="col-xs-12">
+                  <label class="label-inner" for="{{ ei_form.virtual_url.auto_id }}">Enter the event's virtual URL</label>
+                      {{ ei_form.virtual_url|add_class:"form-control virtual-url" }}
+                </div>
               </div>
             </div>
         </div>
