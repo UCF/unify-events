@@ -238,14 +238,27 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
             if end.date() >= until:
                 self._errors['until'] = self.error_class(['The until date must fall after the end date/time'])
 
-        if not location and not virtual_url:
-            raise ValidationError("Either a physical or virtual location is required.")
+        # at this point, "location" is none if it's not set to a defined location
+        # (new locations are not created and saved as 'location' yet)
 
+        # if p.checkbox true but no location, check for new location title & pass if set
         if physical_checkbox and not location:
-            self._errors['location'] = self.error_class(['No location was specified'])
+            if new_location_title:
+                if not new_location_url:
+                    self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
+            # if p.checkbox true but not location and no new loc. title, fail
+            elif not new_location_title:
+                self._errors['location'] = self.error_class(['No location was specified'])
 
+        # if v.checkbox true but not virtual_url, fail
         if virtual_checkbox and not virtual_url:
-            self._errors['virtual_url'] = self.error_class(['URL needs to be provided for new locations'])
+            self._errors['virtual_url'] = self.error_class(['Please provide a virtual URL'])
+
+        # if no location and no virtual location and no new location title, fail
+        # this error will also show up if checkbox(es) are checked with no values in the field(s)
+        if not location and not virtual_url:
+            if not new_location_title:
+                raise ValidationError('Either a physical or virtual location is required.')
 
         return cleaned_data
 
@@ -258,7 +271,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         new_location_title = self.cleaned_data.get('new_location_title')
         new_location_room = self.cleaned_data.get('new_location_room')
         new_location_url = self.cleaned_data.get('new_location_url')
-        if not location:
+        if not location and new_location_title:
             location_query = Location.objects.filter(title=new_location_title, room=new_location_room)
             if location_query.count():
                 location = location_query[0]
