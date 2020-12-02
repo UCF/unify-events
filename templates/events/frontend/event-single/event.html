@@ -101,7 +101,7 @@
         {# Start mobile-only sections ....... #}
 
         <div class="event-location event-location-mobile visible-xs">
-            <h2 class="h4 alt heading-location">Location(s):</h2>
+            <h2 class="h4 alt heading-location">Location{% if event_instance.location.pk and event_instance.virtual_url %}s{% endif %}:</h2>
             {% if event_instance.location.pk %}
             <span class="h2 alt location-title">
                 {% include_esi 'location' event_instance.location.pk 'comboname' %}
