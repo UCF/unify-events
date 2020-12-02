@@ -687,54 +687,50 @@ const eventLocationsSearch = function (locationDropdowns) {
   }
 };
 
-/**
- * TODO: Description for this function
- *
- * @return {void}
- **/
-const toggleLocationField = function (locationField, locationCheckbox, locationContent) {
-  if (locationField.val() === '') {
-    locationContent.hide();
-  } else {
-    locationCheckbox.attr('checked', true);
-  }
-
-  locationCheckbox.on('change', () => {
-    locationContent.toggle();
-
-    if (locationField.val() !== '' && locationCheckbox.attr('checked', false)) {
-      const locationRemoveBtn = locationContent.find('.location-selected-remove');
-
-      if (locationRemoveBtn) {
-        locationRemoveBtn.trigger('click');
-      }
-
-      locationField.attr('value', '');
-    }
-  });
-};
-
 
 /**
- * TODO: Description for this function
+ * Handle the visibility of location content based on the state of the
+ * location checkbox. Removes location set values when location type unchecked.
+ * param: $('.location-type')
  *
+ * @param {jQuery} locations Location type(s) html elements
  * @return {void}
  **/
 const eventLocationTypes = function (locations) {
   // foreach locationTypes div in each instance
   if (locations.length > 0) {
     locations.each(function () {
-      const locationsDiv = $(this);
+      const locationDiv = $(this);
+      const locationField = locationDiv.find('.location-type-field');
+      const locationCheckbox = locationDiv.find('.location-type-checkbox');
+      const locationContent = locationDiv.find('.location-type-content');
 
-      const physicalLocationSelect = locationsDiv.find('.location-dropdown');
-      const physicalLocationCheckbox = locationsDiv.find('.physical-location-checkbox');
-      const physicalLocationContent = locationsDiv.find('.physical-location');
-      toggleLocationField(physicalLocationSelect, physicalLocationCheckbox, physicalLocationContent);
+      // check checkbox and show content if field value is set
+      // hide content if field val is empty and checkbox is false
+      if (locationField.val() !== '') {
+        locationCheckbox.prop('checked', true);
+        locationContent.show();
+      } else if (locationField.val() === '' && locationCheckbox.is(':checked') === false) {
+        locationContent.hide();
+      }
 
-      const virtualLocationSelect = locationsDiv.find('.virtual-url');
-      const virtualLocationCheckbox = locationsDiv.find('.virtual-location-checkbox');
-      const virtualLocationContent = locationsDiv.find('.virtual-location');
-      toggleLocationField(virtualLocationSelect, virtualLocationCheckbox, virtualLocationContent);
+      // toggle content visibility on checkbox change
+      locationCheckbox.on('change', () => {
+        locationContent.toggle();
+
+        // empty set values if locationCheckbox is unchecked
+        if (locationField.val() !== '' && locationCheckbox.is(':checked') === false) {
+
+          // empty location values by looking for 'Remove Location' button and triggering if found
+          // otherwise set value on field to empty
+          const locationRemoveBtn = locationContent.find('.location-selected-remove');
+          if (locationRemoveBtn.length !== 0) {
+            locationRemoveBtn.trigger('click');
+          } else {
+            locationField.prop('value', '');
+          }
+        }
+      });
     });
   }
 };
@@ -1186,7 +1182,7 @@ function cloneableEventInstances() {
     eventLocationsSearch($instance.find('.location-dropdown'));
 
     // Add event handler for location type visibility
-    eventLocationTypes($instance.find('.event_instances-locations'));
+    eventLocationTypes($instance.find('.location-type'));
 
     return $instance;
   }
