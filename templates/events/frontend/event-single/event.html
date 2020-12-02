@@ -235,7 +235,7 @@
     </div>
     <aside class="col-md-4 col-sm-4 page-sidebar" id="event-single-sidebar">
         <div class="event-location hidden-xs">
-            <h2 class="h4 alt heading-location">Location(s):</h2>
+            <h2 class="h4 alt heading-location">Location{% if event_instance.location.pk and event_instance.virtual_url %}s{% endif %}:</h2>
             {% if event_instance.location.pk %}
             <span class="h2 alt location location-title">
                 {% include_esi 'location' event_instance.location.pk 'comboname' %}
