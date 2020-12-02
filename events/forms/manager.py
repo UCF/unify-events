@@ -256,8 +256,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
 
         # if no location and no virtual location and no new location title, throw error
         # this error will also show up if checkbox(es) are checked with no values in the field(s)
-        if not location and not virtual_url:
-            if not new_location_title:
+        if not location and not virtual_url and not new_location_title:
                 raise ValidationError('Either a physical or virtual location is required.')
 
         return cleaned_data
