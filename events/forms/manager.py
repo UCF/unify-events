@@ -238,7 +238,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
             if end.date() >= until:
                 self._errors['until'] = self.error_class(['The until date must fall after the end date/time'])
 
-        # at this point, "location" is none if it's not set to a defined location
+        # at this point, 'location' is none if it's not set to a defined location
         # (new locations are not created and saved as 'location' yet)
 
         # if p.checkbox true but no location, check for new location title & pass if set
