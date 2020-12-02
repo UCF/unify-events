@@ -271,7 +271,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         new_location_title = self.cleaned_data.get('new_location_title')
         new_location_room = self.cleaned_data.get('new_location_room')
         new_location_url = self.cleaned_data.get('new_location_url')
-        if not location:
+        if not location and new_location_title:
             location_query = Location.objects.filter(title=new_location_title, room=new_location_room)
             if location_query.count():
                 location = location_query[0]
