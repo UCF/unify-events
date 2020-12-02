@@ -252,7 +252,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
 
         # if v.checkbox true and no virtual_url, throw error
         if virtual_checkbox and not virtual_url:
-            self._errors['virtual_url'] = self.error_class(['Please provide a virtual URL'])
+            self._errors['virtual_url'] = self.error_class(['Please provide a virtual location URL'])
 
         # if no location and no virtual location and no new location title, throw error
         # this error will also show up if checkbox(es) are checked with no values in the field(s)
