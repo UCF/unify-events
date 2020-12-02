@@ -112,6 +112,10 @@
                     <label class="control-label" for="{{ form.active.auto_id }}">Active</label>
                     <p class="label-desc">Determines if the calendar or its events show up in searches or are indexed by search engines.</p>
                   </div>
+                  <div class="controls col-md-6 offset-md-6">
+                    {{ form.active|add_class:"checkbox-switch"}}<label for="{{ form.active.auto_id }}" class="switch"></label>
+                    {{ form.active.errors }}
+                  </div>
                 </div>
                 {% for field in form.hidden_fields %}
                     {{ field }}
