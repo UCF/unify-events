@@ -37,7 +37,7 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
         context = super(GlobalSearchView, self).get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q')
         if context['query']:
-            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'])[:settings.CALENDAR_RESULTS_LIMIT]
+            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'], active=True)[:settings.CALENDAR_RESULTS_LIMIT]
         else:
             context['calendars'] = Calendar.objects.none()
         return context
