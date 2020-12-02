@@ -37,6 +37,20 @@ def calendars(self):
 setattr(User, 'calendars', property(calendars))
 
 
+def active_calendars(self):
+    """
+    Add an attribute to the User model to retrieve
+    the calendars associated to them.
+
+    NOTE:
+    This query generates an outer join for admins (m) and an outer join
+    for editors (n), which can result in a m*n result set, without the
+    distinct().
+    """
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self) | Q(editors=self)).filter(active=True).distinct()
+setattr(User, 'active_calendars', property(active_calendars))
+
+
 def editable_calendars(self):
     """
     Returns the list of calendars the user can edit
@@ -44,13 +58,27 @@ def editable_calendars(self):
     return Calendar.objects.filter(Q(owner=self) | Q(admins=self)).distinct()
 setattr(User, 'editable_calendars', property(editable_calendars))
 
+
+def active_editable_calendars(self):
+    """
+    Returns the list of calendars the user can edit
+    """
+    return Calendar.objects.filter(Q(owner=self) | Q(admins=self)).filter(active=True).distinct()
+setattr(User, 'active_editable_calendars', property(active_editable_calendars))
+
 class CalendarManager(models.Manager):
     def active_calendars(self):
+        return self.filter(active=True)
+
+    def inactive_calendars(self):
+        return self.filter(active=False)
+
+    def with_recent_events(self):
         expiration = datetime.now() - timedelta(days=settings.CALENDAR_EXPIRATION_DAYS)
         return self.filter(events__event_instances__start__gte=expiration).distinct()
 
-    def inactive_calendars(self):
-        active = self.active_calendars()
+    def without_recent_events(self):
+        active = self.with_recent_events()
         return Calendar.objects.exclude(pk__in=active)
 
     def invalid_named_calendars(self):
@@ -67,6 +95,7 @@ class Calendar(TimeCreatedModified):
     editors = models.ManyToManyField(User, related_name='editor_calendars', blank=True)
     admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
+    active = models.BooleanField(blank=False, null=False, default=True)
     objects = CalendarManager()
 
     class Meta:

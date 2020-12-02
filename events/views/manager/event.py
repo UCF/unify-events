@@ -53,9 +53,9 @@ class EventCreate(CreateView):
         """
         initial = super(EventCreate, self).get_initial()
         if self.request.user.is_superuser:
-            initial['user_calendars'] = Calendar.objects.all()
+            initial['user_calendars'] = Calendar.objects.active_calendars()
         else:
-            initial['user_calendars'] = self.request.user.calendars
+            initial['user_calendars'] = self.request.user.active_calendars
         return initial
 
     def get_context_data(self, **kwargs):
@@ -176,9 +176,9 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
         """
         initial = super(EventUpdate, self).get_initial()
         if self.request.user.is_superuser:
-            initial['user_calendars'] = Calendar.objects.all()
+            initial['user_calendars'] = Calendar.objects.active_calendars()
         else:
-            initial['user_calendars'] = self.request.user.calendars
+            initial['user_calendars'] = self.request.user.active_calendars
         return initial
 
     def get_context_data(self, **kwargs):
