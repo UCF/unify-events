@@ -101,17 +101,33 @@
         {# Start mobile-only sections ....... #}
 
         <div class="event-location event-location-mobile visible-xs">
-            <h2 class="h4 alt heading-location">Location:</h2>
+            <h2 class="h4 alt heading-location">Location(s):</h2>
+            {% if event_instance.location.pk %}
             <span class="h2 alt location-title">
                 {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
-            {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
+            {% endif %}
 
+            {% if event_instance.location.pk %}
             {% include_esi 'location' event_instance.location.pk 'mobile-map' %}
+            {% endif %}
+
+            {% if event_instance.virtual_url %}
+            <span class="h2 alt location-title">
+                Virtual
+            </span>
+            <a class="location-virtual-url" href="{{ event_instance.virtual_url }}" target="_blank">{{ event_instance.virtual_url }}</a>
+            {% endif %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">
-                *This event occurs on multiple dates/times. This event takes place at this location on this date.
+                <em>This event occurs on multiple dates/times. This event takes place at
+                {% if object.location.pk and object.virtual_url %}
+                these locations
+                {% else %}
+                this location
+                {% endif %}
+                on this date.</em>
             </p>
             {% endif %}
         </div>
@@ -139,7 +155,13 @@
                             </a>
                         </td>
                         <td>
+                            {% if instance.location.pk and instance.virtual_url %}
+                            {% include_esi 'location' instance.location.pk 'comboname' %} and Virtual
+                            {% elif instance.location.pk %}
                             {% include_esi 'location' instance.location.pk 'comboname' %}
+                            {% elif instance.virtual_url %}
+                            Virtual
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -150,7 +172,9 @@
         <hr class="visible-xs" />
         {% endif %}
 
+        {% if event_instance.location.pk %}
         {% include_esi 'location' event_instance.location.pk 'desktop-map' %}
+        {% endif %}
 
         {# start mobile-only sections ...... #}
 
@@ -211,17 +235,33 @@
     </div>
     <aside class="col-md-4 col-sm-4 page-sidebar" id="event-single-sidebar">
         <div class="event-location hidden-xs">
-            <h2 class="h4 alt heading-location">Location:</h2>
+            <h2 class="h4 alt heading-location">Location(s):</h2>
+            {% if event_instance.location.pk %}
             <span class="h2 alt location location-title">
                 {% include_esi 'location' event_instance.location.pk 'comboname' %}
             </span>
-            {% if event_instance.event.has_instances %}<span class="h2 alt">*</span>{% endif %}
+            {% endif %}
 
+            {% if event_instance.location.pk %}
             {% include_esi 'location' event_instance.location.pk 'desktop-link' %}
+            {% endif %}
+
+            {% if event_instance.virtual_url %}
+            <span class="h2 alt location location-title">
+                Virtual
+            </span>
+            <a class="location-virtual-url" href="{{ event_instance.virtual_url }}" target="_blank">{{ event_instance.virtual_url }}</a>
+            {% endif %}
 
             {% if event_instance.event.has_instances %}
             <p class="small event-location-note">
-                *This event occurs on multiple dates/times. This event takes place at this location on this date.
+                <em>This event occurs on multiple dates/times. This event takes place at
+                {% if object.location.pk and object.virtual_url %}
+                these locations
+                {% else %}
+                this location
+                {% endif %}
+                on this date.</em>
             </p>
             {% endif %}
         </div>
