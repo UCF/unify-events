@@ -247,7 +247,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
                 if not new_location_url:
                     self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
             # if p.checkbox true and no location and no new loc. title, throw error
-            elif not new_location_title:
+            else:
                 self._errors['location'] = self.error_class(['No location was specified'])
 
         # if v.checkbox true and no virtual_url, throw error
