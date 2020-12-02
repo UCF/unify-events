@@ -466,7 +466,8 @@ class EventInstance(TimeCreatedModified):
                                          parent=self,
                                          start=event_date,
                                          end=event_date + duration,
-                                         location=self.location)
+                                         location=self.location,
+                                         virtual_url=self.virtual_url)
                 instance.save()
 
     @property
@@ -510,6 +511,7 @@ class EventInstance(TimeCreatedModified):
                                       start=self.start,
                                       end=self.end,
                                       location=self.location,
+                                      virtual_url=self.virtual_url,
                                       interval=self.interval,
                                       until=self.until,
                                       parent=None)
@@ -533,6 +535,7 @@ class EventInstance(TimeCreatedModified):
             interval=self.interval,
             until=self.until,
             location=self.location,
+            virtual_url=self.virtual_url,
             *args,
             **kwargs
         )
