@@ -241,20 +241,20 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         # at this point, 'location' is none if it's not set to a defined location
         # (new locations are not created and saved as 'location' yet)
 
-        # if p.checkbox true but no location, check for new location title & pass if set
+        # if p.checkbox true and no location, check for new location title
         if physical_checkbox and not location:
             if new_location_title:
                 if not new_location_url:
                     self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
-            # if p.checkbox true but not location and no new loc. title, fail
+            # if p.checkbox true and no location and no new loc. title, throw error
             elif not new_location_title:
                 self._errors['location'] = self.error_class(['No location was specified'])
 
-        # if v.checkbox true but not virtual_url, fail
+        # if v.checkbox true and no virtual_url, throw error
         if virtual_checkbox and not virtual_url:
             self._errors['virtual_url'] = self.error_class(['Please provide a virtual URL'])
 
-        # if no location and no virtual location and no new location title, fail
+        # if no location and no virtual location and no new location title, throw error
         # this error will also show up if checkbox(es) are checked with no values in the field(s)
         if not location and not virtual_url:
             if not new_location_title:
