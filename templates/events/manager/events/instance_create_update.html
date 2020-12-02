@@ -52,7 +52,7 @@
               {% endif %}
               <div class="row">
                 <div class="col-xs-12">
-                  <span>Select the location type(s).</span>
+                  <span class="label-inner location-types-label">Select the location type(s).</span>
                 </div>
               </div>
               <div class="location-type">
@@ -61,12 +61,12 @@
                     <div class="checkbox">
                       <label for="{{ ei_form.physical_checkbox.auto_id }}">
                         {{ ei_form.physical_checkbox|add_class:"location-type-checkbox" }}
-                        Physical Location
+                        <strong>Physical Location</strong>
                       </label>
                     </div>
                   </div>
                 </div>
-                <div class="row location-type-content">
+                <div class="row location-type-content physical-location-content">
                     <div class="col-md-6 col-sm-6 location-search {% if ei_form.location.errors %}error{% endif %}">
                         <label class="label-inner" for="{{ ei_form.location.auto_id }}">Select a Location</label>
                         {{ ei_form.location|add_class:"location-dropdown form-control location-type-field" }}
@@ -118,7 +118,7 @@
                     <div class="checkbox">
                       <label for="{{ ei_form.virtual_checkbox.auto_id }}">
                         {{ ei_form.virtual_checkbox|add_class:"location-type-checkbox" }}
-                        Virtual Location
+                        <strong>Virtual Location</strong>
                       </label>
                     </div>
                   </div>
