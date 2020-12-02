@@ -312,7 +312,7 @@
     h2 {
       &.heading-location,
       &.heading-contact {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
       }
     }
 
@@ -745,7 +745,9 @@ ul.event-list-condensed {
 }
 
 .event-location .location-title {
-  margin-top: 0;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
 
   @include respond-to(xs) {
     font-size: 18px;
@@ -754,11 +756,14 @@ ul.event-list-condensed {
 
 .event-location-url {
   display: block;
-  margin-top: 10px;
 
   @include respond-to(xs) {
     margin-bottom: 10px;
   }
+}
+
+.event-location .location-virtual-url {
+  word-break: break-all;
 }
 
 .event-location-note {
@@ -766,7 +771,6 @@ ul.event-list-condensed {
 
   @include respond-to(xs) {
     margin-bottom: 30px;
-    margin-top: 0;
   }
 }
 
