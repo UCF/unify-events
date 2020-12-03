@@ -693,41 +693,41 @@ const eventLocationsSearch = function (locationDropdowns) {
  * location checkbox. Removes location set values when location type unchecked.
  * param: $('.location-type')
  *
- * @param {jQuery} locations Location type(s) html elements
+ * @param {jQuery} $locations Location type(s) html elements
  * @return {void}
  **/
-const eventLocationTypes = function (locations) {
+const eventLocationTypes = function ($locations) {
   // foreach locationTypes div in each instance
-  if (locations.length > 0) {
-    locations.each(function () {
-      const locationDiv = $(this);
-      const locationField = locationDiv.find('.location-type-field');
-      const locationCheckbox = locationDiv.find('.location-type-checkbox');
-      const locationContent = locationDiv.find('.location-type-content');
+  if ($locations.length > 0) {
+    $locations.each(function () {
+      const $locationDiv = $(this);
+      const $locationField = $locationDiv.find('.location-type-field');
+      const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
+      const $locationContent = $locationDiv.find('.location-type-content');
 
       // check checkbox and show content if field value is set
       // hide content if field val is empty and checkbox is false
-      if (locationField.val() !== '') {
-        locationCheckbox.prop('checked', true);
-        locationContent.show();
-      } else if (locationField.val() === '' && locationCheckbox.is(':checked') === false) {
-        locationContent.hide();
+      if ($locationField.val() !== '') {
+        $locationCheckbox.prop('checked', true);
+        $locationContent.show();
+      } else if ($locationField.val() === '' && $locationCheckbox.is(':checked') === false) {
+        $locationContent.hide();
       }
 
       // toggle content visibility on checkbox change
-      locationCheckbox.on('change', () => {
-        locationContent.toggle();
+      $locationCheckbox.on('change', () => {
+        $locationContent.toggle();
 
-        // empty set values if locationCheckbox is unchecked
-        if (locationField.val() !== '' && locationCheckbox.is(':checked') === false) {
+        // empty set values if $locationCheckbox is unchecked
+        if ($locationField.val() !== '' && $locationCheckbox.is(':checked') === false) {
 
           // empty location values by looking for 'Remove Location' button and triggering if found
           // otherwise set value on field to empty
-          const locationRemoveBtn = locationContent.find('.location-selected-remove');
-          if (locationRemoveBtn.length !== 0) {
-            locationRemoveBtn.trigger('click');
+          const $locationRemoveBtn = $locationContent.find('.location-selected-remove');
+          if ($locationRemoveBtn.length !== 0) {
+            $locationRemoveBtn.trigger('click');
           } else {
-            locationField.prop('value', '');
+            $locationField.prop('value', '');
           }
         }
       });
