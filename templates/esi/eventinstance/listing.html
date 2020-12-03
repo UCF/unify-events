@@ -22,7 +22,18 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 
             {% include 'events/frontend/instance-start-end.html' with start_date=start_date instance_start=instance_start instance_end=instance_end %}
 
-            <span class="location h4 alt">{% include_esi 'location' object.location.pk 'comboname' %}</span>
+            <span class="location h4 alt">
+            {% if object.location.pk %}
+            {% include_esi 'location' object.location.pk 'comboname' %}
+            {% endif %}
+            {% if object.location.pk and object.virtual_url %}
+            and
+            {% endif %}
+            {% if object.virtual_url %}
+            Virtual
+            {% endif %}
+            </span>
+
             <p class="description">
                 {{ object.event.description|remove_html|truncatewords:60 }}
             </p>
