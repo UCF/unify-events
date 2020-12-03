@@ -102,23 +102,29 @@
 
         <div class="event-location event-location-mobile visible-xs">
             <h2 class="h4 alt heading-location">Location{% if event_instance.location.pk and event_instance.virtual_url %}s{% endif %}:</h2>
-            {% if event_instance.location.pk %}
-            <span class="h2 alt location-title">
-                {% include_esi 'location' event_instance.location.pk 'comboname' %}
-            </span>
-            {% endif %}
 
             {% if event_instance.location.pk %}
-            {% include_esi 'location' event_instance.location.pk 'mobile-map' %}
+            <div class="location-type-container">
+              <span class="fa fa-map-marker fa-fw" aria-hidden="true"></span>
+              <div class="location-type-info">
+                <span class="h2 alt location-title">
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
+                </span>
+                {% include_esi 'location' event_instance.location.pk 'mobile-map' %}
+              </div>
+            </div>
             {% endif %}
 
             {% if event_instance.virtual_url %}
-            <span class="h2 alt location-title">
-                Virtual
-            </span>
-            <span class="event-virtual-location-url">
-                <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
-            </span>
+            <div class="location-type-container">
+              <span class="fa fa-laptop fa-fw" aria-hidden="true"></span>
+              <div class="location-type-info">
+                <span class="h2 alt location location-title">Virtual</span>
+                <span class="event-virtual-location-url">
+                  <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
+                </span>
+              </div>
+            </div>
             {% endif %}
 
             {% if event_instance.event.has_instances %}
@@ -238,23 +244,29 @@
     <aside class="col-md-4 col-sm-4 page-sidebar" id="event-single-sidebar">
         <div class="event-location hidden-xs">
             <h2 class="h4 alt heading-location">Location{% if event_instance.location.pk and event_instance.virtual_url %}s{% endif %}:</h2>
-            {% if event_instance.location.pk %}
-            <span class="h2 alt location location-title">
-                {% include_esi 'location' event_instance.location.pk 'comboname' %}
-            </span>
-            {% endif %}
 
             {% if event_instance.location.pk %}
-            {% include_esi 'location' event_instance.location.pk 'desktop-link' %}
+            <div class="location-type-container">
+              <span class="fa fa-map-marker fa-fw" aria-hidden="true"></span>
+              <div class="location-type-info">
+                <span class="h2 alt location location-title">
+                {% include_esi 'location' event_instance.location.pk 'comboname' %}
+                </span>
+                {% include_esi 'location' event_instance.location.pk 'desktop-link' %}
+              </div>
+            </div>
             {% endif %}
 
             {% if event_instance.virtual_url %}
-            <span class="h2 alt location location-title">
-                Virtual
-            </span>
-            <span class="event-virtual-location-url">
-                <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
-            </span>
+            <div class="location-type-container">
+              <span class="fa fa-laptop fa-fw" aria-hidden="true"></span>
+              <div class="location-type-info">
+                <span class="h2 alt location location-title">Virtual</span>
+                <span class="event-virtual-location-url">
+                  <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
+                </span>
+              </div>
+            </div>
             {% endif %}
 
             {% if event_instance.event.has_instances %}
