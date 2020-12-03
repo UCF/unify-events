@@ -37,7 +37,7 @@ def get_all_users_future_events(user):
     """
     events = None
     try:
-        events = EventInstance.objects.filter(event__calendar__in=list(user.calendars.all())).filter(end__gt=datetime.now())
+        events = EventInstance.objects.filter(event__calendar__in=list(user.active_calendars.all())).filter(end__gt=datetime.now())
     except Event.DoesNotExist:
         pass
     return events
@@ -56,7 +56,7 @@ def get_events_by_range(start, end, calendar=None, user=None):
     if calendar:
         calendars = [calendar]
     elif user:
-        calendars = list(user.calendars.all())
+        calendars = list(user.active_calendars.all())
     else:
         raise AttributeError('Either a calendar or user must be supplied.')
 

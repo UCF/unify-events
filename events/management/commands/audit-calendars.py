@@ -37,7 +37,7 @@ class Command(BaseCommand):
             raise CommandError(f"{self.audit_to_run} is not a valid audit.")
 
     def empty_calendars(self):
-        inactive = Calendar.objects.inactive_calendars()
+        inactive = Calendar.objects.without_recent_events()
         output = []
         filepath = os.path.abspath(self.file)
 
