@@ -116,7 +116,9 @@
             <span class="h2 alt location-title">
                 Virtual
             </span>
-            <a class="location-virtual-url" href="{{ event_instance.virtual_url }}" target="_blank">{{ event_instance.virtual_url }}</a>
+            <span class="event-virtual-location-url">
+                <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
+            </span>
             {% endif %}
 
             {% if event_instance.event.has_instances %}
@@ -250,7 +252,9 @@
             <span class="h2 alt location location-title">
                 Virtual
             </span>
-            <a class="location-virtual-url" href="{{ event_instance.virtual_url }}" target="_blank">{{ event_instance.virtual_url }}</a>
+            <span class="event-virtual-location-url">
+                <a href="{{ event_instance.virtual_url }}" target="_blank">[ Open Virtual Location Link ]</a>
+            </span>
             {% endif %}
 
             {% if event_instance.event.has_instances %}
