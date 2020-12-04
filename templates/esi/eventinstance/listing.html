@@ -24,13 +24,13 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 
             <span class="location h4 alt">
             {% if object.location.pk %}
-            {% include_esi 'location' object.location.pk 'comboname' %}
+            <span class="fa fa-map-marker" aria-hidden="true"></span> {% include_esi 'location' object.location.pk 'comboname' %}
             {% endif %}
             {% if object.location.pk and object.virtual_url %}
-            and
+            <span class="location-separator" aria-hidden="true">|</span><span class="sr-only">and</span>
             {% endif %}
             {% if object.virtual_url %}
-            Virtual
+            <span class="fa fa-laptop" aria-hidden="true"></span> Virtual
             {% endif %}
             </span>
 
