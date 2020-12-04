@@ -339,18 +339,27 @@ const gaEventTracking = function () {
 
     const link = $(this);
     const url = link.attr('href');
+    const target = link.attr('target');
     const interaction = link.attr('data-ga-interaction') ? link.attr('data-ga-interaction') : 'event';
     const category = link.attr('data-ga-category') ? link.attr('data-ga-category') : 'Outbound Links';
     const action = link.attr('data-ga-action');
     const label = link.attr('data-ga-label');
 
+    const windowLocation = function (url, target) {
+      if (target === '_blank') {
+        window.open(url, '_blank');
+      } else {
+        document.location = url;
+      }
+    };
+
     if (typeof ga !== 'undefined' && action !== null && label !== null) {
       ga('send', interaction, category, action, label);
       window.setTimeout(() => {
-        document.location = url;
+        windowLocation(url, target);
       }, 200);
     } else {
-      document.location = url;
+      windowLocation(url, target);
     }
   });
 };
