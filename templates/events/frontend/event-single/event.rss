@@ -18,7 +18,7 @@
 			<ucfevent:location>
 				<ucfevent:name>{% if event_instance.location.pk %}{% include_esi 'location' event_instance.location.pk 'comboname' %}{% endif %}</ucfevent:name>
 				<ucfevent:mapurl>{% if event_instance.location.url %}{% include_esi 'location' event_instance.location.pk 'url-escapexml' %}{% endif %}</ucfevent:mapurl>
-				<ucfevent:virtualurl>{% if event_instance.virtual_url %}{{ event_instance.virtual_url|escapexml }}{% endif %}</ucfevent:virtualurl>
+				<ucfevent:virtualurl>{% if event_instance.virtual_url %}<![CDATA[{{ event_instance.virtual_url|escapexml }}]]>{% endif %}</ucfevent:virtualurl>
 			</ucfevent:location>
 			<ucfevent:contact>
 				<ucfevent:contactname>{% if event_instance.event.contact_name %}{{ event_instance.event.contact_name|escapexml }}{% endif %}</ucfevent:contactname>
