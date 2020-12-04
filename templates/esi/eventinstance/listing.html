@@ -27,7 +27,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
             <span class="fa fa-map-marker" aria-hidden="true"></span> {% include_esi 'location' object.location.pk 'comboname' %}
             {% endif %}
             {% if object.location.pk and object.virtual_url %}
-            <span class="location-separator">|</span>
+            <span class="location-separator" aria-hidden="true">|</span><span class="sr-only">and</span>
             {% endif %}
             {% if object.virtual_url %}
             <span class="fa fa-laptop" aria-hidden="true"></span> Virtual
