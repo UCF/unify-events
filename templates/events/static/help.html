@@ -231,40 +231,36 @@
                         <li class="list-group-item">
                             <h5 id="create-new-event-whenwhere">When &amp; Where</h5>
                             <p>
-                                The When &amp; Where form will start with fields for a single event instance.  This instance must have a start time, end time, and a
-                                location.
+                                The When &amp; Where form will start with fields for a single event instance. This instance must have a start time, end time, and either a physical or virtual location.
                             </p>
                             <p>
-                                When an event instance <strong>re-occurs</strong>, instances are automatically generated for you based on the range you specify.
-                                For example, if your event runs from Monday thru Friday daily from 8:00 AM to 5:00 PM, you can create one event instance with a start date
-                                of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday.  See the
-                                <a class="jump-to" href="#recurring-events">Recurring Events</a> section for more information.
+                                When an event instance <strong>re-occurs</strong>, instances are automatically generated for you based on the range you specify. For example, if your event runs from Monday thru Friday daily from 8:00 AM to 5:00 PM, you can create one event instance with a start date of Monday at 8:00 AM and end date of Monday at 5:00 PM, then set a recurrence rule of "daily" until Friday. See the <a class="jump-to" href="#recurring-events">Recurring Events</a> section for more information.
                             </p>
                             <p>
-                                <strong>To select an existing location</strong> for your event instance, start typing the name of your location in the text field provided.
-                                A list of suggestions will appear if an existing location is found.  Click the suggestion, or use the up and down arrow keys
-                                and hit Enter to select a suggestion.
+                                <strong>To select an existing physical location</strong> for your event instance, check the physical location checkbox and start typing the name of your location in the text field that appears. A list of suggestions will appear if an existing location is found. Click the suggestion, or use the up and down arrow keys and hit Enter to select a suggestion.
                             </p>
                             <div class="well well-sm">
-                                <img class="img-responsive center-block img-thumbnail" src="{% static_ver 'img/help-screenshots/create-event-location-select.gif' %}" alt="How to select an existing location" title="How to select an existing location" /><br/>
-                                <small class="center-block text-center">Select an existing location: Start typing in the Select a Location field and click a suggestion (or hit the Enter key.)</small>
+                                <img class="img-responsive center-block img-thumbnail" src="{% static_ver 'img/help-screenshots/create-event-location-select.gif' %}" alt="How to select an existing physical location" title="How to select an existing physical location" /><br/>
+                                <small class="center-block text-center">Select an existing physical location: Check the physical location checkbox, start typing in the Select a Location field and click a suggestion (or hit the Enter key.)</small>
                             </div>
                             <p>
-                                <strong>To create a new location</strong>, click the green "+" button that appears in the location field.  A new form will appear to
-                                the right, where you can add a new location name, room number, and a link to more information about the location, preferrably from
-                                <a href="https://map.ucf.edu">map.ucf.edu</a>.<br />
-                                When you submit a location using a Permalink provided from map.ucf.edu
-                                (ex. <a href="https://map.ucf.edu/?show=52">https://map.ucf.edu/?show=52</a>), a map widget will automatically be generated for you on your
-                                event's page.  However, you can submit any URL that provides more information about the location and a link to that URL will be displayed
-                                under the location name.
+                                <strong>To create a new physical location</strong>, check the Physical Location checkbox and click the green "+" button that appears in the location field. A new form will appear to the right, where you can add a new location name, room number, and a link to more information about the location, preferably from <a href="https://map.ucf.edu">map.ucf.edu</a>.<br />
+                                When you submit a location using a Permalink provided from map.ucf.edu (ex. <a href="https://map.ucf.edu/?show=52">https://map.ucf.edu/?show=52</a>), a map widget will automatically be generated for you on your
+                                event's page. However, you can submit any URL that provides more information about the location and a link to that URL will be displayed under the location name.
                             </p>
                             <div class="well well-sm">
-                                <img class="img-responsive center-block img-thumbnail" src="{% static_ver 'img/help-screenshots/create-event-location-create.gif' %}" alt="How to create a new location" title="How to create a new location" /><br/>
-                                <small class="center-block text-center">Create a new location: Start typing in the Select a Location field and click the green "+" button.</small>
+                                <img class="img-responsive center-block img-thumbnail" src="{% static_ver 'img/help-screenshots/create-event-location-create.gif' %}" alt="How to create a new physical location" title="How to create a new physical location" /><br/>
+                                <small class="center-block text-center">Create a new location: Check the physical location checkbox, start typing in the Select a Location field and click the green "+" button.</small>
                             </div>
                             <p>
-                                <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance
-                                form.  Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
+                                <strong>To set a virtual location URL</strong> for your event instance, check the virtual location checkbox and paste in your event instance's virtual location URL into the text field that appears.
+                            </p>
+                            <div class="well well-sm">
+                                <img class="img-responsive center-block img-thumbnail" src="{% static_ver 'img/help-screenshots/create-event-virtual-location.gif' %}" alt="How to set a virtual location URL" title="How to set a virtual location URL" /><br/>
+                                <small class="center-block text-center">Set a virtual location: Check the virtual location checkbox and paste in your event instance's virtual location URL.</small>
+                            </div>
+                            <p>
+                                <strong>To create a new event instance</strong>, click the "Add new event instance..." button, immediately underneath the event instance form. Another set of fields will be generated for you.  <strong>You can create a maximum of 12 instances per event.</strong>
                             </p>
                         </li>
                         <li class="list-group-item">
