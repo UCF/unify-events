@@ -213,7 +213,7 @@
     "no-useless-rename": "error",
     "no-var": "error",
     "object-shorthand": ["error", "never"], // MODIFIED webcom
-    "prefer-arrow-callback": "error",
+    "prefer-arrow-callback": "off",
     "prefer-const": "error",
     "prefer-numeric-literals": "error",
     "prefer-reflect": "off",
