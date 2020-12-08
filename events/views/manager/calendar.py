@@ -108,6 +108,7 @@ class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
         """
         self.object = form.save()
         self.object.owner = self.request.user
+        self.object.active = True
         return super(CalendarCreate, self).form_valid(form)
 
     def render_to_response(self, context, **response_kwargs):

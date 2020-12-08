@@ -312,7 +312,7 @@
     h2 {
       &.heading-location,
       &.heading-contact {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
       }
     }
 
@@ -415,6 +415,10 @@ ul.event-list {
         font-size: 14px;
         margin: 8px 0;
       }
+    }
+
+    .location-separator {
+      padding: 0 2px;
     }
 
     .description {
@@ -744,17 +748,56 @@ ul.event-list-condensed {
   }
 }
 
-.event-location .location-title {
-  margin-top: 0;
+.event-location {
+  .location-title {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 0;
 
-  @include respond-to(xs) {
-    font-size: 18px;
+    @include respond-to(sm) {
+      font-size: 20px;
+    }
+
+    @include respond-to(xs) {
+      font-size: 18px;
+    }
+  }
+
+  .location-type-container {
+    display: flex;
+
+    &:first-of-type {
+      margin-bottom: 15px;
+    }
+
+    .fa {
+      font-size: 24px;
+      flex-basis: 28px;
+      margin-right: 10px;
+      min-width: 28px;
+
+      @include respond-to(sm) {
+        font-size: 20px;
+        flex-basis: 24px;
+        margin-right: 8px;
+        min-width: 24px;
+      }
+
+      @include respond-to(xs) {
+        font-size: 18px;
+        flex-basis: 20px;
+        min-width: 20px;
+      }
+    }
+  }
+
+  .location-type-info {
+    flex-grow: 2;
   }
 }
 
 .event-location-url {
   display: block;
-  margin-top: 10px;
 
   @include respond-to(xs) {
     margin-bottom: 10px;
@@ -766,7 +809,6 @@ ul.event-list-condensed {
 
   @include respond-to(xs) {
     margin-bottom: 30px;
-    margin-top: 0;
   }
 }
 

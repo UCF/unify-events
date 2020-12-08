@@ -47,6 +47,11 @@
             <p class="h2 page-subtitle">{{ calendar.description }}</p>
         {% endblock %}
     {% endif %}
+    {% if calendar.active == False %}
+    <div class="alert alert-warning">
+      This calendar is not currently active. {% if calendar in user.editable_calendars.all or user.is_superuser %}If you wish to reactivate the calendar, activate it in the <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a> screen.{% endif %}
+    </div>
+    {% endif %}
 {% endblock %}
 
 {% block content_tabs %}

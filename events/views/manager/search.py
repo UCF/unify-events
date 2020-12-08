@@ -18,7 +18,7 @@ class ManagerSearchView(GlobalSearchView):
     """
     def get_queryset(self):
         results = super(ManagerSearchView, self).get_queryset()
-        results = results.filter(calendar__in=self.request.user.calendars)
+        results = results.filter(calendar__in=self.request.user.active_calendars)
 
         return results
 

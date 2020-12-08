@@ -377,6 +377,25 @@ form#manager-calendar-add-user {
   }
 }
 
+// Locations
+.event_instances-locations {
+  .location-type {
+    margin-bottom: 10px;
+  }
+
+  .location-type:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.physical-location-content {
+  margin-bottom: 20px;
+
+  @include respond-to(xs) {
+    margin-bottom: 0;
+  }
+}
+
 .location-search,
 .tag-search {
   position: relative;

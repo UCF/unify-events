@@ -689,6 +689,69 @@ const eventLocationsSearch = function (locationDropdowns) {
 
 
 /**
+ * Handle the visibility of location content based on the state of the
+ * location checkbox. Removes location set values when location type unchecked.
+ * param: $('.location-type')
+ *
+ * @param {jQuery} $locations Location type(s) html elements
+ * @return {void}
+ **/
+const eventLocationTypes = function ($locations) {
+  const $submit = $('button[type="submit"]');
+  const $document = $(document);
+
+  $submit.click(() => {
+    $locations.each((idx, $obj) => {
+      const $locationDiv = $($obj);
+      const $locationField = $locationDiv.find('.location-type-field');
+      const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
+      const $locationContent = $locationDiv.find('.location-type-content');
+
+      // empty set values if $locationCheckbox is unchecked
+      if ($locationField.val() !== '' && $locationCheckbox.is(':checked') === false) {
+
+        // empty location values by looking for 'Remove Location' button and triggering if found
+        // otherwise set value on field to empty
+        const $locationRemoveBtn = $locationContent.find('.location-selected-remove');
+        if ($locationRemoveBtn.length !== 0) {
+          $locationRemoveBtn.trigger('click');
+        } else {
+          $locationField.prop('value', '');
+        }
+      }
+    });
+  });
+
+
+  $document.ready(() => {
+    $locations.each((idx, obj) => {
+      const $locationDiv = $(obj);
+      const $locationField = $locationDiv.find('.location-type-field');
+      const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
+      const $locationContent = $locationDiv.find('.location-type-content');
+
+      if ($locationField.val() !== '') {
+        $locationCheckbox.prop('checked', true);
+        $locationContent.show();
+      } else if ($locationField.val() === '' && $locationCheckbox.is(':checked') === false) {
+        $locationContent.hide();
+      }
+    });
+  });
+
+  $locations.each((idx, obj) => {
+    const $locationDiv = $(obj);
+    const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
+    const $locationContent = $locationDiv.find('.location-type-content');
+
+    $locationCheckbox.click(() => {
+      $locationContent.toggle();
+    });
+  });
+};
+
+
+/**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
  *
@@ -1132,6 +1195,9 @@ function cloneableEventInstances() {
 
     // Add event handler for location autocomplete
     eventLocationsSearch($instance.find('.location-dropdown'));
+
+    // Add event handler for location type visibility
+    eventLocationTypes($instance.find('.location-type'));
 
     return $instance;
   }

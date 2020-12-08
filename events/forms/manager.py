@@ -4,6 +4,7 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
+from django.core.exceptions import ValidationError
 from taggit.models import Tag
 
 from core.forms import RequiredModelFormSet
@@ -20,6 +21,8 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
+
+import settings
 
 
 class ModelFormStringValidationMixin(forms.ModelForm):
@@ -79,6 +82,12 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
     def clean_title(self):
         # Prevent main calendar title from being modified
         calendar = self.instance
+        title = self.cleaned_data['title']
+
+        if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+            #TODO Make a help section explaining which titles are not allowed and link to it.
+            raise ValidationError(f"The calendar title you entered is not allowed.")
+
         if calendar and calendar.is_main_calendar:
             return calendar.title
         else:
@@ -86,7 +95,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description')
+        fields = ('title', 'description', 'active')
 
 
 class CalendarSubscribeForm(forms.ModelForm):
@@ -194,6 +203,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
     new_location_title = forms.CharField(required=False)
     new_location_room = forms.CharField(required=False)
     new_location_url = forms.URLField(required=False)
+    physical_checkbox = forms.BooleanField(required=False)
+    virtual_checkbox = forms.BooleanField(required=False)
 
     def clean(self):
         cleaned_data = super(EventInstanceForm, self).clean()
@@ -202,8 +213,11 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         end = cleaned_data.get('end')
         until = cleaned_data.get('until')
         location = cleaned_data.get('location')
+        virtual_url = cleaned_data.get('virtual_url')
         new_location_title = cleaned_data.get('new_location_title')
         new_location_url = cleaned_data.get('new_location_url')
+        physical_checkbox = cleaned_data.get('physical_checkbox')
+        virtual_checkbox = cleaned_data.get('virtual_checkbox')
 
         if start and end:
             if start > end:
@@ -224,12 +238,26 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
             if end.date() >= until:
                 self._errors['until'] = self.error_class(['The until date must fall after the end date/time'])
 
-        if not location:
+        # at this point, 'location' is none if it's not set to a defined location
+        # (new locations are not created and saved as 'location' yet)
+
+        # if p.checkbox true and no location, check for new location title
+        if physical_checkbox and not location:
             if new_location_title:
                 if not new_location_url:
                     self._errors['new_location_url'] = self.error_class(['URL needs to be provided for new locations'])
+            # if p.checkbox true and no location and no new loc. title, throw error
             else:
                 self._errors['location'] = self.error_class(['No location was specified'])
+
+        # if v.checkbox true and no virtual_url, throw error
+        if virtual_checkbox and not virtual_url:
+            self._errors['virtual_url'] = self.error_class(['Please provide a virtual location URL'])
+
+        # if no location and no virtual location and no new location title, throw error
+        # this error will also show up if checkbox(es) are checked with no values in the field(s)
+        if not location and not virtual_url and not new_location_title:
+                raise ValidationError('Either a physical or virtual location is required.')
 
         return cleaned_data
 
@@ -242,7 +270,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
         new_location_title = self.cleaned_data.get('new_location_title')
         new_location_room = self.cleaned_data.get('new_location_room')
         new_location_url = self.cleaned_data.get('new_location_url')
-        if not location:
+        if not location and new_location_title:
             location_query = Location.objects.filter(title=new_location_title, room=new_location_room)
             if location_query.count():
                 location = location_query[0]
@@ -259,7 +287,7 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
 
     class Meta:
         model = EventInstance
-        fields = ('start', 'end', 'interval', 'until', 'location')
+        fields = ('start', 'end', 'interval', 'until', 'location', 'virtual_url')
 
 
 """

@@ -27,7 +27,8 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
                         Q(title__icontains=query) | Q(calendar__title__icontains=query)
                         ).filter(state__in=State.get_published_states(),
                         ).filter(Q(event_instances__start__gte=now) | Q(event_instances__start__lt=now, event_instances__end__gte=now)
-                        ).filter(created_from=None).distinct()
+                        ).filter(created_from=None
+                        ).filter(calendar__active=True).distinct()
         else:
             queryset = Event.objects.none()
         return queryset
@@ -36,7 +37,7 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
         context = super(GlobalSearchView, self).get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q')
         if context['query']:
-            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'])[:settings.CALENDAR_RESULTS_LIMIT]
+            context['calendars'] = Calendar.objects.filter(title__icontains=context['query'], active=True)[:settings.CALENDAR_RESULTS_LIMIT]
         else:
             context['calendars'] = Calendar.objects.none()
         return context
