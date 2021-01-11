@@ -26,6 +26,8 @@ let config = {
     fontPath: './static_files/static/fonts'
   },
   packagesPath: './node_modules',
+  htmlPath: './templates',
+  pyPath: './events',
   sync: false,
   syncTarget: 'http://127.0.0.1:8000'
 };
@@ -256,6 +258,8 @@ gulp.task('js', gulp.series('es-lint', 'js-build-global', 'js-build-frontend', '
 gulp.task('watch', (done) => {
   serverServe(done);
 
+  gulp.watch(`${config.src.pyPath}/**/*.py`, gulp.series(serverReload));
+  gulp.watch(`${config.src.htmlPath}/**/*.html`, gulp.series(serverReload));
   gulp.watch(`${config.src.scssPath}/**/*.scss`, gulp.series('css', collectStatic, serverReload));
   gulp.watch(`${config.src.jsPath}/**/*.js`, gulp.series('js', collectStatic, serverReload));
 });
