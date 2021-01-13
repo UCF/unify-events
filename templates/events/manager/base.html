@@ -30,11 +30,9 @@
         {% endif %}
     {% endblock %}
 	{% block content_header %}
-		<div class="row">
-            <div id="page-title-wrap">
-                {% block content_title %}{% endblock %}
-            </div>
-        </div>
+		<div class="row" id="page-title-wrap">
+        {% block content_title %}{% endblock %}
+    </div>
 	{% endblock %}
 	{% block content_subheader %}
     	<div class="row">
