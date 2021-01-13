@@ -2,17 +2,17 @@
 {% load widget_tweaks %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{form.non_field_errors}}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+{{ block.super }}
+{% if form.non_field_errors %}
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <strong>Error: </strong>
+        {{form.non_field_errors}}
+      </div>
+    </div>
+  </div>
+{% endif %}
 {% endblock %}
 
 {% block title %}New User Setup: Create a Calendar | {{ block.super }}{% endblock %}
@@ -23,66 +23,64 @@
 {% block content_tabs %}{% endblock %}
 
 {% block content_body %}
-	<div class="row">
-        <div class="col-md-8 col-md-offset-2 page-content">
-            <div class="panel panel-default panel-page">
-                    <div class="panel-body">
-                    <h1><span class="alt">New User Setup:</span> Create a Calendar</h1>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <p class="progress-desc">Step 2 of 2</p>
-                    <p>
-                        To create or subscribe to events, you'll need a calendar to put them in.  Use the form below to
-                        create your first calendar.
-                    </p>
-                    <p>
-                        If you know you'll be added to an existing calendar later, you can
-                        <a href="{% url 'dashboard' %}">skip this step</a>.  You will have limited access to the
-                        events system until you're added to a calendar.
-                    </p>
-
-                    <h2 class="h4 step-heading">Create your first calendar below.</h2>
-                    <form action="{% url 'events.views.manager.calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
-                        {% csrf_token %}
-                        <div class="form-group">
-                           <label class="control-label col-md-3" for="id_title">Calendar Name</label>
-                           <div class="controls col-md-9">
-                               {{ form.title|add_class:"form-control" }}
-                               {{ form.title.errors }}
-                           </div>
-                        </div>
-                        <div class="form-group">
-                           <label class="control-label col-md-3" for="id_description">Calendar Description</label>
-                           <div class="controls col-md-9">
-                               {{ form.description|add_class:"form-control" }}
-                               {{ form.description.errors }}
-                           </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-9 col-md-offset-3">
-                                {% for field in form.hidden_fields %}
-                                    {{ field }}
-                                {% endfor %}
-                                <button class="btn btn-primary btn-block-xs" type="submit">Create Calendar</button>
-                                <a class="btn btn-default btn-block-xs" href="{% url 'dashboard' %}">Skip This Step</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="row mt-3 mt-md-4">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="card">
+      <div class="card-block">
+        <h1 class="h2 mb-3"><span class="font-weight-normal">New User Setup:</span> Create a Calendar</h1>
+        <div class="progress mb-1">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100"></div>
         </div>
+        <p class="text-default">Step 2 of 2</p>
+        <p>To create or subscribe to events, you'll need a calendar to put them in. Use the form below to create your first calendar.
+        </p>
+        <p class="mb-4">If you know you'll be added to an existing calendar later, you can <a href="{% url 'dashboard' %}">skip this step</a>. You will have limited access to the events system until you're added to a calendar.</p>
+
+        <h2 class="h5 mb-3">Create your first calendar below.</h2>
+
+        <form action="{% url 'events.views.manager.calendar-create' %}" method="post" id="calendar-create">
+          {% csrf_token %}
+          <div class="form-group{% if form.title.errors %} has-danger{% endif %}">
+            <label class="form-control-label" for="id_title">Calendar Name</label>
+            {{ form.title|add_class:"form-control" }}
+            {% if form.title.errors %}
+              {% for error in form.title.errors %}
+                <div class="form-control-feedback">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="form-group{% if form.description.errors %} has-danger{% endif %}">
+            <label class="form-control-label" for="id_description">Calendar Description</label>
+            {{ form.description|add_class:"form-control" }}
+            {% if form.description.errors %}
+              {% for error in form.description.errors %}
+                <div class="form-control-feedback">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {% for field in form.hidden_fields %}
+            {{ field }}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Create Calendar</button>
+            <a class="btn btn-default" href="{% url 'dashboard' %}">Skip This Step</a>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}
-    {{block.super}}
-    <script type="text/javascript">
-        $().ready(function() {
-            $('#id_name')
-                .keyup(function() {
-                    $('#id_slug').val(sluggify($(this).val()));
-                })
-        });
-    </script>
+  {{block.super}}
+  <script type="text/javascript">
+    $().ready(function() {
+      $('#id_name')
+        .keyup(function() {
+          $('#id_slug').val(sluggify($(this).val()));
+        })
+    });
+  </script>
 {% endblock %}
