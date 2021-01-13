@@ -5,7 +5,9 @@
 //
 
 // =require jquery-placeholder/jquery.placeholder.js
-// =require bootstrap-sass/assets/javascripts/bootstrap.js
+
+// Athena
+// =require ucf-athena-framework/dist/js/framework.min.js
 
 
 //

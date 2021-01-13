@@ -3,11 +3,11 @@
   "dependencies": {
     "bootstrap-3-typeahead": "^4.0.2",
     "bootstrap-datepicker": "^1.9.0",
-    "bootstrap-sass": "^3.4.1",
-    "font-awesome-4": "github:FortAwesome/Font-Awesome#v4.7.0",
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "jquery-placeholder": "^2.3.1",
     "timepicker": "^1.13.14",
-    "tinymce": "<5.0.0"
+    "tinymce": "<5.0.0",
+    "ucf-athena-framework": "^1.0.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
