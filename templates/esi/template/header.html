@@ -1,8 +1,10 @@
 {% load core_tags %}
-<header class="container">
+<header class="container mb-3 mb-md-2">
     <div class="row">
-        <div class="col-md-8 col-sm-7 header-title">
-            <a href="{% url 'home' %}"><i class="fa fa-home"></i>Events at UCF</a>
+        <div class="col-7 col-md-8">
+            <a href="{% url 'home' %}" class="small text-secondary">
+              <span class="fa fa-home pr-1" aria-hidden="true"></span>Events at UCF
+            </a>
         </div>
         {% block login %}{% include_esi_template 'esi/template/login.html' %}{% endblock %}
     </div>
