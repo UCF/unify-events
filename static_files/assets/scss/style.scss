@@ -1,18 +1,16 @@
-// Asset variable overrides here (static dir paths should be relative to STATIC_URL in settings.py):
-$icon-font-path: '/events/static/fonts/';
-$fa-font-path: '/events/static/fonts/';
+@import 'variables';
 
-$btn-default-color: #fff;
-$btn-default-bg: #aaa;
-$btn-default-border: #999;
-$input-color-placeholder: #999; // Bootstrap 3.2.0 makes this too dark; revert it here
-$font-family-monospace: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+//
+// Third-party assets:
+//
 
-// Custom theme variables here:
-$ucf-header-height: 50px;
-$ucf-gold: #ffc904;
+// Athena
+@import './ucf-athena-framework/src/scss/framework';
 
-// Combine assets and our theme:
-@import './bootstrap-sass/assets/stylesheets/bootstrap';
-@import './font-awesome-4/scss/font-awesome';
+// Fontawesome
+@import './@fortawesome/fontawesome-free/scss/fontawesome';
+@import './@fortawesome/fontawesome-free/scss/brands';
+@import './@fortawesome/fontawesome-free/scss/regular';
+@import './@fortawesome/fontawesome-free/scss/solid';
+
 @import 'base';
