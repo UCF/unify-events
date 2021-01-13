@@ -141,17 +141,17 @@ function serverServe(done) {
 // Installation of components/dependencies
 //
 
-// Bootstrap Glyphicon font processing
-gulp.task('move-components-bs-fonts', (done) => {
-  gulp.src([`${config.packagesPath}/bootstrap-sass/assets/fonts/bootstrap/*`])
-    .pipe(gulp.dest(config.dist.fontPath));
+// Copy Font Awesome files
+gulp.task('move-components-fa-fonts', (done) => {
+  gulp.src([`${config.packagesPath}/@fortawesome/fontawesome-free/webfonts/**/*`])
+    .pipe(gulp.dest(`${config.dist.fontPath}/fontawesome`));
   done();
 });
 
-// Font Awesome font processing
-gulp.task('move-components-fa-fonts', (done) => {
-  gulp.src([`${config.packagesPath}/font-awesome-4/fonts/*`])
-    .pipe(gulp.dest(config.dist.fontPath));
+// Athena Framework web font processing
+gulp.task('move-components-athena-fonts', (done) => {
+  gulp.src([`${config.packagesPath}/ucf-athena-framework/dist/fonts/**/*`])
+    .pipe(gulp.dest(`${config.dist.fontPath}/athena-framework`));
   done();
 });
 
@@ -187,8 +187,8 @@ gulp.task('move-components-tinymce', (done) => {
 
 // Run all component-related tasks
 gulp.task('components', gulp.parallel(
-  'move-components-bs-fonts',
   'move-components-fa-fonts',
+  'move-components-athena-fonts',
   'move-components-tinymce'
 ));
 
