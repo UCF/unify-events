@@ -1,0 +1,27 @@
+.search-results-list {
+  .event-edit {
+    white-space: nowrap;
+  }
+
+  .result-meta,
+  .start-end,
+  .calendar-description {
+    font-size: 90%;
+  }
+
+  .event-tags {
+    li {
+      &:after {
+        content: ',';
+      }
+
+      &:last-of-type::after {
+        content: '';
+      }
+    }
+  }
+
+  li:last-child hr {
+    display: none;
+  }
+}

@@ -55,14 +55,14 @@
                 <span class="fa fa-users fa-fw mr-2" aria-hidden="true"></span>All Users
               </a>
               <a class="dropdown-item" href="{% url 'events.views.manager.calendar-list' %}">
-                <span class="fa fa-calendar-alt fa-fw mr-2" aria-hidden="true"></span>All Calendars
+                <span class="far fa-calendar-alt fa-fw mr-2" aria-hidden="true"></span>All Calendars
               </a>
             </div>
           </li>
           {% endif %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{% url 'dashboard' %}" id="navbarDropdownCalendars" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="fa fa-calendar-alt pr-1" aria-hidden="true"></span>My Calendars
+              <span class="far fa-calendar-alt pr-1" aria-hidden="true"></span>My Calendars
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownCalendars">
               <a class="dropdown-item" href="{% url 'dashboard' %}">View All</a>
@@ -70,7 +70,7 @@
               {% if user.calendars %}
                 {% for calendar in user.calendars %}
                   <a class="dropdown-item" href="{% url 'dashboard' pk=calendar.pk %}">
-                    <span class="fa fa-calendar-alt fa-fw mr-2" aria-hidden="true"></span>{{ calendar.title }}
+                    <span class="far fa-calendar-alt fa-fw mr-2" aria-hidden="true"></span>{{ calendar.title }}
                   </a>
                 {% endfor %}
                 <div class="dropdown-divider"></div>

@@ -14,12 +14,12 @@
 
 {% block content_title %}
 <div class="col-12">
-  <h1>
+  <h1 class="h2 mb-3">
     <a class="text-secondary" href="{{ request.build_absolute_uri }}">
     {% if not query %}
     Search
     {% else %}
-    Search Results for: <em>&ldquo;{{ query }}&rdquo;</em>
+    Search Results for: <span class="font-italic font-weight-normal">&ldquo;{{ query }}&rdquo;</span>
     {% endif %}
     </a>
   </h1>
@@ -66,7 +66,7 @@
                 <ul class="search-results-list list-unstyled">
                 {% for result in results %}
                   {% with object=result.get_main_event|default:result %}
-                      {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
+                    {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
                   {% endwith %}
                 {% endfor %}
                 </ul>
@@ -80,8 +80,8 @@
       {% endblock %}
 
       {% block calendar_results_block %}
-      <div class="col-md-4 page-content">
-        <div class="font-italic mb-4">{{ calendars.count }} calendar(s) found.</div class="font-italic mb-4">
+      <div class="col-md-4 mt-4 mt-md-0">
+        <div class="font-italic mb-4">{{ calendars.count }} calendar(s) found.</div>
         {% if query %}
           {% with results=calendars %}
             {% if results %}
@@ -108,14 +108,14 @@ var user_calendars = [{% include_esi_template "esi/template/user-calendar-ids.ht
 var is_superuser = parseInt({% include_esi_template "esi/template/user-is-superuser.html" %});
 
 if (user_calendars.length || is_superuser == 1) {
-    $.each($('.event-edit'), function() {
-        var link = $(this),
-            pk = parseInt(link.attr('data-calendar-pk'));
+  $.each($('.event-edit'), function() {
+    var link = $(this),
+      pk = parseInt(link.attr('data-calendar-pk'));
 
-        if (user_calendars.indexOf(pk) > -1 || is_superuser == 1) {
-            link.removeClass('hide');
-        }
-    });
+    if (user_calendars.indexOf(pk) > -1 || is_superuser == 1) {
+      link.removeClass('d-none');
+    }
+  });
 }
 </script>
 {% endblock %}
