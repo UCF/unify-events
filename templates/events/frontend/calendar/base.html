@@ -8,13 +8,16 @@
 {% endblock %}
 
 {% block content_title %}
-    <div class="col-md-8">
+    <div class="col-8">
       <h1 class="h2 mb-0">
         <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
       </h1>
     </div>
-
-    {% if calendar.is_main_calendar %}{% include_esi_template 'esi/template/login.html' %}{% endif %}
+    {% if calendar.is_main_calendar %}
+    <div class="col-4">
+      {% include_esi_template 'esi/template/login.html' %}
+    </div>
+    {% endif %}
 
     <div class="col-md-4 col-sm-5 edit-options hide">
         <ul>

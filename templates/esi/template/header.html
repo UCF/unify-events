@@ -6,6 +6,10 @@
               <span class="fa fa-home pr-1" aria-hidden="true"></span>Events at UCF
             </a>
         </div>
-        {% block login %}{% include_esi_template 'esi/template/login.html' %}{% endblock %}
+        {% block login %}
+        <div class="col-5 col-md-4">
+          {% include_esi_template 'esi/template/login.html' %}
+        </div>
+        {% endblock %}
     </div>
 </header>
