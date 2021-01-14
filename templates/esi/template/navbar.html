@@ -1,19 +1,19 @@
 {% if user.is_authenticated %}
 <body class="logged-in">
-  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <nav class="navbar navbar-toggleable-lg navbar-light bg-faded">
     <div class="container">
-      <span class="navbar-text mr-2 mr-xl-3"><a class="text-secondary font-weight-bold" href="{% url 'home' %}">UCF Events</a>: <a href="{% url 'dashboard' %}" class="pl-1 text-secondary font-weight-bold">Admin</a> </span>
+      <span class="navbar-text mr-xl-3"><a class="text-secondary font-weight-bold" href="{% url 'home' %}">UCF Events</a>: <a href="{% url 'dashboard' %}" class="pl-1 text-secondary font-weight-bold">Admin</a> </span>
       <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarLinks">
         <ul class="navbar-nav">
-          <li class="nav-item hidden-lg-up">
+          <li class="nav-item hidden-xl-up">
             <a class="nav-link" href="{% url 'profiles.views.profile-settings' %}">
               <span class="fa fa-user pr-1" aria-hidden="true"></span>Account Settings
             </a>
           </li>
-          <li class="nav-item dropdown hidden-md-down">
+          <li class="nav-item dropdown hidden-lg-down">
             <a class="nav-link dropdown-toggle user-dropdown-link" href="{% url 'profiles.views.profile-settings' %}" id="navbarDropdownUserSettings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-user pr-1" aria-hidden="true"></span>Hi, {{ user.first_name }}
             </a>
@@ -81,7 +81,7 @@
               </a>
             </div>
           </li>
-          <li class="nav-item mt-2 mt-lg-0 ml-lg-2 ml-xl-3">
+          <li class="nav-item mt-2 mt-xl-0 ml-xl-3">
             <a class="nav-link" href="{% url 'accounts-logout' %}">
               <span class="fa fa-sign-out-alt pr-1" aria-hidden="true"></span>Log Out
             </a>
