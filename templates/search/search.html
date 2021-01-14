@@ -13,99 +13,90 @@
 {% block meta %}{% endblock %}
 
 {% block content_title %}
-<h1 class="col-md-12">
-    <a href="{{ request.build_absolute_uri }}">
+<div class="col-12">
+  <h1>
+    <a class="text-secondary" href="{{ request.build_absolute_uri }}">
     {% if not query %}
     Search
     {% else %}
-    Search Results For: <span class="alt"><em>&ldquo;{{ query }}&rdquo;</em></span>
+    Search Results for: <em>&ldquo;{{ query }}&rdquo;</em>
     {% endif %}
     </a>
-</h1>
+  </h1>
+</div>
 {% endblock %}
 
 {% block content_body %}
 <div class="row">
-    <div class="col-md-12" id="search">
-        {% block search_nav %}
+  <div class="col-12" id="search">
+    {% block search_nav %}
+    {% if request.GET.q %}
+      {% with request.GET.q|quote_plus as query %}
+          {% with 'q='|add:query as params %}
+              {% include_esi_template 'esi/template/search-nav.html' params %}
+          {% endwith %}
+      {% endwith %}
+    {% else %}
+      {% include_esi_template 'esi/template/search-nav.html' 'q=' %}
+    {% endif %}
+    {% endblock %}
 
-        {% if request.GET.q %}
-            {% with request.GET.q|quote_plus as query %}
-                {% with 'q='|add:query as params %}
-                    {% include_esi_template 'esi/template/search-nav.html' params %}
-                {% endwith %}
-            {% endwith %}
-        {% else %}
-            {% include_esi_template 'esi/template/search-nav.html' 'q=' %}
-        {% endif %}
+    {% block search_bar %}
+    <form class="d-flex mb-3" method="GET" action="." role="form">
+      <input class="search-query form-control" type="text" id="q" name="q" placeholder="Search all events and calendars" aria-label="Search all events and calendars" value="{{query}}">
+      <button class="btn btn-primary" tabindex="-1" type="submit">Search</button>
+    </form>
+    {% endblock %}
 
-        {% endblock %}
+    <div class="row">
+      {% block event_results_block %}
+      <div class="col-md-8">
+        <div class="font-italic mb-4">{{ page_obj.paginator.count }} event(s) found.</div>
+        {% if query %}
+          {% with results=object_list %}
+            {% if results %}
+                {% comment %}
+                Prioritize Main Calendar events. Assume that Main Calendar events
+                will always be copied from somewhere else.
 
-        {% block search_bar %}
-        <form method="GET" action="." role="form">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
-                        <input type="text" id="q" name="q" class="search-query form-control" placeholder="Search all events and calendars" value="{{query}}">
-                        <div class="input-group-btn">
-                            <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        {% endblock %}
-        <div class="row">
-          {% block event_results_block %}
-            <div class="col-md-8 page-content">
-                <p><em>{{ page_obj.paginator.count }} event(s) found.</em></p>
-                {% if query %}
-                    {% with results=object_list %}
-                        {% if results %}
-                            {% comment %}
-                            Prioritize Main Calendar events. Assume that Main Calendar events
-                            will always be copied from somewhere else.
+                Events use the first instance's search-list-item.html esi template.
+                See esi/eventinstance/search-list-item.html for info.
+                {% endcomment %}
 
-                            Events use the first instance's search-list-item.html esi template.
-                            See esi/eventinstance/search-list-item.html for info.
-                            {% endcomment %}
-
-                            <ul class="search-results-list">
-                            {% for result in results %}
-                              {% with object=result.get_main_event|default:result %}
-                                  {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
-                              {% endwith %}
-                            {% endfor %}
-                            </ul>
-
-                        {% endif %}
-                    {% endwith %}
-                    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
-                {% else %}
-                    {# Show some example queries to run, maybe query syntax, something else? #}
-                    <p>Search for something using the search bar.</p>
-                {% endif %}
-            </div>
-            {% endblock %}
-            {% block calendar_results_block %}
-            <div class="col-md-4 page-content">
-              <p><em>{{ calendars.count }} calendar(s) found.</em></p>
-              {% if query %}
-                  {% with results=calendars %}
-                      {% if results %}
-                          <ul class="search-results-list">
-                          {% for result in results %}
-                            {% include_esi 'calendar' result.pk 'search-list-item' %}
-                          {% endfor %}
-                          </ul>
-                      {% endif %}
+                <ul class="search-results-list list-unstyled">
+                {% for result in results %}
+                  {% with object=result.get_main_event|default:result %}
+                      {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
                   {% endwith %}
-              {% endif %}
-            </div>
-            {% endblock %}
-        </div>
+                {% endfor %}
+                </ul>
+            {% endif %}
+          {% endwith %}
+            {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+          {% else %}
+            <p>Search for something using the search bar.</p>
+          {% endif %}
+      </div>
+      {% endblock %}
+
+      {% block calendar_results_block %}
+      <div class="col-md-4 page-content">
+        <div class="font-italic mb-4">{{ calendars.count }} calendar(s) found.</div class="font-italic mb-4">
+        {% if query %}
+          {% with results=calendars %}
+            {% if results %}
+              <ul class="search-results-list list-unstyled">
+              {% for result in results %}
+                {% include_esi 'calendar' result.pk 'search-list-item' %}
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+      </div>
+      {% endblock %}
     </div>
+  </div>
 </div>
 {% endblock %}
 
