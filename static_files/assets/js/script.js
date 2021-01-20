@@ -306,26 +306,6 @@ const contentExpanders = function () {
 
 
 /**
- * Remove .dropdown-menu-right class from
- * .edit-options list items @ mobile size
- *
- * @return {void}
- **/
-const mobileEditOptions = function () {
-  const removeClass = function () {
-    if ($(window).width() < 768) {
-      $('#page-title-wrap .edit-options .dropdown-menu-right').removeClass('dropdown-menu-right');
-    }
-  };
-
-  removeClass();
-  $(window).on('resize', () => {
-    removeClass();
-  });
-};
-
-
-/**
  * Google Analytics click event tracking
  *
  * interaction: default 'event'. Used to distinguish unique interactions, i.e. social interactions
@@ -380,6 +360,5 @@ $(document).on('ready', () => {
   dropdownMenuForms();
   clickableTableRows();
   contentExpanders();
-  mobileEditOptions();
   gaEventTracking();
 });
