@@ -3,275 +3,305 @@
 {% load locations %}
 
 {% block title %}
-	{% spaceless %}
-	{% if object %}
-        Update Event
-	{% else %}
-        Create Event
-	{% endif %}
+  {% spaceless %}
+  {% if object %}
+    Update Event
+  {% else %}
+    Create Event
+  {% endif %}
     | {{ block.super }}
-	{% endspaceless %}
+  {% endspaceless %}
 {% endblock %}
 
 {% block header_scripts %}
 <script type="text/javascript">
-    var eventLocations = {
-    {% for location in locations %}"{{ location.pk|escapejs }}": { "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-    };
-    var eventTags = [
-    {% for tag in tags %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}
-    ];
+  var eventLocations = {
+  {% for location in locations %}"{{ location.pk|escapejs }}": { "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+  };
+  var eventTags = [
+  {% for tag in tags %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}
+  ];
 </script>
 {% endblock %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert-danger">
-                    <strong>Error: </strong>
-                    {{form.non_field_errors}}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    <strong>Error: </strong>
+    {{form.non_field_errors}}
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_title %}
-    {% if object %}
-        <h1 class="col-md-12" tabindex="0">Update Event: <span class="alt">{{ event.title }}</span></h1>
-    {% else %}
-        <h1 class="col-md-12" tabindex="0">Create an Event</h1>
-    {% endif %}
+  <div class="col-12">
+  {% if object %}
+    <h1 class="h2" tabindex="0">Update Event: <span class="font-weight-normal">{{ event.title }}</span></h1>
+  {% else %}
+    <h1 class="h2" tabindex="0">Create an Event</h1>
+  {% endif %}
+  </div>
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if object %}
-        Use the form below to update this event. Calendars subscribed to
-        your event will be updated as well.
-    {% else %}
-        Use the form below to create a new one-time or recurring event. Please read the
-        <a target="_blank" href="{% url 'help' %}#event-creation-guidelines">event creation guidelines</a> before creating your event!
-    {% endif %}
+  {% if object %}
+    Use the form below to update this event. Calendars subscribed to your event will be updated as well.
+  {% else %}
+    Use the form below to create a new one-time or recurring event. Please read the <a target="_blank" href="{% url 'help' %}#event-creation-guidelines">event creation guidelines</a> before creating your event!
+  {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if object %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    {% with created_from=event.created_from user_calendars=request.user.calendars %}
-                        {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
-                            <a class="btn btn-warning event-update-cancel" href="{% url 'events.views.manager.event-cancel-uncancel' pk=event.pk %}">
-                                <i class="fa fa-ban"></i>
-                            {% if event.canceled %}
-                                Un-Cancel Event
-                            {% else %}
-                                Cancel Event
-                            {% endif %}
-                            </a>
-                        {% endif %}
-                    {% endwith %}
-                    <a class="btn btn-danger object-modify event-update-delete" href="{% url 'events.views.manager.event-delete' pk=event.pk %}"><i class="fa fa-trash-o"></i> Delete Event</a>
-                </div>
-            </div>
+  {% if object %}
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <div class="text-right">
+          {% with created_from=event.created_from user_calendars=request.user.calendars %}
+            {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
+              <a class="btn btn-warning btn-sm event-update-cancel mr-2" href="{% url 'events.views.manager.event-cancel-uncancel' pk=event.pk %}">
+                <span class="fa fa-ban" aria-hidden="true"></span>
+              {% if event.canceled %}
+                Un-Cancel Event
+              {% else %}
+                Cancel Event
+              {% endif %}
+              </a>
+            {% endif %}
+          {% endwith %}
+          <a class="btn btn-danger btn-sm object-modify event-update-delete" href="{% url 'events.views.manager.event-delete' pk=event.pk %}"><span class="fa fa-trash" aria-hidden="true"></span> Delete Event</a>
         </div>
-        <form class="form-horizontal" action="{% url 'events.views.manager.event-update' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
-    {% else %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.event-create' %}" method="post" enctype="multipart/form-data">
-    {% endif %}
-            {% csrf_token %}
-            <fieldset class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label {% if form.calendar.errors %}error{% endif %}" for="{{ form.calendar.auto_id }}" title="Calendar" tabindex="-1">{{ form.calendar.label }}</label>
-                    <p class="label-desc" id="help-label-calendar" tabindex="-1">Select an existing calendar to post this event to.</p>
+      </div>
+    </div>
+    <form action="{% url 'events.views.manager.event-update' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+  {% else %}
+    <form action="{% url 'events.views.manager.event-create' %}" method="post" enctype="multipart/form-data">
+  {% endif %}
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0{% if form.calendar.errors %} error{% endif %}" for="{{ form.calendar.auto_id }}" title="Calendar" >{{ form.calendar.label }}</label>
+            <small class="form-text text-muted mt-0" id="help-label-calendar">Select an existing calendar to post this event to.</small>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            <div class="row">
+              <div class="col-xl-6">
+                {% render_field form.calendar class="form-control" aria-describedby="help-label-calendar" %}
+              </div>
+              <div class="col-12 flex-xl-last mb-2 mb-xl-0">
+                {{ form.calendar.errors }}
+              </div>
+              <div class="col-xl-6 d-flex align-items-center mb-md-2 mb-xl-0">
+                <div class="form-check mb-0">
+                  <label class="form-check-label font-italic" for="{{ form.submit_to_main.auto_id }}">
+                    {{ form.submit_to_main|add_class:"form-check-input" }} Suggest for Main Calendar Approval
+                  </label>
                 </div>
-                <div class="controls col-md-9">
-                    <div class="row">
-                        <div class="col-md-5 col-sm-6">
-                            {% render_field form.calendar class="form-control" aria-describedby="help-label-calendar" %}
-                            {{ form.calendar.errors }}
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <label class="checkbox-inline" for="{{ form.submit_to_main.auto_id }}">
-                                {{ form.submit_to_main }}
-                                 <strong>Suggest for Main Calendar Approval</strong>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset class="form-group large {% if form.title.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
-                    <p class="label-desc" id="help-label-title" tabindex="-1">
-                        Be Brief. Be Bright. Be Done.
-                        <br/>
-                        (<a tabindex="-1" target="_blank" href="https://www.ucf.edu/brand/applying-our-brand/writing/">Need some tips?</a>)
-                    </p>
-                </div>
-                <div class="controls col-md-6">
-                    {% render_field form.title class="form-control" aria-describedby="help-label-title" %}
-                    {{ form.title.errors }}
-                </div>
-            </fieldset>
-            <fieldset class="form-group large {% if form.state.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
-                    <p class="label-desc" id="help-label-state" tabindex="-1">Specify how your event should be saved.</p>
-                </div>
-                <div class="controls col-md-3 col-sm-4">
-                    {% render_field form.state class="form-control" aria-describedby="help-label-state" %}
-                    {{ form.state.errors }}
-                </div>
-            </fieldset>
-            {% if event.is_re_review %}
-            <fieldset class="form-group large {% if event.created_from.title.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="new_title" tabindex="-1">New Title</label>
-                    <p class="label-desc" id="help-label-new_title" tabindex="-1">The new title for the originating event</p>
-                    <button id="copy_title" class="btn btn-info copy-btn" data-copy-to="{{ form.title.auto_id }}">Copy</button>
-                </div>
-                <div class="controls col-md-6">
-                    <input id="new_title" class="form-control" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
-                    {{ event.created_from.title.errors }}
-                </div>
-            </fieldset>
-            {% endif %}
-            <fieldset class="form-group large {% if form.description.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
-                    <p class="label-desc" id="help-label-description" tabindex="-1">A description for your event.</p>
-                </div>
-                <div class="controls col-md-8">
-                    {% render_field form.description id=form.description.auto_id class="form-control wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
-                    {{ form.description.errors }}
-                </div>
-            </fieldset>
-            {% if event.is_re_review %}
-            <fieldset class="form-group large {% if event.created_from.description.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="new_description" tabindex="-1">New Description</label>
-                    <p class="label-desc" id="help-label-new_description" tabindex="-1">The new description from the originating event.</p>
-                    <button id="copy_description" class="btn btn-info copy-btn" data-copy-to="{{ form.description.auto_id }}">Copy</button>
-                </div>
-                <div class="controls col-md-8">
-                    <textarea id="new_description" class="form-control wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
-                    {{ event.created_from.description.errors }}
-                </div>
-            </fieldset>
-            {% endif %}
-            <fieldset class="form-group large" id="event-instance-form" data-form-prefix="{{ event_instance_formset.prefix }}">
-                <div class="control-label-group col-md-3">
-                    <legend class="control-label" tabindex="-1">When &amp; Where</legend>
-                    <p class="label-desc" tabindex="-1">When and where your event takes place, and how often it occurs.</p>
-                </div>
-                <div class="controls col-md-8">
-                {% if event_instance_formset|length > 0 %}
-                    {% for ei_form in event_instance_formset %}
-                        {% include 'events/manager/events/instance_create_update.html' with ei_form=ei_form ei_prefix_template=False %}
-                    {% endfor %}
-                    {% include 'events/manager/events/instance_create_update.html' with ei_form=event_instance_formset.empty_form ei_prefix_template=True %}
-                {% else %}
-                <p>An error has occurred when trying to load this page.  Please refresh or try again later.</p>
-                {% endif %}
-                </div>
-                <div class="controls col-md-8 col-md-offset-3">
-                    <div class="row">
-                        <div class="col-md-10 col-sm-11 col-xs-11 hidden" id="cloner">
-                            <div>Add another event instance...</div>
-                            <a class="btn btn-success" href="#" alt="Add another event instance" title="Add another event instance">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            {{ event_instance_formset.management_form }}
-            <fieldset class="form-group large {% if form.category.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.category.auto_id }}" tabindex="-1">Category</label>
-                    <p class="label-desc" id="help-label-category" tabindex="-1">Select a category to group this event under.</p>
-                </div>
-                <div class="controls col-md-3 col-sm-6">
-                    {% render_field form.category class="form-control" aria-describedby="help-label-category" %}
-                    {{ form.category.errors }}
-                </div>
-            </fieldset>
-            <fieldset class="form-group large {% if form.tags.errors %}error{% endif %}">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
-                    <p class="label-desc" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</p>
-                </div>
-                <div class="controls col-md-6">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 tag-search">
-                            {% render_field form.tags class="form-control" aria_describedby="help-label-tags" %}
-                            {{ form.tags.errors }}
-                            <p class="help-block" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</p>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <ul id="event-tags-selected">
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </fieldset>
-            <fieldset class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <legend class="control-label" tabindex="-1">Contact Information</legend>
-                    <p class="label-desc" tabindex="-1">Let users know how to get in touch with questions about your event.</p>
-                </div>
-                <div class="controls col-md-8">
-                    <div class="row">
-                        <div class="col-md-6 col-md-push-6 col-sm-6 col-sm-push-6">
-                            <label class="checkbox-inline" for="add-user-contact-info">
-                                <input type="checkbox" id="add-user-contact-info">
-                                <strong>Use Your Contact Information</strong>
-                            </label>
-                        </div>
-                        <div class="col-md-6 col-md-pull-6 col-sm-6 col-sm-pull-6">
-                            <label class="label-inner {% if form.contact_name.errors %}error{% endif %}" for="{{ form.contact_name.auto_id }}">Contact Name</label>
-                            {{ form.contact_name|add_class:"form-control" }}
-                            {{ form.contact_name.errors }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                            <label class="label-inner vertical-label-inner {% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
-                            {{ form.contact_email|add_class:"form-control" }}
-                            {{ form.contact_email.errors }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4">
-                            <label class="label-inner vertical-label-inner {% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
-                            {{ form.contact_phone|add_class:"form-control" }}
-                            {{ form.contact_phone.errors }}
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <div class="form-group large">
-                <div class="col-md-8 col-md-offset-3">
-                    {% if object %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Update Event</button>
-                        <a href="{% url 'dashboard' %}" class="btn btn-default btn-block-xs">Cancel</a>
-                    {% else %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Create Event</button>
-                    {% endif %}
-                </div>
+              </div>
             </div>
-        </form>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group{% if form.title.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
+            <small class="form-text text-muted mt-0" id="help-label-title">
+              Be Brief. Be Bright. Be Done.
+              <br/>
+              (<a tabindex="-1" target="_blank" href="https://www.ucf.edu/brand/applying-our-brand/writing/">Need some tips?</a>)
+            </small>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {% render_field form.title class="form-control" aria-describedby="help-label-title" %}
+            {{ form.title.errors }}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group{% if form.state.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
+            <small class="form-text text-muted mt-0" id="help-label-state" tabindex="-1">Specify how your event should be saved.</small>
+          </div>
+          <div class="col-md-6 col-xl-5">
+            {% render_field form.state class="form-control" aria-describedby="help-label-state" %}
+            {{ form.state.errors }}
+          </div>
+        </div>
+      </fieldset>
+
+      {% if event.is_re_review %}
+      <fieldset class="form-group{% if event.created_from.title.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="new_title" tabindex="-1">New Title</label>
+            <small class="form-text text-muted mt-0 mb-1" id="help-label-new_title" tabindex="-1">The new title for the originating event.</small>
+            <button id="copy_title" class="btn btn-sm btn-info copy-btn" data-copy-to="{{ form.title.auto_id }}">Copy</button>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            <input id="new_title" class="form-control" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
+            {{ event.created_from.title.errors }}
+          </div>
+        </div>
+      </fieldset>
+      {% endif %}
+
+      <fieldset class="form-group{% if form.description.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
+            <small class="form-text text-muted mt-0" id="help-label-description">A description for your event.</small>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {% render_field form.description id=form.description.auto_id class="form-control wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
+            {{ form.description.errors }}
+          </div>
+        </div>
+      </fieldset>
+
+      {% if event.is_re_review %}
+      <fieldset class="form-group{% if event.created_from.description.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="new_description" tabindex="-1">New Description</label>
+            <small class="form-text text-muted mt-0 mb-1" id="help-label-new_description" tabindex="-1">The new description from the originating event.</small>
+            <button id="copy_description" class="btn btn-sm btn-info copy-btn" data-copy-to="{{ form.description.auto_id }}">Copy</button>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            <textarea id="new_description" class="form-control wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
+            {{ event.created_from.description.errors }}
+          </div>
+        </div>
+      </fieldset>
+      {% endif %}
+
+      <fieldset class="form-group" id="event-instance-form" data-form-prefix="{{ event_instance_formset.prefix }}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <legend class="font-weight-bold col-form-legend pb-0" tabindex="-1">When &amp; Where</legend>
+            <small class="form-text text-muted mt-0" tabindex="-1">When and where your event takes place, and how often it occurs.</small>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {% if event_instance_formset|length > 0 %}
+              {% for ei_form in event_instance_formset %}
+                {% include 'events/manager/events/instance_create_update.html' with ei_form=ei_form ei_prefix_template=False %}
+              {% endfor %}
+              {% include 'events/manager/events/instance_create_update.html' with ei_form=event_instance_formset.empty_form ei_prefix_template=True %}
+            {% else %}
+            <p>An error has occurred when trying to load this page. Please refresh or try again later.</p>
+            {% endif %}
+            <div class="d-none" id="cloner">
+              <div class="row no-gutters">
+                <div class="col-11">
+                  <div class="card card-faded">
+                    <div class="card-block">
+                      <span class="font-weight-bold">Add another event instance...</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-1 d-flex">
+                  <a class="btn btn-success w-100 text-center p-0 d-flex align-items-center justify-content-center" href="#" alt="Add another event instance" title="Add another event instance">
+                    <span class="fa fa-plus" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      {{ event_instance_formset.management_form }}
+      <fieldset class="form-group{% if form.category.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.category.auto_id }}" tabindex="-1">Category</label>
+            <small class="form-text text-muted mt-0" id="help-label-category" tabindex="-1">Select a category to group this event under.</small>
+          </div>
+          <div class="col-md-6 col-xl-5">
+            {% render_field form.category class="form-control" aria-describedby="help-label-category" %}
+            {{ form.category.errors }}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group{% if form.tags.errors %} error{% endif %}">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
+            <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</small>
+          </div>
+          <div class="col-md-6 col-xl-5">
+            {% render_field form.tags class="form-control" aria_describedby="help-label-tags" %}
+            {{ form.tags.errors }}
+            <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
+          </div>
+          <div class="col-md-6 col-xl-6">
+            <ul id="event-tags-selected">
+            </ul>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <legend class="font-weight-bold col-form-legend pb-0" tabindex="-1">Contact Information</legend>
+            <small class="form-text text-muted mt-0" tabindex="-1">Let users know how to get in touch with questions about your event.</small>
+          </div>
+          <div class="col-md-6 col-xl-8">
+            <div class="row">
+              <div class="col-xl-6 flex-xl-last mt-3 mb-3 mb-xl-0 mt-xl-2">
+                <div class="form-check">
+                  <label class="form-check-label" for="add-user-contact-info">
+                    <input type="checkbox" class="form-check-input" id="add-user-contact-info">
+                    <strong>Use Your Contact Information</strong>
+                  </label>
+                </div>
+              </div>
+              <div class="col-xl-6 mt-xl-2">
+                <div class="form-group">
+                  <label class="{% if form.contact_name.errors %}error{% endif %}" for="{{ form.contact_name.auto_id }}">Contact Name</label>
+                  {{ form.contact_name|add_class:"form-control" }}
+                  {{ form.contact_name.errors }}
+                </div>
+                <div class="form-group">
+                  <label class="{% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
+                  {{ form.contact_email|add_class:"form-control" }}
+                  {{ form.contact_email.errors }}
+                </div>
+                <div class="form-group">
+                  <label class="{% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
+                  {{ form.contact_phone|add_class:"form-control" }}
+                  {{ form.contact_phone.errors }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-group row mt-4">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          {% if object %}
+            <button class="btn btn-primary" type="submit">Update Event</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-default">Cancel</a>
+          {% else %}
+            <button class="btn btn-primary" type="submit">Create Event</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
 {% endblock %}
 
 {% block footer_scripts %}
 <script type="text/javascript">
-    var usersFullName = '{{ user.get_full_name }}';
-    var usersEmail = '{{ user.email }}';
+  var usersFullName = '{{ user.get_full_name }}';
+  var usersEmail = '{{ user.email }}';
 </script>
 {{ block.super }}
 {% endblock %}

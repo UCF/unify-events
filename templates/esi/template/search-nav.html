@@ -12,9 +12,9 @@
   <button class="btn btn-default dropdown-toggle" type="button" id="mobileSearchDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     View By...
   </button>
-  <ul class="dropdown-menu" aria-labelledby="mobileSearchDropdownMenuButton">
+  <div class="dropdown-menu" aria-labelledby="mobileSearchDropdownMenuButton">
     <a class="dropdown-item active" href="{% url 'search_view' %}?q={{ request.GET.q|quote_plus }}">All Calendars and Events</a>
     <a class="dropdown-item" href="{% url 'search_manager_view' %}?q={{ request.GET.q|quote_plus }}">Just My Events</a>
-  </ul>
+  </div>
 </div>
 {% endif %}

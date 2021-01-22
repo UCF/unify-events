@@ -2,12 +2,12 @@
 <li class="mb-4">
   <h3 class="h5">
     <a href="{% url 'events.views.event_views.calendar' pk=object.pk slug=object.slug %}">
-      <span class="far fa-calendar-alt pr-1" aria-hidden="true"></span>{{ object.title }}
+      <span class="far fa-calendar-alt pr-2" aria-hidden="true"></span>{{ object.title }}
     </a>
   </h3>
   {% if object.description %}
   <span class="calendar-description">
-      {{ object.description }}
+    {{ object.description }}
   </span>
   {% endif %}
 </li>

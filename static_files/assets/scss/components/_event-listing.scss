@@ -25,3 +25,59 @@
     display: none;
   }
 }
+
+.event-list {
+  .event {
+    border-left-style: solid;
+    border-left-width: 3px;
+    padding: .75rem;
+    position: relative;
+
+    @include media-breakpoint-up(md) {
+      padding: 1rem;
+    }
+
+    .fa-sync-alt {
+      color: $blue-dark;
+    }
+
+    .location {
+      color: $gray-darker;
+    }
+
+    .description {
+      margin-bottom: 0;
+      font-size: 90%;
+    }
+
+    &:hover {
+      background: $gray-lightest;
+    }
+  }
+}
+
+#calendar-events-day,
+#calendar-events-week,
+#calendar-events-upcoming {
+  .event-list {
+    .dtstart {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: .25rem;
+    }
+
+    .calendar {
+      display: none;
+    }
+  }
+}
+
+#calendar-events-day,
+#calendar-events-week {
+  .event-list {
+    .dtend, .start-date {
+      display: none;
+    }
+  }
+}

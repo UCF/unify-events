@@ -4,7 +4,7 @@
 {% block title %}Log In | {{ block.super }} Admin{% endblock %}
 
 {% block pagehead %}
-    {% include_esi_template 'esi/template/header.html' %}
+  {% include_esi_template 'esi/template/header.html' %}
 {% endblock %}
 
 {% block content_header %}{% endblock %}
@@ -57,13 +57,16 @@
         </div>
       </div>
       <div class="card card-faded">
-        <div class="card-block">
-          <p>
-            <span class="fa fa-info-circle" aria-hidden="true"></span> If you are having trouble logging in, your NID password may be expired.
-            <br>
-            Try resetting your password using the <a href="https://mynid.ucf.edu/pages/NidCheck.aspx">Password Reset Tool</a>.
-          </p>
-          <p class="mb-0">If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.</p>
+        <div class="card-block d-flex">
+          <span class="fa fa-info-circle lead mr-3" aria-hidden="true"></span>
+          <div>
+            <p class="card-text">
+              If you are having trouble logging in, your NID password may be expired.
+              <br>
+              Try resetting your password using the <a href="https://mynid.ucf.edu/pages/NidCheck.aspx">Password Reset Tool</a>.
+            </p>
+            <p class="card-text">If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.</p>
+          </div>
         </div>
       </div>
     </div>
