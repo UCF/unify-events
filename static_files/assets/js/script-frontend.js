@@ -1,18 +1,19 @@
 /* Scripts listed below should only need to be executed on the site frontend. */
 
 
+// TODO: Check functionality
 /**
  * Update frontend calendar month view month/year form
  * "action" value on dropdown change
  *
  * @return {void}
  **/
-const updateMonthviewDropdown = function () {
+const updateMonthViewDropdown = function () {
   const form = $('#month-toggle');
   const yearSelect = form.find('#id_year');
   const monthSelect = form.find('#id_month');
 
-  monthSelect.change(function () {
+  monthSelect.on('change', function () {
     const action = form.attr('action');
     const newMonth = `/${$(this).val()}/`;
     const oldMonth = action.slice(action.length - 4, action.length);
@@ -20,7 +21,7 @@ const updateMonthviewDropdown = function () {
     form.attr('action', newAction);
   });
 
-  yearSelect.change(function () {
+  yearSelect.on('change', function () {
     const action = form.attr('action');
     const newYear = `/${$(this).val()}/`;
     const oldYear = action.slice(action.length - 9, action.length - 3);
@@ -30,6 +31,7 @@ const updateMonthviewDropdown = function () {
 };
 
 
+// TODO: Check functionality
 /**
  * Force repaint of map widget on window resize
  *
@@ -65,6 +67,7 @@ const resizeMapWidgets = function () {
   });
 };
 
+// TODO: Check functionality
 /**
  * Used to add styles to the esi data.
  *
@@ -78,8 +81,8 @@ const esiStyle = function () {
 };
 
 
-$(document).on('ready', () => {
-  updateMonthviewDropdown();
+$(() => {
+  updateMonthViewDropdown();
   resizeMapWidgets();
   esiStyle();
 });

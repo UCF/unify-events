@@ -4,6 +4,7 @@
 // Import third-party assets
 //
 
+// TODO: Review these requirements and replace/update/remove as necessary
 // =require '/bootstrap-3-typeahead/bootstrap3-typeahead.js'
 // =require '/timepicker/jquery.timepicker.js'
 // =require '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
@@ -23,7 +24,7 @@
  * @return {void}
  **/
 const bulkSelectAll = function () {
-  $('#bulk-select-all').click(function () {
+  $('#bulk-select-all').on('click', function () {
     const selectAll = $(this),
       singleSelects = $('.field-bulk-select input');
     singleSelects.prop('checked', selectAll.is(':checked'));
@@ -31,6 +32,7 @@ const bulkSelectAll = function () {
 };
 
 
+// TODO: Where is this used? Check functionality
 /**
  * Bulk action submit.
  *
@@ -39,7 +41,7 @@ const bulkSelectAll = function () {
 const bulkActionSubmit = function () {
   const bulkActionSelects = $('#bulk-action_0, #bulk-action_1');
   bulkActionSelects.removeAttr('onchange');
-  $('#bulk-action_0, #bulk-action_1').change(function () {
+  $('#bulk-action_0, #bulk-action_1').on('change', function () {
     const bulkForm = this.form;
     const actionInput = $(this);
     const actionInputValue = actionInput.find('option:selected');
@@ -61,7 +63,7 @@ const bulkActionSubmit = function () {
 
       if (recurringEvents) {
         const bulkEventDeleteModal = $('#bulk-event-delete-modal');
-        bulkEventDeleteModal.find('#bulk-event-delete-btn').click(() => {
+        bulkEventDeleteModal.find('#bulk-event-delete-btn').on('click', () => {
           bulkForm.submit();
         });
         bulkEventDeleteModal.modal();
@@ -81,13 +83,14 @@ const bulkActionSubmit = function () {
  * @return {void}
  **/
 const toggleEventListRecurrences = function () {
-  $('.recurrences-toggle').click(function (e) {
+  $('.recurrences-toggle').on('click', function (e) {
     e.preventDefault();
     $(this).next('.recurrences').slideToggle();
   });
 };
 
 
+// TODO: Double check these classes
 /**
  * Toggle 'Merge Tag/Category' modal
  *
@@ -96,7 +99,7 @@ const toggleEventListRecurrences = function () {
 const toggleModalMergeObject = function () {
   const modal = $('#object-merge-modal');
 
-  $('.category-merge, .tag-merge, .location-merge').click(function (e) {
+  $('.category-merge, .tag-merge, .location-merge').on('click', function (e) {
     e.preventDefault();
 
     const objectTitle = $(this).attr('data-object-title');
@@ -137,7 +140,7 @@ const toggleModalMergeObject = function () {
   });
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
-  submitBtn.click(() => {
+  submitBtn.on('click', () => {
     const newObject = $('#new-object-select').val();
     let url = submitBtn.attr('href');
     if (newObject !== '') {
@@ -148,6 +151,7 @@ const toggleModalMergeObject = function () {
 };
 
 
+// TODO: Check functionality
 /**
  * Update Calendar Ownership Reassignment url value in modal;
  * enable/disable submit button
@@ -158,7 +162,7 @@ const calendarOwnershipModal = function () {
   if ($('#calendar-reassign-ownership')) {
     const modal = $('#calendar-reassign-ownership');
     const submitBtn = modal.find('.modal-footer a.btn:first-child');
-    submitBtn.click(() => {
+    submitBtn.on('click', () => {
       const newOwner = $('#new-owner-select').val();
       let url = submitBtn.attr('href');
       if (newOwner !== '') {
@@ -170,6 +174,7 @@ const calendarOwnershipModal = function () {
 };
 
 
+// TODO: Check classes and functionality
 /**
  * Toggle Calendar user 'demote' modal
  *
@@ -178,7 +183,7 @@ const calendarOwnershipModal = function () {
 const toggleModalUserDemote = function () {
   const modal = $('#user-demote-modal');
 
-  $('.demote-self').click(function (e) {
+  $('.demote-self').on('click', function (e) {
     e.preventDefault();
 
     const userName  = $(this).attr('data-user-name');
@@ -196,7 +201,7 @@ const toggleModalUserDemote = function () {
   });
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
-  submitBtn.click(() => {
+  submitBtn.on('click', () => {
     const newObject = $('#new-object-select').val();
     let url = submitBtn.attr('href');
     if (newObject !== '') {
@@ -207,6 +212,7 @@ const toggleModalUserDemote = function () {
 };
 
 
+// TODO: Check functionality
 /**
  * Defines an onclick event when icons within date/timepickers
  * are clicked.
@@ -222,6 +228,7 @@ const fallbackDtpOnClick = function (icon) {
 };
 
 
+// TODO: Check functionality/replace w/ newer one
 /**
  * Datepicker Init.
  * Uses Bootstrap datepicker plugin.
@@ -277,6 +284,7 @@ const initiateDatePickers = function (fields) {
 };
 
 
+// TODO: Check functionality/replace with newer version?
 /**
  * Timepicker init.
  * Uses the jQuery timepicker plugin.
@@ -318,24 +326,25 @@ const initiateTimePickers = function (fields) {
 
 
 /**
- * Adds copied rereview data to their respective fields on the
+ * Adds copied re-review data to their respective fields on the
  * Event Update view.
  *
  * @return {void}
  **/
 const initiateReReviewCopy = function () {
-  $('#copy_title').click(function (e) {
+  $('#copy_title').on('click', function (e) {
     e.preventDefault();
     $(`#${$(this).attr('data-copy-to')}`).val($('#new_title').val());
   });
 
-  $('#copy_description').click(function (e) {
+  $('#copy_description').on('click', function (e) {
     e.preventDefault();
     tinyMCE.get($(this).attr('data-copy-to')).setContent($('#new_description').val());
   });
 };
 
 
+// TODO: Check functionality
 /**
  * Generic autocomplete class that searches string values from an existing
  * <select> field, or other data, and updates that field as suggestions are
@@ -460,6 +469,7 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
 };
 
 
+// TODO: Check functionality
 /**
  * User search typeahead + form validation
  *
@@ -484,6 +494,7 @@ const userSearchTypeahead = function () {
 };
 
 
+// TODO: Check functionality
 /**
  * Create/Update Event location searching + creation
  * Arg: $('select.location-dropdown')
@@ -700,7 +711,7 @@ const eventLocationTypes = function ($locations) {
   const $submit = $('button[type="submit"]');
   const $document = $(document);
 
-  $submit.click(() => {
+  $submit.on('click', () => {
     $locations.each((idx, $obj) => {
       const $locationDiv = $($obj);
       const $locationField = $locationDiv.find('.location-type-field');
@@ -722,7 +733,7 @@ const eventLocationTypes = function ($locations) {
     });
   });
 
-
+  // TODO: .ready depreciated, Use jQuery(function() { })
   $document.ready(() => {
     $locations.each((idx, obj) => {
       const $locationDiv = $(obj);
@@ -744,13 +755,14 @@ const eventLocationTypes = function ($locations) {
     const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
     const $locationContent = $locationDiv.find('.location-type-content');
 
-    $locationCheckbox.click(() => {
+    $locationCheckbox.on('click', () => {
       $locationContent.toggle();
     });
   });
 };
 
 
+// TODO: Check functionality & classes
 /**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
@@ -944,6 +956,7 @@ const eventTagging = function () {
 };
 
 
+// TODO: Check functionality & classes
 /**
  * Clone fieldsets of the EventInstance formset of the Event Create/Update form.
  * Auto-increment field IDs as necessary.
@@ -1156,9 +1169,9 @@ function cloneableEventInstances() {
     const $removeBtns = $form.find('.remove-instance');
 
     if (activeInstanceTotal === 1) {
-      $removeBtns.addClass('hidden');
+      $removeBtns.addClass('d-none');
     } else {
-      $removeBtns.removeClass('hidden');
+      $removeBtns.removeClass('d-none');
     }
   }
 
@@ -1205,7 +1218,7 @@ function cloneableEventInstances() {
   function initialFormSetup() {
     // Show the cloner button, add event handler
     $clonerBtn
-      .removeClass('hidden')
+      .removeClass('d-none')
       .on('click', clonerBtnClickHandler);
 
     // Apply event handlers to existing instances on page load
@@ -1269,6 +1282,7 @@ const eventContactInfo = function () {
   }
 };
 
+// TODO: Check functionality/replace/remove
 const initiateWysiwygs = function () {
   /* eslint-disable camelcase */
   const $editors = $('.wysiwyg');
@@ -1295,7 +1309,7 @@ const initiateWysiwygs = function () {
 };
 
 
-$(document).on('ready', () => {
+$(() => {
   bulkSelectAll();
   bulkActionSubmit();
   toggleEventListRecurrences();

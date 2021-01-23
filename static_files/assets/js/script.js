@@ -17,107 +17,7 @@
 //
 
 
-/**
- * Assign browser-specific body classes on page load
- *
- * @returns {void}
- **/
-const addBodyClasses = function () {
-  let bodyClass = '';
-
-  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-    // test for MSIE x.x;
-    const ieversion = Number(RegExp.$1); // capture x.x portion and store as a number
-    if (ieversion >= 10) {
-      bodyClass = 'ie ie10';
-    } else if (ieversion >= 9) {
-      bodyClass = 'ie ie9';
-    } else if (ieversion >= 8) {
-      bodyClass = 'ie ie8';
-    } else if (ieversion >= 7) {
-      bodyClass = 'ie ie7';
-    }
-  } else if (navigator.appName === 'Netscape' && Boolean(navigator.userAgent.match(/Trident\/7.0/))) {
-    // IE11+:
-    bodyClass = 'ie ie11';
-  } else if (navigator.userAgent.match(/iPhone/i)) {
-    // iOS:
-    bodyClass = 'iphone';
-  } else if (navigator.userAgent.match(/iPad/i)) {
-    bodyClass = 'ipad';
-  } else if (navigator.userAgent.match(/iPod/i)) {
-    bodyClass = 'ipod';
-  } else if (navigator.userAgent.match(/Android/i)) {
-    // Android:
-    bodyClass = 'android';
-  }
-
-  $('body').addClass(bodyClass);
-};
-
-
-/**
- * Add classes to elements in IE8 that require non-supported
- * CSS selectors for styling
- *
- * @return {void}
- **/
-const ie8StyleClasses = function () {
-  const addClassBySelector = function (selector, classToAdd) {
-    $(selector).each(function () {
-      $(this).addClass(classToAdd);
-    });
-  };
-  if ($('body').hasClass('ie8')) {
-    // a:not('.btn') > i; i + a:not('.btn')
-    addClassBySelector('a:not(.btn) > i', 'icon-right-margin');
-    addClassBySelector('i + a:not(.btn)', 'icon-left-margin');
-    // general :last-child usage
-    addClassBySelector('.edit-options > ul > li:last-child', 'last-child');
-    addClassBySelector('.search-results-list > li:last-child', 'last-child');
-    addClassBySelector('.search-results-list .event-tags ul li:last-child', 'last-child');
-    addClassBySelector('.panel-heading .form-group:last-child, .panel-footer .form-group:last-child', 'last-child');
-  }
-};
-
-
-/**
- * Attempt to remove scrollbars on dropdown menus if
- * they don't scroll vertically
- *
- * @return {void}
- **/
-const hideDropdownScrollbars = function () {
-  $('.dropdown').each(function () {
-    $(this).on('shown.bs.dropdown', function () {
-      const dropdownMenu = $(this).find('.dropdown-menu');
-      if (dropdownMenu.outerHeight() >= dropdownMenu.prop('scrollHeight')) {
-        dropdownMenu.css('overflow-y', 'hidden');
-      } else {
-        dropdownMenu.css('overflow-y', 'scroll');
-      }
-    });
-  });
-};
-
-
-/**
- * Replace browser's default hover effect for <abbr> elements
- * with Bootstrap tooltips, due to wide browser inconsistency on
- * how the hover state works.
- *
- * Also activate tooltips on any other element that uses
- * Bootstrap's default usage.
- *
- * @return {void}
- **/
-const activateTooltips = function () {
-  $('abbr, [data-toggle="tooltip"]').each(function () {
-    $(this).tooltip();
-  });
-};
-
-
+// TODO: Where is this used and does it work?
 /**
  * Jump to an anchor on the page with smooth scrolling and highlight it
  *
@@ -156,6 +56,7 @@ const jumpTo = function () {
 };
 
 
+// TODO: Review this and make sure classes, everything looks good
 /**
  * Toggle Generic Object modification/deletion modal.
  *
@@ -248,6 +149,7 @@ const calendarSliders = function () {
 };
 
 
+// TODO: Do we need this?
 /**
  * Add support for forms within Bootstrap .dropdown-menus.
  *
@@ -262,6 +164,7 @@ const dropdownMenuForms = function () {
 };
 
 
+// TODO: Is this needed?
 /**
  * Add ability to make an entire table row a clickable link out,
  * based on a provided link in the row.
@@ -282,6 +185,7 @@ const clickableTableRows = function () {
 };
 
 
+// TODO: Review this functionality
 /**
  * Functionality for content expanders (i.e. event descriptions)
  *
@@ -294,6 +198,7 @@ const contentExpanders = function () {
 
     // Hide btn if content is less than max-height
     if (content.height() < parseInt(content.css('max-height'), 10)) {
+      // TODO: Change this to d-none?
       btn.addClass('hidden');
     }
 
@@ -347,13 +252,19 @@ const gaEventTracking = function () {
 };
 
 
-$(document).on('ready', () => {
+/**
+ * Enable Athena tooltips
+ *
+ * @return {void}
+ **/
+const enableTooltips = function () {
+  $('[data-toggle="tooltip"]').tooltip();
+};
+
+
+$(() => {
   $('input, textarea').placeholder();
 
-  addBodyClasses();
-  ie8StyleClasses();
-  hideDropdownScrollbars();
-  activateTooltips();
   jumpTo();
   toggleModalModifyObject();
   calendarSliders();
@@ -361,4 +272,5 @@ $(document).on('ready', () => {
   clickableTableRows();
   contentExpanders();
   gaEventTracking();
+  enableTooltips();
 });
