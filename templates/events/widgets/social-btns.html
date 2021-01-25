@@ -1,9 +1,9 @@
 {% load widgets %}
-<div class="social">
-    <a class="share-facebook ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Facebook" data-ga-action="Like" data-ga-label="{{ url }}" href="https://www.facebook.com/sharer.php?u={{ url }}" title="Like this event on Facebook">
-    Like "{{ page_title }}" on Facebook
-    </a>
-    <a class="share-twitter ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Twitter" data-ga-action="Tweet" data-ga-label="{{ url }}" href="https://twitter.com/intent/tweet?text={{ tweet_title }}&url={{ url }}" title="Tweet this event">
-    Tweet "{{ page_title }}" on Twitter
-    </a>
+<div class="social mb-3">
+  <a class="btn btn-sm btn-facebook ga-event mr-1" target="_blank" data-ga-interaction="social" data-ga-category="Facebook" data-ga-action="Like" data-ga-label="{{ url }}" href="https://www.facebook.com/sharer.php?u={{ url }}" title="Share this content on Facebook">
+    <span class="fab fa-facebook-f pr-2" aria-hidden="true"></span>Share
+  </a>
+  <a class="btn btn-sm btn-twitter ga-event" target="_blank" data-ga-interaction="social" data-ga-category="Twitter" data-ga-action="Tweet" data-ga-label="{{ url }}" href="https://twitter.com/intent/tweet?text={{ tweet_title }}&url={{ url }}" title="Tweet this event">
+    <span class="fab fa-twitter pr-2" aria-hidden="true"></span>Tweet
+  </a>
 </div>

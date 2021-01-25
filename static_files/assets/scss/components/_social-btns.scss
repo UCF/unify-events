@@ -1,0 +1,19 @@
+.social .btn {
+  color: $white;
+}
+
+.btn-facebook {
+  background-color: #3a5795;
+
+  &:hover {
+    background-color: #2c4270;
+  }
+}
+
+.btn-twitter {
+  background-color: #00a5e5;
+
+  &:hover {
+    background-color: #0080b2;
+  }
+}
