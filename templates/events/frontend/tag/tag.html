@@ -12,13 +12,15 @@
 {% block meta %}{% include 'events/frontend/meta-alt-feeds.html' %}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">
-        {% if not calendar.is_main_calendar %}
-        <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <a href="{% url 'events.views.event_views.tag-by-calendar' pk=calendar.pk slug=calendar.slug tag_pk=tag.pk tag=tag.slug %}"><span class="alt">by Tag <em>&ldquo;{{ tag.name }}&rdquo;</em></span></a>
-        {% else %}
-        <a href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">Events By Tag: <span class="alt"><em>&ldquo;{{ tag.name }}&rdquo;</em></span></a>
-        {% endif %}
+  <div class="col-12 mb-4">
+    <h1 class="h2">
+      {% if not calendar.is_main_calendar %}
+      <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">Test {{ calendar.title }}</a>: <span class="font-weight-normal">by Tag <span class="font-italic">&ldquo;{{ tag.name }}&rdquo;</span></span>
+      {% else %}
+      Events By Tag: <span class="font-weight-normal font-italic">&ldquo;{{ tag.name }}&rdquo;</span>
+      {% endif %}
     </h1>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
