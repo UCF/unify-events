@@ -15,7 +15,7 @@
   <div class="col-12 mb-4">
     <h1 class="h2">
       {% if not calendar.is_main_calendar %}
-      <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">Test {{ calendar.title }}</a>: <span class="font-weight-normal">by Tag <span class="font-italic">&ldquo;{{ tag.name }}&rdquo;</span></span>
+      <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>: <span class="font-weight-normal">by Tag <span class="font-italic">&ldquo;{{ tag.name }}&rdquo;</span></span>
       {% else %}
       Events By Tag: <span class="font-weight-normal font-italic">&ldquo;{{ tag.name }}&rdquo;</span>
       {% endif %}
@@ -26,32 +26,34 @@
 {% block content_subheader %}{% endblock %}
 
 {% block content_body %}
-    <div class="row">
-        <div class="col-md-8 col-sm-8 sidebarfix page-content" id="term-events">
-            {% if event_instances %}
-            <ul class="event-list">
-                {% with listing_templ="events/frontend/event-listing/listing.html" %}
-                {% include listing_templ %}
-                {% endwith %}
-            </ul>
-            {% else %}
-            <div class="well well-empty">
-                No events found.
-            </div>
-            {% endif %}
+  <div class="row">
+    <div class="col-lg-8" id="term-events">
+      {% if event_instances %}
+      <ul class="event-list list-unstyled">
+        {% with listing_templ="events/frontend/event-listing/listing.html" %}
+        {% include listing_templ %}
+        {% endwith %}
+      </ul>
+      {% else %}
+      <div class="alert alert-info">
+        No events found.
+      </div>
+      {% endif %}
 
-            {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
-        </div>
-        <aside class="col-md-4 col-sm-4 page-sidebar" id="calendar-events-sidebar">
-            <h3 class="alt h4">Categories:</h3>
-            {% if calendar %}
-                {% category_filters calendar=calendar.pk %}
-            {% else %}
-                {% category_filters %}
-            {% endif %}
-
-            <h3 class="h4 alt pull-left">Feeds:</h3>
-            {% feed_btns url=request.build_absolute_uri %}
-        </aside>
+      {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
     </div>
+    <aside class="col-lg-4" id="calendar-events-sidebar">
+        <h3 class="h5">Categories:</h3>
+        {% if calendar %}
+          {% category_filters calendar=calendar.pk %}
+        {% else %}
+          {% category_filters %}
+        {% endif %}
+
+        <div class="d-flex align-items-center">
+          <h3 class="h5 mb-0 mr-2">Feeds:</h3>
+          {% feed_btns url=request.build_absolute_uri %}
+        </div>
+    </aside>
+  </div>
 {% endblock %}

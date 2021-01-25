@@ -81,3 +81,8 @@
     }
   }
 }
+
+// Hide calendar for specific cat/tag views
+#term-events .calendar {
+  display: none;
+}
