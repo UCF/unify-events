@@ -27,33 +27,33 @@
 
 {% block content_body %}
   <div class="row">
-      <div class="col-lg-8" id="term-events">
-          {% if event_instances %}
-          <ul class="event-list list-unstyled">
-            {% with listing_templ="events/frontend/event-listing/listing.html" %}
-            {% include listing_templ %}
-            {% endwith %}
-          </ul>
-          {% else %}
-          <div class="alert alert-info">
-            No events found.
-          </div>
-          {% endif %}
-
-          {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+    <div class="col-lg-8" id="term-events">
+      {% if event_instances %}
+      <ul class="event-list list-unstyled">
+        {% with listing_templ="events/frontend/event-listing/listing.html" %}
+        {% include listing_templ %}
+        {% endwith %}
+      </ul>
+      {% else %}
+      <div class="alert alert-info">
+        No events found.
       </div>
-      <aside class="col-lg-4" id="calendar-events-sidebar">
-        <h3 class="h5">Categories:</h3>
-        {% if calendar %}
-          {% category_filters calendar=calendar.pk %}
-        {% else %}
-          {% category_filters %}
-        {% endif %}
+      {% endif %}
 
-        <div class="d-flex align-items-center">
-          <h3 class="h5 mb-0 mr-2">Feeds:</h3>
-          {% feed_btns url=request.build_absolute_uri %}
-        </div>
-      </aside>
+      {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+    </div>
+    <aside class="col-lg-4" id="calendar-events-sidebar">
+      <h3 class="h5">Categories:</h3>
+      {% if calendar %}
+        {% category_filters calendar=calendar.pk %}
+      {% else %}
+        {% category_filters %}
+      {% endif %}
+
+      <div class="d-flex align-items-center">
+        <h3 class="h5 mb-0 mr-2">Feeds:</h3>
+        {% feed_btns url=request.build_absolute_uri %}
+      </div>
+    </aside>
   </div>
 {% endblock %}
