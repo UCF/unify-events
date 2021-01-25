@@ -58,13 +58,19 @@
 
 #calendar-events-day,
 #calendar-events-week,
-#calendar-events-upcoming {
+#calendar-events-upcoming,
+#term-events {
   .event-list {
     .dtstart {
       display: block;
       font-size: 1.15rem;
       font-weight: bold;
-      margin-bottom: .25rem;
+    }
+
+    .dtend {
+      display: block;
+      font-weight: bold;
+      margin-bottom: .5rem;
     }
 
     .calendar {
@@ -76,13 +82,13 @@
 #calendar-events-day,
 #calendar-events-week {
   .event-list {
-    .dtend, .start-date {
+    .start-date,
+    .dtend {
       display: none;
     }
-  }
-}
 
-// Hide calendar for specific cat/tag views
-#term-events .calendar {
-  display: none;
+    .dtstart {
+      margin-bottom: .5rem;
+    }
+  }
 }
