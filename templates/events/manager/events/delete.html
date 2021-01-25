@@ -4,36 +4,38 @@
 {% block title %}Delete Event: {{ event.title }} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">Delete Event: <span class="alt">{{ event.title }}</span></h1>
+  <div class="col-12">
+    <h1 class="h2 mb-4">Delete Event: <span class="font-weight-normal">{{ event.title }}</span></h1>
+  </div>
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'events.views.manager.event-delete' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
+  {% url 'events.views.manager.event-delete' pk=event.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
 {% endblock %}
 
 {% block content_form_id %}events.views.manager.event-delete{% endblock %}
 
 {% block content_form_body %}
-    {% csrf_token %}
-    {% if event.has_instances %}
-    <p>
-    	You are about to delete this event. Note that if you delete this event, <strong>every occurrence of the event will be deleted as well.</strong>
-    </p>
-    <p>
-        If you would like to <em>only</em> delete a single occurrence, click "Cancel" and then edit the event.
-    </p>
-    {% else %}
-    <p>
-    	Are you sure you want to delete this event? There is no undo!
-    </p>
-    {% endif %}
+  {% csrf_token %}
+  {% if event.has_instances %}
+  <p>
+    You are about to delete this event. Note that if you delete this event, <strong>every occurrence of the event will be deleted as well.</strong>
+  </p>
+  <p>
+    If you would like to <em>only delete a single occurrence</em>, click "Cancel" and then edit the event.
+  </p>
+  {% else %}
+  <p>
+    Are you sure you want to delete this event? There is no undo!
+  </p>
+  {% endif %}
 {% endblock %}
 
 {% block content_form_footer %}
-    <button type="submit" class="btn btn-danger btn-block-xs">Delete Event</button>
-    <a href="{% url 'events.views.manager.event-update' pk=event.pk %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+  <button type="submit" class="btn btn-danger btn-sm">Delete Event</button>
+  <a href="{% url 'events.views.manager.event-update' pk=event.pk %}" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}
-    {{ block.super }}
+  {{ block.super }}
 {% endblock %}

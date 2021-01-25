@@ -2,66 +2,72 @@
 {% load widget_tweaks %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{ form.non_field_errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block title %}Create a Calendar | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">Create a Calendar</h1>
+  <div class="col-12">
+    <h1 class="h2 mb-2">Create a Calendar</h1>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}
-    <div class="row">
-        <div class="col-md-12">
-            <p class="h2 page-subtitle">
-                Use the form below to create a new calendar.
-            </p>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead mb-4">
+        Use the form below to create a new calendar.
+      </p>
     </div>
+  </div>
 {% endblock %}
 
 {% block content_body %}
-    <form action="{% url 'events.views.manager.calendar-create' %}" method="post" id="calendar-create" class="form-horizontal">
-        {% csrf_token %}
-        <div class="form-group large">
-            <label class="control-label col-md-3" for="id_title">Calendar Name</label>
-            <div class="controls col-md-6">
-                {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
-                {{ form.title.errors }}
-            </div>
+<div class="row">
+  <div class="col-xl-10 offset-xl-1">
+    <form action="{% url 'events.views.manager.calendar-create' %}" method="post" id="calendar-create">
+      {% csrf_token %}
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_title">Calendar Name</label>
         </div>
-        <div class="form-group large">
-            <div class="control-label-group col-md-3">
-                <label class="control-label" for="id_description">Description</label>
-                <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-            </div>
-            <div class="controls col-md-6">
-                {{ form.description|add_class:"form-control" }}
-                {{ form.description.errors }}
-            </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
+          {{ form.title.errors }}
         </div>
-        {% for field in form.hidden_fields %}
-            {{ field }}
-        {% endfor %}
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-3">
-                <button type="submit" class="btn btn-primary btn-block-xs">Create Calendar</button>
-            </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="id_description">Description</label>
+          <small class="form-text text-muted mt-0" tabindex="-1">A brief blurb about your calendar and/or its events. Limit 140 characters.</small>
         </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.description|add_class:"form-control" }}
+          {{ form.description.errors }}
+        </div>
+      </div>
+
+      {% for field in form.hidden_fields %}
+        {{ field }}
+      {% endfor %}
+
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          <button type="submit" class="btn btn-primary btn-block-xs">Create Calendar</button>
+        </div>
+      </div>
     </form>
+  </div>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}
-    {{ block.super }}
+  {{ block.super }}
 {% endblock %}
