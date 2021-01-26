@@ -138,7 +138,7 @@ const toggleModalModifyObject = function () {
  * @return {void}
  **/
 const calendarSliders = function () {
-  $('body').on('click', '.calendar-slider ul.pager li a', function (e) {
+  $('body').on('click', '.calendar-slider .pager a', function (e) {
     e.preventDefault();
 
     const slider = $(this).parents('.calendar-slider');
