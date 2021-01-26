@@ -5,53 +5,55 @@
 {% block title %}My Calendar{% if calendar %}: {{ calendar.title }}{% else %}s{% endif %} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-9 col-sm-8">
-        My Calendar{% if calendar %}: <span class="alt">{{ calendar.title }}</span>{% else %}s{% endif %}
+  <div class="col-lg-8">
+    <h1 class="h2">
+        My Calendar{% if calendar %}: <span class="font-weight-normal">{{ calendar.title }}</span>{% else %}s{% endif %}
     </h1>
-    {% if calendar %}
-    <div class="col-md-3 col-sm-4 edit-options">
-        <ul>
-            {% if calendar in user.editable_calendars.all or user.is_superuser %}
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}"><i class="fa fa-pencil"></i>Edit <b class="caret"></b></a>
-                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
-                    <li>
-                        <a href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}"><i class="fa fa-group fa-fw"></i> Users &amp; Permissions</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}"><i class="fa fa-info-circle fa-fw"></i> Calendar Info</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}"><i class="fa fa-share fa-fw"></i> Subscriptions</a>
-                    </li>
-                    {% if user == calendar.owner or user.is_superuser %}
-                    <li class="divider"></li>
-                    <li>
-                        <a class="object-modify" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}"><i class="fa fa-trash-o fa-fw"></i> Delete Calendar</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </li>
+  </div>
+  {% if calendar %}
+    <div class="col-lg-4 edit-options mb-3 mb-lg-0 text-lg-right">
+      {% if calendar in user.editable_calendars.all or user.is_superuser %}
+        <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
+          <a class="dropdown-toggle small font-weight-bold text-default-aw" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" role="button" id="editDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Edit
+          </a>
+          <div class="dropdown-menu" aria-labelledby="editDropDown">
+            <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">
+              <span class="fa fa-users fa-fw mr-1" aria-hidden="true"></span>Users &amp; Permissions
+            </a>
+            <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">
+              <span class="fa fa-info-circle fa-fw mr-1" aria-hidden="true"></span>Calendar Info
+            </a>
+            <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">
+              <span class="fa fa-share fa-fw mr-1" aria-hidden="true"></span>Subscriptions
+            </a>
+            {% if user == calendar.owner or user.is_superuser %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item object-modify" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}">
+              <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Calendar
+            </a>
             {% endif %}
-            <li>
-                <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}"><i class="fa fa-play-circle"></i>Live View</a>
-            </li>
-        </ul>
+          </div>
+        </div>
+      {% endif %}
+      <a class="small font-weight-bold text-default-aw" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">
+        <span class="fa fa-play-circle pr-1" aria-hidden="true"></span>Live View
+      </a>
     </div>
-    {% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block content_subheader %}
-    {% if calendar.description %}
-        {% block content_subheader_text %}
-            <p class="h2 page-subtitle">{{ calendar.description }}</p>
-        {% endblock %}
-    {% endif %}
-    {% if calendar.active == False %}
-    <div class="alert alert-warning">
-      This calendar is not currently active. {% if calendar in user.editable_calendars.all or user.is_superuser %}If you wish to reactivate the calendar, activate it in the <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a> screen.{% endif %}
-    </div>
-    {% endif %}
+  {% if calendar.description %}
+    {% block content_subheader_text %}
+      <p class="lead">{{ calendar.description }}</p>
+    {% endblock %}
+  {% endif %}
+  {% if calendar.active == False %}
+  <div class="alert alert-warning">
+    This calendar is not currently active. {% if calendar in user.editable_calendars.all or user.is_superuser %}If you wish to reactivate the calendar, activate it in the <a class="alert-link" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a> screen.{% endif %}
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_tabs %}
