@@ -2,7 +2,7 @@
 {% load core_tags %}
 <ul class="list-unstyled mb-4">
   {% for category in categories %}
-  <li class="category-text {% include_esi 'category' category.pk 'slug' %}">
+  <li class="category-text {% include_esi 'category' category.pk 'slug' %} mb-2">
     <span class="fa fa-tag" aria-hidden="true"></span>
     {% if calendar and not calendar.is_main_calendar %}
       {% include_esi 'category' category.pk 'link' calendar.pk %}
