@@ -31,7 +31,7 @@ class Command(BaseCommand):
             dest='assoc_fieldname',
             type=str,
             default='Assoc',
-            help='The name of the field in the CSV for the associated tag field.'
+            help='The name of the field in the CSV for the associated tag field. The --assoc option has not yet been implemented.'
         )
 
         parser.add_argument(
@@ -42,10 +42,10 @@ class Command(BaseCommand):
         )
 
         parser.add_argument(
-            '--associate',
+            '--assoc',
             dest='assoc',
             action='store_true',
-            help='Looks for a related_tag field within the CSV and associates tags based on the values provided.'
+            help='Looks for a related_tag field within the CSV and associates tags based on the values provided. This option has not yet been implemented.'
         )
 
 
@@ -68,6 +68,9 @@ class Command(BaseCommand):
         self.valid_assocs = 0
         self.invalid_assocs = 0
         self.tags_removed = 0
+
+        if self.assoc:
+            raise NotImplementedError('The --assoc option has not been implemented at this time.')
 
         self.parse_file(csvfile)
         self.process_tags()
