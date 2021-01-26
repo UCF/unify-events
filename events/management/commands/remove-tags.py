@@ -27,6 +27,13 @@ class Command(BaseCommand):
         )
 
         parser.add_argument(
+            '--assoc',
+            dest='assoc',
+            action='store_true',
+            help='Looks for a related_tag field within the CSV and associates tags based on the values provided. This option has not yet been implemented.'
+        )
+
+        parser.add_argument(
             '--assoc-fieldname',
             dest='assoc_fieldname',
             type=str,
@@ -39,13 +46,6 @@ class Command(BaseCommand):
             dest='trial_run',
             action='store_true',
             help='Causes the command not be run but gives a preview of the outcome.'
-        )
-
-        parser.add_argument(
-            '--assoc',
-            dest='assoc',
-            action='store_true',
-            help='Looks for a related_tag field within the CSV and associates tags based on the values provided. This option has not yet been implemented.'
         )
 
 
