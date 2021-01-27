@@ -57,118 +57,100 @@
 {% endblock %}
 
 {% block content_tabs %}
-    {% if user.calendars.count > 0 %}
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs hidden-xs">
-            {% if calendar %}
-                <li class="{% if state == 'posted' %} active{% endif %}">
-                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
-                        Posted
-                    </a>
-                </li>
-                {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
-                <li class="{% if state == 'rereview' %} active{% endif %}">
-                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
-                        Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
-                    </a>
-                </li>
-                {% endif %}
-                <li class="{% if state == 'pending' %} active{% endif %}">
-                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
-                        Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
-                    </a>
-                </li>
-                <li class="{% if state == 'subscribed' %} active{% endif %}">
-                    <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
-                        Subscribed Events
-                    </a>
-                </li>
-            {% else %}
-                <li class="{% if state == 'posted' %} active{% endif %}">
-                    <a href="{% url 'dashboard-state' state='posted' %}">
-                        Posted
-                    </a>
-                </li>
-                {% if show_rereview %}
-                <li class="{% if state == 'rereview' %} active{% endif %}">
-                    <a href="{% url 'dashboard-state' state='rereview' %}">
-                        Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
-                    </a>
-                </li>
-                {% endif %}
-                <li class="{% if state == 'pending' %} active{% endif %}">
-                    <a href="{% url 'dashboard-state' state='pending' %}">
-                        Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
-                    </a>
-                </li>
-                <li class="{% if state == 'subscribed' %} active{% endif %}">
-                    <a href="{% url 'dashboard-state' state='subscribed' %}">
-                        Subscribed Events
-                    </a>
-                </li>
-            {% endif %}
-            </ul>
-            <div class="btn-group dropdown mobile-nav-tabs visible-xs">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    View In... <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    {% if calendar %}
-                        <li class="{% if state == 'posted' %} active{% endif %}">
-                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
-                                Posted
-                            </a>
-                        </li>
-                        {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
-                        <li class="{% if state == 'rereview' %} active{% endif %}">
-                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
-                                Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
-                            </a>
-                        </li>
-                        {% endif %}
-                        <li class="{% if state == 'pending' %} active{% endif %}">
-                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
-                                Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
-                            </a>
-                        </li>
-                        <li class="{% if state == 'subscribed' %} active{% endif %}">
-                            <a href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
-                                Subscribed Events
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="{% if state == 'posted' %} active{% endif %}">
-                            <a href="{% url 'dashboard-state' state='posted' %}">
-                                Posted
-                            </a>
-                        </li>
-                        {% if show_rereview %}
-                        <li class="{% if state == 'rereview' %} active{% endif %}">
-                            <a href="{% url 'dashboard-state' state='rereview' %}">
-                                Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
-                            </a>
-                        </li>
-                        {% endif %}
-                        <li class="{% if state == 'pending' %} active{% endif %}">
-                            <a href="{% url 'dashboard-state' state='pending' %}">
-                                Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
-                            </a>
-                        </li>
-                        <li class="{% if state == 'subscribed' %} active{% endif %}">
-                            <a href="{% url 'dashboard-state' state='subscribed' %}">
-                                Subscribed Events
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="secondary-nav-action searchbar">
-                {% include 'events/manager/searchbar.html' %}
-            </div>
-        </div>
+  {% if user.calendars.count > 0 %}
+  <div class="row mb-4">
+    <div class="col-sm-8 col-lg-4 flex-sm-last mb-3">
+      {% include 'events/frontend/searchbar.html' %}
     </div>
-    {% endif %}
+    <div class="col">
+      <ul class="nav nav-tabs hidden-md-down">
+      {% if calendar %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'posted' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">Posted</a>
+        </li>
+        {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
+            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ rereview_count }}</span>{% endif %}
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'pending' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
+            Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ pending_count }}</span>{% endif %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'subscribed' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">Subscribed Events</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'posted' %} active{% endif %}" href="{% url 'dashboard-state' state='posted' %}">Posted</a>
+        </li>
+        {% if show_rereview %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'rereview' %} active{% endif %}" href="{% url 'dashboard-state' state='rereview' %}">
+            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ rereview_count }}</span>{% endif %}
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'pending' %} active{% endif %}" href="{% url 'dashboard-state' state='pending' %}">
+            Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if state == 'subscribed' %} active{% endif %}" href="{% url 'dashboard-state' state='subscribed' %}">
+            Subscribed Events
+          </a>
+        </li>
+      {% endif %}
+      </ul>
+
+
+      <div class="dropdown hidden-lg-up mb-3">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dashboardViewsDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          View By...
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dashboardViewsDropdownMenuButton">
+          {% if calendar %}
+            <a class="dropdown-item{% if state == 'posted' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
+              Posted
+            </a>
+            {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
+              <a class="dropdown-item{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
+                Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
+              </a>
+            {% endif %}
+            <a class="dropdown-item{% if state == 'pending' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
+              Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+            </a>
+            <a class="dropdown-item{% if state == 'subscribed' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
+              Subscribed Events
+            </a>
+          {% else %}
+            <a class="dropdown-item{% if state == 'posted' %} active{% endif %}" href="{% url 'dashboard-state' state='posted' %}">Posted</a>
+            {% if show_rereview %}
+            <a class="dropdown-item{% if state == 'rereview' %} active{% endif %}" href="{% url 'dashboard-state' state='rereview' %}">
+              Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
+            </a>
+            {% endif %}
+            <a class="dropdown-item{% if state == 'pending' %} active{% endif %}" href="{% url 'dashboard-state' state='pending' %}">
+              Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+            </a>
+            <a class="dropdown-item{% if state == 'subscribed' %} active{% endif %}" href="{% url 'dashboard-state' state='subscribed' %}">
+              Subscribed Events
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% comment %} TODO: The other 'search all' searchbar should be hidden? {% endcomment %}
+    {% comment %} <div class="secondary-nav-action searchbar">
+      {% include 'events/manager/searchbar.html' %}
+    </div> {% endcomment %}
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_body %}
