@@ -60,7 +60,7 @@
   {% if user.calendars.count > 0 %}
   <div class="row mb-4">
     <div class="col-sm-8 col-lg-4 flex-sm-last mb-3">
-      {% include 'events/frontend/searchbar.html' %}
+      {% include 'events/manager/searchbar.html' %}
     </div>
     <div class="col">
       <ul class="nav nav-tabs hidden-md-down">
@@ -145,10 +145,6 @@
         </div>
       </div>
     </div>
-    {% comment %} TODO: The other 'search all' searchbar should be hidden? {% endcomment %}
-    {% comment %} <div class="secondary-nav-action searchbar">
-      {% include 'events/manager/searchbar.html' %}
-    </div> {% endcomment %}
   </div>
   {% endif %}
 {% endblock %}
