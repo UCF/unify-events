@@ -57,3 +57,25 @@ class UserSelect2ListView(JSONDataView):
 
         return context
 
+class CalendarSelect2ListView(JSONDataView):
+    def get_context_data(self, **kwargs):
+        context = super(CalendarSelect2ListView, self).get_context_data(**kwargs)
+        results = []
+        q = self.request.GET.get('q', None)
+
+        calendars = self.request.user.active_calendars
+
+        if q is not None and len(q) > 2:
+            calendars = calendars.filter(title__icontains=q)
+
+        for calendar in calendars:
+            r = {
+                'id': calendar.id,
+                'text': calendar.title
+            }
+
+            results.append(r)
+
+        context['results'] = results
+
+        return context

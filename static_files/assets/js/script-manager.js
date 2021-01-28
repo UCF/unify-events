@@ -483,6 +483,28 @@ const userSearchTypeahead = function () {
   });
 };
 
+/**
+ * Calednar search typeahead + form validation
+ *
+ * @return {void}
+ **/
+const calendarSearchTypeahead = function () {
+  $('#id_event-calendar').select2({
+    ajax: {
+      url: CALSELECT_URL,
+      data: function (params) {
+        const query = {
+          q: params.term
+        };
+
+        return query;
+      },
+      delay: 250,
+      minimumInputLength: 3,
+      placeholder: 'Search by calendar name...'
+    }
+  });
+};
 
 /**
  * Create/Update Event location searching + creation
@@ -1307,6 +1329,7 @@ $(document).on('ready', () => {
   initiateReReviewCopy();
 
   userSearchTypeahead();
+  calendarSearchTypeahead();
   eventTagging();
 
   cloneableEventInstances();
