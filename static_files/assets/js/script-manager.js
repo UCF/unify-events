@@ -484,7 +484,7 @@ const userSearchTypeahead = function () {
 };
 
 /**
- * Calednar search typeahead + form validation
+ * Calendar search typeahead + form validation
  *
  * @return {void}
  **/
