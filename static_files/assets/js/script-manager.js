@@ -77,19 +77,6 @@ const bulkActionSubmit = function () {
 };
 
 
-/**
- * Toggle recurrences in Dashboard event list
- *
- * @return {void}
- **/
-const toggleEventListRecurrences = function () {
-  $('.recurrences-toggle').on('click', function (e) {
-    e.preventDefault();
-    $(this).next('.recurrences').slideToggle();
-  });
-};
-
-
 // TODO: Double check these classes
 /**
  * Toggle 'Merge Tag/Category' modal
@@ -1312,7 +1299,6 @@ const initiateWysiwygs = function () {
 $(() => {
   bulkSelectAll();
   bulkActionSubmit();
-  toggleEventListRecurrences();
 
   toggleModalMergeObject();
   calendarOwnershipModal();
