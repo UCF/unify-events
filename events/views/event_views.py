@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from django.db.models.query import QuerySet
 from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import DetailView
@@ -901,6 +902,14 @@ class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFo
     model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            tag = Tag.objects.get(pk=kwargs['tag_pk'])
+            return super(EventsByTagList, self).dispatch(request, *args, **kwargs)
+        except Tag.DoesNotExist:
+            return HttpResponseRedirect(reverse('home'))
+
 
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()
