@@ -45,27 +45,22 @@
               (n/a)
             {% endif %}</span>
           </td>
-          <td class="calendar-actions actions-col">
+          <td>
             <div class="dropdown">
               <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="calendarSelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Select
               </a>
               <div class="dropdown-menu" aria-labelledby="calendarSelectDropdownMenu">
-
                 <a class="dropdown-item" href="{% url 'dashboard' pk=calendar.pk %}">
                   <span class="far fa-calendar-alt fa-fw mr-1" aria-hidden="true"></span>Manage Events
                 </a>
-
                 <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">
                   <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Calendar
                 </a>
-
                 <div class="dropdown-divider"></div>
-
                 <a class="dropdown-item" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">
                   <span class="fa fa-play-circle fa-fw mr-1" aria-hidden="true"></span>Live View
                 </a>
-
               </div>
             </div>
           </td>
