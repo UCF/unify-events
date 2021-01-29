@@ -117,7 +117,7 @@ const toggleModalMergeObject = function () {
       .find('span.object-type')
       .text(objectType)
       .end()
-      .find('h2 span.alt')
+      .find('h2 span.font-weight-normal')
       .text(objectTitle)
       .end()
       .find('.modal-footer a.btn-primary')
@@ -178,7 +178,7 @@ const toggleModalUserDemote = function () {
 
     /* Insert user name in modal text */
     modal
-      .find('h2 span.alt')
+      .find('h2 span.font-weight-normal')
       .text(userName)
       .end()
       .find('.modal-footer a.btn-danger')

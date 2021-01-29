@@ -18,104 +18,103 @@
     <a class="btn btn-primary btn-sm mb-3" href="{% url 'events.views.manager.category-create' %}">
       <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Category
     </a>
-
-      {% if categories %}
-      <div class="card">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>
-                <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
-                  Event Count
+    {% if categories %}
+    <div class="card mb-4">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>
+              <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
+                Event Count
+              </a>
+            </th>
+            <th>Color</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+          <tr>
+            <td>
+              <a href="{% url 'events.views.manager.category-update' pk=category.pk %}">{{ category.title }}</a>
+            </td>
+            <td>
+              {{ category.events.count }}
+            </td>
+            <td>
+              <span class="category-label {{ category.slug }}">{{ category.color }}</span>
+            </td>
+            <td>
+              <div class="dropdown">
+                <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="categorySelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Select
                 </a>
-              </th>
-              <th>Color</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for category in categories %}
-            <tr>
-              <td>
-                <a href="{% url 'events.views.manager.category-update' pk=category.pk %}">{{ category.title }}</a>
-              </td>
-              <td>
-                {{ category.events.count }}
-              </td>
-              <td>
-                <span class="category-label {{ category.slug }}">{{ category.color }}</span>
-              </td>
-              <td>
-                <div class="dropdown">
-                  <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="categorySelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select
+                <div class="dropdown-menu" aria-labelledby="categorySelectDropdownMenu">
+                  <a class="dropdown-item" href="{% url 'events.views.manager.category-update' pk=category.pk %}">
+                    <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Category
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="categorySelectDropdownMenu">
-                    <a class="dropdown-item" href="{% url 'events.views.manager.category-update' pk=category.pk %}">
-                      <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Category
-                    </a>
-                    {% if category.events.count > 0 %}
-                    <a class="dropdown-item category-merge" href="{% url 'events.views.manager.category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}" data-object-pk="{{ category.pk }}">
-                      <span class="fa fa-compress fa-fw mr-1" aria-hidden="true"></span>Merge Category
-                    </a>
-                    {% else %}
-                    <a class="dropdown-item" href="{% url 'events.views.manager.category-delete' pk=category.pk %}">
-                      <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Category
-                    </a>
-                    {% endif %}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'events.views.category.category' category_pk=category.pk category=category.slug %}">
-                      <span class="fa fa-play-circle fa-fw mr-1" aria-hidden="true"></span>Live View
-                    </a>
-                  </div>
+                  {% if category.events.count > 0 %}
+                  <a class="dropdown-item category-merge" href="{% url 'events.views.manager.category-merge' category_from_id=category.pk category_to_id=1 %}" data-object-title="{{ category.title }}" data-object-pk="{{ category.pk }}">
+                    <span class="fa fa-compress fa-fw mr-1" aria-hidden="true"></span>Merge Category
+                  </a>
+                  {% else %}
+                  <a class="dropdown-item" href="{% url 'events.views.manager.category-delete' pk=category.pk %}">
+                    <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Category
+                  </a>
+                  {% endif %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'events.views.category.category' category_pk=category.pk category=category.slug %}">
+                    <span class="fa fa-play-circle fa-fw mr-1" aria-hidden="true"></span>Live View
+                  </a>
                 </div>
-              </td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+
+    {% else %}
+      <div class="alert alert-info">
+        No categories found. Want to <a class="alert-link" href="{% url 'events.views.manager.category-create' %}">create one?</a>
       </div>
+    {% endif %}
 
-      {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
-
-      {% else %}
-        <div class="alert alert-info">
-          No categories found. Want to <a class="alert-link" href="{% url 'events.views.manager.category-create' %}">create one?</a>
-        </div>
-      {% endif %}
-
-      <!-- Modal for Object Merge -->
-      <div class="modal fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2 class="modal-title h4" id="object-merge-modal-label">Merge Category: <span class="font-weight-normal"></span></h2>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span class="fa fa-times" aria-hidden="true"></span>
-              </button>
-            </div>
-              <div class="modal-body">
-                <p>
-                  You are about to merge this category with another existing category. Merging this category will assign any events that are currently assigned with this category to the category that you select below.
-                </p>
-                <p>
-                  Note: <em>The category you're merging will be <strong>deleted</strong> once you merge it.</em> There is no undo!
-                </p>
-                <select id="new-object-select" class="form-control">
-                  <option value="">Select an Existing Category</option>
-                  {% for category in category_list %}
-                  <option value="{{ category.pk }}">{{ category.title }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm">Merge Category</a>
-                <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
-              </div>
+    <!-- Modal for Object Merge -->
+    <div class="modal fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h4" id="object-merge-modal-label">Merge Category: <span class="font-weight-normal"></span></h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span class="fa fa-times" aria-hidden="true"></span>
+            </button>
           </div>
+            <div class="modal-body">
+              <p>
+                You are about to merge this category with another existing category. Merging this category will assign any events that are currently assigned with this category to the category that you select below.
+              </p>
+              <p>
+                Note: <em>The category you're merging will be <strong>deleted</strong> once you merge it.</em> There is no undo!
+              </p>
+              <select id="new-object-select" class="form-control">
+                <option value="">Select an Existing Category</option>
+                {% for category in category_list %}
+                <option value="{{ category.pk }}">{{ category.title }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-primary btn-sm">Merge Category</a>
+              <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
+            </div>
         </div>
       </div>
+    </div>
   </div>
 </div>
 {% endblock %}

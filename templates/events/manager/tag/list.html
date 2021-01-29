@@ -4,7 +4,9 @@
 {% block title %}All Tags | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">Tags</h1>
+  <div class="col-12">
+    <h1 class="h2 mb-4">Tags</h1>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
@@ -12,110 +14,99 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="col-md-12 page-content">
-        <a class="btn btn-primary page-top-action" href="{% url 'events.views.manager.tag-create' %}">
-            <i class="fa fa-plus"></i> Create New Tag
-        </a>
-
-        {% if tags %}
-        <div class="panel panel-default">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="tag-title">Tag</th>
-                        <th class="tag-events"><abbr title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
-                        <th class="tag-actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for tag in tags %}
-                    <tr>
-                        <td class="tag-name">
-                            <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">{{ tag.name }}</a>
-                        </td>
-                        <td class="tag-events">
-                            {{ tag.event_count }}
-                        </td>
-                        <td class="tag-actions actions-col">
-                            <div class="dropdown btn-group">
-                                <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                    Select
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li role="presentation">
-                                        <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">
-                                            <i class="fa fa-pencil fa-fw"></i>
-                                            Edit Tag
-                                        </a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a class="tag-merge" href="{% url 'events.views.manager.tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
-                                            <i class="fa fa-compress fa-fw"></i>
-                                            Merge Tag
-                                        </a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a class="object-modify" href="{% url 'events.views.manager.tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
-                                            <i class="fa fa-trash-o fa-fw"></i>
-                                            Delete Tag
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li role="presentation">
-                                        <a href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">
-                                            <i class="fa fa-play-circle fa-fw"></i>
-                                            Live View
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
-
-        <!-- Modal for Object Merge -->
-        <div class="modal fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2 class="modal-title" id="object-merge-modal-label">Merge Tag: <span class="alt"></span></h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            You are about to merge this tag with another existing tag. Merging this tag
-                            will assign any events that are currently assigned with this tag to the tag that
-                            you select below.
-                        </p>
-                        <p>
-                            Note: <em>The tag you're merging will be <strong>deleted</strong> once you merge it.</em>
-                            There is no undo!
-                        </p>
-                        <select id="new-object-select" class="form-control">
-                            <option value="">Select an Existing Tag</option>
-                            {% for tag in tags %}
-                            <option value="{{ tag.pk }}">{{ tag.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-primary">Merge Tag</a>
-                        <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
-                    </div>
+  <div class="col-12">
+    <a class="btn btn-primary btn-sm mb-3" href="{% url 'events.views.manager.tag-create' %}">
+      <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Tag
+    </a>
+    {% if tags %}
+    <div class="card mb-4">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th>
+              <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">
+                Event Count
+              </a>
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+          <tr>
+            <td>
+              <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">{{ tag.name }}</a>
+            </td>
+            <td>
+              {{ tag.event_count }}
+            </td>
+            <td>
+              <div class="dropdown">
+                <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="tagSelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Select
+                </a>
+                <div class="dropdown-menu" aria-labelledby="tagSelectDropdownMenu">
+                  <a class="dropdown-item" href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">
+                    <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Tag
+                  </a>
+                  <a class="dropdown-item tag-merge" href="{% url 'events.views.manager.tag-merge' tag_from_id=tag.pk tag_to_id=1 %}" data-object-title="{{ tag.name }}" data-object-pk="{{ tag.pk }}">
+                    <span class="fa fa-compress fa-fw mr-1" aria-hidden="true"></span>Merge Tag
+                  </a>
+                  <a class="dropdown-item object-modify" href="{% url 'events.views.manager.tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
+                    <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Tag
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">
+                    <span class="fa fa-play-circle fa-fw mr-1" aria-hidden="true"></span>Live View
+                  </a>
                 </div>
-            </div>
-        </div>
-    {% else %}
-        <div class="well well-empty">
-            No tags found. Want to <a href="{% url 'events.views.manager.tag-create' %}">create one?</a>
-        </div>
-    {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
+
+    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+
+    <!-- Modal for Object Merge -->
+    <div class="modal fade" id="object-merge-modal" tabindex="-1" role="dialog" aria-labelledby="object-merge-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h4" id="object-merge-modal-label">Merge Tag: <span class="font-weight-normal"></span></h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span class="fa fa-times" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              You are about to merge this tag with another existing tag. Merging this tag will assign any events that are currently assigned with this tag to the tag that you select below.
+            </p>
+            <p>
+              Note: <em>The tag you're merging will be <strong>deleted</strong> once you merge it.</em> There is no undo!
+            </p>
+            <select id="new-object-select" class="form-control">
+              <option value="">Select an Existing Tag</option>
+              {% for tag in tags %}
+              <option value="{{ tag.pk }}">{{ tag.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-primary btn-sm">Merge Tag</a>
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+      No tags found. Want to <a class="alert-link" href="{% url 'events.views.manager.tag-create' %}">create one?</a>
+    </div>
+  {% endif %}
+  </div>
 </div>
 {% endblock %}
