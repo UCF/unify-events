@@ -29,7 +29,7 @@
         {% if not first_login %}
         <ul class="navbar-nav ml-auto">
           {% if user.calendars %}
-          <li class="nav-item">
+          <li class="nav-item btn-primary mr-lg-2">
             <a class="nav-link" href="{% url 'events.views.manager.event-create' %}">
               <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Create Event
             </a>
