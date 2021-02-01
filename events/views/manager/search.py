@@ -3,7 +3,7 @@ import logging
 from events.views.search import GlobalSearchView
 from json_views.views import JSONDataView
 
-from events.models import Event
+from events.models import Event, Calendar
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -57,3 +57,30 @@ class UserSelect2ListView(JSONDataView):
 
         return context
 
+class CalendarSelect2ListView(JSONDataView):
+    def get_context_data(self, **kwargs):
+        context = super(CalendarSelect2ListView, self).get_context_data(**kwargs)
+        results = []
+        q = self.request.GET.get('q', None)
+
+        calendars = None
+
+        if self.request.user.is_superuser:
+            calendars = Calendar.objects.filter(active=True)
+        else:
+            calendars = self.request.user.active_calendars
+
+        if q is not None and len(q) > 2:
+            calendars = calendars.filter(title__icontains=q)
+
+        for calendar in calendars:
+            r = {
+                'id': calendar.id,
+                'text': calendar.title
+            }
+
+            results.append(r)
+
+        context['results'] = results
+
+        return context
