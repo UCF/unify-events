@@ -25,20 +25,17 @@
 {% block content_section_classes %}vevent{% if event_instance.event.canceled %} canceled{% endif %}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">
-        <a class="summary url" href="{% url 'events.views.event_views.event' pk=event_instance.pk slug=event_instance.slug %}">{{ event_instance.event.get_title_canceled }}</a>
-    </h1>
-
-    <div class="hide edit-options col-md-3 col-sm-4">
-        <ul>
-            <li class="hide" id="event-edit">
-                <a href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}"><i class="fa fa-pencil"></i>Edit</a>
-            </li>
-            <li>
-                <a class="object-modify hide" id="event-subscription" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}"><i class="fa fa-share"></i>Add Event To</a>
-            </li>
-        </ul>
-    </div>
+  <div id="event-single-title" class="col-12">
+    <h1 class="h2 mb-3">{{ event_instance.event.get_title_canceled }}</h1>
+  </div>
+  <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0 d-flex align-items-center justify-content-lg-end">
+    <a id="event-edit" class="d-none small font-weight-bold text-default-aw mr-3" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
+      <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit
+    </a>
+    <a id="event-subscription" class="d-none object-modify small font-weight-bold text-default-aw" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}">
+      <span class="fa fa-share pr-1" aria-hidden="true"></span>Add Event To
+    </a>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}
