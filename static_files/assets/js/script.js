@@ -199,7 +199,7 @@ const contentExpanders = function () {
     // Hide btn if content is less than max-height
     if (content.height() < parseInt(content.css('max-height'), 10)) {
       // TODO: Change this to d-none?
-      btn.addClass('hidden');
+      btn.addClass('d-none');
     }
 
     btn.on('click', (e) => {

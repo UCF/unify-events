@@ -67,7 +67,7 @@ const resizeMapWidgets = function () {
   });
 };
 
-// TODO: Check functionality
+
 /**
  * Used to add styles to the esi data.
  *
@@ -76,7 +76,7 @@ const resizeMapWidgets = function () {
 const esiStyle = function () {
   // Style event pages
   if (window.location.pathname.indexOf('event') > -1) {
-    $('.event-tag').addClass('label label-default');
+    $('.event-tag').addClass('tag-cloud-link');
   }
 };
 

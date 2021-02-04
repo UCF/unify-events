@@ -25,6 +25,7 @@
 @import 'components/social-btns';
 @import 'components/calendar-slider';
 @import 'components/bulk-action-form';
+@import 'components/event-single';
 
 
 .stretched-link::after {
@@ -49,4 +50,15 @@
   @include media-breakpoint-down(sm) {
     width: 65vw;
   }
+}
+
+
+// Jump to anchor
+.jump-to-target {
+  box-shadow: 0;
+  transition: box-shadow .5s cubic-bezier(.18, 1.65, .82, -.6);
+}
+
+.jump-to-target-active {
+  box-shadow: 0 0 8px $brand-info;
 }
