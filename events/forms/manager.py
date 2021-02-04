@@ -7,6 +7,7 @@ from django.forms.models import inlineformset_factory
 from django.core.exceptions import ValidationError
 from taggit.models import Tag
 
+
 from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
@@ -21,6 +22,7 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
+from events.models import PromotedTag
 
 import settings
 
@@ -348,7 +350,7 @@ class TagForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, f
     """
     class Meta:
         model = Tag
-        fields = ('name',)
+        fields = ('name', )
 
     def save(self):
         """

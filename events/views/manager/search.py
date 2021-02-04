@@ -7,6 +7,8 @@ from events.models import Event, Calendar
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+from taggit.models import Tag
+
 log = logging.getLogger(__name__)
 
 class ManagerSearchView(GlobalSearchView):
@@ -84,3 +86,38 @@ class CalendarSelect2ListView(JSONDataView):
         context['results'] = results
 
         return context
+
+class TagTypeaheadSearchView(JSONDataView):
+    def get_context_data(self, **kwargs):
+        context = super(TagTypeaheadSearchView, self).get_context_data(**kwargs)
+        results = []
+        q = self.request.GET.get('q', None)
+
+        tags = Tag.objects.none()
+
+        if q is not None and len(q) > 2:
+            tags = Tag.objects.filter(name__icontains=q)
+
+        for tag in tags:
+            # 10 points for exact match!
+            score = 10 if q.lower() == tag.name else 5
+
+            # High score if the tag is promoted
+            score += 200 if hasattr(tag, 'promoted') else 0
+
+            # Add 1 point for each tagged item in the system
+            score += tag.taggit_taggeditem_items.count()
+
+            r = {
+                'id': tag.id,
+                'text': tag.name,
+                'score': score
+            }
+
+            results.append(r)
+
+        context['results'] = sorted(results, key = lambda i: i['score'], reverse=True)
+
+        return context
+
+

@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <th class="tag-title">Tag</th>
+                        <th class="tag-promoted">Promoted</th>
                         <th class="tag-events"><abbr title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">Event Count</abbr></th>
                         <th class="tag-actions">Actions</th>
                     </tr>
@@ -32,6 +33,12 @@
                     <tr>
                         <td class="tag-name">
                             <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">{{ tag.name }}</a>
+                        </td>
+                        <td class="tag-promoted">
+                          {% if tag.promoted %}
+                            <span class="sr-only">Promoted</span>
+                            <span class="fa fa-check" aria-hidden="true"></span>
+                          {% endif %}
                         </td>
                         <td class="tag-events">
                             {{ tag.event_count }}

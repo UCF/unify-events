@@ -4,6 +4,7 @@ import copy
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
@@ -111,6 +112,11 @@ def map_event_range(start, end, events):
 
     return mapped_events
 
+class PromotedTag(models.Model):
+    tag = models.OneToOneField(Tag, on_delete=models.CASCADE, related_name='promoted')
+
+    class Meta:
+        app_label = 'events'
 
 class State:
     """
@@ -164,7 +170,7 @@ class Event(TimeCreatedModified):
     contact_email = models.EmailField(max_length=128, blank=False, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events', on_delete=models.CASCADE)
-    tags = TaggableManager()
+    tags = TaggableManager(through=PromotedTag)
 
     class Meta:
         app_label = 'events'
