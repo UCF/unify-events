@@ -69,6 +69,22 @@
                                         </a>
                                     </li>
                                     <li class="divider"></li>
+                                    {% if tag.promoted %}
+                                    <li role="presentation">
+                                      <a class="tag-demote" href="{% url 'events.views.manager.tag-demote' tag_id=tag.pk %}">
+                                        <i class="fa fa-thumbs-down"></i>
+                                        Demote Tag
+                                      </a>
+                                    </li>
+                                    {% else %}
+                                    <li role="presentation">
+                                      <a class="tag-promote" href="{% url 'events.views.manager.tag-promote' tag_id=tag.pk %}">
+                                        <i class="fa fa-thumbs-up"></i>
+                                        Promote Tag
+                                      </a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="divider"></li>
                                     <li role="presentation">
                                         <a href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">
                                             <i class="fa fa-play-circle fa-fw"></i>
