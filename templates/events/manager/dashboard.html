@@ -71,13 +71,13 @@
         {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
-            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ rereview_count }}</span>{% endif %}
+            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
           </a>
         </li>
         {% endif %}
         <li class="nav-item">
           <a class="nav-link{% if state == 'pending' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
-            Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ pending_count }}</span>{% endif %}
+            Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ pending_count }}</span>{% endif %}
           </a>
         </li>
         <li class="nav-item">
@@ -90,13 +90,13 @@
         {% if show_rereview %}
         <li class="nav-item">
           <a class="nav-link{% if state == 'rereview' %} active{% endif %}" href="{% url 'dashboard-state' state='rereview' %}">
-            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ rereview_count }}</span>{% endif %}
+            Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
           </a>
         </li>
         {% endif %}
         <li class="nav-item">
           <a class="nav-link{% if state == 'pending' %} active{% endif %}" href="{% url 'dashboard-state' state='pending' %}">
-            Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+            Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ pending_count }}</span>{% endif %}
           </a>
         </li>
         <li class="nav-item">
@@ -119,11 +119,11 @@
             </a>
             {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
               <a class="dropdown-item{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
-                Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
+                Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
               </a>
             {% endif %}
             <a class="dropdown-item{% if state == 'pending' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='pending' %}">
-              Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+              Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ pending_count }}</span>{% endif %}
             </a>
             <a class="dropdown-item{% if state == 'subscribed' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='subscribed' %}">
               Subscribed Events
@@ -132,11 +132,11 @@
             <a class="dropdown-item{% if state == 'posted' %} active{% endif %}" href="{% url 'dashboard-state' state='posted' %}">Posted</a>
             {% if show_rereview %}
             <a class="dropdown-item{% if state == 'rereview' %} active{% endif %}" href="{% url 'dashboard-state' state='rereview' %}">
-              Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge">{{ rereview_count }}</span>{% endif %}
+              Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
             </a>
             {% endif %}
             <a class="dropdown-item{% if state == 'pending' %} active{% endif %}" href="{% url 'dashboard-state' state='pending' %}">
-              Pending {% if pending_count and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+              Pending {% if pending_count and pending_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ pending_count }}</span>{% endif %}
             </a>
             <a class="dropdown-item{% if state == 'subscribed' %} active{% endif %}" href="{% url 'dashboard-state' state='subscribed' %}">
               Subscribed Events

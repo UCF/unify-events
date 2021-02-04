@@ -24,7 +24,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link{% if state == 'review' %} active{% endif %}" href="{% url 'events.views.manager.location-state' state='review' %}">
-        Review {% if review_count and review_count > 0 %}<span class="badge badge-pill badge-default ml-2">{{ review_count }}</span>{% endif %}
+        Review {% if review_count and review_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ review_count }}</span>{% endif %}
       </a>
     </li>
     <li class="nav-item">
