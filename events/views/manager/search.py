@@ -103,7 +103,7 @@ class TagTypeaheadSearchView(JSONDataView):
             score = 10 if q.lower() == tag.name else 5
 
             # High score if the tag is promoted
-            score += 200 if hasattr(tag, 'promoted') else 0
+            score += 200 if tag.is_promoted else 0
 
             # Add 1 point for each tagged item in the system
             score += tag.taggit_taggeditem_items.count()

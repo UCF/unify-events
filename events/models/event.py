@@ -118,6 +118,12 @@ class PromotedTag(models.Model):
     class Meta:
         app_label = 'events'
 
+# Special function for determining if a Tag is promoted
+def tag_is_promoted(self):
+    return hasattr(self, 'promoted')
+
+setattr(Tag, 'is_promoted', property(tag_is_promoted))
+
 class State:
     """
     This object provides the link between the time and places events are to
