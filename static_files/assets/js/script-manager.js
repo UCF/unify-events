@@ -5,10 +5,10 @@
 //
 
 // TODO: Review these requirements and ensure they are working correctly
-// =require '/bootstrap-3-typeahead/bootstrap3-typeahead.js'
-// =require '/timepicker/jquery.timepicker.js'
-// =require '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
-// =require '/select2/dist/js/select2.js
+// =require /bootstrap-3-typeahead/bootstrap3-typeahead.js
+// =require /timepicker/jquery.timepicker.js
+// =require /bootstrap-datepicker/dist/js/bootstrap-datepicker.js
+// =require /select2/dist/js/select2.js
 
 
 //
@@ -260,9 +260,7 @@ const initiateDatePickers = function (fields) {
         .on('click', function () {
           fallbackDtpOnClick($(this));
         });
-    })
-    .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
-    .placeholder(); // Force init placeholder for old browsers
+    });
 
 };
 
@@ -302,9 +300,7 @@ const initiateTimePickers = function (fields) {
       scrollDefaultNow: true,
       timeFormat: 'h:i A',
       step: 15
-    })
-    .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
-    .placeholder(); // Force init placeholder for old browsers
+    });
 };
 
 
