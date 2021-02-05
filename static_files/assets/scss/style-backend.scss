@@ -1,5 +1,6 @@
 // Athena
-@import './ucf-athena-framework/src/scss/framework';
+@import './ucf-athena-framework/src/scss/variables';
+@import './ucf-athena-framework/src/scss/mixins';
 
 @import 'components/event-create-update';
 @import 'components/select2';
