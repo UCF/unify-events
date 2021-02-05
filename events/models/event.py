@@ -176,7 +176,7 @@ class Event(TimeCreatedModified):
     contact_email = models.EmailField(max_length=128, blank=False, null=True)
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events', on_delete=models.CASCADE)
-    tags = TaggableManager(through=PromotedTag)
+    tags = TaggableManager()
 
     class Meta:
         app_label = 'events'
