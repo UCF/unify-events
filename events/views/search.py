@@ -20,11 +20,13 @@ class GlobalSearchView(MultipleFormatTemplateViewMixin, ListView):
     """
     def get_queryset(self):
         query = self.request.GET.get('q', None)
+        query_split = query.split(' ')
         if query:
             now = datetime.now().replace(hour=0, minute=0, second=0)
 
             queryset = Event.objects.filter(
-                        Q(title__icontains=query) | Q(calendar__title__icontains=query)
+                        Q(title__icontains=query) | Q(calendar__title__icontains=query) |
+                        Q(tags__name__in=query_split)
                         ).filter(state__in=State.get_published_states(),
                         ).filter(Q(event_instances__start__gte=now) | Q(event_instances__start__lt=now, event_instances__end__gte=now)
                         ).filter(created_from=None
