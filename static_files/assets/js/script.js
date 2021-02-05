@@ -17,7 +17,6 @@
 //
 
 
-// TODO: Where is this used and does it work?
 /**
  * Jump to an anchor on the page with smooth scrolling and highlight it
  *
@@ -56,7 +55,6 @@ const jumpTo = function () {
 };
 
 
-// TODO: Review this and make sure classes, everything looks good
 /**
  * Toggle Generic Object modification/deletion modal.
  *
@@ -149,22 +147,6 @@ const calendarSliders = function () {
 };
 
 
-// TODO: Do we need this?
-/**
- * Add support for forms within Bootstrap .dropdown-menus.
- *
- * @return {void}
- **/
-const dropdownMenuForms = function () {
-  $('.dropdown-menu').on('click', function (e) {
-    if ($(this).hasClass('dropdown-menu-form')) {
-      e.stopPropagation();
-    }
-  });
-};
-
-
-// TODO: Is this needed?
 /**
  * Add ability to make an entire table row a clickable link out,
  * based on a provided link in the row.
@@ -185,7 +167,6 @@ const clickableTableRows = function () {
 };
 
 
-// TODO: Review this functionality
 /**
  * Functionality for content expanders (i.e. event descriptions)
  *
@@ -198,7 +179,6 @@ const contentExpanders = function () {
 
     // Hide btn if content is less than max-height
     if (content.height() < parseInt(content.css('max-height'), 10)) {
-      // TODO: Change this to d-none?
       btn.addClass('d-none');
     }
 
@@ -268,7 +248,6 @@ $(() => {
   jumpTo();
   toggleModalModifyObject();
   calendarSliders();
-  dropdownMenuForms();
   clickableTableRows();
   contentExpanders();
   gaEventTracking();

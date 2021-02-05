@@ -32,7 +32,6 @@ const bulkSelectAll = function () {
 };
 
 
-// TODO: Where is this used? Check functionality
 /**
  * Bulk action submit.
  *
@@ -77,7 +76,6 @@ const bulkActionSubmit = function () {
 };
 
 
-// TODO: Double check these classes
 /**
  * Toggle 'Merge Tag/Category' modal
  *
@@ -138,7 +136,6 @@ const toggleModalMergeObject = function () {
 };
 
 
-// TODO: Check functionality
 /**
  * Update Calendar Ownership Reassignment url value in modal;
  * enable/disable submit button
@@ -161,7 +158,6 @@ const calendarOwnershipModal = function () {
 };
 
 
-// TODO: Check classes and functionality
 /**
  * Toggle Calendar user 'demote' modal
  *
@@ -943,7 +939,6 @@ const eventTagging = function () {
 };
 
 
-// TODO: Check functionality & classes
 /**
  * Clone fieldsets of the EventInstance formset of the Event Create/Update form.
  * Auto-increment field IDs as necessary.
@@ -1268,6 +1263,7 @@ const eventContactInfo = function () {
     checkbox.parent().hide();
   }
 };
+
 
 // TODO: Check functionality/replace/remove
 const initiateWysiwygs = function () {

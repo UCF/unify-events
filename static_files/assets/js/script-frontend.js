@@ -1,7 +1,6 @@
 /* Scripts listed below should only need to be executed on the site frontend. */
 
 
-// TODO: Check functionality
 /**
  * Update frontend calendar month view month/year form
  * "action" value on dropdown change
@@ -31,7 +30,6 @@ const updateMonthViewDropdown = function () {
 };
 
 
-// TODO: Check functionality
 /**
  * Force repaint of map widget on window resize
  *
