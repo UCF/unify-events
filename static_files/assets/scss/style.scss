@@ -17,6 +17,7 @@
 // Project-specific styles and overrides:
 //
 
+@import 'mixins';
 @import 'components/event-listing';
 @import 'components/feeds-list';
 @import 'components/manager';
@@ -26,6 +27,7 @@
 @import 'components/calendar-slider';
 @import 'components/bulk-action-form';
 @import 'components/event-single';
+@import 'components/calendar-month';
 
 
 .stretched-link::after {

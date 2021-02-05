@@ -1,0 +1,235 @@
+#calendar-events-month .calendar-large h2 {
+  display: none;
+}
+
+$calendar-grid-width: 14.285%;
+
+.calendar-grid-labels > span {
+  color: $text-muted;
+  text-align: center;
+  width: $calendar-grid-width;
+}
+
+.calendar-grid {
+  width: 100%;
+
+  //
+  // Handle toggling a condensed event list when a .calendar-grid li is hovered over.
+  // An expander is provided to guide touch device users; it is hidden on hover.
+  // Mobile devices should display a vertical list of all days with
+  // all events displayed by default. Hover states should be disabled here.
+  //
+
+  > li {
+    border-bottom: 4px solid $white;
+    border-top: 0 solid transparent;
+    float: left;
+    height: 130px;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: $calendar-grid-width;
+
+    @include media-breakpoint-down(md) {
+      height: auto;
+      width: 100%;
+    }
+
+    &:hover,
+    &:focus {
+      overflow: visible;
+    }
+
+    > .event-expander {
+      bottom: 0;
+      cursor: default;
+      display: block;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      z-index: 3;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+
+      &:hover,
+      &:focus {
+        display: none;
+      }
+
+      > .event-expander-icon {
+        background-color: $gray-light;
+        border-left: 2px solid $white; // Faux padding to emulate sibling div's faux padding
+        border-right: 2px solid $white;
+        display: block;
+        height: 100%;
+        line-height: 1.25;
+      }
+    }
+
+    > div {
+      background-color: $gray-lightest;
+      border-left: 2px solid $white; // Faux padding; should match .event-expander-icon's border-left and border-right
+      border-right: 2px solid $white;
+      height: 126px; // Fixed height req'd here for background-color
+      overflow: hidden;
+      padding-top: 1.75rem; // Make room for absolutely positioned .date
+      position: relative;
+      z-index: 2;
+
+      @include media-breakpoint-down(md) {
+        height: auto;
+        padding-bottom: 5px;
+      }
+
+      &:after { // Add some faux padding btwn the edge of the li and its child div
+        background-color: $gray-lightest;
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 6px;
+        left: 2px;
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+
+        @include media-breakpoint-down(md) {
+          display: none;
+        }
+      }
+
+      > ul {
+        left: 0;
+        padding: .25rem 0;
+        position: absolute;
+
+        @include media-breakpoint-down(md) {
+          box-shadow: 0 0 0 transparent;
+          position: static;
+        }
+
+        > li {
+          padding: 0 .5rem;
+
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          }
+        }
+      }
+
+      > a.date {
+        color: #6f6f6f;
+        font-size: 1.25rem;
+        font-weight: 400;
+        left: 0;
+        padding: 0 .5rem;
+        position: absolute;
+        top: 0;
+        z-index: 3;
+
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        }
+
+        > span {
+          display: none;
+        }
+      }
+
+      > .holiday {
+        color: $gray-light;
+        display: block;
+        font-size: .75rem;
+        font-weight: 500;
+        line-height: 1.4;
+        padding: .5rem 0 0 .5rem;
+      }
+    }
+
+    &:nth-child(7n) div > ul { // Don't let the 7th day's event list cause a horizontal scrollbar
+      left: auto;
+      right: 0;
+    }
+
+    &:hover > div,
+    & > div:focus {
+      overflow: visible;
+      width: auto;
+      z-index: 10;
+
+      @include media-breakpoint-down(md) {
+        overflow: hidden;
+      }
+
+      > a.date {
+        color: $black;
+      }
+
+      > ul {
+        background-color: #fffbe9;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        max-height: 200px;
+        width: 215px;
+
+        @include scrollbox();
+
+        @include media-breakpoint-down(md) {
+          background-color: inherit;
+          box-shadow: 0 0 0 transparent;
+          width: 100%;
+        }
+
+        > li {
+          width: 200px;
+
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          }
+        }
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+
+    &.muted > div {
+      background-color: $white;
+
+      &:after {
+        background-color: $white;
+      }
+
+      > a.date {
+        color: #e2e2e2;
+      }
+    }
+
+    &.today {
+      > div > a.date {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.event-list-condensed {
+  width: 100%;
+
+  li {
+    line-height: 1.6;
+    width: 100%;
+    @include text-overflow();
+
+    @include media-breakpoint-up(lg) {
+      font-size: 85%;
+    }
+
+    time {
+      font-weight: bold;
+    }
+  }
+}
