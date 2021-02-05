@@ -131,6 +131,20 @@ const toggleModalModifyObject = function () {
 
 
 /**
+ * Add support for forms within Bootstrap .dropdown-menus.
+ *
+ * @return {void}
+ **/
+const dropdownMenuForms = function () {
+  $('.dropdown-menu').on('click', function (e) {
+    if ($(this).hasClass('dropdown-menu-form')) {
+      e.stopPropagation();
+    }
+  });
+};
+
+
+/**
  * Calendar grid sliders
  *
  * @return {void}

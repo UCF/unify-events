@@ -4,7 +4,7 @@
 // Import third-party assets
 //
 
-// TODO: Review these requirements and replace/update/remove as necessary
+// TODO: Review these requirements and ensure they are working correctly
 // =require '/bootstrap-3-typeahead/bootstrap3-typeahead.js'
 // =require '/timepicker/jquery.timepicker.js'
 // =require '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
@@ -211,7 +211,7 @@ const fallbackDtpOnClick = function (icon) {
 };
 
 
-// TODO: Check functionality/replace w/ newer one
+// TODO: Check functionality
 /**
  * Datepicker Init.
  * Uses Bootstrap datepicker plugin.
@@ -267,7 +267,7 @@ const initiateDatePickers = function (fields) {
 };
 
 
-// TODO: Check functionality/replace with newer version?
+// TODO: Check functionality
 /**
  * Timepicker init.
  * Uses the jQuery timepicker plugin.
@@ -767,7 +767,7 @@ const eventLocationTypes = function ($locations) {
 };
 
 
-// TODO: Check functionality & classes
+// TODO: Check functionality
 /**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
@@ -1287,7 +1287,6 @@ const eventContactInfo = function () {
 };
 
 
-// TODO: Check functionality/replace/remove
 const initiateWysiwygs = function () {
   /* eslint-disable camelcase */
   const $editors = $('.wysiwyg');
