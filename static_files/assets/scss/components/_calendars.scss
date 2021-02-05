@@ -240,5 +240,15 @@ $calendar-grid-width: 14.285%;
 .calendar-slider {
   .day a {
     color: $black;
+    padding: .3rem;
+  }
+
+  .today a:not(.text-muted) {
+    background: $brand-primary;
+    font-weight: bold;
+  }
+
+  .hasevents {
+    font-weight: bold;
   }
 }

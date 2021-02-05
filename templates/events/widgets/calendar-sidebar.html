@@ -67,43 +67,43 @@
     {% endif %}
 
   </div>
-    <div class="item ">
-         <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th class="text-center">Su</th>
-                    <th class="text-center">M</th>
-                    <th class="text-center">Tu</th>
-                    <th class="text-center">W</th>
-                    <th class="text-center">Th</th>
-                    <th class="text-center">F</th>
-                    <th class="text-center">Sa</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                {% for day, event_instances in cal.items %}
-                    {% if forloop.counter|add:"-1"|divisibleby:7 %}<tr class="week">{% endif %}
-                        <td class="border-0 day{% if event_instances %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}">
-                            {% if is_manager %}
-                                {% if not calendar %}
-                                    <a style="padding:.3rem;" class="d-block {% if day.month != key.month %} text-muted{% endif %}{% if today == day %} bg-primary font-weight-bold text-secondary{% endif %}" href="{% url 'events.views.manager.manager-all-calendars-day-listing' day.year day.month day.day %}">
-                                    {{ day.day }}
-                                    </a>
-                                {% else %}
-                                    <a style="padding:.3rem;" class="d-block {% if day.month != key.month %} text-muted{% endif %}{% if today == day %} bg-primary font-weight-bold text-secondary{% endif %}" href="{% url 'events.views.manager.manager-day-listing' calendar.pk day.year day.month day.day %}">
-                                        {{ day.day }}
-                                    </a>
-                                {% endif %}
-                            {% else %}
-                                <a style="padding:.3rem;" class="d-block {% if day.month != key.month %} text-muted{% endif %}{% if today == day %} bg-primary font-weight-bold text-secondary{% endif %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}">
-                                    {{ day.day }}
-                                </a>
-                            {% endif %}
-                        </td>
-                    {% if forloop.counter|divisibleby:7 and forloop.counter != 0 %}</tr>{% endif %}
-                {% endfor %}
-            </tbody>
-         </table>
-    </div>
+  <div class="item ">
+    <table class="table table-sm">
+      <thead>
+          <tr>
+              <th class="text-center">Su</th>
+              <th class="text-center">M</th>
+              <th class="text-center">Tu</th>
+              <th class="text-center">W</th>
+              <th class="text-center">Th</th>
+              <th class="text-center">F</th>
+              <th class="text-center">Sa</th>
+          </tr>
+      </thead>
+      <tbody class="text-center">
+        {% for day, event_instances in cal.items %}
+          {% if forloop.counter|add:"-1"|divisibleby:7 %}<tr class="week">{% endif %}
+            <td class="border-0 day{% if event_instances %} hasevents{% endif %}{% if relative == day %} active{% endif %}{% if today == day %} today{% endif %}">
+              {% if is_manager %}
+                {% if not calendar %}
+                  <a class="d-block {% if day.month != key.month %} text-muted{% endif %}" href="{% url 'events.views.manager.manager-all-calendars-day-listing' day.year day.month day.day %}">
+                    {{ day.day }}
+                  </a>
+                {% else %}
+                  <a class="d-block {% if day.month != key.month %} text-muted{% endif %}" href="{% url 'events.views.manager.manager-day-listing' calendar.pk day.year day.month day.day %}">
+                    {{ day.day }}
+                  </a>
+                {% endif %}
+              {% else %}
+                <a class="d-block {% if day.month != key.month %} text-muted{% endif %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.day-listing' pk=calendar.pk slug=calendar.slug year=day.year month=day.month day=day.day %}">
+                  {{ day.day }}
+                </a>
+              {% endif %}
+            </td>
+          {% if forloop.counter|divisibleby:7 and forloop.counter != 0 %}</tr>{% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% endfor %}
 </div>
