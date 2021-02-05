@@ -13,13 +13,13 @@
               <div class="col-lg-6 mb-3 mb-lg-0 whenwhere start{% if ei_form.start.errors %} error{% endif %}">
                 <label for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
                 <label for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
-                {{ ei_form.start|add_class:"form-control" }}
+                {{ ei_form.start }}
                 {{ ei_form.start.errors }}
               </div>
               <div class="col-lg-6 whenwhere end{% if ei_form.end.errors %} error{% endif %}">
                 <label for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
                 <label for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
-                {{ ei_form.end|add_class:"form-control" }}
+                {{ ei_form.end }}
                 {{ ei_form.end.errors }}
               </div>
             </div>
