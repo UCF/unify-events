@@ -5,7 +5,7 @@
     height: 32px !important;
   }
 
-  @include respond-to(xs) {
+  @include media-breakpoint-down(sm) {
     width: 100% !important;
   }
 }

@@ -3,3 +3,9 @@
   letter-spacing: 0;
   text-transform: none;
 }
+
+.edit-options .dropdown-menu {
+  @include media-breakpoint-down(sm) {
+    width: 65vw;
+  }
+}

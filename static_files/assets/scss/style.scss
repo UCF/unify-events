@@ -16,51 +16,13 @@
 //
 // Project-specific styles and overrides:
 //
-
 @import 'mixins';
-@import 'components/event-listing';
-@import 'components/feeds-list';
-@import 'components/manager';
-@import 'components/navs';
-@import 'components/help-docs';
-@import 'components/social-btns';
-@import 'components/calendar-slider';
+@import 'utilities';
 @import 'components/bulk-action-form';
+@import 'components/calendars';
+@import 'components/event-listing';
 @import 'components/event-single';
-@import 'components/calendar-month';
-
-
-.stretched-link::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  pointer-events: auto;
-  content: "";
-  background-color: rgba(0,0,0,0);
-}
-
-// .text-overflow {
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-// }
-
-.edit-options .dropdown-menu {
-  @include media-breakpoint-down(sm) {
-    width: 65vw;
-  }
-}
-
-
-// Jump to anchor
-.jump-to-target {
-  box-shadow: 0;
-  transition: box-shadow .5s cubic-bezier(.18, 1.65, .82, -.6);
-}
-
-.jump-to-target-active {
-  box-shadow: 0 0 8px $brand-info;
-}
+@import 'components/feeds-list';
+@import 'components/help-docs';
+@import 'components/navs';
+@import 'components/social-btns';

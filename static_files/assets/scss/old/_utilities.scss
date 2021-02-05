@@ -1,0 +1,69 @@
+.container-wide {
+  width: 100%;
+}
+
+// Force IE8 to use a fixed-width layout (instead of using respond.js)
+.container {
+  @include body-prefix(ie8) {
+    max-width: none !important;
+    width: 970px;
+  }
+}
+
+// Declare .md- cols for IE8 because it doesn't understand media queries
+.ie8 {
+  @include make-grid(md);
+}
+
+// Columns that only span the width of their children
+.col-lg-auto,
+.col-md-auto,
+.col-sm-auto,
+.col-xs-auto {
+  float: left;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  width: auto;
+}
+
+// Click-to-expand content
+.content-expand {
+  @include respond-to(xs) {
+    max-height: 175px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .content-expander {
+    background-color: #d4d4d4;
+    bottom: 0;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+  }
+
+  &.expanded {
+    max-height: none;
+    transition: height .3s ease-in-out;
+
+    .content-expander {
+      display: none !important;
+    }
+  }
+}
+
+// Jump to anchor
+.jump-to-target {
+  box-shadow: 0;
+  transition: box-shadow .5s cubic-bezier(.18, 1.65, .82, -.6);
+}
+
+.jump-to-target-active {
+  box-shadow: 0 0 8px $brand-primary;
+}

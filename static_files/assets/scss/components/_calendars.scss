@@ -1,7 +1,4 @@
-#calendar-events-month .calendar-large h2 {
-  display: none;
-}
-
+// Calendar Large
 $calendar-grid-width: 14.285%;
 
 .calendar-grid-labels > span {
@@ -231,5 +228,17 @@ $calendar-grid-width: 14.285%;
     time {
       font-weight: bold;
     }
+  }
+}
+
+// Calendar Large Month View
+#calendar-events-month .calendar-large h2 {
+  display: none;
+}
+
+// Calendar Slider
+.calendar-slider {
+  .day a {
+    color: $black;
   }
 }
