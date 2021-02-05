@@ -4,8 +4,6 @@
 // Import third-party assets
 //
 
-// =require jquery-placeholder/jquery.placeholder.js
-
 // Athena
 // =require ucf-athena-framework/dist/js/framework.min.js
 
@@ -257,8 +255,6 @@ const enableTooltips = function () {
 
 
 $(() => {
-  $('input, textarea').placeholder();
-
   jumpTo();
   toggleModalModifyObject();
   calendarSliders();

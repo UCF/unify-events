@@ -174,8 +174,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
     start = forms.DateTimeField(
         widget=BootstrapSplitDateTimeWidget(
             attrs={
-                'date_class': 'field-date',
-                'time_class': 'field-time',
+                'date_class': 'form-control field-date',
+                'time_class': 'form-control field-time',
                 'date_placeholder': 'mm/dd/yyyy',
                 'time_placeholder': '12:00 AM'
             }
@@ -188,8 +188,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
     end = forms.DateTimeField(
         widget=BootstrapSplitDateTimeWidget(
             attrs={
-                'date_class': 'field-date',
-                'time_class': 'field-time',
+                'date_class': 'form-control field-date',
+                'time_class': 'form-control field-time',
                 'date_placeholder': 'mm/dd/yyyy',
                 'time_placeholder': '12:00 AM'
             }
