@@ -24,6 +24,7 @@
         <thead>
           <tr>
             <th>Tag</th>
+            <th>Promoted</th>
             <th>
               <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events with this tag. Includes copied events and events that are pending and posted on the Main Calendar.">
                 Event Count
@@ -37,6 +38,12 @@
           <tr>
             <td>
               <a href="{% url 'events.views.manager.tag-update' pk=tag.pk %}">{{ tag.name }}</a>
+            </td>
+            <td>
+              {% if tag.promoted %}
+                <span class="sr-only">Promoted</span>
+                <span class="fa fa-check" aria-hidden="true"></span>
+              {% endif %}
             </td>
             <td>
               {{ tag.event_count }}
@@ -56,6 +63,16 @@
                   <a class="dropdown-item object-modify" href="{% url 'events.views.manager.tag-delete' pk=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
                     <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Tag
                   </a>
+                  <div class="dropdown-divider"></div>
+                  {% if tag.promoted %}
+                  <a class="dropdown-item" href="{% url 'events.views.manager.tag-demote' tag_id=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
+                    <span class="fa fa-thumbs-down fa-fw mr-1" aria-hidden="true"></span>Demote Tag
+                  </a>
+                  {% else %}
+                  <a class="dropdown-item" href="{% url 'events.views.manager.tag-promote' tag_id=tag.pk %}" data-object-type="tag" data-object-title="{{ tag.name }}">
+                    <span class="fa fa-thumbs-up fa-fw mr-1" aria-hidden="true"></span>Promote Tag
+                  </a>
+                  {% endif %}
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'events.views.tag.tag' tag_pk=tag.pk tag=tag.slug %}">
                     <span class="fa fa-play-circle fa-fw mr-1" aria-hidden="true"></span>Live View

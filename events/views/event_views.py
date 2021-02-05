@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from django.db.models.query import QuerySet
 from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import DetailView
@@ -57,7 +58,10 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
                 # Value is none return right away since no calendar was provided.
                 return pk
             else:
-                calendar = get_object_or_404(Calendar, pk=pk)
+                try:
+                    calendar = Calendar.objects.get(pk=pk)
+                except Calendar.DoesNotExist:
+                    calendar = None
 
             self.calendar = calendar
 
@@ -175,6 +179,11 @@ class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
         This primarily exists to prevent google from crawling
         to infinity and beyond.
         """
+        calendar = self.get_calendar()
+
+        if not calendar:
+            return HttpResponseRedirect(reverse('home'))
+
         start_date = self.get_start_date().date()
         if is_date_in_valid_range(start_date):
             return super(CalendarEventsBaseListView, self).dispatch(request, *args, **kwargs)
@@ -206,9 +215,13 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         Get events for the given day. If no day is provided then
         return the current day's events.
         """
+        calendar = self.get_calendar()
+
+        if not calendar:
+            return Event.objects.none()
+
         start_date = self.get_start_date()
         end_date = self.get_end_date()
-        calendar = self.get_calendar()
         events = calendar.range_event_instances(start_date, end_date).filter(event__state__in=State.get_published_states())
         if self.get_format() == 'html' or self.is_mapped_feed():
             events = map_event_range(start_date, end_date, events)
@@ -243,6 +256,9 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         for canonical urls.
         """
         calendar = self.get_calendar()
+        if not calendar:
+            return HttpResponseRedirect(reverse('home'))
+
         url_name = request.resolver_match.url_name
         if calendar.is_main_calendar and 'main-calendar-' not in url_name and url_name != 'home':
             kwargs = request.resolver_match.kwargs
@@ -789,6 +805,9 @@ class UpcomingEventsListView(PaginationRedirectMixin, CalendarEventsListView):
         datetime.now() value.
         """
         calendar = self.get_calendar()
+        if not calendar:
+            return Event.objects.none()
+
         events = calendar.future_event_instances().filter(event__state__in=State.get_published_states(), start__gte=datetime.now())
 
         if self.get_format() != 'html' and self.get_location():
@@ -901,6 +920,14 @@ class EventsByTagList(PerPageOverrideMixin, InvalidSlugRedirectMixin, MultipleFo
     model = EventInstance
     paginate_by = 25
     template_name = 'events/frontend/tag/tag.'
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            tag = Tag.objects.get(pk=kwargs['tag_pk'])
+            return super(EventsByTagList, self).dispatch(request, *args, **kwargs)
+        except Tag.DoesNotExist:
+            return HttpResponseRedirect(reverse('home'))
+
 
     def get_context_data(self, **kwargs):
         context = super(EventsByTagList, self).get_context_data()

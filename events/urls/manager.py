@@ -37,8 +37,9 @@ from events.views.manager import category
 from events.views.manager import location
 from events.views.manager import tag
 
-from events.views.manager.search import ManagerSearchView
+from events.views.manager.search import CalendarSelect2ListView, ManagerSearchView
 from events.views.manager.search import UserSelect2ListView
+from events.views.manager.search import TagTypeaheadSearchView
 
 urlpatterns = [
     url(r'^login/$',
@@ -116,7 +117,10 @@ urlpatterns += [
     url(r'^tag/create/?$', login_required(TagCreateView.as_view()), name='events.views.manager.tag-create'),
     url(r'^tag/(?P<pk>\d+)/update/?$', login_required(TagUpdateView.as_view()), name='events.views.manager.tag-update'),
     url(r'^tag/(?P<tag_from_id>\d+)/merge/(?P<tag_to_id>\d+)', view=tag.merge, name='events.views.manager.tag-merge'),
+    url(r'^tag/(?P<tag_id>\d+)/promote/?$', view=tag.promote_tag, name='events.views.manager.tag-promote'),
+    url(r'^tag/(?P<tag_id>\d+)/demote/?$', view=tag.demote_tag, name='events.views.manager.tag-demote'),
     url(r'^tag/(?P<pk>\d+)/delete', login_required(TagDeleteView.as_view()), name='events.views.manager.tag-delete'),
+    url(r'^tag/search', login_required(TagTypeaheadSearchView.as_view()), name='events.views.manager.tag-search'),
 
     url(r'^category/create/?$',
         view=login_required(CategoryCreate.as_view()),
@@ -139,6 +143,7 @@ urlpatterns += [
         name='events.views.manager.category-merge'
     ),
     url(r'^userselect2/?$', login_required(UserSelect2ListView.as_view()), name='events.views.manager.user-select2'),
+    url(r'^calendarselect2/?$', login_required(CalendarSelect2ListView.as_view()), name='events.views.manager.calendar-select2'),
     url(r'^profiles/', include('profiles.urls')),
 
     url(r'^$', login_required(Dashboard.as_view()), name='dashboard'),

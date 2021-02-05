@@ -1,3 +1,5 @@
+from django.http.response import HttpResponseRedirect
+from events.models.event import PromotedTag
 import logging
 
 from django.db.models import Count
@@ -24,7 +26,6 @@ from events.models import Event
 
 log = logging.getLogger(__name__)
 
-
 class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     context_object_name = 'tags'
     model = Tag
@@ -35,6 +36,13 @@ class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
         queryset = super(TagListView, self).get_queryset().order_by('name')
         return queryset.annotate(event_count=Count('taggit_taggeditem_items'))
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        promoted = PromotedTag.objects.all()
+        context['promoted_tags'] = promoted
+
+        return context
 
 class TagCreateView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, SuccessMessageMixin, CreateView):
     model = Tag
@@ -57,6 +65,44 @@ class TagDeleteView(SuperUserRequiredMixin, SuccessPreviousViewRedirectMixin, De
     template_name = 'events/manager/tag/delete.html'
     success_url = reverse_lazy('events.views.manager.tag-list')
     success_message = 'Tag deleted successfully.'
+
+@login_required
+def promote_tag(request, tag_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot perform this action.')
+
+    try:
+        original_tag = Tag.objects.get(pk=tag_id)
+    except Tag.DoesNotExist:
+        messages.error(request, f'Tag with ID {tag_id} does not exist.')
+        return success_previous_view_redirect(request, reverse('events.views.manager.tag-list'))
+
+    try:
+        existing = PromotedTag.objects.get(tag=original_tag)
+        messages.success(request, f'Tag {existing.tag.name} is already promoted.')
+    except PromotedTag.DoesNotExist:
+        tag = PromotedTag.objects.create(tag=original_tag)
+        messages.success(request, f'Tag {tag.tag.name} is now promoted.')
+
+    return success_previous_view_redirect(request, reverse('events.views.manager.tag-list'))
+
+@login_required
+def demote_tag(request, tag_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('You cannot perform this action.')
+
+    try:
+        existing = PromotedTag.objects.get(tag__id=tag_id)
+        existing.delete()
+        messages.success(request, f'Tag {existing.tag.name} has been demoted.')
+    except PromotedTag.DoesNotExist:
+        try:
+            tag = Tag.objects.get(pk=tag_id)
+            messages.error(request, f'Tag {tag.name} cannot be demoted.')
+        except Tag.DoesNotExist:
+            messages.error(request, f'Tag with the ID {tag_id} does not exist.')
+
+    return success_previous_view_redirect(request, reverse('events.views.manager.tag-list'))
 
 
 @login_required
