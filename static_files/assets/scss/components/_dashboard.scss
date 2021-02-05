@@ -1,0 +1,22 @@
+.manager-item-table {
+  table-layout: fixed;
+
+  .field-bulk-select,
+  .field-recommended {
+    text-align: center;
+    width: 5%;
+  }
+
+  .event-time {
+    width: 30%;
+  }
+
+  .event-actions {
+    width: 20%;
+  }
+
+  ul {
+    font-size: 95%;
+    padding-left: 1.5rem;
+  }
+}
