@@ -235,13 +235,13 @@
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
             <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</small>
           </div>
-          <div class="col-md-6 col-xl-5">
+          <div class="col-md-5 col-xl-4">
             {% render_field form.tags class="form-control" aria_describedby="help-label-tags" %}
             {{ form.tags.errors }}
             <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
           </div>
-          <div class="col-md-6 col-xl-6">
-            <ul id="event-tags-selected">
+          <div class="col-md-4 col-xl-4">
+            <ul id="event-tags-selected" class="list-unstyled">
             </ul>
           </div>
         </div>

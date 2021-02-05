@@ -521,8 +521,8 @@ const eventLocationsSearch = function (locationDropdowns) {
 
       const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
-      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="fa fa-plus"></i></a>');
-      autocomplete.removeBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
+      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus"></span></a>');
+      autocomplete.removeBtn = $('<a class="location-selected-remove text-secondary" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times"></span></a>');
       autocomplete.locationRow = locationRow;
       autocomplete.locationTitleSpan = locationTitleSpan;
       autocomplete.locationRoomSpan = locationRoomSpan;
@@ -795,7 +795,7 @@ const eventTagging = function () {
     // This function does NOT update self.dataField's value.
     autocomplete.createTag = function (item) {
       const self = this;
-      const removeLink = $('<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">&times;</a>');
+      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times"></span></a>');
       removeLink.on('click', function (event) {
         event.preventDefault();
         self.removeTag($(this).parent('li'));
@@ -803,7 +803,7 @@ const eventTagging = function () {
 
       // Make sure that item is still some valid value after cleaning and trimming whitespace
       if (item.length > 0) {
-        const tagListItem = $(`<li data-tag-name="${item}">${item}</li>`);
+        const tagListItem = $(`<li data-tag-name="${item}" class="badge badge-pill badge-default mr-2 mb-1">${item}</li>`);
         tagListItem
           .appendTo(self.selectedTagsList)
           .prepend(removeLink);
