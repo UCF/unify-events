@@ -4,7 +4,6 @@
 // Import third-party assets
 //
 
-// TODO: Review these requirements and ensure they are working correctly
 // =require bootstrap-3-typeahead/bootstrap3-typeahead.js
 // =require timepicker/jquery.timepicker.js
 // =require bootstrap-datepicker/dist/js/bootstrap-datepicker.js
@@ -211,7 +210,6 @@ const fallbackDtpOnClick = function (icon) {
 };
 
 
-// TODO: Check functionality
 /**
  * Datepicker Init.
  * Uses Bootstrap datepicker plugin.
@@ -220,11 +218,9 @@ const fallbackDtpOnClick = function (icon) {
  * @return {void}
  **/
 const initiateDatePickers = function (fields) {
-  console.log('datepickers starting');
   fields
     .each(function () {
       const field = $(this);
-      console.log(field);
 
       // Wrap field in wrapper div; add icon
       if (field.parent().hasClass('bootstrap-datepicker') === false) {
@@ -267,7 +263,6 @@ const initiateDatePickers = function (fields) {
 };
 
 
-// TODO: Check functionality
 /**
  * Timepicker init.
  * Uses the jQuery timepicker plugin.
@@ -1205,7 +1200,6 @@ function cloneableEventInstances() {
     $instance.on('click', '.remove-instance', removeBtnClickHandler);
 
     // Add event handlers for date/time widgets
-    // TODO not working?
     initiateDatePickers($instance.find('.field-date'));
     initiateTimePickers($instance.find('.field-time'));
 
