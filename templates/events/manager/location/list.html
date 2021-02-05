@@ -57,28 +57,28 @@
               </div>
             </div>
             {% comment %} TODO: Fixed width layout for this table? Ensure that select dropdown is visible and URLs are clipped {% endcomment %}
-            <table class="table table-responsive">
+            <table class="location-manager-table table">
               <thead>
                 <tr>
                   <th class="field-bulk-select">
                     <label class="sr-only" for="bulk-select-all">Select All</label>
                     <input type="checkbox" id="bulk-select-all" name="bulk-select-all" value="" />
                   </th>
-                  <th>
+                  <th class="location-imported">
                     <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Is Imported Location">
                       <span class="fas fa-cloud-download-alt"></span>
                     </a>
                   </th>
-                  <th>Location Name</th>
-                  <th>Room</th>
-                  <th>URL</th>
-                  <th>
+                  <th class="location-title">Location Name</th>
+                  <th class="location-room">Room</th>
+                  <th class="location-url">URL</th>
+                  <th class="location-count">
                     <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events that have instances with this location. Includes copied events and events that are pending and posted on the Main Calendar.">
                       Event Count
                     </a>
                   </th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th class="location-status">Status</th>
+                  <th class="location-actions">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,34 +88,34 @@
                     <label class="sr-only" for="bulk-select">Bulk Action Select</label>
                     <input type="checkbox" name="object_ids" value="{{ location.pk }}" />
                   </td>
-                  <td>
+                  <td class="location-imported">
                     {% if location.import_id %}
                     <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="This location was imported from map.ucf.edu">
                       <span class="fas fa-cloud-download-alt" aria-hidden="true"></span>
                     </a>
                     {% endif %}
                   </td>
-                  <td>
+                  <td class="location-title">
                     <a href="{% url 'events.views.manager.location-update' pk=location.pk %}">{{ location.title }}</a>
                   </td>
-                  <td>
+                  <td class="location-room">
                     {{ location.room }}
                   </td>
-                  <td>
+                  <td class="location-url">
                     {% comment %} TODO: Text-overflow here {% endcomment %}
-                    <a class="text-overflow" href="{{ location.url }}" target="_blank">{{ location.url }}</a>
+                    <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
                   </td>
-                  <td class="text-center">
+                  <td class="location-count">
                     {{ location.event_count }}
                   </td>
-                  <td>
+                  <td class="location-status">
                     {% if location.reviewed %}
                     Approved
                     {% else %}
                     Needs Review
                     {% endif %}
                   </td>
-                  <td>
+                  <td class="location-actions">
                     <div class="dropdown">
                       <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="locationSelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select
