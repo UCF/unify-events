@@ -177,7 +177,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
                 'date_class': 'form-control field-date',
                 'time_class': 'form-control field-time',
                 'date_placeholder': 'mm/dd/yyyy',
-                'time_placeholder': '12:00 AM'
+                'time_placeholder': '12:00 AM',
+                'autocomplete': 'off'
             }
         ),
         input_formats=[
@@ -191,7 +192,8 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
                 'date_class': 'form-control field-date',
                 'time_class': 'form-control field-time',
                 'date_placeholder': 'mm/dd/yyyy',
-                'time_placeholder': '12:00 AM'
+                'time_placeholder': '12:00 AM',
+                'autocomplete': 'off'
             }
         ),
         input_formats=[

@@ -228,7 +228,7 @@ const initiateDatePickers = function (fields) {
           .addClass('form-control')
           .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
           .parent()
-          .append('<i class="fa fa-calendar" />');
+          .append('<span class="fa fa-calendar" aria-hidden="true" />');
       }
 
       const fieldParent = field.parent().parent();
@@ -281,7 +281,7 @@ const initiateTimePickers = function (fields) {
           .addClass('form-control')
           .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
           .parent()
-          .append('<i class="fa fa-clock-o" />');
+          .append('<span class="fa fa-clock" aria-hidden="true" />');
       }
 
       const fieldParent = field.parent().parent();
