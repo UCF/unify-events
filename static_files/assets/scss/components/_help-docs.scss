@@ -1,0 +1,21 @@
+.table-yesno {
+  th:first-of-type,
+  td:first-of-type {
+    text-align: left;
+  }
+}
+
+#static-help-sidebar {
+  .list-unstyled {
+    font-size: 95%;
+
+    li {
+      margin-bottom: .65rem;
+      line-height: 1.4;
+    }
+
+    ul {
+      margin-left: 1rem;
+    }
+  }
+}

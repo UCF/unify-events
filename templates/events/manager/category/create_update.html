@@ -2,80 +2,80 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    {% spaceless %}
-    {% if object %}
-        Update Category
-    {% else %}
-        Create Category
-    {% endif %}
-    | {{ block.super }}
-    {% endspaceless %}
+  {% spaceless %}
+  {% if object %}
+    Update Category
+  {% else %}
+    Create Category
+  {% endif %}
+  | {{ block.super }}
+  {% endspaceless %}
 {% endblock %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{ form.non_field_errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_title %}
+  <div class="col-12">
     {% if object %}
-        <h1 class="col-md-12">Update Category: <span class="alt">{{ category.title }}</span></h1>
+      <h1 class="h2">Update Category: <span class="font-weight-normal">{{ category.title }}</span></h1>
     {% else %}
-        <h1 class="col-md-12">Create a Category</h1>
+      <h1 class="h2">Create a Category</h1>
     {% endif %}
+  </div>
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if object %}
-        Use the form below to update the category "{{ category.title }}". Events with this category will be updated with these changes.
-    {% else %}
-        Use the form below to create a new category.
-    {% endif %}
+  {% if object %}
+    Use the form below to update the category "{{ category.title }}". Events with this category will be updated with these changes.
+  {% else %}
+    Use the form below to create a new category.
+  {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if object %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.category-update' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
-    {% else %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.category-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
-    {% endif %}
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-group large">
-                <label class="control-label col-md-3" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
-                <div class="controls col-md-6">
-                    {{ form.title|add_class:"form-control" }}
-                    {{ form.title.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.color.auto_id }}">{{ form.color.label }}</label>
-                    <p class="label-desc">A color to represent this category in the front-end interface. Standard hex values are recommended.</p>
-                </div>
-                <div class="controls col-md-3">
-                    {{ form.color|add_class:"form-control" }}
-                    {{ form.color.errors }}
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
-                    {% if object %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Update Category</button>
-                        <a href="{% url 'events.views.manager.category-list' %}" class="btn btn-default btn-block-xs">Cancel</a>
-                    {% else %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Create Category</button>
-                    {% endif %}
-                </div>
-            </div>
-        </form>
+  {% if object %}
+    <form action="{% url 'events.views.manager.category-update' pk=category.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+  {% else %}
+    <form action="{% url 'events.views.manager.category-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+  {% endif %}
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.title|add_class:"form-control" }}
+          {{ form.title.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="{{ form.color.auto_id }}">{{ form.color.label }}</label>
+          <small class="form-text text-muted mt-0">A color to represent this category in the front-end interface. Standard hex values are recommended.</small>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.color|add_class:"form-control" }}
+          {{ form.color.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          {% if object %}
+            <button class="btn btn-primary" type="submit">Update Category</button>
+            <a href="{% url 'events.views.manager.category-list' %}" class="btn btn-default">Cancel</a>
+          {% else %}
+            <button class="btn btn-primary" type="submit">Create Category</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
 {% endblock %}

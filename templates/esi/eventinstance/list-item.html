@@ -11,23 +11,23 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 {% endcomment %}
 
 {% with instance_start=instance_start.0|default:object.start instance_end=instance_end.0|default:object.end %}
-    {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
-        <li>
-            <a href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">
-                <time>
-                    {% if instance_start.time %}
-                        {{ instance_start|date:"f a" }}
-                    {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "00:00" and instance_start == instance_end %}
-                    {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
-                        All Day
-                    {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
-                        until {{ instance_end|date:"f a" }}
-                    {% else %}
-                        All Day
-                    {% endif %}
-                </time>
-                {{ object.event.get_title_canceled }}
-            </a>
-        </li>
-    {% endwith %}
+  {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
+    <li>
+      <a href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">
+        <time>
+          {% if instance_start.time %}
+            {{ instance_start|date:"f a" }}
+          {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "00:00" and instance_start == instance_end %}
+          {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
+            All Day
+          {% elif instance_start.time|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
+            until {{ instance_end|date:"f a" }}
+          {% else %}
+            All Day
+          {% endif %}
+        </time>
+        {{ object.event.get_title_canceled }}
+      </a>
+    </li>
+  {% endwith %}
 {% endwith %}

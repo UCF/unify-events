@@ -4,42 +4,36 @@
 {% block alerts %}
     {{ block.super }}
     {% if forms.user.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{forms.user.non_field_errors}}
-                </div>
-            </div>
-        </div>
+      <div class="alert alert-danger">
+        <strong>Error: </strong>
+        {{forms.user.non_field_errors}}
+      </div>
     {% endif %}
     {% if forms.profile.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{forms.profile.non_field_errors}}
-                </div>
-            </div>
-        </div>
+      <div class="alert alert-danger">
+        <strong>Error: </strong>
+        {{forms.profile.non_field_errors}}
+      </div>
     {% endif %}
 {% endblock %}
 
 {% block title %}Settings | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-<h1 class="col-md-12">Settings</h1>
+  <div class="col-12">
+    <h1 class="h2 mb-4">Settings</h1>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
 
 {% block content_tabs %}
 <div class="row">
-    <div class="col-md-12">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#">My Profile</a>
-            </li>
+    <div class="col-12">
+        <ul class="nav nav-tabs mb-3">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">My Profile</a>
+          </li>
         </ul>
     </div>
 </div>
@@ -47,37 +41,46 @@
 
 {% block content_body %}
 <div class="row">
-    <div class="col-md-9">
-        <h2>Edit Profile</h2>
-        <form action="{% url 'profiles.views.profile-settings' %}" method="post" class="form-horizontal">
-            {% csrf_token %}
-            <div class="form-group">
-                <label class="control-label col-md-3" for="id_first_name">First Name</label>
-                <div class="controls col-md-5">
-                    {{ form.first_name|add_class:"form-control" }}
-                    {{ form.first_name.errors }}
-        		</div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-3" for="id_last_name">Last Name</label>
-                <div class="controls col-md-5">
-                    {{ form.last_name|add_class:"form-control" }}
-                    {{ form.last_name.errors }}
-        		</div>
-        	</div>
-        	<div class="form-group">
-                <label class="control-label col-md-3" for="id_email">Email</label>
-                <div class="controls col-md-5">
-                    {{ form.email|add_class:"form-control" }}
-                    {{ form.email.errors }}
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-5 col-md-offset-3">
-                    <button type="submit" class="btn btn-primary btn-block-xs">Save Profile</button>
-                </div>
-            </div>
-        </form>
+  <div class="col-12">
+    <h2 class="h3 font-weight-normal">Edit Profile</h2>
+      <form action="{% url 'profiles.views.profile-settings' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="id_first_name">First Name</label>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {{ form.first_name|add_class:"form-control" }}
+            {{ form.first_name.errors }}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="id_last_name">Last Name</label>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {{ form.last_name|add_class:"form-control" }}
+            {{ form.last_name.errors }}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="id_email">Email</label>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {{ form.email|add_class:"form-control" }}
+            {{ form.email.errors }}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+          </div>
+        </div>
+      </form>
     </div>
 </div>
 {% endblock %}

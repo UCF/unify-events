@@ -1,8 +1,18 @@
 {% load widgets %}
-<div class="feeds-list">
-    <a class="ical" data-toggle="tooltip" data-placement="bottom" title="Apple iCal Feed (ICS)" href="{{ url }}feed.ics">Apple iCal Feed (ICS)</a>
-    <a class="outlook" data-toggle="tooltip" data-placement="bottom" title="Microsoft Outlook Feed (ICS)" href="{{ url }}feed.ics">Microsoft Outlook Feed (ICS)</a>
-    <a class="rss" data-toggle="tooltip" data-placement="bottom" title="RSS Feed" href="{{ url }}feed.rss">RSS Feed</a>
-    <a class="xml" data-toggle="tooltip" data-placement="bottom" title="XML Feed" href="{{ url }}feed.xml">XML Feed</a>
-    <a class="json" data-toggle="tooltip" data-placement="bottom" title="JSON Feed" href="{{ url }}feed.json">JSON Feed</a>
+<div class="feeds-list d-flex">
+    <a href="{{ url }}feed.ics" class="ical" data-toggle="tooltip" data-placement="bottom" title="Apple iCal Feed (ICS)">
+      Apple iCal Feed (ICS)
+    </a>
+    <a href="{{ url }}feed.ics" class="outlook" data-toggle="tooltip" data-placement="bottom" title="Microsoft Outlook Feed (ICS)">
+      Microsoft Outlook Feed (ICS)
+    </a>
+    <a href="{{ url }}feed.rss" class="rss" data-toggle="tooltip" data-placement="bottom" title="RSS Feed">
+      RSS Feed
+    </a>
+    <a href="{{ url }}feed.xml" class="xml" data-toggle="tooltip" data-placement="bottom" title="XML Feed">
+      XML Feed
+    </a>
+    <a href="{{ url }}feed.json" class="json" data-toggle="tooltip" data-placement="bottom" title="JSON Feed">
+      JSON Feed
+    </a>
 </div>

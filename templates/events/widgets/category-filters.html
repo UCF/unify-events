@@ -1,14 +1,14 @@
 {% load widgets %}
 {% load core_tags %}
-<ul class="category-filter-list">
-	{% for category in categories %}
-	<li class="category-text {% include_esi 'category' category.pk 'slug' %}">
-		<i class="fa fa-tag"></i>
-		{% if calendar and not calendar.is_main_calendar %}
-        {% include_esi 'category' category.pk 'link' calendar.pk %}
-		{% else %}
-		{% include_esi 'category' category.pk 'link' %}
-		{% endif %}
-	</li>
-	{% endfor %}
+<ul class="list-unstyled mb-4">
+  {% for category in categories %}
+  <li class="category-text {% include_esi 'category' category.pk 'slug' %} mb-2">
+    <span class="fa fa-tag" aria-hidden="true"></span>
+    {% if calendar and not calendar.is_main_calendar %}
+      {% include_esi 'category' category.pk 'link' calendar.pk %}
+    {% else %}
+    {% include_esi 'category' category.pk 'link' %}
+    {% endif %}
+  </li>
+  {% endfor %}
 </ul>

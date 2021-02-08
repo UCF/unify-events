@@ -4,67 +4,72 @@
 {% block title %}Log In | {{ block.super }} Admin{% endblock %}
 
 {% block pagehead %}
-    {% include_esi_template 'esi/template/header.html' %}
+  {% include_esi_template 'esi/template/header.html' %}
 {% endblock %}
 
 {% block content_header %}{% endblock %}
 {% block content_body %}
 
-    <section class="row">
-        <div class="col-md-8 col-md-offset-2 page-content">
-            <div class="panel panel-default panel-page">
-                <div class="panel-body">
-                    <h1>Log In</h1>
-                    <p>Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
-                    {% if form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        <strong>Error: </strong>
-                        <ul class="errors">
-                            {% for error in form.non_field_errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                    <form class="form-horizontal" action="{% url 'accounts-login' %}" method="post" id="login-form">
-                        {% csrf_token %}
-                        <div class="form-group {% if form.password.errors %}error{% endif %}">
-                            <label class="control-label col-md-3" for="id_username">NID</label>
-                            <div class="controls col-md-7">
-                                <input type="text" id="id_username" class="form-control" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
-                                {{ form.username.errors }}
-                            </div>
-                        </div>
-                        <div class="form-group {% if form.password.errors %}error{% endif %}">
-                            <label class="control-label col-md-3" for="id_password">NID Password</label>
-                            <div class="controls col-md-7">
-                                <input type="password" class="form-control" id="id_password" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
-                                {{ form.password.errors }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-5 col-md-offset-3">
-                                <input type="hidden" name="next" value="{{next}}" />
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary btn-block-xs">Log In</button>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="well">
-                        <p>
-                            <i class="fa fa-info-circle fa-lg"></i>
-                            If you are having trouble logging in, your NID password
-                            may be expired.
-                            <br/>
-                            Try resetting your password using the
-                            <a href="https://extranet.cst.ucf.edu/PWSelfReset/pages/NidCheck.aspx">Password Reset Tool</a>.
-                        </p>
-                        <p>
-                            If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.
-                        </p>
-                    </div>
-                </div>
-            </div>
+<section class="row">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="card">
+      <div class="card-block">
+        <h1>Log In</h1>
+        <p class="mb-4">Log in to the UCF Events system with your Network ID (NID) to manage your calendars, events, and subscriptions.</p>
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            <strong>Error: </strong>
+            <ul>
+              {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+            <form action="{% url 'accounts-login' %}" method="post" id="login-form">
+              <div class="form-group{% if form.username.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="id_username">NID</label>
+                <input type="text" id="id_username" required class="form-control form-control-danger" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+                {% if form.username.errors %}
+                  {% for error in form.username.errors %}
+                  <div class="form-control-feedback">{{error}}</div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <div class="form-group{% if form.password.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="id_password">NID Password</label>
+                <input type="password" id="id_password" required class="form-control form-control-danger" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
+                {% if form.password.errors %}
+                  {% for error in form.password.errors %}
+                  <div class="form-control-feedback">{{error}}</div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <input type="hidden" name="next" value="{{next}}" />
+              {% csrf_token %}
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log In</button>
+              </div>
+            </form>
+          </div>
         </div>
-    </section>
+      </div>
+      <div class="card card-faded">
+        <div class="card-block d-flex">
+          <span class="fa fa-info-circle lead mr-3" aria-hidden="true"></span>
+          <div>
+            <p class="card-text">
+              If you are having trouble logging in, your NID password may be expired.
+              <br>
+              Try resetting your password using the <a href="https://mynid.ucf.edu/pages/NidCheck.aspx">Password Reset Tool</a>.
+            </p>
+            <p class="card-text">If you continue to experience problems with logging in, please contact <a href="mailto:webcom@ucf.edu">webcom@ucf.edu</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

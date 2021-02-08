@@ -1,0 +1,38 @@
+.feeds-list {
+  a {
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    display: inline-block;
+    height: 33px;
+    overflow: hidden;
+    padding: 0 17px;
+    text-indent: 50px;
+    white-space: nowrap;
+    width: 10px;
+    @include img-retina('../../static/img/feeds.png', '../../static/img/feeds-r.png', 21px, 150px);
+
+    &:hover {
+      background-color: $gray-lighter;
+    }
+
+    &.ical {
+      background-position: 7px -25px;
+    }
+
+    &.outlook {
+      background-position: 7px -60px;
+    }
+
+    &.rss {
+      background-position: 6px 5px;
+    }
+
+    &.xml {
+      background-position: 6px -121px;
+    }
+
+    &.json {
+      background-position: 6px -93px;
+    }
+  }
+}

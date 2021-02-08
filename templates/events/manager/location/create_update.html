@@ -3,118 +3,112 @@
 {% load locations %}
 
 {% block page_header %}
-	{% spaceless %}
-	{{block.super}}
-	|
-	{% if mode == 'create' %}
-		Create Location
-	{% else %}
-		{% if mode == 'update' %}
-			Update Location
-		{% endif %}
-	{% endif %}
+  {% spaceless %}
+  {{block.super}}
+  |
+  {% if mode == 'create' %}
+    Create Location
+  {% else %}
+    {% if mode == 'update' %}
+      Update Location
+    {% endif %}
+  {% endif %}
     | {{ block.super }}
-	{% endspaceless %}
+  {% endspaceless %}
 {% endblock %}
 
 {% block header_scripts %}{% endblock %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{form.non_field_errors}}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    {% if object and location.import_id %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-warning">
-                    <p><i class="fa fa-cloud-download"></i> <strong>Heads up!</strong> You're modifying a location that was imported from map.ucf.edu.  The next time a location import is executed, <em>your changes will be overridden.</em></p>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{form.non_field_errors}}
+    </div>
+  {% endif %}
+  {% if object and location.import_id %}
+    <div class="alert alert-warning">
+      <p><span class="fas fa-cloud-download-alt" aria-hidden="true"></span> <strong>Heads up!</strong> You're modifying a location that was imported from map.ucf.edu. The next time a location import is executed, <em>your changes will be overridden.</em></p>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_title %}
-    {% if object %}
-        <h1 class="col-md-12">Update Location: <span class="alt">{{ location.title }}</span></h1>
-    {% else %}
-        <h1 class="col-md-12">Create an Location</h1>
-    {% endif %}
+  <div class="col-12">
+  {% if object %}
+    <h1 class="h2">Update Location: <span class="font-weight-normal">{{ location.title }}</span></h1>
+  {% else %}
+    <h1 class="h2">Create an Location</h1>
+  {% endif %}
+  </div>
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if object %}
-        Use the form below to update the location "{{ location.comboname }}". Events with this location will be updated with these changes.
-    {% else %}
-        Use the form below to create a new location.
-    {% endif %}
+  {% if object %}
+    Use the form below to update the location "{{ location.comboname }}". Events with this location will be updated with these changes.
+  {% else %}
+    Use the form below to create a new location.
+  {% endif %}
 {% endblock %}
 
 {% block content_body %}
-	{% if object %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.location-update' pk=location.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
-    {% else %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.location-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
-	  {% endif %}
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
-                    <p class="label-desc">Be Brief. Be Bright. Be Done.</p>
-                </div>
-                <div class="controls col-md-5">
-                    {{ form.title|add_class:"form-control" }}
-                    {{ form.title.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
-                    <p class="label-desc">A more specific place within the location like a room, hall, etc.</p>
-                </div>
-                <div class="controls col-md-5">
-                    {{ form.room|add_class:"form-control" }}
-                    {{ form.room.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
-                    <p class="label-desc">A map url of the location (https://map.ucf.edu or https://www.google.com/maps)</p>
-                </div>
-                <div class="controls col-md-5">
-                    {{ form.url|add_class:"form-control" }}
-                    {{ form.url.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.reviewed.auto_id }}">{{ form.reviewed.label }}</label>
-                    <p class="label-desc">Is this location acceptable?</p>
-                </div>
-                <div class="controls col-md-auto">
-                    {{ form.reviewed|add_class:"form-control" }}
-                    {{ form.reviewed.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="col-md-5 col-md-offset-3">
-                    {% if object %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Update Location</button>
-                        <a href="{% url 'events.views.manager.location-list' %}" class="btn btn-default btn-block-xs">Cancel</a>
-                    {% else %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Create Location</button>
-                    {% endif %}
-                </div>
-            </div>
-        </form>
+  {% if object %}
+    <form action="{% url 'events.views.manager.location-update' pk=location.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+  {% else %}
+    <form action="{% url 'events.views.manager.location-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post" enctype="multipart/form-data">
+  {% endif %}
+  {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+          <small class="form-text text-muted mt-0">Be Brief. Be Bright. Be Done.</small>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.title|add_class:"form-control" }}
+          {{ form.title.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
+          <small class="form-text text-muted mt-0">A more specific place within the location like a room, hall, etc.</small>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.room|add_class:"form-control" }}
+          {{ form.room.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
+          <small class="form-text text-muted mt-0">A map url of the location (https://map.ucf.edu or https://www.google.com/maps)</small>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.url|add_class:"form-control" }}
+          {{ form.url.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label pb-0" for="{{ form.reviewed.auto_id }}">{{ form.reviewed.label }}</label>
+          <small class="form-text text-muted mt-0">Is this location acceptable?</small>
+        </div>
+        <div class="col-md-9 col-xl-8 d-flex align-items-center">
+          {{ form.reviewed|add_class:"form-check-input ml-0" }}
+          {{ form.reviewed.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          {% if object %}
+            <button class="btn btn-primary" type="submit">Update Location</button>
+            <a href="{% url 'events.views.manager.location-list' %}" class="btn btn-default">Cancel</a>
+          {% else %}
+            <button class="btn btn-primary" type="submit">Create Location</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
 {% endblock %}

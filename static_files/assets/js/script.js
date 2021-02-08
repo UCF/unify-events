@@ -4,8 +4,8 @@
 // Import third-party assets
 //
 
-// =require jquery-placeholder/jquery.placeholder.js
-// =require bootstrap-sass/assets/javascripts/bootstrap.js
+// Athena
+// =require ucf-athena-framework/dist/js/framework.min.js
 
 
 //
@@ -13,107 +13,6 @@
 //
 // Scripts listed below should be view-agnostic (can run in frontend or backend.)
 //
-
-
-/**
- * Assign browser-specific body classes on page load
- *
- * @returns {void}
- **/
-const addBodyClasses = function () {
-  let bodyClass = '';
-
-  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-    // test for MSIE x.x;
-    const ieversion = Number(RegExp.$1); // capture x.x portion and store as a number
-    if (ieversion >= 10) {
-      bodyClass = 'ie ie10';
-    } else if (ieversion >= 9) {
-      bodyClass = 'ie ie9';
-    } else if (ieversion >= 8) {
-      bodyClass = 'ie ie8';
-    } else if (ieversion >= 7) {
-      bodyClass = 'ie ie7';
-    }
-  } else if (navigator.appName === 'Netscape' && Boolean(navigator.userAgent.match(/Trident\/7.0/))) {
-    // IE11+:
-    bodyClass = 'ie ie11';
-  } else if (navigator.userAgent.match(/iPhone/i)) {
-    // iOS:
-    bodyClass = 'iphone';
-  } else if (navigator.userAgent.match(/iPad/i)) {
-    bodyClass = 'ipad';
-  } else if (navigator.userAgent.match(/iPod/i)) {
-    bodyClass = 'ipod';
-  } else if (navigator.userAgent.match(/Android/i)) {
-    // Android:
-    bodyClass = 'android';
-  }
-
-  $('body').addClass(bodyClass);
-};
-
-
-/**
- * Add classes to elements in IE8 that require non-supported
- * CSS selectors for styling
- *
- * @return {void}
- **/
-const ie8StyleClasses = function () {
-  const addClassBySelector = function (selector, classToAdd) {
-    $(selector).each(function () {
-      $(this).addClass(classToAdd);
-    });
-  };
-  if ($('body').hasClass('ie8')) {
-    // a:not('.btn') > i; i + a:not('.btn')
-    addClassBySelector('a:not(.btn) > i', 'icon-right-margin');
-    addClassBySelector('i + a:not(.btn)', 'icon-left-margin');
-    // general :last-child usage
-    addClassBySelector('.edit-options > ul > li:last-child', 'last-child');
-    addClassBySelector('.search-results-list > li:last-child', 'last-child');
-    addClassBySelector('.search-results-list .event-tags ul li:last-child', 'last-child');
-    addClassBySelector('.panel-heading .form-group:last-child, .panel-footer .form-group:last-child', 'last-child');
-  }
-};
-
-
-/**
- * Attempt to remove scrollbars on dropdown menus if
- * they don't scroll vertically
- *
- * @return {void}
- **/
-const hideDropdownScrollbars = function () {
-  $('.dropdown').each(function () {
-    $(this).on('shown.bs.dropdown', function () {
-      const dropdownMenu = $(this).find('.dropdown-menu');
-      if (dropdownMenu.outerHeight() >= dropdownMenu.prop('scrollHeight')) {
-        dropdownMenu.css('overflow-y', 'hidden');
-      } else {
-        dropdownMenu.css('overflow-y', 'scroll');
-      }
-    });
-  });
-};
-
-
-/**
- * Replace browser's default hover effect for <abbr> elements
- * with Bootstrap tooltips, due to wide browser inconsistency on
- * how the hover state works.
- *
- * Also activate tooltips on any other element that uses
- * Bootstrap's default usage.
- *
- * @return {void}
- **/
-const activateTooltips = function () {
-  $('abbr, [data-toggle="tooltip"]').each(function () {
-    $(this).tooltip();
-  });
-};
 
 
 /**
@@ -235,27 +134,13 @@ const toggleModalModifyObject = function () {
  * @return {void}
  **/
 const calendarSliders = function () {
-  $('body').on('click', '.calendar-slider ul.pager li a', function (e) {
+  $('body').on('click', '.calendar-slider .pager a', function (e) {
     e.preventDefault();
 
     const slider = $(this).parents('.calendar-slider');
     $.get($(this).attr('data-ajax-link'), (data) => {
       slider.replaceWith(data);
     });
-  });
-};
-
-
-/**
- * Add support for forms within Bootstrap .dropdown-menus.
- *
- * @return {void}
- **/
-const dropdownMenuForms = function () {
-  $('.dropdown-menu').on('click', function (e) {
-    if ($(this).hasClass('dropdown-menu-form')) {
-      e.stopPropagation();
-    }
   });
 };
 
@@ -292,33 +177,13 @@ const contentExpanders = function () {
 
     // Hide btn if content is less than max-height
     if (content.height() < parseInt(content.css('max-height'), 10)) {
-      btn.addClass('hidden');
+      btn.addClass('d-none');
     }
 
     btn.on('click', (e) => {
       e.preventDefault();
       content.addClass('expanded');
     });
-  });
-};
-
-
-/**
- * Remove .dropdown-menu-right class from
- * .edit-options list items @ mobile size
- *
- * @return {void}
- **/
-const mobileEditOptions = function () {
-  const removeClass = function () {
-    if ($(window).width() < 768) {
-      $('#page-title-wrap .edit-options .dropdown-menu-right').removeClass('dropdown-menu-right');
-    }
-  };
-
-  removeClass();
-  $(window).on('resize', () => {
-    removeClass();
   });
 };
 
@@ -365,19 +230,22 @@ const gaEventTracking = function () {
 };
 
 
-$(document).on('ready', () => {
-  $('input, textarea').placeholder();
+/**
+ * Enable Athena tooltips
+ *
+ * @return {void}
+ **/
+const enableTooltips = function () {
+  $('[data-toggle="tooltip"]').tooltip();
+};
 
-  addBodyClasses();
-  ie8StyleClasses();
-  hideDropdownScrollbars();
-  activateTooltips();
+
+$(() => {
   jumpTo();
   toggleModalModifyObject();
   calendarSliders();
-  dropdownMenuForms();
   clickableTableRows();
   contentExpanders();
-  mobileEditOptions();
   gaEventTracking();
+  enableTooltips();
 });

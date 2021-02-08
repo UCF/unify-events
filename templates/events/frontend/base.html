@@ -3,26 +3,24 @@
 
 {% block content %}
 <section id="calendar-base" class="container {% block content_section_classes %}{% endblock %}">
-    {% block content_header %}
-        <div class="row">
-            <div id="page-title-wrap">
-                {% block content_title %}{% endblock %}
-            </div>
-        </div>
-    {% endblock %}
-    {% block content_subheader %}
-        <div class="row">
-            <div class="col-md-12">
-                <p class="h2 page-subtitle">{% block content_subheader_text %}{% endblock %}</p>
-            </div>
-        </div>
-    {% endblock %}
-    {% block content_tabs %}{% endblock %}
-    {% block content_body %}{% endblock %}
-    {% block content_footer %}{% endblock %}
+  {% block content_header %}
+    <div class="row" id="page-title-wrap">
+      {% block content_title %}{% endblock %}
+    </div>
+  {% endblock %}
+  {% block content_subheader %}
+    <div class="row">
+      <div class="col-12">
+        <p class="lead mb-4">{% block content_subheader_text %}{% endblock %}</p>
+      </div>
+    </div>
+  {% endblock %}
+  {% block content_tabs %}{% endblock %}
+  {% block content_body %}{% endblock %}
+  {% block content_footer %}{% endblock %}
 </section>
 {% endblock %}
 
 {% block footer_scripts %}
-    <script src="{% static_ver 'js/script-frontend.min.js' %}" type="text/javascript" charset="utf-8"></script>
+  <script src="{% static_ver 'js/script-frontend.min.js' %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

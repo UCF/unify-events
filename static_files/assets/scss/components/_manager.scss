@@ -1,0 +1,63 @@
+.manager-item-table {
+  table-layout: fixed;
+
+  .field-bulk-select,
+  .field-recommended {
+    text-align: center;
+    width: 5%;
+  }
+
+  .event-time {
+    width: 30%;
+  }
+
+  .event-actions {
+    width: 20%;
+  }
+
+  ul {
+    font-size: 95%;
+    padding-left: 1.5rem;
+  }
+}
+
+
+.location-manager-table {
+  table-layout: fixed;
+  font-size: 90%;
+
+  .field-bulk-select,
+  .location-imported {
+    text-align: center;
+    width: 5%;
+  }
+
+  .location-title {
+    width: 22%;
+  }
+
+  .location-room {
+    width: 10%;
+  }
+
+  .location-url {
+    width: 25%;
+
+    a {
+      display: block;
+      @include text-overflow();
+    }
+  }
+
+  .location-count {
+    width: 8%;
+  }
+
+  .location-status {
+    width: 10%;
+  }
+
+  .location-actions {
+    width: 15%;
+  }
+}

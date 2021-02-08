@@ -2,75 +2,75 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    {% spaceless %}
-    {{ block.super }}
-    |
-    {% if mode == 'create' %}
-        Create Tag
-    {% else %}
-        {% if mode == 'update' %}
-            Update Tag
-        {% endif %}
+  {% spaceless %}
+  {{ block.super }}
+  |
+  {% if mode == 'create' %}
+    Create Tag
+  {% else %}
+    {% if mode == 'update' %}
+      Update Tag
     {% endif %}
-    | {{ block.super }}
-    {% endspaceless %}
+  {% endif %}
+  | {{ block.super }}
+  {% endspaceless %}
 {% endblock %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{ form.non_field_errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block content_title %}
-    {% if object %}
-        <h1 class="col-md-12">Update Tag: <span class="alt">{{ tag.name }}</span></h1>
-    {% else %}
-        <h1 class="col-md-12">Create a Tag</h1>
-    {% endif %}
+  <div class="col-12">
+  {% if object %}
+    <h1 class="h2">Update Tag: <span class="font-weight-normal">{{ tag.name }}</span></h1>
+  {% else %}
+    <h1 class="h2">Create a Tag</h1>
+  {% endif %}
+  </div>
 {% endblock %}
 
 {% block content_subheader_text %}
-    {% if object %}
-        Use the form below to update the tag "{{ tag.name }}". Events with this tag will be updated with these changes.
-    {% else %}
-        Use the form below to create a new tag.
-    {% endif %}
+  {% if object %}
+    Use the form below to update the tag "{{ tag.name }}". Events with this tag will be updated with these changes.
+  {% else %}
+    Use the form below to create a new tag.
+  {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if object %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.tag-update' pk=tag.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
-    {% else %}
-        <form class="form-horizontal" action="{% url 'events.views.manager.tag-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
-    {% endif %}
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-group large">
-                <label class="control-label col-md-3" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
-                <div class="controls col-md-5">
-                    {{ form.name|add_class:"form-control" }}
-                    {{ form.name.errors }}
-                </div>
-            </div>
-            <div class="form-group large">
-                <div class="col-md-5 col-md-offset-3">
-                    {% if object %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Update Tag</button>
-                        <a href="{% url 'events.views.manager.tag-list' %}" class="btn btn-default btn-block-xs">Cancel</a>
-                    {% else %}
-                        <button class="btn btn-primary btn-block-xs" type="submit">Create Tag</button>
-                    {% endif %}
-                </div>
-            </div>
-        </form>
+  {% if object %}
+    <form action="{% url 'events.views.manager.tag-update' pk=tag.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
+  {% else %}
+    <form action="{% url 'events.views.manager.tag-create' %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}" method="post">
+  {% endif %}
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group row">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+        </div>
+        <div class="col-md-9 col-xl-8">
+          {{ form.name|add_class:"form-control" }}
+          {{ form.name.errors }}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          {% if object %}
+            <button class="btn btn-primary" type="submit">Update Tag</button>
+            <a href="{% url 'events.views.manager.tag-list' %}" class="btn btn-default">Cancel</a>
+          {% else %}
+            <button class="btn btn-primary" type="submit">Create Tag</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
 {% endblock %}
 

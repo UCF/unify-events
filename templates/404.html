@@ -8,40 +8,30 @@
 {% block navbar %}<body>{% endblock %}
 
 {% block pagehead %}
-<header class="container">
-    <div class="row">
-        <div class="col-md-8 col-sm-7 header-title">
-            <a href="{% url 'home' %}">Events at UCF</a>
-        </div>
-    </div>
+<header class="container mt-4 mt-md-5 mb-4">
+  <a href="{% url 'home' %}" class="text-secondary mb-3">
+    <span class="fa fa-home pr-1" aria-hidden="true"></span>Events at UCF
+  </a>
 </header>
 {% endblock %}
 
 {% block title %}Page Not Found{% endblock %}
 
 {% block content_title %}
-    <h1>404 - Page Not Found</h1>
+  <h1>404 - Page Not Found</h1>
 {% endblock %}
 
 {% block content_body %}
-    <div class="row">
-        <div class="col-md-9 page-content page-content-no-heading">
-            <p>The content you requested could not be found.  The content may have moved or been deleted from the events system.  Perhaps try searching below for what you're looking for?</p>
-            <br/>
-            <form method="GET" action="{% url 'search_view' %}" role="form">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <label class="sr-only" for="global-search">Search events, calendars</label>
-                            <input type="text" class="col-md-3 search-query form-control" id="global-search" name="q" placeholder="Search events, calendars" />
-
-                            <div class="input-group-btn">
-                                <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+  <div class="row">
+    <div class="col-lg-9">
+      <p class="mb-4">The content you requested could not be found. The content may have moved or been deleted from the events system. Perhaps try searching below for what you're looking for?</p>
     </div>
+    <div class="col-lg-6">
+      <form class="d-flex mb-3" method="GET" action="." role="form">
+        <label class="sr-only" for="global-search">Search events, calendars</label>
+        <input class="search-query form-control" type="text" id="global-search" name="q" placeholder="Search events, calendars">
+        <button class="btn btn-primary" tabindex="-1" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
 {% endblock %}
