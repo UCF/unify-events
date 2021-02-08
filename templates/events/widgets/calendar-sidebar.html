@@ -3,7 +3,7 @@
 <div id="sidebar-minical" class="calendar-slider mb-4" {% if calendar %}data-calendar-slug="{{ calendar.slug }}"{% endif %} data-view="{% if is_manager %}manager{% else %}frontend{% endif %}" data-year="{{ this_month.year }}" data-month="{{ this_month.month }}">
 {% for key, cal in calendar_map.items %}
   <div class="row justify-content-between align-items-center mb-2{% if key.month == this_month.month %} active{% endif %}">
-    <div class="col-sm-auto col text-center">
+    <div class="{% if use_pagers %} col-sm-auto col{% else %} col-12{% endif %} text-center">
       <h3 class="h5 font-weight-normal mb-0">
         {% if key.month == this_month.month %}
           {% if is_manager %}
