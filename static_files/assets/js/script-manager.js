@@ -775,40 +775,66 @@ const eventLocationTypes = function ($locations) {
 };
 
 const eventTagging = function () {
-  const $tagInput = $('#id_event-tags');
+  const $dataField = $('#id_event-tags');
+  const $inputField = $('<input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">');
 
-  if (!$tagInput) {
+  if (!$dataField) {
     return;
   }
 
   const selectedTags = [];
   const $selectedTagList = $('#event-tags-selected');
 
-  const data = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('results'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    limit: 10,
-    remote: {
-      url: `${TAG_FEED_URL}?q=%q`,
-      wildcard: '%q',
-      transform: (response) => {
-        return response.results;
-      }
-    }
-  });
+  const setupForm = () => {
+    $dataField.hide();
+    $('.tag-search').prepend($inputField);
+    $selectedTagList.find('li').each((_idx, obj) => {
+      $(obj).find('a').on('click', removeTagItem);
+    });
+  };
 
-  $tagInput.typeahead({
-    minLength: 3,
-    highlight: true
-  },
-  {
-    name: 'tags',
-    displayKey: 'text',
-    source: data.ttAdapter()
-  }).on('typeahead:select', (_event, suggestion) => {
-    selectedTags.push(suggestion.text);
-    addTagItem(suggestion);
-  });
+  const onReady = () => {
+    setupForm();
+    initializeTypeahead();
+
+    $selectedTagList.find('li').each((_idx, obj) => {
+      const tag = $(obj).data('tag-text');
+      selectedTags.push(tag);
+    });
+
+    // Clear the tag input.
+    $inputField.val('');
+  };
+
+  $(window).on('ready', onReady);
+
+  const initializeTypeahead = () => {
+    const data = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('results'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      remote: {
+        url: `${TAG_FEED_URL}?q=%q`,
+        wildcard: '%q',
+        transform: (response) => {
+          return response.results;
+        }
+      }
+    });
+
+    $inputField.typeahead({
+      minLength: 3,
+      highlight: true
+    },
+    {
+      name: 'tags',
+      displayKey: 'text',
+      source: data.ttAdapter()
+    }).on('typeahead:select', (_event, suggestion) => {
+      selectedTags.push(suggestion.text);
+      addTagItem(suggestion);
+    });
+  };
 
   const addTagItem = (suggestion) => {
     const $removeLink =
@@ -826,6 +852,7 @@ const eventTagging = function () {
   };
 
   const removeTagItem = (event) => {
+    event.preventDefault();
     const $sender = $(event.target);
     const $listItem = $sender.parent();
     const dataItem = $listItem.data('tag-text');
@@ -841,7 +868,7 @@ const eventTagging = function () {
   };
 
   const updateTagInput = () => {
-    $tagInput.val(selectedTags.join(','));
+    $dataField.val(selectedTags.join(','));
   };
 };
 

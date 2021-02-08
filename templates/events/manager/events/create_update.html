@@ -214,6 +214,12 @@
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <ul id="event-tags-selected">
+                              {% for tag in event.tags.all %}
+                              <li data-tag-text="{{ tag.name }}">
+                                <a href="#" class="selected-remote" alt="Remove this tag" title="Remove this tag">&times</a>
+                                {{ tag.name }}
+                              </li>
+                              {% endfor %}
                             </ul>
                         </div>
                     </div>
