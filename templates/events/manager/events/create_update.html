@@ -269,6 +269,7 @@
 {% endblock %}
 
 {% block footer_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.js"></script>
 <script type="text/javascript">
     var usersFullName = '{{ user.get_full_name }}';
     var usersEmail = '{{ user.email }}';
