@@ -776,7 +776,8 @@ const eventLocationTypes = function ($locations) {
 
 const eventTagging = function () {
   const $dataField = $('#id_event-tags');
-  const $inputField = $('<input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">');
+  const $inputField = $('#event-tags-typeahead');
+  const $addNewTagBtn = $('#add-new-tag');
 
   if (!$dataField) {
     return;
@@ -787,7 +788,6 @@ const eventTagging = function () {
 
   const setupForm = () => {
     $dataField.hide();
-    $('.tag-search').prepend($inputField);
     $selectedTagList.find('li').each((_idx, obj) => {
       $(obj).find('a').on('click', removeTagItem);
     });
@@ -802,11 +802,8 @@ const eventTagging = function () {
       selectedTags.push(tag);
     });
 
-    // Clear the tag input.
-    $inputField.val('');
+    updateTagInput();
   };
-
-  $(window).on('ready', onReady);
 
   const initializeTypeahead = () => {
     const data = new Bloodhound({
@@ -833,6 +830,16 @@ const eventTagging = function () {
     }).on('typeahead:select', (_event, suggestion) => {
       selectedTags.push(suggestion.text);
       addTagItem(suggestion);
+    }).on('typeahead:render', (_event, suggestions, finished) => {
+      if (finished === false) {
+        return;
+      }
+
+      if (suggestions.length < 1) {
+        $addNewTagBtn.show();
+      } else {
+        $addNewTagBtn.hide();
+      }
     });
   };
 
@@ -869,7 +876,23 @@ const eventTagging = function () {
 
   const updateTagInput = () => {
     $dataField.val(selectedTags.join(','));
+    $inputField.val('');
+    $addNewTagBtn.hide();
   };
+
+  $(window).on('ready', onReady);
+  $addNewTagBtn.on('click', (e) => {
+    e.preventDefault();
+
+    // Get the text that's typed in and trim.
+    const newTag = $inputField.val().trim();
+
+    addTagItem({
+      id: null,
+      text: newTag,
+      score: 0
+    });
+  });
 };
 
 

@@ -208,9 +208,17 @@
                 <div class="controls col-md-6">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 tag-search">
+                          <div class="row">
+                            <div class="col-xs-10">
+                              <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">
+                            </div>
+                            <div class="col-xs-2">
+                              <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">&plus;</a>
+                            </div>
                             {% render_field form.tags class="form-control" aria_describedby="help-label-tags" %}
-                            {{ form.tags.errors }}
-                            <p class="help-block" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</p>
+                          </div>
+                          {{ form.tags.errors }}
+                          <p class="help-block" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</p>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <ul id="event-tags-selected">
