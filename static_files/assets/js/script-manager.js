@@ -194,7 +194,6 @@ const toggleModalUserDemote = function () {
 };
 
 
-// TODO: Check functionality
 /**
  * Defines an onclick event when icons within date/timepickers
  * are clicked.
@@ -254,7 +253,7 @@ const initiateDatePickers = function (fields) {
 
       // Assign click event to icon
       fieldParent
-        .find('i')
+        .find('span')
         .on('click', function () {
           fallbackDtpOnClick($(this));
         });
@@ -288,7 +287,7 @@ const initiateTimePickers = function (fields) {
 
       // Assign click event to icon
       fieldParent
-        .find('i')
+        .find('span')
         .on('click', function () {
           fallbackDtpOnClick($(this));
         });
