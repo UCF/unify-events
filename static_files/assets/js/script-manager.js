@@ -319,7 +319,6 @@ const initiateReReviewCopy = function () {
 };
 
 
-// TODO: Check functionality
 /**
  * Generic autocomplete class that searches string values from an existing
  * <select> field, or other data, and updates that field as suggestions are
@@ -444,7 +443,6 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
 };
 
 
-// TODO: Check functionality
 /**
  * User search typeahead + form validation
  *
@@ -467,6 +465,7 @@ const userSearchTypeahead = function () {
     }
   });
 };
+
 
 /**
  * Calendar search typeahead + form validation
@@ -491,7 +490,7 @@ const calendarSearchTypeahead = function () {
   });
 };
 
-// TODO: Check functionality
+
 /**
  * Create/Update Event location searching + creation
  * Arg: $('select.location-dropdown')
@@ -758,7 +757,6 @@ const eventLocationTypes = function ($locations) {
 };
 
 
-// TODO: Check functionality
 /**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
