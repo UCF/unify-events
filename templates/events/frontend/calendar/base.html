@@ -13,6 +13,7 @@
       <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
+  {{ user.is_authenticated }}
   {% if calendar.is_main_calendar and not user.is_authenticated %}
   <div class="col-4">
     {% include_esi_template 'esi/template/login.html' %}
