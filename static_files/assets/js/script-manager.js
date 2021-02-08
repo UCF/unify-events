@@ -730,8 +730,7 @@ const eventLocationTypes = function ($locations) {
     });
   });
 
-  // TODO: .ready depreciated, Use jQuery(function() { })
-  $document.ready(() => {
+  $(() => {
     $locations.each((idx, obj) => {
       const $locationDiv = $(obj);
       const $locationField = $locationDiv.find('.location-type-field');
