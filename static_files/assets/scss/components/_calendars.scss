@@ -238,14 +238,16 @@ $calendar-grid-width: 14.285%;
 
 // Calendar Slider
 .calendar-slider {
-  .day a {
-    color: $black;
-    padding: .3rem;
-  }
+  .day {
+    a {
+      color: $black;
+      padding: .3rem;
+    }
 
-  .today a:not(.text-muted) {
-    background: $brand-primary;
-    font-weight: bold;
+    &.active a:not(.text-muted) {
+      background: $brand-primary;
+      font-weight: bold;
+    }
   }
 
   .hasevents {
