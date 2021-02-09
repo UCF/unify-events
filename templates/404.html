@@ -27,7 +27,7 @@
       <p class="mb-4">The content you requested could not be found. The content may have moved or been deleted from the events system. Perhaps try searching below for what you're looking for?</p>
     </div>
     <div class="col-lg-6">
-      <form class="d-flex mb-3" method="GET" action="." role="form">
+      <form class="d-flex mb-3" method="GET" action="{% url 'search_view' %}" role="form">
         <label class="sr-only" for="global-search">Search events, calendars</label>
         <input class="search-query form-control" type="text" id="global-search" name="q" placeholder="Search events, calendars">
         <button class="btn btn-primary" tabindex="-1" type="submit">Search</button>
