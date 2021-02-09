@@ -1,4 +1,4 @@
-/* global eventLocations, eventTags, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL */
 
 //
 // Import third-party assets
