@@ -2,27 +2,27 @@
 {% load widget_tweaks %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if forms.user.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{forms.user.non_field_errors}}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    {% if forms.profile.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{forms.profile.non_field_errors}}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+{{ block.super }}
+{% if forms.user.non_field_errors %}
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <strong>Error: </strong>
+        {{forms.user.non_field_errors}}
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% if forms.profile.non_field_errors %}
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <strong>Error: </strong>
+        {{forms.profile.non_field_errors}}
+      </div>
+    </div>
+  </div>
+{% endif %}
 {% endblock %}
 
 {% block title %}New User Setup: My Profile | {{ block.super }}{% endblock %}
@@ -33,54 +33,55 @@
 {% block content_tabs %}{% endblock %}
 
 {% block content_body %}
-<div class="row">
-    <div class="col-md-8 col-md-offset-2 page-content">
-        <div class="panel panel-default panel-page">
-            <div class="panel-body">
-                <h1><span class="alt">New User Setup:</span> My Profile</h1>
-                <div class="progress">
-                    <div class="progress-bar" style="width: 50%;"  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="progress-desc">Step 1 of 2</p>
-                <p>
-                    <strong>Welcome to the UCF Events system!</strong>  It looks like this is your first time logging in.
-                </p>
-                <p>
-                    Before getting started with the UCF Events system, we'll need to confirm your profile settings, then create a calendar for your events.
-                </p>
-
-                <h2 class="h4 step-heading">Please review your personal information and confirm it is correct.</h2>
-                <form action="{% url 'profiles.views.profile-settings' %}" method="post" class="form-horizontal">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label class="control-label col-md-3" for="id_first_name">First Name</label>
-                        <div class="controls col-md-9">
-                            {{ form.first_name|add_class:"form-control" }}
-                            {{ form.first_name.errors }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3" for="id_last_name">Last Name</label>
-                        <div class="controls col-md-9">
-                            {{ form.last_name|add_class:"form-control" }}
-                            {{ form.last_name.errors }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3" for="id_email">Email</label>
-                        <div class="controls col-md-9">
-                            {{ form.email|add_class:"form-control" }}
-                            {{ form.email.errors }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-9 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary btn-block-xs">Save and Continue</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="row mt-3 mt-md-4">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="card">
+      <div class="card-block">
+        <h1 class="h2 mb-3"><span class="font-weight-normal">New User Setup:</span> My Profile</h1>
+        <div class="progress mb-1">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <p class="text-default">Step 1 of 2</p>
+        <p><strong>Welcome to the UCF Events system!</strong> It looks like this is your first time logging in.</p>
+        <p class="mb-4">Before getting started with the UCF Events system, we'll need to confirm your profile settings, then create a calendar for your events.</p>
+
+        <h2 class="h5 mb-3">Please review your personal information and confirm it is correct.</h2>
+
+        <form action="{% url 'profiles.views.profile-settings' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group{% if form.first_name.errors %} has-danger{% endif %}">
+            <label class="form-control-label" for="id_first_name">First Name</label>
+            {{ form.first_name|add_class:"form-control form-control-danger" }}
+            {% if form.first_name.errors %}
+              {% for error in form.first_name.errors %}
+                <div class="form-control-feedback">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="form-group{% if form.last_name.errors %} has-danger{% endif %}">
+            <label class="form-control-label" for="id_last_name">Last Name</label>
+            {{ form.last_name|add_class:"form-control form-control-danger" }}
+            {% if form.last_name.errors %}
+              {% for error in form.last_name.errors %}
+                <div class="form-control-feedback">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="form-group{% if form.email.errors %} has-danger{% endif %}">
+            <label class="form-control-label" for="id_email">Email</label>
+            {{ form.email|add_class:"form-control form-control-danger" }}
+            {% if form.email.errors %}
+              {% for error in form.email.errors %}
+                <div class="form-control-feedback">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save and Continue</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

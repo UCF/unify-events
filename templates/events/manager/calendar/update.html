@@ -3,131 +3,129 @@
 {% load url %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{ form.non_field_errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block title %}{% block calendar_edit_title %}Edit Calendar{% endblock %}: {{ calendar.title }} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-9 col-sm-8">Edit Calendar: <span class="alt">{{ calendar.title }}</span></h1>
-    <div class="col-md-3 col-sm-4 edit-options">
-        <ul>
-            <li>
-                <a href="{% url 'dashboard' pk=calendar.pk %}">
-                    <i class="fa fa-dashboard"></i>Manager View
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">
-                    <i class="fa fa-play-circle"></i>Live View
-                </a>
-            </li>
-        </ul>
-    </div>
+  <div class="col-lg-8">
+    <h1 class="h2 mb-4">Edit Calendar: <span class="font-weight-normal">{{ calendar.title }}</span></h1>
+  </div>
+  <div class="col-lg-4 edit-options mb-3 mb-lg-0 text-lg-right">
+    <a class="small font-weight-bold text-default-aw mr-3" href="{% url 'dashboard' pk=calendar.pk %}">
+      <span class="fa fa-tachometer-alt fa-fw mr-1" aria-hidden="true"></span>Manager View
+    </a>
+    <a class="small font-weight-bold text-default-aw" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">
+      <span class="fa fa-play-circle pr-1" aria-hidden="true"></span>Live View
+    </a>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
 
 {% block content_tabs %}
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs hidden-xs">
-                <li>
-                    <a href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
-                </li>
-                <li class="active">
-                    <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
-                </li>
-                <li>
-                    <a href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
-                </li>
-            </ul>
-            <div class="btn-group dropdown mobile-nav-tabs visible-xs">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Options... <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
-                    </li>
-                    <li class="active">
-                        <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
-                    </li>
-                </ul>
-            </div>
-            {% if user == calendar.owner or user.is_superuser %}
-            <a id="manager-calendar-delete" class="secondary-nav-action object-modify" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}">
-                <i class="fa fa-trash-o"></i>Delete Calendar
-            </a>
-            {% endif %}
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs hidden-sm-down mb-3">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+        </li>
+        {% if user == calendar.owner or user.is_superuser %}
+        <li class="d-flex align-items-center ml-auto">
+          <a class="text-danger-aw object-modify" id="manager-calendar-delete" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}">
+            <span class="fa fa-trash-alt mr-1" aria-hidden="true"></span>Delete Calendar
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="dropdown hidden-md-up mb-3">
+        <button class="btn btn-default dropdown-toggle" type="button" id="calendarUpdateDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Options...
+        </button>
+        <div class="dropdown-menu" aria-labelledby="calendarUpdateDropdownMenuButton">
+          <li><a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">Users &amp; Permissions</a>
+          <a class="dropdown-item active" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">Calendar Info</a>
+          <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">Subscriptions</a>
+          {% if user == calendar.owner or user.is_superuser %}
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger-aw object-modify" id="manager-calendar-delete" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}">
+            <span class="fa fa-trash-alt mr-1" aria-hidden="true"></span>Delete Calendar
+          </a>
+          {% endif %}
         </div>
+      </div>
     </div>
+  </div>
 {% endblock %}
 
 {% block content_body %}
-    <div class="row page-content">
-        <div class="col-md-12" id="calendar-info">
-            <h2>Calendar Info</h2>
-            <form action="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" class="form-horizontal">
-                {% csrf_token %}
-                <div class="form-group large">
-                    <label class="control-label col-md-3" for="{{ form.title.auto_id }}">Calendar Name</label>
-                    <div class="controls col-md-6">
-                        {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
-                        {{ form.title.errors }}
-                        {% if calendar.is_main_calendar %}
-                        <p class="help-block">
-                            The main calendar's title (and its slug) cannot be modified while the events system is running.
-                            This value must be manually changed and the application must be restarted to flush cached
-                            files that depend on its slug.
-                        </p>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="form-group large">
-                    <div class="control-label-group col-md-3">
-                        <label class="control-label" for="{{ form.description.auto_id }}">Description</label>
-                        <p class="label-desc">A brief blurb about your calendar and/or its events. Limit 140 characters.</p>
-                    </div>
-                    <div class="controls col-md-6">
-                      {{ form.description|add_class:"form-control" }}
-                      {{ form.description.errors }}
-                    </div>
-                </div>
-                <div class="form-group large">
-                  <div class="control-label-group col-md-3">
-                    <label class="control-label" for="{{ form.active.auto_id }}">Active</label>
-                    <p class="label-desc">Determines if the calendar or its events show up in searches or are indexed by search engines.</p>
-                  </div>
-                  <div class="controls col-md-6 offset-md-6">
-                    {{ form.active|add_class:"checkbox-switch"}}<label for="{{ form.active.auto_id }}" class="switch"><span class="sr-only">Click to activate or deactivate this calendar.</span></label>
-                    {{ form.active.errors }}
-                  </div>
-                </div>
-                {% for field in form.hidden_fields %}
-                    {{ field }}
-                {% endfor %}
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block-xs">Update Settings</button>
-                    </div>
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h3 font-weight-normal">Calendar Info</h2>
+      <form action="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" method="post" id="calendar-update">
+        {% csrf_token %}
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}">Calendar Name</label>
+            {% if calendar.is_main_calendar %}
+            <small class="form-text text-muted mt-0">
+              The main calendar's title (and its slug) cannot be modified while the events system is running.
+              This value must be manually changed and the application must be restarted to flush cached files that depend on its slug.
+            </small>
+            {% endif %}
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
+            {{ form.title.errors }}
+          </div>
         </div>
+
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}">Description</label>
+            <small class="form-text text-muted mt-0">A brief blurb about your calendar and/or its events. Limit 140 characters.</small>
+          </div>
+          <div class="col-md-9 col-xl-8">
+            {{ form.description|add_class:"form-control" }}
+            {{ form.description.errors }}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.active.auto_id }}">Active</label>
+            <small class="form-text text-muted mt-0">Determines if the calendar or its events show up in searches or are indexed by search engines.</small>
+          </div>
+          <div class="col-md-9 col-xl-8 d-md-flex align-items-center">
+            {{ form.active|add_class:"form-check-input ml-0"}}<label for="{{ form.active.auto_id }}" class="switch"><span class="sr-only">Click to activate or deactivate this calendar.</span></label>
+            {{ form.active.errors }}
+          </div>
+        </div>
+
+        {% for field in form.hidden_fields %}
+          {{ field }}
+        {% endfor %}
+        <div class="form-group row">
+          <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+            <button type="submit" class="btn btn-primary">Update Settings</button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 {% endblock %}
 
 {% block footer_scripts %}

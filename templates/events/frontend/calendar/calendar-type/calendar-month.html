@@ -2,33 +2,37 @@
 {% load url %}
 
 <div class="row">
-    <div class="col-md-12 page-content" id="calendar-events-month">
-        <div class="row">
-            <div class="col-md-4">
-                <form class="form-inline" id="month-toggle" method="GET" action="{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
-                    <label for="id_year" class="sr-only">Switch Year</label>
-                    <select id="id_year" name="year" class="form-control">
-                        {% for year in all_years %}
-                        <option{% if year == start_date.year %} selected{% endif %}>{{ year }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="id_month" class="sr-only">Switch Month</label>
-                    <select id="id_month" name="month" class="form-control">
-                        {% for option, value in all_months.items %}
-                        <option{% if value == start_date|date:"m" %} selected{% endif %} value="{{ value }}">{{ option }}</option>
-                        {% endfor %}
-                    </select>
-                    <button class="btn btn-default" type="submit">View</button>
-                </form>
+  <div class="col-12" id="calendar-events-month">
+    <div class="row mb-4">
+      <div class="col-lg-5 col-xl-4">
+        <form id="month-toggle" method="GET" action="{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=start_date.year month=start_date|date:"m" %}">
+          <div class="form-group row no-gutters">
+            <div class="col-5 pr-2 col-lg-auto">
+              <label for="id_year" class="sr-only">Switch Year</label>
+              <select id="id_year" name="year" class="form-control form-control-sm mr-2">
+                {% for year in all_years %}
+                <option{% if year == start_date.year %} selected{% endif %}>{{ year }}</option>
+                {% endfor %}
+              </select>
             </div>
-            <div class="col-md-4">
-                <h2><span class="alt">{{ start_date|date:"F" }}</span> {{ start_date.year }}</h2>
+            <div class="col-5 pr-2 col-lg-auto">
+              <label for="id_month" class="sr-only">Switch Month</label>
+              <select id="id_month" name="month" class="form-control form-control-sm mr-2">
+                {% for option, value in all_months.items %}
+                <option{% if value == start_date|date:"m" %} selected{% endif %} value="{{ value }}">{{ option }}</option>
+                {% endfor %}
+              </select>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date size='large' %}
-            </div>
-        </div>
+          <div class="col-2 col-lg-auto">
+            <button class="btn btn-sm btn-primary w-100" type="submit">View</button>
+          </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-auto col-xl-4 text-center">
+        <h2 class="h3 font-weight-normal mb-0">{{ start_date|date:"F" }} {{ start_date.year }}</h2>
+      </div>
     </div>
+    {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=start_date.month day=start_date size='large' %}
+  </div>
 </div>

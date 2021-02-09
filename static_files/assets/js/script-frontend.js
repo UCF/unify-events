@@ -7,12 +7,12 @@
  *
  * @return {void}
  **/
-const updateMonthviewDropdown = function () {
+const updateMonthViewDropdown = function () {
   const form = $('#month-toggle');
   const yearSelect = form.find('#id_year');
   const monthSelect = form.find('#id_month');
 
-  monthSelect.change(function () {
+  monthSelect.on('change', function () {
     const action = form.attr('action');
     const newMonth = `/${$(this).val()}/`;
     const oldMonth = action.slice(action.length - 4, action.length);
@@ -20,7 +20,7 @@ const updateMonthviewDropdown = function () {
     form.attr('action', newAction);
   });
 
-  yearSelect.change(function () {
+  yearSelect.on('change', function () {
     const action = form.attr('action');
     const newYear = `/${$(this).val()}/`;
     const oldYear = action.slice(action.length - 9, action.length - 3);
@@ -65,6 +65,7 @@ const resizeMapWidgets = function () {
   });
 };
 
+
 /**
  * Used to add styles to the esi data.
  *
@@ -73,13 +74,13 @@ const resizeMapWidgets = function () {
 const esiStyle = function () {
   // Style event pages
   if (window.location.pathname.indexOf('event') > -1) {
-    $('.event-tag').addClass('label label-default');
+    $('.event-tag').addClass('tag-cloud-link');
   }
 };
 
 
-$(document).on('ready', () => {
-  updateMonthviewDropdown();
+$(() => {
+  updateMonthViewDropdown();
   resizeMapWidgets();
   esiStyle();
 });

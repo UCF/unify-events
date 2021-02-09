@@ -1,0 +1,42 @@
+.location-selected-url {
+  word-wrap: break-word;
+}
+
+#event-tags-selected {
+  .selected-remove {
+    color: $white;
+
+    &:focus,
+    &:hover {
+      color: #ff9292;
+    }
+  }
+}
+
+.location-search {
+  input {
+    padding-right: 4.5rem;
+  }
+
+  .autocomplete-new-btn {
+    bottom: 0px;
+    position: absolute;
+    right: 15px;
+  }
+}
+
+.location-selected {
+  .location-selected-remove {
+    float: right;
+  }
+}
+
+
+#cloner:hover {
+  cursor: pointer;
+
+  .card {
+    background-color: $state-success-bg;
+    border-color: $brand-success;
+  }
+}

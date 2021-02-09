@@ -8,25 +8,23 @@
 {% block navbar %}<body>{% endblock %}
 
 {% block pagehead %}
-<header class="container">
-    <div class="row">
-        <div class="col-md-8 col-sm-7 header-title">
-            <a href="{% url 'home' %}">Events at UCF</a>
-        </div>
-    </div>
+<header class="container mt-4 mt-md-5 mb-4">
+  <a href="{% url 'home' %}" class="text-secondary mb-3">
+    <span class="fa fa-home pr-1" aria-hidden="true"></span>Events at UCF
+  </a>
 </header>
 {% endblock %}
 
 {% block title %}Internal Server Error{% endblock %}
 
 {% block content_title %}
-    <h1>500 - Internal Server Error</h1>
+  <h1>500 - Internal Server Error</h1>
 {% endblock %}
 
 {% block content_body %}
-    <div class="row">
-        <div class="col-md-9 page-content page-content-no-heading">
-            <p>An internal error occurred when trying to process your request.  Please try again later.</p>
-        </div>
+  <div class="row">
+    <div class="col-lg-9">
+      <p>An internal error occurred when trying to process your request. Please try again later.</p>
     </div>
+  </div>
 {% endblock %}

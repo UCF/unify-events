@@ -23,44 +23,44 @@ via map_event_range(), which is not used on querysets for non-date-based views (
 {% endcomment %}
 
 <time class="dtstart" datetime="{{ instance_start|date:"cZ" }}">
-    {% if not start_date %}
-        <span class="start-date">{{ instance_start.date }}</span>
-    {% endif %}
-    {% if instance_start.time %}
-        <span class="start-time">
-            {% if not start_date %}
-            at
-            {% endif %}
-            {{ instance_start|date:"f a" }}
-        </span>
-    {% elif not instance_start.time and not instance_end.time and instance_start == instance_end %}
-    {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
-        <span class="start-time">All Day</span>
-    {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
-        <span class="until">until {{ instance_end|date:"f a" }}</span>
-    {% else %}
-        <span class="start-time">All Day</span>
-    {% endif %}
-    <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
+  {% if not start_date %}
+    <span class="start-date">{{ instance_start.date }}</span>
+  {% endif %}
+  {% if instance_start.time %}
+    <span class="start-time">
+      {% if not start_date %}
+      at
+      {% endif %}
+      {{ instance_start|date:"f a" }}
+    </span>
+  {% elif not instance_start.time and not instance_end.time and instance_start == instance_end %}
+  {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" == "23:59" %}
+    <span class="start-time">All Day</span>
+  {% elif instance_start|date:"H:i" == "00:00" and instance_end|date:"H:i" != "23:59" %}
+    <span class="until">until {{ instance_end|date:"f a" }}</span>
+  {% else %}
+    <span class="start-time">All Day</span>
+  {% endif %}
+  <span class="value-title" title="{{ instance_start|date:"cZ" }}"></span>
 </time>
 {% if not start_date %}
 <time class="dtend" datetime="{{ instance_end|date:"cZ" }}">
-    {% if instance.object %}
-        {% with last_instance=instance.object.get_last_instance %}
-            {% if instance_start == last_instance.end %}
-            {% elif last_instance.end.date != instance_start.date %}
-                until {{ last_instance.end|date:"N j, Y" }}{% if last_instance.end.time %}, {{ last_instance.end.time }}{% endif %}
-            {% elif last_instance.end.time %}
-                until {{ last_instance.end.time }}
-            {% endif %}
-        {% endwith %}
-    {% else %}
-        {% if instance_start == instance_end %}
-        {% elif instance_end.date != instance_start.date %}
-            until {{ instance_end|date:"N j, Y" }}{% if instance_end.time %}, {{ instance_end.time }}{% endif %}
-        {% elif instance_end.time %}
-            until {{ instance_end.time }}
-        {% endif %}
+  {% if instance.object %}
+    {% with last_instance=instance.object.get_last_instance %}
+      {% if instance_start == last_instance.end %}
+      {% elif last_instance.end.date != instance_start.date %}
+        until {{ last_instance.end|date:"N j, Y" }}{% if last_instance.end.time %}, {{ last_instance.end.time }}{% endif %}
+      {% elif last_instance.end.time %}
+        until {{ last_instance.end.time }}
+      {% endif %}
+    {% endwith %}
+  {% else %}
+    {% if instance_start == instance_end %}
+    {% elif instance_end.date != instance_start.date %}
+      until {{ instance_end|date:"N j, Y" }}{% if instance_end.time %}, {{ instance_end.time }}{% endif %}
+    {% elif instance_end.time %}
+      until {{ instance_end.time }}
     {% endif %}
+  {% endif %}
 </time>
 {% endif %}
