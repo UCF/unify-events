@@ -478,7 +478,7 @@
               In the Subscribe to Calendar form, you can select one or more of your existing calendars to subscribe. Click the <strong>Subscribe</strong> button to save your changes. This process may take a moment if you're subscribing to a calendar with many events.
             </p>
             <p>
-              Events that have been populated into your calendar from subscriptions are viewable from the "Subscribed Events" tab in the Manager View (they are also available under the "Posted" tab.) Subscribed events will have a "<span class="fa fa-share"></span> icon next to their names.
+              Events that have been populated into your calendar from subscriptions are viewable from the "Subscribed Events" tab in the Manager View (they are also available under the "Posted" tab.) Subscribed events will have a "<span class="fa fa-share" aria-hidden="true"></span> icon next to their names.
             </p>
             <div class="alert alert-warning">
               <strong>Note:</strong> Your calendar will only receive another calendar's posted events. Pending events will not be copied to your calendar.
@@ -495,17 +495,17 @@
               While users do not have direct access to posting to the Main Calendar themselves, any posted event can be suggested to the Main Calendar. When an event is suggested to the Main Calendar, it is saved as a pending event on the Main Calendar and will undergo a manual review by Main Calendar admins. If a submitted event falls under the <a class="jump-to" href="#event-or-announcement">definition of an event</a> and follows the <a class="jump-to" href="#event-creation-guidelines">event creation guidelines</a>, it will be approved and published on the Main Calendar within <strong>two to three business days</strong>.
             </p>
             <p>
-              You can <strong>review the status of your suggested event</strong> from your event's calendar's Manager View. The "<span class="far fa-star"></span>" icon shows the current status of your event on the Main Calendar:
+              You can <strong>review the status of your suggested event</strong> from your event's calendar's Manager View. The "<span class="far fa-star" aria-hidden="true"></span>" icon shows the current status of your event on the Main Calendar:
             </p>
             <ul>
               <li>
                 No icon means the event does not exist on the Main Calendar. The event either hasn't been suggested yet, or it was denied approval.
               </li>
               <li>
-                A "<span class="fa fa-star-half-alt"></span>" icon means the event is pending review on the Main Calendar.
+                A "<span class="fa fa-star-half-alt" aria-hidden="true"></span>" icon means the event is pending review on the Main Calendar.
               </li>
               <li>
-                A "<span class="fa fa-star"></span>" icon means the event has been approved and is published on the Main Calendar.
+                A "<span class="fa fa-star" aria-hidden="true"></span>" icon means the event has been approved and is published on the Main Calendar.
               </li>
             </ul>
             <p>
@@ -554,7 +554,7 @@
 
             <h3 id="copy-an-event" class="h4 mt-4">Copy an Event</h3>
             <p>
-              All users have the ability to copy an individual existing event to their own calendar(s). A copied event works similarly to an event copied via a calendar subscription; it will appear in the Manager View under the "Subscribed Events" section with a "<span class="fa fa-share"></span>" icon next to its name, and will receive updates from the original event when they are made.
+              All users have the ability to copy an individual existing event to their own calendar(s). A copied event works similarly to an event copied via a calendar subscription; it will appear in the Manager View under the "Subscribed Events" section with a "<span class="fa fa-share" aria-hidden="true"></span>" icon next to its name, and will receive updates from the original event when they are made.
             </p>
             <p>
               <strong>To copy an event</strong>, navigate to that event's Live View, either through a direct URL or by searching in the search bar. If you are logged in and are added to at least one calendar, you will see a <strong>Add Event To</strong> link to the right of the event title. Clicking that link will display a form that allows you to select one or more of your calendars to copy the event to.  When you've selected the calendars you want to copy to, click the <strong>Copy Events to Calendar(s)</strong> button to save your changes.
@@ -1065,7 +1065,7 @@
 
             <h3 id="events-widget" class="h4 mt-4">Events Widget</h3>
             <div class="alert alert-danger">
-              <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events system's events widget. It may be deprecated at any time. We strongly recommend using <a class="jump-to" href="#feeds">feeds</a> for consuming data instead.
+              <strong>Heads up!</strong> The events widget is legacy code offered strictly for backward compatibility with the old events system's events widget. It may be deprecated at any time. We strongly recommend using <a class="jump-to alert-link" href="#feeds">feeds</a> for consuming data instead.
             </div>
 
             <h4 class="h5 mt-4">Requirements</h4>
@@ -1270,10 +1270,10 @@
     var td = $(this);
     var text = $.trim(td.text());
     if (text === 'yes') {
-      td.html('<span class="fa fa-check fa-lg text-success"></span><span class="sr-only">Yes</span>');
+      td.html('<span class="fa fa-check fa-lg text-success" aria-hidden="true"></span><span class="sr-only">Yes</span>');
     }
     else if (text === 'no') {
-      td.html('<span class="fa fa-times fa-lg text-danger"></span><span class="sr-only">No</span>');
+      td.html('<span class="fa fa-times fa-lg text-danger" aria-hidden="true"></span><span class="sr-only">No</span>');
     }
   });
 </script>
