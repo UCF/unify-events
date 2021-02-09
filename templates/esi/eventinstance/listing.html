@@ -43,10 +43,6 @@ Strings are parsed into datetimes with the 'parse_string' filter.
         <span class="fa fa-calendar-alt" aria-hidden="true"></span> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
       </span>
       {% endif %}
-
-      <a class="event-content url stretched-link" href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">
-        <span class="sr-only">View Event</span>
-      </a>
     </li>
     {% endwith %}
 {% endwith %}
