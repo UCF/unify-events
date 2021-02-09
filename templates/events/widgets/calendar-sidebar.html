@@ -2,8 +2,8 @@
 {# CANONICAL_ROOT is only used in this file because of the legacy widget that is used on other websites #}
 <div id="sidebar-minical" class="calendar-slider mb-4" {% if calendar %}data-calendar-slug="{{ calendar.slug }}"{% endif %} data-view="{% if is_manager %}manager{% else %}frontend{% endif %}" data-year="{{ this_month.year }}" data-month="{{ this_month.month }}">
 {% for key, cal in calendar_map.items %}
-  <div class="row justify-content-between align-items-center mb-2{% if key.month == this_month.month %} active{% endif %}">
-    <div class="{% if use_pagers %} col-sm-auto col{% else %} col-12{% endif %} text-center">
+  <div class="pager row justify-content-between align-items-center mb-2{% if key.month == this_month.month %} active{% endif %}">
+    <div class="item {% if use_pagers %} col-sm-auto col{% else %} col-12{% endif %} text-center">
       <h3 class="h5 font-weight-normal mb-0">
         {% if key.month == this_month.month %}
           {% if is_manager %}
@@ -19,14 +19,14 @@
       {% if is_manager %}
         {% if not calendar %}
           {% if last_month %}
-            <div class="pager col-sm-auto col text-left previous flex-first">
+            <div class="col-sm-auto col text-left previous flex-first">
               <a rel="nofollow" class="btn btn-default btn-sm left" data-ajax-link="{% url 'calendar-widget' view='manager' size='small' year=last_month.year month=last_month.month %}" href="{% url 'events.views.manager.manager-all-calendars-day-listing' year=last_month.year month=last_month.month day=last_month.day %}">
                 <span class="fa fa-arrow-left" aria-hidden="true"></span><span class="sr-only">{{ last_month|date:"F" }}</span>
               </a>
             </div>
           {% endif %}
           {% if next_month %}
-            <div class="pager col-sm-auto col text-right next">
+            <div class="col-sm-auto col text-right next">
               <a rel="nofollow" class="btn btn-default btn-sm right" data-ajax-link="{% url 'calendar-widget' view='manager' size='small' year=next_month.year month=next_month.month %}" href="{% url 'events.views.manager.manager-all-calendars-day-listing' year=next_month.year month=next_month.month day=next_month.day %}">
                 <span class="fa fa-arrow-right" aria-hidden="true"></span><span class="sr-only">{{ next_month|date:"F" }}</span>
               </a>
@@ -34,14 +34,14 @@
           {% endif %}
         {% else %}
           {% if last_month %}
-            <div class="pager col-sm-auto col text-left previous flex-first">
+            <div class="col-sm-auto col text-left previous flex-first">
               <a rel="nofollow" class="btn btn-default btn-sm left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='manager' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{% url 'events.views.manager.manager-day-listing' pk=calendar.pk year=last_month.year month=last_month.month day=last_month.day %}">
                 <span class="fa fa-arrow-left" aria-hidden="true"></span><span class="sr-only">{{ last_month|date:"F" }}</span>
               </a>
             </div>
           {% endif %}
             {% if next_month %}
-              <div class="pager col-sm-auto col text-right next">
+              <div class="col-sm-auto col text-right next">
                 <a rel="nofollow" class="btn btn-default btn-sm right" data-ajax-link="{% url 'calendar-widget-by-calendar' view='manager' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{% url 'events.views.manager.manager-day-listing' pk=calendar.pk year=next_month.year month=next_month.month day=next_month.day %}">
                   <span class="fa fa-arrow-right" aria-hidden="true"></span><span class="sr-only">{{ next_month|date:"F" }}</span>
                 </a>
@@ -50,14 +50,14 @@
         {% endif %}
       {% else %}
         {% if last_month %}
-          <div class="pager col-sm-auto col text-left previous flex-first">
+          <div class="col-sm-auto col text-left previous flex-first">
             <a rel="nofollow" class="btn btn-default btn-sm left" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=last_month.year month=last_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=last_month.year month=last_month.month %}">
               <span class="fa fa-arrow-left" aria-hidden="true"></span><span class="sr-only">{{ last_month|date:"F" }}</span>
             </a>
           </div>
         {% endif %}
           {% if next_month %}
-            <div class="pager col-sm-auto col text-right next">
+            <div class="col-sm-auto col text-right next">
               <a rel="nofollow" class="btn btn-default btn-sm right" data-ajax-link="{% url 'calendar-widget-by-calendar' view='frontend' pk=calendar.pk calendar_slug=calendar.slug size='small' year=next_month.year month=next_month.month %}" href="{{ CANONICAL_ROOT }}{% url 'events.views.event_views.month-listing' pk=calendar.pk slug=calendar.slug year=next_month.year month=next_month.month %}">
                 <span class="fa fa-arrow-right" aria-hidden="true"></span><span class="sr-only">{{ next_month|date:"F" }}</span>
               </a>
@@ -67,7 +67,7 @@
     {% endif %}
 
   </div>
-  <div class="item ">
+  <div class="item">
     <table class="table table-sm">
       <thead>
           <tr>
