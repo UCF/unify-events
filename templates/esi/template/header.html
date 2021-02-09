@@ -1,17 +1,13 @@
 {% load core_tags %}
 <header class="container mb-3 mb-md-2">
   <div class="row">
-    <div class="col-7 col-md-8">
+    <div class="col">
       <a href="{% url 'home' %}" class="small text-secondary">
         <span class="fa fa-home pr-1" aria-hidden="true"></span>Events at UCF
       </a>
     </div>
     {% block login %}
-      {% if not user.is_authenticated %}
-      <div class="col-5 col-md-4">
-        {% include_esi_template 'esi/template/login.html' %}
-      </div>
-      {% endif %}
+      {% include_esi_template 'esi/template/login.html' %}
     {% endblock %}
   </div>
 </header>
