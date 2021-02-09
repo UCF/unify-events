@@ -784,7 +784,7 @@ const eventTagging = function () {
     // This function does NOT update self.dataField's value.
     autocomplete.createTag = function (item) {
       const self = this;
-      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times"></span></a>');
+      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times" aria-hidden="true"></span></a>');
       removeLink.on('click', function (event) {
         event.preventDefault();
         self.removeTag($(this).parent('li'));
