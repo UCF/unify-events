@@ -774,18 +774,36 @@ const eventLocationTypes = function ($locations) {
   });
 };
 
+/**
+ * Function tag controls the typeahead logic
+ * for the tagging system on the Events Create/Update
+ * Views.
+ * @author Jim Barnes
+ * @since 2.2.0
+ * @return {void}
+ */
 const eventTagging = function () {
+  // The field that actually gets submitted
   const $dataField = $('#id_event-tags');
+  // The field that appears on screen
   const $inputField = $('#event-tags-typeahead');
+  // The button that appears to add new tags
   const $addNewTagBtn = $('#add-new-tag');
 
   if (!$dataField) {
     return;
   }
 
+  // An array of the currently selected tags
   const selectedTags = [];
+  // The unordered list that holds the selected tags
   const $selectedTagList = $('#event-tags-selected');
 
+  /**
+   * The initial function that setups the
+   * typeahead and on page.
+   * @returns {void}
+   */
   const setupForm = () => {
     $dataField.hide();
     $selectedTagList.find('li').each((_idx, obj) => {
@@ -793,6 +811,11 @@ const eventTagging = function () {
     });
   };
 
+  /**
+   * The function that gets called when
+   * the window is "ready"
+   * @returns {void}
+   */
   const onReady = () => {
     setupForm();
     initializeTypeahead();
@@ -805,6 +828,11 @@ const eventTagging = function () {
     updateTagInput();
   };
 
+  /**
+   * Setups everything necessary for the
+   * typeahead.
+   * @returns {void}
+   */
   const initializeTypeahead = () => {
     const data = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('results'),
@@ -843,6 +871,12 @@ const eventTagging = function () {
     });
   };
 
+  /**
+   * Handles adding a tag to the selectedTags
+   * array as well as the unordered list of tags.
+   * @param {any} suggestion The tag objects being added
+   * @returns {void}
+   */
   const addTagItem = (suggestion) => {
     const $removeLink =
       $('<a href="#" class="selected-remote" alt="Remove this tag" title="Remove this tag">&times</a>')
@@ -858,6 +892,13 @@ const eventTagging = function () {
     updateTagInput();
   };
 
+  /**
+   * Handles removing the tag object from
+   * the selectedTags array and the unordered
+   * list of tags.
+   * @param {Event} event The initiating click event
+   * @returns {void}
+   */
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
@@ -874,14 +915,25 @@ const eventTagging = function () {
     updateTagInput();
   };
 
+  /**
+   * Helper function that updates the
+   * dataField, inputField and hides the
+   * new Tag button.
+   * @returns {void}
+   */
   const updateTagInput = () => {
     $dataField.val(selectedTags.join(','));
     $inputField.val('');
     $addNewTagBtn.hide();
   };
 
-  $(window).on('ready', onReady);
-  $addNewTagBtn.on('click', (e) => {
+  /**
+   * The logic for when the add new tag button
+   * is clicked.
+   * @param {Event} e The click event object
+   * @returns {void}
+   */
+  const onAddNewTagBtnClick = (e) => {
     e.preventDefault();
 
     // Get the text that's typed in and trim.
@@ -892,7 +944,10 @@ const eventTagging = function () {
       text: newTag,
       score: 0
     });
-  });
+  };
+
+  $(window).on('ready', onReady);
+  $addNewTagBtn.on('click', onAddNewTagBtnClick);
 };
 
 
