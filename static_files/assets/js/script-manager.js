@@ -513,7 +513,7 @@ const eventLocationsSearch = function (locationDropdowns) {
       const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
       autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus"></span></a>');
-      autocomplete.removeBtn = $('<a class="location-selected-remove text-secondary" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times"></span></a>');
+      autocomplete.removeBtn = $('<a class="location-selected-remove text-danger" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times"></span></a>');
       autocomplete.locationRow = locationRow;
       autocomplete.locationTitleSpan = locationTitleSpan;
       autocomplete.locationRoomSpan = locationRoomSpan;
@@ -531,7 +531,7 @@ const eventLocationsSearch = function (locationDropdowns) {
         // Show New Location form fields; populate Name field w/autocomplete field val
         self.newLocationForm
           .show()
-          .children('input[name*="-new_location_title"]')
+          .find('input[name*="-new_location_title"]')
           .val(item);
 
         self.removeBtn.show();
