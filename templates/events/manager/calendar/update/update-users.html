@@ -48,7 +48,6 @@
   <div class="row">
     <div class="col-md-12" id="users-permissions">
         <h2 class="h3 font-weight-normal">Add New User</h2>
-        {% comment %} TODO: Form {% endcomment %}
         <label for="id_username_d" class="sr-only">Search a user</label>
         <label for="id_role" class="sr-only">Select a role</label>
         <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">

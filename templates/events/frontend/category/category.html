@@ -30,9 +30,7 @@
     <div class="col-lg-8" id="term-events">
       {% if event_instances %}
       <ul class="event-list list-unstyled">
-        {% with listing_templ="events/frontend/event-listing/listing.html" %}
-        {% include listing_templ %}
-        {% endwith %}
+        {% include 'events/frontend/event-listing/listing.html' %}
       </ul>
       {% else %}
       <div class="alert alert-info">

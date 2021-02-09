@@ -56,7 +56,6 @@
                 </div>
               </div>
             </div>
-            {% comment %} TODO: Fixed width layout for this table? Ensure that select dropdown is visible and URLs are clipped {% endcomment %}
             <table class="location-manager-table table">
               <thead>
                 <tr>
@@ -102,7 +101,6 @@
                     {{ location.room }}
                   </td>
                   <td class="location-url">
-                    {% comment %} TODO: Text-overflow here {% endcomment %}
                     <a href="{{ location.url }}" target="_blank">{{ location.url }}</a>
                   </td>
                   <td class="location-count">

@@ -319,7 +319,6 @@ const initiateReReviewCopy = function () {
 };
 
 
-// TODO: Check functionality
 /**
  * Generic autocomplete class that searches string values from an existing
  * <select> field, or other data, and updates that field as suggestions are
@@ -444,7 +443,6 @@ const selectFieldAutocomplete = function (autocompleteField, dataField) {
 };
 
 
-// TODO: Check functionality
 /**
  * User search typeahead + form validation
  *
@@ -467,6 +465,7 @@ const userSearchTypeahead = function () {
     }
   });
 };
+
 
 /**
  * Calendar search typeahead + form validation
@@ -491,7 +490,7 @@ const calendarSearchTypeahead = function () {
   });
 };
 
-// TODO: Check functionality
+
 /**
  * Create/Update Event location searching + creation
  * Arg: $('select.location-dropdown')
@@ -513,8 +512,8 @@ const eventLocationsSearch = function (locationDropdowns) {
 
       const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
-      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus"></span></a>');
-      autocomplete.removeBtn = $('<a class="location-selected-remove text-secondary" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times"></span></a>');
+      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus" aria-hidden="true"></span></a>');
+      autocomplete.removeBtn = $('<a class="location-selected-remove text-danger" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times" aria-hidden="true"></span></a>');
       autocomplete.locationRow = locationRow;
       autocomplete.locationTitleSpan = locationTitleSpan;
       autocomplete.locationRoomSpan = locationRoomSpan;
@@ -532,7 +531,7 @@ const eventLocationsSearch = function (locationDropdowns) {
         // Show New Location form fields; populate Name field w/autocomplete field val
         self.newLocationForm
           .show()
-          .children('input[name*="-new_location_title"]')
+          .find('input[name*="-new_location_title"]')
           .val(item);
 
         self.removeBtn.show();
@@ -730,8 +729,7 @@ const eventLocationTypes = function ($locations) {
     });
   });
 
-  // TODO: .ready depreciated, Use jQuery(function() { })
-  $document.ready(() => {
+  $(() => {
     $locations.each((idx, obj) => {
       const $locationDiv = $(obj);
       const $locationField = $locationDiv.find('.location-type-field');
@@ -759,7 +757,6 @@ const eventLocationTypes = function ($locations) {
 };
 
 
-// TODO: Check functionality
 /**
  * Search for and add tags to an event.
  * Hidden data field value is updated with tag selections on form submit.
@@ -787,7 +784,7 @@ const eventTagging = function () {
     // This function does NOT update self.dataField's value.
     autocomplete.createTag = function (item) {
       const self = this;
-      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times"></span></a>');
+      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times" aria-hidden="true"></span></a>');
       removeLink.on('click', function (event) {
         event.preventDefault();
         self.removeTag($(this).parent('li'));

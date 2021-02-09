@@ -240,8 +240,7 @@
                         </span>
                         {% if event_instance.event.has_instances %}
 
-                        {% comment %} TODO: Fix jumping spacing issue when uncollapsing show times toggle {% endcomment %}
-                        <a class="d-block small font-weight-bold text-muted" data-toggle="collapse" href="#showAllTimesCollapse{{ event_instance.pk }}" aria-expanded="false" aria-controls="allTimesCollapse{{ event_instance.pk }}">
+                        <a class="d-block small font-weight-bold text-muted" data-toggle="collapse" href="#showAllTimesCollapse{{ event_instance.pk }}" aria-expanded="false" aria-controls="showAllTimesCollapse{{ event_instance.pk }}">
                           <span class="fa fa-plus-square pr-1" aria-hidden="true"></span>Show all times
                         </a>
                         <ul class="collapse" id="showAllTimesCollapse{{ event_instance.pk }}">
@@ -272,7 +271,7 @@
                           <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="eventSelectDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Select
                           </a>
-                          <div class="dropdown-menu" aria-labelledby="eventSelectDropdownMenuButton">
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="eventSelectDropdownMenuButton">
 
                             <a class="dropdown-item" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
                               <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Event
