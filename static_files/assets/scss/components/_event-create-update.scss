@@ -31,3 +31,12 @@
   }
 }
 
+
+#cloner:hover {
+  cursor: pointer;
+
+  .card {
+    background-color: $state-success-bg;
+    border-color: $brand-success;
+  }
+}
