@@ -98,7 +98,7 @@ This project uses gulp to handle various tasks, such as compiling and minifying 
 
 All of the raw custom styles for this project are contained in separate Sass files in `static_files/assets/scss/`. When modifying stylesheets in this project, only modify the files in this directory; **do NOT modify files in `static_files/static/css/` directly**! Sass files compile and write to this directory.
 
-Partial Sass files are generally separated out by function, and must be compiled in a specific order. Keep in mind the following guidelines when modifying or adding styles.
+Partial Sass files are generally separated out by function, and must be compiled in a specific order.
 
 ### Javascript
 
@@ -106,15 +106,14 @@ Partial Sass files are generally separated out by function, and must be compiled
 This project combines vendor javascript libraries with our own so fewer files need to be delivered to the client. The list below lays out the basic concatenation/uglification scheme.
 
 * script.min.js
-  * jquery.placeholder.js - *vendor*
-  * bootstrap.js - *vendor*
+  * ucf-athena-framework/dist/js/framework.min.js - *vendor*
   * script.js - *project*
 * script-frontend.min.js
   * script-frontend.js - *project*
-* script-backend.min.js
-  * bootstrap3-typeahead.js - *vendor*
+* script-manager.min.js
   * jquery.timepicker.js - *vendor*
   * bootstrap-datepicker.js - *vendor*
+  * select2.js - *vendor*
   * script-manager.js - *project*
 
 Scripts marked `*vendor*` are retrieved as npm packages and concatenated into project files that include them during gulp processing.
