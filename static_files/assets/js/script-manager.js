@@ -865,6 +865,8 @@ const eventTagging = function () {
       return;
     }
 
+    suggestion = cleanSuggestionText(suggestion);
+
     selectedTags.push(suggestion.text);
     const $removeLink =
       $('<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>')
@@ -936,6 +938,18 @@ const eventTagging = function () {
       text: newTag,
       score: 0
     });
+  };
+
+  /**
+   * Cleans the text of the suggestion object
+   * by passing it through a result expression
+   * that only allows whitelisted characters.
+   * @param {any} suggestion The suggestion object
+   * @returns {any} The suggestion object
+   */
+  const cleanSuggestionText = (suggestion) => {
+    suggestion.text = $.trim(suggestion.text.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    return suggestion;
   };
 
   $(onReady);
