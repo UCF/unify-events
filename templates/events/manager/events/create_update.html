@@ -19,9 +19,6 @@
   {% for location in locations %}"{{ location.pk|escapejs }}": { "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
   {% endfor %}
   };
-  var eventTags = [
-  {% for tag in tags %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}
-  ];
 </script>
 {% endblock %}
 
@@ -250,7 +247,7 @@
           </div>
           <div class="col-md-4 col-xl-4">
             <ul id="event-tags-selected" class="list-unstyled">
-              {% for tag in tags.all %}
+              {% for tag in event.tags.all %}
               <li class="list-inline-item" data-tag-text="{{ tag.name }}">
                 <span class="badge badge-pill badge-default">
                   <a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>
