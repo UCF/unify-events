@@ -902,6 +902,7 @@ const eventTagging = function () {
    */
   const addTagItem = (suggestion) => {
     if (selectedTags.indexOf(suggestion.text) > -1) {
+      $inputField.val('');
       return;
     }
 
@@ -909,7 +910,7 @@ const eventTagging = function () {
 
     selectedTags.push(suggestion.text);
     const $removeLink =
-      $(`<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">
+      $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
           <span class="fa fa-times mr-1" aria-hidden="true"></span>
           </a>`)
         .on('click', (event) => {
