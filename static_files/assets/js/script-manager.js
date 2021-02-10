@@ -840,7 +840,6 @@ const eventTagging = function () {
       displayKey: 'text',
       source: data.ttAdapter()
     }).on('typeahead:select', (_event, suggestion) => {
-      selectedTags.push(suggestion.text);
       addTagItem(suggestion);
     }).on('typeahead:render', (_event, suggestions, finished) => {
       if (finished === false) {
@@ -862,6 +861,11 @@ const eventTagging = function () {
    * @returns {void}
    */
   const addTagItem = (suggestion) => {
+    if (selectedTags.indexOf(suggestion.text) > -1) {
+      return;
+    }
+
+    selectedTags.push(suggestion.text);
     const $removeLink =
       $('<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>')
         .on('click', (event) => {
@@ -873,7 +877,7 @@ const eventTagging = function () {
       $(`<span class="badge badge-pill badge-default">${suggestion.text}</span>`)
         .prepend($removeLink);
 
-    $(`<li class="list-inline-item data-tag-text="${suggestion.text}"></li>`)
+    $(`<li class="list-inline-item" data-tag-text="${suggestion.text}"></li>`)
       .prepend($badge)
       .appendTo($selectedTagList);
 
@@ -890,7 +894,7 @@ const eventTagging = function () {
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
-    const $listItem = $sender.parent();
+    const $listItem = $sender.parent().parent();
     const dataItem = $listItem.data('tag-text');
 
     $listItem.remove();
