@@ -1,4 +1,4 @@
-/* global eventLocations, eventTags, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL */
 
 //
 // Import third-party assets
@@ -16,6 +16,8 @@
 // Scripts listed below should only need to be executed on the site backend (manager views.)
 //
 
+const typeahead = jQuery.fn.typeahead.noConflict();
+jQuery.fn._typeahead = typeahead;
 
 /**
  * Bulk Select for lists of events
@@ -756,197 +758,205 @@ const eventLocationTypes = function ($locations) {
   });
 };
 
-
 /**
- * Search for and add tags to an event.
- * Hidden data field value is updated with tag selections on form submit.
- *
+ * Function tag controls the typeahead logic
+ * for the tagging system on the Events Create/Update
+ * Views.
+ * @author Jim Barnes
+ * @since 2.2.0
  * @return {void}
- **/
+ */
 const eventTagging = function () {
-  const autocompleteField = $('<input type="text" class="form-control" id="id_event-tags-autocomplete" autocomplete="off" placeholder="Type a tag or phrase..." />');
-  const tagsField = $('#id_event-tags');
-  const addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Tag"><i class="fa fa-plus"></i></a>');
-  const selectedTagsList = $('#event-tags-selected');
+  // The field that actually gets submitted
+  const $dataField = $('#id_event-tags');
+  // The field that appears on screen
+  const $inputField = $('#event-tags-typeahead');
+  // The button that appears to add new tags
+  const $addNewTagBtn = $('#add-new-tag');
 
-  if (tagsField.length > 0) {
-    // Initiate autocomplete form
-    const autocomplete = new selectFieldAutocomplete(autocompleteField, tagsField);
-
-    autocomplete.addBtn = addBtn;
-    autocomplete.selectedTagsList = selectedTagsList;
-    // Create an array of chosen tags to add to the event on form submit
-    autocomplete.selectedTagsArray = [];
-
-    // Custom function for populating self.selectedTagList with list items.
-    // To be used by self.typeaheadUpdater and when populating self.selectedTagList with
-    // existing self.dataField values.
-    // This function does NOT update self.dataField's value.
-    autocomplete.createTag = function (item) {
-      const self = this;
-      const removeLink = $('<a href="#" class="selected-remove mr-1" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times" aria-hidden="true"></span></a>');
-      removeLink.on('click', function (event) {
-        event.preventDefault();
-        self.removeTag($(this).parent('li'));
-      });
-
-      // Make sure that item is still some valid value after cleaning and trimming whitespace
-      if (item.length > 0) {
-        const tagListItem = $(`<li data-tag-name="${item}" class="badge badge-pill badge-default mr-2 mb-1">${item}</li>`);
-        tagListItem
-          .appendTo(self.selectedTagsList)
-          .prepend(removeLink);
-
-        self.addBtn.hide();
-      } else {
-        return false;
-      }
-    };
-
-    // Custom function for removing selected tag list items.
-    // This function DOES update self.selectedTagsArray.
-    autocomplete.removeTag = function (listItem) {
-      const self = this;
-      self.selectedTagsList
-        .find(listItem)
-        .remove();
-
-      const item = listItem.attr('data-tag-name');
-      self.selectedTagsArray.splice($.inArray(item, self.selectedTagsArray), 1);
-    };
-
-    // Custom function that returns a 'clean' string value, after running through
-    // a regular expression to only allow whitelisted characters below
-    autocomplete.getCleanItemVal = function (item) {
-      return $.trim(item.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
-    };
-
-    autocomplete.setupForm = function () {
-      const self = this;
-      if (self.dataField.is(':visible')) {
-        // Get existing tags from self.dataField and push them to self.selectedTagsArray.
-        // Populate the selectedTagsList with existing tags.
-        let existingTaglistVal = '';
-        if (self.dataField.val()) {
-          existingTaglistVal = self.dataField.val();
-        } else if (self.dataField.attr('value')) {
-          existingTaglistVal = self.dataField.attr('value');
-        }
-        if (existingTaglistVal !== '') {
-          // Create array from existingTaglistVal. $.grep removes empty results.
-          const tagArray = $.grep(existingTaglistVal.replace(/(&quot;?)|"/g, '').split(','), (val) => {
-            return val !== '';
-          });
-          self.selectedTagsArray = self.selectedTagsArray.concat(tagArray);
-
-          if (self.selectedTagsList.children().length < 1) {
-            $.each(tagArray, (key, val) => {
-              self.createTag(self.getCleanItemVal(val));
-            });
-          }
-        }
-
-        // Enable autocomplete field. Hide data field.
-        self.dataField.hide();
-        self.autocompleteField
-          .insertAfter(self.dataField)
-          .show();
-        $(`label[for="${self.dataField.attr('id')}"]`).attr('for', self.autocompleteField.attr('id'));
-
-        // Insert "Add Tag" btn onto page
-        self.addBtn
-          .insertAfter(self.autocompleteField)
-          .hide();
-
-        // Update help text
-        const helpText = self.dataField.siblings('.help-block');
-        helpText.html('Type a word or phrase, then hit the "enter" key or type a comma to add it to your list of tags.<br><br>Please note that tags are case-insensitive.');
-      }
-
-      // Handle addBtn clicks
-      self.addBtn.on('click', (event) => {
-        event.preventDefault();
-        const item = self.getCleanItemVal(self.autocompleteField.val());
-        if (item.length > 0) {
-          self.typeaheadUpdater(item);
-        }
-      });
-
-      // Handle non-suggestion new tag creation
-      self.autocompleteField.on('keydown focus', (event) => {
-        // TODO: better way of determining if a match has been found?
-        const typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
-        const matchFound = Boolean(typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible'));
-
-        // Show addBtn if no match is found and the user didn't type Enter or a comma.
-        if (self.autocompleteField.val() !== '') {
-          if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
-            self.addBtn.show();
-          } else if (
-            !matchFound && (event.type === 'keydown' && event.keyCode === 13) ||
-                        event.type === 'keydown' && event.keyCode === 188
-          ) {
-            // Create a new tag if the user didn't find a match,
-            // but entered either a comma or Enter:
-
-            // Add the tag to the tag list.  Taggit handles creation of new
-            // or assignment of existing tags
-            const item = self.getCleanItemVal(autocompleteField.val());
-            if (item.length > 0) {
-              self.typeaheadUpdater(item);
-            }
-            self.addBtn.hide();
-
-            // Don't allow form submission to pass!
-            return false;
-          }
-        } else {
-          // Make sure the addBtn is hidden otherwise.
-          self.addBtn.hide();
-        }
-      });
-    };
-
-    autocomplete.onFormSubmission = function () {
-      const self = this;
-      self.form.on('submit', () => {
-        if (self.autocompleteField.is(':focus')) {
-          return false;
-        }
-
-        if (self.autocompleteField.val() !== '' && self.autocompleteField.val() !== self.autocompleteField.attr('placeholder')) {
-          self.selectedTagsArray.push(self.autocompleteField.val());
-        }
-        // Push the final value of selectedTagsArray to dataField's value. Add comma to
-        // the end of the string to force comma-based delimiting for Taggit.
-        const selectedTagsStr = `${self.selectedTagsArray.toString()},`;
-        self.dataField
-          .val(selectedTagsStr)
-          .attr('value', selectedTagsStr);
-
-      });
-    };
-
-    autocomplete.setSearchTerms = function () {
-      const self = this;
-      // eventTags is defined in manager/events/create_update.html
-      self.searchableTerms = eventTags;
-      $.each(eventTags, (key, val) => {
-        self.mappedData[val] = val;
-      });
-    };
-
-    autocomplete.typeaheadUpdater = function (item) {
-      const self = this;
-      self.selection = self.mappedData[item];
-      self.selectedTagsArray.push(item);
-      self.autocompleteField.val('');
-      self.createTag(item);
-      return '';
-    };
-
-    autocomplete.init();
+  if (!$dataField) {
+    return;
   }
+
+  // An array of the currently selected tags
+  const selectedTags = [];
+  // The unordered list that holds the selected tags
+  const $selectedTagList = $('#event-tags-selected');
+
+  /**
+   * The initial function that setups the
+   * typeahead and on page.
+   * @returns {void}
+   */
+  const setupForm = () => {
+    $dataField.hide();
+    $selectedTagList.find('li').each((_idx, obj) => {
+      $(obj).find('a').on('click', removeTagItem);
+    });
+  };
+
+  /**
+   * The function that gets called when
+   * the window is "ready"
+   * @returns {void}
+   */
+  const onReady = () => {
+    setupForm();
+    initializeTypeahead();
+
+    $selectedTagList.find('li').each((_idx, obj) => {
+      const tag = $(obj).data('tag-text');
+      selectedTags.push(tag);
+    });
+
+    updateTagInput();
+  };
+
+  /**
+   * Setups everything necessary for the
+   * typeahead.
+   * @returns {void}
+   */
+  const initializeTypeahead = () => {
+    const data = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('results'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      remote: {
+        url: `${TAG_FEED_URL}?q=%q`,
+        wildcard: '%q',
+        transform: (response) => {
+          return response.results;
+        }
+      }
+    });
+
+    $inputField.typeahead({
+      minLength: 3,
+      highlight: true
+    },
+    {
+      name: 'tags',
+      displayKey: 'text',
+      source: data.ttAdapter()
+    }).on('typeahead:select', (_event, suggestion) => {
+      addTagItem(suggestion);
+    }).on('typeahead:render', (_event, suggestions, finished) => {
+      if (finished === false) {
+        return;
+      }
+
+      if (suggestions.length < 1) {
+        $addNewTagBtn.show();
+      } else {
+        $addNewTagBtn.hide();
+      }
+    });
+  };
+
+  /**
+   * Handles adding a tag to the selectedTags
+   * array as well as the unordered list of tags.
+   * @param {any} suggestion The tag objects being added
+   * @returns {void}
+   */
+  const addTagItem = (suggestion) => {
+    if (selectedTags.indexOf(suggestion.text) > -1) {
+      $inputField.val('');
+      return;
+    }
+
+    suggestion = cleanSuggestionText(suggestion);
+
+    selectedTags.push(suggestion.text);
+    const $removeLink =
+      $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
+          <span class="fa fa-times mr-1" aria-hidden="true"></span>
+          </a>`)
+        .on('click', (event) => {
+          event.preventDefault();
+          removeTagItem(event);
+        });
+
+    const $badge =
+      $(`<span class="badge badge-pill badge-default">${suggestion.text}</span>`)
+        .prepend($removeLink);
+
+    $(`<li class="list-inline-item" data-tag-text="${suggestion.text}"></li>`)
+      .prepend($badge)
+      .appendTo($selectedTagList);
+
+    updateTagInput();
+  };
+
+  /**
+   * Handles removing the tag object from
+   * the selectedTags array and the unordered
+   * list of tags.
+   * @param {Event} event The initiating click event
+   * @returns {void}
+   */
+  const removeTagItem = (event) => {
+    event.preventDefault();
+    const $sender = $(event.target);
+    const $listItem = $sender.parent().parent().parent();
+    const dataItem = $listItem.data('tag-text');
+
+    $listItem.remove();
+
+    const tagIndex = selectedTags.indexOf(dataItem);
+    if (tagIndex > -1) {
+      selectedTags.splice(tagIndex, 1);
+    }
+
+    updateTagInput();
+  };
+
+  /**
+   * Helper function that updates the
+   * dataField, inputField and hides the
+   * new Tag button.
+   * @returns {void}
+   */
+  const updateTagInput = () => {
+    $dataField.val(selectedTags.join(','));
+    $inputField.val('');
+    $addNewTagBtn.hide();
+  };
+
+  /**
+   * The logic for when the add new tag button
+   * is clicked.
+   * @param {Event} e The click event object
+   * @returns {void}
+   */
+  const onAddNewTagBtnClick = (e) => {
+    e.preventDefault();
+
+    // Get the text that's typed in and trim.
+    const newTag = $inputField.val().trim();
+
+    addTagItem({
+      id: null,
+      text: newTag,
+      score: 0
+    });
+  };
+
+  /**
+   * Cleans the text of the suggestion object
+   * by passing it through a result expression
+   * that only allows whitelisted characters.
+   * @param {any} suggestion The suggestion object
+   * @returns {any} The suggestion object
+   */
+  const cleanSuggestionText = (suggestion) => {
+    suggestion.text = $.trim(suggestion.text.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    return suggestion;
+  };
+
+  $(onReady);
+  $addNewTagBtn.on('click', onAddNewTagBtnClick);
 };
 
 
