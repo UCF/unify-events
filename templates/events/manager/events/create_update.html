@@ -250,7 +250,7 @@
               {% for tag in event.tags.all %}
               <li class="list-inline-item" data-tag-text="{{ tag.name }}">
                 <span class="badge badge-pill badge-default">
-                  <a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>
+                  <a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times mr-1" aria-hidden="true"></span></a>
                   {{ tag.name }}
                 </span>
               </li>
