@@ -1,0 +1,19 @@
+.datepicker-dropdown {
+  opacity: 1 !important; // sass-lint:disable-line no-important
+}
+
+.bootstrap-dtp {
+  position: relative;
+
+  &.bootstrap-timepicker {
+    margin-top: .5rem;
+  }
+
+  .fa {
+    color: $gray;
+    bottom: 17px;
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+  }
+}

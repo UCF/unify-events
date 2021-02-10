@@ -2,88 +2,91 @@
 {% load widgets %}
 
 {% block alerts %}
-    {{ block.super }}
+  {{ block.super }}
 {% endblock %}
 
 {% block title %}All Users | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-<h1 class="col-md-12">All Users</h1>
+  <div class="col-12">
+    <h1 class="h2 mb-4">All Users</h1>
+  </div>
 {% endblock %}
 
 {% block content_subheader %}{% endblock %}
 
 {% block content_body %}
-    <section class="row">
-        <div class="col-md-12 page-content">
-        {% if users.count > 0 %}
-            <div class="panel panel-default">
-                <table class="table table-hover manager-item-table">
-                    <thead>
-                        <tr>
-                            <th class="user-title">Username</th>
-                            <th class="user-fullname">Full Name</th>
-                            <th class="user-permissions">Permissions</th>
-                            <th class="user-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for theUser in users %}
-                        <tr>
-                            <td class="user-title">
-                                <span class="line-break">{{ theUser.username }}</span>
-                            </td>
-                            <td class="user-fullname">
-                                <span class="line-break">{{ theUser.first_name }} {{ theUser.last_name }}</span>
-                            </td>
-                            <td class="user-permissions">
-                                {% if theUser.is_superuser %}
-                                Superuser
-                                {% else %}
-                                User
-                                {% endif %}
-                            </td>
-                            <td class="user-actions actions-col">
-                                {% if theUser.is_superuser %}
-                                <a class="btn btn-default btn-xs{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profiles.views.profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}"><i class="fa fa-arrow-circle-down"></i> Demote</a>
-                                {% else %}
-                                <a class="btn btn-default btn-xs" href="{% url 'profiles.views.profile-promote' user_id=theUser.pk %}"><i class="fa fa-arrow-circle-up"></i> Make Superuser</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+  {% if users.count > 0 %}
+    <div class="card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Permissions</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for theUser in users %}
+          <tr>
+            <td class="user-title">
+              <span>{{ theUser.username }}</span>
+            </td>
+            <td class="user-fullname">
+              <span>{{ theUser.first_name }} {{ theUser.last_name }}</span>
+            </td>
+            <td>
+              {% if theUser.is_superuser %}
+              Superuser
+              {% else %}
+              User
+              {% endif %}
+            </td>
+            <td>
+              {% if theUser.is_superuser %}
+              <a class="btn btn-default btn-sm{% if theUser.username == user.username %} demote-self{% endif %}" href="{% url 'profiles.views.profile-demote' user_id=theUser.pk %}" data-user-name="{{ theUser.username }}">
+                <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Demote
+              </a>
+              {% else %}
+              <a class="btn btn-default btn-sm" href="{% url 'profiles.views.profile-promote' user_id=theUser.pk %}">
+                <span class="fa fa-arrow-circle-up mr-1" aria-hidden="true"></span>Make Superuser
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-            {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
 
-            <!-- Modal for User Demote -->
-            <div class="modal fade" id="user-demote-modal" tabindex="-1" role="dialog" aria-labelledby="user-delete-modal-label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h2 class="modal-title" id="user-demote-modal-label">Demote self: <span class="alt"></span></h2>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                You are about demote yourself from administrative privleges. Once this is done you will no longer have access to the Admin Menu and any of its features.
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" class="btn btn-danger">Demote Self</a>
-                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        {% else %}
-            <div class="well well-empty">
-                No users found.
-            </div>
-        {% endif %}
+    <!-- Modal for User Demote -->
+    <div class="modal fade" id="user-demote-modal" tabindex="-1" role="dialog" aria-labelledby="user-delete-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h4" id="user-demote-modal-label">Demote self: <span class="font-weight-normal"></span></h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span class="fa fa-times" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              You are about demote yourself from administrative privleges. Once this is done you will no longer have access to the Admin Menu and any of its features.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger">Demote Self</a>
+            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  {% else %}
+  <div class="alert alert-info">
+    No users found.
+  </div>
+  {% endif %}
 {% endblock %}

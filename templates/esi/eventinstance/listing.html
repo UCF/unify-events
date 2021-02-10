@@ -11,41 +11,38 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 {% endcomment %}
 
 {% with instance_start=instance_start.0|default:object.start instance_end=instance_end.0|default:object.end %}
-    {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
-        <li class="event {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
-            <h3 class="event-title">
-                <a class="summary" href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
-                {% if object.is_recurring %}
-                <i class="fa fa-refresh"></i><span class="sr-only">(Recurring Event)</span>
-                {% endif %}
-            </h3>
+  {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
+    <li class="event mb-3 mb-md-4 {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
+      <h3 class="h5 mb-2">
+        <a class="stretched-link" href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
+        {% if object.is_recurring %}
+        <span class="fa fa-sync-alt pl-1"></span><span class="sr-only">(Recurring Event)</span>
+        {% endif %}
+      </h3>
 
-            {% include 'events/frontend/instance-start-end.html' with start_date=start_date instance_start=instance_start instance_end=instance_end %}
+      {% include 'events/frontend/instance-start-end.html' with start_date=start_date instance_start=instance_start instance_end=instance_end %}
 
-            <span class="location h4 alt">
-            {% if object.location.pk %}
-            <span class="fa fa-map-marker" aria-hidden="true"></span> {% include_esi 'location' object.location.pk 'comboname' %}
-            {% endif %}
-            {% if object.location.pk and object.virtual_url %}
-            <span class="location-separator" aria-hidden="true">|</span><span class="sr-only">and</span>
-            {% endif %}
-            {% if object.virtual_url %}
-            <span class="fa fa-laptop" aria-hidden="true"></span> Virtual
-            {% endif %}
-            </span>
+      <div class="location mb-2">
+      {% if object.location.pk %}
+      <span class="fa fa-map-marker-alt" aria-hidden="true"></span> {% include_esi 'location' object.location.pk 'comboname' %}
+      {% endif %}
+      {% if object.location.pk and object.virtual_url %}
+      <span class="px-1" aria-hidden="true">|</span><span class="sr-only">and</span>
+      {% endif %}
+      {% if object.virtual_url %}
+      <span class="fa fa-laptop" aria-hidden="true"></span> Virtual
+      {% endif %}
+      </div>
 
-            <p class="description">
-                {{ object.event.description|remove_html|truncatewords:60 }}
-            </p>
-            {% if not calendar %}
-            <span class="calendar">
-                <i class="fa fa-calendar"></i> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
-            </span>
-            {% endif %}
+      <p class="description">
+        {{ object.event.description|remove_html|truncatewords:60 }}
+      </p>
 
-            <a class="event-content url" href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">
-                <span class="sr-only">View Event</span>
-            </a>
-        </li>
+      {% if not calendar %}
+      <span class="calendar">
+        <span class="fa fa-calendar-alt" aria-hidden="true"></span> {% include_esi 'calendar' object.event.calendar.pk 'title' %}
+      </span>
+      {% endif %}
+    </li>
     {% endwith %}
 {% endwith %}

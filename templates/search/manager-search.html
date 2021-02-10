@@ -6,30 +6,21 @@
 {% block search_nav %}
 
 {% if request.GET.q %}
-    {% with request.GET.q|quote_plus as query %}
-        {% with 'q='|add:query as params %}
-            {% include_esi_template 'esi/template/manager-search-nav.html' params %}
-        {% endwith %}
+  {% with request.GET.q|quote_plus as query %}
+    {% with 'q='|add:query as params %}
+      {% include_esi_template 'esi/template/manager-search-nav.html' params %}
     {% endwith %}
+  {% endwith %}
 {% else %}
-    {% include_esi_template 'esi/template/manager-search-nav.html' 'q=' %}
+  {% include_esi_template 'esi/template/manager-search-nav.html' 'q=' %}
 {% endif %}
 
 {% endblock %}
 
 {% block search_bar %}
-<form method="GET" action="." role="form">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group">
-                <label class="sr-only" for="{{ form.q.auto_id }}">{{ form.q.label }}</label>
-                <input type="text" id="q" name="q" class="search-query form-control" placeholder="Search all events and calendars" value="{{query}}">
-                <div class="input-group-btn">
-                    <button tabindex="-1" class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<form class="d-flex mb-3" method="GET" action="." role="form">
+  <input class="search-query form-control" type="text" id="q" name="q" placeholder="Search my events" aria-label="Search my events" value="{{query}}">
+  <button class="btn btn-primary" tabindex="-1" type="submit">Search</button>
 </form>
 {% endblock %}
 

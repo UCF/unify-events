@@ -4,53 +4,49 @@
 {% block title %}{{ block.super }} Admin{% endblock %}
 
 {% block links %}
-    <link href="{% static_ver 'css/style-backend.min.css' %}" rel="stylesheet" media="all">
-    {{ block.super }}
+  <link href="{% static_ver 'css/style-backend.min.css' %}" rel="stylesheet" media="all">
+  {{ block.super }}
 {% endblock %}
 
 {% block pagehead %}{% endblock %}
 
 {% block content %}
 <section id="manager-base" class="container">
-    {% block alerts %}
-        {% if messages %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-warning fade in" id="messages">
-                        <a class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
-                        <strong>Message:</strong>
-                        <ul>
-                            {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-    {% endblock %}
-	{% block content_header %}
-		<div class="row">
-            <div id="page-title-wrap">
-                {% block content_title %}{% endblock %}
-            </div>
-        </div>
-	{% endblock %}
-	{% block content_subheader %}
-    	<div class="row">
-            <div class="col-md-12">
-                <p class="h2 page-subtitle" tabindex="0">{% block content_subheader_text %}{% endblock %}</p>
-            </div>
-        </div>
-	{% endblock %}
-	{% block content_tabs %}{% endblock %}
-	{% block content_body %}{% endblock %}
-	{% block content_footer %}{% endblock %}
+  {% block alerts %}
+    {% if messages %}
+    <div class="alert alert-warning mb-4" id="messages">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="font-weight-bold mb-2">Message:</div>
+      <ul class="mb-0 mr-3 mr-md-4">
+        {% for message in messages %}
+        <li class="mb-2{% if message.tags %} {{ message.tags }}{% endif %}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  {% endblock %}
+  {% block content_header %}
+    <div class="row" id="page-title-wrap">
+      {% block content_title %}{% endblock %}
+    </div>
+  {% endblock %}
+  {% block content_subheader %}
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead mb-3 mb-md-4 mb-lg-5" tabindex="0">{% block content_subheader_text %}{% endblock %}</p>
+      </div>
+    </div>
+  {% endblock %}
+  {% block content_tabs %}{% endblock %}
+  {% block content_body %}{% endblock %}
+  {% block content_footer %}{% endblock %}
 </section>
 {% endblock %}
 
 {% block footer_scripts_base %}
-    {{ block.super }}
+  {{ block.super }}
 {% endblock %}
 {% block footer_scripts %}
     <script>

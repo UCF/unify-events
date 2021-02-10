@@ -1,13 +1,13 @@
 {% load core_tags %}
-<li>
-    <h3 class="search-object-title calendar-title">
-        <a href="{% url 'events.views.event_views.calendar' pk=object.pk slug=object.slug %}">
-            <i class="fa fa-calendar"></i>{{ object.title }}
-        </a>
-    </h3>
-    {% if object.description %}
-    <span class="calendar-description">
-        {{ object.description }}
-    </span>
-    {% endif %}
+<li class="mb-4">
+  <h3 class="h5">
+    <a href="{% url 'events.views.event_views.calendar' pk=object.pk slug=object.slug %}">
+      <span class="far fa-calendar-alt pr-2" aria-hidden="true"></span>{{ object.title }}
+    </a>
+  </h3>
+  {% if object.description %}
+  <span class="calendar-description">
+    {{ object.description }}
+  </span>
+  {% endif %}
 </li>

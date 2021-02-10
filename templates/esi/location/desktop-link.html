@@ -1,11 +1,11 @@
 {% if not object.get_map_widget_url %}
-    {% if object.url %}
-    <span class="event-location-url">
-        <a class="ga-event" target="_blank" href="{{ object.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
-    </span>
-    {% endif %}
+  {% if object.url %}
+  <span class="event-location-url">
+    <a class="ga-event" target="_blank" href="{{ object.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
+  </span>
+  {% endif %}
 {% else %}
-<span class="event-location-url">
+  <span class="event-location-url">
     <a class="ga-event jump-to jump-to-glow" href="#event-location-map" data-ga-category="Event Location Link" data-ga-action="View Map" data-ga-label="{{ request.build_absolute_uri }}">[ View Map ]</a>
-</span>
+  </span>
 {% endif %}

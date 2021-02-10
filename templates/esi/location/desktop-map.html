@@ -1,5 +1,6 @@
 {% if object.get_map_widget_url %}
-<div id="event-location-map" class="map-widget-wrap hidden-xs">
-    <iframe class="map-widget" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" src="{{ object.get_map_widget_url }}"></iframe>
+<div id="event-location-map" class="map-widget-wrap hidden-md-down d-flex align-items-center justify-content-center mb-4">
+  <iframe class="map-widget" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" src="{{ object.get_map_widget_url }}"></iframe>
+  <span class="fa fa-spinner fa-pulse fa-2x" aria-hidden="true"></span>
 </div>
 {% endif %}

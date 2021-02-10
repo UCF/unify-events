@@ -4,10 +4,10 @@
 // Import third-party assets
 //
 
-// =require '/bootstrap-3-typeahead/bootstrap3-typeahead.js'
-// =require '/timepicker/jquery.timepicker.js'
-// =require '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
-// =require '/select2/dist/js/select2.js
+// =require bootstrap-3-typeahead/bootstrap3-typeahead.js
+// =require timepicker/jquery.timepicker.js
+// =require bootstrap-datepicker/dist/js/bootstrap-datepicker.js
+// =require select2/dist/js/select2.js
 
 
 //
@@ -25,7 +25,7 @@ jQuery.fn._typeahead = typeahead;
  * @return {void}
  **/
 const bulkSelectAll = function () {
-  $('#bulk-select-all').click(function () {
+  $('#bulk-select-all').on('click', function () {
     const selectAll = $(this),
       singleSelects = $('.field-bulk-select input');
     singleSelects.prop('checked', selectAll.is(':checked'));
@@ -41,7 +41,7 @@ const bulkSelectAll = function () {
 const bulkActionSubmit = function () {
   const bulkActionSelects = $('#bulk-action_0, #bulk-action_1');
   bulkActionSelects.removeAttr('onchange');
-  $('#bulk-action_0, #bulk-action_1').change(function () {
+  $('#bulk-action_0, #bulk-action_1').on('change', function () {
     const bulkForm = this.form;
     const actionInput = $(this);
     const actionInputValue = actionInput.find('option:selected');
@@ -63,7 +63,7 @@ const bulkActionSubmit = function () {
 
       if (recurringEvents) {
         const bulkEventDeleteModal = $('#bulk-event-delete-modal');
-        bulkEventDeleteModal.find('#bulk-event-delete-btn').click(() => {
+        bulkEventDeleteModal.find('#bulk-event-delete-btn').on('click', () => {
           bulkForm.submit();
         });
         bulkEventDeleteModal.modal();
@@ -78,19 +78,6 @@ const bulkActionSubmit = function () {
 
 
 /**
- * Toggle recurrences in Dashboard event list
- *
- * @return {void}
- **/
-const toggleEventListRecurrences = function () {
-  $('.recurrences-toggle').click(function (e) {
-    e.preventDefault();
-    $(this).next('.recurrences').slideToggle();
-  });
-};
-
-
-/**
  * Toggle 'Merge Tag/Category' modal
  *
  * @return {void}
@@ -98,7 +85,7 @@ const toggleEventListRecurrences = function () {
 const toggleModalMergeObject = function () {
   const modal = $('#object-merge-modal');
 
-  $('.category-merge, .tag-merge, .location-merge').click(function (e) {
+  $('.category-merge, .tag-merge, .location-merge').on('click', function (e) {
     e.preventDefault();
 
     const objectTitle = $(this).attr('data-object-title');
@@ -129,7 +116,7 @@ const toggleModalMergeObject = function () {
       .find('span.object-type')
       .text(objectType)
       .end()
-      .find('h2 span.alt')
+      .find('h2 span.font-weight-normal')
       .text(objectTitle)
       .end()
       .find('.modal-footer a.btn-primary')
@@ -139,7 +126,7 @@ const toggleModalMergeObject = function () {
   });
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
-  submitBtn.click(() => {
+  submitBtn.on('click', () => {
     const newObject = $('#new-object-select').val();
     let url = submitBtn.attr('href');
     if (newObject !== '') {
@@ -160,7 +147,7 @@ const calendarOwnershipModal = function () {
   if ($('#calendar-reassign-ownership')) {
     const modal = $('#calendar-reassign-ownership');
     const submitBtn = modal.find('.modal-footer a.btn:first-child');
-    submitBtn.click(() => {
+    submitBtn.on('click', () => {
       const newOwner = $('#new-owner-select').val();
       let url = submitBtn.attr('href');
       if (newOwner !== '') {
@@ -180,7 +167,7 @@ const calendarOwnershipModal = function () {
 const toggleModalUserDemote = function () {
   const modal = $('#user-demote-modal');
 
-  $('.demote-self').click(function (e) {
+  $('.demote-self').on('click', function (e) {
     e.preventDefault();
 
     const userName  = $(this).attr('data-user-name');
@@ -188,7 +175,7 @@ const toggleModalUserDemote = function () {
 
     /* Insert user name in modal text */
     modal
-      .find('h2 span.alt')
+      .find('h2 span.font-weight-normal')
       .text(userName)
       .end()
       .find('.modal-footer a.btn-danger')
@@ -198,7 +185,7 @@ const toggleModalUserDemote = function () {
   });
 
   const submitBtn = modal.find('.modal-footer a.btn:first-child');
-  submitBtn.click(() => {
+  submitBtn.on('click', () => {
     const newObject = $('#new-object-select').val();
     let url = submitBtn.attr('href');
     if (newObject !== '') {
@@ -242,7 +229,7 @@ const initiateDatePickers = function (fields) {
           .addClass('form-control')
           .wrap('<div class="bootstrap-dtp bootstrap-datepicker" />')
           .parent()
-          .append('<i class="fa fa-calendar" />');
+          .append('<span class="fa fa-calendar" aria-hidden="true" />');
       }
 
       const fieldParent = field.parent().parent();
@@ -268,13 +255,11 @@ const initiateDatePickers = function (fields) {
 
       // Assign click event to icon
       fieldParent
-        .find('i')
+        .find('span')
         .on('click', function () {
           fallbackDtpOnClick($(this));
         });
-    })
-    .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
-    .placeholder(); // Force init placeholder for old browsers
+    });
 
 };
 
@@ -297,14 +282,14 @@ const initiateTimePickers = function (fields) {
           .addClass('form-control')
           .wrap('<div class="bootstrap-dtp bootstrap-timepicker" />')
           .parent()
-          .append('<i class="fa fa-clock-o" />');
+          .append('<span class="fa fa-clock" aria-hidden="true" />');
       }
 
       const fieldParent = field.parent().parent();
 
       // Assign click event to icon
       fieldParent
-        .find('i')
+        .find('span')
         .on('click', function () {
           fallbackDtpOnClick($(this));
         });
@@ -313,25 +298,23 @@ const initiateTimePickers = function (fields) {
       scrollDefaultNow: true,
       timeFormat: 'h:i A',
       step: 15
-    })
-    .removeClass('placeholder') // placeholder plugin checks if this class exists on the field and won't reinitiate if it does.
-    .placeholder(); // Force init placeholder for old browsers
+    });
 };
 
 
 /**
- * Adds copied rereview data to their respective fields on the
+ * Adds copied re-review data to their respective fields on the
  * Event Update view.
  *
  * @return {void}
  **/
 const initiateReReviewCopy = function () {
-  $('#copy_title').click(function (e) {
+  $('#copy_title').on('click', function (e) {
     e.preventDefault();
     $(`#${$(this).attr('data-copy-to')}`).val($('#new_title').val());
   });
 
-  $('#copy_description').click(function (e) {
+  $('#copy_description').on('click', function (e) {
     e.preventDefault();
     tinyMCE.get($(this).attr('data-copy-to')).setContent($('#new_description').val());
   });
@@ -485,6 +468,7 @@ const userSearchTypeahead = function () {
   });
 };
 
+
 /**
  * Calendar search typeahead + form validation
  *
@@ -508,6 +492,7 @@ const calendarSearchTypeahead = function () {
   });
 };
 
+
 /**
  * Create/Update Event location searching + creation
  * Arg: $('select.location-dropdown')
@@ -529,8 +514,8 @@ const eventLocationsSearch = function (locationDropdowns) {
 
       const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
 
-      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><i class="fa fa-plus"></i></a>');
-      autocomplete.removeBtn = $('<a class="location-selected-remove" href="#" alt="Remove Location" title="Remove Location">&times;</a>');
+      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus" aria-hidden="true"></span></a>');
+      autocomplete.removeBtn = $('<a class="location-selected-remove text-danger" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times" aria-hidden="true"></span></a>');
       autocomplete.locationRow = locationRow;
       autocomplete.locationTitleSpan = locationTitleSpan;
       autocomplete.locationRoomSpan = locationRoomSpan;
@@ -548,7 +533,7 @@ const eventLocationsSearch = function (locationDropdowns) {
         // Show New Location form fields; populate Name field w/autocomplete field val
         self.newLocationForm
           .show()
-          .children('input[name*="-new_location_title"]')
+          .find('input[name*="-new_location_title"]')
           .val(item);
 
         self.removeBtn.show();
@@ -724,7 +709,7 @@ const eventLocationTypes = function ($locations) {
   const $submit = $('button[type="submit"]');
   const $document = $(document);
 
-  $submit.click(() => {
+  $submit.on('click', () => {
     $locations.each((idx, $obj) => {
       const $locationDiv = $($obj);
       const $locationField = $locationDiv.find('.location-type-field');
@@ -746,8 +731,7 @@ const eventLocationTypes = function ($locations) {
     });
   });
 
-
-  $document.ready(() => {
+  $(() => {
     $locations.each((idx, obj) => {
       const $locationDiv = $(obj);
       const $locationField = $locationDiv.find('.location-type-field');
@@ -768,7 +752,7 @@ const eventLocationTypes = function ($locations) {
     const $locationCheckbox = $locationDiv.find('.location-type-checkbox');
     const $locationContent = $locationDiv.find('.location-type-content');
 
-    $locationCheckbox.click(() => {
+    $locationCheckbox.on('click', () => {
       $locationContent.toggle();
     });
   });
@@ -879,15 +863,19 @@ const eventTagging = function () {
    */
   const addTagItem = (suggestion) => {
     const $removeLink =
-      $('<a href="#" class="selected-remote" alt="Remove this tag" title="Remove this tag">&times</a>')
+      $('<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>')
         .on('click', (event) => {
           event.preventDefault();
           removeTagItem(event);
         });
 
-    $(`<li data-tag-text="${suggestion.text}">${suggestion.text}</li>`)
-      .appendTo($selectedTagList)
-      .prepend($removeLink);
+    const $badge =
+      $(`<span class="badge badge-pill badge-default">${suggestion.text}</span>`)
+        .prepend($removeLink);
+
+    $(`<li class="list-inline-item data-tag-text="${suggestion.text}"></li>`)
+      .prepend($badge)
+      .appendTo($selectedTagList);
 
     updateTagInput();
   };
@@ -946,7 +934,7 @@ const eventTagging = function () {
     });
   };
 
-  $(window).on('ready', onReady);
+  $(onReady);
   $addNewTagBtn.on('click', onAddNewTagBtnClick);
 };
 
@@ -1163,9 +1151,9 @@ function cloneableEventInstances() {
     const $removeBtns = $form.find('.remove-instance');
 
     if (activeInstanceTotal === 1) {
-      $removeBtns.addClass('hidden');
+      $removeBtns.addClass('d-none');
     } else {
-      $removeBtns.removeClass('hidden');
+      $removeBtns.removeClass('d-none');
     }
   }
 
@@ -1212,7 +1200,7 @@ function cloneableEventInstances() {
   function initialFormSetup() {
     // Show the cloner button, add event handler
     $clonerBtn
-      .removeClass('hidden')
+      .removeClass('d-none')
       .on('click', clonerBtnClickHandler);
 
     // Apply event handlers to existing instances on page load
@@ -1276,6 +1264,7 @@ const eventContactInfo = function () {
   }
 };
 
+
 const initiateWysiwygs = function () {
   /* eslint-disable camelcase */
   const $editors = $('.wysiwyg');
@@ -1302,10 +1291,9 @@ const initiateWysiwygs = function () {
 };
 
 
-$(document).on('ready', () => {
+$(() => {
   bulkSelectAll();
   bulkActionSubmit();
-  toggleEventListRecurrences();
 
   toggleModalMergeObject();
   calendarOwnershipModal();
