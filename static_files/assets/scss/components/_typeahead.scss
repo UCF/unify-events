@@ -1,3 +1,71 @@
 .typeahead.dropdown-menu {
   opacity: 1 !important; // sass-lint:disable-line no-important
 }
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.form-control {
+  width: 100%;
+}
+
+.tt-menu {
+  background-color: #000;
+  font-size: .9rem;
+  width: 100%;
+}
+
+.tt-dataset {
+  color: #fff;
+}
+
+.tt-suggestion {
+  border-top: 1px solid #666;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 0;
+  overflow: hidden;
+  padding: .5rem 1.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:first-child,
+  &.no-border {
+    border-top: 0 solid transparent;
+  }
+
+  &.tt-cursor,
+  &:focus,
+  &:hover {
+    background-color: #fc0;
+    color: #000;
+
+    .suggestion-match-type {
+      color: #666;
+    }
+  }
+
+  &.no-hover {
+    &.tt-cursor,
+    &:focus,
+    &:hover {
+      background-color: inherit;
+      color: #fff;
+    }
+  }
+
+  .suggestion-match-type {
+    color: #666;
+    font-size: .75rem;
+    margin-left: .75rem;
+  }
+}
+
+.empty-message {
+  padding: .5rem 1.25rem;
+
+  p {
+    margin-bottom: 0;
+  }
+}
