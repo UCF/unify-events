@@ -66,7 +66,7 @@
 
         <h2 class="h3 font-weight-normal mt-4 mt-md-5">Users With Access to this Calendar</h2>
         <div class="card">
-          <table class="table" id="manager-calendar-access">
+          <table class="table list-manager-table" id="manager-calendar-access">
             <thead>
               <tr>
                 <th>Name</th>
@@ -95,7 +95,7 @@
                   <td>{{ admin.first_name }} {{ admin.last_name }}</td>
                   <td>{{ admin.username }}</td>
                   <td>Admin</td>
-                  <td>
+                  <td class="calendar-access-actions">
                     {% if user == admin %}
                     <a class="btn btn-default btn-sm" href="#calendar-demote-self-editor" data-toggle="modal">
                       <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Make Editor
@@ -120,7 +120,7 @@
                 <td><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
                 <td>{{ editor.username }}</td>
                 <td>Editor</td>
-                <td>
+                <td class="calendar-access-actions">
                   <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}">
                     <span class="fa fa-arrow-circle-up mr-1" aria-hidden="true"></span>Make Admin
                   </a>
