@@ -19,9 +19,6 @@
   {% for location in locations %}"{{ location.pk|escapejs }}": { "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
   {% endfor %}
   };
-  var eventTags = [
-  {% for tag in tags %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}
-  ];
 </script>
 {% endblock %}
 
@@ -236,12 +233,28 @@
             <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</small>
           </div>
           <div class="col-md-5 col-xl-4 mb-2 mb-md-0">
-            {% render_field form.tags class="form-control" aria_describedby="help-label-tags" %}
+            <div class="row no-gutters">
+              <div class="col-10">
+                <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">
+              </div>
+              <div class="col-2">
+                <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">&plus;</a>
+              </div>
+            </div>
+            {% render_field form.tags class="form-control d-none" aria_describedby="help-label-tags" %}
             {{ form.tags.errors }}
             <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
           </div>
           <div class="col-md-4 col-xl-4">
             <ul id="event-tags-selected" class="list-unstyled">
+              {% for tag in event.tags.all %}
+              <li class="list-inline-item" data-tag-text="{{ tag.name }}">
+                <span class="badge badge-pill badge-default">
+                  <a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times mr-1" aria-hidden="true"></span></a>
+                  {{ tag.name }}
+                </span>
+              </li>
+              {% endfor %}
             </ul>
           </div>
         </div>
@@ -299,6 +312,7 @@
 {% endblock %}
 
 {% block footer_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.js"></script>
 <script type="text/javascript">
   var usersFullName = '{{ user.get_full_name }}';
   var usersEmail = '{{ user.email }}';
