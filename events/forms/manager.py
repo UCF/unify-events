@@ -291,6 +291,9 @@ class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidati
     class Meta:
         model = EventInstance
         fields = ('start', 'end', 'interval', 'until', 'location', 'virtual_url')
+        widgets = {
+            'location': forms.TextInput()
+        }
 
 
 """

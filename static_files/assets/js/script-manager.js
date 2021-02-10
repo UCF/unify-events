@@ -492,6 +492,46 @@ const calendarSearchTypeahead = function () {
   });
 };
 
+const eventLocationsTypeahead = function (locationDropdowns) {
+  if (locationDropdowns.length > 0) {
+    const data = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      local: eventLocations
+    });
+
+    locationDropdowns.each((_idx, obj) => {
+      const $locationsField = $(obj).first();
+      const $locationRow = $locationsField.parent('.location-search').parent('.row');
+      const $locationTitleSpan = $locationRow.find('.location-selected-title');
+      const $locationRoomSpan = $locationRow.find('.location-selected-room');
+      const $locationUrlSpan = $locationRow.find('.location-selected-url');
+      const $newLocationForm = $locationRow.find('.location-new-form');
+
+      const onSelect = (_event, suggestion) => {
+        console.log(suggestion);
+      };
+
+      const onRender = (_event, suggestions) => {
+        console.log(suggestions);
+      };
+
+      $locationsField.typeahead({
+        minLength: 3,
+        highlight: true
+      },
+      {
+        name: 'location',
+        displayKey: 'title',
+        source: data.ttAdapter()
+      })
+        .on('typeahead:select', onSelect)
+        .on('typeahead:render', onRender);
+    });
+  }
+};
+
 
 /**
  * Create/Update Event location searching + creation
@@ -867,7 +907,9 @@ const eventTagging = function () {
 
     selectedTags.push(suggestion.text);
     const $removeLink =
-      $('<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>')
+      $(`<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">
+          <span class="fa fa-times mr-1" aria-hidden="true"></span>
+          </a>`)
         .on('click', (event) => {
           event.preventDefault();
           removeTagItem(event);
@@ -894,7 +936,8 @@ const eventTagging = function () {
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
-    const $listItem = $sender.parent().parent();
+    // We need 3 parent calls to get from the span up to the list item
+    const $listItem = $sender.parent().parent().parent();
     const dataItem = $listItem.data('tag-text');
 
     $listItem.remove();
@@ -903,6 +946,8 @@ const eventTagging = function () {
     if (tagIndex > -1) {
       selectedTags.splice(tagIndex, 1);
     }
+
+    console.log(selectedTags);
 
     updateTagInput();
   };
@@ -1193,7 +1238,7 @@ function cloneableEventInstances() {
     initiateTimePickers($instance.find('.field-time'));
 
     // Add event handler for location autocomplete
-    eventLocationsSearch($instance.find('.location-dropdown'));
+    eventLocationsTypeahead($instance.find('.location-dropdown'));
 
     // Add event handler for location type visibility
     eventLocationTypes($instance.find('.location-type'));
