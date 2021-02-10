@@ -492,6 +492,38 @@ const calendarSearchTypeahead = function () {
   });
 };
 
+const eventLocationsTypeahead = function (locationDropdowns) {
+  if (locationDropdowns.length > 0) {
+    const data = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      local: eventLocations
+    });
+
+    console.log(data);
+
+    locationDropdowns.each((_idx, obj) => {
+      const $locationsField = $(obj).first();
+      const $locationRow = $locationsField.parent('.location-search').parent('.row');
+      const $locationTitleSpan = $locationRow.find('.location-selected-title');
+      const $locationRoomSpan = $locationRow.find('.location-selected-room');
+      const $locationUrlSpan = $locationRow.find('.location-selected-url');
+      const $newLocationForm = $locationRow.find('.location-new-form');
+
+      $locationsField.typeahead({
+        minLength: 3,
+        highlight: true
+      },
+      {
+        name: 'location',
+        displayKey: 'title',
+        source: data.ttAdapter()
+      });
+    });
+  }
+};
+
 
 /**
  * Create/Update Event location searching + creation
@@ -1193,7 +1225,7 @@ function cloneableEventInstances() {
     initiateTimePickers($instance.find('.field-time'));
 
     // Add event handler for location autocomplete
-    eventLocationsSearch($instance.find('.location-dropdown'));
+    eventLocationsTypeahead($instance.find('.location-dropdown'));
 
     // Add event handler for location type visibility
     eventLocationTypes($instance.find('.location-type'));

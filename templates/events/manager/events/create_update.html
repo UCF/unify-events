@@ -15,10 +15,9 @@
 
 {% block header_scripts %}
 <script type="text/javascript">
-  var eventLocations = {
-  {% for location in locations %}"{{ location.pk|escapejs }}": { "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
-  {% endfor %}
-  };
+  var eventLocations = [
+  {% for location in locations %}{ "id": {{ location.pk|escapejs }}, "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
+  {% endfor %} ];
 </script>
 {% endblock %}
 
