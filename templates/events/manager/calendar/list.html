@@ -23,10 +23,10 @@
 {% block content_body %}
   {% if calendars.count > 0 %}
   <div class="card my-4">
-    <table class="table">
+    <table class="list-manager-table table">
       <thead>
         <tr>
-          <th>Calendar</th>
+          <th class="title">Calendar</th>
           <th>Owner</th>
           <th>Actions</th>
         </tr>
@@ -34,7 +34,7 @@
       <tbody>
       {% for calendar in calendars %}
         <tr>
-          <td>
+          <td class="title">
             <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
           </td>
           <td>
