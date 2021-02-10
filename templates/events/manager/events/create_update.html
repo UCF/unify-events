@@ -237,7 +237,9 @@
                 <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">
               </div>
               <div class="col-2">
-                <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">&plus;</a>
+                <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">
+                  <span class="fa fa-plus" aria-hidden="true"></span>
+                </a>
               </div>
             </div>
             {% render_field form.tags class="form-control d-none" aria_describedby="help-label-tags" %}
@@ -249,7 +251,7 @@
               {% for tag in event.tags.all %}
               <li class="list-inline-item" data-tag-text="{{ tag.name }}">
                 <span class="badge badge-pill badge-default">
-                  <a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">&times</a>
+                  <a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times mr-1" aria-hidden="true"></span></a>
                   {{ tag.name }}
                 </span>
               </li>
