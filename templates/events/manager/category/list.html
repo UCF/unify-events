@@ -20,10 +20,10 @@
     </a>
     {% if categories %}
     <div class="card mb-4">
-      <table class="table">
+      <table class="list-manager-table table">
         <thead>
           <tr>
-            <th>Category</th>
+            <th class="title">Category</th>
             <th>
               <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Number of events with this category. Includes copied events and events that are pending and posted on the Main Calendar.">
                 Event Count
@@ -36,7 +36,7 @@
         <tbody>
         {% for category in categories %}
           <tr>
-            <td>
+            <td class="title">
               <a href="{% url 'events.views.manager.category-update' pk=category.pk %}">{{ category.title }}</a>
             </td>
             <td>
@@ -50,7 +50,7 @@
                 <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="categorySelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Select
                 </a>
-                <div class="dropdown-menu" aria-labelledby="categorySelectDropdownMenu">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="categorySelectDropdownMenu">
                   <a class="dropdown-item" href="{% url 'events.views.manager.category-update' pk=category.pk %}">
                     <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Category
                   </a>
