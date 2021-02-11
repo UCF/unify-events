@@ -871,7 +871,7 @@ const eventTagging = function () {
     selectedTags.push(suggestion.text);
     const $removeLink =
       $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
-          <span class="fa fa-times mr-1" aria-hidden="true"></span>
+          <span class="fa fa-times fa-fw" aria-hidden="true"></span>
           </a>`)
         .on('click', (event) => {
           event.preventDefault();
@@ -879,7 +879,7 @@ const eventTagging = function () {
         });
 
     const $badge =
-      $(`<span class="badge badge-pill badge-default">${suggestion.text}</span>`)
+      $(`<span class="badge badge-pill badge-default mb-2"><span class="tag-name">${suggestion.text}</span></span>`)
         .prepend($removeLink);
 
     $(`<li class="list-inline-item" data-tag-text="${suggestion.text}"></li>`)
