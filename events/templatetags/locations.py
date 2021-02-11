@@ -12,7 +12,7 @@ def locations_title(d, key):
 
 @register.filter
 def locations_room(d, key):
-    return d.get(pk=key).room
+    return d.get(pk=key).room or ''
 
 @register.filter
 def locations_url(d, key):
