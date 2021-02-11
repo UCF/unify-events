@@ -549,6 +549,8 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $locationRoomSpan.hide();
         $locationUrlSpan.hide();
 
+        $removeLocationBtn.hide();
+
         resetDisplaySpans();
         resetLocationForm();
 
