@@ -235,7 +235,7 @@
           <div class="col-md-5 col-xl-4 mb-2 mb-md-0">
             <div class="row no-gutters">
               <div class="col-10">
-                <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false" placeholder="Type a tag or phrase...">
+                <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false">
               </div>
               <div class="col-2">
                 <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">&plus;</a>
@@ -249,9 +249,9 @@
             <ul id="event-tags-selected" class="list-unstyled">
               {% for tag in event.tags.all %}
               <li class="list-inline-item" data-tag-text="{{ tag.name }}">
-                <span class="badge badge-pill badge-default mb-2">
-                  <a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times fa-fw" aria-hidden="true"></span></a>
-                  <span class="tag-name">{{ tag.name }}</span>
+                <span class="badge badge-pill badge-default">
+                  <a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag"><span class="fa fa-times mr-1" aria-hidden="true"></span></a>
+                  {{ tag.name }}
                 </span>
               </li>
               {% endfor %}
