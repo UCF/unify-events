@@ -462,9 +462,9 @@ const userSearchTypeahead = function () {
         return query;
       },
       delay: 250,
-      minimumInputLength: 3,
-      placeholder: 'Search by first name, last name or NID...'
-    }
+      minimumInputLength: 3
+    },
+    placeholder: 'Search by first name, last name or NID...'
   });
 };
 
@@ -1293,7 +1293,7 @@ const initiateWysiwygs = function () {
   if ($editors.length) {
     tinyMCE.init({
       selector: '.wysiwyg',
-      plugins: 'link paste autoresize',
+      plugins: 'link paste autoresize lists',
       // valid elems/styles configuration below should match with
       // BLEACH_ALLOWED_[] settings in settings_local.py
       valid_elements: 'p[style],span[style],br,strong/b,em/i,u,a[href|title|style|alt|target=_blank],ul,ol,li',

@@ -1,15 +1,86 @@
-.select2-container {
-  width: 320px !important;
+//
+// Overrides for select2.js select widgets
+//
 
-  .select2-selection--single {
-    height: 32px !important;
-  }
+// sass-lint:disable class-name-format
+
+.select2-container--default {
+  width: 100% !important;
 
   @include media-breakpoint-down(sm) {
     width: 100% !important;
   }
+
+  &.select2-container--focus .select2-selection--single {
+    border: $border-width solid $dropdown-border-color;
+
+    &:focus {
+      border-color: $brand-complementary;
+      box-shadow: $focus-inset-box-shadow;
+      outline: 0;
+    }
+  }
+
+  &.select2-container--open .select2-selection {
+    border-color: $brand-complementary;
+    box-shadow: $focus-inset-box-shadow;
+  }
+
+  &.select2-container--focus.select2-container--open .select2-selection--single {
+    border: $border-width solid $brand-complementary;
+  }
+
+  .select2-selection {
+    line-height: 2.25;
+    padding: .5rem;
+    transition: $input-transition;
+  }
+
+  .select2-selection--single {
+    border: $border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+    height: 100%!important;
+
+    .select2-selection__arrow {
+      height: 100%;
+    }
+  }
+
+  .select2-dropdown {
+    border-color: $dropdown-border-color;
+    border-radius: $dropdown-border-radius;
+
+    .select2-search__field {
+      padding: .5rem;
+
+      &:focus {
+        border-color: $brand-complementary;
+        box-shadow: $focus-inset-box-shadow;
+        outline: 0;
+      }
+    }
+  }
+
+  .select2-results {
+    font-size: $font-size-sm;
+  }
+
+  .select2-results__option {
+    padding: .75rem;
+
+    &.select2-results__option--highlighted {
+      background-color: $dropdown-link-hover-bg;
+      color: $dropdown-link-hover-color;
+    }
+
+    &[aria-selected="true"] {
+      background-color: $dropdown-link-hover-bg;
+
+      &.select2-results__option--highlighted {
+        background-color: darken($dropdown-link-hover-bg, 5%);
+      }
+    }
+  }
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-  top: 3px !important;
-}
+// sass-lint:enable class-name-format
