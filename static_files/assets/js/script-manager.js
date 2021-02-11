@@ -510,6 +510,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const $locationUrlSpan = $locationRow.find('.location-selected-url');
 
       const $newLocationBtn = $locationRow.find('.location-typeahead-new-btn');
+      const $removeLocationBtn = $locationRow.find('.location-selected-remove');
 
       const $newLocationForm = $locationRow.find('.location-new-form');
       const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
@@ -526,6 +527,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
 
         $newLocationTitle.val(newTitle);
         $newLocationForm.show();
+        $removeLocationBtn.show();
 
         // Clear out the input val
         $locationInput.val('');
@@ -534,8 +536,55 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       // Hook up the click event
       $newLocationBtn.click(onNewLocationClick);
 
+      /**
+       * Click event for the remove location button
+       * @param {Event} event The event object
+       * @returns {void}
+       */
+      const onRemoveLocationClick = (event) => {
+        event.preventDefault();
+
+        $newLocationForm.hide();
+        $locationTitleSpan.hide();
+        $locationRoomSpan.hide();
+        $locationUrlSpan.hide();
+
+        resetDisplaySpans();
+        resetLocationForm();
+
+        $locationInput.val('');
+      };
+
+      $removeLocationBtn.click(onRemoveLocationClick);
+
+      /**
+       * Resets the text on all the location
+       * spans for existing locations.
+       * @returns {void}
+       */
+      const resetDisplaySpans = () => {
+        $locationTitleSpan.text('');
+        $locationRoomSpan.text('');
+        $locationUrlSpan.text('');
+      };
+
+      /**
+       * Resets the new location form
+       * @returns {void}
+       */
+      const resetLocationForm = () => {
+        $newLocationForm.find('input').val('');
+      };
+
+      /**
+       * The select event for the location typeahead.
+       * @param {Event} _event Param not used.
+       * @param {any} suggestion The suggestion object
+       * @returns {void}
+       */
       const onSelect = (_event, suggestion) => {
-        console.log(suggestion);
+        $locationInput.val('');
+        $removeLocationBtn.show();
 
         // Display new values to the user
         if (suggestion.title !== 'None' && suggestion.title !== '') {
@@ -555,8 +604,17 @@ const eventLocationsTypeahead = function (locationDropdowns) {
             .html(`<a href="${suggestion.url}">${suggestion.url}</a>`)
             .show();
         }
+
+        $locationsField.val(suggestion.id);
       };
 
+      /**
+       * The event fired whenever the typeahead
+       * results are rendered.
+       * @param {Event} _event Param not used
+       * @param {any} suggestions The suggestions array
+       * @returns {void}
+       */
       const onRender = (_event, suggestions) => {
         if (suggestions.length > 0) {
           $newLocationBtn.hide();

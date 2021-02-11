@@ -78,6 +78,9 @@
                     {{ ei_form.location.errors }}
                   </div>
                   <div class="col-lg-6 location-selected">
+                    <a href="#" class="location-selected-remove" alt="Remove location" title="Remove location" style="display: none;">
+                      <span class="fa fa-times" aria-hidden="true"></span>
+                    </a>
                     <div class="location-selected-title font-weight-bold">
                       {% if ei_form.location.value %}
                         {{ locations|locations_title:ei_form.location.value }}
