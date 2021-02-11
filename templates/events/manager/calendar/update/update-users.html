@@ -47,180 +47,183 @@
 {% block content_body %}
   <div class="row">
     <div class="col-md-12" id="users-permissions">
-        <h2 class="h3 font-weight-normal">Add New User</h2>
-        <label for="id_username_d" class="sr-only">Search a user</label>
-        <label for="id_role" class="sr-only">Select a role</label>
-        <form class="form-inline" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
-            <div class="form-group">
-              <select id="id_username_d" name="username_d" class="form-control select2-select">
-              </select>
-            </div>
-            <div class="form-group">
-                <select id="id_role" class="form-control" name="role">
-                    <option value="admin">Admin</option>
-                    <option value="editor" selected>Editor</option>
-                </select>
-            </div>
-            <button class="btn btn-primary btn-block-xs" id="add-user-submit">Add User</button>
-        </form>
+      <h2 class="h3 font-weight-normal">Add New User</h2>
+      <label for="id_username_d" class="sr-only">Search a user</label>
+      <label for="id_role" class="sr-only">Select a role</label>
+      <form class="form-inline row no-gutters" id="manager-calendar-add-user" method="GET" action="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username="username" role="role" %}">
+        <div class="form-group col-lg-5 mr-lg-3 mb-3 mb-lg-0">
+          <select id="id_username_d" name="username_d" class="form-control select2-select">
+          </select>
+        </div>
+        <div class="form-group col-8 col-lg-auto pr-3 mr-lg-0">
+          <select id="id_role" class="form-control w-100" name="role">
+            <option value="admin">Admin</option>
+            <option value="editor" selected>Editor</option>
+          </select>
+        </div>
+        <div class="form-group col-4 col-lg-auto">
+          <button class="btn btn-primary" id="add-user-submit">Add User</button>
+        </div>
 
-        <h2 class="h3 font-weight-normal mt-4 mt-md-5">Users With Access to this Calendar</h2>
-        <div class="card">
-          <table class="table" id="manager-calendar-access">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>NID</th>
-                <th>Access Role</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Calendar Owner -->
-              <tr {% if user == calendar.owner %}class="info"{% endif %}>
-                <td>{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</td>
-                <td>{{ calendar.owner.username }}</td>
-                <td>Owner</td>
-                <td>
-                  {% if calendar in user.owned_calendars.all or user.is_superuser %}
-                    {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
-                    <a class="btn btn-default btn-sm" href="#calendar-reassign-ownership" data-toggle="modal"><span class="fa fa-exchange-alt mr-1" aria-hidden="true"></span>Re-assign Ownership</a>
-                    {% endif %}
+      </form>
+
+      <h2 class="h3 font-weight-normal mt-4 mt-md-5">Users With Access to this Calendar</h2>
+      <div class="card">
+        <table class="table" id="manager-calendar-access">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>NID</th>
+              <th>Access Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Calendar Owner -->
+            <tr {% if user == calendar.owner %}class="info"{% endif %}>
+              <td>{{ calendar.owner.first_name }} {{ calendar.owner.last_name }}</td>
+              <td>{{ calendar.owner.username }}</td>
+              <td>Owner</td>
+              <td>
+                {% if calendar in user.owned_calendars.all or user.is_superuser %}
+                  {% if calendar.admins.count > 0 or calendar.editors.count > 0 %}
+                  <a class="btn btn-default btn-sm" href="#calendar-reassign-ownership" data-toggle="modal"><span class="fa fa-exchange-alt mr-1" aria-hidden="true"></span>Re-assign Ownership</a>
                   {% endif %}
-                </td>
-              </tr>
-              <!-- Calendar Admins -->
-              {% for admin in calendar.admins.all %}
-              <tr {% if user == admin %}class="info"{% endif %}>
-                  <td>{{ admin.first_name }} {{ admin.last_name }}</td>
-                  <td>{{ admin.username }}</td>
-                  <td>Admin</td>
-                  <td>
-                    {% if user == admin %}
-                    <a class="btn btn-default btn-sm" href="#calendar-demote-self-editor" data-toggle="modal">
-                      <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Make Editor
-                    </a>
-                    <a class="btn btn-default btn-sm" href="#calendar-remove-self" data-toggle="modal">
-                      <span class="fa fa-times-circle mr-1" aria-hidden="true"></span>Remove User
-                    </a>
-                    {% else %}
-                    <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}">
-                      <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Make Editor
-                    </a>
-                    <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=admin.username %}">
-                      <span class="fa fa-times-circle mr-1" aria-hidden="true"></span>Remove User
-                    </a>
-                    {% endif %}
-                  </td>
-              </tr>
-              {% endfor %}
-              <!-- Calendar Editors -->
-              {% for editor in calendar.editors.all %}
-              <tr {% if user == editor %}class="info"{% endif %}>
-                <td><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
-                <td>{{ editor.username }}</td>
-                <td>Editor</td>
+                {% endif %}
+              </td>
+            </tr>
+            <!-- Calendar Admins -->
+            {% for admin in calendar.admins.all %}
+            <tr {% if user == admin %}class="info"{% endif %}>
+                <td>{{ admin.first_name }} {{ admin.last_name }}</td>
+                <td>{{ admin.username }}</td>
+                <td>Admin</td>
                 <td>
-                  <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}">
-                    <span class="fa fa-arrow-circle-up mr-1" aria-hidden="true"></span>Make Admin
+                  {% if user == admin %}
+                  <a class="btn btn-default btn-sm" href="#calendar-demote-self-editor" data-toggle="modal">
+                    <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Make Editor
                   </a>
-                  <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=editor.username %}">
+                  <a class="btn btn-default btn-sm" href="#calendar-remove-self" data-toggle="modal">
                     <span class="fa fa-times-circle mr-1" aria-hidden="true"></span>Remove User
                   </a>
+                  {% else %}
+                  <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=admin.username role="editor" %}">
+                    <span class="fa fa-arrow-circle-down mr-1" aria-hidden="true"></span>Make Editor
+                  </a>
+                  <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=admin.username %}">
+                    <span class="fa fa-times-circle mr-1" aria-hidden="true"></span>Remove User
+                  </a>
+                  {% endif %}
                 </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+            </tr>
+            {% endfor %}
+            <!-- Calendar Editors -->
+            {% for editor in calendar.editors.all %}
+            <tr {% if user == editor %}class="info"{% endif %}>
+              <td><span class="line-break">{{ editor.first_name }} {{ editor.last_name }}</span></td>
+              <td>{{ editor.username }}</td>
+              <td>Editor</td>
+              <td>
+                <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=editor.username role="admin" %}">
+                  <span class="fa fa-arrow-circle-up mr-1" aria-hidden="true"></span>Make Admin
+                </a>
+                <a class="btn btn-default btn-sm" href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=editor.username %}">
+                  <span class="fa fa-times-circle mr-1" aria-hidden="true"></span>Remove User
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-        <!-- Reassign ownership modal -->
-        {% if user.is_superuser or calendar in user.owned_calendars.all %}
-        <div class="modal fade" id="calendar-reassign-ownership" tabindex="-1" role="dialog" aria-labelledby="calendar-reassign-ownership-label" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h2 class="modal-title h4" id="calendar-reassign-ownership-label">Reassign Ownership of Calendar: <span class="font-weight-normal">{{ calendar.title }}</span></h2>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="fa fa-times" aria-hidden="true"></span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        You are about to reassign ownership of this calendar to an existing user.<br/>
-                        {% if user.is_superuser and not calendar in user.owned_calendars.all %}
-                        The owner of this calendar
-                        {% else %}
-                        You
-                        {% endif %}
-                        will be reassigned as an Admin.
-                    </p>
-                    <select id="new-owner-select" class="form-control">
-                      <option value="">Select a User</option>
-                      {% for admin in calendar.admins.all %}
-                      <option value="{{ admin.username }}">{{ admin.first_name }} {{ admin.last_name }} (Admin)</option>
-                      {% endfor %}
-                      {% for editor in calendar.editors.all %}
-                      <option value="{{ editor.username }}">{{ editor.first_name }} {{ editor.last_name }} (Editor)</option>
-                      {% endfor %}
-                    </select>
-                </div>
-                <div class="modal-footer">
-                  <a href="{% url 'events.views.manager.calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary btn-sm">Reassign Ownership</a>
-                  <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
-                </div>
-              </div>
-          </div>
-        </div>
-        {% endif %}
-        <!-- Demote self to Editor modal -->
-        {% if user in calendar.admins.all %}
-        <div class="modal fade" id="calendar-demote-self-editor" tabindex="-1" role="dialog" aria-labelledby="calendar-demote-self-editor-label" aria-hidden="true">
-          <div class="modal-dialog">
+      <!-- Reassign ownership modal -->
+      {% if user.is_superuser or calendar in user.owned_calendars.all %}
+      <div class="modal fade" id="calendar-reassign-ownership" tabindex="-1" role="dialog" aria-labelledby="calendar-reassign-ownership-label" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                  <h2 class="modal-title h4" id="calendar-demote-self-editor-label">Demote Self to Editor</h2>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="fa fa-times" aria-hidden="true"></span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                <p>
-                  <strong>Warning:</strong> You are about to demote yourself to an Editor role. As an Editor, you will no longer have access to this calendar's management options and you will be redirected to your Dashboard when you click 'Continue'. Proceed?
-                </p>
-              </div>
-              <div class="modal-footer">
-                <a href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger btn-sm">Continue</a>
-                <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endif %}
-        <!-- Remove self from calendar modal -->
-        {% if user in calendar.admins.all %}
-        <div class="modal fade" id="calendar-remove-self" tabindex="-1" role="dialog" aria-labelledby="calendar-remove-self-label" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h2 class="modal-title h4" id="calendar-remove-self-label">Remove Self from Calendar</h2>
+                <h2 class="modal-title h4" id="calendar-reassign-ownership-label">Reassign Ownership of Calendar: <span class="font-weight-normal">{{ calendar.title }}</span></h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span class="fa fa-times" aria-hidden="true"></span>
                 </button>
               </div>
               <div class="modal-body">
-                <p>
-                  <strong>Warning:</strong> You are about to remove yourself from this calendar. You will no longer be able to submit events to this calendar or access this calendar's management options. Clicking 'Continue' will redirect you to your Dashboard. Proceed?
-                </p>
+                  <p>
+                    You are about to reassign ownership of this calendar to an existing user.<br/>
+                    {% if user.is_superuser and not calendar in user.owned_calendars.all %}
+                    The owner of this calendar
+                    {% else %}
+                    You
+                    {% endif %}
+                    will be reassigned as an Admin.
+                  </p>
+                  <select id="new-owner-select" class="form-control">
+                    <option value="">Select a User</option>
+                    {% for admin in calendar.admins.all %}
+                    <option value="{{ admin.username }}">{{ admin.first_name }} {{ admin.last_name }} (Admin)</option>
+                    {% endfor %}
+                    {% for editor in calendar.editors.all %}
+                    <option value="{{ editor.username }}">{{ editor.first_name }} {{ editor.last_name }} (Editor)</option>
+                    {% endfor %}
+                  </select>
               </div>
               <div class="modal-footer">
-                <a href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=user %}" class="btn btn-danger btn-sm">Continue</a>
+                <a href="{% url 'events.views.manager.calendar-reassign-ownership' pk=calendar.pk username=calendar.owner.username %}" class="btn btn-primary btn-sm">Reassign Ownership</a>
                 <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
               </div>
             </div>
+        </div>
+      </div>
+      {% endif %}
+      <!-- Demote self to Editor modal -->
+      {% if user in calendar.admins.all %}
+      <div class="modal fade" id="calendar-demote-self-editor" tabindex="-1" role="dialog" aria-labelledby="calendar-demote-self-editor-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h4" id="calendar-demote-self-editor-label">Demote Self to Editor</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="fa fa-times" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                <strong>Warning:</strong> You are about to demote yourself to an Editor role. As an Editor, you will no longer have access to this calendar's management options and you will be redirected to your Dashboard when you click 'Continue'. Proceed?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'events.views.manager.calendar-add-update-user' pk=calendar.pk username=user role='editor' %}" class="btn btn-danger btn-sm">Continue</a>
+              <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
+            </div>
           </div>
         </div>
-        {% endif %}
+      </div>
+      {% endif %}
+      <!-- Remove self from calendar modal -->
+      {% if user in calendar.admins.all %}
+      <div class="modal fade" id="calendar-remove-self" tabindex="-1" role="dialog" aria-labelledby="calendar-remove-self-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title h4" id="calendar-remove-self-label">Remove Self from Calendar</h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="fa fa-times" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                <strong>Warning:</strong> You are about to remove yourself from this calendar. You will no longer be able to submit events to this calendar or access this calendar's management options. Clicking 'Continue' will redirect you to your Dashboard. Proceed?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'events.views.manager.calendar-delete-user' pk=calendar.pk username=user %}" class="btn btn-danger btn-sm">Continue</a>
+              <a href="#" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

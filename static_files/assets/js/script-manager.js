@@ -462,9 +462,9 @@ const userSearchTypeahead = function () {
         return query;
       },
       delay: 250,
-      minimumInputLength: 3,
-      placeholder: 'Search by first name, last name or NID...'
-    }
+      minimumInputLength: 3
+    },
+    placeholder: 'Search by first name, last name or NID...'
   });
 };
 
