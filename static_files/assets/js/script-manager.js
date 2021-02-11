@@ -587,9 +587,9 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $removeLocationBtn.show();
 
         // Display new values to the user
-        if (suggestion.comboname !== 'None' && suggestion.comboname !== '') {
+        if (suggestion.title !== 'None' && suggestion.title !== '') {
           $locationTitleSpan
-            .text(suggestion.comboname)
+            .text(suggestion.title)
             .show();
         }
 
@@ -629,7 +629,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       },
       {
         name: 'location',
-        displayKey: 'title',
+        displayKey: 'comboname',
         source: data.ttAdapter()
       }).on('typeahead:select', onSelect)
         .on('typeahead:render', onRender);
