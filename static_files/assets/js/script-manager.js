@@ -586,7 +586,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
        */
       const onSelect = (_event, suggestion) => {
         $locationInput.val('');
-        $addNewTagBtn.hide();
+        $newLocationBtn.hide();
         $removeLocationBtn.show();
 
         // Display new values to the user
