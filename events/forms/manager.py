@@ -164,7 +164,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
     class Meta:
         model = Event
-        fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags')
+        fields = ('calendar', 'title', 'state', 'description', 'contact_name', 'contact_email', 'contact_phone', 'category', 'tags', 'registration_link', 'registration_info')
 
 
 class EventInstanceForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
