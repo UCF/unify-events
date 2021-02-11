@@ -528,13 +528,14 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $newLocationTitle.val(newTitle);
         $newLocationForm.show();
         $removeLocationBtn.show();
+        $newLocationBtn.hide();
 
         // Clear out the input val
         $locationInput.val('');
       };
 
       // Hook up the click event
-      $newLocationBtn.click(onNewLocationClick);
+      $newLocationBtn.on('click', onNewLocationClick);
 
       /**
        * Click event for the remove location button
@@ -614,11 +615,9 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       /**
        * The event fired whenever the typeahead
        * results are rendered.
-       * @param {Event} _event Param not used
-       * @param {any} suggestions The suggestions array
        * @returns {void}
        */
-      const onRender = (_event, suggestions) => {
+      const onRender = () => {
         $newLocationBtn.show();
       };
 
@@ -848,8 +847,6 @@ const eventTagging = function () {
     if (tagIndex > -1) {
       selectedTags.splice(tagIndex, 1);
     }
-
-    console.log(selectedTags);
 
     updateTagInput();
   };
