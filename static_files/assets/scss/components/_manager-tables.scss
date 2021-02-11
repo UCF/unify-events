@@ -1,3 +1,4 @@
+// Dashboard table
 .manager-item-table {
   table-layout: fixed;
 
@@ -22,6 +23,7 @@
 }
 
 
+// Location manager table
 .location-manager-table {
   table-layout: fixed;
   font-size: 90%;
@@ -59,5 +61,29 @@
 
   .location-actions {
     width: 15%;
+  }
+}
+
+
+// Manager tables for Categories, Tags
+.list-manager-table {
+  font-size: 90%;
+
+  .title {
+    width: 50%;
+  }
+
+  .dropdown .btn {
+    white-space: nowrap;
+  }
+}
+
+
+// Calendar users & permissions table
+@include media-breakpoint-down(md) {
+  .calendar-access-actions {
+    .btn:first-child {
+      margin-bottom: .5rem;
+    }
   }
 }

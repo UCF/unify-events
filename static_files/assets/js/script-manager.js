@@ -462,9 +462,9 @@ const userSearchTypeahead = function () {
         return query;
       },
       delay: 250,
-      minimumInputLength: 3,
-      placeholder: 'Search by first name, last name or NID...'
-    }
+      minimumInputLength: 3
+    },
+    placeholder: 'Search by first name, last name or NID...'
   });
 };
 
@@ -1009,13 +1009,16 @@ const eventTagging = function () {
    */
   const addTagItem = (suggestion) => {
     if (selectedTags.indexOf(suggestion.text) > -1) {
+      $inputField.val('');
       return;
     }
 
+    suggestion = cleanSuggestionText(suggestion);
+
     selectedTags.push(suggestion.text);
     const $removeLink =
-      $(`<a href="#" class="text-inverse" alt="Remove this tag" title="Remove this tag">
-          <span class="fa fa-times mr-1" aria-hidden="true"></span>
+      $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
+          <span class="fa fa-times fa-fw" aria-hidden="true"></span>
           </a>`)
         .on('click', (event) => {
           event.preventDefault();
@@ -1023,7 +1026,7 @@ const eventTagging = function () {
         });
 
     const $badge =
-      $(`<span class="badge badge-pill badge-default">${suggestion.text}</span>`)
+      $(`<span class="badge badge-pill badge-default mb-2"><span class="tag-name">${suggestion.text}</span></span>`)
         .prepend($removeLink);
 
     $(`<li class="list-inline-item" data-tag-text="${suggestion.text}"></li>`)
@@ -1043,7 +1046,6 @@ const eventTagging = function () {
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
-    // We need 3 parent calls to get from the span up to the list item
     const $listItem = $sender.parent().parent().parent();
     const dataItem = $listItem.data('tag-text');
 
@@ -1088,6 +1090,18 @@ const eventTagging = function () {
       text: newTag,
       score: 0
     });
+  };
+
+  /**
+   * Cleans the text of the suggestion object
+   * by passing it through a result expression
+   * that only allows whitelisted characters.
+   * @param {any} suggestion The suggestion object
+   * @returns {any} The suggestion object
+   */
+  const cleanSuggestionText = (suggestion) => {
+    suggestion.text = $.trim(suggestion.text.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    return suggestion;
   };
 
   $(onReady);
@@ -1428,7 +1442,7 @@ const initiateWysiwygs = function () {
   if ($editors.length) {
     tinyMCE.init({
       selector: '.wysiwyg',
-      plugins: 'link paste autoresize',
+      plugins: 'link paste autoresize lists',
       // valid elems/styles configuration below should match with
       // BLEACH_ALLOWED_[] settings in settings_local.py
       valid_elements: 'p[style],span[style],br,strong/b,em/i,u,a[href|title|style|alt|target=_blank],ul,ol,li',

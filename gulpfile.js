@@ -182,6 +182,9 @@ gulp.task('move-components-tinymce', (done) => {
   gulp.src([`${config.packagesPath}/tinymce/plugins/autoresize/**/*`])
     .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/plugins/autoresize/`));
 
+  gulp.src([`${config.packagesPath}/tinymce/plugins/lists/**/*`])
+    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/plugins/lists/`));
+
   done();
 });
 
