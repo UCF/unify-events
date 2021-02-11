@@ -587,9 +587,9 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $removeLocationBtn.show();
 
         // Display new values to the user
-        if (suggestion.title !== 'None' && suggestion.title !== '') {
+        if (suggestion.comboname !== 'None' && suggestion.comboname !== '') {
           $locationTitleSpan
-            .text(suggestion.title)
+            .text(suggestion.comboname)
             .show();
         }
 
