@@ -629,7 +629,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       },
       {
         name: 'location',
-        displayKey: 'title',
+        displayKey: 'comboname',
         source: data.ttAdapter()
       }).on('typeahead:select', onSelect)
         .on('typeahead:render', onRender);
