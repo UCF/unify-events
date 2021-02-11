@@ -586,6 +586,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
        */
       const onSelect = (_event, suggestion) => {
         $locationInput.val('');
+        $addNewTagBtn.hide();
         $removeLocationBtn.show();
 
         // Display new values to the user
@@ -618,11 +619,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
        * @returns {void}
        */
       const onRender = (_event, suggestions) => {
-        if (suggestions.length > 0) {
-          $newLocationBtn.hide();
-        } else {
-          $newLocationBtn.show();
-        }
+        $newLocationBtn.show();
       };
 
       $locationInput.typeahead({
