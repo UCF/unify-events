@@ -64,12 +64,23 @@
                   </div>
                 </div>
                 <div class="row location-type-content physical-location-content align-items-start mb-3">
-                  <div class="col-lg-6 location-search{% if ei_form.location.errors %} error{% endif %}">
+                  <div class="col-lg-6 location-search mb-3 mb-lg-0{% if ei_form.location.errors %} error{% endif %}">
                     <label for="{{ ei_form.location.auto_id }}">Select a Location</label>
-                    {{ ei_form.location|add_class:"location-dropdown form-control location-type-field" }}
+                    <div class="row no-gutters">
+                      <div class="col-10">
+                        <input type="text" class="location-typeahead-input form-control" autocomplete="false" placeholder="Type a location name...">
+                      </div>
+                      <div class="col-2">
+                        <a href="#" class="location-typeahead-new-btn btn btn-success" style="display: none;"><span class="fa fa-plus" aria-hidden="true"><span class="sr-only">Create Location</span></span></a>
+                      </div>
+                    </div>
+                    {{ ei_form.location|add_class:"location-dropdown form-control location-type-field d-none" }}
                     {{ ei_form.location.errors }}
                   </div>
                   <div class="col-lg-6 location-selected">
+                    <a href="#" class="location-selected-remove" alt="Remove location" title="Remove location" style="display: none;">
+                      <span class="fa fa-times" aria-hidden="true"></span>
+                    </a>
                     <div class="location-selected-title font-weight-bold">
                       {% if ei_form.location.value %}
                         {{ locations|locations_title:ei_form.location.value }}
@@ -87,7 +98,7 @@
                       </a>
                       {% endif %}
                     </div>
-                    <div class="location-new-form">
+                    <div class="location-new-form" style="display: none;">
                       <div class="form-group">
                         <label class="{% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
                         {{ ei_form.new_location_title|add_class:"form-control" }}

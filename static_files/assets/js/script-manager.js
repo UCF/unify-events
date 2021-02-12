@@ -492,210 +492,150 @@ const calendarSearchTypeahead = function () {
   });
 };
 
-
-/**
- * Create/Update Event location searching + creation
- * Arg: $('select.location-dropdown')
- *
- * @param {jQuery} locationDropdowns Dropdown element(s) to initialize against
- * @return {void}
- **/
-const eventLocationsSearch = function (locationDropdowns) {
+const eventLocationsTypeahead = function (locationDropdowns) {
   if (locationDropdowns.length > 0) {
-    locationDropdowns.each(function () {
-      const locationsField = $(this); // 'dropdown'
-      const autocompleteId = `${locationsField.attr('id')}-autocomplete`;
-      const autocompleteField = $(`<input type="text" id="${autocompleteId}" class="form-control location-autocomplete search-query" autocomplete="off" placeholder="Type a location name..." />`);
-      const locationRow = locationsField.parent('.location-search').parent('.row');
-      const locationTitleSpan = locationRow.find('.location-selected-title');
-      const locationRoomSpan = locationRow.find('.location-selected-room');
-      const locationUrlSpan = locationRow.find('.location-selected-url');
-      const newLocationForm = locationRow.find('.location-new-form');
+    const data = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      local: eventLocations
+    });
 
-      const autocomplete = new selectFieldAutocomplete(autocompleteField, locationsField);
+    const initializeLocationDropdown = (_idx, obj) => {
+      const $locationsField = $(obj).first();
+      const $locationRow = $locationsField.parent('.location-search').parent('.row');
+      const $locationInput = $locationRow.find('.location-typeahead-input').first();
+      const $locationTitleSpan = $locationRow.find('.location-selected-title');
+      const $locationRoomSpan = $locationRow.find('.location-selected-room');
+      const $locationUrlSpan = $locationRow.find('.location-selected-url');
 
-      autocomplete.addBtn = $('<a class="autocomplete-new-btn btn btn-success" href="#" alt="Create New Location"><span class="fa fa-plus" aria-hidden="true"></span></a>');
-      autocomplete.removeBtn = $('<a class="location-selected-remove text-danger" href="#" alt="Remove Location" title="Remove Location"><span class="fa fa-times" aria-hidden="true"></span></a>');
-      autocomplete.locationRow = locationRow;
-      autocomplete.locationTitleSpan = locationTitleSpan;
-      autocomplete.locationRoomSpan = locationRoomSpan;
-      autocomplete.locationUrlSpan = locationUrlSpan;
-      autocomplete.newLocationForm = newLocationForm;
+      const $newLocationBtn = $locationRow.find('.location-typeahead-new-btn');
+      const $removeLocationBtn = $locationRow.find('.location-selected-remove');
 
-      // Custom function that displays the New Location form fields
-      // and populates it with the location name typed in the autocomplete field.
-      autocomplete.createNewLocation = function (item) {
-        const self = this;
+      const $newLocationForm = $locationRow.find('.location-new-form');
+      const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
 
-        // Remove any existing set location value
-        self.removeLocation();
+      /**
+       * Click event for the new location button
+       * @param {Event} event The event object
+       * @returns {void}
+       */
+      const onNewLocationClick = (event) => {
+        event.preventDefault();
 
-        // Show New Location form fields; populate Name field w/autocomplete field val
-        self.newLocationForm
-          .show()
-          .find('input[name*="-new_location_title"]')
-          .val(item);
+        const newTitle = $locationInput.val();
 
-        self.removeBtn.show();
-        self.addBtn.hide();
-        self.autocompleteField.val('');
+        $newLocationTitle.val(newTitle);
+        $newLocationForm.show();
+        $removeLocationBtn.show();
+        $newLocationBtn.hide();
+
+        // Clear out the input val
+        $locationInput.val('');
       };
 
-      // Custom function for removing selected location data.
-      // This function updates self.dataField's value.
-      autocomplete.removeLocation = function () {
-        const self = this;
+      // Hook up the click event
+      $newLocationBtn.on('click', onNewLocationClick);
 
-        // Clear previously selected data displayed to user
-        self.locationTitleSpan.text('').hide();
-        self.locationRoomSpan.text('').hide();
-        self.locationUrlSpan.text('').hide();
+      /**
+       * Click event for the remove location button
+       * @param {Event} event The event object
+       * @returns {void}
+       */
+      const onRemoveLocationClick = (event) => {
+        event.preventDefault();
 
-        // Clear values previously set in new location form
-        self.newLocationForm
-          .hide()
-          .children('input')
-          .val('');
+        $newLocationForm.hide();
+        $locationTitleSpan.hide();
+        $locationRoomSpan.hide();
+        $locationUrlSpan.hide();
 
-        // Update self.dataField
-        self.dataField
-          .children('option[selected="selected"]')
-          .removeAttr('selected')
-          .prop('selected', false);
+        $removeLocationBtn.hide();
 
-        self.removeBtn.hide();
+        resetDisplaySpans();
+        resetLocationForm();
+
+        $locationInput.val('');
       };
 
-      autocomplete.setupForm = function () {
-        const self = this;
+      $removeLocationBtn.click(onRemoveLocationClick);
 
-        // Destroy any existing dynamic form elements that were cloned.
-        self.locationRow.find(`.${self.addBtn.attr('class')}`).remove();
-        self.locationRow.find(`.${self.removeBtn.attr('class')}`).remove();
-        self.locationRow.find(`#${self.autocompleteField.attr('id')}`).remove();
-
-        // Enable autocomplete field. Hide data field.
-        self.dataField.hide();
-        self.autocompleteField
-          .insertAfter(self.dataField)
-          .show();
-        $(`label[for="${self.dataField.attr('id')}"]`).attr('for', self.autocompleteField.attr('id'));
-
-        // Insert other dynamic form elements.
-        self.addBtn
-          .insertAfter(self.autocompleteField)
-          .hide();
-        self.removeBtn
-          .insertBefore(self.locationTitleSpan);
-
-        // Hide new location form if creating a new event instance
-        // by checking whether the title field is empty. Display
-        // location form if there something is in the title field.
-        if (!self.newLocationForm.children('input[name*="-new_location_title"]').val()) {
-          self.newLocationForm.hide();
-        }
-
-        // Hide removeBtn on load, if necessary
-        const $unemptyNewLocationFormInputs = self.newLocationForm.find('input').filter(function () {
-            return $.trim($(this).val()) !== '';
-          }),
-          contentInNewLocationForm = $unemptyNewLocationFormInputs.length !== 0;
-
-        if (
-          self.dataField.val() === '' &&
-                  $.trim(self.locationTitleSpan.text()) === '' &&
-                  !contentInNewLocationForm
-        ) {
-          self.removeBtn.hide();
-        }
-
-        // Handle removal of a selected suggestion
-        self.removeBtn.on('click', (event) => {
-          event.preventDefault();
-          self.removeLocation();
-        });
-
-        // Handle new location creation
-        self.addBtn.on('click', (event) => {
-          event.preventDefault();
-          const item = self.autocompleteField.val();
-          self.createNewLocation(item);
-        });
-        self.autocompleteField.on('keydown focus', (event) => {
-          // TODO: better way of determining if a match has been found?
-          const typeaheadSuggestions = self.autocompleteField.siblings('.typeahead.dropdown-menu');
-          const matchFound = Boolean(typeaheadSuggestions.children('li').length > 0 && typeaheadSuggestions.is(':visible'));
-
-          // Show addBtn if no match is found and the user didn't type Enter or a comma.
-          if (self.autocompleteField.val() !== '') {
-            if (!matchFound && (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 188)) {
-              self.addBtn.show();
-            } else if (
-              !matchFound && (event.type === 'keydown' && event.keyCode === 13) ||
-                            event.type === 'keydown' && event.keyCode === 188
-            ) {
-              // Create a new location if the user didn't find a match,
-              // but entered either a comma or Enter:
-
-              // Add the location data to the New Location form
-              const item = self.autocompleteField.val();
-              self.createNewLocation(item);
-              self.addBtn.hide();
-
-              // Don't allow form submission to pass!
-              return false;
-            }
-          } else {
-            // Make sure the addBtn is hidden otherwise.
-            self.addBtn.hide();
-          }
-        });
+      /**
+       * Resets the text on all the location
+       * spans for existing locations.
+       * @returns {void}
+       */
+      const resetDisplaySpans = () => {
+        $locationTitleSpan.text('');
+        $locationRoomSpan.text('');
+        $locationUrlSpan.text('');
       };
 
-      autocomplete.typeaheadUpdater = function (item) {
-        const self = this;
+      /**
+       * Resets the new location form
+       * @returns {void}
+       */
+      const resetLocationForm = () => {
+        $newLocationForm.find('input').val('');
+      };
 
-        // Remove any existing selected location
-        self.removeLocation();
-
-        // Update current selection
-        self.selection = self.mappedData[item];
-        self.dataField
-          .val(self.selection)
-          .children(`option[value="${self.selection}"]`)
-          .attr('selected', true)
-          .prop('selected', true);
-
-        const selectedData = eventLocations[self.selection]; // eventLocations is defined in head of event create/update template
+      /**
+       * The select event for the location typeahead.
+       * @param {Event} _event Param not used.
+       * @param {any} suggestion The suggestion object
+       * @returns {void}
+       */
+      const onSelect = (_event, suggestion) => {
+        $locationInput.val('');
+        $newLocationBtn.hide();
+        $removeLocationBtn.show();
 
         // Display new values to the user
-        if (selectedData.title !== 'None' && selectedData.title !== '') {
-          self.locationTitleSpan
-            .text(selectedData.title)
-            .show();
-        }
-        if (selectedData.room !== 'None' && selectedData.room !== '') {
-          self.locationRoomSpan
-            .text(selectedData.room)
-            .show();
-        }
-        if (selectedData.url !== 'None' && selectedData.url !== '') {
-          self.locationUrlSpan
-            .html(`<a href="${selectedData.url}">${selectedData.url}</a>`)
+        if (suggestion.title !== 'None' && suggestion.title !== '') {
+          $locationTitleSpan
+            .text(suggestion.title)
             .show();
         }
 
-        self.removeBtn.show();
-        self.addBtn.hide();
+        if (suggestion.room !== 'None' && suggestion.room !== '') {
+          $locationRoomSpan
+            .text(suggestion.room)
+            .show();
+        }
 
-        return '';
+        if (suggestion.url !== 'None' && suggestion.url !== '') {
+          $locationUrlSpan
+            .html(`<a href="${suggestion.url}">${suggestion.url}</a>`)
+            .show();
+        }
+
+        $locationsField.val(suggestion.id);
       };
 
-      autocomplete.init();
-    });
+      /**
+       * The event fired whenever the typeahead
+       * results are rendered.
+       * @returns {void}
+       */
+      const onRender = () => {
+        $newLocationBtn.show();
+      };
+
+      $locationInput.typeahead({
+        minLength: 3,
+        highlight: true
+      },
+      {
+        name: 'location',
+        displayKey: 'comboname',
+        source: data.ttAdapter()
+      }).on('typeahead:select', onSelect)
+        .on('typeahead:render', onRender);
+    };
+
+    locationDropdowns.each(initializeLocationDropdown);
   }
 };
-
 
 /**
  * Handle the visibility of location content based on the state of the
@@ -707,7 +647,6 @@ const eventLocationsSearch = function (locationDropdowns) {
  **/
 const eventLocationTypes = function ($locations) {
   const $submit = $('button[type="submit"]');
-  const $document = $(document);
 
   $submit.on('click', () => {
     $locations.each((idx, $obj) => {
@@ -1210,7 +1149,7 @@ function cloneableEventInstances() {
     initiateTimePickers($instance.find('.field-time'));
 
     // Add event handler for location autocomplete
-    eventLocationsSearch($instance.find('.location-dropdown'));
+    eventLocationsTypeahead($instance.find('.location-dropdown'));
 
     // Add event handler for location type visibility
     eventLocationTypes($instance.find('.location-type'));
