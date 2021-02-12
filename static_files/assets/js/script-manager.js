@@ -516,6 +516,18 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
 
       /**
+       * Runs when the DOM is ready.
+       * @returns {void}
+       */
+      const onReady = () => {
+        if ($locationsField.val() !== '') {
+          $removeLocationBtn.show();
+        }
+      };
+
+      $(onReady);
+
+      /**
        * Click event for the new location button
        * @param {Event} event The event object
        * @returns {void}
@@ -729,6 +741,17 @@ const eventTagging = function () {
    */
   const setupForm = () => {
     $dataField.hide();
+    const val = $dataField.val();
+    const tags = val.split(',');
+
+    $.each(tags, (_idx, tag) => {
+      addTagItem({
+        id: null,
+        text: tag,
+        score: 0
+      });
+    });
+
     $selectedTagList.find('li').each((_idx, obj) => {
       $(obj).find('a').on('click', removeTagItem);
     });
