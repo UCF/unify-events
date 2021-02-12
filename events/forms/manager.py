@@ -153,9 +153,13 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
         registration_checkbox = cleaned_data.get('registration_checkbox')
         registration_link = cleaned_data.get('registration_link')
+        registration_info = cleaned_data.get('registration_info')
 
         if not registration_checkbox:
             cleaned_data['registration_link'] = None
+            cleaned_data['registration_info'] = None
+
+        if registration_checkbox and registration_info == None:
             cleaned_data['registration_info'] = None
 
         # Remove '&quot;' and '"' characters from tag phrases, and strip
