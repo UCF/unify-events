@@ -198,7 +198,7 @@
               </div>
               <div class="form-group{% if form.registration_info.errors %} has-danger{% endif %}">
                 <label class="form-control-label" for="{{ form.registration_info.auto_id }}">Registration Info</label>
-                {{ form.registration_info|add_class:"form-control" }}
+                {{ form.registration_info|add_class:"form-control"|attr:"rows:3" }}
                 <small class="form-text text-muted mt-0" tabindex="-1">Is there any additional information that users need to know about registration? Limited to 255 characters. Defaults to 'Register for this event.'</small>
                 {{ form.registration_info.errors }}
               </div>
