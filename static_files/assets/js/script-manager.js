@@ -884,8 +884,7 @@ const eventTagging = function () {
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
-    // We need 3 parent calls to get from the span up to the list item
-    const $listItem = $sender.parent().parent().parent();
+    const $listItem = $sender.parents('li');
     const dataItem = $listItem.data('tag-text');
 
     $listItem.remove();
