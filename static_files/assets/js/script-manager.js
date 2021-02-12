@@ -725,6 +725,10 @@ const eventTagging = function () {
   const $inputField = $('#event-tags-typeahead');
   // The button that appears to add new tags
   const $addNewTagBtn = $('#add-new-tag');
+  // The parent form
+  const $form = $inputField.parents('form');
+  // Typeahead object
+  let $typeahead = null;
 
   if (!$dataField) {
     return;
@@ -755,6 +759,20 @@ const eventTagging = function () {
   };
 
   /**
+   * On submit handler for the form
+   * @param {Event} e The event object
+   * @returns {boolean} Returns if the form should submit.
+   */
+  const onSubmit = (e) => {
+    if ($inputField.is(':focus')) {
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
    * The function that gets called when
    * the window is "ready"
    * @returns {void}
@@ -763,10 +781,7 @@ const eventTagging = function () {
     setupForm();
     initializeTypeahead();
 
-    $selectedTagList.find('li').each((_idx, obj) => {
-      const tag = $(obj).data('tag-text');
-      selectedTags.push(tag);
-    });
+    $form.on('submit', onSubmit);
 
     updateTagInput();
   };
@@ -790,7 +805,7 @@ const eventTagging = function () {
       }
     });
 
-    $inputField.typeahead({
+    $typeahead = $inputField.typeahead({
       minLength: 3,
       highlight: true
     },
@@ -809,6 +824,12 @@ const eventTagging = function () {
         $addNewTagBtn.show();
       } else {
         $addNewTagBtn.hide();
+      }
+    }).on('keydown focus', (event) => {
+      const keyCode = event.keyCode || event.which;
+
+      if (event.type === 'keydown' && (keyCode === 13 || keyCode === 188)) {
+        $addNewTagBtn.trigger('click');
       }
     });
   };
@@ -844,6 +865,10 @@ const eventTagging = function () {
     $(`<li class="list-inline-item" data-tag-text="${suggestion.text}"></li>`)
       .prepend($badge)
       .appendTo($selectedTagList);
+
+    if ($typeahead) {
+      $typeahead.typeahead('close');
+    }
 
     updateTagInput();
   };
