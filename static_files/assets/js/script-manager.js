@@ -921,6 +921,39 @@ const eventTagging = function () {
 
 
 /**
+ * Handle the visibility of the registration fields based on the
+ * state of the registration checkbox.
+ *
+ * @return {void}
+ **/
+const eventRegistrationFields = function () {
+  const checkbox = $('#id_event-registration_checkbox');
+  const registrationFieldsContainer = $('#event-registration-fields');
+  const registrationLinkField = $('#id_event-registration_link');
+  const registrationInfoField = $('#id_event-registration_info');
+
+  // Check checkbox and show registrationFieldsContainer if registrationLinkField is not empty
+  if (registrationLinkField.val() || registrationFieldsContainer.hasClass('error')) {
+    checkbox.prop('checked', true);
+    registrationFieldsContainer.show();
+  }
+
+  checkbox.on('change', () => {
+    registrationFieldsContainer.slideToggle(300);
+  });
+
+  // Clear out registration fields values upon form submission if checkbox is unchecked
+  const $submit = $('button[type="submit"]');
+  $submit.on('click', () => {
+    if (registrationLinkField.val() !== '' && checkbox.is(':checked') === false) {
+      registrationLinkField.prop('value', '');
+      registrationInfoField.prop('value', '');
+    }
+  });
+};
+
+
+/**
  * Clone fieldsets of the EventInstance formset of the Event Create/Update form.
  * Auto-increment field IDs as necessary.
  *
@@ -1265,7 +1298,8 @@ const initiateWysiwygs = function () {
       statusbar: false,
       menubar: false,
       toolbar: 'bold italic underline | bullist numlist | link',
-      autoresize_bottom_margin: 10
+      autoresize_bottom_margin: 10,
+      autoresize_min_height: 200
     });
   }
   /* eslint-enable camelcase */
@@ -1286,6 +1320,7 @@ $(() => {
   calendarSearchTypeahead();
   eventTagging();
 
+  eventRegistrationFields();
   cloneableEventInstances();
   eventContactInfo();
   initiateWysiwygs();

@@ -14,7 +14,6 @@
 
 .tt-dataset {
   color: $white;
-  padding: .375rem;
 }
 
 .tt-suggestion {
@@ -23,7 +22,7 @@
   cursor: pointer;
   margin-bottom: 0;
   overflow: hidden;
-  padding: .5rem 1.25rem;
+  padding: .5rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 

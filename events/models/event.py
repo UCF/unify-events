@@ -177,6 +177,8 @@ class Event(TimeCreatedModified):
     contact_phone = models.CharField(max_length=64, blank=True, null=True)
     category = models.ForeignKey('Category', related_name='events', on_delete=models.CASCADE)
     tags = TaggableManager()
+    registration_link = models.URLField(max_length=400, blank=True, null=True)
+    registration_info = models.TextField(max_length=255, blank=True, null=True)
 
     class Meta:
         app_label = 'events'
@@ -300,6 +302,8 @@ class Event(TimeCreatedModified):
             self.contact_name = self.created_from.contact_name
             self.contact_phone = self.created_from.contact_phone
             self.category = self.created_from.category
+            self.registration_link = self.created_from.registration_link
+            self.registration_info = self.created_from.registration_info
             self.tags.set(*self.created_from.tags.all())
             self.event_instances.all().delete()
             self.modified=self.created_from.modified
@@ -339,6 +343,8 @@ class Event(TimeCreatedModified):
                      contact_name=self.contact_name,
                      contact_email=self.contact_email,
                      contact_phone=self.contact_phone,
+                     registration_link=self.registration_link,
+                     registration_info=self.registration_info,
                      *args,
                      **kwargs)
         copy.save()
