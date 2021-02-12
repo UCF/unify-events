@@ -33,7 +33,17 @@ class TagListView(SuperUserRequiredMixin, PaginationRedirectMixin, ListView):
     template_name = 'events/manager/tag/list.html'
 
     def get_queryset(self):
+        q = self.request.GET.get('q', None)
+        promoted = self.request.GET.get('promoted', False)
+
         queryset = super(TagListView, self).get_queryset().order_by('name')
+
+        if q:
+            queryset = queryset.filter(name__icontains=q)
+
+        if promoted:
+            queryset = queryset.filter(promoted__isnull=False)
+
         return queryset.annotate(event_count=Count('taggit_taggeditem_items'))
 
     def get_context_data(self, **kwargs):
