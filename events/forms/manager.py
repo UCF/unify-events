@@ -154,6 +154,10 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         registration_checkbox = cleaned_data.get('registration_checkbox')
         registration_link = cleaned_data.get('registration_link')
 
+        if not registration_checkbox:
+            cleaned_data['registration_link'] = None
+            cleaned_data['registration_info'] = None
+
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
         tags = cleaned_data.get('tags', [])
