@@ -741,8 +741,8 @@ const eventTagging = function () {
    */
   const setupForm = () => {
     $dataField.hide();
-    const val = $dataField.val();
-    const tags = val.split(',');
+    const val = $dataField.val().trim();
+    const tags = !val ? [] : val.split(',');
 
     $.each(tags, (_idx, tag) => {
       addTagItem({
@@ -750,10 +750,6 @@ const eventTagging = function () {
         text: tag,
         score: 0
       });
-    });
-
-    $selectedTagList.find('li').each((_idx, obj) => {
-      $(obj).find('a').on('click', removeTagItem);
     });
   };
 
