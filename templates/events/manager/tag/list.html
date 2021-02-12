@@ -28,11 +28,21 @@
           </label>
           <label class="sr-only" for="q">Search</label>
           <input class="form-control" type="text" name="q" placeholder="Search for a tag...">
-          <button type="submit" class="btn btn-primary"><span class="fa fa-search"><span class="sr-only">Search</span></span></button>
+          <button id="q" type="submit" class="btn btn-primary"><span class="fa fa-search"><span class="sr-only">Search</span></span></button>
         </form>
       </div>
     </div>
     {% if tags %}
+    {% if request.GET.q or request.GET.promoted %}
+    <p class="mb-3">
+      {% if request.GET.q %}
+      Search results for &ldquo;{{ request.GET.q }}&rdquo;
+      {% endif %}
+      {% if request.GET.promoted %}
+      <span class="badge badge-primary ml-2">Promoted</span>
+      {% endif %}
+    </p>
+    {% endif %}
     <div class="card mb-4">
       <table class="list-manager-table table">
         <thead>
