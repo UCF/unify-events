@@ -516,6 +516,18 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
 
       /**
+       * Runs when the DOM is ready.
+       * @returns {void}
+       */
+      const onReady = () => {
+        if ($locationsField.val() !== '') {
+          $removeLocationBtn.show();
+        }
+      };
+
+      $(onReady);
+
+      /**
        * Click event for the new location button
        * @param {Event} event The event object
        * @returns {void}
