@@ -32,7 +32,6 @@
         </form>
       </div>
     </div>
-    {% if tags %}
     {% if request.GET.q or request.GET.promoted %}
     <p class="mb-3">
       {% if request.GET.q %}
@@ -43,6 +42,7 @@
       {% endif %}
     </p>
     {% endif %}
+    {% if tags %}
     <div class="card mb-4">
       <table class="list-manager-table table">
         <thead>
