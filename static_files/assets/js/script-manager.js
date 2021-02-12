@@ -567,6 +567,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         resetDisplaySpans();
         resetLocationForm();
 
+        $locationsField.val('');
         $locationInput.val('');
       };
 
