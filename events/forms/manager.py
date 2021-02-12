@@ -145,10 +145,14 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
+    registration_checkbox = forms.BooleanField(required=False)
 
     def clean(self):
         self._validate_unique = True
         cleaned_data = super(EventForm, self).clean()
+
+        registration_checkbox = cleaned_data.get('registration_checkbox')
+        registration_link = cleaned_data.get('registration_link')
 
         # Remove '&quot;' and '"' characters from tag phrases, and strip
         # characters that don't match our whitelist.
@@ -159,6 +163,9 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
         for key, tag in enumerate(tags):
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
+
+        if registration_checkbox and not registration_link:
+            self._errors['registration_link'] = self.error_class(['A registration link is required if the above checkbox is checked.'])
 
         return cleaned_data
 
