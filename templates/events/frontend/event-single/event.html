@@ -180,6 +180,24 @@
     {% endif %}
 
     {# Start mobile-only sections #}
+    {% if event_instance.event.registration_link %}
+      <div class="event-registration hidden-lg-up card card-outline-primary my-4">
+        <div class="card-block">
+          <h2 class="h4">Event Registration</h2>
+          <p class="card-text">
+            {% if event_instance.event.registration_info %}
+            {{ event_instance.event.registration_info|striptags }}
+            {% else %}
+            Register for this event.
+            {% endif %}
+          </p>
+        </div>
+        <a href="{{ event_instance.event.registration_link }}" class="btn btn-primary w-100 stretched-link">Register Now<span class="fas fa-external-link-alt ml-2"></span></a>
+      </div>
+    {% else %}
+      <hr class="hidden-lg-up">
+    {% endif %}
+
     <div class="hidden-lg-up">
       <h2 class="h4">Contact:</h2>
       <div class="event-contact-info">
@@ -282,7 +300,23 @@
         {% endif %}
     </div>
 
-    <hr class="hidden-md-down my-4">
+    {% if event_instance.event.registration_link %}
+      <div class="event-registration hidden-md-down card card-outline-primary my-4">
+        <div class="card-block">
+          <h2 class="h5">Event Registration</h2>
+          <p class="card-text">
+            {% if event_instance.event.registration_info %}
+            {{ event_instance.event.registration_info|striptags }}
+            {% else %}
+            Register for this event.
+            {% endif %}
+          </p>
+        </div>
+        <a href="{{ event_instance.event.registration_link }}" class="btn btn-primary w-100 stretched-link">Register Now<span class="fas fa-external-link-alt ml-2"></span></a>
+      </div>
+    {% else %}
+      <hr class="hidden-md-down my-4">
+    {% endif %}
 
     <div class="event-contact{% if event_instance.event.contact_name %} vcard{% endif %} hidden-md-down">
       <h2 class="h5">Contact:</h2>

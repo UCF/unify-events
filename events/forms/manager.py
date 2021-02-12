@@ -165,7 +165,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
 
         if registration_checkbox and not registration_link:
-            self._errors['registration_link'] = self.error_class(['A registration link is required if the above checkbox is checked.'])
+            self._errors['registration_link'] = self.error_class(['A registration link is required if the registration checkbox is checked.'])
 
         return cleaned_data
 
