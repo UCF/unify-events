@@ -280,7 +280,6 @@ class Event(TimeCreatedModified):
             pass
         return event
 
-    # TODO: Check that this works
     def pull_updates(self, is_main_rereview=False):
         """
         Updates this Event with information from the event it was created
@@ -314,7 +313,6 @@ class Event(TimeCreatedModified):
 
         return updated_copy
 
-    # TODO: Check that this works
     def copy(self, state=None, *args, **kwargs):
         """
         Duplicates this Event creating another Event without a calendar set
