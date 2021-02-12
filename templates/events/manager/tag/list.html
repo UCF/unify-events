@@ -15,9 +15,33 @@
 {% block content_body %}
 <div class="row">
   <div class="col-12">
-    <a class="btn btn-primary btn-sm mb-3" href="{% url 'events.views.manager.tag-create' %}">
-      <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Tag
-    </a>
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-auto">
+        <a class="btn btn-primary mb-3" href="{% url 'events.views.manager.tag-create' %}">
+          <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Tag
+        </a>
+      </div>
+      <div class="col-12 col-md-auto">
+        <form class="form-inline mb-3" action="{% url 'events.views.manager.tag-list' %}" method="GET">
+          <label class="form-check-label mr-4">
+            <input class="form-check-input" type="checkbox" name="promoted"> Promoted
+          </label>
+          <label class="sr-only" for="q">Search</label>
+          <input class="form-control" type="text" name="q" placeholder="Search for a tag...">
+          <button id="q" type="submit" class="btn btn-primary"><span class="fa fa-search"><span class="sr-only">Search</span></span></button>
+        </form>
+      </div>
+    </div>
+    {% if request.GET.q or request.GET.promoted %}
+    <p class="mb-3">
+      {% if request.GET.q %}
+      Search results for &ldquo;{{ request.GET.q }}&rdquo;
+      {% endif %}
+      {% if request.GET.promoted %}
+      <span class="badge badge-primary ml-2">Promoted</span>
+      {% endif %}
+    </p>
+    {% endif %}
     {% if tags %}
     <div class="card mb-4">
       <table class="list-manager-table table">
