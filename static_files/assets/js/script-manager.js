@@ -729,6 +729,17 @@ const eventTagging = function () {
    */
   const setupForm = () => {
     $dataField.hide();
+    const val = $dataField.val();
+    const tags = val.split(',');
+
+    $.each(tags, (_idx, tag) => {
+      addTagItem({
+        id: null,
+        text: tag,
+        score: 0
+      });
+    });
+
     $selectedTagList.find('li').each((_idx, obj) => {
       $(obj).find('a').on('click', removeTagItem);
     });
