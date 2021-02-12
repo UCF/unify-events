@@ -830,6 +830,7 @@ const eventTagging = function () {
 
       if (event.type === 'keydown' && (keyCode === 13 || keyCode === 188)) {
         $addNewTagBtn.trigger('click');
+        return false;
       }
     });
   };
