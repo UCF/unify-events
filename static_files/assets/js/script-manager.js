@@ -516,6 +516,18 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
 
       /**
+       * Runs when the DOM is ready.
+       * @returns {void}
+       */
+      const onReady = () => {
+        if ($locationsField.val() !== '') {
+          $removeLocationBtn.show();
+        }
+      };
+
+      $(onReady);
+
+      /**
        * Click event for the new location button
        * @param {Event} event The event object
        * @returns {void}
@@ -555,6 +567,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         resetDisplaySpans();
         resetLocationForm();
 
+        $locationsField.val('');
         $locationInput.val('');
       };
 
@@ -712,6 +725,10 @@ const eventTagging = function () {
   const $inputField = $('#event-tags-typeahead');
   // The button that appears to add new tags
   const $addNewTagBtn = $('#add-new-tag');
+  // The parent form
+  const $form = $inputField.parents('form');
+  // Typeahead object
+  let $typeahead = null;
 
   if (!$dataField) {
     return;
@@ -729,9 +746,30 @@ const eventTagging = function () {
    */
   const setupForm = () => {
     $dataField.hide();
-    $selectedTagList.find('li').each((_idx, obj) => {
-      $(obj).find('a').on('click', removeTagItem);
+    const val = $dataField.val().trim();
+    const tags = !val ? [] : val.split(',');
+
+    $.each(tags, (_idx, tag) => {
+      addTagItem({
+        id: null,
+        text: tag,
+        score: 0
+      });
     });
+  };
+
+  /**
+   * On submit handler for the form
+   * @param {Event} e The event object
+   * @returns {boolean} Returns if the form should submit.
+   */
+  const onSubmit = (e) => {
+    if ($inputField.is(':focus')) {
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
   };
 
   /**
@@ -743,10 +781,7 @@ const eventTagging = function () {
     setupForm();
     initializeTypeahead();
 
-    $selectedTagList.find('li').each((_idx, obj) => {
-      const tag = $(obj).data('tag-text');
-      selectedTags.push(tag);
-    });
+    $form.on('submit', onSubmit);
 
     updateTagInput();
   };
@@ -770,7 +805,7 @@ const eventTagging = function () {
       }
     });
 
-    $inputField.typeahead({
+    $typeahead = $inputField.typeahead({
       minLength: 3,
       highlight: true
     },
@@ -789,6 +824,13 @@ const eventTagging = function () {
         $addNewTagBtn.show();
       } else {
         $addNewTagBtn.hide();
+      }
+    }).on('keydown focus', (event) => {
+      const keyCode = event.keyCode || event.which;
+
+      if (event.type === 'keydown' && (keyCode === 13 || keyCode === 188)) {
+        $addNewTagBtn.trigger('click');
+        return false;
       }
     });
   };
@@ -825,6 +867,10 @@ const eventTagging = function () {
       .prepend($badge)
       .appendTo($selectedTagList);
 
+    if ($typeahead) {
+      $typeahead.typeahead('close');
+    }
+
     updateTagInput();
   };
 
@@ -838,7 +884,7 @@ const eventTagging = function () {
   const removeTagItem = (event) => {
     event.preventDefault();
     const $sender = $(event.target);
-    const $listItem = $sender.parent().parent().parent();
+    const $listItem = $sender.parents('li');
     const dataItem = $listItem.data('tag-text');
 
     $listItem.remove();
