@@ -34,7 +34,7 @@
                 <input type="text" id="id_username" required class="form-control form-control-danger" name="username" placeholder="Your NID, e.g. a1234567" {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
                 {% if form.username.errors %}
                   {% for error in form.username.errors %}
-                  <div class="form-control-feedback">{{error}}</div>
+                  <div class="form-control-feedback">{{ error }}</div>
                   {% endfor %}
                 {% endif %}
               </div>
@@ -43,7 +43,7 @@
                 <input type="password" id="id_password" required class="form-control form-control-danger" name="password" placeholder="Your NID password" {% if form.password.value %}value="{{ form.password.value }}"{% endif %}>
                 {% if form.password.errors %}
                   {% for error in form.password.errors %}
-                  <div class="form-control-feedback">{{error}}</div>
+                  <div class="form-control-feedback">{{ error }}</div>
                   {% endfor %}
                 {% endif %}
               </div>

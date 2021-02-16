@@ -60,44 +60,60 @@
   {% endif %}
   {% csrf_token %}
       {{ form.non_field_errors }}
-      <div class="form-group row">
+      <div class="form-group row{% if form.title.errors %} has-danger{% endif %}">
         <div class="col-md-3 col-xl-4 text-md-right mb-2">
           <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
           <small class="form-text text-muted mt-0">Be Brief. Be Bright. Be Done.</small>
         </div>
         <div class="col-md-9 col-xl-8">
-          {{ form.title|add_class:"form-control" }}
-          {{ form.title.errors }}
+          {{ form.title|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.title.errors %}
+            {% for error in form.title.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row{% if form.room.errors %} has-danger{% endif %}">
         <div class="col-md-3 col-xl-4 text-md-right mb-2">
           <label class="font-weight-bold col-form-label pb-0" for="{{ form.room.auto_id }}">{{ form.room.label }}</label>
           <small class="form-text text-muted mt-0">A more specific place within the location like a room, hall, etc.</small>
         </div>
         <div class="col-md-9 col-xl-8">
-          {{ form.room|add_class:"form-control" }}
-          {{ form.room.errors }}
+          {{ form.room|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.room.errors %}
+            {% for error in form.room.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row{% if form.url.errors %} has-danger{% endif %}">
         <div class="col-md-3 col-xl-4 text-md-right mb-2">
           <label class="font-weight-bold col-form-label pb-0" for="{{ form.url.auto_id }}">{{ form.url.label }}</label>
           <small class="form-text text-muted mt-0">A map url of the location (https://map.ucf.edu or https://www.google.com/maps)</small>
         </div>
         <div class="col-md-9 col-xl-8">
-          {{ form.url|add_class:"form-control" }}
-          {{ form.url.errors }}
+          {{ form.url|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.url.errors %}
+            {% for error in form.url.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row{% if form.reviewed.errors %} has-danger{% endif %}">
         <div class="col-md-3 col-xl-4 text-md-right mb-2">
           <label class="font-weight-bold col-form-label pb-0" for="{{ form.reviewed.auto_id }}">{{ form.reviewed.label }}</label>
           <small class="form-text text-muted mt-0">Is this location acceptable?</small>
         </div>
         <div class="col-md-9 col-xl-8 d-flex align-items-center">
           {{ form.reviewed|add_class:"form-check-input ml-0" }}
-          {{ form.reviewed.errors }}
+          {% if form.reviewed.errors %}
+            {% for error in form.reviewed.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
       <div class="form-group row">

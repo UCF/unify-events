@@ -75,19 +75,23 @@
     <form action="{% url 'events.views.manager.event-create' %}" method="post" enctype="multipart/form-data">
   {% endif %}
       {% csrf_token %}
-      <fieldset class="form-group">
+      <fieldset class="form-group{% if form.calendar.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
-            <label class="font-weight-bold col-form-label pb-0{% if form.calendar.errors %} error{% endif %}" for="{{ form.calendar.auto_id }}" title="Calendar" >{{ form.calendar.label }}</label>
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.calendar.auto_id }}" title="Calendar" >{{ form.calendar.label }}</label>
             <small class="form-text text-muted mt-0" id="help-label-calendar">Select an existing calendar to post this event to.</small>
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="row">
               <div class="col-xl-6">
-                {% render_field form.calendar class="form-control" aria-describedby="help-label-calendar" %}
+                {{ form.calendar|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-calendar" }}
               </div>
               <div class="col-12 flex-xl-last mb-2 mb-xl-0">
-                {{ form.calendar.errors }}
+                {% if form.calendar.errors %}
+                  {% for error in form.calendar.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
               <div class="col-xl-6 d-flex align-items-center mb-md-2 mb-xl-0">
                 <div class="form-check mb-0">
@@ -101,7 +105,7 @@
         </div>
       </fieldset>
 
-      <fieldset class="form-group{% if form.title.errors %} error{% endif %}">
+      <fieldset class="form-group{% if form.title.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
@@ -112,27 +116,35 @@
             </small>
           </div>
           <div class="col-md-9 col-xl-8">
-            {% render_field form.title class="form-control" aria-describedby="help-label-title" %}
-            {{ form.title.errors }}
+            {{ form.title|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-title" }}
+            {% if form.title.errors %}
+              {% for error in form.title.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
 
-      <fieldset class="form-group{% if form.state.errors %} error{% endif %}">
+      <fieldset class="form-group{% if form.state.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
             <small class="form-text text-muted mt-0" id="help-label-state" tabindex="-1">Specify how your event should be saved.</small>
           </div>
           <div class="col-md-6 col-xl-5">
-            {% render_field form.state class="form-control" aria-describedby="help-label-state" %}
-            {{ form.state.errors }}
+            {{ form.state|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-state" }}
+            {% if form.state.errors %}
+              {% for error in form.state.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
 
       {% if event.is_re_review %}
-      <fieldset class="form-group{% if event.created_from.title.errors %} error{% endif %}">
+      <fieldset class="form-group{% if event.created_from.title.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="new_title" tabindex="-1">New Title</label>
@@ -140,28 +152,37 @@
             <button id="copy_title" class="btn btn-sm btn-info copy-btn" data-copy-to="{{ form.title.auto_id }}">Copy</button>
           </div>
           <div class="col-md-9 col-xl-8">
-            <input id="new_title" class="form-control" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
+            <input id="new_title" class="form-control{% if event.created_from.title.errors %} form-control-danger{% endif %}" disabled="disabled" type="text" value="{{ event.created_from.title }}" />
             {{ event.created_from.title.errors }}
+            {% if event.created_from.title.errors %}
+              {% for error in event.created_from.title.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
       {% endif %}
 
-      <fieldset class="form-group{% if form.description.errors %} error{% endif %}">
+      <fieldset class="form-group{% if form.description.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
             <small class="form-text text-muted mt-0" id="help-label-description">A description for your event.</small>
           </div>
           <div class="col-md-9 col-xl-8">
-            {% render_field form.description id=form.description.auto_id class="form-control wysiwyg" title=form.description.label aria-describedby="help-label-description" %}
-            {{ form.description.errors }}
+            {{ form.description|add_class:"form-control wysiwyg"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-description" }}
+            {% if form.description.errors %}
+              {% for error in form.description.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
 
       {% if event.is_re_review %}
-      <fieldset class="form-group{% if event.created_from.description.errors %} error{% endif %}">
+      <fieldset class="form-group{% if event.created_from.description.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="new_description" tabindex="-1">New Description</label>
@@ -170,7 +191,11 @@
           </div>
           <div class="col-md-9 col-xl-8">
             <textarea id="new_description" class="form-control wysiwyg" title="New Description" disabled="disabled">{{ event.created_from.description }}</textarea>
-            {{ event.created_from.description.errors }}
+            {% if event.created_from.description.errors %}
+              {% for error in event.created_from.description.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
@@ -192,15 +217,23 @@
             <div id="event-registration-fields" {% if form.registration_link.errors %}class="error"{% endif %} style="display:none;">
               <div class="form-group{% if form.registration_link.errors %} has-danger{% endif %}">
                 <label class="form-control-label" for="{{ form.registration_link.auto_id }}">Registration Link</label>
-                {{ form.registration_link|add_class:"form-control" }}
+                {{ form.registration_link|add_class:"form-control"|add_error_class:"form-control-danger" }}
                 <small class="form-text text-muted mt-0" tabindex="-1">Enter the registration link for this event.</small>
-                {{ form.registration_link.errors }}
+                {% if form.registration_link.errors %}
+                  {% for error in form.registration_link.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
               <div class="form-group{% if form.registration_info.errors %} has-danger{% endif %}">
                 <label class="form-control-label" for="{{ form.registration_info.auto_id }}">Registration Info</label>
-                {{ form.registration_info|add_class:"form-control"|attr:"rows:3" }}
+                {{ form.registration_info|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"rows:3" }}
                 <small class="form-text text-muted mt-0" tabindex="-1">Is there any additional information that users need to know about registration? Limited to 255 characters. Defaults to 'Register for this event.'</small>
-                {{ form.registration_info.errors }}
+                {% if form.registration_info.errors %}
+                  {% for error in form.registration_info.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
           </div>
@@ -243,20 +276,24 @@
       </fieldset>
 
       {{ event_instance_formset.management_form }}
-      <fieldset class="form-group{% if form.category.errors %} error{% endif %}">
+      <fieldset class="form-group{% if form.category.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.category.auto_id }}" tabindex="-1">Category</label>
             <small class="form-text text-muted mt-0" id="help-label-category" tabindex="-1">Select a category to group this event under.</small>
           </div>
           <div class="col-md-6 col-xl-5">
-            {% render_field form.category class="form-control" aria-describedby="help-label-category" %}
-            {{ form.category.errors }}
+            {{ form.category|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-category" }}
+            {% if form.category.errors %}
+              {% for error in form.category.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </fieldset>
 
-      <fieldset class="form-group{% if form.tags.errors %} error{% endif %}">
+      <fieldset class="form-group{% if form.tags.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
@@ -265,7 +302,7 @@
           <div class="col-md-5 col-xl-4 mb-2 mb-md-0">
             <div class="row no-gutters">
               <div class="col-10">
-                <input type="text" id="event-tags-typeahead" class="form-control" autocomplete="false" placeholder="Type a tag or phrase...">
+                <input type="text" id="event-tags-typeahead" class="form-control{% if form.tags.errors %} form-control-danger{% endif %}" autocomplete="false" placeholder="Type a tag or phrase...">
               </div>
               <div class="col-2">
                 <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">
@@ -274,7 +311,11 @@
               </div>
             </div>
             {% render_field form.tags class="form-control d-none" aria_describedby="help-label-tags" %}
-            {{ form.tags.errors }}
+            {% if form.tags.errors %}
+              {% for error in form.tags.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
             <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
           </div>
           <div class="col-md-4 col-xl-4">
@@ -301,20 +342,32 @@
                 </div>
               </div>
               <div class="col-xl-6 mt-xl-2">
-                <div class="form-group">
-                  <label class="{% if form.contact_name.errors %}error{% endif %}" for="{{ form.contact_name.auto_id }}">Contact Name</label>
-                  {{ form.contact_name|add_class:"form-control" }}
-                  {{ form.contact_name.errors }}
+                <div class="form-group{% if form.contact_name.errors %} has-danger{% endif %}">
+                  <label for="{{ form.contact_name.auto_id }}">Contact Name</label>
+                  {{ form.contact_name|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                  {% if form.contact_name.errors %}
+                    {% for error in form.contact_name.errors %}
+                      <div class="form-control-feedback">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
-                <div class="form-group">
-                  <label class="{% if form.contact_email.errors %}error{% endif %}" for="{{ form.contact_email.auto_id }}">Email</label>
-                  {{ form.contact_email|add_class:"form-control" }}
-                  {{ form.contact_email.errors }}
+                <div class="form-group{% if form.contact_name.errors %} has-danger{% endif %}">
+                  <label for="{{ form.contact_email.auto_id }}">Email</label>
+                  {{ form.contact_email|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                  {% if form.contact_email.errors %}
+                    {% for error in form.contact_email.errors %}
+                      <div class="form-control-feedback">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
-                <div class="form-group">
-                  <label class="{% if form.contact_phone.errors %}error{% endif %}" for="{{ form.contact_phone.auto_id }}">Phone Number</label>
-                  {{ form.contact_phone|add_class:"form-control" }}
-                  {{ form.contact_phone.errors }}
+                <div class="form-group{% if form.contact_name.errors %} has-danger{% endif %}">
+                  <label for="{{ form.contact_phone.auto_id }}">Phone Number</label>
+                  {{ form.contact_phone|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                  {% if form.contact_phone.errors %}
+                    {% for error in form.contact_phone.errors %}
+                      <div class="form-control-feedback">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>

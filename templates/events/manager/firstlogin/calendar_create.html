@@ -41,19 +41,19 @@
           {% csrf_token %}
           <div class="form-group{% if form.title.errors %} has-danger{% endif %}">
             <label class="form-control-label" for="id_title">Calendar Name</label>
-            {{ form.title|add_class:"form-control" }}
+            {{ form.title|add_class:"form-control"|add_error_class:"form-control-danger" }}
             {% if form.title.errors %}
               {% for error in form.title.errors %}
-                <div class="form-control-feedback">{{error}}</div>
+                <div class="form-control-feedback">{{ error }}</div>
               {% endfor %}
             {% endif %}
           </div>
           <div class="form-group{% if form.description.errors %} has-danger{% endif %}">
             <label class="form-control-label" for="id_description">Calendar Description</label>
-            {{ form.description|add_class:"form-control" }}
+            {{ form.description|add_class:"form-control"|add_error_class:"form-control-danger" }}
             {% if form.description.errors %}
               {% for error in form.description.errors %}
-                <div class="form-control-feedback">{{error}}</div>
+                <div class="form-control-feedback">{{ error }}</div>
               {% endfor %}
             {% endif %}
           </div>
