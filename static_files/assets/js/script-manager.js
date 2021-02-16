@@ -832,6 +832,12 @@ const eventTagging = function () {
         $addNewTagBtn.trigger('click');
         return false;
       }
+
+      return true;
+    }).on('keyup focus', () => {
+      if ($inputField.val().length === 0) {
+        $addNewTagBtn.hide();
+      }
     });
   };
 
