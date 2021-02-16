@@ -9,138 +9,172 @@
       <div class="card card-faded">
         <div class="card-block">
           <div class="whenwhere-wrap">
-            <div class="form-group row">
-              <div class="col-lg-6 mb-3 mb-lg-0 whenwhere start{% if ei_form.start.errors %} error{% endif %}">
-                <label for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
-                <label for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
+            <div class="row">
+              <div class="form-group col-lg-6 whenwhere start{% if ei_form.start.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="{{ ei_form.start.auto_id }}_0" alt="Start Date">Start Date</label>
+                <label class="form-control-label" for="{{ ei_form.start.auto_id }}_1" alt="Start Time">&amp; Time</label>
                 {{ ei_form.start }}
-                {{ ei_form.start.errors }}
+                {% if ei_form.start.errors %}
+                  {% for error in ei_form.start.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
-              <div class="col-lg-6 whenwhere end{% if ei_form.end.errors %} error{% endif %}">
-                <label for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
-                <label for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
+              <div class="form-group col-lg-6 whenwhere end{% if ei_form.end.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="{{ ei_form.end.auto_id }}_0" alt="End Date">End Date</label>
+                <label class="form-control-label" for="{{ ei_form.end.auto_id }}_1" alt="End Time">&amp; Time</label>
                 {{ ei_form.end }}
-                {{ ei_form.end.errors }}
+                {% if ei_form.end.errors %}
+                  {% for error in ei_form.end.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
-            <div class="form-group row">
-              <div class="col-lg-6 mb-3 mb-lg-0 whenwhere-interval">
-                <label for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
-                {{ ei_form.interval|add_class:"form-control" }}
-                {{ ei_form.interval.errors }}
+            <div class="row">
+              <div class="form-group col-lg-6 mb-3 mb-lg-0 whenwhere-interval{% if ei_form.interval.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="{{ ei_form.interval.auto_id }}">How often does it re-occur?</label>
+                {{ ei_form.interval|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                {% if ei_form.interval.errors %}
+                  {% for error in ei_form.interval.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
-              <div class="col-lg-6 whenwhere-until">
-                <label for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
-                {{ ei_form.until|add_class:"field-date form-control" }}
-                {{ ei_form.until.errors }}
+              <div class="form-group col-lg-6 whenwhere-until{% if ei_form.until.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="{{ ei_form.until.auto_id }}">Re-occurs until...</label>
+                {{ ei_form.until|add_class:"field-date form-control"|add_error_class:"form-control-danger" }}
+                {% if ei_form.until.errors %}
+                  {% for error in ei_form.until.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
             <hr class="my-4 hr-2">
-            <div class="form-group">
-              {% if ei_form.non_field_errors %}
-              <div class="alert alert-danger">
-                <strong>Error: </strong>
-                <ul class="mb-0">
-                {% for error in ei_form.non_field_errors %}
-                  <li>{{ error }}</li>
-                {% endfor %}
-                </ul>
+            {% if ei_form.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>Error: </strong>
+              <ul class="mb-0">
+              {% for error in ei_form.non_field_errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            <div class="row mb-3">
+              <div class="col-12">
+                <span class="font-weight-bold">Select the location type(s).</span>
               </div>
-              {% endif %}
-              <div class="row mb-3">
+            </div>
+            <div class="location-type">
+              <div class="row mb-2">
                 <div class="col-12">
-                  <span class="font-weight-bold">Select the location type(s).</span>
+                  <div class="form-check">
+                    <label class="form-check-label" for="{{ ei_form.physical_checkbox.auto_id }}">
+                      {{ ei_form.physical_checkbox|add_class:"location-type-checkbox form-check-input" }}
+                      Physical Location
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div class="location-type">
-                <div class="row mb-2">
-                  <div class="col-12">
-                    <div class="form-check">
-                      <label class="form-check-label" for="{{ ei_form.physical_checkbox.auto_id }}">
-                        {{ ei_form.physical_checkbox|add_class:"location-type-checkbox form-check-input" }}
-                        Physical Location
-                      </label>
+              <div class="row location-type-content physical-location-content align-items-start mb-3">
+                <div class="form-group col-lg-6 location-search mb-3 mb-lg-0{% if ei_form.location.errors %} has-danger{% endif %}">
+                  <label class="form-control-label" for="{{ ei_form.location.auto_id }}">Select a Location</label>
+                  <div class="row no-gutters">
+                    <div class="col-10">
+                      <input type="text" class="location-typeahead-input form-control{% if ei_form.location.errors %} form-control-danger{% endif %}" autocomplete="false" placeholder="Type a location name...">
+                    </div>
+                    <div class="col-2">
+                      <a href="#" class="location-typeahead-new-btn btn btn-success" style="display: none;"><span class="fa fa-plus" aria-hidden="true"><span class="sr-only">Create Location</span></span></a>
                     </div>
                   </div>
+                  {{ ei_form.location|add_class:"location-dropdown form-control location-type-field d-none" }}
+                  {% if ei_form.location.errors %}
+                    {% for error in ei_form.location.errors %}
+                      <div class="form-control-feedback">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
-                <div class="row location-type-content physical-location-content align-items-start mb-3">
-                  <div class="col-lg-6 location-search mb-3 mb-lg-0{% if ei_form.location.errors %} error{% endif %}">
-                    <label for="{{ ei_form.location.auto_id }}">Select a Location</label>
-                    <div class="row no-gutters">
-                      <div class="col-10">
-                        <input type="text" class="location-typeahead-input form-control" autocomplete="false" placeholder="Type a location name...">
-                      </div>
-                      <div class="col-2">
-                        <a href="#" class="location-typeahead-new-btn btn btn-success" style="display: none;"><span class="fa fa-plus" aria-hidden="true"><span class="sr-only">Create Location</span></span></a>
-                      </div>
-                    </div>
-                    {{ ei_form.location|add_class:"location-dropdown form-control location-type-field d-none" }}
-                    {{ ei_form.location.errors }}
-                  </div>
-                  <div class="col-lg-6 location-selected">
-                    <a href="#" class="location-selected-remove" alt="Remove location" title="Remove location" style="display: none;">
-                      <span class="fa fa-times" aria-hidden="true"></span>
-                    </a>
-                    <div class="location-selected-title font-weight-bold">
-                      {% if ei_form.location.value %}
-                        {{ locations|locations_title:ei_form.location.value }}
-                      {% endif %}
-                    </div>
-                    <div class="location-selected-room">
-                      {% if ei_form.location.value %}
-                        {{ locations|locations_room:ei_form.location.value }}
-                      {% endif %}
-                    </div>
-                    <div class="location-selected-url">
-                      {% if ei_form.location.value %}
-                      <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
-                        <span class="fa fa-external-link-alt d-inline pr-1" aria-hidden="true"></span>{{ locations|locations_url:ei_form.location.value }}
-                      </a>
-                      {% endif %}
-                    </div>
-                    <div class="location-new-form" style="display: none;">
-                      <div class="form-group">
-                        <label class="{% if ei_form.new_location_title.errors %}error{% endif %}" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
-                        {{ ei_form.new_location_title|add_class:"form-control" }}
-                        {{ ei_form.new_location_title.errors }}
-                      </div>
-                      <div class="form-group">
-                        <label class="{% if ei_form.new_location_room.errors %}error{% endif %}" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
-                        {{ ei_form.new_location_room|add_class:"form-control" }}
-                        {{ ei_form.new_location_room.errors }}
-                      </div>
-                      <div class="form-group">
-                        <label class="{% if ei_form.new_location_url.errors %}error{% endif %}" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
-                        {{ ei_form.new_location_url|add_class:"form-control" }}
-                        {{ ei_form.new_location_url.errors }}
-                      </div>
-                    </div>
-                    {% if not ei_prefix_template %}
-                    <div class="d-none">
-                      <label for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
-                      {{ ei_form.DELETE }}
-                    </div>
+                <div class="col-lg-6 location-selected">
+                  <a href="#" class="location-selected-remove" alt="Remove location" title="Remove location" style="display: none;">
+                    <span class="fa fa-times" aria-hidden="true"></span>
+                  </a>
+                  <div class="location-selected-title font-weight-bold">
+                    {% if ei_form.location.value %}
+                      {{ locations|locations_title:ei_form.location.value }}
                     {% endif %}
                   </div>
-                </div>
-              </div>
-              <div class="location-type">
-                <div class="row mb-2">
-                  <div class="col-12">
-                    <div class="form-check">
-                      <label class="form-check-label" for="{{ ei_form.virtual_checkbox.auto_id }}">
-                        {{ ei_form.virtual_checkbox|add_class:"location-type-checkbox form-check-input" }}
-                        Virtual Location
-                      </label>
+                  <div class="location-selected-room">
+                    {% if ei_form.location.value %}
+                      {{ locations|locations_room:ei_form.location.value }}
+                    {% endif %}
+                  </div>
+                  <div class="location-selected-url">
+                    {% if ei_form.location.value %}
+                    <a target="_blank" href="{{ locations|locations_url:ei_form.location.value }}">
+                      <span class="fa fa-external-link-alt d-inline pr-1" aria-hidden="true"></span>{{ locations|locations_url:ei_form.location.value }}
+                    </a>
+                    {% endif %}
+                  </div>
+                  <div class="location-new-form" style="display: none;">
+                    <div class="form-group{% if ei_form.new_location_title.errors %} has-danger{% endif %}">
+                      <label class="form-control-label" for="{{ ei_form.new_location_title.auto_id }}">New Location Name</label>
+                      {{ ei_form.new_location_title|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                      {% if ei_form.new_location_title.errors %}
+                        {% for error in ei_form.new_location_title.errors %}
+                          <div class="form-control-feedback">{{ error }}</div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="form-group{% if ei_form.new_location_room.errors %} has-danger{% endif %}">
+                      <label class="form-control-label" for="{{ ei_form.new_location_room.auto_id }}">New Location Room</label>
+                      {{ ei_form.new_location_room|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                      {% if ei_form.new_location_room.errors %}
+                        {% for error in ei_form.new_location_room.errors %}
+                          <div class="form-control-feedback">{{ error }}</div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="form-group{% if ei_form.new_location_url.errors %} has-danger{% endif %}">
+                      <label class="form-control-label" for="{{ ei_form.new_location_url.auto_id }}">New Location Map URL</label>
+                      {{ ei_form.new_location_url|add_class:"form-control"|add_error_class:"form-control-danger" }}
+                      {% if ei_form.new_location_url.errors %}
+                        {% for error in ei_form.new_location_url.errors %}
+                          <div class="form-control-feedback">{{ error }}</div>
+                        {% endfor %}
+                      {% endif %}
                     </div>
                   </div>
-                </div>
-                <div class="row location-type-content">
-                  <div class="col-12">
-                    <label for="{{ ei_form.virtual_url.auto_id }}">Enter the event's virtual URL</label>
-                    {{ ei_form.virtual_url|add_class:"form-control location-type-field" }}
-                    {{ ei_form.virtual_url.errors }}
+                  {% if not ei_prefix_template %}
+                  <div class="d-none">
+                    <label class="form-control-label" for="{{ ei_form.DELETE.auto_id }}">Delete Instance: {{ ei_form.start.value }} - {{ ei_form.end.value }}</label>
+                    {{ ei_form.DELETE }}
                   </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="location-type">
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div class="form-check">
+                    <label class="form-check-label" for="{{ ei_form.virtual_checkbox.auto_id }}">
+                      {{ ei_form.virtual_checkbox|add_class:"location-type-checkbox form-check-input" }}
+                      Virtual Location
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row location-type-content{% if ei_form.virtual_url.errors %} has-danger{% endif %}">
+                <div class="col-12">
+                  <label class="form-control-label" for="{{ ei_form.virtual_url.auto_id }}">Enter the event's virtual URL</label>
+                  {{ ei_form.virtual_url|add_class:"form-control location-type-field"|add_error_class:"form-control-danger" }}
+                  {% if ei_form.virtual_url.errors %}
+                    {% for error in ei_form.virtual_url.errors %}
+                      <div class="form-control-feedback">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>

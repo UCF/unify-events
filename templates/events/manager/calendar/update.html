@@ -77,7 +77,7 @@
       <h2 class="h3 font-weight-normal">Calendar Info</h2>
       <form action="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" method="post" id="calendar-update">
         {% csrf_token %}
-        <div class="form-group row">
+        <div class="form-group row{% if form.title.errors %} has-danger{% endif %}">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}">Calendar Name</label>
             {% if calendar.is_main_calendar %}
@@ -88,30 +88,44 @@
             {% endif %}
           </div>
           <div class="col-md-9 col-xl-8">
-            {{ form.title|add_class:"form-control"|attr:"placeholder:Enter a calendar name..." }}
-            {{ form.title.errors }}
+            {{ form.title|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"placeholder:Enter a calendar name..." }}
+            {% if form.title.errors %}
+              {% for error in form.title.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row{% if form.description.errors %} has-danger{% endif %}">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}">Description</label>
             <small class="form-text text-muted mt-0">A brief blurb about your calendar and/or its events. Limit 140 characters.</small>
           </div>
           <div class="col-md-9 col-xl-8">
-            {{ form.description|add_class:"form-control" }}
-            {{ form.description.errors }}
+            {{ form.description|add_class:"form-control"|add_error_class:"form-control-danger" }}
+            {% if form.description.errors %}
+              {% for error in form.description.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row{% if form.active.errors %} has-danger{% endif %}">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.active.auto_id }}">Active</label>
             <small class="form-text text-muted mt-0">Determines if the calendar or its events show up in searches or are indexed by search engines.</small>
           </div>
-          <div class="col-md-9 col-xl-8 d-md-flex align-items-center">
-            {{ form.active|add_class:"form-check-input ml-0"}}<label for="{{ form.active.auto_id }}" class="switch"><span class="sr-only">Click to activate or deactivate this calendar.</span></label>
-            {{ form.active.errors }}
+          <div class="col-md-9 col-xl-8 d-md-flex flex-column justify-content-center">
+            <div>
+              {{ form.active|add_class:"form-check-input ml-0"}}<label for="{{ form.active.auto_id }}" class="switch"><span class="sr-only">Click to activate or deactivate this calendar.</span></label>
+            </div>
+            {% if form.active.errors %}
+              {% for error in form.active.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
 
