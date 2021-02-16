@@ -829,8 +829,18 @@ const eventTagging = function () {
       const keyCode = event.keyCode || event.which;
 
       if (event.type === 'keydown' && (keyCode === 13 || keyCode === 188)) {
+        if ($inputField.val().length < 1) {
+          return false;
+        }
+
         $addNewTagBtn.trigger('click');
         return false;
+      }
+
+      return true;
+    }).on('keyup focus', () => {
+      if ($inputField.val().length === 0) {
+        $addNewTagBtn.hide();
       }
     });
   };
