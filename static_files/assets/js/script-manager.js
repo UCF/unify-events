@@ -861,7 +861,7 @@ const eventTagging = function () {
 
     selectedTags.push(suggestion.text);
     const $removeLink =
-      $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
+      $(`<a href="#" class="selected-remove action-icon" alt="Remove this tag" title="Remove this tag">
           <span class="fa fa-times fa-fw" aria-hidden="true"></span>
           </a>`)
         .on('click', (event) => {

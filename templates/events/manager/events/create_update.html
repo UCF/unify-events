@@ -299,28 +299,48 @@
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
             <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</small>
           </div>
-          <div class="col-md-5 col-xl-4 mb-2 mb-md-0">
-            <div class="row no-gutters">
-              <div class="col-10">
-                <input type="text" id="event-tags-typeahead" class="form-control{% if form.tags.errors %} form-control-danger{% endif %}" autocomplete="false" placeholder="Type a tag or phrase...">
+          <div class="col-md-9 col-xl-8">
+            <div class="row">
+              <div class="col-12 mb-3">
+                <span class="d-block h6">Promoted Tags</span>
+                <ul id="event-tags-promoted" class="event-tags list-unstyled">
+                {% for tag in tags %}
+                  {% if tag.promoted %}
+                    <li class="list-inline-item" data-tag-text="{{ tag }}">
+                      <a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag">
+                        <span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">{{ tag }}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                </ul>
               </div>
-              <div class="col-2">
-                <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">
-                  <span class="fa fa-plus" aria-hidden="true"><span class="sr-only">Add Tag</span></span>
-                </a>
+              <div class="col-md-6 col-xl-6 mb-2 mb-md-0">
+                <span class="d-block h6">Add Tags</span>
+                <div class="row no-gutters">
+                  <div class="col-10">
+                    <input type="text" id="event-tags-typeahead" class="form-control{% if form.tags.errors %} form-control-danger{% endif %}" autocomplete="false" placeholder="Type a tag or phrase...">
+                  </div>
+                  <div class="col-2">
+                    <a id="add-new-tag" href="#" class="btn btn-primary" style="display: none;">
+                      <span class="fa fa-plus" aria-hidden="true"><span class="sr-only">Add Tag</span></span>
+                    </a>
+                  </div>
+                </div>
+                {% render_field form.tags class="form-control d-none" aria_describedby="help-label-tags" %}
+                {% if form.tags.errors %}
+                  {% for error in form.tags.errors %}
+                    <div class="form-control-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
+                <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
+              </div>
+              <div class="col-md-5 col-xl-6">
+                <span class="d-block h6">Selected Tags</span>
+                <ul id="event-tags-selected" class="event-tags list-unstyled">
+                </ul>
               </div>
             </div>
-            {% render_field form.tags class="form-control d-none" aria_describedby="help-label-tags" %}
-            {% if form.tags.errors %}
-              {% for error in form.tags.errors %}
-                <div class="form-control-feedback">{{ error }}</div>
-              {% endfor %}
-            {% endif %}
-            <small class="form-text text-muted" tabindex="0">Type tags separated by commas in this field, e.g. <strong>football, UCF Sports, Knights</strong>.<br><br>Please note that tags are case-insensitive.</small>
-          </div>
-          <div class="col-md-4 col-xl-4">
-            <ul id="event-tags-selected" class="list-unstyled">
-            </ul>
           </div>
         </div>
       </fieldset>
