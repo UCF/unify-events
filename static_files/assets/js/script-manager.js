@@ -904,6 +904,15 @@ const eventTagging = function () {
       selectedTags.splice(tagIndex, 1);
     }
 
+    // If the removed tag is a promoted tag, add it back into the Promoted Tags list
+    if (eventPromotedTags.indexOf(dataItem) > -1) {
+      const $promotedTagList = $('#event-tags-promoted');
+
+      $(`<li class="list-inline-item" data-tag-text="${dataItem}"><a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag"><span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">${dataItem}</span></a></li>`).appendTo($promotedTagList);
+
+      displayPromotedEmptyListMessage();
+    }
+
     updateTagInput();
   };
 
@@ -951,11 +960,12 @@ const eventTagging = function () {
   };
 
   /**
-   * Handles the promoted tags.
+   * Hides promoted tags that are already in the
+   * selected tags list.
    *
    * @returns {void}
    */
-  const promotedTags = () => {
+  const cleanPromotedTagList = () => {
     // Get and clean existing tags
     const dataFieldVal = $dataField.val().trim();
     const existingTags = !dataFieldVal ? [] : dataFieldVal.split(',');
@@ -965,8 +975,6 @@ const eventTagging = function () {
       existingTags[i] = $.trim(existingTags[i].replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
     }
 
-    // Hide the promoted tag list item if already selected and handle
-    // click event of adding to selected tags
     $('.promoted-add').each((idx, obj) => {
       const $promotedTag = $(obj);
       const promotedTagText = $promotedTag.children('.tag-name').text();
@@ -974,34 +982,49 @@ const eventTagging = function () {
       if ($.inArray(promotedTagText, existingTags) !== -1) {
         $promotedTag.parent().remove();
       }
-
-      $promotedTag.on('click', (e) => {
-        e.preventDefault();
-
-        addTagItem({
-          id: null,
-          text: promotedTagText,
-          score: 0
-        });
-
-        $promotedTag.parent().remove();
-        checkIfListEmpty();
-      });
     });
 
-    // if containing list is empty, show message
-    const checkIfListEmpty = () => {
-      if ($('#event-tags-promoted li').length <= 0) {
-        $('.empty-promoted-tags').removeClass('d-none');
-      }
-    };
+    displayPromotedEmptyListMessage();
+  };
 
-    checkIfListEmpty();
+  /**
+   * The logic for when the add new promoted tag
+   * button is clicked.
+   * @param {Event} e The click event object
+   * @returns {void}
+   */
+  const onAddNewPromotedTagBtnClick = (e) => {
+    e.preventDefault();
+
+    const $promotedTagBtn = $(e.target);
+    const $promotedTagText = $promotedTagBtn.text();
+
+    addTagItem({
+      id: null,
+      text: $promotedTagText,
+      score: 0
+    });
+
+    $promotedTagBtn.parents('li').remove();
+
+    displayPromotedEmptyListMessage();
+  };
+
+  // Displays an empty promoted tag list message
+  // if promoted list is empty
+  const displayPromotedEmptyListMessage = () => {
+    if ($('#event-tags-promoted li').length <= 0) {
+      $('.empty-promoted-tags').removeClass('d-none');
+    } else {
+      $('.empty-promoted-tags').addClass('d-none');
+    }
   };
 
   $(onReady);
   $addNewTagBtn.on('click', onAddNewTagBtnClick);
-  promotedTags();
+
+  cleanPromotedTagList();
+  $('.promoted-add').on('click', onAddNewPromotedTagBtnClick);
 };
 
 
