@@ -18,6 +18,10 @@
   var eventLocations = [
   {% for location in locations %}{ "id": {{ location.pk|escapejs }}, "title": "{{ location.title|escapejs }}", "comboname": "{{ location.comboname|escapejs }}", "room": "{{ location.room|escapejs }}", "url": "{{ location.url|escapejs }}" }{% if not forloop.last %},{% endif %}
   {% endfor %} ];
+  var eventPromotedTags = [
+  {% for tag in tags %}{% if tag.promoted %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}
+  ];
+  {% comment %} var existingTags = {{ event.tags }}; {% endcomment %}
 </script>
 {% endblock %}
 
@@ -297,12 +301,13 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
-            <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability.</small>
+            <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability. Limited to <strong>5 tags</strong> that best describe your event.</small>
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="row">
-              <div class="col-12 mb-3">
+              <div class="col-12 mb-2 mt-md-3">
                 <span class="d-block h6">Promoted Tags</span>
+                <p class="empty-promoted-tags d-none font-italic text-muted">All promoted tags have been added to this event.</p>
                 <ul id="event-tags-promoted" class="event-tags list-unstyled">
                 {% for tag in tags %}
                   {% if tag.promoted %}

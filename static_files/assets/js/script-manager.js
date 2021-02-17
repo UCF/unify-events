@@ -950,8 +950,58 @@ const eventTagging = function () {
     return suggestion;
   };
 
+  /**
+   * Handles the promoted tags.
+   *
+   * @returns {void}
+   */
+  const promotedTags = () => {
+    // Get and clean existing tags
+    const dataFieldVal = $dataField.val().trim();
+    const existingTags = !dataFieldVal ? [] : dataFieldVal.split(',');
+
+    for (let i = 0; i < existingTags.length; i++) {
+      // Uses the same expression as cleanSuggestionText
+      existingTags[i] = $.trim(existingTags[i].replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    }
+
+    // Hide the promoted tag list item if already selected and handle
+    // click event of adding to selected tags
+    $('.promoted-add').each((idx, obj) => {
+      const $promotedTag = $(obj);
+      const promotedTagText = $promotedTag.children('.tag-name').text();
+
+      if ($.inArray(promotedTagText, existingTags) !== -1) {
+        $promotedTag.parent().remove();
+      }
+
+      $promotedTag.on('click', (e) => {
+        e.preventDefault();
+
+        addTagItem({
+          id: null,
+          text: promotedTagText,
+          score: 0
+        });
+
+        $promotedTag.parent().remove();
+        checkIfListEmpty();
+      });
+    });
+
+    // if containing list is empty, show message
+    const checkIfListEmpty = () => {
+      if ($('#event-tags-promoted li').length <= 0) {
+        $('.empty-promoted-tags').removeClass('d-none');
+      }
+    };
+
+    checkIfListEmpty();
+  };
+
   $(onReady);
   $addNewTagBtn.on('click', onAddNewTagBtnClick);
+  promotedTags();
 };
 
 
