@@ -1,4 +1,4 @@
-/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, eventPromotedTags */
 
 //
 // Import third-party assets
@@ -730,7 +730,7 @@ const eventTagging = function () {
   // Typeahead object
   let $typeahead = null;
 
-  if (!$dataField) {
+  if (!$dataField.length) {
     return;
   }
 
@@ -861,7 +861,7 @@ const eventTagging = function () {
 
     selectedTags.push(suggestion.text);
     const $removeLink =
-      $(`<a href="#" class="selected-remove" alt="Remove this tag" title="Remove this tag">
+      $(`<a href="#" class="selected-remove action-icon" alt="Remove this tag" title="Remove this tag">
           <span class="fa fa-times fa-fw" aria-hidden="true"></span>
           </a>`)
         .on('click', (event) => {
@@ -902,6 +902,19 @@ const eventTagging = function () {
     const tagIndex = selectedTags.indexOf(dataItem);
     if (tagIndex > -1) {
       selectedTags.splice(tagIndex, 1);
+    }
+
+    // If the removed tag is a promoted tag, add it back into the Promoted Tags list
+    if (eventPromotedTags.indexOf(dataItem) > -1) {
+      const $promotedTagList = $('#event-tags-promoted');
+
+      const $tagLink = $(`<a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag"><span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">${dataItem}</span></a>`);
+      $tagLink.on('click', onAddNewPromotedTagBtnClick);
+      const $tagLi = $(`<li class="list-inline-item" data-tag-text="${dataItem}"></li>`);
+      $tagLink.appendTo($tagLi);
+      $tagLi.appendTo($promotedTagList);
+
+      displayPromotedEmptyListMessage();
     }
 
     updateTagInput();
@@ -950,8 +963,72 @@ const eventTagging = function () {
     return suggestion;
   };
 
+  /**
+   * Hides promoted tags that are already in the
+   * selected tags list.
+   *
+   * @returns {void}
+   */
+  const cleanPromotedTagList = () => {
+    // Get and clean existing tags
+    const dataFieldVal = $dataField.val().trim();
+    const existingTags = !dataFieldVal ? [] : dataFieldVal.split(',');
+
+    for (let i = 0; i < existingTags.length; i++) {
+      // Uses the same expression as cleanSuggestionText
+      existingTags[i] = $.trim(existingTags[i].replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    }
+
+    $('.promoted-add').each((idx, obj) => {
+      const $promotedTag = $(obj);
+      const promotedTagText = $promotedTag.children('.tag-name').text();
+
+      if ($.inArray(promotedTagText, existingTags) !== -1) {
+        $promotedTag.parent().remove();
+      }
+    });
+
+    displayPromotedEmptyListMessage();
+  };
+
+  /**
+   * The logic for when the add new promoted tag
+   * button is clicked.
+   * @param {Event} e The click event object
+   * @returns {void}
+   */
+  const onAddNewPromotedTagBtnClick = (e) => {
+    e.preventDefault();
+
+    const $promotedTagBtn = $(e.target).closest('.promoted-add');
+    const $promotedTagText = $promotedTagBtn.text();
+
+    addTagItem({
+      id: null,
+      text: $promotedTagText,
+      score: 0
+    });
+
+    $promotedTagBtn.parents('li').remove();
+
+    displayPromotedEmptyListMessage();
+  };
+
+  // Displays an empty promoted tag list message
+  // if promoted list is empty
+  const displayPromotedEmptyListMessage = () => {
+    if ($('#event-tags-promoted li').length <= 0) {
+      $('.empty-promoted-tags').removeClass('d-none');
+    } else {
+      $('.empty-promoted-tags').addClass('d-none');
+    }
+  };
+
   $(onReady);
   $addNewTagBtn.on('click', onAddNewTagBtnClick);
+
+  cleanPromotedTagList();
+  $('.promoted-add').on('click', onAddNewPromotedTagBtnClick);
 };
 
 
