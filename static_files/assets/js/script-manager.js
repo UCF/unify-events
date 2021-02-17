@@ -1,4 +1,4 @@
-/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, eventPromotedTags */
 
 //
 // Import third-party assets
@@ -908,7 +908,11 @@ const eventTagging = function () {
     if (eventPromotedTags.indexOf(dataItem) > -1) {
       const $promotedTagList = $('#event-tags-promoted');
 
-      $(`<li class="list-inline-item" data-tag-text="${dataItem}"><a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag"><span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">${dataItem}</span></a></li>`).appendTo($promotedTagList);
+      const $tagLink = $(`<a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag"><span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">${dataItem}</span></a>`);
+      $tagLink.on('click', onAddNewPromotedTagBtnClick);
+      const $tagLi = $(`<li class="list-inline-item" data-tag-text="${dataItem}"></li>`);
+      $tagLink.appendTo($tagLi);
+      $tagLi.appendTo($promotedTagList);
 
       displayPromotedEmptyListMessage();
     }
@@ -996,7 +1000,7 @@ const eventTagging = function () {
   const onAddNewPromotedTagBtnClick = (e) => {
     e.preventDefault();
 
-    const $promotedTagBtn = $(e.target);
+    const $promotedTagBtn = $(e.target).closest('.promoted-add');
     const $promotedTagText = $promotedTagBtn.text();
 
     addTagItem({
