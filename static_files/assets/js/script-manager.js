@@ -730,7 +730,7 @@ const eventTagging = function () {
   // Typeahead object
   let $typeahead = null;
 
-  if (!$dataField) {
+  if (!$dataField.length) {
     return;
   }
 
