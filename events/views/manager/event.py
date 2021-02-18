@@ -34,6 +34,7 @@ from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
 from events.models import Location
+from events.models import PromotedTag
 from events.models import State
 from taggit.models import Tag
 
@@ -65,7 +66,8 @@ class EventCreate(CreateView):
         context = super(EventCreate, self).get_context_data(**kwargs)
         ctx = {
                'locations': Location.objects.all(),
-               'tags': Tag.objects.all().order_by('name')
+               'tags': Tag.objects.all().order_by('name'),
+               'promoted_tags': PromotedTag.objects.all().order_by('tag__name'),
         }
         ctx.update(context)
 
