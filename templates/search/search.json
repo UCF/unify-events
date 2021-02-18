@@ -4,7 +4,7 @@
     "next": "{% if page_obj.has_next %}{% absolute_uri_query_transform page=page_obj.next_page_number %}{% endif %}",
     "previous": "{% if page_obj.has_previous %}{% absolute_uri_query_transform page=page_obj.previous_page_number %}{% endif %}",
     "results": [
-        {% with results=page_obj.object_list %}
+        {% with results=object_list %}
             {% if results %}
 
             {% comment %}
@@ -18,15 +18,9 @@
                 {% block results_list %}
 
                 {% for result in results %}
-                    {% if result.model_name == 'event' %}
-                        {% with item=result.object.get_main_event|default:result.object %}
-                        {% include 'search/search-result.json' %}
-                        {% endwith %}
-                    {% else %}
-                        {% with item=result.object %}
-                        {% include 'search/search-result.json' %}
-                        {% endwith %}
-                    {% endif %}
+                    {% with item=result.get_main_event|default:result %}
+                    {% include 'search/search-result.json' %}
+                    {% endwith %}
                     {% if not forloop.last %},{% endif %}
                 {% endfor %}
 

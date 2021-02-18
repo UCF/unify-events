@@ -1,9 +1,9 @@
 <form class="form-search" method="GET" action="{% url 'search_manager_view' %}">
-    <div class="input-group">
-        <label class="sr-only" for="q">Search events, calendars</label>
-        <input type="text" class="form-control search-query" id="q" name="q" placeholder="Search my events" />
-        <span class="input-group-btn">
-            <button type="submit" class="btn btn-default"><span class="sr-only">Search</span><i class="fa fa-search"></i></button>
-        </span>
-    </div>
+  <div class="form-group d-flex">
+    <label class="sr-only" for="q">Search events, calendars</label>
+    <input type="text" class="form-control form-control-sm search-query" id="q" name="q" placeholder="Search my events" />
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-default btn-sm"><span class="sr-only">Search</span><span class="fa fa-search" aria-hidden="true"></span></button>
+    </span>
+  </div>
 </form>

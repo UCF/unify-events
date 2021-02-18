@@ -2,60 +2,58 @@
 {% load widget_tweaks %}
 
 {% block alerts %}
-    {{ block.super }}
-    {% if form.non_field_errors %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger">
-                    <strong>Error: </strong>
-                    {{ form.non_field_errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block title %}Copy Event: {{ event.title }} | {{ block.super }}{% endblock %}
 
 {% block content_title %}
-    <h1 class="col-md-12">Copy Event: <span class="alt">{{ event.title }}</span></h1>
+  <div class="col-12">
+    <h1 class="h2 mb-4">Copy Event: <span class="font-weight-normal">{{ event.title }}</span></h1>
+  </div>
 {% endblock %}
 
 {% block content_form_action %}
-    {% url 'events.views.manager.event-copy' pk=event.pk %}
+  {% url 'events.views.manager.event-copy' pk=event.pk %}
 {% endblock %}
 
 {% block content_form_id %}events.views.manager.event-copy{% endblock %}
 
 {% block content_form_body %}
-    {% csrf_token %}
-    <p>
-    	Select one or more of your calendars below to copy this event to.
-    </p>
-    <p>
-    	Use CTRL + Shift to select more than one calendar (or CMD + Shift on a Mac.)
-    </p>
-	<label for="{{ form.calendars.auto_id }}" class="control-label">
-		<strong>{{ form.calendars.label }}</strong>
-	</label>
-    {{ form.calendars|add_class:"form-control" }}
-    {{ form.calendars.errors }}
+  {% csrf_token %}
+  <p>
+    Select one or more of your calendars below to copy this event to.
+  </p>
+  <p>
+    Use CTRL + Shift to select more than one calendar (or CMD + Shift on a Mac).
+  </p>
+  <label class="font-weight-bold" for="{{ form.calendars.auto_id }}">
+    {{ form.calendars.label }}
+  </label>
+  {{ form.calendars|add_class:"form-control" }}
+  {{ form.calendars.errors }}
 {% endblock %}
 
 {% block content_form_footer %}
-    <button class="btn btn-primary btn-block-xs" type="submit">Copy Event to Calendar(s)</button>
-    <a href="{% url 'events.views.event_views.event' pk=event.get_first_instance.pk slug=event.slug %}" class="btn btn-default btn-block-xs" data-dismiss="modal">Cancel</a>
+  <button class="btn btn-primary btn-sm" type="submit">Copy Event to Calendar(s)</button>
+  <a href="{% url 'events.views.event_views.event' pk=event.get_first_instance.pk slug=event.slug %}" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</a>
 {% endblock %}
 
 {% block footer_scripts %}
-    {{block.super}}
-    <script type="text/javascript">
-    	$().ready(function() {
-    		$('#event_instance_add')
-    			.click(function() {
-    				extend_formset('#instances > li:last', 'event_instance');
-    				return false;
-    			});
-    	})
-    </script>
+  {{block.super}}
+  <script type="text/javascript">
+    $().ready(function() {
+      $('#event_instance_add')
+        .click(function() {
+          extend_formset('#instances > li:last', 'event_instance');
+          return false;
+        });
+    })
+  </script>
 {% endblock %}

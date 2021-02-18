@@ -130,7 +130,7 @@ BLEACH_STRIP_TAGS = True
 BLEACH_STRIP_COMMENTS = True
 
 # Illegal characters for xml
-ILLEGAL_XML_CHARS = u'[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]'
+ILLEGAL_XML_CHARS = '[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]'
 
 # A custom list of elements whose markup and contents should be stripped
 # completely from values from event descriptions modified by
@@ -150,3 +150,18 @@ CORS_GET_PARAMS = {
     'is_widget': 'true|True',
     'format': 'rss|xml|json'
 }
+
+# Used to determine if a calendar is
+# active or not. If the calendar does not
+# have any events with a start time greater
+# than datetime.now() - the number of days below
+# it is considered expired.
+CALENDAR_EXPIRATION_DAYS = 365
+
+# List of disallowed calendar names
+# Note: Enter new names all lower case
+DISALLOWED_CALENDAR_TITLES = [
+    'events at ucf',
+    'events',
+    'ucf events'
+]

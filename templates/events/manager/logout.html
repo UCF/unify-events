@@ -5,25 +5,22 @@
 {% block title %}Log Out | {{ block.super }} Admin{% endblock %}
 
 {% block pagehead %}
-    {% include_esi_template 'esi/template/header.html' %}
+  {% include_esi_template 'esi/template/header.html' %}
 {% endblock %}
 
 {% block content_header %}{% endblock %}
-{% block content_body %}
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 page-content">
-            <div class="panel panel-default panel-page">
-                <div class="panel-body">
-                    <h1>Log Out</h1>
-                    <p>You have logged out of the UCF Events system.</p>
-                    <p>
-                        <br/>
-                        <a href="{% url 'accounts-login' %}" class="btn btn-primary btn-block-xs">Sign Back In</a>
-                        <a href="https://{{ request.get_host }}" class="btn btn-default btn-block-xs">UCF Events Home</a>
-                    </p>
-                </div>
-            </div>
-        </div>
+{% block content_body %}
+<div class="row">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="card">
+      <div class="card-block">
+        <h1>Log Out</h1>
+        <p class="mb-4">You have logged out of the UCF Events system.</p>
+        <a href="{% url 'accounts-login' %}" class="btn btn-primary">Sign Back In</a>
+        <a href="https://{{ request.get_host }}" class="btn btn-default">UCF Events Home</a>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock %}

@@ -25,9 +25,10 @@ UID:{{ event_instance.get_absolute_url }}
 DTSTAMP:{{ event_instance.start|date:"Ymd\THis" }}
 DTSTART:{{ event_instance.start|date:"Ymd\THis" }}
 DTEND:{{ event_instance.end|date:"Ymd\THis" }}
-LOCATION:{% include_esi 'location' event_instance.location.pk 'comboname-escapeics' %}
+LOCATION:{% if event_instance.location.pk and event_instance.virtual_url %}Virtual and {% include_esi 'location' event_instance.location.pk 'comboname-escapeics' %}{% elif event_instance.location.pk %}{% include_esi 'location' event_instance.location.pk 'comboname-escapeics' %}{% else %}Virtual{% endif %}
 SUMMARY:{% if event_instance.event.canceled %}CANCELED - {% endif %}{{ event_instance.title|escapeics }}
-DESCRIPTION:{{ event_instance.event.description.strip|escapeics|default:FALLBACK_EVENT_DESCRIPTION }}
+URL:{{ event_instance.get_absolute_url }}
+DESCRIPTION:{{ event_instance.event.description.strip|escapeics|default:FALLBACK_EVENT_DESCRIPTION }}{% if event_instance.virtual_url %}\n\nVirtual Location URL: {{ event_instance.virtual_url }}{% endif %}
 END:VEVENT
 {% if not event_instances %}
 END:VCALENDAR

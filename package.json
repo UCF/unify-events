@@ -1,22 +1,39 @@
 {
   "private": true,
+  "dependencies": {
+    "bootstrap-3-typeahead": "^4.0.2",
+    "bootstrap-datepicker": "^1.9.0",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "select2": "^4.0.13",
+    "timepicker": "^1.13.16",
+    "tinymce": "<5.0.0",
+    "ucf-athena-framework": "^1.0.8"
+  },
   "devDependencies": {
-    "bower": "^1.4.1",
-    "browser-sync": "^2.26.12",
-    "del": "^1.2.0",
-    "gulp": "~3.9.0",
-    "gulp-bless": "3.0.1",
-    "gulp-bower": "0.0.15",
-    "gulp-concat": "^2.5.2",
-    "gulp-debug": "^2.0.1",
-    "gulp-jshint": "^1.11.0",
-    "gulp-minify-css": "^1.1.5",
-    "gulp-notify": "~2.2.0",
-    "gulp-rename": "^1.2.2",
+    "@babel/cli": "^7.12.13",
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
+    "browser-sync": "^2.26.14",
+    "eslint": "^7.19.0",
+    "gulp": "~4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-eslint": "^6.0.0",
+    "gulp-eslint-if-fixed": "^1.0.0",
+    "gulp-include": "^2.4.1",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "~4.1.0",
     "gulp-sass-lint": "^1.4.0",
-    "gulp-uglify": "^1.2.0",
-    "jshint-stylish": "^2.0.0",
-    "vinyl-paths": "^1.0.0"
-  }
+    "gulp-uglify": "^3.0.2",
+    "merge": "^2.1.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie 11"
+  ]
 }

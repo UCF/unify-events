@@ -25,11 +25,11 @@ the mapped start and end dates of the event instance.
 {% endcomment %}
 
 {% for instance in event_instances %}
-    {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
-        {% with param_start=event_instance.start|date:"c" param_end=event_instance.end|date:"c" %}
-            {% with param_start_q='instance_start='|add:param_start param_end_q='&instance_end='|add:param_end %}
-                {% include_esi 'eventinstance' event_instance.pk 'listing' params=param_start_q|add:param_end_q %}
-            {% endwith %}
-        {% endwith %}
+  {% with event_instance=instance.object.get_all_parent_instances.0|default:instance %}
+    {% with param_start=event_instance.start|date:"c" param_end=event_instance.end|date:"c" %}
+      {% with param_start_q='instance_start='|add:param_start param_end_q='&instance_end='|add:param_end %}
+        {% include_esi 'eventinstance' event_instance.pk 'listing' params=param_start_q|add:param_end_q %}
+      {% endwith %}
     {% endwith %}
+  {% endwith %}
 {% endfor %}

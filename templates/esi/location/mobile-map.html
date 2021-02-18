@@ -1,11 +1,12 @@
 {% if not object.get_map_widget_url %}
-    {% if object.url %}
-    <span class="event-location-url">
-        <a class="ga-event" target="_blank" href="{{ object.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
-    </span>
-    {% endif %}
+  {% if object.url %}
+  <span class="event-location-url">
+    <a class="ga-event" target="_blank" href="{{ object.url }}" data-ga-category="Event Location Link" data-ga-action="View Website" data-ga-label="{{ request.build_absolute_uri }}">[ View Website ]</a>
+  </span>
+  {% endif %}
 {% else %}
-    <div class="map-widget-wrap visible-xs">
-        <iframe class="map-widget" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" src="{{ object.get_map_widget_url }}"></iframe>
-    </div>
+  <div class="map-widget-wrap hidden-lg-up d-flex align-items-center justify-content-center">
+    <iframe class="map-widget" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" src="{{ object.get_map_widget_url }}"></iframe>
+    <span class="fa fa-spinner fa-pulse fa-2x" aria-hidden="true"></span>
+  </div>
 {% endif %}
