@@ -887,6 +887,7 @@ const eventTagging = function () {
     }
 
     selectedTags.push(suggestion.text);
+
     const $removeLink =
       $(`<a href="#" class="selected-remove action-icon" alt="Remove this tag" title="Remove this tag">
           <span class="fa fa-times fa-fw" aria-hidden="true"></span>
@@ -954,6 +955,9 @@ const eventTagging = function () {
    * @returns {void}
    */
   const updateTagInput = () => {
+    if (selectedTags.length === 1 && selectedTags[0].includes(' ')) {
+      selectedTags[0] = `"${selectedTags[0]}"`;
+    }
     $dataField.val(selectedTags.join(','));
     $inputField.val('');
     $addNewTagBtn.hide();
