@@ -111,7 +111,8 @@ class TagTypeaheadSearchView(JSONDataView):
             r = {
                 'id': tag.id,
                 'text': tag.name,
-                'score': score
+                'score': score,
+                'promoted': tag.is_promoted
             }
 
             results.append(r)

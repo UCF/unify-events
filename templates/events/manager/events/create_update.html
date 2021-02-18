@@ -305,21 +305,21 @@
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="row">
+              {% if promoted_tags %}
               <div class="col-12 mb-2 mt-md-3">
                 <span class="d-block h6">Promoted Tags</span>
                 <p class="empty-promoted-tags d-none font-italic text-muted">All promoted tags have been added to this event.</p>
                 <ul id="event-tags-promoted" class="event-tags list-unstyled">
-                {% for tag in tags %}
-                  {% if tag.promoted %}
+                  {% for tag in promoted_tags %}
                     <li class="list-inline-item" data-tag-text="{{ tag }}">
                       <a class="promoted-add badge badge-pill badge-success mb-2" href="#" alt="Add this tag" title="Add this tag">
                         <span class="action-icon"><span class="fa fa-plus fa-fw" aria-hidden="true"></span></span><span class="tag-name">{{ tag }}</span>
                       </a>
                     </li>
-                  {% endif %}
-                {% endfor %}
+                  {% endfor %}
                 </ul>
               </div>
+              {% endif %}
               <div class="col-md-6 col-xl-6 mb-2 mb-md-0">
                 <span class="d-block h6">Add Tags</span>
                 <div class="row no-gutters">

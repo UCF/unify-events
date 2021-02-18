@@ -118,6 +118,12 @@ class PromotedTag(models.Model):
     class Meta:
         app_label = 'events'
 
+    def __str__(self):
+        return self.tag.name
+
+    def __unicode__(self):
+        return self.tag.name
+
 # Special function for determining if a Tag is promoted
 def tag_is_promoted(self):
     return hasattr(self, 'promoted')

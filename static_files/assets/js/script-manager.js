@@ -859,6 +859,11 @@ const eventTagging = function () {
 
     suggestion = cleanSuggestionText(suggestion);
 
+    if (suggestion.promoted) {
+      $(`li[data-tag-text='${suggestion.text}']`).children('a').trigger('click');
+      return;
+    }
+
     selectedTags.push(suggestion.text);
     const $removeLink =
       $(`<a href="#" class="selected-remove action-icon" alt="Remove this tag" title="Remove this tag">
