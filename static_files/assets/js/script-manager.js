@@ -955,10 +955,12 @@ const eventTagging = function () {
    * @returns {void}
    */
   const updateTagInput = () => {
-    if (selectedTags.length === 1 && selectedTags[0].includes(' ')) {
-      selectedTags[0] = `"${selectedTags[0]}"`;
+    let value = selectedTags.join(',');
+    if (!value.endsWith(',') && value !== '') {
+      value += ',';
     }
-    $dataField.val(selectedTags.join(','));
+
+    $dataField.val(value);
     $inputField.val('');
     $addNewTagBtn.hide();
   };
