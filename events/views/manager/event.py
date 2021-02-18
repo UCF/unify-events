@@ -349,6 +349,12 @@ def update_event_state(request, pk=None, state=None):
     if not request.user.is_superuser and event.calendar not in request.user.calendars:
         messages.error(request, 'You cannot modify the state for Event %s.' % event.title)
     else:
+        # If manual review of rereview event changes was skipped via
+        # bulk update, assume that we want the incoming event data;
+        # ensure it gets copied over during this step:
+        if event.calendar.is_main_calendar and event.is_re_review and state is State.posted:
+            event.pull_updates()
+
         event.state = state
         try:
             event.save()

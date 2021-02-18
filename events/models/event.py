@@ -296,9 +296,8 @@ class Event(TimeCreatedModified):
         if self.created_from:
             # If main calendar copy then update everything except
             # the title and description and set for rereview
-            if self.calendar.is_main_calendar and self.state is not State.pending:
-                if is_main_rereview:
-                    self.state = State.rereview
+            if self.calendar.is_main_calendar and self.state is not State.pending and is_main_rereview:
+                self.state = State.rereview
             else:
                 self.title = self.created_from.title
                 self.description = self.created_from.description
