@@ -543,6 +543,10 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const onNewLocationClick = (event) => {
         event.preventDefault();
 
+        if ($locationsField.val()) {
+          $removeLocationBtn.trigger('click');
+        }
+
         const newTitle = $locationInput.val();
 
         $newLocationTitle.val(newTitle);
