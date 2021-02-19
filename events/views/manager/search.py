@@ -3,7 +3,7 @@ import logging
 from events.views.search import GlobalSearchView
 from json_views.views import JSONDataView
 
-from events.models import Event, Calendar
+from events.models import Event, Calendar, Location
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -121,4 +121,31 @@ class TagTypeaheadSearchView(JSONDataView):
 
         return context
 
+class LocationTypeaheadSearchView(JSONDataView):
+    def get_context_data(self, **kwargs):
+        context = super(LocationTypeaheadSearchView, self).get_context_data(**kwargs)
+        results = []
+        q = self.request.GET.get('q', None)
 
+        locations = Location.objects.none();
+
+        if q is not None and len(q) > 2:
+            locations = Location.objects.filter(
+                Q(title__icontains=q) |
+                Q(room__icontains=q)
+            )
+
+        for location in locations:
+            r = {
+                'id': location.pk,
+                'title': location.title,
+                'comboname': location.comboname,
+                'room': location.room,
+                'url': location.url
+            }
+
+            results.append(r)
+
+        context['results'] = results
+
+        return context

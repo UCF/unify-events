@@ -495,10 +495,16 @@ const calendarSearchTypeahead = function () {
 const eventLocationsTypeahead = function (locationDropdowns) {
   if (locationDropdowns.length > 0) {
     const data = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('results'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       limit: 10,
-      local: eventLocations
+      remote: {
+        url: `${LOCATION_FEED_URL}?q=%q`,
+        wildcard: '%q',
+        transform: (response) => {
+          return response.results;
+        }
+      }
     });
 
     const initializeLocationDropdown = (_idx, obj) => {
@@ -514,6 +520,8 @@ const eventLocationsTypeahead = function (locationDropdowns) {
 
       const $newLocationForm = $locationRow.find('.location-new-form');
       const $newLocationTitle = $newLocationForm.find('input[name*="-new_location_title"]');
+
+      let hasSelection = false;
 
       /**
        * Runs when the DOM is ready.
@@ -543,7 +551,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $newLocationBtn.hide();
 
         // Clear out the input val
-        $locationInput.val('');
+        $locationInput.typeahead('val', '');
       };
 
       // Hook up the click event
@@ -634,7 +642,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       const onKeyDown = (event) => {
         const keyCode = event.keyCode || event.which;
 
-        if (event.type === 'keydown' && keyCode === 13) {
+        if (event.type === 'keydown' && keyCode === 13 && hasSelection === false) {
           if ($locationInput.val().length < 1) {
             return false;
           }
@@ -655,6 +663,14 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         $newLocationBtn.show();
       };
 
+      const onCursorChanged = (_e, suggestion) => {
+        if (suggestion) {
+          hasSelection = true;
+        } else {
+          hasSelection = false;
+        }
+      };
+
       $locationInput.typeahead({
         minLength: 3,
         highlight: true
@@ -665,6 +681,7 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         source: data.ttAdapter()
       }).on('typeahead:select', onSelect)
         .on('typeahead:render', onRender)
+        .on('typeahead:cursorchange', onCursorChanged)
         .on('keydown focus', onKeyDown);
     };
 
