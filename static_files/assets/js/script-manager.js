@@ -626,6 +626,27 @@ const eventLocationsTypeahead = function (locationDropdowns) {
       };
 
       /**
+       * Event handler for keydown when the
+       * location input is in focus.
+       * @param {Event} event The event
+       * @returns {bool} Whether the event should continue or not
+       */
+      const onKeyDown = (event) => {
+        const keyCode = event.keyCode || event.which;
+
+        if (event.type === 'keydown' && keyCode === 13) {
+          if ($locationInput.val().length < 1) {
+            return false;
+          }
+
+          $newLocationBtn.trigger('click');
+          return false;
+        }
+
+        return true;
+      };
+
+      /**
        * The event fired whenever the typeahead
        * results are rendered.
        * @returns {void}
@@ -643,7 +664,8 @@ const eventLocationsTypeahead = function (locationDropdowns) {
         displayKey: 'comboname',
         source: data.ttAdapter()
       }).on('typeahead:select', onSelect)
-        .on('typeahead:render', onRender);
+        .on('typeahead:render', onRender)
+        .on('keydown focus', onKeyDown);
     };
 
     locationDropdowns.each(initializeLocationDropdown);
@@ -859,7 +881,13 @@ const eventTagging = function () {
 
     suggestion = cleanSuggestionText(suggestion);
 
+    if (suggestion.promoted) {
+      $(`li[data-tag-text='${suggestion.text}']`).children('a').trigger('click');
+      return;
+    }
+
     selectedTags.push(suggestion.text);
+
     const $removeLink =
       $(`<a href="#" class="selected-remove action-icon" alt="Remove this tag" title="Remove this tag">
           <span class="fa fa-times fa-fw" aria-hidden="true"></span>
@@ -927,7 +955,12 @@ const eventTagging = function () {
    * @returns {void}
    */
   const updateTagInput = () => {
-    $dataField.val(selectedTags.join(','));
+    let value = selectedTags.join(',');
+    if (!value.endsWith(',') && value !== '') {
+      value += ',';
+    }
+
+    $dataField.val(value);
     $inputField.val('');
     $addNewTagBtn.hide();
   };
