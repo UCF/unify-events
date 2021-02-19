@@ -65,6 +65,7 @@ class EventCreate(CreateView):
         """
         context = super(EventCreate, self).get_context_data(**kwargs)
         ctx = {
+               'locations': Location.objects.all(),
                'promoted_tags': PromotedTag.objects.all().order_by('tag__name'),
         }
         ctx.update(context)
@@ -188,6 +189,7 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
         context = super(EventUpdate, self).get_context_data(**kwargs)
 
         ctx = {
+               'locations': Location.objects.all(), # Always pass all locations here so that users can modify events with locations that are in review
                'promoted_tags': PromotedTag.objects.all().order_by('tag__name'),
                # Needed to determine whether to show the cancel/un-cancel button
                'posted_state': State.posted
