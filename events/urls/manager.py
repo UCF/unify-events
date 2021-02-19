@@ -1,3 +1,4 @@
+from events.models.location import Location
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import url
@@ -40,6 +41,7 @@ from events.views.manager import tag
 from events.views.manager.search import CalendarSelect2ListView, ManagerSearchView
 from events.views.manager.search import UserSelect2ListView
 from events.views.manager.search import TagTypeaheadSearchView
+from events.views.manager.search import LocationTypeaheadSearchView
 
 urlpatterns = [
     url(r'^login/$',
@@ -106,6 +108,7 @@ urlpatterns += [
     ),
 
     url(r'^location/?$', login_required(LocationListView.as_view()), name='events.views.manager.location-list'),
+    url(r'^location/search/?$', login_required(LocationTypeaheadSearchView.as_view()), name='events.views.manager.location-search'),
     url(r'^location/create/?$', login_required(LocationCreateView.as_view()), name='events.views.manager.location-create'),
     url(r'^location/(?P<pk>\d+)/update', login_required(LocationUpdateView.as_view()), name='events.views.manager.location-update'),
     url(r'^location/(?P<location_from_id>\d+)/merge/(?P<location_to_id>\d+)', view=location.merge, name='events.views.manager.location-merge'),
