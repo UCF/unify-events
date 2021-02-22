@@ -5,7 +5,7 @@
     "bootstrap-3-typeahead": "^4.0.2",
     "bootstrap-datepicker": "^1.9.0",
     "select2": "^4.0.13",
-    "timepicker": "^1.13.18",
+    "timepicker": "1.13.16",
     "tinymce": "<5.0.0",
     "ucf-athena-framework": "^1.0.8"
   },
