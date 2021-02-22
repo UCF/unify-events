@@ -977,7 +977,7 @@ const eventTagging = function () {
    */
   const updateTagInput = () => {
     let value = selectedTags.join(',');
-    if (!value.endsWith(',') && value !== '') {
+    if (!value.indexOf(',', value.length - 1) !== -1 && value !== '') {
       value += ',';
     }
 
