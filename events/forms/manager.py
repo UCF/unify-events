@@ -170,7 +170,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             self.errors['tags'] = self.error_class(['Please provide no more than 5 tags that best describe your event.'])
 
         for key, tag in enumerate(tags):
-            tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?])|(&quot;?)', '', tag)
+            tags[key] = re.sub(r'([^a-zA-Z0-9 -!$#%&+|:?\'])|(&quot;?)', '', tag)
 
         if registration_checkbox and not registration_link:
             self._errors['registration_link'] = self.error_class(['A registration link is required if the registration checkbox is checked.'])
