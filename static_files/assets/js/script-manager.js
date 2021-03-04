@@ -903,7 +903,7 @@ const eventTagging = function () {
     suggestion = cleanSuggestionText(suggestion);
 
     if (suggestion.promoted) {
-      $(`li[data-tag-text='${suggestion.text}']`).children('a').trigger('click');
+      $(`li[data-tag-text="${suggestion.text}"]`).children('a').trigger('click');
       return;
     }
 
