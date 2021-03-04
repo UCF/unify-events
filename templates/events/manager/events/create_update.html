@@ -16,7 +16,7 @@
 {% block header_scripts %}
 <script type="text/javascript">
   var eventPromotedTags = [
-  {% for tag in tags %}{% if tag.promoted %}"{{ tag.name|escapejs }}"{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}
+  {% for tag in promoted_tags %}"{{ tag|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}
   ];
   {% comment %} var existingTags = {{ event.tags }}; {% endcomment %}
 </script>
