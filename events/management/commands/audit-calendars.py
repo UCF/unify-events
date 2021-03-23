@@ -43,13 +43,14 @@ class Command(BaseCommand):
 
         for cal in inactive:
             output.append({
+                'id': cal.id,
                 'title': cal.title,
                 'owner_name': cal.owner.get_full_name() if cal.owner else None,
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
         with open(self.file, 'w') as csv_file:
-            fieldnames = ['title', 'owner_name', 'owner_email']
+            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -71,13 +72,14 @@ CSV File exported to: {filepath}
 
         for cal in invalid:
             output.append({
+                'id': cal.id,
                 'title': cal.title,
                 'owner_name': cal.owner.get_full_name() if cal.owner else None,
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
         with open(self.file, 'w') as csv_file:
-            fieldnames = ['title', 'owner_name', 'owner_email']
+            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -85,8 +87,8 @@ CSV File exported to: {filepath}
             for row in output:
                 writer.writerow(row)
 
-                stats = f"""
-Invalid Calendar Names Found: {inactive.count()}
+        stats = f"""
+Invalid Calendar Names Found: {invalid.count()}
 CSV File exported to: {filepath}
         """
 
@@ -106,13 +108,14 @@ CSV File exported to: {filepath}
 
         for cal in invalid:
             output.append({
+                'id': cal.id,
                 'title': cal.title,
                 'owner_name': cal.owner.get_full_name() if cal.owner else None,
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
         with open(self.file, 'w') as csv_file:
-            fieldnames = ['title', 'owner_name', 'owner_email']
+            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -120,7 +123,7 @@ CSV File exported to: {filepath}
             for row in output:
                 writer.writerow(row)
 
-            stats = f"""
+        stats = f"""
 NIDs In Title Found: {invalid.count()}
 CSV File exported to: {filepath}
         """
