@@ -903,7 +903,7 @@ const eventTagging = function () {
     suggestion = cleanSuggestionText(suggestion);
 
     if (suggestion.promoted) {
-      $(`li[data-tag-text='${suggestion.text}']`).children('a').trigger('click');
+      $(`li[data-tag-text="${suggestion.text}"]`).children('a').trigger('click');
       return;
     }
 
@@ -1013,7 +1013,7 @@ const eventTagging = function () {
    * @returns {any} The suggestion object
    */
   const cleanSuggestionText = (suggestion) => {
-    suggestion.text = $.trim(suggestion.text.replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+    suggestion.text = $.trim(suggestion.text.replace(/([^a-zA-Z0-9\s-!$#%&+|:?'])/g, ''));
     return suggestion;
   };
 
@@ -1030,7 +1030,7 @@ const eventTagging = function () {
 
     for (let i = 0; i < existingTags.length; i++) {
       // Uses the same expression as cleanSuggestionText
-      existingTags[i] = $.trim(existingTags[i].replace(/([^a-zA-Z0-9\s-!$#%&+|:?])/g, ''));
+      existingTags[i] = $.trim(existingTags[i].replace(/([^a-zA-Z0-9\s-!$#%&+|:?'])/g, ''));
     }
 
     $('.promoted-add').each((idx, obj) => {
