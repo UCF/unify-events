@@ -1,5 +1,5 @@
 import csv
-import os
+from io import StringIO
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -39,7 +39,6 @@ class Command(BaseCommand):
     def empty_calendars(self):
         inactive = Calendar.objects.without_recent_events()
         output = []
-        filepath = os.path.abspath(self.file)
 
         for cal in inactive:
             output.append({
@@ -49,26 +48,38 @@ class Command(BaseCommand):
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
-        with open(self.file, 'w') as csv_file:
-            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        fieldnames = ['id', 'title', 'owner_name', 'owner_email']
 
-            writer.writeheader()
+        if self.file:
+            with open(self.file, 'w') as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            for row in output:
-                writer.writerow(row)
+                writer.writeheader()
 
-        stats = f"""
+                for row in output:
+                    writer.writerow(row)
+
+                # Only print stats if we're spitting out a file
+                stats = f"""
 Inactive Calendars Found: {inactive.count()}
-CSV File exported to: {filepath}
+CSV File exported to: {self.file if self.file else 'Not Exported'}
         """
 
-        print(stats)
+                print(stats)
+        else:
+            with StringIO() as stringio:
+                writer = csv.DictWriter(stringio, fieldnames=fieldnames)
+
+                writer.writeheader()
+
+                for row in output:
+                    writer.writerow(row)
+
+                print(stringio.getvalue())
 
     def invalid_names(self):
         invalid = Calendar.objects.invalid_named_calendars()
         output = []
-        filepath = os.path.abspath(self.file)
 
         for cal in invalid:
             output.append({
@@ -78,21 +89,33 @@ CSV File exported to: {filepath}
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
-        with open(self.file, 'w') as csv_file:
-            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        fieldnames = ['id', 'title', 'owner_name', 'owner_email']
 
-            writer.writeheader()
+        if self.file:
+            with open(self.file, 'w') as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            for row in output:
-                writer.writerow(row)
+                writer.writeheader()
 
-        stats = f"""
+                for row in output:
+                    writer.writerow(row)
+
+                # Only print stats if we're spitting out a file
+                stats = f"""
 Invalid Calendar Names Found: {invalid.count()}
-CSV File exported to: {filepath}
+CSV File exported to: {self.file if self.file else 'Not Exported'}
         """
 
-        print(stats)
+                print(stats)
+        else:
+            with StringIO() as stringio:
+                writer = csv.DictWriter(stringio, fieldnames=fieldnames)
+                writer.writeheader()
+
+                for row in output:
+                    writer.writerow(row)
+
+                print(stringio.getvalue())
 
     def pii_in_titles(self):
         usernames = [x.username for x in User.objects.all()]
@@ -104,7 +127,6 @@ CSV File exported to: {filepath}
         invalid = Calendar.objects.filter(query)
 
         output = []
-        filepath = os.path.abspath(self.file)
 
         for cal in invalid:
             output.append({
@@ -114,18 +136,29 @@ CSV File exported to: {filepath}
                 'owner_email': cal.owner.email if cal.owner else None
             })
 
-        with open(self.file, 'w') as csv_file:
-            fieldnames = ['id', 'title', 'owner_name', 'owner_email']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        fieldnames = ['id', 'title', 'owner_name', 'owner_email']
 
-            writer.writeheader()
+        if self.file:
+            with open(self.file, 'w') as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            for row in output:
-                writer.writerow(row)
+                writer.writeheader()
 
-        stats = f"""
-NIDs In Title Found: {invalid.count()}
-CSV File exported to: {filepath}
+                for row in output:
+                    writer.writerow(row)
+
+                stats = f"""
+Invalid Calendar Names Found: {invalid.count()}
+CSV File exported to: {self.file if self.file else 'Not Exported'}
         """
 
-        print(stats)
+                print(stats)
+        else:
+            with StringIO() as stringio:
+                writer = csv.DictWriter(stringio, fieldnames=fieldnames)
+                writer.writeheader()
+
+                for row in output:
+                    writer.writerow(row)
+
+                print(stringio.getvalue())
