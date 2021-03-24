@@ -31,7 +31,7 @@
 			</ucfevent:tags>
 			<ucfevent:registration>
 				<ucfevent:registrationlink>{% if event_instance.event.registration_link %}<![CDATA[{{ event_instance.event.registration_link|escapexml }}]]>{% endif %}</ucfevent:registrationlink>
-				<ucfevent:registrationinfo>{% if event_instance.event.registration_link %}<![CDATA[{{ event_instance.event.registraiton_info.strip|escapexml|safe }}]]>{% endif %}</ucfevent:registrationinfo>
+				<ucfevent:registrationinfo>{% if event_instance.event.registration_info %}<![CDATA[{{ event_instance.event.registration_info|escapexml|safe }}]]>{% endif %}</ucfevent:registrationinfo>
 			</ucfevent:registration>
 		</item>
 {% if not event_instances %}
