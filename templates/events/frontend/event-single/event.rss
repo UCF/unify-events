@@ -29,6 +29,10 @@
 			<ucfevent:tags>
 				{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<ucfevent:tag>{% include_esi 'tag' tag.pk 'name' %}</ucfevent:tag>{% endfor %}{% endif %}
 			</ucfevent:tags>
+			<ucfevent:registration>
+				<ucfevent:registrationlink>{% if event_instance.event.registration_link %}<![CDATA[{{ event_instance.event.registration_link|escapexml }}]]>{% endif %}</ucfevent:registrationlink>
+				<ucfevent:registrationinfo>{% if event_instance.event.registration_info %}<![CDATA[{{ event_instance.event.registration_info|escapexml|safe }}]]>{% endif %}</ucfevent:registrationinfo>
+			</ucfevent:registration>
 		</item>
 {% if not event_instances %}
 	</channel>
