@@ -64,6 +64,8 @@
 		<tags>
 			{% if event_instance.event.tags.all %}{% for tag in event_instance.event.tags.all %}<tag>{% include_esi 'tag' tag.pk 'name' %}</tag>{% endfor %}{% endif %}
 		</tags>
+		<registration_link>{% if event_instance.event.registration_link %}<![CDATA[{{ event_instance.event.registration_link|escapexml }}]]>{% endif %}</registration_link>
+		<registration_info>{% if event_instance.event.registration_link %}<![CDATA[{{ event_instance.event.registraiton_info.strip|escapexml|safe }}]]>{% endif %}</registration_info>
 
 		<status>{% if event_instance.event.canceled %}Canceled{% else %}Happening As Scheduled{% endif %}</status>
 		<classification>Public</classification>
