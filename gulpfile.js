@@ -162,15 +162,24 @@ gulp.task('move-components-tinymce', (done) => {
     .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg`));
 
   // TinyMCE Theme
-  gulp.src([`${config.packagesPath}/tinymce/themes/modern/**/*`])
-    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/themes/modern/`));
+  gulp.src([`${config.packagesPath}/tinymce/themes/silver/**/*`])
+    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/themes/silver/`));
 
   // TinyMCE Skin
   gulp.src([
-    `${config.packagesPath}/tinymce/skins/lightgray/**/*`,
-    `!${config.packagesPath}/tinymce/skins/lightgray/content.min.css`
+    `${config.packagesPath}/tinymce/skins/ui/oxide/**/*`
   ])
-    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/skins/lightgray/`));
+    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/skins/ui/oxide/`));
+
+  gulp.src([
+    `${config.packagesPath}/tinymce/skins/content/default/**/*`
+  ])
+    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/skins/content/default/`));
+
+  gulp.src([
+    `${config.packagesPath}/tinymce/icons/default/**/*`
+  ])
+    .pipe(gulp.dest(`${config.dist.jsPath}/wysiwyg/icons/default/`));
 
   // TinyMCE Plugins
   gulp.src([`${config.packagesPath}/tinymce/plugins/paste/**/*`])
