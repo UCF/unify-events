@@ -1465,7 +1465,8 @@ const initiateWysiwygs = function () {
       menubar: false,
       toolbar: 'bold italic underline | bullist numlist | link',
       autoresize_bottom_margin: 10,
-      autoresize_min_height: 200
+      min_height: 200,
+      theme: 'silver'
     });
   }
   /* eslint-enable camelcase */
