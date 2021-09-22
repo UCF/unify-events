@@ -4,7 +4,7 @@ bleach==3.3.0
 certifi==2020.6.20
 chardet==3.0.4
 clearcache-python==0.0.8
-Django==3.1.6
+Django==3.1.13
 django-appconf==1.0.4
 django-bleach==0.6.1
 django-compressor==2.4
