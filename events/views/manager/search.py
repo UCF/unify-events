@@ -2,7 +2,6 @@ import logging
 
 from events.views.search import GlobalSearchView
 from django.views.generic import View
-from django.views.generic.base import ContextMixin
 from django.http import JsonResponse
 
 from events.models import Event, Calendar, Location
@@ -65,7 +64,7 @@ class UserSelect2ListView(View):
         context = self.get_context_data(**kwargs)
         return JsonResponse(context)
 
-class CalendarSelect2ListView(View, ContextMixin):
+class CalendarSelect2ListView(View):
     def get_context_data(self, **kwargs):
         context = {}
         results = []
@@ -97,7 +96,7 @@ class CalendarSelect2ListView(View, ContextMixin):
         context = self.get_context_data(**kwargs)
         return JsonResponse(context)
 
-class TagTypeaheadSearchView(View, ContextMixin):
+class TagTypeaheadSearchView(View):
     def get_context_data(self, **kwargs):
         context = {}
         results = []
@@ -135,7 +134,7 @@ class TagTypeaheadSearchView(View, ContextMixin):
         context = self.get_context_data(**kwargs)
         return JsonResponse(context)
 
-class LocationTypeaheadSearchView(View, ContextMixin):
+class LocationTypeaheadSearchView(View):
     def get_context_data(self, **kwargs):
         context = {}
         results = []
