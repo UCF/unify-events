@@ -1,7 +1,9 @@
 import logging
 
 from events.views.search import GlobalSearchView
-from json_views.views import JSONDataView
+from django.views.generic import View
+from django.views.generic.base import ContextMixin
+from django.http import JsonResponse
 
 from events.models import Event, Calendar, Location
 from django.contrib.auth.models import User
@@ -27,9 +29,9 @@ class ManagerSearchView(GlobalSearchView):
     def get_context_data(self, **kwargs):
         return super(ManagerSearchView, self).get_context_data(**kwargs)
 
-class UserSelect2ListView(JSONDataView):
+class UserSelect2ListView(View):
     def get_context_data(self, **kwargs):
-        context = super(UserSelect2ListView, self).get_context_data(**kwargs)
+        context = {}
         results = []
         q = self.request.GET.get('q', None)
 
@@ -59,9 +61,13 @@ class UserSelect2ListView(JSONDataView):
 
         return context
 
-class CalendarSelect2ListView(JSONDataView):
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
+class CalendarSelect2ListView(View, ContextMixin):
     def get_context_data(self, **kwargs):
-        context = super(CalendarSelect2ListView, self).get_context_data(**kwargs)
+        context = {}
         results = []
         q = self.request.GET.get('q', None)
 
@@ -87,9 +93,13 @@ class CalendarSelect2ListView(JSONDataView):
 
         return context
 
-class TagTypeaheadSearchView(JSONDataView):
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
+class TagTypeaheadSearchView(View, ContextMixin):
     def get_context_data(self, **kwargs):
-        context = super(TagTypeaheadSearchView, self).get_context_data(**kwargs)
+        context = {}
         results = []
         q = self.request.GET.get('q', None)
 
@@ -121,9 +131,13 @@ class TagTypeaheadSearchView(JSONDataView):
 
         return context
 
-class LocationTypeaheadSearchView(JSONDataView):
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
+class LocationTypeaheadSearchView(View, ContextMixin):
     def get_context_data(self, **kwargs):
-        context = super(LocationTypeaheadSearchView, self).get_context_data(**kwargs)
+        context = {}
         results = []
         q = self.request.GET.get('q', None)
 
@@ -149,3 +163,7 @@ class LocationTypeaheadSearchView(JSONDataView):
         context['results'] = results
 
         return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
