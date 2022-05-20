@@ -8,6 +8,7 @@
 {% block meta_description %}{% block og_description %}{% if calendar.description %}{{ calendar.description }} | {% endif %}{{ calendar.title }} at the University of Central Florida | UCF Events{% endblock %}{% endblock %}
 
 {% block meta %}
+  {{ block.super }}
   {% if list_type != 'year' %}
   {% include 'events/frontend/meta-alt-feeds.html' %}
   {% endif %}

@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load core_tags %}
-
+{% block meta %}
+  {{ block.super }}
+  {% if paginator and paginator.page > 1 %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+{% endblock %}
 {% block content %}
 <section id="calendar-base" class="container mt-4 {% block content_section_classes %}{% endblock %}">
   {% block content_header %}
