@@ -1,7 +1,7 @@
 import bleach
 import calendar as calgenerator
 from datetime import date
-import html.parser
+import html
 
 from django.core.exceptions import MultipleObjectsReturned
 
@@ -51,8 +51,7 @@ def remove_html(value):
     """
     if value:
         value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
-        h = html.parser.HTMLParser()
-        value = h.unescape(value)
+        html.unescape(value)
     return value
 
 
