@@ -464,7 +464,12 @@ const userSearchTypeahead = function () {
       delay: 250,
       minimumInputLength: 3
     },
-    placeholder: 'Search by first name, last name or NID...'
+    placeholder: 'Search by first name, last name or NID...',
+    language: {
+      noResults: function () {
+        return 'No users found. User must log into the events system at least once to be added to a calendar.';
+      }
+    }
   });
 };
 
