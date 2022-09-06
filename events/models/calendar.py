@@ -196,7 +196,10 @@ class Calendar(TimeCreatedModified):
         # Make state pending if copying for Main Calendar
         state = None
         if self.is_main_calendar:
-            state = events.models.State.pending
+            if event.calendar.trusted:
+                state = events.models.State.posted
+            else:
+                state = events.models.State.pending
         copy = event.copy(calendar=self, state=state)
         return copy
 
