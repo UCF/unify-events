@@ -96,6 +96,7 @@ class Calendar(TimeCreatedModified):
     admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
     active = models.BooleanField(blank=False, null=False, default=True)
+    trusted = models.BooleanField(blank=False, null=False, default=False)
     objects = CalendarManager()
 
     class Meta:
