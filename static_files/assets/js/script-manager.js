@@ -1465,7 +1465,7 @@ const initiateWysiwygs = function () {
       menubar: false,
       toolbar: 'bold italic underline | bullist numlist | link',
       autoresize_bottom_margin: 10,
-      min_height: 200,
+      min_height: 400,
       theme: 'silver'
     });
   }
