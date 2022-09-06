@@ -144,7 +144,8 @@ class EventCreate(CreateView):
             if form.cleaned_data['submit_to_main']:
                 if self.object.state == State.posted:
                     get_main_calendar().import_event(self.object)
-                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                    if not self.object.calendar.trusted:
+                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
                 else:
                     messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
 
@@ -261,14 +262,16 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
             # Check if main calendar submission should be re-reviewed
             is_main_rereview = False
             if any(s in form.changed_data for s in ['description', 'title']):
-                is_main_rereview = True
+                if not self.object.calendar.trusted:
+                    is_main_rereview = True
 
             # Import to main calendar if posted, is requested and
             # is NOT already submitted to main calendar
             if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
                 if self.object.state == State.posted:
                     get_main_calendar().import_event(self.object)
-                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                    if not self.object.calendar.trusted:
+                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
                 else:
                     messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
             elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
