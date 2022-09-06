@@ -96,7 +96,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'active')
+        fields = ('title', 'description', 'active', 'trusted')
 
 
 class CalendarSubscribeForm(forms.ModelForm):

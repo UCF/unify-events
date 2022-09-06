@@ -8,6 +8,9 @@
   <div class="col-lg-8">
     <h1 class="h2 mb-4">
       My Calendar{% if calendar %}: <span class="font-weight-normal">{{ calendar.title }}</span>{% else %}s{% endif %}
+      {% if calendar and calendar.trusted %}
+        <i class="fas fa-calendar-check ml-1"></i>
+      {% endif %}
     </h1>
   </div>
   {% if calendar %}

@@ -35,7 +35,7 @@
       {% for calendar in calendars %}
         <tr>
           <td class="title">
-            <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">{{ calendar.title }}</a>
+            <a href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">{{ calendar.title }}{% if calendar.trusted %}<i class="fas fa-calendar-check ml-1"></i>{% endif %}</a>
           </td>
           <td>
             <span class="d-block">{{ calendar.owner.username }}</span>
