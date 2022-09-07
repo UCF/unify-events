@@ -59,8 +59,6 @@
       <h3 class="h5 mb-0 mr-2">Feeds:</h3>
       {% feed_btns url=request.build_absolute_uri %}
     </div>
-    {% if promotion %}
     {% include_esi_template "esi/template/promotion.html" %}
-    {% endif %}
   </aside>
 </div>
