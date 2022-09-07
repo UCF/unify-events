@@ -353,7 +353,9 @@
       <h2 class="h5 mb-0 mr-2">Feeds:</h2>
       {% feed_btns url=request.build_absolute_uri %}
     </div>
-    {% include "events/frontend/promotion.html" %}
+    {% if promotion %}
+    {% include_esi 'promotion' promotion.id 'single' %}
+    {% endif %}
   </aside>
 </div>
 {% endblock %}
