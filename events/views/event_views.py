@@ -31,7 +31,7 @@ class PromotionMixin(object):
     so it can be added to various templates.
     """
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PromotionMixin, self).get_context_data(**kwargs)
         context['promotion'] = Promotion.objects.single_random()
         return context
 
