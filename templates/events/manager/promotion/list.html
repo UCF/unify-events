@@ -10,13 +10,11 @@
 {% endblock %}
 
 {% block content_subheader %}
-  {% if current_calendar.description %}
-    {% block content_subheader_text %}
-      <p class="lead">
-        All calendars registered in the events system are listed below. Super admins have access to manage all calendars and their settings.
-      </p>
-    {% endblock %}
-  {% endif %}
+  {% block content_subheader_text %}
+    <a href="{% url 'events.views.manager.promotion.create' %}" class="btn btn-sm btn-primary">
+      <span class="fas fa-bullhorn mr-2"></span>Create New Promotion
+    </a>
+  {% endblock %}
 {% endblock %}
 
 {% block content_body %}
