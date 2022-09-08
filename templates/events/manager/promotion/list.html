@@ -9,6 +9,14 @@
   </div>
 {% endblock %}
 
+{% block content_subheader %}
+  {% block content_subheader_text %}
+    <div class="alert alert-info">
+      <p class="mb-0"><span class="fas fa-info-circle"></span> All active promotions will be displayed on events listing and details pages. If more than one promotion is active, one will be selected at random.</p>
+    </div>
+  {% endblock %}
+{% endblock %}
+
 {% block content_body %}
   <div class="row justify-content-between">
     <div class="col-12 col-md-auto">
