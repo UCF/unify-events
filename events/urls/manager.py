@@ -30,6 +30,10 @@ from events.views.manager.tag import TagCreateView
 from events.views.manager.tag import TagDeleteView
 from events.views.manager.tag import TagListView
 from events.views.manager.tag import TagUpdateView
+from events.views.manager.promotion import PromotionListView
+from events.views.manager.promotion import PromotionCreateView
+from events.views.manager.promotion import PromotionUpdateView
+from events.views.manager.promotion import PromotionDeleteView
 
 from events.views.manager import event
 from events.views.manager import calendar
@@ -123,6 +127,11 @@ urlpatterns += [
     url(r'^tag/(?P<tag_id>\d+)/demote/?$', view=tag.demote_tag, name='events.views.manager.tag-demote'),
     url(r'^tag/(?P<pk>\d+)/delete', login_required(TagDeleteView.as_view()), name='events.views.manager.tag-delete'),
     url(r'^tag/search', login_required(TagTypeaheadSearchView.as_view()), name='events.views.manager.tag-search'),
+
+    url(r'promotion/?$', login_required(PromotionListView.as_view()), name='events.views.manager.promotion.list'),
+    url(r'promotion/create/?$', login_required(PromotionCreateView.as_view()), name='events.views.manager.promotion.create'),
+    url(r'promotion/(?P<pk>\d+)/update/?$', login_required(PromotionUpdateView.as_view()), name='events.views.manager.promotion.update'),
+    url(r'promotion/(?P<pk>\d+)/delete/?$', login_required(PromotionDeleteView.as_view()), name='events.views.manager.promotion.delete'),
 
     url(r'^category/create/?$',
         view=login_required(CategoryCreate.as_view()),
