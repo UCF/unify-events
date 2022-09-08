@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import ValidationError
+from events.models.promotion import Promotion
 from taggit.models import Tag
 
 
@@ -379,3 +380,11 @@ class TagForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, f
         tag.slug = generate_unique_slug(tag.name, Tag, True)
         tag.save()
         return tag
+
+class PromotionForm(forms.ModelForm):
+    """
+    Form for promotions
+    """
+    class Meta:
+        model = Promotion
+        fields = ('title', 'image', 'alt_text', 'url', 'active')

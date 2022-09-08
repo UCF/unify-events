@@ -1,0 +1,75 @@
+{% extends 'events/manager/base.html' %}
+{% load widgets %}
+
+{% block title %}All Promotions | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2">All Promotions</h1>
+  </div>
+{% endblock %}
+
+{% block content_subheader %}
+  {% if current_calendar.description %}
+    {% block content_subheader_text %}
+      <p class="lead">
+        All calendars registered in the events system are listed below. Super admins have access to manage all calendars and their settings.
+      </p>
+    {% endblock %}
+  {% endif %}
+{% endblock %}
+
+{% block content_body %}
+  {% if promotions.count > 0 %}
+  <div class="card my-4">
+    <table class="list-manager-table table">
+      <thead>
+        <tr>
+          <th class="title">Promotion</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for promotion in promotions %}
+        <tr>
+          <td class="title">
+            <a href="{% url 'events.views.manager.promotion.update' promotion.pk %}">{{ promotion.title }}</a>
+          </td>
+          <td>
+            {% if promotion.active %}
+              <span class="fas fa-check-circle text-success"></span>
+            {% else %}
+              <span class="fas fa-cross text-minus-circle"></span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="dropdown">
+              <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="promotionSelectDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="promotionSelectDropdownMenu">
+                <a class="dropdown-item" href="{% url 'events.views.manager.promotion.update' promotion.pk %}">
+                  <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Promotion
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'events.views.manager.promotion.delete' promotion.pk %}">
+                  <span class="fas fa-trash fa-fw mr-1" aria-hidden="true"></span>Delete Promotion
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+
+  {% else %}
+  <div class="alert alert-info">
+    No promotions found. Want to <a class="alert-link" href="{% url 'events.views.manager.promotion.create' %}">create one?</a>
+  </div>
+  {% endif %}
+{% endblock %}

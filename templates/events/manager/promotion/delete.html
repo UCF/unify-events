@@ -1,0 +1,32 @@
+{% extends 'events/manager/modify-object.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Delete Promotion: {{ promotion.title }} | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2 mb-4">Delete Promotion: <span class="font-weight-normal">{{ promotion.title }}</span></h1>
+  </div>
+{% endblock %}
+
+{% block content_form_action %}
+  {% url 'events.views.manager.promotion.delete' promotion.pk %}{% if form_action_next %}?next={{ form_action_next }}{% endif %}
+{% endblock %}
+
+{% block content_form_id %}events.views.manager.promotion.delete{% endblock %}
+
+{% block content_form_body %}
+  {% csrf_token %}
+  <p>
+    Are you sure you want to delete this promotion? There is no undo!
+  </p>
+{% endblock %}
+
+{% block content_form_footer %}
+  <button type="submit" class="btn btn-danger btn-sm">Delete Event</button>
+  <a href="{% url 'events.views.manager.promotion.list' %}" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</a>
+{% endblock %}
+
+{% block footer_scripts %}
+  {{ block.super }}
+{% endblock %}
