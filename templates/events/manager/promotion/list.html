@@ -11,13 +11,20 @@
 
 {% block content_subheader %}
   {% block content_subheader_text %}
-    <a href="{% url 'events.views.manager.promotion.create' %}" class="btn btn-sm btn-primary">
-      <span class="fas fa-bullhorn mr-2"></span>Create New Promotion
-    </a>
+    <div class="alert alert-info">
+      <p class="mb-0"><span class="fas fa-info-circle"></span> All active promotions will be displayed on events listing and details pages. If more than one promotion is active, one will be selected at random.</p>
+    </div>
   {% endblock %}
 {% endblock %}
 
 {% block content_body %}
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-auto">
+      <a class="btn btn-primary mb-3" href="{% url 'events.views.manager.promotion.create' %}">
+        <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Promotion
+      </a>
+    </div>
+  </div>
   {% if promotions.count > 0 %}
   <div class="card my-4">
     <table class="list-manager-table table">
