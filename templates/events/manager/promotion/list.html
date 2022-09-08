@@ -9,15 +9,14 @@
   </div>
 {% endblock %}
 
-{% block content_subheader %}
-  {% block content_subheader_text %}
-    <a href="{% url 'events.views.manager.promotion.create' %}" class="btn btn-primary mb-3">
-      <span class="fas fa-plus mr-1"></span>Create New Promotion
-    </a>
-  {% endblock %}
-{% endblock %}
-
 {% block content_body %}
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-auto">
+      <a class="btn btn-primary mb-3" href="{% url 'events.views.manager.promotion.create' %}">
+        <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Promotion
+      </a>
+    </div>
+  </div>
   {% if promotions.count > 0 %}
   <div class="card my-4">
     <table class="list-manager-table table">
