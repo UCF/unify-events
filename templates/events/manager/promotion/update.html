@@ -1,0 +1,119 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block title %}{% block promotion.edit_title %}Edit Promotion{% endblock %}: {{ promotion.title }} | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-lg-8">
+    <h1 class="h2 mb-4">Edit promotion: <span class="font-weight-normal">{{ promotion.title }}</span></h1>
+  </div>
+{% endblock %}
+
+{% block content_subheader %}{% endblock %}
+
+{% block content_body %}
+<div class="row">
+  <div class="col-xl-10 offset-xl-1">
+    <form action="{% url 'events.views.manager.promotion.update' promotion.pk %}" method="post" id="promotion-create" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Title Field -->
+      <div class="form-group row{% if form.title.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_title">Promotion Title</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.title|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"placeholder:Enter a promotion title..." }}
+          {% if form.title.errors %}
+            {% for error in form.title.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End title field -->
+      <!-- Image field -->
+      <div class="form-group row{% if form.image.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Promotion Image</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.image|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.image.errors %}
+            {% for error in form.image.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End image field -->
+      <!-- Alt field -->
+      <div class="form-group row{% if form.alt_text.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Promotion Alt Text</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.alt_text|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.alt_text.errors %}
+            {% for error in form.alt_text.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End alt field -->
+      <!-- Alt field -->
+      <div class="form-group row{% if form.url.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Promotion URL</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.url|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.url.errors %}
+            {% for error in form.url.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End alt field -->
+      <!-- Active field -->
+      <div class="form-group row{% if form.active.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Active</label>
+          <small class="form-text text-muted mt-0">Determines if the promotion is active.</small>
+        </div>
+        <div class="col-md-9 col-xl-8 d-md-flex flex-column justify-content-center">
+          <div>
+            {{ form.active|add_class:"form-check-input ml-0"}}<label for="{{ form.active.auto_id }}" class="switch"><span class="sr-only">When checked, the promotion will be active.</span></label>
+          </div>
+          {% if form.active.errors %}
+            {% for error in form.active.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End active field -->
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          <button type="submit" class="btn btn-primary btn-block-xs">Update Promotion</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ block.super }}
+{% endblock %}
