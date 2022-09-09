@@ -108,8 +108,8 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
 
         calendar = self.get_calendar()
         if calendar:
-            ctx['rereview_count'] = calendar.future_event_instances().filter(event__state=State.rereview).count()
-            ctx['pending_count'] = calendar.future_event_instances().filter(event__state=State.pending).count()
+            ctx['rereview_count'] = self.queryset.filter(event__state=State.rereview).count()
+            ctx['pending_count'] = self.queryset.filter(event__state=State.pending).count()
         else:
             ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
             ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
