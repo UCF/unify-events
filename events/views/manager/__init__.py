@@ -77,6 +77,13 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
             if events:
                 events = events.filter(event__state=state_id)
 
+        # Get the first instance of each event
+        instance_pks = set()
+        for ev in events:
+            instance_pks.add(ev.event.event_instances.first().pk)
+
+        events = EventInstance.objects.filter(pk__in=instance_pks)
+
         self.queryset = events
         return events
 
