@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta, date
+import functools
+import operator
 import logging
 
 from django.contrib.auth.decorators import login_required
@@ -9,7 +11,7 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Q, Min
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
@@ -77,12 +79,9 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
             if events:
                 events = events.filter(event__state=state_id)
 
-        # Get the first instance of each event
-        instance_pks = set()
-        for ev in events:
-            instance_pks.add(ev.event.event_instances.first().pk)
-
-        events = EventInstance.objects.filter(pk__in=instance_pks)
+        instances = events.order_by().values('event__id').annotate(min_start=Min('start'))
+        filters = functools.reduce(operator.or_,[(Q(event__id=instance['event__id']) & Q(start=instance['min_start'])) for instance in instances])
+        events = events.filter(filters)
 
         self.queryset = events
         return events
@@ -108,8 +107,8 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
 
         calendar = self.get_calendar()
         if calendar:
-            ctx['rereview_count'] = self.queryset.filter(event__state=State.rereview).count()
-            ctx['pending_count'] = self.queryset.filter(event__state=State.pending).count()
+            ctx['rereview_count'] = calendar.future_event_instances().filter(event__state=State.rereview).count()
+            ctx['pending_count'] = calendar.future_event_instances().filter(event__state=State.pending).count()
         else:
             ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
             ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
