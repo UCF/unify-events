@@ -1,7 +1,11 @@
+import functools
 import logging
+import operator
 
 from clearcache import clearcache
 from django.conf import settings
+
+from django.db.models import Q, Min
 
 import events.models
 
@@ -70,3 +74,12 @@ def ban_urls(url_list):
         cacheCleaner.ban_url_list(url_combo_list)
     else:
         return
+
+def dedupe_instances_first_per_event(instance_queryset):
+    """
+    Returns a list of the first instance of each
+    instance set by parent event
+    """
+    instances = instance_queryset.order_by().values('event__id').annotate(min_start=Min('start'))
+    filters = functools.reduce(operator.or_, [(Q(event__id=instance['event__id']) & Q(start=instance['min_start'])) for instance in instances])
+    return instance_queryset.filter(filters)
