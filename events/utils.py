@@ -81,5 +81,7 @@ def dedupe_instances_first_per_event(instance_queryset):
     instance set by parent event
     """
     instances = instance_queryset.order_by().values('event__id').annotate(min_end=Min('end'))
+    # Based off of example here:
+    # https://stackoverflow.com/questions/14234971/django-queryset-to-return-first-of-each-item-in-foreign-key-based-on-date
     filters = functools.reduce(operator.or_, [(Q(event__id=instance['event__id']) & Q(end=instance['min_end'])) for instance in instances])
     return instance_queryset.filter(filters)
