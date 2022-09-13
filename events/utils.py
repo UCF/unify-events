@@ -80,6 +80,6 @@ def dedupe_instances_first_per_event(instance_queryset):
     Returns a list of the first instance of each
     instance set by parent event
     """
-    instances = instance_queryset.order_by().values('event__id').annotate(min_start=Min('start'))
-    filters = functools.reduce(operator.or_, [(Q(event__id=instance['event__id']) & Q(start=instance['min_start'])) for instance in instances])
+    instances = instance_queryset.order_by().values('event__id').annotate(min_end=Min('end'))
+    filters = functools.reduce(operator.or_, [(Q(event__id=instance['event__id']) & Q(end=instance['min_end'])) for instance in instances])
     return instance_queryset.filter(filters)
