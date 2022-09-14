@@ -30,9 +30,9 @@
   </div>
   <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0">
     <div class="card card-outline-secondary">
-      <div class="card-block">
-        <h2 class="text-center card-title h6">Admin Options</h2>
-        <div class="d-flex justify-content-between">
+      <div class="card-block text-center">
+        <h2 class="card-title h6">Admin Options</h2>
+        <div class="btn-group">
           {% if event_instance.event.state == 0 %}
           <a id="publish-event" class="d-none btn btn-sm btn-success" href="{% url 'events.views.manager.event-post' pk=event_instance.event.pk %}">
             <span class="fa fa-check-square mr-1" aria-hidden="true"></span>Publish
