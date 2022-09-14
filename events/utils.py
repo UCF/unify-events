@@ -80,6 +80,9 @@ def dedupe_instances_first_per_event(instance_queryset):
     Returns a list of the first instance of each
     instance set by parent event
     """
+    if instance_queryset.count() == 0:
+        return instance_queryset
+
     instances = instance_queryset.order_by().values('event__id').annotate(min_end=Min('end'))
     # Based off of example here:
     # https://stackoverflow.com/questions/14234971/django-queryset-to-return-first-of-each-item-in-foreign-key-based-on-date
