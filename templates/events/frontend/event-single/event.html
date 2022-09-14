@@ -29,6 +29,11 @@
     <h1 class="h2">{{ event_instance.event.get_title_canceled }}</h1>
   </div>
   <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0 d-flex align-items-center justify-content-lg-end">
+    {% if event_instance.event.state == 0 %}
+    <a id="publish-event" class="d-none small font-weight-bold text-default-aw mr-3" href="{% url 'events.views.manager.event-post' pk=event_instance.event.pk %}">
+      <span class="fa fa-check-square mr-1" aria-hidden="true"></span>Publish
+    </a>
+    {% endif %}
     <a id="event-edit" class="d-none small font-weight-bold text-default-aw mr-3" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
       <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit
     </a>
@@ -374,6 +379,7 @@ if(
   $('#event-single-title').attr('class', 'col-8');
   $('#page-title-wrap .edit-options').removeClass('d-none');
   $('#event-edit').removeClass('d-none');
+  $('#publish-event').removeClass('d-none');
 }
 
 // Show Add Event To button if user has calendars and the event isn't on their only calendar, or

@@ -72,6 +72,17 @@ class EventCreate(CreateView):
 
         return ctx
 
+    def get_success_url(self, **kwargs):
+        if 'preview' in self.request.POST:
+            return reverse('events.views.event_views.event', kwargs = {
+                'pk': self.object.event_instances.first().pk,
+                'slug': self.object.event_instances.first().slug
+            })
+
+        return reverse('events.views.manager.dashboard-calendar-state', kwargs = {
+            'pk': self.object.calendar.pk
+        })
+
     def get(self, request, *args, **kwargs):
         """
         Handles the GET request and instantiates blank versions
@@ -102,6 +113,11 @@ class EventCreate(CreateView):
                 return HttpResponseForbidden('You cannot add an event to this calendar.')
 
             event = form.save(commit=False)
+
+            # If the preview button was clicked
+            if 'preview' in request.POST:
+                event.state = State.pending
+
             event_instance_formset = EventInstanceCreateFormSet(
                 data=self.request.POST,
                 instance=event
