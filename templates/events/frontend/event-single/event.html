@@ -30,9 +30,9 @@
   </div>
   <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0">
     <div class="card card-outline-secondary">
-      <div class="card-block">
-        <h2 class="text-center card-title h6">Admin Options</h2>
-        <div class="d-flex justify-content-between">
+      <div class="card-block text-center">
+        <h2 class="card-title h6">Admin Options</h2>
+        <div class="btn-group">
           {% if event_instance.event.state == 0 %}
           <a id="publish-event" class="d-none btn btn-sm btn-success" href="{% url 'events.views.manager.event-post' pk=event_instance.event.pk %}">
             <span class="fa fa-check-square mr-1" aria-hidden="true"></span>Publish
@@ -41,7 +41,7 @@
           <a id="event-edit" class="d-none btn btn-sm btn-primary" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
             <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit
           </a>
-          <a id="event-subscription" class="d-none object-modify btn btn-sm btn-default" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}">
+          <a id="event-subscription" class="d-none object-modify btn btn-sm btn-info" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}">
             <span class="fa fa-share pr-1" aria-hidden="true"></span>Add Event To
           </a>
         </div>
