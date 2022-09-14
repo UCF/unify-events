@@ -146,16 +146,16 @@
               An event must have all of the fields listed below:
             </p>
             <div class="card mb-3">
-              <h4 class="card-header">Event Form Fields</h4>
+              <h4 id="form-fields" class="card-header">Event Form Fields</h4>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Calendar</h5>
+                  <h5 id="create-new-event-calendar" class="h6 mt-2">Calendar</h5>
                   <p>
                     Select the calendar you want to post the event to. Events must be posted to an existing calendar before they can be added to the Main Calendar.
                   </p>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Suggest for Main Calendar Approval (optional)</h5>
+                  <h5 id="create-new-event-main-calendar" class="h6 mt-2">Suggest for Main Calendar Approval (optional)</h5>
                   <p>
                     To recommend this event for Main Calendar approval, check the checkbox next to the Calendar select dropdown. The event will be reviewed for spelling and accuracy, and if approved, will be posted to the Main Calendar. Review may take up to two to three business days.
                   </p>
@@ -164,13 +164,13 @@
                   </p>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Title</h5>
+                  <h5 id="create-new-event-title" class="h6 mt-2">Title</h5>
                   <p>
                     Your event title should be unique, concise, and immediately recognizable to your audience. Grab their attention and clearly describe your event. Max length is 255 characters.
                   </p>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Status</h5>
+                  <h5 id="create-new-event-status" class="h6 mt-2">Status</h5>
                   <p>
                     Do you want your event published immediately, or saved as a draft for review? To immediately publish it, select "posted"; to save the event without displaying it on your calendar or feeds, select "pending".
                   </p>
@@ -182,7 +182,7 @@
                   </p>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Description</h5>
+                  <h5 id="create-new-event-description" class="h6 mt-2">Description</h5>
                   <p>
                     Your event description should be engaging, detailed, and should communicate the who, what, and why of your event. This is also your chance to let attendees know about where to register, potential costs, etc. <strong>A description is required for all events. Events submitted to the Main Calendar without an adequate description will not be approved.</strong>
                   </p>
@@ -228,7 +228,7 @@
                     </p>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Category</h5>
+                  <h5 id="create-new-event-category" class="h6 mt-2">Category</h5>
                   <p>
                     A category helps users find your event via browsing or by searching. Your event should be categorized under the category that best describes your overall event. Only one category can be assigned to an event.
                   </p>
@@ -247,7 +247,7 @@
                   </figure>
                 </li>
                 <li class="list-group-item">
-                  <h5 class="h6 mt-2">Contact Information</h5>
+                  <h5 id="create-new-event-contact" class="h6 mt-2">Contact Information</h5>
                   <p>
                     All events require a means by which users can get in touch with the organizer of the event.
                   </p>
@@ -296,7 +296,7 @@
               The Manager View provides administrative tools for all the upcoming events on your calendar(s); the default Manager View (the My Calendars view) displays posted, pending, and subscribed events on all of your calendars. You can also view events on the Manager View by a specific calendar.
             </p>
 
-            <h4 class="h5 mt-4">Accessing the Manager View</h4>
+            <h4 id="manager-view-access" class="h5 mt-4">Accessing the Manager View</h4>
             <p>
               By default, when you log in to the events system, you are automatically directed to the default Manager View.
             </p>
@@ -304,7 +304,7 @@
               <strong>To access the Manager View</strong> otherwise, click on <strong>My Calendars > View All</strong> from the admin navbar. This will take you to the default Manager View. <strong>To access the Manager View for a specific calendar</strong>, click a calendar name after clicking <strong>My Calendars</strong> from the admin navbar.
             </p>
 
-            <h4 class="h5 mt-4">Finding Events</h4>
+            <h4 id="manager-view-finding" class="h5 mt-4">Finding Events</h4>
             <p>
               By default, events are listed in the Manager View by their status (posted), ordered by date. Only upcoming (not "archived") events are displayed, unless you're browsing events by a specific date.
             </p>
@@ -324,7 +324,7 @@
               <strong>Note:</strong> Events that occured in the past ("archived") will <strong>not</strong> appear when browsing by state, by searching, or by browsing by pagination. You must navigate to a specific date using the sidebar calendar widget to find an archived event. Only archived posted events can be navigated to&mdash;archived pending events are not accessible.
             </div>
 
-            <h4 class="h5 mt-4">Edit Events in Bulk</h4>
+            <h4 id="manager-view-editbulk" class="h5 mt-4">Edit Events in Bulk</h4>
             <p>
               The Manager View provides Bulk Action dropdown menus at the top and bottom of event lists for easy access to multiple event editing actions.
             </p>
@@ -343,7 +343,7 @@
               To access these settings, select a calendar from the admin navbar, then select an option from the <strong>Edit</strong> dropdown on that page. You can also access these settings from the calendar's Live View by clicking the <strong>Manage</strong> dropdown and selecting an option.
             </p>
 
-            <h4 class="h5 mt-4">Users &amp; Permissions</h4>
+            <h4 id="calendar-settings-users" class="h5 mt-4">Users &amp; Permissions</h4>
             <p>
               Calendars are capable of having one or more users assigned to them, using several <strong>user roles</strong>. Each user role has a different set of capabilities and permissions. Refer to the chart below for a list of all user roles and their permissions:
             </p>
@@ -427,7 +427,7 @@
               Owners and admins can <strong>modify existing calendar users</strong> from the Users With Access to this Calendar table. Note that some users may not have permission to perform specific actions; see the user role permissions table above.
             </p>
 
-            <h4 class="h5 mt-4">Calendar Info</h4>
+            <h4 id="calendar-settings-info" class="h5 mt-4">Calendar Info</h4>
             <p>
               Owners and admins can modify a calendar's title and description using the Calendar Info form.
             </p>
@@ -435,7 +435,7 @@
               <strong>Note:</strong> When you update your calendar's title, the <strong>slug</strong> of your calendar is also updated. Users will be redirected to the correct URL when they access a link to your calendar using the old slug, but if you manage a website that consumes <a class="jump-to alert-link" href="#feeds">feed data</a> by using a function that doesn't follow 301 redirects, your website's events may stop displaying. In that case, you will need to update the slug of your calendar in the URL wherever you consume feed data.
             </div>
 
-            <h4 class="h5 mt-4">Subscriptions</h4>
+            <h4 id="calendar-settings-subscriptions" class="h5 mt-4">Subscriptions</h4>
             <p>
               Owners and admins can manage a calendar's existing subscriptions using the Your Subscribed Calendars form. <strong>To unsubscribe from a calendar</strong>, click the <strong>Unsubscribe</strong> button next to the corresponding calendar name.
             </p>
@@ -452,7 +452,7 @@
               To <strong>subscribe to another calendar</strong>, see the section on <a class="jump-to" href="#subscribe-to-another-calendar">Subscribing to Another Calendar</a>.
             </p>
 
-            <h4 class="h5 mt-4">Delete Calendar</h4>
+            <h4 id="calendar-settings-delete" class="h5 mt-4">Delete Calendar</h4>
             <p>
               Only owners have the ability to delete an existing calendar. Use the <strong>Delete Calendar</strong> link to access the Delete Calendar form.
             </p>
