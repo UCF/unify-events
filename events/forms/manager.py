@@ -125,6 +125,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+        self.fields['title'].widget = forms.TextInput(attrs={"spellcheck": "true"})
         self.fields['description'].widget = Wysiwyg()
         self.fields['tags'].widget = TaggitField()
 

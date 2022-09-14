@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.10.1 (2021-11-03)
+ * Version: 5.7.1 (2021-03-17)
  */
 (function () {
     'use strict';
@@ -23,16 +23,11 @@
       };
     };
 
-    var hasOwnProperty = Object.hasOwnProperty;
-    var has = function (obj, key) {
-      return hasOwnProperty.call(obj, key);
-    };
-
-    var global$2 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Delay');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
     var fireResizeEditor = function (editor) {
       return editor.fire('ResizeEditor');
@@ -58,7 +53,7 @@
       return editor.plugins.fullscreen && editor.plugins.fullscreen.isFullscreen();
     };
     var wait = function (editor, oldSize, times, interval, callback) {
-      global.setEditorTimeout(editor, function () {
+      global$2.setEditorTimeout(editor, function () {
         resize(editor, oldSize);
         if (times--) {
           wait(editor, oldSize, times, interval, callback);
@@ -80,15 +75,7 @@
       var value = parseInt(dom.getStyle(elm, name, computed), 10);
       return isNaN(value) ? 0 : value;
     };
-    var shouldScrollIntoView = function (trigger) {
-      if ((trigger === null || trigger === void 0 ? void 0 : trigger.type.toLowerCase()) === 'setcontent') {
-        var setContentEvent = trigger;
-        return setContentEvent.selection === true || setContentEvent.paste === true;
-      } else {
-        return false;
-      }
-    };
-    var resize = function (editor, oldSize, trigger) {
+    var resize = function (editor, oldSize) {
       var dom = editor.dom;
       var doc = editor.getDoc();
       if (!doc) {
@@ -129,11 +116,11 @@
           var win = editor.getWin();
           win.scrollTo(win.pageXOffset, win.pageYOffset);
         }
-        if (editor.hasFocus() && shouldScrollIntoView(trigger)) {
-          editor.selection.scrollIntoView();
+        if (editor.hasFocus()) {
+          editor.selection.scrollIntoView(editor.selection.getNode());
         }
         if (global$1.webkit && deltaSize < 0) {
-          resize(editor, oldSize, trigger);
+          resize(editor, oldSize);
         }
       }
     };
@@ -148,8 +135,8 @@
           'min-height': 0
         });
       });
-      editor.on('NodeChange SetContent keyup FullscreenStateChanged ResizeContent', function (e) {
-        resize(editor, oldSize, e);
+      editor.on('NodeChange SetContent keyup FullscreenStateChanged ResizeContent', function () {
+        resize(editor, oldSize);
       });
       if (shouldAutoResizeOnInit(editor)) {
         editor.on('init', function () {
@@ -167,8 +154,8 @@
     };
 
     function Plugin () {
-      global$2.add('autoresize', function (editor) {
-        if (!has(editor.settings, 'resize')) {
+      global.add('autoresize', function (editor) {
+        if (!editor.settings.hasOwnProperty('resize')) {
           editor.settings.resize = false;
         }
         if (!editor.inline) {

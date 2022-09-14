@@ -87,7 +87,7 @@
           <div class="col-md-9 col-xl-8">
             <div class="row">
               <div class="col-xl-6">
-                {{ form.calendar|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-calendar" }}
+                {{ form.calendar|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-calendar"|attr:"spellcheck:true"}}
               </div>
               <div class="col-12 flex-xl-last mb-2 mb-xl-0">
                 {% if form.calendar.errors %}
