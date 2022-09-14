@@ -79,7 +79,12 @@
       <fieldset class="form-group{% if form.calendar.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
-            <label class="font-weight-bold col-form-label pb-0" for="{{ form.calendar.auto_id }}" title="Calendar" >{{ form.calendar.label }}</label>
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.calendar.auto_id }}" title="Calendar" >
+              {{ form.calendar.label }}
+              <span class="field-tooltip ml-2" title="Select the calendar you want to post the event to. Events must be posted to an existing calendar before they can be added to the Main Calendar.">
+                <span class="fa fa-question-circle" aria-hidden="true"></span>
+              </span>
+            </label>
             <small class="form-text text-muted mt-0" id="help-label-calendar">Select an existing calendar to post this event to.</small>
           </div>
           <div class="col-md-9 col-xl-8">
@@ -109,7 +114,12 @@
       <fieldset class="form-group{% if form.title.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
-            <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}" tabindex="-1">
+              {{ form.title.label }}
+              <span class="field-tooltip ml-2" title="Your event title should be unique, concise, and immediately recognizable to your audience. Grab their attention and clearly describe your event. Max length is 255 characters.">
+                <span class="fa fa-question-circle" aria-hidden="true"></span>
+              </span>
+            </label>
             <small class="form-text text-muted mt-0" id="help-label-title">
               Be Brief. Be Bright. Be Done.
               <br/>
@@ -130,7 +140,12 @@
       <fieldset class="form-group{% if form.state.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
-            <label class="font-weight-bold col-form-label pb-0" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.state.auto_id }}" title="State" tabindex="-1">
+              Status
+              <span class="field-tooltip ml-2" title="Do you want your event published immediately, or saved as a draft for review? To immediately publish it, select &ldquo;posted&rdquo;; to save the event without displaying it on your calendar or feeds, select &ldquo;pending&rdquo;.<br><br>Note: Pending events are still publicly available and accessible by anyone if they know the link to your event.<br><br>For more information, see the <a class='text-primary text-underline' href='https://events.ucf.edu/help/#event-statuses' target='_blank'>help section on Event Statuses.</a>">
+                <span class="fa fa-question-circle" aria-hidden="true"></span>
+              </span>
+            </label>
             <small class="form-text text-muted mt-0" id="help-label-state" tabindex="-1">Specify how your event should be saved.</small>
           </div>
           <div class="col-md-6 col-xl-5">
@@ -168,7 +183,12 @@
       <fieldset class="form-group{% if form.description.errors %} has-danger{% endif %}">
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
-            <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}" tabindex="-1">
+              {{ form.description.label }}
+              <span href="#" class="field-tooltip ml-2" title="Your event description should be engaging, detailed, and should communicate the who, what, and why of your event. This is also your chance to let attendees know about where to register, potential costs, etc. A description is required for all events. Events submitted to the Main Calendar without an adequate description will not be approved. <a class='text-primary text-underline' href='https://events.ucf.edu/help/#event-creation-guidelines' target='_blank'>Learn how to format your description.</a>">
+                <span class="fa fa-question-circle" aria-hidden="true"></span>
+              </span>
+            </label>
             <small class="form-text text-muted mt-0" id="help-label-description">A description for your event.</small>
           </div>
           <div class="col-md-9 col-xl-8">
@@ -415,6 +435,14 @@
 <script type="text/javascript">
   var usersFullName = '{{ user.get_full_name }}';
   var usersEmail = '{{ user.email }}';
+</script>
+<script>
+  $('.field-tooltip').tooltip({
+    html: true,
+    placement: 'right',
+    template: "<div class=\"tooltip\" role=\"tooltip\"><div class=\"tooltip-arrow\"></div><div class=\"tooltip-inner bg-inverse p-3\" style=\"max-width: 330px;\"></div></div>",
+    trigger: 'click'
+  });
 </script>
 {{ block.super }}
 {% endblock %}
