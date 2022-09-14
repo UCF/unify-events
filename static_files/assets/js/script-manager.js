@@ -1452,6 +1452,7 @@ const initiateWysiwygs = function () {
   if ($editors.length) {
     tinyMCE.init({
       selector: '.wysiwyg',
+      browser_spellcheck: true,
       plugins: 'link paste autoresize lists',
       // valid elems/styles configuration below should match with
       // BLEACH_ALLOWED_[] settings in settings_local.py
