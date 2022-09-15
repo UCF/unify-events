@@ -28,13 +28,25 @@
   <div id="event-single-title" class="col-12">
     <h1 class="h2">{{ event_instance.event.get_title_canceled }}</h1>
   </div>
-  <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0 d-flex align-items-center justify-content-lg-end">
-    <a id="event-edit" class="d-none small font-weight-bold text-default-aw mr-3" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
-      <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit
-    </a>
-    <a id="event-subscription" class="d-none object-modify small font-weight-bold text-default-aw" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}">
-      <span class="fa fa-share pr-1" aria-hidden="true"></span>Add Event To
-    </a>
+  <div class="edit-options col-lg-4 d-none mb-3 mb-lg-0">
+    <div class="card card-outline-secondary">
+      <div class="card-block text-center">
+        <h2 class="card-title h6">Admin Options</h2>
+        <div class="btn-group">
+          {% if event_instance.event.state == 0 %}
+          <a id="publish-event" class="d-none btn btn-sm btn-success" href="{% url 'events.views.manager.event-post' pk=event_instance.event.pk %}">
+            <span class="fa fa-check-square mr-1" aria-hidden="true"></span>Publish
+          </a>
+          {% endif %}
+          <a id="event-edit" class="d-none btn btn-sm btn-primary" href="{% url 'events.views.manager.event-update' pk=event_instance.event.pk %}">
+            <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit
+          </a>
+          <a id="event-subscription" class="d-none object-modify btn btn-sm btn-info" href="{% url 'events.views.manager.event-copy' pk=event_instance.event.pk %}">
+            <span class="fa fa-share pr-1" aria-hidden="true"></span>Add Event To
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
 
@@ -374,6 +386,7 @@ if(
   $('#event-single-title').attr('class', 'col-8');
   $('#page-title-wrap .edit-options').removeClass('d-none');
   $('#event-edit').removeClass('d-none');
+  $('#publish-event').removeClass('d-none');
 }
 
 // Show Add Event To button if user has calendars and the event isn't on their only calendar, or
