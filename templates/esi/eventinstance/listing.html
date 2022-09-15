@@ -35,7 +35,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
       </div>
 
       <p class="description">
-        {{ object.event.description|remove_html|truncatewords:60 }}
+        {{ object.event.description|remove_html|truncatewords:60|safe }}
       </p>
 
       {% if not calendar %}
