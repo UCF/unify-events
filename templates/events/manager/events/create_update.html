@@ -80,7 +80,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.calendar.auto_id }}" title="Calendar" >{{ form.calendar.label }}</label>
-            <small class="form-text text-muted mt-0" id="help-label-calendar">Select an existing calendar to post this event to.</small>
+            <small class="form-text text-muted mt-0" id="help-label-calendar">
+              <a href="{% url 'help' %}#create-new-event-calendar" target="_blank">Select an existing calendar</a> to post this event to.
+            </small>
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="row">
@@ -111,9 +113,7 @@
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.title.auto_id }}" tabindex="-1">{{ form.title.label }}</label>
             <small class="form-text text-muted mt-0" id="help-label-title">
-              Be Brief. Be Bright. Be Done.
-              <br/>
-              (<a tabindex="-1" target="_blank" href="https://www.ucf.edu/brand/applying-our-brand/writing/">Need some tips?</a>)
+              <a href="{% url 'help' %}#create-new-event-title" target="_blank">Be unique</a>. Be concise.
             </small>
           </div>
           <div class="col-md-9 col-xl-8">
@@ -131,7 +131,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.state.auto_id }}" title="State" tabindex="-1">Status</label>
-            <small class="form-text text-muted mt-0" id="help-label-state" tabindex="-1">Specify how your event should be saved.</small>
+            <small class="form-text text-muted mt-0" id="help-label-state" tabindex="-1">
+              Specify how your event <a href="{% url 'help' %}#create-new-event-status" target="_blank">should be saved</a>.
+            </small>
           </div>
           <div class="col-md-6 col-xl-5">
             {{ form.state|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-state" }}
@@ -169,7 +171,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.description.auto_id }}" tabindex="-1">{{ form.description.label }}</label>
-            <small class="form-text text-muted mt-0" id="help-label-description">A description for your event.</small>
+            <small class="form-text text-muted mt-0" id="help-label-description">
+              The <a href="{% url 'help' %}#create-new-event-description" target="_blank">who, what, and why</a> of your event. Check your spelling!
+            </small>
           </div>
           <div class="col-md-9 col-xl-8">
             {{ form.description|add_class:"form-control wysiwyg"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-description" }}
@@ -206,7 +210,7 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <legend class="font-weight-bold col-form-legend pb-0" tabindex="-1">Registration Information</legend>
-            <small class="form-text text-muted mt-0" tabindex="-1">Registration information for your event.</small>
+            <small class="form-text text-muted mt-0" tabindex="-1">How and where can someone register? Is it required?</small>
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="form-check mt-md-3 mb-3 mb-md-4">
@@ -245,7 +249,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <legend class="font-weight-bold col-form-legend pb-0" tabindex="-1">When &amp; Where</legend>
-            <small class="form-text text-muted mt-0" tabindex="-1">When and where your event takes place, and how often it occurs.</small>
+            <small class="form-text text-muted mt-0" tabindex="-1">
+              Details about <a href="{% url 'help' %}#create-new-event-whenwhere" target="_blank">event location and time(s)</a>.
+            </small>
           </div>
           <div class="col-md-9 col-xl-8">
             {% if event_instance_formset|length > 0 %}
@@ -281,7 +287,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.category.auto_id }}" tabindex="-1">Category</label>
-            <small class="form-text text-muted mt-0" id="help-label-category" tabindex="-1">Select a category to group this event under.</small>
+            <small class="form-text text-muted mt-0" id="help-label-category" tabindex="-1">
+              <a href="{% url 'help' %}#create-new-event-category" target="_blank">Select a category</a> to group this event under.
+            </small>
           </div>
           <div class="col-md-6 col-xl-5">
             {{ form.category|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"aria-describedby:help-label-category" }}
@@ -298,7 +306,9 @@
         <div class="row">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
             <label class="font-weight-bold col-form-label pb-0" for="{{ form.tags.auto_id }}" tabindex="-1">Tags</label>
-            <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">Provide keywords that describe this event for better searchability. Limited to <strong>5 tags</strong> that best describe your event.</small>
+            <small class="form-text text-muted mt-0" id="help-label-tags" tabindex="-1">
+              <a href="{% url 'help' %}#create-new-event-tags" target="_blank">Provide keywords</a> that describe this event for better searchability. Limited to <strong>5 tags</strong> that best describe your event.
+            </small>
           </div>
           <div class="col-md-9 col-xl-8">
             <div class="row">
@@ -404,6 +414,7 @@
             <a href="{% url 'dashboard' %}" class="btn btn-default">Cancel</a>
           {% else %}
             <button class="btn btn-primary" type="submit">Create Event</button>
+            <button id="preview" name="preview" class="btn btn-default" type="submit">Preview Event</button>
           {% endif %}
         </div>
       </div>
