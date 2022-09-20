@@ -64,6 +64,7 @@ urlpatterns += [
     url(r'^event/(?P<pk>\d+)/pend', view=event.update_state, name='events.views.manager.event-pend', kwargs={'state':State.pending}),
     url(r'^event/(?P<pk>\d+)/cancel', view=event.cancel_uncancel, name='events.views.manager.event-cancel-uncancel'),
     url(r'^event/(?P<pk>\d+)/delete', login_required(EventDelete.as_view()), name='events.views.manager.event-delete'),
+    url(r'^event/(?P<pk>\d+)/state', login_required(event.get_event_state), name='events.views.manager.get-event-state'),
     url(r'^event/create', login_required(EventCreate.as_view()), name='events.views.manager.event-create'),
     url(r'^event/bulk-action/', view=event.bulk_action, name='events.views.manager.event-bulk-action'),
 
