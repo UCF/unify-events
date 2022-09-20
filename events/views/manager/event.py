@@ -1,10 +1,12 @@
 import logging
+import json
 from urllib.parse import quote_plus
 from urllib.parse import unquote_plus
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -355,6 +357,23 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             return HttpResponseForbidden('You cannot delete the specified event.')
 
         return super(EventDelete, self).delete(request, *args, **kwargs)
+
+
+@login_required
+def get_event_state(request, pk=None):
+    """
+    Returns the state of the event along with the ID as JSON
+    """
+    event = get_object_or_404(Event, pk=pk)
+
+    data = {
+        'event_id': event.id,
+        'state': State.get_string(event.state)
+    }
+
+    retval = json.dumps(data)
+
+    return HttpResponse(retval, content_type='application/json')
 
 
 def update_event_state(request, pk=None, state=None):
