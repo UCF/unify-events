@@ -386,7 +386,14 @@ if(
   $('#event-single-title').attr('class', 'col-8');
   $('#page-title-wrap .edit-options').removeClass('d-none');
   $('#event-edit').removeClass('d-none');
-  $('#publish-event').removeClass('d-none');
+
+  var currentTime = Date.now();
+
+  $.getJSON("{% url 'events.views.manager.get-event-state' event_instance.event.pk %}?cb=" + currentTime, function(res) {
+    if (res.state === 'pending') {
+      $('#publish-event').removeClass('d-none');
+    }
+  });
 }
 
 // Show Add Event To button if user has calendars and the event isn't on their only calendar, or
