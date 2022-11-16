@@ -8,8 +8,6 @@ register = template.Library()
 
 @register.filter(name='auto_anchors')
 def auto_anchors(value, arg=None):
-    print(value)
-
     patterns = AutoAnchor.objects.find_in_text(value)
     for pattern in patterns:
         # anchor_re = f'<a.*(.*{pattern.pattern}.*)<\/a>'
