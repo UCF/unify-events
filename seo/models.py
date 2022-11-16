@@ -19,5 +19,9 @@ class AutoAnchor(models.Model):
     updated_on = models.DateTimeField(null=False, blank=False, auto_now=True)
     objects = AutoAnchorManager()
 
+    def local(self) -> bool:
+        return not self.imported
+    local.boolean = True
+
     def __str__(self):
         return self.pattern
