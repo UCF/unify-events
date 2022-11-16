@@ -165,3 +165,8 @@ DISALLOWED_CALENDAR_TITLES = [
     'events',
     'ucf events'
 ]
+
+# The base URL of the search service. No trailing slash, please!
+SEO_SEARCH_SERVICE_API = 'http://127.0.0.1:8000/api/v1'
+# The API key to use when connecting to the search service
+SEO_SEARCH_SERVICE_API_KEY = '75134216a2720b95821ed2c87ebc23a18ebb7b12'

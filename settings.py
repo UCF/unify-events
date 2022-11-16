@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'profiles',
     'taggit',
+    'seo',
     'events',
     'unlevents',
     'widget_tweaks',
