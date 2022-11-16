@@ -48,6 +48,7 @@ class Command(BaseCommand):
         self.patterns_created = 0
         self.patterns_updated = 0
         self.patterns_deleted = 0
+        self.patterns_skipped = 0
 
         if 'SEO_SEARCH_SERVICE_API' in settings.__dict__.keys() and not self.search_service_base_url:
             self.search_service_base_url = settings.SEO_SEARCH_SERVICE_API
@@ -100,7 +101,13 @@ class Command(BaseCommand):
         Adds or updates an auto anchor
         """
         try:
-            auto_anchor = AutoAnchor.objects.get(pattern__iexact=data['pattern'], imported=True)
+            auto_anchor = AutoAnchor.objects.get(pattern__iexact=data['pattern'])
+
+            # If this is a local auto anchor, move on
+            if auto_anchor.local() == True:
+                self.patterns_skipped += 1
+                return
+
             auto_anchor.url = data['url']
             auto_anchor.updated_on = self.update_date
             auto_anchor.save()
@@ -136,5 +143,6 @@ class Command(BaseCommand):
             "All done!\n",
             f"Patterns created: {self.patterns_created}",
             f"Patterns updated: {self.patterns_updated}",
+            f"Patterns skipped: {self.patterns_skipped}",
             f"Patterns deleted: {self.patterns_deleted}\n"
         ])
