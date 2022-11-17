@@ -165,3 +165,10 @@ DISALLOWED_CALENDAR_TITLES = [
     'events',
     'ucf events'
 ]
+
+# The base URL of the search service. No trailing slash, please!
+SEO_SEARCH_SERVICE_API = 'http://search.cm.ucf.edu/api/v1'
+# The API key to use when connecting to the search service
+SEO_SEARCH_SERVICE_API_KEY = 'some long descret key things'
+# Determines if existing links should be overwritten
+SEO_AUTO_ANCHORS_FORCE_UPDATE = True
