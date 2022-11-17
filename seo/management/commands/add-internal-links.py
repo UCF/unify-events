@@ -1,8 +1,12 @@
 import settings
 from datetime import datetime, date
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Q
+from operator import or_
 
-from seo.models import InternalLink, InternalLinkRecord
+from functools import reduce
+
+from seo.models import KeywordPhrase, InternalLinkRecord
 from seo import util
 from events.models import Event
 
@@ -92,6 +96,12 @@ class Command(BaseCommand):
         Gets the events to be processed
         """
         retval = Event.objects.all()
+
+        # Start off by querying for events
+        # that contain one of our keywords
+
+        kw_values = KeywordPhrase.objects.all()
+        retval = retval.filter(reduce(or_, (Q(description__icontains=kw.phrase) for kw in kw_values)))
 
         # If we're not forcing reprocessing,
         # filter to only events that have not been
