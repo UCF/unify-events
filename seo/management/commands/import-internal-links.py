@@ -18,7 +18,7 @@ class Command(BaseCommand):
             type=str,
             dest='search_service_api',
             help='The base URL of the search service',
-            default='https://search.cm.ucf.edu/api/v1'
+            default=None
         )
 
         parser.add_argument(
@@ -75,8 +75,7 @@ class Command(BaseCommand):
         params = {
             "key": self.api_key
         }
-        request_url = f"{self.search_service_base_url}/seo/patterns"
-
+        request_url = f"{self.search_service_base_url}/seo/internal-links/"
         while request_url:
             response = requests.get(request_url, params=params)
             if response.ok:
@@ -84,6 +83,8 @@ class Command(BaseCommand):
                 request_url = resp_data['next']
 
                 ret_val.extend(resp_data['results'])
+            else:
+                request_url = None
 
         return ret_val
 
