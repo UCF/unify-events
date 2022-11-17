@@ -21,6 +21,10 @@ class InternalLink(models.Model):
     imported = models.BooleanField(default=False)
     objects = InternalLinkManager()
 
+    @property
+    def keywords(self) -> str:
+        return ', '.join(self.phrases.values_list('phrase', flat=True))
+
     def local(self) -> bool:
         return not self.imported
     local.boolean = True
