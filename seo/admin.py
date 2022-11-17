@@ -12,7 +12,7 @@ class KeywordPhraseInline(admin.TabularInline):
 
 @admin.register(InternalLink)
 class InternalLinkAdmin(admin.ModelAdmin):
-    list_display = ['url', 'keywords', 'imported', 'local']
+    list_display = ['url', 'keywords', 'imported', 'local', 'replacement_count']
     search_fields = ['phrases__phrase', 'url']
     inlines = [
         KeywordPhraseInline
