@@ -120,7 +120,7 @@ class Command(BaseCommand):
                 event_instances__end__gte=self.events_after
             )
 
-        self.events = retval
+        self.events = retval.distinct()
 
     def __prepare_events(self):
         """
