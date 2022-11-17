@@ -185,6 +185,7 @@ class Event(TimeCreatedModified):
     tags = TaggableManager()
     registration_link = models.URLField(max_length=400, blank=True, null=True)
     registration_info = models.TextField(max_length=255, blank=True, null=True)
+    internal_link_checked = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         app_label = 'events'
