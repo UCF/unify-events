@@ -2,7 +2,7 @@ import settings
 from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 
-from seo.models import AutoAnchor
+from seo.models import InternalLink, KeywordPhrase
 
 import requests
 
@@ -40,7 +40,7 @@ class Command(BaseCommand):
         """
         Entry point for the command
         """
-        self.search_service_base_url = options.get('searech_service_api', None)
+        self.search_service_base_url = options.get('search_service_api', None)
         self.api_key = options.get('api_key', None)
         self.update_date = datetime.now()
         self.remove_stale = options.get('remove_stale', False)
@@ -93,35 +93,45 @@ class Command(BaseCommand):
         Processes the auto anchors
         """
         for result in self.auto_anchors:
-            self.__add_or_update_auto_anchor(result)
+            self.__add_or_update_internal_link(result)
 
 
-    def __add_or_update_auto_anchor(self, data):
+    def __add_or_update_internal_link(self, data):
         """
         Adds or updates an auto anchor
         """
+        internal_link = None
+
         try:
-            auto_anchor = AutoAnchor.objects.get(pattern__iexact=data['pattern'])
+            internal_link = InternalLink.objects.get(url__iexact=data['url'])
 
             # If this is a local auto anchor, move on
-            if auto_anchor.local() == True:
+            if internal_link.local() == True:
                 self.patterns_skipped += 1
                 return
 
-            auto_anchor.url = data['url']
-            auto_anchor.updated_on = self.update_date
-            auto_anchor.save()
+            internal_link.updated_on = self.update_date
+            internal_link.save()
             self.patterns_updated += 1
-        except AutoAnchor.DoesNotExist:
-            auto_anchor = AutoAnchor(
-                pattern = data['pattern'],
+        except InternalLink.DoesNotExist:
+            internal_link = InternalLink(
                 url=data['url'],
                 created_on=self.update_date,
                 updated_on=self.update_date,
                 imported=True
             )
-            auto_anchor.save()
+            internal_link.save()
             self.patterns_created += 1
+
+        for phrase in data['phrases']:
+            try:
+                kwp = KeywordPhrase.objects.get(phrase=phrase)
+                kwp.link = internal_link
+                kwp.save()
+            except KeywordPhrase.DoesNotExist:
+                kwp = KeywordPhrase(phrase=phrase)
+                kwp.link = internal_link
+                kwp.save()
 
 
     def __remove_stale(self):
@@ -129,11 +139,11 @@ class Command(BaseCommand):
         Removes any imported auto anchors that were not in the results
         from the search service
         """
-        patterns = AutoAnchor.objects.filter(imported=True, updated_at__lt=self.update_date)
-        self.patterns_deleted = patterns.count()
+        links = InternalLink.objects.filter(imported=True, updated_at__lt=self.update_date)
+        self.patterns_deleted = links.count()
 
         if self.patterns_deleted > 0:
-            patterns.delete()
+            links.delete()
 
     def __report_results(self):
         """
@@ -141,8 +151,8 @@ class Command(BaseCommand):
         """
         self.stdout.writelines([
             "All done!\n",
-            f"Patterns created: {self.patterns_created}",
-            f"Patterns updated: {self.patterns_updated}",
-            f"Patterns skipped: {self.patterns_skipped}",
-            f"Patterns deleted: {self.patterns_deleted}\n"
+            f"Internal Links created: {self.patterns_created}",
+            f"Internal Links updated: {self.patterns_updated}",
+            f"Internal Links skipped: {self.patterns_skipped}",
+            f"Internal Links deleted: {self.patterns_deleted}\n"
         ])

@@ -1,27 +1,36 @@
 from django.db import models
+from django.utils import timezone
+
+from datetime import datetime
 
 # Create your models here.
-class AutoAnchorManager(models.Manager):
+class InternalLinkManager(models.Manager):
     def find_in_text(self, text: str):
-        pattern_ids = []
+        link_ids = []
 
-        for aa in self.all():
-            if aa.pattern.lower() in text.lower():
-                pattern_ids.append(aa.id)
+        for link in self.all():
+            if any([phrase.phrase.lower() in text.lower() for phrase in link.phrases.all()]):
+                link_ids.append(link.id)
 
-        return self.filter(id__in=pattern_ids)
+        return self.filter(id__in=link_ids)
 
-class AutoAnchor(models.Model):
-    pattern = models.CharField(max_length=255, null=False, blank=False)
+class InternalLink(models.Model):
     url = models.URLField(max_length=255, null=False, blank=False)
-    imported = models.BooleanField(default=False)
     created_on = models.DateTimeField(null=False, blank=False, auto_now_add=True)
     updated_on = models.DateTimeField(null=False, blank=False, auto_now=True)
-    objects = AutoAnchorManager()
+    imported = models.BooleanField(default=False)
+    objects = InternalLinkManager()
 
     def local(self) -> bool:
         return not self.imported
     local.boolean = True
 
     def __str__(self):
-        return self.pattern
+        return self.url
+
+class KeywordPhrase(models.Model):
+    phrase = models.CharField(max_length=255, null=False, blank=False)
+    link = models.ForeignKey(InternalLink, related_name='phrases', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.phrase
