@@ -6,7 +6,7 @@ from seo.models import InternalLink, InternalLinkRecord
 
 def internal_links(event, process_time):
     value = event.description
-    if not process_time:
+    if process_time is None:
         process_time = datetime.now()
 
     links = InternalLink.objects.find_in_text(value)
