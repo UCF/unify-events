@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Replacement Stats for &ldquo;{{object.phrase}}&rdquo;</h1>
+
+<table class="result_list">
+  <thead>
+    <tr>
+      <th class="column-keywordphrase" scope="col">Keyword Phrase</th>
+      <th class="column-count" scope="col">Replacements Made</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for replacement in object.replacements.all %}
+    <tr>
+      <td><a href="{{ replacement.event.get_absolute_url }}" target="_blank">{{ replacement.event.title }}</a></td>
+      <td>{{ replacement.updated_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Replacement Stats for {{object.url}}</h1>
+<table class="result_list">
+  <thead>
+    <tr>
+      <th class="column-keywordphrase" scope="col">Keyword Phrase</th>
+      <th class="column-count" scope="col">Replacements Made</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for keyword in object.phrases.all %}
+    <tr>
+      <td><a href="{% url 'admin:seo_keywordphrase_stats' keyword.id %}">{{ keyword.phrase }}</a></td>
+      <td>{{ keyword.replacement_count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

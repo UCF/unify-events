@@ -27,6 +27,14 @@ class InternalLink(models.Model):
     def keywords(self) -> str:
         return ', '.join(self.phrases.values_list('phrase', flat=True))
 
+    @property
+    def replacement_count(self):
+        retval = 0
+        for kw in self.phrases.all():
+            retval += kw.replacement_count
+
+        return retval
+
     def local(self) -> bool:
         return not self.imported
     local.boolean = True
@@ -37,6 +45,10 @@ class InternalLink(models.Model):
 class KeywordPhrase(models.Model):
     phrase = models.CharField(max_length=255, null=False, blank=False)
     link = models.ForeignKey(InternalLink, related_name='phrases', on_delete=models.CASCADE)
+
+    @property
+    def replacement_count(self):
+        return self.replacements.count()
 
     def __str__(self):
         return self.phrase
