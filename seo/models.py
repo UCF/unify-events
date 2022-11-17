@@ -3,6 +3,8 @@ from django.utils import timezone
 
 from datetime import datetime
 
+from events.models import Event
+
 # Create your models here.
 class InternalLinkManager(models.Manager):
     def find_in_text(self, text: str):
@@ -38,3 +40,12 @@ class KeywordPhrase(models.Model):
 
     def __str__(self):
         return self.phrase
+
+class InternalLinkRecord(models.Model):
+    internal_link = models.ForeignKey(InternalLink, related_name='replacement_records', on_delete=models.CASCADE)
+    keyword_phrase = models.ForeignKey(KeywordPhrase, related_name='replacements', on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, related_name='internal_link_replacements', on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(null=False, blank=False, auto_now=True)
+
+    def __str__(self):
+        return f"{self.keyword_phrase.phrase} - {self.internal_link.url}"
