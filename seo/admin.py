@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.template.response import TemplateResponse
 
-from django.urls import path
+from django.urls import path, reverse
+from django.utils.safestring import mark_safe
 
 from .models import InternalLink, KeywordPhrase
 
@@ -12,11 +13,16 @@ class KeywordPhraseInline(admin.TabularInline):
 
 @admin.register(InternalLink)
 class InternalLinkAdmin(admin.ModelAdmin):
-    list_display = ['url', 'keywords', 'imported', 'local', 'replacement_count']
+    list_display = ['url', 'keywords', 'imported', 'local', 'replacement_count', 'stats']
     search_fields = ['phrases__phrase', 'url']
     inlines = [
         KeywordPhraseInline
     ]
+
+    def stats(self, obj):
+        base_url = reverse('admin:seo_keywordphrase_changelist')
+        url = f'{base_url}?link__id__exact={obj.id}'
+        return mark_safe(f'<a href="{url}">View Keywords</a>')
 
     def save_model(self, request, obj, form, change) -> None:
         """
@@ -58,8 +64,13 @@ class InternalLinkAdmin(admin.ModelAdmin):
 
 @admin.register(KeywordPhrase)
 class KeywordPhraseAdmin(admin.ModelAdmin):
-    list_display = ['phrase']
+    list_display = ['phrase', 'replacement_count', 'view_replacements']
+    list_filter = ['link']
     search_fields = ['phrase']
+
+    def view_replacements(self, obj):
+        url = reverse('admin:seo_keywordphrase_stats', kwargs={'object_id': obj.id})
+        return mark_safe(f'<a href="{url}">View Replacements</a>')
 
     def get_urls(self):
         """
@@ -72,6 +83,8 @@ class KeywordPhraseAdmin(admin.ModelAdmin):
         ]
 
         urls = additional_urls + urls
+
+        print(urls)
 
         return additional_urls + urls
 
