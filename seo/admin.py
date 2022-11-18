@@ -58,7 +58,7 @@ class InternalLinkAdmin(admin.ModelAdmin):
 
 @admin.register(KeywordPhrase)
 class KeywordPhraseAdmin(admin.ModelAdmin):
-    list_display = ['phrase']
+    list_display = ['phrase', 'replacement_count']
     search_fields = ['phrase']
 
     def get_urls(self):
