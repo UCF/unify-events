@@ -27,7 +27,7 @@
     "gulp-eslint-if-fixed": "^1.0.0",
     "gulp-include": "^2.4.1",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "~4.1.0",
+    "gulp-sass": "~5.1.0",
     "gulp-sass-lint": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "merge": "^2.1.0"
