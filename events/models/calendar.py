@@ -96,6 +96,7 @@ class Calendar(TimeCreatedModified):
     admins = models.ManyToManyField(User, related_name='admin_calendars', blank=True)
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
     active = models.BooleanField(blank=False, null=False, default=True)
+    trusted = models.BooleanField(blank=False, null=False, default=False)
     objects = CalendarManager()
 
     class Meta:
@@ -195,7 +196,10 @@ class Calendar(TimeCreatedModified):
         # Make state pending if copying for Main Calendar
         state = None
         if self.is_main_calendar:
-            state = events.models.State.pending
+            if event.calendar.trusted:
+                state = events.models.State.posted
+            else:
+                state = events.models.State.pending
         copy = event.copy(calendar=self, state=state)
         return copy
 

@@ -9,7 +9,6 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.urls import reverse
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
@@ -26,6 +25,7 @@ from events.models import get_main_calendar
 from events.models import get_all_users_future_events
 from events.models import get_events_by_range
 from events.models import State
+from events.utils import dedupe_instances_first_per_event
 from events.views.event_views import CalendarEventsBaseListView
 from events.views.manager.calendar import CalendarUserValidationMixin
 
@@ -77,6 +77,8 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
             if events:
                 events = events.filter(event__state=state_id)
 
+        events = dedupe_instances_first_per_event(events)
+
         self.queryset = events
         return events
 
@@ -101,11 +103,14 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
 
         calendar = self.get_calendar()
         if calendar:
-            ctx['rereview_count'] = calendar.future_event_instances().filter(event__state=State.rereview).count()
-            ctx['pending_count'] = calendar.future_event_instances().filter(event__state=State.pending).count()
+            events = dedupe_instances_first_per_event(calendar.future_event_instances())
+            ctx['rereview_count'] = events.filter(event__state=State.rereview).count()
+            ctx['pending_count'] = events.filter(event__state=State.pending).count()
         else:
-            ctx['rereview_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.rereview).count()
-            ctx['pending_count'] = get_all_users_future_events(self.request.user).filter(event__state=State.pending).count()
+            events = dedupe_instances_first_per_event(get_all_users_future_events(self.request.user))
+            ctx['rereview_count'] = events.filter(event__state=State.rereview).count()
+            ctx['pending_count'] = events.filter(event__state=State.pending).count()
+
 
         # get the state filter
         state_id = State.get_id(self.kwargs.get('state'))

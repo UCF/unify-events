@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import ValidationError
+from events.models.promotion import Promotion
 from taggit.models import Tag
 
 
@@ -96,7 +97,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'active')
+        fields = ('title', 'description', 'active', 'trusted')
 
 
 class CalendarSubscribeForm(forms.ModelForm):
@@ -124,6 +125,7 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+        self.fields['title'].widget = forms.TextInput(attrs={"spellcheck": "true"})
         self.fields['description'].widget = Wysiwyg()
         self.fields['tags'].widget = TaggitField()
 
@@ -379,3 +381,11 @@ class TagForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, f
         tag.slug = generate_unique_slug(tag.name, Tag, True)
         tag.save()
         return tag
+
+class PromotionForm(forms.ModelForm):
+    """
+    Form for promotions
+    """
+    class Meta:
+        model = Promotion
+        fields = ('title', 'image', 'alt_text', 'url', 'active')

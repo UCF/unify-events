@@ -1,10 +1,12 @@
 import logging
+import json
 from urllib.parse import quote_plus
 from urllib.parse import unquote_plus
 
 from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -72,6 +74,17 @@ class EventCreate(CreateView):
 
         return ctx
 
+    def get_success_url(self, **kwargs):
+        if 'preview' in self.request.POST:
+            return reverse('events.views.event_views.event', kwargs = {
+                'pk': self.object.event_instances.first().pk,
+                'slug': self.object.event_instances.first().slug
+            })
+
+        return reverse('events.views.manager.dashboard-calendar-state', kwargs = {
+            'pk': self.object.calendar.pk
+        })
+
     def get(self, request, *args, **kwargs):
         """
         Handles the GET request and instantiates blank versions
@@ -102,6 +115,11 @@ class EventCreate(CreateView):
                 return HttpResponseForbidden('You cannot add an event to this calendar.')
 
             event = form.save(commit=False)
+
+            # If the preview button was clicked
+            if 'preview' in request.POST:
+                event.state = State.pending
+
             event_instance_formset = EventInstanceCreateFormSet(
                 data=self.request.POST,
                 instance=event
@@ -144,7 +162,8 @@ class EventCreate(CreateView):
             if form.cleaned_data['submit_to_main']:
                 if self.object.state == State.posted:
                     get_main_calendar().import_event(self.object)
-                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                    if not self.object.calendar.trusted:
+                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
                 else:
                     messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
 
@@ -261,14 +280,16 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
             # Check if main calendar submission should be re-reviewed
             is_main_rereview = False
             if any(s in form.changed_data for s in ['description', 'title']):
-                is_main_rereview = True
+                if not self.object.calendar.trusted:
+                    is_main_rereview = True
 
             # Import to main calendar if posted, is requested and
             # is NOT already submitted to main calendar
             if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
                 if self.object.state == State.posted:
                     get_main_calendar().import_event(self.object)
-                    messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                    if not self.object.calendar.trusted:
+                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
                 else:
                     messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
             elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
@@ -336,6 +357,23 @@ class EventDelete(SuccessPreviousViewRedirectMixin, DeleteSuccessMessageMixin, D
             return HttpResponseForbidden('You cannot delete the specified event.')
 
         return super(EventDelete, self).delete(request, *args, **kwargs)
+
+
+@login_required
+def get_event_state(request, pk=None):
+    """
+    Returns the state of the event along with the ID as JSON
+    """
+    event = get_object_or_404(Event, pk=pk)
+
+    data = {
+        'event_id': event.id,
+        'state': State.get_string(event.state)
+    }
+
+    retval = json.dumps(data)
+
+    return HttpResponse(retval, content_type='application/json')
 
 
 def update_event_state(request, pk=None, state=None):

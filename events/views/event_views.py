@@ -25,15 +25,24 @@ from core.views import InvalidSlugRedirectMixin
 from core.views import PerPageOverrideMixin
 from settings_local import FIRST_DAY_OF_WEEK
 
+class PromotionMixin(object):
+    """
+    Mixin that will add a promotion object to the context
+    so it can be added to various templates.
+    """
+    def get_context_data(self, **kwargs):
+        context = super(PromotionMixin, self).get_context_data(**kwargs)
+        context['promotion'] = Promotion.objects.single_random()
+        return context
 
-class EventDetailView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, DetailView):
+class EventDetailView(InvalidSlugRedirectMixin, MultipleFormatTemplateViewMixin, PromotionMixin, DetailView):
     by_model = EventInstance
     context_object_name = 'event_instance'
     model = EventInstance
     template_name = 'events/frontend/event-single/event.'
 
 
-class CalendarEventsBaseListView(PerPageOverrideMixin, ListView):
+class CalendarEventsBaseListView(PerPageOverrideMixin, PromotionMixin, ListView):
     model = EventInstance
     context_object_name = 'event_instances'
     paginate_by = 25

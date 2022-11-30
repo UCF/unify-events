@@ -129,6 +129,25 @@
           </div>
         </div>
 
+        {% if user.is_superuser %}
+        <div class="form-group row{% if form.trusted.errors %} has-danger{% endif %}">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.trusted.auto_id }}">Trusted</label>
+            <small class="form-text text-muted mt-0">Determines if the calendar can bypass the review process and directly post to the Main Calendar.</small>
+          </div>
+          <div class="col-md-9 col-xl-8 d-md-flex flex-column justify-content-center">
+            <div>
+              {{ form.trusted|add_class:"form-check-input ml-0"}}<label for="{{ form.trusted.auto_id }}" class="switch"><span class="sr-only">Click to designate this calendar as a trusted calendar.</span></label>
+            </div>
+            {% if form.trusted.errors %}
+              {% for error in form.trusted.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
         {% for field in form.hidden_fields %}
           {{ field }}
         {% endfor %}
