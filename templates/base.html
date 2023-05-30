@@ -26,6 +26,11 @@
     {% block meta %}{% endblock %}
 
     <meta name="google-site-verification" content="{{ GOOGLE_WEBMASTER_VERIFICATION }}" />
+    <script>
+      var HTTPHOST = '{{ request.META.HTTP_HOST }}';
+      var EARLIEST_VALID_DATE = '{{ EARLIEST_VALID_DATE }}';
+      var LATEST_VALID_DATE = '{{ LATEST_VALID_DATE }}';
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ2LQ7CMQX"></script>
     <script>
