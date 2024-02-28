@@ -10,7 +10,7 @@
 {% block content_title %}
   <div class="col">
     <h1 class="h2 mb-2">
-      <a class="text-secondary" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
+      <a class="text-secondary text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
   {% if calendar.is_main_calendar %}
