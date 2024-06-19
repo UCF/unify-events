@@ -135,12 +135,14 @@ const toggleModalModifyObject = function () {
  **/
 const calendarSliders = function () {
   $('body').on('click', '.calendar-slider .pager a', function (e) {
-    e.preventDefault();
+    if ($(this).attr('data-ajax-link')) {
+      e.preventDefault();
 
-    const slider = $(this).parents('.calendar-slider');
-    $.get($(this).attr('data-ajax-link'), (data) => {
-      slider.replaceWith(data);
-    });
+      const slider = $(this).parents('.calendar-slider');
+      $.get($(this).attr('data-ajax-link'), (data) => {
+        slider.replaceWith(data);
+      });
+    }
   });
 };
 
