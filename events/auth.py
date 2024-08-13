@@ -14,6 +14,7 @@ class Backend(ModelBackend):
             LDAPHelper.bind(ldap_helper.connection, username, password)
             ldap_user = LDAPHelper.search_single(ldap_helper.connection, username)
         except LDAPHelper.LDAPHelperException as e:
+            logging.error('Unable to login user `%s`: %s' % (username,str(e)))
             return None
         else:
             # Extract the GUID
@@ -31,6 +32,7 @@ class Backend(ModelBackend):
                         return None
 
             except LDAPHelper.MissingAttribute:
+                logging.error('User missing necessary attribute `%s`: %s' % (username,str(e)))
                 return None
             except User.DoesNotExist:
 
