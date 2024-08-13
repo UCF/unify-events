@@ -172,3 +172,27 @@ SEO_SEARCH_SERVICE_API = 'http://search.cm.ucf.edu/api/v1'
 SEO_SEARCH_SERVICE_API_KEY = 'some long descret key things'
 # Determines if existing links should be overwritten
 SEO_AUTO_ANCHORS_FORCE_UPDATE = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+    	'standard': {
+        	'format': '[%(asctime)s] %(levelname)s:%(module)s %(funcName)s %(lineno)d %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'standard',
+            'filename': os.path.join(BASE_DIR, 'logs/application.log'),
+            'maxBytes': 1024*1024*5, # 5 MB
+        	'backupCount': 5,
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'INFO',
+    },
+}
