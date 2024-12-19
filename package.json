@@ -30,7 +30,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass-lint": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "merge": "^2.1.0"
+    "merge": "^2.1.1"
   },
   "browserslist": [
     "last 2 versions",
