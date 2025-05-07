@@ -189,3 +189,42 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+USE_SAML = False
+
+# SSO Settings
+SAML2_AUTH = {
+    # Required setting
+    'SAML_CLIENT_SETTINGS': { # Pysaml2 Saml client settings (https://pysaml2.readthedocs.io/en/latest/howto/config.html)
+        'entityid': '{entity_id}', # The optional entity ID string to be passed in the 'Issuer' element of authn request, if required by the IDP.
+        'metadata': {
+            'remote': [
+                {
+                    "url": '{metadata_url}', # The auto(dynamic) metadata configuration URL of SAML2
+                },
+            ],
+        },
+    },
+
+    # Optional settings below
+    'DEFAULT_NEXT_URL': '/admin',  # Custom target redirect URL after the user get logged in. Default to /admin if not set. This setting will be overwritten if you have parameter ?next= specificed in the login URL.
+    'NEW_USER_PROFILE': {
+        'USER_GROUPS': [],  # The default group name when a new user logs in
+        'ACTIVE_STATUS': True,  # The default active status for new users
+        'STAFF_STATUS': False,  # The staff status for new users
+        'SUPERUSER_STATUS': False,  # The superuser status for new users
+    },
+    'ATTRIBUTES_MAP': {
+        'email': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+        'username': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/NID',
+        'first_name': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+        'last_name': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
+        'token': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',  # Mandatory, can be unrequired if TOKEN_REQUIRED is False
+        'groups': 'search_service_security_groups',  # Optional
+    },
+    'TRIGGER': {
+        'CREATE_USER': 'core.saml_hooks.on_saml_user_create',
+        'BEFORE_LOGIN': 'core.saml_hooks.on_saml_before_login',
+    },
+    'ASSERTION_URL': '{assertion_url}', # Custom URL to validate incoming SAML requests against
+}
