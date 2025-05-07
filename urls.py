@@ -15,6 +15,8 @@ from events.views.event_views import WeekEventsListView
 from events.views.event_views import YearEventsListView
 from events.views.event_views import CalendarWidgetView
 
+import django_saml2_auth
+
 import core
 
 from events.views.search import GlobalSearchView
@@ -82,6 +84,27 @@ except Exception:
     # An exception can occur here if the app db hasn't been set up yet.
     # Just skip registration of these URLs then
     pass
+
+# Logins
+if settings.USE_SAML:
+    urlpatterns.insert(
+        0,
+        url(r'^sso/',
+            include('django_saml2_auth.urls')
+        )
+    )
+    urlpatterns.insert(
+        1,
+        url(r'^manager/login/$',
+            django_saml2_auth.views.signin
+        )
+    )
+    urlpatterns.insert(
+        2,
+        url(r'^admin/login/$',
+            django_saml2_auth.views.signin
+        )
+    )
 
 
 # Error handling

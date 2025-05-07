@@ -14,6 +14,8 @@ certifi==2020.6.20
     # via
     #   unify-events (pyproject.toml)
     #   requests
+cffi==1.17.1
+    # via cryptography
 chardet==3.0.4
     # via unify-events (pyproject.toml)
 charset-normalizer==2.0.12
@@ -22,6 +24,12 @@ charset-normalizer==2.0.12
     #   requests
 clearcache-python==0.0.8
     # via unify-events (pyproject.toml)
+cryptography==44.0.3
+    # via
+    #   pyopenssl
+    #   pysaml2
+defusedxml==0.7.1
+    # via pysaml2
 django==3.1.14
     # via
     #   unify-events (pyproject.toml)
@@ -39,10 +47,14 @@ django-compressor==2.4
     # via unify-events (pyproject.toml)
 django-filter==2.4.0
     # via unify-events (pyproject.toml)
+django-saml2-auth-ai==2.1.6
+    # via unify-events (pyproject.toml)
 django-taggit==1.3.0
     # via unify-events (pyproject.toml)
 django-widget-tweaks==1.4.8
     # via unify-events (pyproject.toml)
+elementpath==4.8.0
+    # via xmlschema
 gunicorn==21.2.0
     # via unify-events (pyproject.toml)
 html2text==2020.1.16
@@ -53,6 +65,8 @@ idna==2.10
     # via
     #   unify-events (pyproject.toml)
     #   requests
+importlib-resources==6.4.5
+    # via pysaml2
 lorem==0.1.1
     # via unify-events (pyproject.toml)
 mysqlclient==2.2.7
@@ -73,18 +87,29 @@ pyasn1-modules==0.2.8
     # via
     #   unify-events (pyproject.toml)
     #   python-ldap
+pycparser==2.22
+    # via cffi
+pyopenssl==25.0.0
+    # via pysaml2
 pyparsing==2.4.7
     # via
     #   unify-events (pyproject.toml)
     #   packaging
+pysaml2==7.3.1
+    # via
+    #   unify-events (pyproject.toml)
+    #   django-saml2-auth-ai
 python-dateutil==2.8.1
-    # via unify-events (pyproject.toml)
+    # via
+    #   unify-events (pyproject.toml)
+    #   pysaml2
 python-ldap==3.4.0
     # via unify-events (pyproject.toml)
 pytz==2020.1
     # via
     #   unify-events (pyproject.toml)
     #   django
+    #   pysaml2
 rcssmin==1.0.6
     # via
     #   unify-events (pyproject.toml)
@@ -93,6 +118,7 @@ requests==2.27.1
     # via
     #   unify-events (pyproject.toml)
     #   clearcache-python
+    #   pysaml2
 rjsmin==1.1.0
     # via
     #   unify-events (pyproject.toml)
@@ -115,6 +141,8 @@ sqlparse==0.3.1
     # via
     #   unify-events (pyproject.toml)
     #   django
+typing-extensions==4.13.2
+    # via pyopenssl
 unidecode==1.1.1
     # via unify-events (pyproject.toml)
 urllib3==1.26.5
@@ -126,3 +154,7 @@ webencodings==0.5.1
     #   unify-events (pyproject.toml)
     #   bleach
     #   html5lib
+xmlschema==3.4.5
+    # via pysaml2
+zipp==3.20.2
+    # via importlib-resources
