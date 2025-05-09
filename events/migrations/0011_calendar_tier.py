@@ -4,7 +4,7 @@ from django.db import migrations, models
 from django.conf import settings
 
 def forward_migration(apps, schema_editor):
-    Calendar = apps.get_model('calendar', 'events')
+    Calendar = apps.get_model('events', 'Calendar')
     if settings.FRONT_PAGE_CALENDAR_PK:
         try:
             main_calendar = Calendar.objects.get(pk=settings.FRONT_PAGE_CALENDAR_PK)
