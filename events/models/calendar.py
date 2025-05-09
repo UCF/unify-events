@@ -74,7 +74,7 @@ class CalendarManager(models.Manager):
         return self.filter(active=False)
 
     def tier_two_calendars(self):
-        return self.filter(can_submit_to_main=True)
+        return self.filter(tier=Calendar.Tiers.TIER_2)
 
     def with_recent_events(self):
         expiration = datetime.now() - timedelta(days=settings.CALENDAR_EXPIRATION_DAYS)
