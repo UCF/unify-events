@@ -73,6 +73,9 @@ class CalendarManager(models.Manager):
     def inactive_calendars(self):
         return self.filter(active=False)
 
+    def tier_two_calendars(self):
+        return self.filter(tier=Calendar.Tiers.TIER_2)
+
     def with_recent_events(self):
         expiration = datetime.now() - timedelta(days=settings.CALENDAR_EXPIRATION_DAYS)
         return self.filter(events__event_instances__start__gte=expiration).distinct()
@@ -84,10 +87,17 @@ class CalendarManager(models.Manager):
     def invalid_named_calendars(self):
         return Calendar.objects.filter(title__in=settings.DISALLOWED_CALENDAR_TITLES).exclude(pk=settings.FRONT_PAGE_CALENDAR_PK)
 
+
 class Calendar(TimeCreatedModified):
     """
     Calendar
     """
+
+    class Tiers(models.IntegerChoices):
+        TIER_1 = 1
+        TIER_2 = 2
+        TIER_3 = 3
+
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, blank=True)
     description = models.CharField(max_length=140, blank=True, null=True)
@@ -97,6 +107,7 @@ class Calendar(TimeCreatedModified):
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
     active = models.BooleanField(blank=False, null=False, default=True)
     trusted = models.BooleanField(blank=False, null=False, default=False)
+    tier = models.IntegerField(blank=False, null=False, choices=Tiers.choices, default=3)
     objects = CalendarManager()
 
     class Meta:
@@ -110,6 +121,13 @@ class Calendar(TimeCreatedModified):
             is_main = True
 
         return is_main
+
+    @property
+    def can_suggest_to_main(self):
+        if self.tier < 3:
+            return True
+
+        return False
 
     @property
     def subscribing_calendars(self):
