@@ -2,6 +2,13 @@
 {% load core_tags %}
 {% load url %}
 
+{% block meta %}
+  {{ block.super }}
+  {% if not calendar.is_main_calendar %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+{% endblock %}
+
 {% block pagehead %}
   {# Move login link out of header for this template #}
   {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/template/header.html' %}{% endif %}
