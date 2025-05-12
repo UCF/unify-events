@@ -37,11 +37,6 @@ urlpatterns = [
     url(r'^esi/(?P<model_name>[\w-]+)/(?P<object_id>[\d]+)/(calendar/(?P<calendar_id>[\d]+)/)?(?P<template_name>.*)', view=core.views.esi)
 ]
 
-# Append search urls
-urlpatterns += [
-    url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
-]
-
 
 try:
     # Get Main Calendar so we have access to its slug:
