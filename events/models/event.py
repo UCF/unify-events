@@ -190,15 +190,6 @@ class Event(TimeCreatedModified):
         app_label = 'events'
 
     @property
-    def should_index(self):
-        """
-        Returns true if the event should be indexed by search engines.
-        """
-        if self.calendar and self.calendar.is_main_calendar:
-            return True
-        return False
-
-    @property
     def is_re_review(self):
         re_review = False
         if self.state is State.rereview:
