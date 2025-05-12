@@ -4,6 +4,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 from events.models import Calendar
@@ -35,6 +36,11 @@ urlpatterns = [
     url(r'^calendar-widget/(?P<view>[\w-]+)/calendar/(?P<pk>\d+)/(?P<calendar_slug>[\w-]+)/(?P<size>[\w-]+)/(?P<year>[\d]+)/(?P<month>[\d]+)/$', CalendarWidgetView.as_view(), name='calendar-widget-by-calendar'),
     url(r'^esi/template/(?P<path>.*)', view=core.views.esi_template, name='esi-template'),
     url(r'^esi/(?P<model_name>[\w-]+)/(?P<object_id>[\d]+)/(calendar/(?P<calendar_id>[\d]+)/)?(?P<template_name>.*)', view=core.views.esi)
+]
+
+# Append search urls
+urlpatterns += [
+    url(r'^search/(?:feed\.(?P<format>[\w]+))?$', login_required(GlobalSearchView.as_view()), name='search_view'),
 ]
 
 
