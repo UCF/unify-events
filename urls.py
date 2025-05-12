@@ -4,7 +4,6 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 from events.models import Calendar
@@ -40,7 +39,7 @@ urlpatterns = [
 
 # Append search urls
 urlpatterns += [
-    url(r'^search/(?:feed\.(?P<format>[\w]+))?$', login_required(GlobalSearchView.as_view()), name='search_view'),
+    url(r'^search/(?:feed\.(?P<format>[\w]+))?$', GlobalSearchView.as_view(), name='search_view'),
 ]
 
 

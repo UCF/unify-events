@@ -16,11 +16,6 @@
 
 {% block content_tabs %}
 <div class="row mb-4">
-  {% if user.is_authenticated == True %}
-  <div class="col-sm-8 col-lg-4 flex-sm-last mb-3">
-    {% include 'events/frontend/searchbar.html' %}
-  </div>
-  {% endif %}
   <div class="col">
     <ul class="nav nav-tabs hidden-md-down">
       <li class="nav-item">
