@@ -145,6 +145,8 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
             self.fields['submit_to_main'].widget.attrs['disabled'] = 'disabled'
             self.fields['submit_to_main'].initial = True
 
+        self.fields['submit_to_calendar'] = forms.ModelChoiceField(queryset=Calendar.objects.none(), required=False)
+
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)
     registration_checkbox = forms.BooleanField(required=False)

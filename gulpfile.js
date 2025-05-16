@@ -29,7 +29,8 @@ let config = {
   htmlPath: './templates',
   pyPath: './events',
   sync: false,
-  syncTarget: 'http://127.0.0.1:8000'
+  syncTarget: 'http://127.0.0.1:8000',
+  virtualEnv: '../bin/activate'
 };
 
 /* eslint-disable no-sync */
@@ -104,7 +105,7 @@ function buildJS(src, dest) {
 // Executes Django `collectstatic` command
 function collectStatic(done) {
   exec(
-    'source ../bin/activate && python manage.py collectstatic --noinput && deactivate',
+    `source ${config.virtualEnv} && python manage.py collectstatic --noinput && deactivate`,
     {
       cwd: __dirname
     },

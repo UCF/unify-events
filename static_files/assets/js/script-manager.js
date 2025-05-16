@@ -1,4 +1,4 @@
-/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, eventPromotedTags */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, SUBCALSELECT_URL, eventPromotedTags */
 
 //
 // Import third-party assets
@@ -486,6 +486,30 @@ const calendarSearchTypeahead = function () {
       data: function (params) {
         const query = {
           q: params.term
+        };
+
+        return query;
+      },
+      delay: 250,
+      minimumInputLength: 3,
+      placeholder: 'Search by calendar name...'
+    }
+  });
+};
+
+/**
+ * Calendar search typeahead + form validation
+ *
+ * @return {void}
+ **/
+const suggestedCalendarSearchTypeahead = function () {
+  $('#id_event-submit_to_calendar').select2({
+    ajax: {
+      url: SUBCALSELECT_URL,
+      data: function (params) {
+        const query = {
+          q: params.term,
+          calendar: $('#id_event-calendar').val()
         };
 
         return query;
@@ -1491,6 +1515,7 @@ $(() => {
 
   userSearchTypeahead();
   calendarSearchTypeahead();
+  suggestedCalendarSearchTypeahead();
   eventTagging();
 
   eventRegistrationFields();
