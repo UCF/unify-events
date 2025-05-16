@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from events.forms.widgets import InlineLDAPSearch
+from events.models.calendar import Calendar
 from util import LDAPHelper
 
 
@@ -69,3 +70,11 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
 
         self.queryset = User.objects.all()
         return super(InlineLDAPSearchField, self).clean([u.pk for u in users])
+
+
+class CalendarChoiceField(forms.ModelChoiceField):
+    """
+    Model field specifically for calendars
+    """
+    def valid_value(self, value):
+        return True

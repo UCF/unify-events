@@ -159,13 +159,16 @@ class EventCreate(CreateView):
                                       event_instance_formset=event_instance_formset))
         else:
             # Import to main calendar if requested and state is posted
-            if form.cleaned_data['submit_to_main']:
+            if form.cleaned_data['submit_to_calendar']:
                 if self.object.state == State.posted:
-                    get_main_calendar().import_event(self.object)
-                    if not self.object.calendar.trusted:
-                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
-                else:
-                    messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
+                    calendar = None
+                    try:
+                        calendar = form.cleaned_data['submit_to_calendar']
+                    except Calendar.DoesNotExist:
+                        messages.error(self.request, 'The calendar you attempted to submit this event to does not exist.')
+
+                    calendar.import_event(self.object)
+                    messages.success(self.request, 'Event successfully submitted to the requested calendar. Please allow 2-3 days for your event to be reviewed before it is posted.')
 
             update_subscriptions(self.object)
 
