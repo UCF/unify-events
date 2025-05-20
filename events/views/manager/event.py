@@ -288,7 +288,7 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
 
             # Import to main calendar if posted, is requested and
             # is NOT already submitted to main calendar
-            if not self.object.is_submit_to_main and form.cleaned_data['submit_to_main']:
+            if not self.object.is_submit_to_main and form.cleaned_data['submit_to_calendar'] == 1:
                 if self.object.state == State.posted:
                     get_main_calendar().import_event(self.object)
                     if not self.object.calendar.trusted:
