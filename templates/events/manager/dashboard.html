@@ -184,7 +184,7 @@
                     </th>
                     {% if not calendar.is_main_calendar %}
                     <th class="field-recommended">
-                      <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Main Calendar Recommendation Status">
+                      <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Calendar Recommendation Status">
                         <span class="far fa-star" aria-hidden="true"></span>
                       </a>
                     {% endif %}
@@ -203,15 +203,15 @@
                       {% if not calendar.is_main_calendar %}
                       <td class="field-recommended">
                         {% if not event_instance.calendar.is_main_calendar %}
-                          {% if event_instance.event.get_main_state == 0 %}
+                          {% if event_instance.event.get_copied_state == 0 %}
                             <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Pending Approval">
                               <span class="fa fa-star-half-alt" aria-hidden="true"></span>
                             </a>
-                          {% elif event_instance.event.get_main_state == 2 %}
+                          {% elif event_instance.event.get_copied_state == 2 %}
                             <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Pending Rereview (event is still posted on the Main Calendar but edits have not yet been approved)">
                               <span class="fa fa-star-half-alt" aria-hidden="true"></span>
                             </a>
-                          {% elif event_instance.event.get_main_state == 1 %}
+                          {% elif event_instance.event.get_copied_state == 1 %}
                             <a href="#" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Approved for Main Calendar">
                               <span class="fa fa-star" aria-hidden="true"></span>
                             </a>
