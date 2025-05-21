@@ -79,10 +79,11 @@
                 {% endfor %}
                 <div class="dropdown-divider"></div>
               {% endif %}
-
+              {% if user.is_superuser %}
               <a class="dropdown-item" href="{% url 'events.views.manager.calendar-create' %}">
                 <span class="fa fa-plus fa-fw mr-2" aria-hidden="true"></span>Create New Calendar
               </a>
+              {% endif %}
             </div>
           </li>
           <li class="nav-item mt-2 mt-xl-0 ml-xl-3">
