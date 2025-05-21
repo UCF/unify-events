@@ -94,7 +94,7 @@ class CalendarOwnerUserValidationMixin(object):
 
 
 
-class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView):
+class CalendarCreate(FirstLoginTemplateMixin, SuccessMessageMixin, CreateView, SuperUserRequiredMixin):
     form_class = CalendarForm
     model = Calendar
     success_message = '%(title)s was created successfully.'
