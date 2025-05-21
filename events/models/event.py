@@ -244,6 +244,52 @@ class Event(TimeCreatedModified):
             title = 'CANCELED: ' + title
         return title
 
+
+    def get_copied_event(self):
+        """
+        Finds the first instance of this event on the next tier
+        of calendars.
+        """
+        event = None
+
+        # Compare against the original event
+        original_event = self
+        if self.created_from:
+            original_event = self.created_from
+
+        try:
+            event = Event.objects.filter(calendar__tier__lt=self.calendar.tier, created_from=original_event).first()
+        except Event.objects.DoesNotExist:
+            pass
+
+        return event
+
+
+    @property
+    def get_copied_state(self):
+        """
+        Get's the state of the copied version of the event
+        """
+        copied_status = None
+        copied_event = self.get_copied_event()
+        if copied_event:
+            copied_status = copied_event.state
+        return copied_status
+
+
+    @property
+    def is_submit_to_calendar(self):
+        """
+        Returns true if event has been submitted
+        to another calendar.
+        """
+        is_copied = False
+        if self.get_copied_event():
+            is_copied = True
+
+        return is_copied
+
+
     @property
     def is_submit_to_main(self):
         """
