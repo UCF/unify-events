@@ -252,6 +252,9 @@ class Event(TimeCreatedModified):
         """
         event = None
 
+        if self.calendar is None:
+            return None
+
         # Compare against the original event
         original_event = self
         if self.created_from:
@@ -259,7 +262,7 @@ class Event(TimeCreatedModified):
 
         try:
             event = Event.objects.filter(calendar__tier__lt=self.calendar.tier, created_from=original_event).first()
-        except Event.objects.DoesNotExist:
+        except Event.DoesNotExist:
             pass
 
         return event
