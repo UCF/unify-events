@@ -145,8 +145,9 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
 
         self.fields['submit_to_calendar'] = CalendarChoiceField(queryset=Calendar.objects.all(), required=False)
         obj = self.instance
-        if obj:
-            self.fields['submit_to_calendar'].initial = obj.get_copied_event().calendar
+        copied_event = obj.get_copied_event()
+        if copied_event is not None:
+            self.fields['submit_to_calendar'].initial = copied_event.calendar
 
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
