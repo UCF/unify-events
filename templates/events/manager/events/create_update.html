@@ -96,14 +96,22 @@
                   {% endfor %}
                 {% endif %}
               </div>
-              <div class="col-xl-6 d-flex align-items-center mb-md-2 mb-xl-0">
-                <div class="form-check mb-0">
-                  <label class="form-check-label font-italic" for="{{ form.submit_to_main.auto_id }}">
-                    {{ form.submit_to_main|add_class:"form-check-input" }} Suggest for Main Calendar Approval
-                  </label>
-                </div>
-              </div>
             </div>
+
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.submit_to_calendnar.auto_id }}" tabindex="-1">{{ form.submit_to_calendar.label }}</label>
+            <small class="form-text text-muted mt-0" id="help-label-title">
+              Recommend your event for another calendar.
+            </small>
+          </div>
+          <div class="col-xl-6 d-flex align-items-center mb-md-2 mb-xl-0">
+            {{ form.submit_to_calendar|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"spellcheck: false"}}
           </div>
         </div>
       </fieldset>

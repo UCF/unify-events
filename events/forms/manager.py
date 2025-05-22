@@ -15,6 +15,7 @@ from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.forms.widgets import TaggitField
 from events.forms.widgets import Wysiwyg
+from events.forms.fields import CalendarChoiceField
 from events.functions import is_date_in_valid_range
 from events.functions import get_earliest_valid_date
 from events.functions import get_latest_valid_date
@@ -125,6 +126,8 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+
+
         self.fields['title'].widget = forms.TextInput(attrs={"spellcheck": "true"})
         self.fields['description'].widget = Wysiwyg()
         self.fields['tags'].widget = TaggitField()
@@ -140,10 +143,12 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
                                                                  initial=instance.description,
                                                                  widget=forms.Textarea(attrs={'disabled': 'disabled', 'class': 'wysiwyg'}))
 
-        self.fields['submit_to_main'] = forms.BooleanField(required=False)
-        if instance and instance.is_submit_to_main:
-            self.fields['submit_to_main'].widget.attrs['disabled'] = 'disabled'
-            self.fields['submit_to_main'].initial = True
+        self.fields['submit_to_calendar'] = CalendarChoiceField(queryset=Calendar.objects.all(), required=False)
+        obj = self.instance
+        copied_event = obj.get_copied_event()
+        if copied_event is not None:
+            self.fields['submit_to_calendar'].initial = copied_event.calendar
+
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)

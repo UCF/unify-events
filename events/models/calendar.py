@@ -218,6 +218,8 @@ class Calendar(TimeCreatedModified):
                 state = events.models.State.posted
             else:
                 state = events.models.State.pending
+        else:
+            state = events.models.State.pending
         copy = event.copy(calendar=self, state=state)
         return copy
 

@@ -96,6 +96,46 @@ class CalendarSelect2ListView(View):
         context = self.get_context_data(**kwargs)
         return JsonResponse(context)
 
+
+class SuggestedCalendarSelect2ListView(View):
+    def get_context_data(self, **kwargs):
+        context = {}
+        results = []
+        q = self.request.GET.get('q', None)
+        requesting_calendar_id = self.request.GET.get('calendar', None)
+
+        if not requesting_calendar_id:
+            context['results'] = []
+            return context
+
+        calendar = None
+
+        try:
+            calendar = Calendar.objects.get(pk=requesting_calendar_id)
+        except Calendar.DoesNotExist:
+            context['results'] = []
+            return context
+
+        if not calendar.is_main_calendar:
+            valid_tier = calendar.tier - 1
+            calendars = Calendar.objects.filter(tier=valid_tier)
+
+            for c in calendars:
+                result = {
+                    'id': c.id,
+                    'text': c.title
+                }
+
+                results.append(result)
+
+        context['results'] = results
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
+
 class TagTypeaheadSearchView(View):
     def get_context_data(self, **kwargs):
         context = {}
