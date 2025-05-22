@@ -126,6 +126,8 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
         user_calendars = initial.pop('user_calendars')
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['calendar'].queryset = user_calendars
+
+
         self.fields['title'].widget = forms.TextInput(attrs={"spellcheck": "true"})
         self.fields['description'].widget = Wysiwyg()
         self.fields['tags'].widget = TaggitField()
@@ -142,6 +144,10 @@ class EventForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin,
                                                                  widget=forms.Textarea(attrs={'disabled': 'disabled', 'class': 'wysiwyg'}))
 
         self.fields['submit_to_calendar'] = CalendarChoiceField(queryset=Calendar.objects.all(), required=False)
+        obj = self.instance
+        if obj:
+            self.fields['submit_to_calendar'].initial = obj.get_copied_event().calendar
+
 
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Event Title'}))
     calendar = forms.ModelChoiceField(queryset=Calendar.objects.none(), empty_label=None)

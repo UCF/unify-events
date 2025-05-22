@@ -198,6 +198,7 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
         Set the set of calendars the user can select from
         """
         initial = super(EventUpdate, self).get_initial()
+        initial['submit_to_calendar'] = self.get_object().get_copied_event().calendar
         if self.request.user.is_superuser:
             initial['user_calendars'] = Calendar.objects.active_calendars()
         else:
