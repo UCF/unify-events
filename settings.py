@@ -40,7 +40,7 @@ MIDDLEWARE = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'events.auth.Backend',
+    # 'events.auth.Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
