@@ -15,8 +15,7 @@ def on_saml_before_login(user: User, saml_data: dict):
     user.save()
 
 def on_saml_find_user(saml_data: dict) -> User:
-    nid = saml_data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/NID']
-    logging.info(nid)
+    nid = saml_data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/NID'][0]
     user = None
     try:
         user = User.objects.get(username=nid.strip())
