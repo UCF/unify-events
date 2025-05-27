@@ -16,9 +16,10 @@ def on_saml_before_login(user: User, saml_data: dict):
 
 def on_saml_find_user(saml_data: dict) -> User:
     nid = saml_data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/NID']
+    logging.info(nid)
     user = None
     try:
-        user = User.objects.get(username=nid)
+        user = User.objects.get(username=nid.strip())
     except User.DoesNotExist:
         logging.warning(f"User not found: {nid}")
         pass
