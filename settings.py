@@ -29,6 +29,7 @@ SITE_ID = 1
 USE_I18N = False
 
 MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'core.middleware.SecureRequiredMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,10 +40,9 @@ MIDDLEWARE = (
     'core.middleware.MinifyHTMLMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'events.auth.Backend',
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-)
+]
 
 
 WSGI_APPLICATION = 'wsgi.application'
@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_saml2_auth',
     'profiles',
     'taggit',
     'events',
