@@ -40,10 +40,9 @@ MIDDLEWARE = (
     'core.middleware.MinifyHTMLMiddleware',
 )
 
-# AUTHENTICATION_BACKENDS = (
-#     'events.auth.Backend',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 
 WSGI_APPLICATION = 'wsgi.application'
