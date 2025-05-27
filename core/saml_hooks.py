@@ -14,3 +14,5 @@ def on_saml_before_login(user: User, saml_data: dict):
     user.last_name = saml_data['surname'][0]
     user.email = saml_data['emailAddress'][0]
     user.save()
+
+    return user
