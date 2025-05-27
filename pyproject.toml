@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-    "asgiref==3.2.10",
+    "asgiref>=3.3.2",
     "beautifulsoup4==4.9.1",
     "bleach==3.3.0",
     "certifi==2020.6.20",
@@ -13,7 +13,7 @@ dependencies = [
     "charset-normalizer==2.0.12",
     "clearcache-python==0.0.8",
     "django-appconf==1.0.4",
-    "django==3.1.14",
+    "django==3.2.25",
     "django-bleach==0.6.1",
     "django-compressor==2.4",
     "django-filter==2.4.0",
