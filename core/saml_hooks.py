@@ -25,4 +25,6 @@ def on_saml_find_user(saml_data: dict) -> User:
     except Exception as e:
         logging.error(f"Error: {e}")
 
+    logging.info(user)
+
     return user
