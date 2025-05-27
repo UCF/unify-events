@@ -29,6 +29,7 @@ SITE_ID = 1
 USE_I18N = False
 
 MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'core.middleware.SecureRequiredMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
