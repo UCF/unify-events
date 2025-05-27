@@ -16,6 +16,7 @@ def on_saml_before_login(user: User, saml_data: dict):
 
 def on_saml_find_user(saml_data: dict) -> User:
     guid = saml_data['http://schemas.microsoft.com/identity/claims/objectidentifier'][0]
+    logging.info(guid)
     user = None
     try:
         user = User.objects.get(profile__guid=guid.strip())
