@@ -24,6 +24,6 @@ def on_saml_find_user(saml_data: dict) -> User:
         logging.warning(f"User not found: {nid}")
         pass
     except Exception as e:
-        logging.error("Error: {e}")
+        logging.error(f"Error: {e}")
 
     return user
