@@ -288,15 +288,16 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
 
             # Import to main calendar if posted, is requested and
             # is NOT already submitted to main calendar
-            if not self.object.is_submit_to_main and form.cleaned_data['submit_to_calendar'] == 1:
+            if not self.object.is_submit_to_calendar and form.cleaned_data['submit_to_calendar'] is not None:
                 if self.object.state == State.posted:
-                    get_main_calendar().import_event(self.object)
-                    if not self.object.calendar.trusted:
-                        messages.success(self.request, 'Event successfully submitted to the Main Calendar. Please allow 2-3 days for your event to be reviewed before it is posted to UCF\'s Main Calendar.')
+                    try:
+                        calendar = form.cleaned_data['submit_to_calendar']
+                        calendar.import_event(self.object)
+                        messages.success(self.request, 'Event successfully submitted to the requested calendar. Please allow 2-3 days for your event to be reviewed before it is posted.')
+                    except Calendar.DoesNotExist:
+                        messages.error(self.request, f"Event could not be submitted to calendar ID {form.cleaned_data['submit_to_calendar']}")
                 else:
-                    messages.error(self.request, 'Event can not be submitted to the Main Calendar unless it is posted on your calendar.')
-            elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
-                messages.info(self.request, 'Event was removed from the Main Calendar since the event is not posted on your calendar.')
+                    messages.error(self.request, 'Event can not be submitted to the calendar unless it is posted on your calendar.')
 
             update_subscriptions(self.object, is_main_rereview)
 
