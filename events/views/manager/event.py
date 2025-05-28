@@ -281,10 +281,10 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
                                       event_instance_formset=event_instance_formset))
         else:
             # Check if main calendar submission should be re-reviewed
-            is_main_rereview = False
+            is_rereview = False
             if any(s in form.changed_data for s in ['description', 'title']):
                 if not self.object.calendar.trusted:
-                    is_main_rereview = True
+                    is_rereview = True
 
             # Import to main calendar if posted, is requested and
             # is NOT already submitted to main calendar
@@ -298,7 +298,7 @@ class EventUpdate(SuccessPreviousViewRedirectMixin, UpdateView):
             elif self.object.is_submit_to_main and self.object.state != State.posted and not self.object.calendar.is_main_calendar:
                 messages.info(self.request, 'Event was removed from the Main Calendar since the event is not posted on your calendar.')
 
-            update_subscriptions(self.object, is_main_rereview)
+            update_subscriptions(self.object, is_rereview)
 
             messages.success(self.request, 'Event successfully saved')
 
