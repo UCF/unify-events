@@ -95,7 +95,7 @@ class Dashboard(CalendarUserValidationMixin, PaginationRedirectMixin, CalendarEv
             'posted_state': State.posted,
             'state': 'posted',
             'start_date': self.get_start_date(),
-            'show_rereview': get_main_calendar() in self.request.user.editable_calendars.all() or self.request.user.is_superuser
+            'show_rereview': True
         }
 
         # merge context data

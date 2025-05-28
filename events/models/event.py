@@ -335,7 +335,7 @@ class Event(TimeCreatedModified):
             pass
         return event
 
-    def pull_updates(self, is_main_rereview=False):
+    def pull_updates(self, is_rereview=False):
         """
         Updates this Event with information from the event it was created
         from, if it exists.
@@ -345,7 +345,7 @@ class Event(TimeCreatedModified):
         if self.created_from:
             # If main calendar copy then update everything except
             # the title and description and set for rereview
-            if self.calendar.is_main_calendar and self.state is not State.pending and is_main_rereview:
+            if self.state is not State.pending and is_rereview:
                 self.state = State.rereview
             else:
                 self.title = self.created_from.title
