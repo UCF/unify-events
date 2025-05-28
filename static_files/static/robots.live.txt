@@ -1,0 +1,21 @@
+# README: Any custom User-agent MUST redeclare ALL wildcard rules for them
+# to take effect for that bot!  (Bots will only obey rules for EITHER their
+# specific User-agent rule, OR the wildcard User-agent, NOT both.)
+
+
+# DEFAULT (WILDCARD)
+
+User-agent: *
+Disallow: /admin/
+Disallow: /calendar/
+Disallow: /category/
+Disallow: /tag/
+Disallow: /sso/
+Disallow: /events/admin/
+Disallow: /manager/
+Disallow: /events/manager/
+Disallow: /search/
+Disallow: /events/search/
+Disallow: /calendar-widget/
+Disallow: /esi/
+Disallow: /*?
