@@ -9,7 +9,7 @@ from events.models import Event
 from events.models import State
 
 
-def update_subscriptions(event, is_main_rereview=False):
+def update_subscriptions(event, is_rereview=False):
     """
     Update subscriptions based on originating event's state.
     """
@@ -21,7 +21,7 @@ def update_subscriptions(event, is_main_rereview=False):
     else:
         # Updates the copied versions if the original event is updated
         for copied_event in copied_events:
-            copy = copied_event.pull_updates(is_main_rereview)
+            copy = copied_event.pull_updates(is_rereview)
 
         # Get the original event-- the event passed to this function might be a copy!
         if event.created_from:

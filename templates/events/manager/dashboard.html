@@ -71,7 +71,7 @@
         <li class="nav-item">
           <a class="nav-link{% if state == 'posted' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">Posted</a>
         </li>
-        {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
+        {% if calendar in user.calendars or user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
             Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
@@ -120,7 +120,7 @@
             <a class="dropdown-item{% if state == 'posted' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='posted' %}">
               Posted
             </a>
-            {% if calendar.is_main_calendar and calendar in user.calendars or calendar.is_main_calendar and user.is_superuser %}
+            {% if calendar in user.calendars or user.is_superuser %}
               <a class="dropdown-item{% if state == 'rereview' %} active{% endif %}" href="{% url 'events.views.manager.dashboard-calendar-state' pk=calendar.pk state='rereview' %}">
                 Re-Review {% if rereview_count and rereview_count > 0 %}<span class="badge badge-pill badge-default ml-1">{{ rereview_count }}</span>{% endif %}
               </a>
