@@ -51,6 +51,8 @@ DATABASES = {
     # }
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # NET Domain LDAP CONFIG
 LDAP_NET_HOST = 'ldaps://net.ucf.edu'
 LDAP_NET_BASE_DN = 'ou=People,dc=net,dc=ucf,dc=edu'
