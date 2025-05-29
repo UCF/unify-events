@@ -68,6 +68,8 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = 'events.Profile'
 FILE_UPLOAD_PATH = 'uploads'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 DATABASE_ROUTERS = ['unlevents.dbrouter.UNLEventsRouter']
 
 TEMPLATES = [
