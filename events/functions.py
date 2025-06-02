@@ -3,6 +3,7 @@ import calendar as calgenerator
 from datetime import date
 import html
 
+from django.db.models import Q
 from django.core.exceptions import MultipleObjectsReturned
 
 from events.models import Event
@@ -32,7 +33,7 @@ def update_subscriptions(event, is_rereview=False):
         # Check to see if the event needs to be Created/Posted for any subscribed calendars
         for subscribed_calendar in event.calendar.subscribed_calendars.all():
             try:
-                copied = subscribed_calendar.events.get(created_from=original_event)
+                copied = subscribed_calendar.events.get(Q(created_from=original_event) | Q(pk=original_event.pk))
             except Event.DoesNotExist:
                 # Does not exist so import the event
                 subscribed_calendar.import_event(original_event)
