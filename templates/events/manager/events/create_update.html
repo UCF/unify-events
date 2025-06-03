@@ -53,7 +53,7 @@
 {% block content_body %}
   {% if object %}
     <div class="row mb-3">
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <div class="text-right">
           {% with created_from=event.created_from user_calendars=request.user.calendars %}
             {% if not created_from and event.calendar in user_calendars and event.state == posted_state or created_from and created_from.calendar in user_calendars and created_from.state == posted_state or request.user.is_superuser %}
@@ -101,6 +101,37 @@
           </div>
         </div>
       </fieldset>
+
+      {% if event.created_from %}
+      {% with original_event=event.created_from %}
+      <fieldset class="form-group">
+        <div class="row">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0">Original Event Information</label>
+            <small class="form-text text-muted mt-0" id="help-label-title">
+              The calendar, original event and user who submitted this event.
+            </small>
+          </div>
+          <div class="col-xl-6 d-flex align-items-center mb-md-2 mb-xl-0">
+            <ul class="list-inline">
+              <li class="list-inline-item mr-3">
+                <a href="{% url 'events.views.event_views.calendar' original_event.calendar.pk original_event.calendar.slug %}" target="_blank">
+                  <span class="fa fa-calendar mr-1"></span> {{ original_event.calendar.title }}
+                </a>
+              </li>
+              <li class="list-inline-item mr-3">
+                <a href="{% url 'events.views.event_views.event' original_event.pk original_event.slug %}" target="_blank">
+                  <span class="fa fa-calendar-plus mr-1"></span> Original Event
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <span class="fa fa-user mr-1"></span> {{ original_event.creator.get_full_name }}
+              </li>
+            </ul>
+          </div>
+      </fieldset>
+      {% endwith %}
+      {% endif %}
 
       <fieldset class="form-group">
         <div class="row">
