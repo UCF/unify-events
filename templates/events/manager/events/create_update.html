@@ -120,7 +120,7 @@
                 </a>
               </li>
               <li class="list-inline-item mr-3">
-                <a href="{% url 'events.views.event_views.event' original_event.pk original_event.slug %}" target="_blank">
+                <a href="{% url 'events.views.event_views.event' original_event.get_first_instance.pk original_event.slug %}" target="_blank">
                   <span class="fa fa-calendar-plus mr-1"></span> Original Event
                 </a>
               </li>
