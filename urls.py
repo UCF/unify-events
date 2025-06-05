@@ -23,8 +23,16 @@ from events.views.search import GlobalSearchView
 
 admin.autodiscover()
 
+ROBOTS_TEMPLATE = ''
+
+if settings.DEV_MODE:
+    ROBOTS_TEMPLATE = 'robots.dev.txt'
+else:
+    ROBOTS_TEMPLATE = 'robots.prod.txt'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^robots.txt', TemplateView.as_view(template_name=ROBOTS_TEMPLATE, content_type='text/plain')),
     url(r'^manager/', include('events.urls.manager')),
     url(r'^calendar/', include('events.urls.calendar')),
     url(r'^event/', include('events.urls.event_urls')),
