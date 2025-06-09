@@ -11,7 +11,7 @@ class PromotionManager(models.Manager):
         if self.count() == 0:
             return None
         idx = random.randrange(0, self.count())
-        objects = self.get_queryset()
+        objects = self.get_queryset().filter(active=True)
         return objects[idx]
 
 
