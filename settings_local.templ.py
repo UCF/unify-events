@@ -1,3 +1,7 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 THEME = 'default'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -52,6 +56,75 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+FILE_UPLOAD_PATH = 'uploads'
+
+# Determines if S3 should be used for media uploads
+USE_S3 = True
+
+# Tells the media loader which folder to use in the S3 bucket
+S3_ENV = 'testing'
+
+if USE_S3:
+    # The ACCESS KEY to use to access S3
+    AWS_ACCESS_KEY_ID = ''
+
+    # The SECRET KEY to use in conjunction with the ACCESS KEY above
+    AWS_SECRET_ACCESS_KEY = ''
+
+    # The name of the S3 bucket we're using
+    AWS_STORAGE_BUCKET_NAME = 'ucf-events'
+
+    # The S3 domain to use
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+    # The object parameters to use. We can use this to add a long lasting cache
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+    # Where the files should be stored in the S3 bucket. Should be
+    # Evnrionment/media
+    PUBLIC_MEDIA_LOCATION = f'{S3_ENV}/media'
+
+    # Build out the media URL
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+
+    # This sets some defaults on the file storage settings
+    DEFAULT_FILE_STORAGE = 'core.storage_backends.PublicMediaStorage'
+else:
+    # Absolute filesystem path to the directory that will hold user-uploaded files.
+    # Example: "/var/www/example.com/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    # URL that handles the media served from MEDIA_ROOT. Make sure to use a
+    # trailing slash.
+    # Examples: "http://example.com/media/", "http://media.example.com/"
+    MEDIA_URL = '/ucf-events/media/'
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/var/www/example.com/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
+STATIC_URL = '/events/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'static_files/static'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
 # NET Domain LDAP CONFIG
 LDAP_NET_HOST = 'ldaps://net.ucf.edu'
