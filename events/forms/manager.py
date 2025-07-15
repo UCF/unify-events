@@ -12,6 +12,7 @@ from taggit.models import Tag
 from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
+from events.forms.fields import CustomImageWidget
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.forms.widgets import TaggitField
 from events.forms.widgets import Wysiwyg
@@ -98,7 +99,18 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'active', 'trusted')
+        fields = (
+            'title',
+            'description',
+            'active',
+            'trusted',
+            'desktop_header_image',
+            'mobile_header_image',
+        )
+        widgets = {
+            'desktop_header_image': CustomImageWidget,
+            'mobile_header_image': CustomImageWidget
+        }
 
 
 class CalendarSubscribeForm(forms.ModelForm):
