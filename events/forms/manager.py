@@ -72,7 +72,7 @@ class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
         return cleaned_data_copy
 
 
-class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
+class CalendarForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for the Calendar
     """
@@ -88,7 +88,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
         calendar = self.instance
         title = self.cleaned_data['title']
 
-        if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+        if not calendar.is_main_calendar and title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
             #TODO Make a help section explaining which titles are not allowed and link to it.
             raise ValidationError(f"The calendar title you entered is not allowed.")
 
