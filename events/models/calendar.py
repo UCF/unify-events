@@ -4,9 +4,12 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db import models
 from django.db.models import Q
+from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
+
+from PIL import Image
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
@@ -66,6 +69,42 @@ def active_editable_calendars(self):
     return Calendar.objects.filter(Q(owner=self) | Q(admins=self)).filter(active=True).distinct()
 setattr(User, 'active_editable_calendars', property(active_editable_calendars))
 
+def validate_calendar_desktop_header_dimensions(image):
+        """
+        Provides validation of the desktop header
+        size and can be assigned to the model field.
+        """
+        img = Image.open(image)
+        max_width = 1600
+        max_height = 500
+
+        if img.width > max_width or img.height > max_height:
+            raise ValidationError(
+                f"The desktop image cannot exceed {max_width}x{max_height} pixels."
+            )
+
+def validate_calendar_mobile_header_dimensions(image):
+    """
+    Provides validation of the desktop header
+    size and can be assigned to the model field.
+    """
+    img = Image.open(image)
+    max_width = 575
+    max_height = 575
+
+    if img.width > max_width or img.height > max_height:
+        raise ValidationError(
+            f"The mobile image cannot exceed {max_width}x{max_height} pixels."
+        )
+
+def header_image_upload_location(instance, filename):
+    """
+    Provides a unique location for uploading header
+    images, in order to keep the file system organized.
+    """
+    return f"headers/{instance.pk}/{filename}"
+
+
 class CalendarManager(models.Manager):
     def active_calendars(self):
         return self.filter(active=True)
@@ -108,6 +147,16 @@ class Calendar(TimeCreatedModified):
     active = models.BooleanField(blank=False, null=False, default=True)
     trusted = models.BooleanField(blank=False, null=False, default=False)
     tier = models.IntegerField(blank=False, null=False, choices=Tiers.choices, default=3)
+    desktop_header_image = models.ImageField(
+        null=True,
+        blank=True,
+        validators=[validate_calendar_desktop_header_dimensions],
+        upload_to=header_image_upload_location)
+    mobile_header_image = models.ImageField(
+        null=True,
+        blank=True,
+        validators=[validate_calendar_mobile_header_dimensions],
+        upload_to=header_image_upload_location)
     objects = CalendarManager()
 
     class Meta:
@@ -228,6 +277,7 @@ class Calendar(TimeCreatedModified):
         Determine if user is creator of this calendar
         """
         return user == self.owner
+
 
     def __str__(self):
         return self.title
