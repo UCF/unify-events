@@ -1,0 +1,12 @@
+{% if widget.is_initial %}
+<div class="custom-image-field-widget">
+  <div>
+    <img class="custom-image-field-preview img-fluid" src="{{ widget.value.url }}" />
+  </div>
+  {% if not widget.required %}
+    <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %}>
+    <label for="{{ widget.checkbox_id }}">Remove image</label>
+  {% endif %}
+</div>
+{% endif %}
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% include 'django/forms/widgets/attrs.html' %}>
