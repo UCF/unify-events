@@ -12,6 +12,7 @@ from taggit.models import Tag
 from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
 from events.forms.fields import InlineLDAPSearchField
+from events.forms.fields import CustomImageWidget
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.forms.widgets import TaggitField
 from events.forms.widgets import Wysiwyg
@@ -71,7 +72,7 @@ class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
         return cleaned_data_copy
 
 
-class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMixin, forms.ModelForm):
+class CalendarForm(ModelFormStringValidationMixin, forms.ModelForm):
     """
     Form for the Calendar
     """
@@ -87,7 +88,7 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
         calendar = self.instance
         title = self.cleaned_data['title']
 
-        if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+        if not calendar.is_main_calendar and title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
             #TODO Make a help section explaining which titles are not allowed and link to it.
             raise ValidationError(f"The calendar title you entered is not allowed.")
 
@@ -98,7 +99,18 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'active', 'trusted')
+        fields = (
+            'title',
+            'description',
+            'active',
+            'trusted',
+            'desktop_header_image',
+            'mobile_header_image',
+        )
+        widgets = {
+            'desktop_header_image': CustomImageWidget,
+            'mobile_header_image': CustomImageWidget
+        }
 
 
 class CalendarSubscribeForm(forms.ModelForm):

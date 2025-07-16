@@ -75,7 +75,7 @@
   <div class="row">
     <div class="col-12">
       <h2 class="h3 font-weight-normal">Calendar Info</h2>
-      <form action="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" method="post" id="calendar-update">
+      <form action="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" method="post" id="calendar-update" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group row{% if form.title.errors %} has-danger{% endif %}">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">
@@ -141,6 +141,37 @@
             </div>
             {% if form.trusted.errors %}
               {% for error in form.trusted.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if calendar.is_main_calendar %}
+        <div class="form-group row{% if form.desktop_header_image.errors %} has-danger{% endif %}">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.desktop_header_image.auto_id }}">Desktop Header Image</label>
+            <small class="form-text text-muted mt-0">An optional 1600x500 pixel header image for the calendar.</small>
+          </div>
+          <div class="col-md-9 col-xl-8 d-md-flex flex-column justify-content-center">
+            {{ form.desktop_header_image|add_class:"form-control"|add_error_class:"form-control-danger" }}
+            {% if form.desktop_header_image.errors %}
+              {% for error in form.desktop_header_image.errors %}
+                <div class="form-control-feedback">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group row{% if form.mobile_header_image.errors %} has-danger{% endif %}">
+          <div class="col-md-3 col-xl-4 text-md-right mb-2">
+            <label class="font-weight-bold col-form-label pb-0" for="{{ form.mobile_header_image.auto_id }}">Mobile Header Image</label>
+            <small class="form-text text-muted mt-0">An optional 575x575 pixel header image for the calendar.</small>
+          </div>
+          <div class="col-md-9 col-xl-8 d-md-flex flex-column">
+            {{ form.mobile_header_image|add_class:"form-control"|add_error_class:"form-control-danger" }}
+            {% if form.mobile_header_image.errors %}
+              {% for error in form.mobile_header_image.errors %}
                 <div class="form-control-feedback">{{ error }}</div>
               {% endfor %}
             {% endif %}

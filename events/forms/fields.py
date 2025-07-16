@@ -78,3 +78,6 @@ class CalendarChoiceField(forms.ModelChoiceField):
     """
     def valid_value(self, value):
         return True
+
+class CustomImageWidget(forms.widgets.ClearableFileInput):
+    template_name = 'widgets/custom-image-widget.html'
