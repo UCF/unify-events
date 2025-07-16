@@ -209,6 +209,15 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
     list_type = None
     list_title = None
 
+    def get_template_names(self):
+        calendar = self.get_calendar()
+
+        if not calendar or \
+            not calendar.has_header_images:
+            return super().get_template_names()
+
+        return ['events/frontend/calendar/full-header-calendar.html']
+
     def is_mapped_feed(self):
         """
         Determine if a feed should use map_event_range to map event instances in the
