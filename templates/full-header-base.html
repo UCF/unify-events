@@ -64,9 +64,8 @@
     <!-- Content -->
     {% block body %}
       {% block content %}
-        {% block content_header %}{% endblock %}
-        {% block navbar %}
-          {% include_esi_template 'esi/template/navbar.html' %}
+        {% block content_header %}
+          {% block navbar %}{% endblock %}
         {% endblock %}
         {% block content_body %}{% endblock %}
         {% block content_footer %}{% endblock %}
