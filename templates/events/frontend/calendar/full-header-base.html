@@ -1,0 +1,121 @@
+{% extends 'events/frontend/full-header-base.html' %}
+{% load core_tags %}
+{% load url %}
+
+{% block meta %}
+  {{ block.super }}
+  {% if not calendar.is_main_calendar %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+{% endblock %}
+
+{% block pagehead %}
+  {# Move login link out of header for this template #}
+  {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/template/header.html' %}{% endif %}
+{% endblock %}
+
+{% block content %}
+<header class="header-media">
+  <div class="header-media-wrap">
+    <div class="media-background-container">
+      <picture class="media-background-picture">
+        {% if calendar.mobile_header_image %}
+        <source srcset="{{ calendar.mobile_header_image.url }}" media="(max-width: 575px)">
+        {% endif %}
+        <source srcset="{{ calendar.desktop_header_image.url }}" media="(min-width: 576px)">
+        <img src="{{ calendar.desktop_header_image.url }}" class="media-background object-fit-cover" alt="" data-object-fit="cover" />
+      </picture>
+    </div>
+  </div>
+  {% block content_title %}
+  <div class="header-content">
+    {% block navbar %}
+      {% include_esi_template 'esi/template/navbar.html' %}
+    {% endblock %}
+    <div class="container">
+      <div class="row">
+        <div class="col-8 col-md-6">
+          <h1 class="mb-2">
+            <a class="display-2 text-inverse text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
+          </h1>
+          {% block content_subheader_text %}
+            {% if calendar.description %}
+              <p class="text-inverse">{{ calendar.description }}</p>
+            {% endif %}
+          {% endblock %}
+        </div>
+        <div class="col-4 col-md-6 edit-options d-none mb-3 mb-lg-0 text-lg-right">
+          {% if calendar.is_main_calendar %}
+            {% include_esi_template 'esi/template/login.html' %}
+          {% endif %}
+          <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
+            <a class="dropdown-toggle small font-weight-bold text-inverse" href="{% url 'dashboard' pk=calendar.pk %}" role="button" id="manageDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Manage
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="manageDropDown">
+              <div class="dropdown-header font-weight-bold text-uppercase">Edit Events</div>
+              <a class="dropdown-item" href="{% url 'dashboard' pk=calendar.pk %}">
+                <span class="fa fa-tachometer-alt fa-fw mr-1" aria-hidden="true"></span>Manager View
+              </a>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-header font-weight-bold text-uppercase">Edit Calendar</div>
+              <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-users' pk=calendar.pk %}">
+                <span class="fa fa-users fa-fw mr-1" aria-hidden="true"></span>Users &amp; Permissions
+              </a>
+              <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}">
+                <span class="fa fa-info-circle fa-fw mr-1" aria-hidden="true"></span>Calendar Info
+              </a>
+              <a class="dropdown-item" href="{% url 'events.views.manager.calendar-update-subscriptions' pk=calendar.pk %}">
+                <span class="fa fa-share fa-fw mr-1" aria-hidden="true"></span>Subscriptions
+              </a>
+
+              {% if user == calendar.owner or user.is_superuser %}
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item object-modify" href="{% url 'events.views.manager.calendar-delete' pk=calendar.pk %}">
+                <span class="fa fa-trash-alt fa-fw mr-1" aria-hidden="true"></span>Delete Calendar
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          <a class="object-modify small font-weight-bold text-inverse d-none" id="edit-calendar-subscribe" href="{% url 'events.views.manager.calendar-subscribe' pk=calendar.pk %}">
+            <span class="fa fa-share pr-1" aria-hidden="true"></span>Subscribe to Calendar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</header>
+<main class="container">
+{% block content_tabs %}{% endblock %}
+{% block content_body %}{% endblock %}
+</main>
+{% block footer_scripts %}
+{{ block.super }}
+<script type="text/javascript" charset="utf-8">
+var user_editable_calendars = [{% include_esi_template "esi/template/user-editable-calendar-ids.html" %}];
+var is_superuser = parseInt({% include_esi_template "esi/template/user-is-superuser.html" %});
+
+// Show Manage Calendar button only for admins, owners or superusers
+if (
+  (user_editable_calendars.length && user_editable_calendars.indexOf({{ calendar.pk }}) > -1) ||
+  is_superuser == 1
+) {
+  $('#page-title-wrap .edit-options').removeClass('d-none');
+  $('#edit-calendar-manage').removeClass('d-none');
+}
+
+// Show subscription button if user is viewing a calendar they don't have edit access to,
+// or if the user has at least 2 editable calendars
+if (
+  (user_editable_calendars.length > 0 && user_editable_calendars.indexOf({{ calendar.pk }}) == -1) ||
+  (user_editable_calendars.length > 1)
+) {
+  $('.edit-options').removeClass('d-none');
+  $('#edit-calendar-subscribe').removeClass('d-none');
+}
+</script>
+{% endblock %}
+
+{% endblock %}

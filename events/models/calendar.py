@@ -172,6 +172,14 @@ class Calendar(TimeCreatedModified):
         return is_main
 
     @property
+    def has_header_images(self):
+        """
+        The desktop header image is required.
+        Returns true if a header image is set.
+        """
+        return self.desktop_header_image.name is not None
+
+    @property
     def can_suggest_to_main(self):
         if self.tier < 3:
             return True
