@@ -1,0 +1,43 @@
+.header-media {
+  height: 500px;
+  min-height: 500px;
+}
+
+.header-media-wrap {
+  bottom: 575px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+
+  @media (min-width: 575px) {
+    bottom: 500px;
+  }
+}
+
+.media-background-container {
+  height: 550px;
+  width: 100%;
+
+  @media (min-width: 575px) {
+    height: 500px
+  }
+
+  & > picture {
+    height: calc(100% + 1px);
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: calc(100% + 1px);
+    z-index: -1;
+  }
+}
+
+.header-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
