@@ -112,6 +112,14 @@ def map_event_range(start, end, events):
 
     return mapped_events
 
+def featured_image_upload_location(instance, filename):
+    """
+    Provides a unique location for uploading header
+    images, in order to keep the file system organized.
+    """
+    return f"featured/{instance.pk}/{filename}"
+
+
 class PromotedTag(models.Model):
     tag = models.OneToOneField(Tag, on_delete=models.CASCADE, related_name='promoted')
 
@@ -623,6 +631,28 @@ class EventInstance(TimeCreatedModified):
 
     def __unicode__(self):
         return self.event.calendar.title + ' - ' + self.event.title
+
+
+class FeaturedEvent(models.Model):
+    """
+    An event that can be featured on the home page.
+    """
+    event = models.ForeignKey('Event', related_name='featured', null=False, blank=False, on_delete=models.CASCADE)
+    desktop_feature_image = models.ImageField(upload_to=featured_image_upload_location)
+    mobile_feature_image = models.ImageField(upload_to=featured_image_upload_location)
+    start_date = models.DateField()
+
+    def __unicode__(self):
+        """
+        The unicode representation of the object
+        """
+        return f"{self.event.title} (Featured)"
+
+    def __str__(self):
+        """
+        The string representation of the object
+        """
+        return f"{self.event.title} (Featured)"
 
 
 @receiver(pre_save, sender=EventInstance)
