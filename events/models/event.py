@@ -4,6 +4,7 @@ import copy
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.conf import settings
@@ -16,6 +17,8 @@ from django.dispatch import receiver
 from django_bleach.models import BleachField
 from taggit.managers import TaggableManager
 from taggit.models import Tag
+
+from PIL import Image
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
@@ -118,6 +121,34 @@ def featured_image_upload_location(instance, filename):
     images, in order to keep the file system organized.
     """
     return f"featured/{instance.pk}/{filename}"
+
+def validate_feature_event_desktop_dimensions(image):
+    """
+    Provides validation of the desktop header
+    size and can be assigned to the model field.
+    """
+    img = Image.open(image)
+    max_width = 1140
+    max_height = 640
+
+    if img.width > max_width or img.height > max_height:
+        raise ValidationError(
+            f"The desktop header image cannot exceed {max_width}x{max_height}"
+        )
+
+def validate_feature_event_mobile_dimensions(image):
+    """
+    Provides a unique location for uploading header
+    images, in order to keep the file system organized.
+    """
+    img = Image.open(image)
+    max_width = 575
+    max_height = 575
+
+    if img.width > max_width or img.height > max_height:
+        raise ValidationError(
+            f"The mobile header image cannot exceed {max_width}x{max_height}"
+        )
 
 
 class PromotedTag(models.Model):
@@ -638,8 +669,14 @@ class FeaturedEvent(models.Model):
     An event that can be featured on the home page.
     """
     event = models.ForeignKey('Event', related_name='featured', null=False, blank=False, on_delete=models.CASCADE)
-    desktop_feature_image = models.ImageField(upload_to=featured_image_upload_location)
-    mobile_feature_image = models.ImageField(upload_to=featured_image_upload_location)
+    desktop_feature_image = models.ImageField(
+        validators=[validate_feature_event_desktop_dimensions],
+        upload_to=featured_image_upload_location
+    )
+    mobile_feature_image = models.ImageField(
+        validators=[validate_feature_event_mobile_dimensions],
+        upload_to=featured_image_upload_location
+    )
     start_date = models.DateField()
 
     def __unicode__(self):
