@@ -1,0 +1,66 @@
+{% load core_tags %}
+{% load widgets %}
+<div class="row">
+  <div class="col-lg-9" id="{% block page_content_id %}calendar-events-default{% endblock %}">
+    <h2 class="h3 font-weight-normal mb-3">{% block list_title %}{{ list_title }}{% endblock %}</h2>
+    {% if event_instances %}
+
+      {% if use_grouping %}
+        {% regroup event_instances by start.date|date:"l, F j, Y" as dates %}
+
+        {% if not start_date %}
+        <ul class="event-list list-unstyled">
+        {% endif %}
+
+        {% for day in dates %}
+          {% if start_date %}
+          <div class="text-default-aw font-weight-bold text-uppercase mb-2">{{ day.grouper }}</div>
+          <ul class="event-list list-unstyled">
+          {% endif %}
+
+          {% with listing_templ="events/frontend/event-listing/listing.html" event_instances=day.list %}
+          {% include listing_templ %}
+          {% endwith %}
+
+          {% if start_date %}
+          </ul>
+          {% if not forloop.last %}<hr class="my-4">{% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if not start_date %}
+        </ul>
+        <hr class="my-4">
+        {% endif %}
+
+      {% else %}
+        <ul class="event-list list-unstyled">
+          {% with listing_templ="events/frontend/event-listing/listing.html" %}
+          {% include listing_templ %}
+          {% endwith %}
+        </ul>
+      {% endif %}
+
+    {% else %}
+    <div class="alert alert-info">
+      No events found.
+    </div>
+    {% endif %}
+
+    {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+  </div>
+  <aside class="col-lg-3" id="calendar-events-sidebar">
+    {% calendar_widget pk=calendar.pk calendars=calendar.slug is_manager=0 year=start_date.year month=start_date.month day=start_date %}
+
+    <h3 class="h5">Filter by Category:</h3>
+    {% category_filters calendar=calendar.pk %}
+
+    <div class="d-flex align-items-center">
+      <h3 class="h5 mb-0 mr-2">Feeds:</h3>
+      {% feed_btns url=request.build_absolute_uri %}
+    </div>
+    {% if promotion %}
+    {% include_esi 'promotion' promotion.id 'single' %}
+    {% endif %}
+  </aside>
+</div>

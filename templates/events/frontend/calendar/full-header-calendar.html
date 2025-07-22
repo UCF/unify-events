@@ -44,19 +44,19 @@
 {% endblock %}
 
 {% block content_body %}
-<div class="container">
+<div id="full-header-calendar" class="container">
   {% if list_type == 'day' %}
-    {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-day.html' %}
   {% elif list_type == 'week' %}
-    {% include 'events/frontend/calendar/calendar-type/calendar-week.html' with use_grouping=True %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-week.html' with use_grouping=True %}
   {% elif list_type == 'month' %}
-    {% include 'events/frontend/calendar/calendar-type/calendar-month.html' %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-month.html' %}
   {% elif list_type == 'year' %}
-    {% include 'events/frontend/calendar/calendar-type/calendar-year.html' %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-year.html' %}
   {% elif list_type == 'upcoming' %}
-    {% include 'events/frontend/calendar/calendar-type/calendar-upcoming.html' %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-upcoming.html' %}
   {% else %} {# fallback template #}
-    {% include 'events/frontend/calendar/calendar-type/calendar-default.html' %}
+    {% include 'events/frontend/calendar/calendar-type/full-header-calendar-default.html' %}
   {% endif %}
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@ Strings are parsed into datetimes with the 'parse_string' filter.
 
 {% with instance_start=instance_start.0|default:object.start instance_end=instance_end.0|default:object.end %}
   {% with instance_start=request.GET.instance_start|default:instance_start|parse_date instance_end=request.GET.instance_end|default:instance_end|parse_date %}
-    <li class="event mb-3 mb-md-4 {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}">
+    <li class="event mb-3 mb-md-4 {% include_esi 'category' object.event.category.pk 'slug' %}{% if object.event.canceled %} canceled{% endif %}{% if calendar.is_main_calendar %} card{% endif %}">
       <h3 class="h5 mb-2">
         <a class="stretched-link" href="{% url 'events.views.event_views.event' pk=object.pk slug=object.slug %}">{{ object.event.get_title_canceled }}</a>
         {% if object.is_recurring %}
