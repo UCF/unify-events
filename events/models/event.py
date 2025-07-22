@@ -4,6 +4,7 @@ import copy
 from dateutil import rrule
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.conf import settings
@@ -16,6 +17,8 @@ from django.dispatch import receiver
 from django_bleach.models import BleachField
 from taggit.managers import TaggableManager
 from taggit.models import Tag
+
+from PIL import Image
 
 from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
@@ -111,6 +114,42 @@ def map_event_range(start, end, events):
     mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -((x.end - datetime.now()).microseconds + ((x.end - datetime.now()).seconds + (x.end - datetime.now()).days*24*3600) * 1e6) /1e6))
 
     return mapped_events
+
+def featured_image_upload_location(instance, filename):
+    """
+    Provides a unique location for uploading header
+    images, in order to keep the file system organized.
+    """
+    return f"featured/{instance.pk}/{filename}"
+
+def validate_feature_event_desktop_dimensions(image):
+    """
+    Provides validation of the desktop header
+    size and can be assigned to the model field.
+    """
+    img = Image.open(image)
+    max_width = 1140
+    max_height = 640
+
+    if img.width > max_width or img.height > max_height:
+        raise ValidationError(
+            f"The desktop header image cannot exceed {max_width}x{max_height}"
+        )
+
+def validate_feature_event_mobile_dimensions(image):
+    """
+    Provides a unique location for uploading header
+    images, in order to keep the file system organized.
+    """
+    img = Image.open(image)
+    max_width = 575
+    max_height = 575
+
+    if img.width > max_width or img.height > max_height:
+        raise ValidationError(
+            f"The mobile header image cannot exceed {max_width}x{max_height}"
+        )
+
 
 class PromotedTag(models.Model):
     tag = models.OneToOneField(Tag, on_delete=models.CASCADE, related_name='promoted')
@@ -623,6 +662,34 @@ class EventInstance(TimeCreatedModified):
 
     def __unicode__(self):
         return self.event.calendar.title + ' - ' + self.event.title
+
+
+class FeaturedEvent(models.Model):
+    """
+    An event that can be featured on the home page.
+    """
+    event = models.ForeignKey('Event', related_name='featured', null=False, blank=False, on_delete=models.CASCADE)
+    desktop_feature_image = models.ImageField(
+        validators=[validate_feature_event_desktop_dimensions],
+        upload_to=featured_image_upload_location
+    )
+    mobile_feature_image = models.ImageField(
+        validators=[validate_feature_event_mobile_dimensions],
+        upload_to=featured_image_upload_location
+    )
+    start_date = models.DateField()
+
+    def __unicode__(self):
+        """
+        The unicode representation of the object
+        """
+        return f"{self.event.title} (Featured)"
+
+    def __str__(self):
+        """
+        The string representation of the object
+        """
+        return f"{self.event.title} (Featured)"
 
 
 @receiver(pre_save, sender=EventInstance)
