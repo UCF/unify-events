@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content_tabs %}
-<nav class="navbar navbar-toggleable-lg navbar-light bg-primary mb-4">
+<nav class="navbar navbar-toggleable-lg navbar-light bg-primary">
   <div class="container">
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#time-menu" aria-controls="time-menu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -44,7 +44,7 @@
 {% endblock %}
 
 {% block content_body %}
-<div id="full-header-calendar" class="container">
+<div class="container full-header-container">
   {% if list_type == 'day' %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-day.html' %}
   {% elif list_type == 'week' %}
