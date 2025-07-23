@@ -93,6 +93,7 @@
 	top: 35px;
 	border-top: 1px solid #ddd;
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 #sidebar-minical .item table thead th {
     border-bottom: 3px none #DDDDDD;
