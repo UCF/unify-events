@@ -1,0 +1,111 @@
+{% extends 'events/manager/base.html' %}
+{% load widget_tweaks %}
+
+{% block alerts %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block title %}Create a Featured Event | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2 mb-2">Create a Featured Event</h1>
+  </div>
+{% endblock %}
+
+{% block content_subheader %}
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead mb-4">
+        Use the form below to select a featured event.
+      </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content_body %}
+<div class="row">
+  <div class="col-xl-10 offset-xl-1">
+    <form action="{% url 'events.views.manager.featured_event.create' %}" method="post" id="featured-event-create" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Event Field -->
+      <div class="form-group row{% if form.event.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_title">Event to Feature</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.event|add_class:"form-control"|add_error_class:"form-control-danger"}}
+          {% if form.event.errors %}
+            {% for error in form.title.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End event field -->
+      <!-- Desktop image field -->
+      <div class="form-group row{% if form.desktop_feature_image.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Desktop Image</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.desktop_feature_image|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.desktop_feature_image.errors %}
+            {% for error in form.desktop_feature_image.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End desktop image field -->
+      <!-- Mobile image field -->
+      <div class="form-group row{% if form.desktop_feature_image.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Mobile Image</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.mobile_feature_image|add_class:"form-control"|add_error_class:"form-control-danger" }}
+          {% if form.mobile_feature_image.errors %}
+            {% for error in form.mobile_feature_image.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End mobile image field -->
+      <!-- Start date field -->
+      <div class="form-group row{% if form.desktop_feature_image.errors %} has-danger{% endif %}">
+        <div class="col-md-3 col-xl-4 text-md-right mb-2">
+          <label class="font-weight-bold col-form-label" for="id_image">Start Date</label>
+        </div>
+        <div class="col-md-6 col-xl-8">
+          {{ form.start_date|add_class:"form-control"|add_error_class:"form-control-danger"|attr:"type:date"}}
+          {% if form.start_date.errors %}
+            {% for error in form.start_date.errors %}
+              <div class="form-control-feedback">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- End start date field -->
+
+      <!-- End active field -->
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          <button type="submit" class="btn btn-primary btn-block-xs">Create Promotion</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+  {{ block.super }}
+{% endblock %}

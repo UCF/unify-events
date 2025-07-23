@@ -1,0 +1,28 @@
+{% extends 'events/manager/modify-object.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Delete Featured Event: {{ featured_event.event.title }} | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2 mb-4">Delete Featured Event: <span class="font-weight-normal">{{ featured_event.event.title }}</span></h1>
+  </div>
+{% endblock %}
+
+{% block content_form_id %}events.views.manager.featured_event.delete{% endblock %}
+
+{% block content_form_body %}
+  {% csrf_token %}
+  <p>
+    Are you sure you want to delete this featured event? There is no undo!
+  </p>
+{% endblock %}
+
+{% block content_form_footer %}
+  <button type="submit" class="btn btn-danger btn-sm">Delete Promotion</button>
+  <a href="{% url 'events.views.manager.featured_event.list' %}" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</a>
+{% endblock %}
+
+{% block footer_scripts %}
+  {{ block.super }}
+{% endblock %}

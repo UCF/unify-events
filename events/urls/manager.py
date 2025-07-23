@@ -34,6 +34,10 @@ from events.views.manager.promotion import PromotionListView
 from events.views.manager.promotion import PromotionCreateView
 from events.views.manager.promotion import PromotionUpdateView
 from events.views.manager.promotion import PromotionDeleteView
+from events.views.manager.featured_event import FeaturedEventListView
+from events.views.manager.featured_event import FeaturedEventCreateView
+from events.views.manager.featured_event import FeaturedEventUpdateView
+from events.views.manager.featured_event import FeaturedEventDeleteView
 
 from events.views.manager import event
 from events.views.manager import calendar
@@ -134,6 +138,10 @@ urlpatterns += [
     url(r'promotion/create/?$', login_required(PromotionCreateView.as_view()), name='events.views.manager.promotion.create'),
     url(r'promotion/(?P<pk>\d+)/update/?$', login_required(PromotionUpdateView.as_view()), name='events.views.manager.promotion.update'),
     url(r'promotion/(?P<pk>\d+)/delete/?$', login_required(PromotionDeleteView.as_view()), name='events.views.manager.promotion.delete'),
+    url(r'featured-event/?$', login_required(FeaturedEventListView.as_view()), name='events.views.manager.featured_event.list'),
+    url(r'featured-event/create/?$', login_required(FeaturedEventCreateView.as_view()), name='events.views.manager.featured_event.create'),
+    url(r'featured-event/(?P<pk>\d+)/delete/?$', login_required(FeaturedEventDeleteView.as_view()), name='events.views.manager.featured_event.delete'),
+    url(r'featured-event/(?P<pk>\d+)/update/?$', login_required(FeaturedEventUpdateView.as_view()), name='events.views.manager.featured_event.update'),
 
     url(r'^category/create/?$',
         view=login_required(CategoryCreate.as_view()),

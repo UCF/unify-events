@@ -5,7 +5,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import ValidationError
-from events.models.promotion import Promotion
 from taggit.models import Tag
 
 
@@ -25,6 +24,8 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
+from events.models import Promotion
+from events.models import FeaturedEvent
 
 import settings
 
@@ -406,3 +407,17 @@ class PromotionForm(forms.ModelForm):
     class Meta:
         model = Promotion
         fields = ('title', 'image', 'alt_text', 'url', 'active')
+
+class FeaturedEventForm(forms.ModelForm):
+    """
+    Form for featured events
+    """
+    class Meta:
+        model = FeaturedEvent
+        fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'start_date',)
+        widgets = {
+            'start_date': forms.DateInput(
+                format='%d/%m/%Y',
+                attrs={'type': 'date'}
+            )
+        }
