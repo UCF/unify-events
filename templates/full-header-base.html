@@ -54,7 +54,7 @@
     {% endblock %}
   {% endblock %}
   </head>
-  <body class="{% if user.is_authenticated %}logged-in{% endif %}">
+  <body class="{% if calendar.is_main_calendar %}full-header-calendar {% endif %}{% if user.is_authenticated %}logged-in{% endif %}">
     <div id="ucfhb" style="min-height: 50px; background-color: #000;"></div>
   {# the body opening tag is included in the header-nav esi #}
     {% block pagehead %}

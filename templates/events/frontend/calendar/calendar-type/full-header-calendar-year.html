@@ -1,0 +1,12 @@
+{% load widgets %}
+
+<div id="calendar-events-year">
+  <h2 class="h3 font-weight-normal mb-4 text-center">{{ list_title }}</h2>
+  <div class="row">
+    {% for month in all_months %}
+    <div class="col-lg-4 mb-3">
+      {% calendar_widget calendars=calendar is_manager=0 year=start_date.year month=month use_pagers=False %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
