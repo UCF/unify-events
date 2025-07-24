@@ -120,7 +120,7 @@ def featured_image_upload_location(instance, filename):
     Provides a unique location for uploading header
     images, in order to keep the file system organized.
     """
-    return f"featured/{instance.pk}/{filename}"
+    return f"featured/{instance.event.pk}/{filename}"
 
 def validate_feature_event_desktop_dimensions(image):
     """
@@ -678,6 +678,13 @@ class FeaturedEvent(models.Model):
         upload_to=featured_image_upload_location
     )
     start_date = models.DateField()
+
+    @property
+    def active(self):
+        if self.event.has_future_instances:
+            return True
+
+        return False
 
     def __unicode__(self):
         """

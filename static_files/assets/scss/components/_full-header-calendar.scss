@@ -1,0 +1,83 @@
+.full-header-calendar {
+  background-color: #f8f8f8;
+
+  @at-root.full-header-container {
+    padding-top: 1.5rem;
+
+    .event {
+      background-color: #fff;
+      border-top: 1px solid rgba(0, 0, 0, .125);
+      border-right: 1px solid rgba(0, 0, 0, .125);
+      border-bottom: 1px solid rgba(0, 0, 0, .125);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    @at-root#calendar-events-sidebar {
+      padding-top: 2.875rem;
+    }
+  }
+
+  #sidebar-minical {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+
+    h3 {
+      @include media-breakpoint-only(lg) {
+        font-size: .875rem;
+      }
+
+      @include media-breakpoint-up(xl) {
+        font-size: 1.125rem;
+      }
+    }
+
+    .previous a,
+    .next a {
+      background-color: #f8f8f8;
+      margin: .25rem;
+
+      @include media-breakpoint-up(lg) {
+        font-size: .75rem;
+      }
+
+      &:hover {
+        background-color: rgb(229.5, 229.5, 229.5);
+      }
+    }
+
+    table {
+      table-layout: fixed;
+
+      td {
+        @include media-breakpoint-only(lg) {
+          padding: 0;
+
+          a {
+            font-size: .875rem;
+          }
+        }
+      }
+    }
+  }
+  .calendar-large {
+    ul.calendar-grid {
+      &>li {
+          border-bottom: 4px solid #f8f8f8;
+        &.muted>div {
+          background-color: #f7f7f9;
+        }
+        &>div {
+          border: 1px solid #aaa;
+          @include media-breakpoint-up(lg) {
+            border-top: 0;
+            border-right: 2px solid #f7f7f9;
+            border-bottom: 0;
+            border-left: 2px solid #f7f7f9;
+          }
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
