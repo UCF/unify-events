@@ -44,7 +44,7 @@
 {% endblock %}
 
 {% block content_body %}
-<div class="container">
+<main class="container">
   {% if list_type == 'day' %}
     {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
   {% elif list_type == 'week' %}
@@ -58,5 +58,5 @@
   {% else %} {# fallback template #}
     {% include 'events/frontend/calendar/calendar-type/calendar-default.html' %}
   {% endif %}
-</div>
+</main>
 {% endblock %}

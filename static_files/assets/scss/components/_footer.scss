@@ -7,185 +7,178 @@
   padding: 30px 15px;
   text-align: center;
   width: 100%;
-
   @include media-breakpoint-up(lg) {
     padding: 60px;
   }
-}
 
-.ucf-footer-nav,
-.ucf-footer-social {
-  list-style-type: none;
-  margin: 0;
-  padding: 0
-}
+  a,
+  li,
+  ol,
+  p,
+  span,
+  ul {
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: auto;
+    color: #fff!important;
+    font-family: "Gotham SSm A", "Gotham SSm B", "UCF Sans Serif Alt", "Helvetica Neue", Arial, sans-serif;
+  }
 
-.ucf-footer-nav-item,
-.ucf-footer-social-item {
-  display: inline-block;
-  margin-bottom: 1em;
-}
+  &-nav,
+  &-social {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
 
-.ucf-footer a,
-.ucf-footer li,
-.ucf-footer ol,
-.ucf-footer p,
-.ucf-footer span,
-.ucf-footer ul {
-  -moz-osx-font-smoothing: auto;
-  -webkit-font-smoothing: auto;
-  color: #fff;
-  font-family: "Gotham SSm A", "Gotham SSm B", "UCF Sans Serif Alt", "Helvetica Neue", Arial, sans-serif;
-}
+  &-nav-item,
+  &-social-item {
+    display: inline-block;
+    margin-bottom: 1em;
+  }
 
-.ucf-footer-title {
-  display: inline-block;
-  font-size: 1.125rem;
-  font-weight: 400;
-  letter-spacing: 3px;
-  line-height: 1.4;
-  margin-bottom: 12px;
-  text-decoration: none;
-  text-transform: uppercase;
+  &-title {
+    display: inline-block;
+    font-size: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    text-decoration: none;
+    text-transform: uppercase;
 
-  @include media-breakpoint-up(lg) {
-    font-size: 1.375rem
+    @include media-breakpoint-up(lg) {
+      font-size: 1.375rem;
+    }
+  }
+
+  &-title:active,
+  &-title:focus,
+  &-title:hover {
+    text-decoration: underline;
+  }
+
+  &-address {
+    font-size: .625rem;
+    font-weight: 400;
+    line-height: 1.8;
+    margin-bottom: 0;
+    margin-top: 25px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: .75rem;
+    }
+  }
+
+  &-social {
+    margin-bottom: 14px;
+  }
+
+  &-social-link {
+    background-image: url(../img/social-links-gray.svg);
+    background-repeat: no-repeat;
+    background-size: 240px 66px;
+    display: none;
+    height: 33px;
+    margin: 0 4px;
+    overflow: hidden;
+    width: 34px;
+  }
+
+  &-social-link[href*=facebook] {
+    background-position: 0 0;
+    display: block;
+  }
+
+  &-social-link[href*=facebook]:active,
+  &-social-link[href*=facebook]:focus,
+  &-social-link[href*=facebook]:hover {
+    background-position: 0 100%;
+  }
+
+  &-social-link[href*=twitter] {
+    background-position: -34px 0;
+    display: block;
+  }
+
+  &-social-link[href*=twitter]:active,
+  &-social-link[href*=twitter]:focus,
+  &-social-link[href*=twitter]:hover {
+    background-position: -34px 100%;
+  }
+
+  &-social-link[href*=youtube] {
+    background-position: -172px 0;
+    display: block;
+  }
+
+  &-social-link[href*=youtube]:active,
+  &-social-link[href*=youtube]:focus,
+  &-social-link[href*=youtube]:hover {
+    background-position: -172px 100%;
+  }
+
+  &-social-link[href*="ucf.edu/social"] {
+    background-position: -69px 0;
+    display: block;
+  }
+
+  &-social-link[href*="ucf.edu/social"]:active,
+  &-social-link[href*="ucf.edu/social"]:focus,
+  &-social-link[href*="ucf.edu/social"]:hover {
+    background-position: -69px 100%;
+  }
+
+  &-social-link[href*=linkedin] {
+    background-position: -138px 0;
+    display: block;
+  }
+
+  &-social-link[href*=linkedin]:active,
+  &-social-link[href*=linkedin]:focus,
+  &-social-link[href*=linkedin]:hover {
+    background-position: -138px 100%;
+  }
+
+  &-social-link[href*=instagram] {
+    background-position: -206px 0;
+    display: block;
+  }
+
+  &-social-link[href*=instagram]:active,
+  &-social-link[href*=instagram]:focus,
+  &-social-link[href*=instagram]:hover {
+    background-position: -206px 100%;
+  }
+
+  &-nav-item {
+    border-right: 1px solid #fff;
+    font-size: .625rem;
+    font-weight: 400;
+    line-height: 1.4;
+    padding-left: .6em;
+    padding-right: 1em;
+
+    @include media-breakpoint-up(lg) {
+      font-size: .75rem;
+    }
+  }
+
+  &-nav-item:last-child {
+    border-right: 0 solid transparent;
   }
 }
-
-.ucf-footer-title:active,
-.ucf-footer-title:focus,
-.ucf-footer-title:hover {
-  text-decoration: underline;
-}
-
-.ucf-footer-address {
-  font-size: .625rem;
-  font-weight: 400;
-  line-height: 1.8;
-  margin-bottom: 0;
-  margin-top: 25px;
-
-  @include media-breakpoint-up(lg) {
-    font-size: .75rem;
-  }
-}
-
-.ucf-footer-social {
-  margin-bottom: 14px;
-}
-
-.ucf-footer-social-link {
-  background-image: url(../img/social-links-gray.svg);
-  background-repeat: no-repeat;
-  background-size: 240px 66px;
-  display: none;
-  height: 33px;
-  margin: 0 4px;
-  overflow: hidden;
-  width: 34px;
-}
-
-.ucf-footer-social-link[href*=facebook] {
-  background-position: 0 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*=facebook]:active,
-.ucf-footer-social-link[href*=facebook]:focus,
-.ucf-footer-social-link[href*=facebook]:hover {
-  background-position: 0 100%;
-}
-
-.ucf-footer-social-link[href*=twitter] {
-  background-position: -34px 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*=twitter]:active,
-.ucf-footer-social-link[href*=twitter]:focus,
-.ucf-footer-social-link[href*=twitter]:hover {
-  background-position: -34px 100%;
-}
-
-.ucf-footer-social-link[href*=youtube] {
-  background-position: -172px 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*=youtube]:active,
-.ucf-footer-social-link[href*=youtube]:focus,
-.ucf-footer-social-link[href*=youtube]:hover {
-  background-position: -172px 100%;
-}
-
-.ucf-footer-social-link[href*="ucf.edu/social"] {
-  background-position: -69px 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*="ucf.edu/social"]:active,
-.ucf-footer-social-link[href*="ucf.edu/social"]:focus,
-.ucf-footer-social-link[href*="ucf.edu/social"]:hover {
-  background-position: -69px 100%;
-}
-
-.ucf-footer-social-link[href*=linkedin] {
-  background-position: -138px 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*=linkedin]:active,
-.ucf-footer-social-link[href*=linkedin]:focus,
-.ucf-footer-social-link[href*=linkedin]:hover {
-  background-position: -138px 100%;
-}
-
-.ucf-footer-social-link[href*=instagram] {
-  background-position: -206px 0;
-  display: block;
-}
-
-.ucf-footer-social-link[href*=instagram]:active,
-.ucf-footer-social-link[href*=instagram]:focus,
-.ucf-footer-social-link[href*=instagram]:hover {
-  background-position: -206px 100%;
-}
-
-.ucf-footer-nav-item {
-  border-right: 1px solid #fff;
-  font-size: .625rem;
-  font-weight: 400;
-  line-height: 1.4;
-  padding-left: .6em;
-  padding-right: 1em;
-
-  @include media-breakpoint-up(lg) {
-    font-size: .75rem;
-  }
-}
-
-.ucf-footer-nav-item:last-child {
-  border-right: 0 solid transparent;
-}
-
 a.ucf-footer-nav-link {
   font-size: inherit;
   font-weight: inherit;
   text-decoration: none;
-}
-
-a.ucf-footer-nav-link,
-a.ucf-footer-nav-link:active,
-a.ucf-footer-nav-link:focus,
-a.ucf-footer-nav-link:hover {
   color: #fff;
-}
 
-a.ucf-footer-nav-link:active,
-a.ucf-footer-nav-link:focus,
-a.ucf-footer-nav-link:hover {
-  text-decoration: underline;
+  &:hover,
+  &:focus,
+  &:active {
+    color: #fff;
+    text-decoration: underline;
+  }
 }
 
 a.ucf-footer-underline-link {
