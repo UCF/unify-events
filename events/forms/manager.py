@@ -5,7 +5,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import ValidationError
-from events.models.promotion import Promotion
 from taggit.models import Tag
 
 
@@ -25,6 +24,9 @@ from events.models import Event
 from events.models import EventInstance
 from events.models import Location
 from events.models import Category
+from events.models import Promotion
+from events.models import FeaturedEvent
+from events.models import get_main_calendar
 
 import settings
 
@@ -406,3 +408,23 @@ class PromotionForm(forms.ModelForm):
     class Meta:
         model = Promotion
         fields = ('title', 'image', 'alt_text', 'url', 'active')
+
+class FeaturedEventForm(forms.ModelForm):
+    """
+    Form for featured events
+    """
+    class Meta:
+        model = FeaturedEvent
+        fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'start_date',)
+        widgets = {
+            'start_date': forms.TextInput(
+                attrs={'type': 'date'}
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        main_calendar = get_main_calendar()
+        if main_calendar:
+            self.fields['event'].queryset = Event.objects.filter(calendar=main_calendar)

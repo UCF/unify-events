@@ -28,6 +28,6 @@ class FeaturedEventAdmin(admin.ModelAdmin):
         form = super(FeaturedEventAdmin, self).get_form(request, obj, **kwargs)
         main_calendar = get_main_calendar()
         if main_calendar:
-            form.base_fields['event'].queryset = Event.objects.filter(calendar=get_main_calendar())
+            form.base_fields['event'].queryset = Event.objects.filter(calendar=main_calendar)
 
         return form

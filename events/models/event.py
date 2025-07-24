@@ -679,6 +679,13 @@ class FeaturedEvent(models.Model):
     )
     start_date = models.DateField()
 
+    @property
+    def active(self):
+        if self.event.has_future_instances:
+            return True
+
+        return False
+
     def __unicode__(self):
         """
         The unicode representation of the object
