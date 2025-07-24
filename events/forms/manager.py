@@ -417,6 +417,8 @@ class FeaturedEventForm(forms.ModelForm):
         model = FeaturedEvent
         fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'start_date',)
         widgets = {
+            'desktop_feature_image': CustomImageWidget(),
+            'mobile_feature_image': CustomImageWidget(),
             'start_date': forms.TextInput(
                 attrs={'type': 'date'}
             )
