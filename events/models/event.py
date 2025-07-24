@@ -120,7 +120,7 @@ def featured_image_upload_location(instance, filename):
     Provides a unique location for uploading header
     images, in order to keep the file system organized.
     """
-    return f"featured/{instance.pk}/{filename}"
+    return f"featured/{instance.event.pk}/{filename}"
 
 def validate_feature_event_desktop_dimensions(image):
     """
