@@ -213,7 +213,8 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         calendar = self.get_calendar()
 
         if not calendar or \
-            not calendar.has_header_images:
+            not calendar.has_header_images or \
+            self.get_format() != 'html':
             return super().get_template_names()
 
         return ['events/frontend/calendar/full-header-calendar.html']
