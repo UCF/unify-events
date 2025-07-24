@@ -26,6 +26,7 @@ from events.models import Location
 from events.models import Category
 from events.models import Promotion
 from events.models import FeaturedEvent
+from events.models import get_main_calendar
 
 import settings
 
@@ -416,8 +417,14 @@ class FeaturedEventForm(forms.ModelForm):
         model = FeaturedEvent
         fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'start_date',)
         widgets = {
-            'start_date': forms.DateInput(
-                format='%d/%m/%Y',
+            'start_date': forms.TextInput(
                 attrs={'type': 'date'}
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        main_calendar = get_main_calendar()
+        if main_calendar:
+            self.fields['event'].queryset = Event.objects.filter(calendar=main_calendar)
