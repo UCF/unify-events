@@ -130,7 +130,7 @@ def validate_feature_event_desktop_dimensions(image):
     """
     img = Image.open(image)
     max_width = 1140
-    max_height = 640
+    max_height = 350
 
     if img.width > max_width or img.height > max_height:
         raise ValidationError(

@@ -1,0 +1,10 @@
+.featured-event {
+  &.media-background-container,
+  .featured-event-meta {
+    min-height: 575px;
+
+    @media (min-width: 575px) {
+      min-height: 350px;
+    }
+  }
+}
