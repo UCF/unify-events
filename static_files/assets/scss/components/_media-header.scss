@@ -13,23 +13,23 @@
   @media (min-width: 575px) {
     bottom: 500px;
   }
-}
 
-.media-background-container {
-  height: 550px;
-  width: 100%;
+  .media-background-container {
+    height: 550px;
+    width: 100%;
 
-  @media (min-width: 575px) {
-    height: 500px
-  }
+    @media (min-width: 575px) {
+      height: 500px
+    }
 
-  & > picture {
-    height: calc(100% + 1px);
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: calc(100% + 1px);
-    z-index: -1;
+    & > picture {
+      height: calc(100% + 1px);
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: calc(100% + 1px);
+      z-index: -1;
+    }
   }
 }
 

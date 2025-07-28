@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
@@ -129,7 +130,7 @@ def validate_feature_event_desktop_dimensions(image):
     """
     img = Image.open(image)
     max_width = 1140
-    max_height = 640
+    max_height = 350
 
     if img.width > max_width or img.height > max_height:
         raise ValidationError(
@@ -243,6 +244,18 @@ class Event(TimeCreatedModified):
         """
         has_instances = False
         if self.event_instances.all().count() > 1:
+            has_instances = True
+        return has_instances
+
+    @property
+    def has_future_instances(self):
+        """
+        Returns true if an event has more than one even instance
+        in the future
+        """
+        today = timezone.now().date()
+        has_instances = False
+        if self.event_instances.filter(start__gte=today).count() > 1:
             has_instances = True
         return has_instances
 
@@ -663,6 +676,21 @@ class EventInstance(TimeCreatedModified):
     def __unicode__(self):
         return self.event.calendar.title + ' - ' + self.event.title
 
+class FeaturedEventManager(models.Manager):
+    """
+    Manager for retrieving featured events
+    """
+    def get_active(self):
+        today = timezone.now().date()
+        result = self.filter(
+            start_date__lte=today,
+            event__event_instances__start__gte=today
+        ).order_by(
+            '-start_date'
+        ).first()
+
+        return result
+
 
 class FeaturedEvent(models.Model):
     """
@@ -678,6 +706,7 @@ class FeaturedEvent(models.Model):
         upload_to=featured_image_upload_location
     )
     start_date = models.DateField()
+    objects = FeaturedEventManager()
 
     @property
     def active(self):
