@@ -45,6 +45,9 @@
 
 {% block content_body %}
 <div class="container full-header-container">
+  {% if featured_event %}
+    {% include 'events/frontend/calendar/components/featured-event.html' %}
+  {% endif %}
   {% if list_type == 'day' %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-day.html' %}
   {% elif list_type == 'week' %}

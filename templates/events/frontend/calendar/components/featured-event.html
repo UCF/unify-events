@@ -1,0 +1,16 @@
+<div class="card mb-4">
+  <picture>
+    <source srcset="{{ featured_event.desktop_feature_image.url }}" media="(min-width: 767px)" />
+    <source srcset="{{ featured_event.mobile_feature_image.url }}" media="(max-width: 757px)" />
+    <img class="card-img-top" src="{{ featured_event.mobile_feature_image.url }}" />
+  </picture>
+  <div class="card-block">
+      <h2 class="h6">{{ featured_event.event.title }}</h2>
+      <p class="card-text">
+        <a href="{{ featured_event.event.get_absolute_url }}" class="stretched-link">
+          {{ featured_event.event.description|truncatewords:15|safe }}
+        </a>
+      </p>
+    </a>
+  </div>
+</div>

@@ -263,6 +263,7 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         events, featured events, etc.
         """
         context = super(CalendarEventsListView, self).get_context_data(**kwargs)
+        context['featured_event'] = FeaturedEvent.objects.get_active()
         context['list_title'] = self.list_title
         context['list_type'] = self.list_type
 
