@@ -1,0 +1,17 @@
+<div class="featured-event my-4 media-background-container">
+  <picture>
+    <source srcset="{{ featured_event.desktop_feature_image.url }}" media="(min-width: 767px)" />
+    <source srcset="{{ featured_event.mobile_feature_image.url }}" media="(max-width: 757px)" />
+    <img class="media-background object-fit-cover" src="{{ featured_event.mobile_feature_image.url }}" />
+  </picture>
+  <div class="featured-event-meta row align-items-end">
+    <div class="col bg-inverse-t-3 px-4 py-2">
+      <h2 class="h6">{{ featured_event.event.title }}</h2>
+      <p class="card-text mb-0">
+        <a href="{{ featured_event.event.get_absolute_url }}" class="text-inverse stretched-link">
+          {{ featured_event.event.description|truncatewords:15|safe }}
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

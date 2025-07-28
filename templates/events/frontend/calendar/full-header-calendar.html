@@ -44,8 +44,11 @@
 {% endblock %}
 
 {% block content_body %}
-<div class="container full-header-container">
+<main class="container full-header-container pt-4 pb-5">
   {% if list_type == 'day' %}
+    {% if featured_event %}
+      {% include 'events/frontend/calendar/components/featured-event.html' %}
+    {% endif %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-day.html' %}
   {% elif list_type == 'week' %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-week.html' with use_grouping=True %}
@@ -54,9 +57,12 @@
   {% elif list_type == 'year' %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-year.html' %}
   {% elif list_type == 'upcoming' %}
+    {% if featured_event %}
+      {% include 'events/frontend/calendar/components/featured-event.html' %}
+    {% endif %}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-upcoming.html' %}
   {% else %} {# fallback template #}
     {% include 'events/frontend/calendar/calendar-type/full-header-calendar-default.html' %}
   {% endif %}
-</div>
+</main>
 {% endblock %}
