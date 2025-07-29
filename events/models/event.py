@@ -278,6 +278,15 @@ class Event(TimeCreatedModified):
         return list(self.event_instances.all())[-1]
 
     @property
+    def get_next_instance(self):
+        """
+        Returns the next instance of the event
+        """
+        return self.event_instances.filter(
+            start__gte=timezone.now()
+        ).order_by('-start').first()
+
+    @property
     def get_all_parent_instances(self):
         """
         Returns all of this event's event instances that are the
