@@ -129,8 +129,8 @@ def validate_feature_event_desktop_dimensions(image):
     size and can be assigned to the model field.
     """
     img = Image.open(image)
-    max_width = 1140
-    max_height = 350
+    max_width = 555
+    max_height = 416
 
     if img.width > max_width or img.height > max_height:
         raise ValidationError(
