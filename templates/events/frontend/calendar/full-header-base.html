@@ -89,6 +89,9 @@
 </header>
 {% block content_tabs %}{% endblock %}
 {% block content_body %}{% endblock %}
+
+{% endblock %}
+
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
@@ -114,6 +117,4 @@ if (
   $('#edit-calendar-subscribe').removeClass('d-none');
 }
 </script>
-{% endblock %}
-
 {% endblock %}
