@@ -72,7 +72,7 @@ const resizeMapWidgets = function () {
  * @return {void}
  **/
 const esiStyle = function () {
-  // Style event pages
+// Style event pages
   if (window.location.pathname.indexOf('event') > -1) {
     $('.event-tag').addClass('tag-cloud-link');
   }
