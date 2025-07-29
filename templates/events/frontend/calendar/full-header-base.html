@@ -44,10 +44,10 @@
             {% endif %}
           {% endblock %}
         </div>
+        {% if calendar.is_main_calendar %}
+          {% include_esi_template 'esi/template/login-alt.html' %}
+        {% endif %}
         <div class="col-4 col-md-6 edit-options d-none mb-3 mb-lg-0 text-lg-right">
-          {% if calendar.is_main_calendar %}
-            {% include_esi_template 'esi/template/login.html' %}
-          {% endif %}
           <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
             <a class="dropdown-toggle small font-weight-bold text-inverse" href="{% url 'dashboard' pk=calendar.pk %}" role="button" id="manageDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Manage
@@ -89,6 +89,9 @@
 </header>
 {% block content_tabs %}{% endblock %}
 {% block content_body %}{% endblock %}
+
+{% endblock %}
+
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
@@ -114,6 +117,4 @@ if (
   $('#edit-calendar-subscribe').removeClass('d-none');
 }
 </script>
-{% endblock %}
-
 {% endblock %}

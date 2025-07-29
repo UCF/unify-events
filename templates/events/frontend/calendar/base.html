@@ -20,8 +20,8 @@
       <a class="text-secondary text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
+  {% include_esi_template 'esi/template/login.html' %}
   {% if calendar.is_main_calendar %}
-    {% include_esi_template 'esi/template/login.html' %}
   {% endif %}
 
   <div class="col-lg-4 edit-options d-none mb-3 mb-lg-0 text-lg-right">
