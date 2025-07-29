@@ -49,7 +49,7 @@
         {% endif %}
         <div class="col-4 col-md-6 edit-options d-none mb-3 mb-lg-0 text-lg-right">
           <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
-            <a class="dropdown-toggle small font-weight-bold text-inverse" href="{% url 'dashboard' pk=calendar.pk %}" role="button" id="manageDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-sm btn-primary dropdown-toggle" href="{% url 'dashboard' pk=calendar.pk %}" role="button" id="manageDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Manage
             </a>
 
@@ -78,7 +78,7 @@
               {% endif %}
             </div>
           </div>
-          <a class="object-modify small font-weight-bold text-inverse d-none" id="edit-calendar-subscribe" href="{% url 'events.views.manager.calendar-subscribe' pk=calendar.pk %}">
+          <a class="btn btn-sm btn-primary object-modify font-weight-bold d-none" id="edit-calendar-subscribe" href="{% url 'events.views.manager.calendar-subscribe' pk=calendar.pk %}">
             <span class="fa fa-share pr-1" aria-hidden="true"></span>Subscribe to Calendar
           </a>
         </div>
@@ -89,6 +89,9 @@
 </header>
 {% block content_tabs %}{% endblock %}
 {% block content_body %}{% endblock %}
+
+{% endblock %}
+
 {% block footer_scripts %}
 {{ block.super }}
 <script type="text/javascript" charset="utf-8">
@@ -114,6 +117,4 @@ if (
   $('#edit-calendar-subscribe').removeClass('d-none');
 }
 </script>
-{% endblock %}
-
 {% endblock %}
