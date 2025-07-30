@@ -25,10 +25,14 @@
           </div>
         </p>
         <p class="card-text mb-0">
-          <a href="{{ next_instance.get_absolute_url }}" class="text-decoration-none text-secondary stretched-link">
-            {{ featured_event.event.description|truncatewords:25|safe }}
-          </a>
+          {{ featured_event.event.description|truncatewords:25|safe }}
         </p>
+      </div>
+      <div class="card-footer">
+        <a href="{{ next_instance.get_absolute_url }}" class="btn btn-primary btn-block stretched-link">
+          More Details
+        </a>
+      </div>
         {% endwith %}
       </div>
     </div>
