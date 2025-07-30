@@ -3,19 +3,20 @@
 }
 
 .header-media-wrap {
-  bottom: 575px;
+  overflow: auto;
+  /*bottom: 575px;*/
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
   z-index: 1;
 
-  @media (min-width: 575px) {
+ /*@media (min-width: 575px) {
     bottom: 500px;
-  }
+  }*/
 
   .media-background-container {
-    height: 550px;
+    height: 500px;
     width: 100%;
 
     @media (min-width: 575px) {
@@ -39,4 +40,23 @@
   flex-direction: column;
   position: relative;
   z-index: 2;
+  .edit-options {
+    .btn {
+      margin-bottom: 1rem;
+      @include media-breakpoint-down(sm){
+        width: 100%;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm){
+    .dropdown {
+      width: 100%;
+    }
+  }
+}
+
+header.single-event {
+  @include media-breakpoint-only(xs){
+    width: 100%;
+  }
 }
