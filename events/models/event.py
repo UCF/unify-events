@@ -129,8 +129,8 @@ def validate_feature_event_desktop_dimensions(image):
     size and can be assigned to the model field.
     """
     img = Image.open(image)
-    max_width = 1140
-    max_height = 350
+    max_width = 555
+    max_height = 416
 
     if img.width > max_width or img.height > max_height:
         raise ValidationError(
@@ -276,6 +276,15 @@ class Event(TimeCreatedModified):
         on querysets.
         """
         return list(self.event_instances.all())[-1]
+
+    @property
+    def get_next_instance(self):
+        """
+        Returns the next instance of the event
+        """
+        return self.event_instances.filter(
+            start__gte=timezone.now().date()
+        ).order_by('-start').first()
 
     @property
     def get_all_parent_instances(self):
