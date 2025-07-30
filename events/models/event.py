@@ -283,7 +283,7 @@ class Event(TimeCreatedModified):
         Returns the next instance of the event
         """
         return self.event_instances.filter(
-            start__gte=timezone.now()
+            start__gte=timezone.now().date()
         ).order_by('-start').first()
 
     @property
