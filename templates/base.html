@@ -94,27 +94,7 @@
     </div>
 
     {% block footer %}
-    <footer class="container mb-4">
-      <hr class="mt-4 mt-md-5 mb-4">
-      <div class="row">
-        <div class="col-md-8 mb-3 mb-md-0">
-          &copy; University of Central Florida
-        </div>
-        <div class="col-md-4">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" href="https://www.ucf.edu/announcements/">UCF Announcements</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'help' %}">Help &amp; Documentation</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="mailto:webcom@ucf.edu">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+      {% include "esi/template/footer.html" %}
     {% endblock %}
 
     {% block footer_scripts_base %}
