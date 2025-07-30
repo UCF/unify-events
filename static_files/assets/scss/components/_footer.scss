@@ -1,0 +1,186 @@
+.ucf-footer {
+  background-color: #3e3e3e;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  padding: 30px 15px;
+  text-align: center;
+  width: 100%;
+  @include media-breakpoint-up(lg) {
+    padding: 60px;
+  }
+
+  a,
+  li,
+  ol,
+  p,
+  span,
+  ul {
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: auto;
+    color: #fff!important;
+    font-family: "Gotham SSm A", "Gotham SSm B", "UCF Sans Serif Alt", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  &-nav,
+  &-social {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &-nav-item,
+  &-social-item {
+    display: inline-block;
+    margin-bottom: 1em;
+  }
+
+  &-title {
+    display: inline-block;
+    font-size: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.375rem;
+    }
+  }
+
+  &-title:active,
+  &-title:focus,
+  &-title:hover {
+    text-decoration: underline;
+  }
+
+  &-address {
+    font-size: .625rem;
+    font-weight: 400;
+    line-height: 1.8;
+    margin-bottom: 0;
+    margin-top: 25px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: .75rem;
+    }
+  }
+
+  &-social {
+    margin-bottom: 14px;
+  }
+
+  &-social-link {
+    background-image: url(../img/social-links-gray.svg);
+    background-repeat: no-repeat;
+    background-size: 240px 66px;
+    display: none;
+    height: 33px;
+    margin: 0 4px;
+    overflow: hidden;
+    width: 34px;
+  }
+
+  &-social-link[href*=facebook] {
+    background-position: 0 0;
+    display: block;
+  }
+
+  &-social-link[href*=facebook]:active,
+  &-social-link[href*=facebook]:focus,
+  &-social-link[href*=facebook]:hover {
+    background-position: 0 100%;
+  }
+
+  &-social-link[href*=twitter] {
+    background-position: -34px 0;
+    display: block;
+  }
+
+  &-social-link[href*=twitter]:active,
+  &-social-link[href*=twitter]:focus,
+  &-social-link[href*=twitter]:hover {
+    background-position: -34px 100%;
+  }
+
+  &-social-link[href*=youtube] {
+    background-position: -172px 0;
+    display: block;
+  }
+
+  &-social-link[href*=youtube]:active,
+  &-social-link[href*=youtube]:focus,
+  &-social-link[href*=youtube]:hover {
+    background-position: -172px 100%;
+  }
+
+  &-social-link[href*="ucf.edu/social"] {
+    background-position: -69px 0;
+    display: block;
+  }
+
+  &-social-link[href*="ucf.edu/social"]:active,
+  &-social-link[href*="ucf.edu/social"]:focus,
+  &-social-link[href*="ucf.edu/social"]:hover {
+    background-position: -69px 100%;
+  }
+
+  &-social-link[href*=linkedin] {
+    background-position: -138px 0;
+    display: block;
+  }
+
+  &-social-link[href*=linkedin]:active,
+  &-social-link[href*=linkedin]:focus,
+  &-social-link[href*=linkedin]:hover {
+    background-position: -138px 100%;
+  }
+
+  &-social-link[href*=instagram] {
+    background-position: -206px 0;
+    display: block;
+  }
+
+  &-social-link[href*=instagram]:active,
+  &-social-link[href*=instagram]:focus,
+  &-social-link[href*=instagram]:hover {
+    background-position: -206px 100%;
+  }
+
+  &-nav-item {
+    border-right: 1px solid #fff;
+    font-size: .625rem;
+    font-weight: 400;
+    line-height: 1.4;
+    padding-left: .6em;
+    padding-right: 1em;
+
+    @include media-breakpoint-up(lg) {
+      font-size: .75rem;
+    }
+  }
+
+  &-nav-item:last-child {
+    border-right: 0 solid transparent;
+  }
+}
+a.ucf-footer-nav-link {
+  font-size: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+  color: #fff;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+
+a.ucf-footer-underline-link {
+  text-decoration: underline;
+}
