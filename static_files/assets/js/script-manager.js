@@ -1,4 +1,4 @@
-/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, SUBCALSELECT_URL, eventPromotedTags */
+/* global eventLocations, usersFullName, usersEmail, EARLIEST_VALID_DATE, LATEST_VALID_DATE, tinyMCE, Bloodhound, TAG_FEED_URL, USERSELECT_URL, CALSELECT_URL, SUBCALSELECT_URL, EVENTSELECT_URL, LOCATION_FEED_URL, eventPromotedTags */
 
 //
 // Import third-party assets
@@ -517,6 +517,29 @@ const suggestedCalendarSearchTypeahead = function () {
       delay: 250,
       minimumInputLength: 3,
       placeholder: 'Search by calendar name...'
+    }
+  });
+};
+
+/**
+ * Event search typeahead for featured events
+ *
+ * @return {void}
+ */
+const upcomingMainCalendarEvents = function () {
+  $('#id_featured_event-event').select2({
+    ajax: {
+      url: FEATUREDSELECT_URL,
+      data: function (params) {
+        const query = {
+          q: params.term
+        };
+
+        return query;
+      },
+      delay: 250,
+      minimumInputLength: 3,
+      placeholder: 'Search for an upcoming event...'
     }
   });
 };
@@ -1516,6 +1539,7 @@ $(() => {
   userSearchTypeahead();
   calendarSearchTypeahead();
   suggestedCalendarSearchTypeahead();
+  upcomingMainCalendarEvents();
   eventTagging();
 
   eventRegistrationFields();
