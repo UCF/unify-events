@@ -413,6 +413,8 @@ class FeaturedEventForm(forms.ModelForm):
     """
     Form for featured events
     """
+    event = forms.ModelChoiceField(queryset=Event.objects.none(), empty_label=None)
+
     class Meta:
         model = FeaturedEvent
         fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'start_date',)

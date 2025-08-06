@@ -4,9 +4,11 @@ from events.views.search import GlobalSearchView
 from django.views.generic import View
 from django.http import JsonResponse
 
-from events.models import Event, Calendar, Location
+from events.models import Event, Calendar, Location, get_main_calendar
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.db.models import Q
+from django.db.models import Count
 
 from taggit.models import Tag
 
@@ -127,6 +129,44 @@ class SuggestedCalendarSelect2ListView(View):
                 }
 
                 results.append(result)
+
+        context['results'] = results
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
+class FeaturedEventSelect2ListView(View):
+    def get_context_data(self, **kwargs):
+        context = {}
+        results = []
+        q = self.request.GET.get('q', None)
+
+        main_calendar = get_main_calendar()
+
+        if not main_calendar:
+            context['results'] = []
+            return context
+
+        events = Event.objects.filter(
+            title__icontains=q,
+            calendar=main_calendar,
+            event_instances__start__gte=timezone.now().date()
+        ).values(
+            'id',
+            'title'
+        ).annotate(
+            Count('id')
+        )
+
+        for e in events:
+            result = {
+                'id': e['id'],
+                'text': e['title']
+            }
+
+            results.append(result)
 
         context['results'] = results
         return context
