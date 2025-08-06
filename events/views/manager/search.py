@@ -145,7 +145,7 @@ class FeaturedEventSelect2ListView(View):
 
         main_calendar = get_main_calendar()
 
-        if not main_calendar:
+        if not main_calendar or q is None:
             context['results'] = []
             return context
 
