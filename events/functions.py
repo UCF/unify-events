@@ -50,7 +50,7 @@ def remove_html(value):
     ALL tags and attributes found.
     """
     if value:
-        value = bleach.clean(value, tags=[], attributes={}, styles=[], strip=True)
+        value = bleach.clean(value, tags=[], attributes={}, strip=True)
         html.unescape(value)
     return value
 

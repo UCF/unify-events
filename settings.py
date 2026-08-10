@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_saml2_auth',
     'profiles',
     'taggit',
     'events',

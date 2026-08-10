@@ -3,7 +3,7 @@ import time
 import sys
 
 import bleach
-import html.parser
+from bleach.css_sanitizer import CSSSanitizer
 from bs4 import BeautifulSoup
 
 from django.conf import settings
@@ -24,17 +24,22 @@ class Command(BaseCommand):
     count = 0
 
     bleach_args = {}
+    # Mirrors django_bleach.utils.get_bleach_default_options(). bleach 5.0
+    # replaced the `styles` argument with a CSSSanitizer instance.
     possible_settings = {
         'BLEACH_ALLOWED_TAGS': 'tags',
         'BLEACH_ALLOWED_ATTRIBUTES': 'attributes',
-        'BLEACH_ALLOWED_STYLES': 'styles',
+        'BLEACH_ALLOWED_STYLES': 'css_sanitizer',
         'BLEACH_STRIP_TAGS': 'strip',
         'BLEACH_STRIP_COMMENTS': 'strip_comments',
     }
 
     for setting, kwarg in possible_settings.items():
         if hasattr(settings, setting):
-            bleach_args[kwarg] = getattr(settings, setting)
+            value = getattr(settings, setting)
+            if setting == 'BLEACH_ALLOWED_STYLES':
+                value = CSSSanitizer(allowed_css_properties=value)
+            bleach_args[kwarg] = value
 
     def handle(self, *args, **options):
         self.clean_data()
@@ -64,7 +69,8 @@ class Command(BaseCommand):
                 if tag.name in settings.BANNED_TAGS:
                     tag.extract()
 
-            value = bleach.clean(soup, **self.bleach_args)
+            # bleach.clean() rejects anything that is not a str.
+            value = bleach.clean(str(soup), **self.bleach_args)
         return value
 
     def update_progress(self, idx):
