@@ -86,7 +86,9 @@ except Exception:
 
 
 # Logins
-if settings.USE_SAML:
+# Defaulted rather than read directly so that a settings_local.py predating
+# this release still boots, with SSO simply off.
+if getattr(settings, 'USE_SAML', False):
     # Override the ACS endpoint before the package's include so RelayState is
     # honored; must be matched ahead of django_saml2_auth's own ^sso/acs/.
     urlpatterns.insert(
