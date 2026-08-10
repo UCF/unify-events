@@ -148,8 +148,10 @@
         </div>
         {% endif %}
 
-        {# CalendarForm only carries these fields for the main calendar, so the
-           guard here matches the guard on the form rather than duplicating it. #}
+        {% comment %}
+          CalendarForm only carries these fields for the main calendar, so the
+          guard here matches the guard on the form rather than duplicating it.
+        {% endcomment %}
         {% if form.desktop_header_image %}
         <div class="form-group row{% if form.desktop_header_image.errors %} has-danger{% endif %}">
           <div class="col-md-3 col-xl-4 text-md-right mb-2">

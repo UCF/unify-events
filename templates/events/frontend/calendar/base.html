@@ -8,8 +8,10 @@
 {% endblock %}
 
 {% block content %}
-  {# The media header is full-bleed, so it sits above the container that
-     block.super opens rather than inside it. #}
+  {% comment %}
+    The media header is full-bleed, so it sits above the container that
+    block.super opens rather than inside it.
+  {% endcomment %}
   {% if calendar.has_header_images %}
     {% include 'events/frontend/calendar/components/media-header.html' %}
   {% endif %}
@@ -22,9 +24,11 @@
 {% endblock %}
 
 {% block content_title %}
-  {# Likewise the title, so only render the plain heading without a header image.
-     The edit options below stay put either way -- the JS at the bottom of this
-     template reveals them by way of #page-title-wrap. #}
+  {% comment %}
+    Likewise the title, so only render the plain heading without a header image.
+    The edit options below stay put either way -- the JS at the bottom of this
+    template reveals them by way of #page-title-wrap.
+  {% endcomment %}
   {% if not calendar.has_header_images %}
   <div class="col">
     <h1 class="h2 mb-2">
