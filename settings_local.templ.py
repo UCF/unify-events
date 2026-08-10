@@ -262,3 +262,46 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+# Single sign-on. When False, /manager/login/ serves the NID/password form
+# backed by events.auth.Backend (LDAP). When True, /manager/login/ and
+# /admin/login/ redirect to the IdP instead.
+USE_SAML = False
+
+# SSO Settings
+SAML2_AUTH = {
+    # Required setting
+    'SAML_CLIENT_SETTINGS': { # Pysaml2 Saml client settings (https://pysaml2.readthedocs.io/en/latest/howto/config.html)
+        'entityid': '{entity_id}', # The optional entity ID string to be passed in the 'Issuer' element of authn request, if required by the IDP.
+        'metadata': {
+            'remote': [
+                {
+                    "url": '{metadata_url}', # The auto(dynamic) metadata configuration URL of SAML2
+                },
+            ],
+        },
+    },
+
+    # Optional settings below
+    'DEFAULT_NEXT_URL': '/manager/',  # Fallback redirect after login, used when the request carries no ?next=. Matches LOGIN_REDIRECT_URL; most users are calendar owners without admin access.
+    'NEW_USER_PROFILE': {
+        'USER_GROUPS': [],  # The default group name when a new user logs in
+        'ACTIVE_STATUS': True,  # The default active status for new users
+        'STAFF_STATUS': False,  # The staff status for new users. Must stay explicit -- the package defaults this to True.
+        'SUPERUSER_STATUS': False,  # The superuser status for new users
+    },
+    'ATTRIBUTES_MAP': {
+        'email': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+        'username': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/NID',
+        'first_name': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+        'last_name': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
+        'token': 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',  # Mandatory, can be unrequired if TOKEN_REQUIRED is False
+        # Do not map 'groups' here. django_saml2_auth setattr()s every mapped
+        # attribute onto the User, and assigning to the m2m accessor raises.
+    },
+    'TRIGGER': {
+        'CREATE_USER': 'core.saml_hooks.on_saml_user_create',
+        'BEFORE_LOGIN': 'core.saml_hooks.on_saml_before_login',
+    },
+    'ASSERTION_URL': '{assertion_url}', # Public origin of this site, e.g. https://events.ucf.edu. The advertised ACS endpoint is built from it.
+}

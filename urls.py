@@ -16,6 +16,7 @@ from events.views.event_views import YearEventsListView
 from events.views.event_views import CalendarWidgetView
 
 import core
+import core.saml_views
 
 from events.views.search import GlobalSearchView
 
@@ -82,6 +83,39 @@ except Exception:
     # An exception can occur here if the app db hasn't been set up yet.
     # Just skip registration of these URLs then
     pass
+
+
+# Logins
+if settings.USE_SAML:
+    # Override the ACS endpoint before the package's include so RelayState is
+    # honored; must be matched ahead of django_saml2_auth's own ^sso/acs/.
+    urlpatterns.insert(
+        0,
+        url(r'^sso/acs/$',
+            core.saml_views.acs,
+            name='acs'
+        )
+    )
+    urlpatterns.insert(
+        1,
+        url(r'^sso/',
+            include('django_saml2_auth.urls')
+        )
+    )
+    # Must precede the ^manager/ include below, which registers the LDAP
+    # LoginView as 'accounts-login' at this same path.
+    urlpatterns.insert(
+        2,
+        url(r'^manager/login/$',
+            core.saml_views.signin
+        )
+    )
+    urlpatterns.insert(
+        3,
+        url(r'^admin/login/$',
+            core.saml_views.signin
+        )
+    )
 
 
 # Error handling

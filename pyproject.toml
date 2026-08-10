@@ -48,6 +48,9 @@ dependencies = [
     "webencodings==0.5.1",
     "pysaml2>=7.3.1",
     "django-saml2-auth-ai>=2.1.6",
+    # django_saml2_auth imports pkg_resources at module scope, which no longer
+    # ships with the interpreter. Without this the URLconf fails to import.
+    "setuptools",
     "django-storages>=1.14.6",
     "boto3>=1.37.38",
 ]

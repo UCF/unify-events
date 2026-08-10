@@ -139,6 +139,8 @@ rjsmin==1.1.0
     #   django-compressor
 s3transfer==0.11.5
     # via boto3
+setuptools==75.3.4
+    # via unify-events (pyproject.toml)
 simplejson==3.17.2
     # via unify-events (pyproject.toml)
 six==1.15.0
