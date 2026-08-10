@@ -1,8 +1,13 @@
 # Unify Events - [Calendar of Events and Activities at the University of Central Florida and Orlando, FL](https://events.ucf.edu/upcoming/)
 
 ## Installation and Setup
-1. Install Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
-  - via Homebrew: `brew install openldap`
+1. Install system dependencies:
+  - Open-LDAP development headers (debian: openldap-dev, rhel: openldap-devel)
+    - via Homebrew: `brew install openldap`
+  - xmlsec1, which pysaml2 shells out to in order to verify SAML signatures (debian: xmlsec1, rhel: xmlsec1 and xmlsec1-openssl)
+    - via Homebrew: `brew install xmlsec1`
+    - On RHEL the crypto backend is packaged separately, so `xmlsec1-openssl` is required as well. Without it the binary is installed but cannot verify anything.
+    - Only needed when `USE_SAML` is enabled, but it is loaded as soon as the SAML client is constructed, so without it every login attempt returns a 500 with `SigverError: Cannot find ['xmlsec1']`.
 2. Create virtual environment and `cd` to it
 
         python3 -m venv ENV

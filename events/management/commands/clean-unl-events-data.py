@@ -4,7 +4,6 @@ import sys
 
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
-import html.parser
 from bs4 import BeautifulSoup
 
 from django.conf import settings
