@@ -1,4 +1,3 @@
-from copy import deepcopy
 import re
 
 from django import forms
@@ -11,6 +10,7 @@ from taggit.models import Tag
 
 from core.forms import RequiredModelFormSet
 from core.utils import generate_unique_slug
+from events.forms.fields import CustomImageWidget
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
 from events.forms.widgets import TaggitField
@@ -21,8 +21,11 @@ from events.functions import get_latest_valid_date
 from events.models import Calendar
 from events.models import Event
 from events.models import EventInstance
+from events.models import FeaturedEvent
 from events.models import Location
 from events.models import Category
+from events.models import State
+from events.models import get_main_calendar
 
 import settings
 
@@ -51,7 +54,13 @@ class ModelFormUtf8BmpValidationMixin(forms.ModelForm):
     """
     def clean(self):
         cleaned_data = super(ModelFormUtf8BmpValidationMixin, self).clean()
-        cleaned_data_copy = deepcopy(cleaned_data)  # Make a copy because python won't let you modify a dict while it's being iterated
+        # Copied because python won't let you modify a dict while it's being
+        # iterated. A shallow copy is enough -- the loop below only replaces
+        # string values and deletes keys, never mutates a value in place. It is
+        # also the only kind that works once a form carries a file field: an
+        # uploaded image cannot be deepcopy'd, because ImageField validation
+        # leaves a spent PIL object attached to it.
+        cleaned_data_copy = dict(cleaned_data)
 
         form_fields = self.fields
 
@@ -81,12 +90,23 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
         if calendar and calendar.is_main_calendar:
             self.fields['title'].widget.attrs['readonly'] = True
 
+        # The media header is a main calendar treatment only. Dropping the
+        # fields here rather than just hiding them in the template keeps a
+        # hand-crafted POST from setting a header on any other calendar.
+        if not (calendar and calendar.is_main_calendar):
+            del self.fields['desktop_header_image']
+            del self.fields['mobile_header_image']
+
     def clean_title(self):
         # Prevent main calendar title from being modified
         calendar = self.instance
         title = self.cleaned_data['title']
 
-        if title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
+        # The main calendar is exempt: its own title is on the disallowed list
+        # (that list exists to stop other calendars impersonating it), and the
+        # field is readonly for it anyway, so the value below is echoed back
+        # unchanged. Without this the main calendar's info form can never save.
+        if not (calendar and calendar.is_main_calendar) and title.lower() in settings.DISALLOWED_CALENDAR_TITLES:
             #TODO Make a help section explaining which titles are not allowed and link to it.
             raise ValidationError(f"The calendar title you entered is not allowed.")
 
@@ -97,7 +117,18 @@ class CalendarForm(ModelFormStringValidationMixin, ModelFormUtf8BmpValidationMix
 
     class Meta:
         model = Calendar
-        fields = ('title', 'description', 'active', 'trusted')
+        fields = (
+            'title',
+            'description',
+            'active',
+            'trusted',
+            'desktop_header_image',
+            'mobile_header_image',
+        )
+        widgets = {
+            'desktop_header_image': CustomImageWidget,
+            'mobile_header_image': CustomImageWidget,
+        }
 
 
 class CalendarSubscribeForm(forms.ModelForm):
@@ -389,3 +420,49 @@ class PromotionForm(forms.ModelForm):
     class Meta:
         model = Promotion
         fields = ('title', 'image', 'alt_text', 'url', 'active')
+
+
+class FeaturedEventForm(forms.ModelForm):
+    """
+    Form for featured events
+    """
+    class Meta:
+        model = FeaturedEvent
+        fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'alt_text', 'start_date')
+        labels = {
+            'event': 'Event to feature',
+            'desktop_feature_image': 'Desktop image',
+            'mobile_feature_image': 'Mobile image',
+            'alt_text': 'Image alt text',
+            'start_date': 'Start date',
+        }
+        help_texts = {
+            'desktop_feature_image': 'Shown at 768px and up. Maximum 555x416 pixels.',
+            'mobile_feature_image': 'Shown below 768px. Maximum 575x575 pixels.',
+            'alt_text': 'Describes both images for screen readers and for anyone whose images fail to load.',
+            'start_date': 'The date this event starts being featured. It stops on its own once the event has no upcoming instances.',
+        }
+        widgets = {
+            'desktop_feature_image': CustomImageWidget,
+            'mobile_feature_image': CustomImageWidget,
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(FeaturedEventForm, self).__init__(*args, **kwargs)
+
+        # Only main calendar events can be featured, and only published ones:
+        # the card links straight to the event, so anything still pending would
+        # send visitors to a 404.
+        try:
+            main_calendar = get_main_calendar()
+        except Calendar.DoesNotExist:
+            events = Event.objects.none()
+        else:
+            events = Event.objects.filter(
+                calendar=main_calendar,
+                state__in=State.get_published_states()
+            ).order_by('title')
+
+        self.fields['event'].queryset = events
+        self.fields['event'].empty_label = 'Select an event...'

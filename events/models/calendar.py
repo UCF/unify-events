@@ -13,7 +13,17 @@ from core.utils import pre_save_slug
 import events.models
 from events.models.event import get_events_by_range
 from events.utils import generic_ban_urls
+from events.validators import validate_calendar_desktop_header
+from events.validators import validate_calendar_mobile_header
 import settings
+
+
+def header_image_upload_location(instance, filename):
+    """
+    Keeps each calendar's header images in their own directory so that the
+    media bucket stays browsable.
+    """
+    return f'headers/{instance.pk}/{filename}'
 
 
 def get_main_calendar():
@@ -97,6 +107,16 @@ class Calendar(TimeCreatedModified):
     subscriptions = models.ManyToManyField('Calendar', related_name='subscribed_calendars', blank=True, symmetrical=False)
     active = models.BooleanField(blank=False, null=False, default=True)
     trusted = models.BooleanField(blank=False, null=False, default=False)
+    desktop_header_image = models.ImageField(
+        blank=True,
+        null=True,
+        upload_to=header_image_upload_location,
+        validators=[validate_calendar_desktop_header])
+    mobile_header_image = models.ImageField(
+        blank=True,
+        null=True,
+        upload_to=header_image_upload_location,
+        validators=[validate_calendar_mobile_header])
     objects = CalendarManager()
 
     class Meta:
@@ -110,6 +130,17 @@ class Calendar(TimeCreatedModified):
             is_main = True
 
         return is_main
+
+    @property
+    def has_header_images(self):
+        """
+        Whether this calendar should render the full-bleed media header.
+
+        Only the desktop image decides: the mobile one is an optional
+        refinement of it, and a header with no desktop art has nothing to show
+        at the size the layout is built around.
+        """
+        return bool(self.desktop_header_image)
 
     @property
     def subscribing_calendars(self):

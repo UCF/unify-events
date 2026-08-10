@@ -1,0 +1,68 @@
+//
+// Full-bleed banner shown at the top of a calendar that has a header image set.
+// See templates/events/frontend/calendar/components/media-header.html
+//
+
+.header-media {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.header-media-background {
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  // Header art is uploaded by hand and can be any tone, so a scrim keeps the
+  // title legible over a light image without dictating what the art can be.
+  &::after {
+    background: linear-gradient(to right, rgba(0, 0, 0, .75) 0%, rgba(0, 0, 0, .35) 65%, rgba(0, 0, 0, .15) 100%);
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  picture {
+    display: block;
+    height: 100%;
+  }
+}
+
+.header-media-image {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.header-media-content {
+  // Sets the banner height. The uploaded desktop image is capped at 1600x500,
+  // so this keeps the visible band close to the art's own proportions while
+  // still working with a shorter upload.
+  align-items: flex-end;
+  display: flex;
+  min-height: 320px;
+  padding-bottom: 2rem;
+  padding-top: 4rem;
+  position: relative;
+
+  @include media-breakpoint-down(xs) {
+    min-height: 240px;
+    padding-top: 3rem;
+  }
+}
+
+.header-media-title {
+  font-size: 2.5rem;
+  margin-bottom: .5rem;
+
+  @include media-breakpoint-down(xs) {
+    font-size: 1.75rem;
+  }
+}

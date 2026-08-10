@@ -1,0 +1,13 @@
+//
+// Thumbnail shown by CustomImageWidget alongside a file input, so an editor
+// replacing artwork can see what is already uploaded.
+// See events/templates/widgets/custom-image-widget.html
+//
+
+.custom-image-field-preview {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  max-height: 150px;
+  padding: .25rem;
+  width: auto;
+}

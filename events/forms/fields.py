@@ -69,3 +69,11 @@ class InlineLDAPSearchField(forms.ModelMultipleChoiceField):
 
         self.queryset = User.objects.all()
         return super(InlineLDAPSearchField, self).clean([u.pk for u in users])
+
+
+class CustomImageWidget(forms.widgets.ClearableFileInput):
+    """
+    A ClearableFileInput that shows a thumbnail of the current image, so an
+    editor replacing artwork can see what is already there.
+    """
+    template_name = 'widgets/custom-image-widget.html'

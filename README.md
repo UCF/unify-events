@@ -33,6 +33,7 @@
 
     4. Un-comment the `python-ldap` requirement in requirements.txt and save the file.
 6. Set up local settings using the settings_local.templ.py file
+    - Media uploads (promotion images, calendar header images, featured event artwork) are written through `DEFAULT_FILE_STORAGE`. Set `USE_S3 = True` and fill in the `AWS_*` values to store them in the shared bucket; set `USE_S3 = False` to keep them on local disk under `MEDIA_ROOT` instead, which is usually what you want for local development.
 7. Set up static_files/static/robots.txt using static_files/static/robots.templ.txt
 8. Run the deployment command: `python manage.py deploy`. This runs any migrations and collects the static files.
 9. Create a superuser: `python manage.py createsuperuser`
@@ -76,6 +77,42 @@ Note that this importer should only be run on a fresh database, immediately afte
         python manage.py import-locations
 5. Restart the app
 6. Ban cache as necessary
+
+
+## Featured Images
+
+Two separate image features sit on the main calendar. Both are superuser-only and both
+require media storage to be configured (see installation step 6).
+
+### Calendar header images
+
+Uploaded from **Calendar Info** on the main calendar's settings screen. Adding a desktop
+image replaces the plain page heading with a full-width banner; removing it puts the plain
+heading back. The fields are only present on the form for the main calendar, so they cannot
+be set on any other calendar.
+
+* Desktop image: maximum 1600x500 pixels. Required for the banner to appear at all.
+* Mobile image: maximum 575x575 pixels. Optional, used below 576px in place of the desktop image.
+
+The banner is decorative and carries an empty `alt` attribute -- the calendar title sits
+over it as real text.
+
+### Featured events
+
+Managed under **Admin Menu > Featured Events**. Each entry pairs an event with its own
+artwork and a start date.
+
+* Only published events on the main calendar can be featured; the card links straight to
+  the event, so anything still pending would send visitors to a 404.
+* Desktop image: maximum 555x416 pixels. Mobile image: maximum 575x575 pixels. Alt text
+  covers both and is required.
+* Entries are queued by start date. The most recently started entry displays, and stops
+  displaying on its own once its event has no upcoming instances left -- nobody has to take
+  it down. The list screen labels each entry Showing now, Queued, or Expired.
+* The card renders above the listing on the day (home page) and upcoming views only.
+
+Images are validated against the maximums above but are never resized, so upload artwork at
+the intended size.
 
 
 ## Code Contribution

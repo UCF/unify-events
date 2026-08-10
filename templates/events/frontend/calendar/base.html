@@ -7,12 +7,31 @@
   {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/template/header.html' %}{% endif %}
 {% endblock %}
 
+{% block content %}
+  {# The media header is full-bleed, so it sits above the container that
+     block.super opens rather than inside it. #}
+  {% if calendar.has_header_images %}
+    {% include 'events/frontend/calendar/components/media-header.html' %}
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content_subheader %}
+  {# The media header already carries the calendar description. #}
+  {% if not calendar.has_header_images %}{{ block.super }}{% endif %}
+{% endblock %}
+
 {% block content_title %}
+  {# Likewise the title, so only render the plain heading without a header image.
+     The edit options below stay put either way -- the JS at the bottom of this
+     template reveals them by way of #page-title-wrap. #}
+  {% if not calendar.has_header_images %}
   <div class="col">
     <h1 class="h2 mb-2">
       <a class="text-secondary text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
+  {% endif %}
   {% if calendar.is_main_calendar %}
     {% include_esi_template 'esi/template/login.html' %}
   {% endif %}
