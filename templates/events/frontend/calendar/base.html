@@ -35,6 +35,14 @@
       <a class="text-secondary text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
+  {% else %}
+  {% comment %}
+    The heading has moved into the media header, but the login link and the
+    edit options that follow are right-aligned by being pushed there -- .col
+    grows to fill the row and leaves them at the end. Without a growing
+    sibling they collapse to the left, so keep one here as a spacer.
+  {% endcomment %}
+  <div class="col"></div>
   {% endif %}
   {% if calendar.is_main_calendar %}
     {% include_esi_template 'esi/template/login.html' %}
