@@ -1,0 +1,48 @@
+{% comment %}
+Promoted event card. Assumes `featured_event` is in context and non-empty.
+FeaturedEventManager.get_active() only returns entries whose event still has an
+upcoming instance, so get_next_instance is expected to resolve -- but the card
+degrades to just the artwork and title if it somehow does not.
+{% endcomment %}
+{% with next_instance=featured_event.event.get_next_instance %}
+<section class="featured-event card mb-4" aria-label="Featured event">
+  <div class="row no-gutters">
+    <div class="col-md-6 push-md-6">
+      <picture>
+        <source srcset="{{ featured_event.desktop_feature_image.url }}" media="(min-width: 768px)">
+        <source srcset="{{ featured_event.mobile_feature_image.url }}" media="(max-width: 767px)">
+        <img class="featured-event-image" src="{{ featured_event.desktop_feature_image.url }}" alt="{{ featured_event.alt_text }}">
+      </picture>
+    </div>
+    <div class="col-md-6 pull-md-6">
+      <div class="card-block featured-event-body">
+        <p class="featured-event-eyebrow text-uppercase font-weight-bold mb-2">Featured Event</p>
+        <h2 class="h3">{{ featured_event.event.title }}</h2>
+
+        {% if next_instance %}
+          {% if next_instance.location %}
+          <p class="text-secondary mb-2">
+            <span class="fas fa-map-marker-alt fa-fw mr-1" aria-hidden="true"></span>{{ next_instance.location.title }}
+          </p>
+          {% endif %}
+          <p class="text-secondary mb-2">
+            <span class="fas fa-calendar fa-fw mr-1" aria-hidden="true"></span>
+            <time datetime="{{ next_instance.start|date:"c" }}">{{ next_instance.start|date:"N j, Y" }}</time>
+            {% if next_instance.start.time %}
+              <span class="ml-2"><span class="fas fa-clock fa-fw mr-1" aria-hidden="true"></span>{{ next_instance.start|date:"f a" }}</span>
+            {% endif %}
+          </p>
+        {% endif %}
+
+        <p class="card-text">{{ featured_event.event.description|striptags|truncatewords:25 }}</p>
+
+        {% if next_instance %}
+        <a class="btn btn-primary stretched-link" href="{{ next_instance.get_absolute_url }}">
+          More Details<span class="sr-only"> about {{ featured_event.event.title }}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endwith %}

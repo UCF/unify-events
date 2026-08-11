@@ -1,0 +1,28 @@
+{% load url %}
+{% comment %}
+Full-bleed header for calendars that have a desktop header image set.
+Assumes `calendar` is in context and that calendar.has_header_images is true.
+The image is decorative -- the calendar title sits over it as real text -- so
+it carries an empty alt attribute deliberately.
+{% endcomment %}
+<header class="header-media">
+  <div class="header-media-background">
+    <picture>
+      {% if calendar.mobile_header_image %}
+        <source srcset="{{ calendar.mobile_header_image.url }}" media="(max-width: 575px)">
+      {% endif %}
+      <source srcset="{{ calendar.desktop_header_image.url }}" media="(min-width: 576px)">
+      <img class="header-media-image" src="{{ calendar.desktop_header_image.url }}" alt="">
+    </picture>
+  </div>
+  <div class="header-media-content">
+    <div class="container">
+      <h1 class="header-media-title mb-2">
+        <a class="text-inverse text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
+      </h1>
+      {% if calendar.description %}
+        <p class="lead text-inverse mb-0">{{ calendar.description }}</p>
+      {% endif %}
+    </div>
+  </div>
+</header>

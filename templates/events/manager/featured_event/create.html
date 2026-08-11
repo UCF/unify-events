@@ -1,0 +1,50 @@
+{% extends 'events/manager/base.html' %}
+
+{% block alerts %}
+  {{ block.super }}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      <strong>Error: </strong>
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block title %}Create a Featured Event | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2 mb-2">Create a Featured Event</h1>
+  </div>
+{% endblock %}
+
+{% block content_subheader %}
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead mb-4">
+        Use the form below to promote an event at the top of the calendar home page.
+      </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content_body %}
+<div class="row">
+  <div class="col-xl-10 offset-xl-1">
+    <form action="{% url 'events.views.manager.featured_event.create' %}" method="post" id="featured-event-create" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% include 'events/manager/featured_event/_form-fields.html' %}
+      <div class="form-group row">
+        <div class="col-md-9 offset-md-3 col-xl-8 offset-xl-4">
+          <button type="submit" class="btn btn-primary btn-block-xs">Create Featured Event</button>
+          <a href="{% url 'events.views.manager.featured_event.list' %}" class="btn btn-default">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+  {{ block.super }}
+{% endblock %}

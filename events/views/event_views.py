@@ -256,6 +256,12 @@ class CalendarEventsListView(InvalidSlugRedirectMixin, MultipleFormatTemplateVie
         context['list_title'] = self.list_title
         context['list_type'] = self.list_type
 
+        # Featured events are a main calendar treatment; only events on the
+        # main calendar can be featured in the first place.
+        calendar = self.get_calendar()
+        if calendar and calendar.is_main_calendar and self.get_format() == 'html':
+            context['featured_event'] = FeaturedEvent.objects.get_active()
+
         return context
 
     def dispatch(self, request, *args, **kwargs):

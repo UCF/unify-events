@@ -1,0 +1,89 @@
+{% extends 'events/manager/base.html' %}
+{% load widgets %}
+
+{% block title %}All Featured Events | {{ block.super }}{% endblock %}
+
+{% block content_title %}
+  <div class="col-12">
+    <h1 class="h2">All Featured Events</h1>
+  </div>
+{% endblock %}
+
+{% block content_subheader %}
+  {% block content_subheader_text %}
+    <div class="alert alert-info">
+      <p class="mb-0">
+        <span class="fas fa-info-circle" aria-hidden="true"></span>
+        Featured events are queued by start date. The most recent one that has started
+        shows at the top of the calendar home page, and stops showing on its own once
+        its event has no upcoming instances left.
+      </p>
+    </div>
+  {% endblock %}
+{% endblock %}
+
+{% block content_body %}
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-auto">
+      <a class="btn btn-primary mb-3" href="{% url 'events.views.manager.featured_event.create' %}">
+        <span class="fa fa-plus mr-1" aria-hidden="true"></span>Create New Featured Event
+      </a>
+    </div>
+  </div>
+  {% if featured_events %}
+  <div class="card my-4">
+    <table class="list-manager-table table">
+      <thead>
+        <tr>
+          <th class="title">Featured Event</th>
+          <th>Starts</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for featured_event in featured_events %}
+        <tr>
+          <td class="title">
+            <a href="{% url 'events.views.manager.featured_event.update' featured_event.pk %}">{{ featured_event.event.title }}</a>
+          </td>
+          <td>{{ featured_event.start_date|date:"N j, Y" }}</td>
+          <td>
+            {% if featured_event.pk == active_featured_event.pk %}
+              <span class="fas fa-check-circle text-success mr-1" aria-hidden="true"></span>Showing now
+            {% elif featured_event.active %}
+              <span class="fas fa-clock text-muted mr-1" aria-hidden="true"></span>Queued
+            {% else %}
+              <span class="fas fa-times-circle text-muted mr-1" aria-hidden="true"></span>Expired
+            {% endif %}
+          </td>
+          <td>
+            <div class="dropdown">
+              <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="featuredEventSelectDropdownMenu{{ featured_event.pk }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="featuredEventSelectDropdownMenu{{ featured_event.pk }}">
+                <a class="dropdown-item" href="{% url 'events.views.manager.featured_event.update' featured_event.pk %}">
+                  <span class="fa fa-pencil-alt fa-fw mr-1" aria-hidden="true"></span>Edit Featured Event
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'events.views.manager.featured_event.delete' featured_event.pk %}">
+                  <span class="fas fa-trash fa-fw mr-1" aria-hidden="true"></span>Delete Featured Event
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% pager paginator=paginator current_page=request.GET.page url=request.build_absolute_uri %}
+
+  {% else %}
+  <div class="alert alert-info">
+    No featured events found. Want to <a class="alert-link" href="{% url 'events.views.manager.featured_event.create' %}">create one?</a>
+  </div>
+  {% endif %}
+{% endblock %}

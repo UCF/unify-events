@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import copy
 
 from dateutil import rrule
@@ -21,6 +21,8 @@ from core.models import TimeCreatedModified
 from core.utils import pre_save_slug
 from events.utils import event_ban_urls
 from events.utils import generic_ban_urls
+from events.validators import validate_featured_event_desktop_image
+from events.validators import validate_featured_event_mobile_image
 import events.models
 
 
@@ -111,6 +113,15 @@ def map_event_range(start, end, events):
     mapped_events.sort(key=lambda x: (x.start.date(), x.start.time(), -((x.end - datetime.now()).microseconds + ((x.end - datetime.now()).seconds + (x.end - datetime.now()).days*24*3600) * 1e6) /1e6))
 
     return mapped_events
+
+
+def featured_image_upload_location(instance, filename):
+    """
+    Keeps each featured event's artwork in its own directory so that the
+    media bucket stays browsable.
+    """
+    return f'featured/{instance.event_id}/{filename}'
+
 
 class PromotedTag(models.Model):
     tag = models.OneToOneField(Tag, on_delete=models.CASCADE, related_name='promoted')
@@ -208,12 +219,29 @@ class Event(TimeCreatedModified):
         return has_instances
 
     @property
+    def has_future_instances(self):
+        """
+        Returns true if any instance of this event starts today or later.
+        """
+        return self.event_instances.filter(start__gte=date.today()).exists()
+
+    @property
     def get_first_instance(self):
         """
         Returns the very first event instance out of all instances
         of this event.
         """
         return self.event_instances.all()[0]
+
+    @property
+    def get_next_instance(self):
+        """
+        Returns the soonest instance of this event that has not started yet,
+        or None if every instance is in the past.
+        """
+        return self.event_instances.filter(
+            start__gte=date.today()
+        ).order_by('start').first()
 
     @property
     def get_last_instance(self):
@@ -574,6 +602,57 @@ class EventInstance(TimeCreatedModified):
 
     def __unicode__(self):
         return self.event.calendar.title + ' - ' + self.event.title
+
+
+class FeaturedEventManager(models.Manager):
+    def get_active(self):
+        """
+        Returns the featured event currently due for display, or None.
+
+        Entries are queued by start_date, so the active one is the most
+        recently started entry whose event still has an upcoming instance.
+        A featured event therefore retires on its own once its event is over,
+        without anyone having to take it down.
+        """
+        today = date.today()
+        return self.filter(
+            start_date__lte=today,
+            event__event_instances__start__gte=today
+        ).order_by('-start_date').distinct().first()
+
+
+class FeaturedEvent(models.Model):
+    """
+    An event promoted with custom artwork at the top of the main calendar.
+    """
+    event = models.ForeignKey('Event', related_name='featured', on_delete=models.CASCADE)
+    desktop_feature_image = models.ImageField(
+        upload_to=featured_image_upload_location,
+        validators=[validate_featured_event_desktop_image])
+    mobile_feature_image = models.ImageField(
+        upload_to=featured_image_upload_location,
+        validators=[validate_featured_event_mobile_image])
+    alt_text = models.CharField(max_length=500, null=False, blank=False)
+    start_date = models.DateField()
+    objects = FeaturedEventManager()
+
+    class Meta:
+        app_label = 'events'
+        ordering = ['-start_date']
+
+    @property
+    def active(self):
+        """
+        Whether this entry is still eligible to display. Note that only one
+        eligible entry shows at a time -- see FeaturedEventManager.get_active().
+        """
+        return self.event.has_future_instances
+
+    def __str__(self):
+        return f'{self.event.title} (Featured)'
+
+    def __unicode__(self):
+        return str(self)
 
 
 @receiver(pre_save, sender=EventInstance)

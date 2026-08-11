@@ -7,17 +7,54 @@
   {% if calendar.is_main_calendar %}{% else %}{% include_esi_template 'esi/template/header.html' %}{% endif %}
 {% endblock %}
 
+{% block content %}
+  {% comment %}
+    The media header is full-bleed, so it sits above the container that
+    block.super opens rather than inside it.
+  {% endcomment %}
+  {% if calendar.has_header_images %}
+    {% include 'events/frontend/calendar/components/media-header.html' %}
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content_subheader %}
+  {# The media header already carries the calendar description. #}
+  {% if not calendar.has_header_images %}{{ block.super }}{% endif %}
+{% endblock %}
+
 {% block content_title %}
+  {% comment %}
+    Likewise the title, so only render the plain heading without a header image.
+    The edit options below stay put either way -- the JS at the bottom of this
+    template reveals them by way of #page-title-wrap.
+  {% endcomment %}
+  {% if not calendar.has_header_images %}
   <div class="col">
     <h1 class="h2 mb-2">
       <a class="text-secondary text-decoration-none" href="{% url 'events.views.event_views.calendar' pk=calendar.pk slug=calendar.slug %}">{{ calendar.title }}</a>
     </h1>
   </div>
+  {% else %}
+  {% comment %}
+    The heading has moved into the media header, but the login link and the
+    edit options that follow are right-aligned by being pushed there -- .col
+    grows to fill the row and leaves them at the end. Without a growing
+    sibling they collapse to the left, so keep one here as a spacer.
+  {% endcomment %}
+  <div class="col"></div>
+  {% endif %}
   {% if calendar.is_main_calendar %}
     {% include_esi_template 'esi/template/login.html' %}
   {% endif %}
 
-  <div class="col-lg-4 edit-options d-none mb-3 mb-lg-0 text-lg-right">
+  {% comment %}
+    mb-lg-0 is only right when the heading shares this row: the h1 sets the row
+    height and the description beneath it separates the row from the tabs. With
+    a media header both of those are gone, so keep the bottom margin at desktop
+    or the links sit flush against the search bar.
+  {% endcomment %}
+  <div class="col-lg-4 edit-options d-none mb-3 {% if not calendar.has_header_images %}mb-lg-0 {% endif %}text-lg-right">
     <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
       <a class="dropdown-toggle small font-weight-bold text-default-aw" href="{% url 'dashboard' pk=calendar.pk %}" role="button" id="manageDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="fa fa-pencil-alt pr-1" aria-hidden="true"></span>Manage

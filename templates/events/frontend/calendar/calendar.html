@@ -55,6 +55,16 @@
 {% endblock %}
 
 {% block content_body %}
+  {% comment %}
+    Only the date-ordered views get the featured card; it would be noise above
+    a month grid or a year index.
+  {% endcomment %}
+  {% if featured_event %}
+    {% if list_type == 'day' or list_type == 'upcoming' %}
+      {% include 'events/frontend/calendar/components/featured-event.html' %}
+    {% endif %}
+  {% endif %}
+
   {% if list_type == 'day' %}
     {% include 'events/frontend/calendar/calendar-type/calendar-day.html' %}
   {% elif list_type == 'week' %}

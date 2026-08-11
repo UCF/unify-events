@@ -1,0 +1,51 @@
+//
+// Promoted event card shown above the listing on the day and upcoming views.
+// See templates/events/frontend/calendar/components/featured-event.html
+//
+
+.featured-event {
+  overflow: hidden;
+
+  picture {
+    display: block;
+    height: 100%;
+  }
+}
+
+.featured-event-image {
+  // The desktop upload is capped at 555x416 and the mobile one at 575x575, so
+  // the two have different aspect ratios. Cover keeps either filling its column
+  // instead of letterboxing.
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    // Stacked above the copy on small screens, where a cropped-to-fit image has
+    // no column height to fill.
+    height: auto;
+  }
+}
+
+.featured-event-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @include media-breakpoint-up(md) {
+    min-height: 416px;
+  }
+
+  // Pins the call to action to the bottom of the card regardless of how short
+  // the description truncates.
+  .btn {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+}
+
+.featured-event-eyebrow {
+  font-size: .75rem;
+  letter-spacing: .0625rem;
+}

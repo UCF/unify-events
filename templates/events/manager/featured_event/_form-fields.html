@@ -1,0 +1,22 @@
+{% load widget_tweaks %}
+{% comment %}
+Renders every field on the featured event form. Labels and help text come from
+FeaturedEventForm.Meta, so the create and update screens stay in step with each
+other and with the model's size limits.
+{% endcomment %}
+{% for field in form %}
+<div class="form-group row{% if field.errors %} has-danger{% endif %}">
+  <div class="col-md-3 col-xl-4 text-md-right mb-2">
+    <label class="font-weight-bold col-form-label pb-0" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% if field.help_text %}
+      <small class="form-text text-muted mt-0">{{ field.help_text }}</small>
+    {% endif %}
+  </div>
+  <div class="col-md-9 col-xl-8 d-md-flex flex-column justify-content-center">
+    {{ field|add_class:"form-control"|add_error_class:"form-control-danger" }}
+    {% for error in field.errors %}
+      <div class="form-control-feedback">{{ error }}</div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
