@@ -14,7 +14,7 @@
     </h1>
   </div>
   {% if calendar %}
-    <div class="col-lg-4 edit-options mb-3 mb-lg-0 text-lg-right">
+    <div class="col-lg-4 edit-options mb-3 text-lg-right">
       {% if calendar in user.editable_calendars.all or user.is_superuser %}
         <div class="dropdown d-inline-block mr-3" id="edit-calendar-manage">
           <a class="dropdown-toggle small font-weight-bold text-default-aw" href="{% url 'events.views.manager.calendar-update' pk=calendar.pk %}" role="button" id="editDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
