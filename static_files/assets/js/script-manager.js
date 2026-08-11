@@ -497,6 +497,54 @@ const calendarSearchTypeahead = function () {
   });
 };
 
+/**
+ * Initialize select2 on any field rendered by the Select2AjaxSelect widget.
+ *
+ * The widget writes its endpoint and placeholder onto the element, so adding
+ * another searchable dropdown is a form change and needs nothing here.
+ *
+ * @return {void}
+ **/
+const ajaxSelect2Fields = function () {
+  $('.select2-ajax-select').each(function () {
+    const $field = $(this);
+    const url = $field.data('select2-url');
+
+    if (!url) {
+      return;
+    }
+
+    $field.select2({
+      width: '100%',
+      placeholder: $field.data('select2-placeholder') || '',
+      // The field carries its own empty option, so clearing is only offered
+      // where submitting empty is actually valid.
+      allowClear: !$field.prop('required'),
+      minimumInputLength: parseInt($field.data('select2-minimum-input'), 10) || 0,
+      ajax: {
+        url: url,
+        delay: 250,
+        data: (params) => {
+          return {
+            q: params.term,
+            page: params.page || 1
+          };
+        },
+        processResults: (data, params) => {
+          params.page = params.page || 1;
+          return {
+            results: data.results,
+            pagination: {
+              more: Boolean(data.pagination && data.pagination.more)
+            }
+          };
+        }
+      }
+    });
+  });
+};
+
+
 const eventLocationsTypeahead = function (locationDropdowns) {
   if (locationDropdowns.length > 0) {
     const data = new Bloodhound({
@@ -1491,6 +1539,7 @@ $(() => {
 
   userSearchTypeahead();
   calendarSearchTypeahead();
+  ajaxSelect2Fields();
   eventTagging();
 
   eventRegistrationFields();
