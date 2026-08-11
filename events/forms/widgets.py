@@ -96,13 +96,24 @@ class Select2AjaxSelect(forms.Select):
         self.ajax_url_name = ajax_url_name
 
         widget_attrs = {
-            'class': 'select2-ajax-select',
             'data-select2-minimum-input': minimum_input_length,
         }
         if placeholder:
             widget_attrs['data-select2-placeholder'] = placeholder
         if attrs:
             widget_attrs.update(attrs)
+
+        # ajaxSelect2Fields() finds these fields by class, so the hook has to
+        # be merged in rather than assigned -- a caller passing classes of its
+        # own through attrs would otherwise replace it and quietly leave the
+        # field as a plain <select> holding a single option.
+        classes = ['select2-ajax-select']
+        classes += [
+            css_class
+            for css_class in str(widget_attrs.get('class', '')).split()
+            if css_class != 'select2-ajax-select'
+        ]
+        widget_attrs['class'] = ' '.join(classes)
 
         super(Select2AjaxSelect, self).__init__(attrs=widget_attrs, choices=choices)
 
