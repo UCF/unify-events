@@ -48,7 +48,7 @@ AUTHENTICATION_BACKENDS = (
 WSGI_APPLICATION = 'wsgi.application'
 
 INSTALLED_APPS = (
-    'core', # On top to lengthen the first and last name field for the user
+    'core',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
