@@ -4,9 +4,13 @@ from datetime import date
 import html
 
 from django.core.exceptions import MultipleObjectsReturned
+from django.db.models import Min, Q
+from django.utils.formats import date_format
 
+from events.models import Calendar
 from events.models import Event
 from events.models import State
+from events.models import get_main_calendar
 
 
 def update_subscriptions(event, is_main_rereview=False):
@@ -94,3 +98,46 @@ def is_date_in_valid_range(the_date):
         return False
     else:
         return True
+
+
+def get_featurable_events():
+    """
+    Events that are eligible to be featured on the calendar home page.
+
+    Only main calendar events can be featured, and only published ones: the
+    card links straight to the event, so anything still pending would send
+    visitors to a 404.
+
+    The featured event form and its select2 endpoint both call this, so a user
+    can never search up an event the form would then reject.
+    """
+    try:
+        main_calendar = get_main_calendar()
+    except Calendar.DoesNotExist:
+        return Event.objects.none()
+
+    return Event.objects.filter(
+        calendar=main_calendar,
+        state__in=State.get_published_states()
+    ).annotate(
+        # Two events can easily share a title, so the picker labels each one
+        # with the date it next happens. Annotating it here keeps that off the
+        # per-row query path when a page of search results is being labelled.
+        next_start=Min(
+            'event_instances__start',
+            filter=Q(event_instances__start__gte=date.today())
+        )
+    ).order_by('title')
+
+
+def format_featured_event_label(title, next_start):
+    """
+    Builds the text shown for one event in the featured event picker.
+
+    Both the select2 endpoint and the widget that renders the already-selected
+    event call this, so the label doesn't change out from under the user when
+    the form is redisplayed.
+    """
+    if next_start is None:
+        return title
+    return '{0} — {1}'.format(title, date_format(next_start, 'N j, Y'))

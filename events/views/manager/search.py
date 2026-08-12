@@ -4,6 +4,9 @@ from events.views.search import GlobalSearchView
 from django.views.generic import View
 from django.http import JsonResponse
 
+from core.views import SuperUserRequiredMixin
+from events.functions import format_featured_event_label
+from events.functions import get_featurable_events
 from events.models import Event, Calendar, Location
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -95,6 +98,53 @@ class CalendarSelect2ListView(View):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         return JsonResponse(context)
+
+class EventSelect2ListView(SuperUserRequiredMixin, View):
+    """
+    Feeds the select2 event picker on the featured event form.
+
+    Superuser-gated to match the featured event views themselves -- the list of
+    what is publishable on the main calendar isn't secret, but there's no
+    reason to serve it to anyone who can't act on it.
+    """
+    page_size = 25
+
+    def get_context_data(self, **kwargs):
+        q = self.request.GET.get('q', None)
+
+        events = get_featurable_events()
+        if q:
+            events = events.filter(title__icontains=q)
+
+        # Ask for one more than a page so we can tell select2 whether to keep
+        # scrolling, without a second COUNT query over the whole match set.
+        offset = (self.get_page() - 1) * self.page_size
+        page = list(events[offset:offset + self.page_size + 1])
+        more = len(page) > self.page_size
+
+        results = [
+            {
+                'id': event.pk,
+                'text': format_featured_event_label(event.title, event.next_start)
+            }
+            for event in page[:self.page_size]
+        ]
+
+        return {
+            'results': results,
+            'pagination': {'more': more}
+        }
+
+    def get_page(self):
+        try:
+            return max(1, int(self.request.GET.get('page', 1)))
+        except (TypeError, ValueError):
+            return 1
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return JsonResponse(context)
+
 
 class TagTypeaheadSearchView(View):
     def get_context_data(self, **kwargs):

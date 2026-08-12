@@ -13,8 +13,11 @@ from core.utils import generate_unique_slug
 from events.forms.fields import CustomImageWidget
 from events.forms.fields import InlineLDAPSearchField
 from events.forms.widgets import BootstrapSplitDateTimeWidget
+from events.forms.widgets import Select2AjaxSelect
 from events.forms.widgets import TaggitField
 from events.forms.widgets import Wysiwyg
+from events.functions import format_featured_event_label
+from events.functions import get_featurable_events
 from events.functions import is_date_in_valid_range
 from events.functions import get_earliest_valid_date
 from events.functions import get_latest_valid_date
@@ -24,8 +27,6 @@ from events.models import EventInstance
 from events.models import FeaturedEvent
 from events.models import Location
 from events.models import Category
-from events.models import State
-from events.models import get_main_calendar
 
 import settings
 
@@ -422,15 +423,41 @@ class PromotionForm(forms.ModelForm):
         fields = ('title', 'image', 'alt_text', 'url', 'active')
 
 
+class FeaturedEventChoiceField(forms.ModelChoiceField):
+    """
+    The event picker on the featured event form.
+
+    Labels match what the select2 endpoint returns, so the text doesn't shift
+    when a chosen event is redisplayed on the update screen or after a
+    validation error.
+    """
+    def label_from_instance(self, obj):
+        next_start = getattr(obj, 'next_start', None)
+        return format_featured_event_label(obj.title, next_start)
+
+
 class FeaturedEventForm(forms.ModelForm):
     """
     Form for featured events
     """
+    # Declared rather than generated from the model so it can carry the
+    # select2 widget. Note that Meta.labels and Meta.help_texts do not reach a
+    # declared field, so both are set here.
+    event = FeaturedEventChoiceField(
+        queryset=Event.objects.none(),
+        empty_label='Select an event...',
+        label='Event to feature',
+        help_text='Start typing to search published events on the main calendar.',
+        widget=Select2AjaxSelect(
+            ajax_url_name='events.views.manager.event-select2',
+            placeholder='Search for an event by title...'
+        )
+    )
+
     class Meta:
         model = FeaturedEvent
         fields = ('event', 'desktop_feature_image', 'mobile_feature_image', 'alt_text', 'start_date')
         labels = {
-            'event': 'Event to feature',
             'desktop_feature_image': 'Desktop image',
             'mobile_feature_image': 'Mobile image',
             'alt_text': 'Image alt text',
@@ -451,18 +478,8 @@ class FeaturedEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FeaturedEventForm, self).__init__(*args, **kwargs)
 
-        # Only main calendar events can be featured, and only published ones:
-        # the card links straight to the event, so anything still pending would
-        # send visitors to a 404.
-        try:
-            main_calendar = get_main_calendar()
-        except Calendar.DoesNotExist:
-            events = Event.objects.none()
-        else:
-            events = Event.objects.filter(
-                calendar=main_calendar,
-                state__in=State.get_published_states()
-            ).order_by('title')
-
-        self.fields['event'].queryset = events
-        self.fields['event'].empty_label = 'Select an event...'
+        # Assigning the queryset here rather than on the field declaration
+        # keeps the main calendar lookup off of import time, and it is what
+        # hands the widget the iterator it uses to label an already-selected
+        # event.
+        self.fields['event'].queryset = get_featurable_events()
