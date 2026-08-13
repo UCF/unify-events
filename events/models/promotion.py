@@ -8,11 +8,11 @@ class PromotionManager(models.Manager):
         Returns the first or a random promotion based on
         the kwargs passed into the function.
         """
-        valid_count = self.filter(active=True).count()
+        objects = self.get_queryset().filter(active=True)
+        valid_count = objects.count()
         if valid_count == 0:
             return None
-        idx = random.randrange(0, self.count())
-        objects = self.get_queryset().filter(active=True)
+        idx = random.randrange(0, valid_count)
         return objects[idx]
 
 
