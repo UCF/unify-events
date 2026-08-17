@@ -11,6 +11,14 @@
             Prioritize Main Calendar events. Assume that Main Calendar events
             will always be copied from somewhere else.
 
+            Fall back to the result itself when the Main Calendar copy has no
+            instances, mirroring search.html. get_main_event() applies no
+            instance filter, so a copy that failed part-way through
+            Event.copy() would otherwise render "url" and "details" as the
+            string "None" -- get_absolute_url/get_json_details return None for
+            an instance-less event. The queryset guarantees `result` has at
+            least one instance.
+
             Events use the first instance's search-list-item.html esi template.
             See esi/eventinstance/search-list-item.html for info.
             {% endcomment %}
@@ -18,8 +26,12 @@
                 {% block results_list %}
 
                 {% for result in results %}
-                    {% with item=result.get_main_event|default:result %}
-                    {% include 'search/search-result.json' %}
+                    {% with main_event=result.get_main_event %}
+                    {% if main_event.get_first_instance %}
+                    {% with item=main_event %}{% include 'search/search-result.json' %}{% endwith %}
+                    {% else %}
+                    {% with item=result %}{% include 'search/search-result.json' %}{% endwith %}
+                    {% endif %}
                     {% endwith %}
                     {% if not forloop.last %},{% endif %}
                 {% endfor %}
