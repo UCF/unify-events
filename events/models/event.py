@@ -337,7 +337,7 @@ class Event(TimeCreatedModified):
             self.category = self.created_from.category
             self.registration_link = self.created_from.registration_link
             self.registration_info = self.created_from.registration_info
-            self.tags.set(*self.created_from.tags.all())
+            self.tags.set(self.created_from.tags.all())
             self.event_instances.all().delete()
             self.modified=self.created_from.modified
             self.save()
@@ -381,7 +381,7 @@ class Event(TimeCreatedModified):
                      *args,
                      **kwargs)
         copy.save()
-        copy.tags.set(*self.tags.all())
+        copy.tags.set(self.tags.all())
         copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
 
