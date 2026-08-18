@@ -1,6 +1,6 @@
 [project]
 name = "unify-events"
-version = "2.7.0"
+version = "2.7.1"
 description = "UCF Events Calendar"
 readme = "README.md"
 # Production is pinned to Python 3.8 and cannot be upgraded at this time. The
