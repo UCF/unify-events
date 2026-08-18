@@ -59,14 +59,24 @@
                 Prioritize Main Calendar events. Assume that Main Calendar events
                 will always be copied from somewhere else.
 
+                Fall back to the result itself when the Main Calendar copy has no
+                instances. get_main_event() applies no instance filter, so a copy
+                that failed part-way through Event.copy() would otherwise render
+                an ESI with an empty id. The queryset guarantees `result` has at
+                least one instance.
+
                 Events use the first instance's search-list-item.html esi template.
                 See esi/eventinstance/search-list-item.html for info.
                 {% endcomment %}
 
                 <ul class="search-results-list list-unstyled">
                 {% for result in results %}
-                  {% with object=result.get_main_event|default:result %}
-                    {% include_esi 'eventinstance' object.get_first_instance.pk 'search-list-item' %}
+                  {% with main_instance=result.get_main_event.get_first_instance %}
+                    {% if main_instance %}
+                      {% include_esi 'eventinstance' main_instance.pk 'search-list-item' %}
+                    {% else %}
+                      {% include_esi 'eventinstance' result.get_first_instance.pk 'search-list-item' %}
+                    {% endif %}
                   {% endwith %}
                 {% endfor %}
                 </ul>

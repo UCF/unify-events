@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
+from django.db import transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
@@ -229,9 +230,13 @@ class Event(TimeCreatedModified):
     def get_first_instance(self):
         """
         Returns the very first event instance out of all instances
-        of this event.
+        of this event, or None if it has none.
+
+        An event is not guaranteed to have instances: a copy that failed
+        part-way through Event.copy() is saved before its instances are
+        attached. Callers must handle None rather than assume a result.
         """
-        return self.event_instances.all()[0]
+        return self.event_instances.all().first()
 
     @property
     def get_next_instance(self):
@@ -337,7 +342,7 @@ class Event(TimeCreatedModified):
             self.category = self.created_from.category
             self.registration_link = self.created_from.registration_link
             self.registration_info = self.created_from.registration_info
-            self.tags.set(*self.created_from.tags.all())
+            self.tags.set(self.created_from.tags.all())
             self.event_instances.all().delete()
             self.modified=self.created_from.modified
             self.save()
@@ -380,9 +385,12 @@ class Event(TimeCreatedModified):
                      registration_info=self.registration_info,
                      *args,
                      **kwargs)
-        copy.save()
-        copy.tags.set(*self.tags.all())
-        copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
+        # All-or-nothing: a copy saved without its instances is unrenderable
+        # (get_first_instance returns None) and leaks into search results.
+        with transaction.atomic():
+            copy.save()
+            copy.tags.set(self.tags.all())
+            copy.event_instances.add(*[i.copy(event=copy) for i in self.event_instances.filter(parent=None)])
         return copy
 
     def delete(self, *args, **kwargs):
@@ -399,6 +407,8 @@ class Event(TimeCreatedModified):
         """
         # Get the first event instance's pk
         instance = self.get_first_instance
+        if instance is None:
+            return None
         canonical_root = settings.CANONICAL_ROOT
         relative_path = reverse('events.views.event_views.event', kwargs={'pk': instance.pk, 'slug': self.slug})
         return canonical_root + relative_path
@@ -409,6 +419,8 @@ class Event(TimeCreatedModified):
         """
         # Get the first event instance's pk
         instance = self.get_first_instance
+        if instance is None:
+            return None
         canonical_root = settings.CANONICAL_ROOT
         relative_path = reverse('events.views.event_views.event', kwargs={
             'pk': instance.pk,
