@@ -229,13 +229,21 @@ class PaginationRedirectMixin(object):
         try:
             return super(PaginationRedirectMixin, self).dispatch(request, *args, **kwargs)
         except Http404:
-            if int(self.request.GET.get('page')) > paginator.num_pages:
+            try:
+                page = int(self.request.GET.get('page'))
+            except (TypeError, ValueError):
+                # No usable page number, so the 404 can't have been caused by
+                # exceeding the maximum number of pages.
+                page = None
+
+            if page is not None and page > paginator.num_pages:
                 # Get the current page url and append the new page number:
                 url = '%s?page=%s' % (reverse(url_name, kwargs=r_kwargs), paginator.num_pages)
                 return HttpResponseRedirect(url)
-            else:
-                # re-raise Http404, as the reason for the 404 was not that maximum pages was exceeded
-                raise Http404
+
+            # re-raise the original Http404, as the reason for the 404 was
+            # not that the maximum number of pages was exceeded
+            raise
 
 
 class InvalidSlugRedirectMixin(object):
