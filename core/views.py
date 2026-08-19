@@ -44,37 +44,55 @@ def esi(request, model_name, object_id, template_name, calendar_id=None, params=
     Returns the HTML for a given model and id for ESIs
     """
     app_label = 'events'
+
+    if model_name == 'tag':
+        app_label = 'taggit'
+
+    # Each lookup and conversion below is guarded individually, and the
+    # render() call is deliberately left unguarded, so that errors raised
+    # while rendering the template are not misreported as bad input.
     try:
-        if model_name == 'tag':
-            app_label = 'taggit'
-
         model = get_model(app_label=app_label, model_name=model_name)
-        object_id_int = int(object_id)
-        the_object = model.objects.get(pk=object_id_int)
-        template_html = template_name.replace('/', '') + '.html'
-        url = 'esi/' + model_name + '/' + template_html
-
-        context = { 'object': the_object }
-
-        # Add params, if any, to context.
-        if params:
-            params = parse_qs(params)
-            context.update(params)
-
-        if calendar_id is not None and calendar_id != 'None':
-            calendar_id_int = int(calendar_id)
-            calendar = Calendar.objects.get(pk=calendar_id_int)
-            context['calendar'] = calendar
-
-        return render(request=request, template_name=url, context=context)
-    except TypeError:
-        log.error('Unable to convert ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
     except LookupError:
         log.error('Unable to get model %s from app %s with template %s.' % (model_name, app_label, template_name))
-    except ObjectDoesNotExist:
-        log.error('Unable to get the object with pk %s from model %s from app %s with template %s or calendar with pk %s.' % (object_id, model_name, app_label, template_name, calendar_id))
+        raise Http404
 
-    raise Http404
+    try:
+        object_id_int = int(object_id)
+    except (TypeError, ValueError):
+        log.error('Unable to convert ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
+        raise Http404
+
+    try:
+        the_object = model.objects.get(pk=object_id_int)
+    except ObjectDoesNotExist:
+        log.error('Unable to get the object with pk %s from model %s from app %s with template %s.' % (object_id, model_name, app_label, template_name))
+        raise Http404
+
+    template_html = template_name.replace('/', '') + '.html'
+    url = 'esi/' + model_name + '/' + template_html
+
+    context = { 'object': the_object }
+
+    # Add params, if any, to context.
+    if params:
+        params = parse_qs(params)
+        context.update(params)
+
+    if calendar_id is not None and calendar_id != 'None':
+        try:
+            calendar_id_int = int(calendar_id)
+        except (TypeError, ValueError):
+            log.error('Unable to convert calendar ID to int for model %s from app %s. Object ID: %s ; Calendar ID: %s' % (model_name, app_label, object_id, calendar_id))
+            raise Http404
+
+        try:
+            context['calendar'] = Calendar.objects.get(pk=calendar_id_int)
+        except ObjectDoesNotExist:
+            log.error('Unable to get the calendar with pk %s for object with pk %s from model %s from app %s with template %s.' % (calendar_id, object_id, model_name, app_label, template_name))
+            raise Http404
+
+    return render(request=request, template_name=url, context=context)
 
 
 def handler404(request, exception):
