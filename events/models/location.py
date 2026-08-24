@@ -38,7 +38,9 @@ class Location(TimeCreatedModified):
         widget_url = False
         widget_url_base = "https://" + maps_domain + "/widget?title=&width=607&height=300&illustrated=n&zoom=14&building_id="
         location_id = None
-        if maps_domain in self.url:
+        # url is nullable, so guard before the substring check; a location
+        # without a url simply has no map widget.
+        if self.url and maps_domain in self.url:
             parsed_url = urlparse(self.url)
             # Check for 'map.ucf.edu/?show=locationID'
             if maps_domain + "/?show=" in self.url:

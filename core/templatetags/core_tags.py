@@ -118,8 +118,10 @@ def escapeics(value):
     """
     Converts HTML markup to plaintext suitable for ICS format.
     """
-    if value is None:
-        value = ''
+    # unidecode() requires a str and raises on anything else, so coerce
+    # rather than trusting the template to hand us one. This is a public
+    # feed endpoint; a non-string value here is a 500.
+    value = '' if value is None else str(value)
 
     # Converts non-ASCII content to ASCII
     value = unidecode(value)
