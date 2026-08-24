@@ -608,7 +608,7 @@ wheels = [
 
 [[package]]
 name = "unify-events"
-version = "2.6.4"
+version = "2.7.2"
 source = { virtual = "." }
 dependencies = [
     { name = "asgiref" },
