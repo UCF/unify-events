@@ -81,7 +81,7 @@ def map_event_range(start, end, events):
     mapped_events = []
 
     for event in events:
-        if event.start.date() is not event.end.date():
+        if event.start.date() != event.end.date():
             duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
             for day in duration:
                 event_by_day = copy.deepcopy(event)
