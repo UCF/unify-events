@@ -478,8 +478,8 @@ class EventInstance(TimeCreatedModified):
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True, on_delete=models.CASCADE)
     location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances', on_delete=models.CASCADE)
     virtual_url = models.CharField(max_length=1000, blank=True, null=True)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateTimeField(db_index=True)
+    end = models.DateTimeField(db_index=True)
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
     until = models.DateTimeField(blank=True, null=True)
 
