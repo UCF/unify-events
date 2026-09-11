@@ -77,11 +77,13 @@ def map_event_range(start, end, events):
 
     NOTE: This function returns a list, NOT a queryset!
     """
-    days = list(rrule.rrule(rrule.DAILY, dtstart=start, until=end))
+    # Compare by date, not datetime, so events that start partway through
+    # a day still match the day they fall on.
+    days = set(day.date() for day in rrule.rrule(rrule.DAILY, dtstart=start, until=end))
     mapped_events = []
 
     for event in events:
-        if event.start.date() is not event.end.date():
+        if event.start.date() != event.end.date():
             duration = rrule.rrule(rrule.DAILY, dtstart=event.start.date(), until=event.end.date())
             for day in duration:
                 event_by_day = copy.deepcopy(event)
@@ -103,11 +105,10 @@ def map_event_range(start, end, events):
                     else:
                         event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
 
-                if day in days:
+                if day.date() in days:
                     mapped_events.append(event_by_day)
-        else:
-            if event.start in days:
-                mapped_events.append(event)
+        elif event.start.date() in days:
+            mapped_events.append(event)
 
     # Sorting by end date ensures all day events are on top.
     # added to support python version < 2.7, otherwise timedelta has total_seconds()
@@ -478,8 +479,8 @@ class EventInstance(TimeCreatedModified):
     parent = models.ForeignKey('EventInstance', related_name='children', null=True, blank=True, on_delete=models.CASCADE)
     location = models.ForeignKey('Location', blank=True, null=True, related_name='event_instances', on_delete=models.CASCADE)
     virtual_url = models.CharField(max_length=1000, blank=True, null=True)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateTimeField(db_index=True)
+    end = models.DateTimeField(db_index=True)
     interval = models.SmallIntegerField(default=Recurs.never, choices=Recurs.choices)
     until = models.DateTimeField(blank=True, null=True)
 
