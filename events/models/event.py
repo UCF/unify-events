@@ -77,7 +77,9 @@ def map_event_range(start, end, events):
 
     NOTE: This function returns a list, NOT a queryset!
     """
-    days = list(rrule.rrule(rrule.DAILY, dtstart=start, until=end))
+    # Compare by date, not datetime, so events that start partway through
+    # a day still match the day they fall on.
+    days = set(day.date() for day in rrule.rrule(rrule.DAILY, dtstart=start, until=end))
     mapped_events = []
 
     for event in events:
@@ -103,11 +105,10 @@ def map_event_range(start, end, events):
                     else:
                         event_by_day.end = datetime.combine(day, datetime.time(event_by_day.end))
 
-                if day in days:
+                if day.date() in days:
                     mapped_events.append(event_by_day)
-        else:
-            if event.start in days:
-                mapped_events.append(event)
+        elif event.start.date() in days:
+            mapped_events.append(event)
 
     # Sorting by end date ensures all day events are on top.
     # added to support python version < 2.7, otherwise timedelta has total_seconds()
